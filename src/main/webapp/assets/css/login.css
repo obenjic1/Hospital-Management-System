@@ -1,0 +1,22 @@
+@charset "ISO-8859-1";
+
+body {
+    background-image: url('/assets/img/presprint-bg.jpg'); 
+       
+    background-size: cover; 
+    background-position: center;
+    background-repeat: no-repeat; 
+    margin: 0; 
+    padding: 0;
+    height: 100vh; 
+}
+
+
+.error{
+	color: orangered;
+	text-align: center;
+}
+
+
+
+

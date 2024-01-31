@@ -1,0 +1,58 @@
+@charset "ISO-8859-1";
+
+.mb-3 {
+    margin-bottom: 1rem!important;
+    width: 180%;
+}
+
+.button-red {
+	border-width: 0px;
+	border-radius: 3px;
+	width: 70%;
+}
+
+.edit-button {
+	width: 70%;
+	border-width: 0px;
+	border-radius: 3px;
+	margin-bottom: 4px;
+}
+
+a {
+	font-size: 13px;
+}
+p{
+	color: blue;
+}
+
+.pp-module{
+	color: orange;
+	font-size: 20px;
+}
+
+h6{
+	color: black;
+}
+
+.header{
+	background-color: orange;
+}
+
+img{
+	border-radius: 50%;
+}
+
+.choose-language {
+	position: relative;
+  left: -12px;
+}
+
+/* .footer{ */
+/* 	position: relative; */
+/* 	bottom: -350px; */
+/* } */
+
+/*.form-control select {*/
+/*  max-height: 200px;  Ajustez la hauteur maximale selon vos besoins */
+/*  overflow-y: auto;*/
+/*}*/
