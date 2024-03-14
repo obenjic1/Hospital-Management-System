@@ -17,6 +17,9 @@
 	<description>Demo project for Spring Boot</description>
 	<properties>
 		<java.version>1.8</java.version>
+		<checkstyle.config.location>checkstyle/checkstyle.xml</checkstyle.config.location>	
+	    <checkstyle.maxAllowedViolation>0</checkstyle.maxAllowedViolation>
+	    <checkstyle.consoleOutput>true</checkstyle.consoleOutput>
 	</properties>
 	<dependencies>
 		<!-- Dépendances de démarrage Spring Boot -->
@@ -85,6 +88,13 @@
 			<artifactId>jquery</artifactId>
 			<version>3.6.0</version>
 		</dependency>
+		<dependency>
+		      <groupId>org.apache.maven.plugins</groupId>
+		      <artifactId>maven-checkstyle-plugin</artifactId>
+		      <version>3.2.1</version>
+		      <type>maven-plugin</type>
+		    </dependency>
+		<dependency>
 	</dependencies>
 
 	<build>

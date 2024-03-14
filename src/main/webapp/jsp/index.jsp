@@ -18,7 +18,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-<title>SmartSheet</title>
+<title>Billing System</title>
 <meta content="" name="description">
 <meta content="" name="keywords">
 
@@ -57,7 +57,7 @@
 		<div class="d-flex align-items-center justify-content-between">
 			<a href="index" class="logo d-flex align-items-center"> <img
 				src="assets/img/presprint.jpg" alt=""> <span
-				class="d-none d-lg-block">SmartSheet</span>
+				class="d-none d-lg-block">Billing System</span>
 			</a> <i class="bi bi-list toggle-sidebar-btn"></i>
 		</div>
 		<!-- End Logo -->
@@ -251,11 +251,11 @@
 
 	<footer id="footer" class="footer">
 		<div class="copyright">
-			&copy; Copyright <strong><span>SmartSheet</span></strong>. All Rights
+			&copy; Copyright <strong><span>Billing system</span></strong>. All Rights
 			Reserved
 		</div>
 		<div class="credits">
-			Designed by <a href="https://bootstrapmade.com/">PresPrint Plc</a>
+			Designed by <a href="https://bootstrapmade.com/">Presprint Plc</a>
 		</div>
 	</footer>
 	<!-- End Footer -->
