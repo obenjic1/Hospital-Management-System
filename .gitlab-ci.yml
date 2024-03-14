@@ -1,0 +1,22 @@
+building:
+    stage: build
+    script:
+        - mvn -Dmaven.test.skip=true  clean install 
+    only:
+        refs:
+            - merge_requests
+unit_testing:
+    stage : test
+    script:
+        - mvn test
+    only:
+        refs:
+            - merge_requests
+quality_testing:
+    stage : test
+    script:
+        -  mvn checkstyle:check
+    only:
+        refs:
+            - merge_requests
+        
