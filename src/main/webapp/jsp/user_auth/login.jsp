@@ -46,10 +46,18 @@
 					<div class="row justify-content-center">
 						<div
 							class="col-lg-4 col-md-6 d-flex flex-column align-items-center justify-content-center">
+							   <img src="assets/img/logo.png" alt="" class="top-logo">
 							<div class="card mb-3">
 								<div class="card-body">
 									<div class="pt-3 pb-4">
-										<h4 class="card-title text-center pb-0 fs-2">Login</h4>
+									
+										
+										<div class="d-flex justify-content-center py-4">
+<!-- 				                <a href="index.html" class="logo d-flex align-items-center w-auto"> -->
+				               
+			                 <h4 class="card-title text-center pb-0 fs-2"> Login</h4>
+<!-- 				                </a> -->
+				              </div>
 										<!-- 	                    <p class="text-center small">Enter your username & password to login</p> -->
 									
 									</div>
@@ -89,7 +97,8 @@
 										
 											<!-- 	password Reset Section									  -->
 										
-									<label id="reset"  onclick="resetPassword()">Reset password</label>	
+									<label id="reset"  data-toggle="tooltip" data-placement="right" title="click to reset your password"
+  							onclick="resetPassword()">Reset password</label>	
 								
 									
 										<!-- 										Modal to Reset Password						 --> 
@@ -104,27 +113,27 @@
 						                    
 						                    <div class="modal-body">
 						                    <div class="col-12 fs-5">
-						                    
-						                   
-						                    
-<%-- 						                     <form action="reset-password-process.jsp" method="post"> --%>
-												<div class="border border-secondary rounded p-3  text-center">
+						                  
+<!-- 									<div class="border border-secondary rounded p-3  text-center">  -->
 												
-												    <div>
-												    <p></p>
-												        <p>We will be sending a reset password link to your email.</p>
-												    </div>
-												    <div>
-												        <p>
-												            <input type="email" name="email" id="email" class="form-control" placeholder="Enter your e-mail" required autofocus/>
-												        </p>         
-												        <p class="text-center">
-												            <input type="submit"  value="Send" class="btn btn-primary" />
-												        </p>
-												    </div>
-												</div>
+										<div>
+										<p>We will be sending a reset password link to your email.</p>  
+										</div>
+										
+<!-- 									            <input type="email" name="email" id="email" class="form-control" placeholder="Enter your e-mail" required autofocus/>   -->
+										  <input type="submit"  value="Send" class="btn btn-primary" />
+										  
+												    
+								        
+<!-- <!-- 									   <div> 			 -->
+											 
+<!-- <!-- 												        <p class="text-center">  --> 
+<!-- <!-- 												            <input type="submit"  value="Send" class="btn btn-primary" />  --> 
+<!-- <!-- 											        </p>  --> 
+<!-- <!-- 												    </div> --> 
+<!-- <!-- 												</div> --> 
 													
-										</div> 
+<!-- 										</div>  -->
 						                     </div> 
 						                     </div>
 						                     
@@ -135,7 +144,11 @@
 						              </div>
 										<input type="hidden" name="${_csrf.parameterName}"value="${_csrf.token}" />
 														<div class="col-12">
-															<button class="btn btn-primary w-100" type="submit">Login</button>
+<!-- 															<button class="btn btn-primary w-100" type="submit">Login</button> -->
+															<button class="btn btn-primary w-100" type="submit"  data-toggle="tooltip" data-placement="top" title="click to login">
+															 Login
+															</button>
+															
 														</div>
 									</form>
 									
@@ -143,7 +156,7 @@
 							</div>
 						</div>
 						
-<%-- 												<form class="row g-3 needs-validation" action="<c:url value='/login'/>" method="post"> --%>
+												<form class="row g-3 needs-validation" action="<c:url value='/login'/>" method="post"> 
 <!-- 												<div class="border border-secondary rounded p-3  text-center"> -->
 												
 <!-- 												    <div> -->
