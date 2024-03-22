@@ -74,6 +74,8 @@ public class UserController {
 	    return "user/view-user-profile";
 	}
 	
+	
+	
 	//<------------------- View user profile -------------------->
 	@PreAuthorize("hasRole('ROLE_UPDATE_USER')")
 		@GetMapping("/get-user/{username}")
@@ -122,7 +124,7 @@ public class UserController {
 	}
 
 //<--------------------- Remove user Using soft delete ----------------->
-	@PreAuthorize("hasRole('ROLE_REMOVE_USER')")
+@PreAuthorize("hasRole('ROLE_REMOVE_USER')")
 	@PostMapping("remove-user/{id}")
 	public void removeUserByUsername(@PathVariable Long id) {
 	    User existingUser = userRepository.findById(id).get();

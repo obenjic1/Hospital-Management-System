@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.security.auth.login.AccountNotFoundException;
 
 import org.hibernate.Filter;
 import org.hibernate.Session;
@@ -12,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -94,7 +96,13 @@ public class UserServiceImpl implements UserService {
 	public User findUserByUsername(String username) {
 		return userRepository.findByUsername(username);
 	}
+	
+	//<--------------------- find user by email ojong--------------------------> 
+	public User findUserByEmail(String email) {
+		return userRepository.findByEmail(email);
+	}
 
+	
 //<--------------------- Delete User --------------------------> 
 	@Override
 	public void deleteUserByUsername(Long id) {
@@ -126,6 +134,7 @@ public class UserServiceImpl implements UserService {
 		User existingUser = userRepository.findById(id).get();
 		if(existingUser == null) {
 			return " error";
+			
 		}
 		existingUser.setFirstName(updatedUser.getFirstName());
 		existingUser.setLastName(updatedUser.getLastName());
@@ -138,4 +147,34 @@ public class UserServiceImpl implements UserService {
 		return " success";
 	}
 
-}
+	
+	
+	public void updateResetPasswordToken(String token, String email) throws AccountNotFoundException {
+		User user = userRepository.findByEmail(email);
+        if (user != null) {
+            user.setResetPasswordToken(token);
+            userRepository.save(user);
+        } else {
+            throw new AccountNotFoundException("Could not find any worker with the email " + email);
+        }
+    }
+
+	
+	
+		public User getByResetPasswordToken(String token) {
+		return userRepository.findByResetPasswordToken(token);
+	}
+
+
+	public void updatePassword(User user, String newPassword) {
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        String encodedPassword = passwordEncoder.encode(newPassword);
+        user.setPassword(encodedPassword);
+         
+        user.setResetPasswordToken(null);
+        userRepository.save(user);
+    }
+		
+	}
+
+
