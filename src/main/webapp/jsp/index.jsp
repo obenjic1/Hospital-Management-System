@@ -130,8 +130,9 @@
 					<fmt:message key="printing.press" />
 			</span></li>
 			<!-- End Printing Press Nav -->
-			<li class="nav-item"><sec:authorize
-					access="hasRole('ROLE_ADD_USER')">
+			<li class="nav-item">
+			<sec:authorize
+				access="hasRole('ROLE_ADD_USER')"> 
 					<a class="nav-link collapsed" data-bs-target="#user-management-nav"
 						data-bs-toggle="collapse" href="#"> <i class="fas fa-user"></i>
 						<h6>
@@ -139,7 +140,7 @@
 						</h6> <i class="bi bi-chevron-down ms-auto"></i>
 					</a>
 					<ul id="user-management-nav" class="nav-content collapse "
-						data-bs-parent="#sidebar-nav">
+						data-bs-parent ="#sidebar-nav">
 						<sec:authorize access="hasRole('ROLE_LIST_USERS')">
 							<li class="nav-item"><a class="nav-link collapsed"
 								onclick="loadPage('/user/list-users')" href="#"> <i
@@ -249,7 +250,24 @@
 		class="back-to-top d-flex align-items-center justify-content-center"><i
 		class="bi bi-arrow-up-short"></i></a>
 
-	<footer id="footer" class="footer">
+	<footer id="footer" class="fixed-bottom text-center">
+<%-- 	<form class="row g-3 needs-validation" action="<c:url value='/login'/>" method="post"> --%>
+<!-- 												<div class="border border-secondary rounded p-3  text-center"> -->
+												
+<!-- 												    <div> -->
+<!-- 												    <p></p> -->
+<!-- 												        <p>We will be sending a reset password link to your email.</p> -->
+<!-- 												    </div> -->
+<!-- 												    <div> -->
+<!-- 												        <p> -->
+<!-- 												            <input type="email" name="email" id="email" class="form-control" placeholder="Enter your e-mail" required autofocus/> -->
+<!-- 												        </p>          -->
+<!-- 												        <p class="text-center"> -->
+<%-- 												            <input type="submit"  onClick="/user/resetPassword/${user.email}" value="Send" class="btn btn-primary" /> --%>
+<!-- 												        </p> -->
+<!-- 												    </div> -->
+<!-- 												</div> -->
+<%-- 												</form>"> --%>
 		<div class="copyright">
 			&copy; Copyright <strong><span>Billing system</span></strong>. All Rights
 			Reserved

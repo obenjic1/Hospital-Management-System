@@ -51,14 +51,14 @@ public class authController {
 			 if(pr == null) {
 				 return "user_auth/login";
 			 }else {
-				 System.out.println("prrr" + pr.getName());
+
 				 return "/";
 			 }
 		}
 
 		// Logout controller
 		@GetMapping("/logout")
-		public void Logout() {
+		public void logout() {
 			
 			return;
 		}
