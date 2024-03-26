@@ -9,6 +9,17 @@ function loadPage(page) {
 		.catch(error => console.log(error));
 }
 
+function loadPageModal(page) {
+	fetch(page)
+		.then(response => response.text())
+		.then(html => {
+			document.getElementById('modC').innerHTML = html;
+			document.getElementById('userUpdate').innerHTML = html;
+			document.getElementById('addUser').innerHTML = html;
+		})
+		.catch(error => console.log(error));
+}
+
 document.getElementById('users-list').addEventListener('click', function() {
 	loadPage('/user/list-users');
 });
@@ -22,9 +33,6 @@ document.getElementById('add-user').addEventListener('click', function() {
 	addUser();
 });
 
-document.getElementById('view-user-profile').addEventListener('click', function() {
-	loadPage('user/viewUser/{username}');
-});
 
 document.getElementById('user-created-sucessffully').addEventListener('click', function() {
 	loadPage('/success');

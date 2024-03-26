@@ -8,12 +8,8 @@
 <meta charset="utf-8">
 <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-<link rel="stylesheet"
-	href="https://cdn.datatables.net/1.10.23/css/jquery.dataTables.min.css">
-
-<link href="assets/vendor/bootstrap/css/bootstrap.min.css"
-	rel="stylesheet">
-<link href="assets/vendor/simple-datatables/style.css" rel="stylesheet">
+<link rel="stylesheet" href="/DataTables/datatables.dataTables.css" />
+<link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 <link href="assets/css/list-role.css" rel="stylesheet">
 
 
@@ -36,13 +32,13 @@
 						<h5 class="card-title">List Roles</h5>
 						<div class="datatable-wrapper no-footer">
 							<div class="datatable-container">
-								<table class="datatable-table table datatable striped-rows">
+							
+								<table id="myTable" class="table datatable">
 									<thead>
 										<tr>
 											<th scope="col">N°</th>
 											<th scope="col">Name(s)</th>
 											<th scope="col">Description</th>
-											<th scope="col">Date</th>
 											<th scope="col">Actions</th>
 										</tr>
 									</thead>
@@ -50,16 +46,31 @@
 										<c:forEach items="${roles}" var="role" varStatus="loop">
 											<tr class="${loop.index % 2 == 0 ? 'even-row' : 'odd-row'}">
 												<th scope="row">${role.id}</th>
-												<td>${role.name}</td>
-												<td>${role.description}</td>
-												<td>${role.createdAt}</td>
+												<td><a>${role.name}</a></td>
+												<td><a data-toggle="tooltip" title="${role.description}">${role.description}</a></td>
 												<td>
 													<button class="button-see"
-														onclick="loadPage('role/view-role-details/${role.name}')">
+														data-bs-toggle="modal" data-bs-target="#ExtralargeModal"
+														onclick="loadRolePageModal('role/view-role-details/${role.name}')">
 														<i class="fas fa-eye"></i>
 													</button>
 												</td>
 											</tr>
+										<div class="modal fade" id="ExtralargeModal" tabindex="-1">
+										<div class="modal-dialog modal-xl">
+											<div class="modal-content" id="modC">
+												<div class="modal-body">
+													<ul class="nav nav-tabs nav-tabs-bordered">
+													</ul>
+												</div>
+												<div class="modal-footer">
+													<button type="button" class="btn btn-secondary"
+														data-bs-dismiss="modal">Close</button>
+												</div>
+											</div>
+										</div>
+									</div>
+									
 										</c:forEach>
 									</tbody>
 								</table>
@@ -89,7 +100,8 @@
 			</div>
 		</div>
 	</section>
-
 </main>
-<script src="assets/js/role.js"></script>
+<script src="/DataTables/datatables.js"></script>
+<script src="assets/js/role.js"> </script>
+
 

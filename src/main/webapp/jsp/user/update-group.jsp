@@ -5,42 +5,31 @@
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
-  <link href="assets/vendor/simple-datatables/style.css" rel="stylesheet">
-  <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
- <link href="assets/css/groups.css"  rel="stylesheet">
+ <link href="assets/css/group-update.css"  rel="stylesheet">
 
  <main id="create-group">
  <div class="container" >
- 	<div class="pagetitle">
-         <nav>
-        <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a href="/">Home</a></li>
-          <li class="breadcrumb-item">Update</li>
-          <li class="breadcrumb-item active">Group</li>
-        </ol>
-      </nav>
-    </div>
- 
+
       <section>
         <div class="container">
           <div class="row justify-content-center">
             <div class="col-lg-4 col-md-6 d-flex flex-column align-items-center justify-content-center">
-              <div class="card mb-3">
+              <div class="card mb-3" style="width: 1139px;">
                 <div class="card-body">
                     <h5 class="card-title text-center pb-0 fs-4">Update Group</h5>
                     <p class="text-center small">Change to update group informations</p>
-                  <form  class="row g-3 needs-validation">
+                  <form  class="row g-3 needs-validation" style=" margin-left: 2%;">
                     <div class="col-md-6">
                         <label for="name" class="form-label">Name</label>
                      	 <div class="input-group has-validation">
-                        <input type="text" id="name" name="name" class="form-control" value="${groupeFinded.name}" readonly="readonly"/>
+                        <input type="text" id="name" name="name" class="form-control" value="${groupeFinded.name}" readonly="readonly" style="margin-left: 14%;"/>
                       <div class="invalid-feedback">Please, enter the role name!</div>
                       </div>
                     </div>
                     <div class="col-md-6">
                        <label for="description" class="form-label">Description</label>
                       <div class="input-group has-validation">
-                         <textarea  id="description" name="description" class="form-control">${groupeFinded.description}</textarea>
+                         <textarea  id="description" name="description" class="form-control"  style=" position: relative; left: -2%;">${groupeFinded.description}</textarea>
                       </div>
                     </div>
                 
@@ -70,7 +59,10 @@
 					</div>
 					
                     <div class="col-md-3">
-                      <input type="button" data-bs-toggle="modal" id="create-btn" onclick="updateGroupe('${groupeFinded.name}')" class="btn btn-primary w-100"  value="Save Changes"/>
+                      <input type="button" data-bs-toggle="modal" id="create-btn" 
+                      	onclick="updateGroupe('${groupeFinded.name}')" 
+                      	style=" left: 314%; bottom: 2%;"
+                      	class="btn btn-primary w-100"  value="Save Changes"/>
                      </div>
                       <!-------------- Group successfully modal ------------->
                    	 <div class="modal fade" id="groupUdatedSuccessfully" tabindex="-1">
@@ -102,5 +94,3 @@
       </section>
       </div>
   </main><!-- End #main -->
-  
- <script src="assets/js/groups.js"></script>

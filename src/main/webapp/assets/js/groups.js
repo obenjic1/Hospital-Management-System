@@ -8,6 +8,16 @@ function loadPage(page) {
         .catch(error => console.log(error));
 }
 
+function loadPageModal(page) {
+	fetch(page)
+		.then(response => response.text())
+		.then(html => {
+			document.getElementById('modC').innerHTML = html;
+			document.getElementById('updateGroup').innerHTML = html;
+		})
+		.catch(error => console.log(error));
+}
+
 //<---------------- Event listener to load group list ------------------>
 document.getElementById('list-groups').addEventListener('click', function() {
     loadPage('/group/list-groups');
@@ -85,7 +95,6 @@ function updateGroupe(name) {
       headers: {
          'Content-type': 'application/json'
       },
-
       body: jsonGroupUpdatedValue
    })
       .then(function(response) {
@@ -146,3 +155,7 @@ function disableGroup(id){
     console.error(error);
   });
 }
+
+$(document).ready( function () {
+    $('#myTable').DataTable({});
+} );

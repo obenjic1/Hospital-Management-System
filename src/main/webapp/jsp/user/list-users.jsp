@@ -31,7 +31,8 @@
 				<div class="card">
 					<div class="card-body">
 						<h5 class="card-title">Users list</h5>
-						<button onclick="loadPage('/user/add-user')" type="button"
+						<button onclick="loadPageModal('/user/add-user')" type="button"
+							data-bs-toggle="modal" data-bs-target="#ExtralargeModal"
 							class="btn btn-primary">Add User</button>
 
 						<!-- Table with stripped rows -->
@@ -40,11 +41,8 @@
 								<tr>
 									<th scope="col">Photo</th>
 									<th scope="col">Name(s)</th>
-									<th scope="col">Email</th>
-									<th scope="col">Address</th>
 									<th scope="col">Group</th>
-									<th scope="col">Mobile</th>
-									<th scope="col">Date</th>
+									<th scope="col">Status</th>
 									<th scope="col">Actions</th>
 								</tr>
 							</thead>
@@ -53,19 +51,18 @@
 									<tr class="${loop.index % 2 == 0 ? 'even-row' : 'odd-row'}">
 										<th><img src="/download/${user.imagePath}"
 											class="rounded-circle"></th>
-										<td>${user.username}</td>
-										<td>${user.email}</td>
-										<td>${user.address}</td>
-										<td>${user.groupe.name}</td>
-										<td>${user.mobile}</td>
-										<td>${user.createdAt}</td>
-										<td>
+										<td><a>${user.username}</a></td>
+										<td><a>${user.groupe.name}</a></td>
+										<td><a class="${user.deleted ? 'Blocked' : 'Active' }">${user.deleted ? 'Blocked' : 'Active'}</a></td>
+										<td><a>
 											<button class="button-see"
-												onclick="loadPage('user/viewUser/${user.username}')">
+												data-bs-toggle="modal" data-bs-target="#ExtralargeModal"
+												onclick="loadPageModal('user/viewUser/${user.username}')">
 												<i class="fas fa-eye"></i>
 											</button>
 											<button class="button-edite"
-												onclick=" loadPage('user/get-user/${user.username}')">
+												data-bs-toggle="modal" data-bs-target="#ExtralargeModal"
+												onclick=" loadPageModal('user/get-user/${user.username}')">
 												<i class="fas fa-pencil-alt"></i>
 											</button>
 											<button class="button-delete"
@@ -73,8 +70,8 @@
 												data-bs-toggle="modal">
 												<i class="fas fa-trash-alt"></i>
 											</button>
-										</td>
-									</tr>
+										</a></td>
+									 </tr>
 									<!--------------Are you sure you want t delete this user? modal ------------->
 									<div class="modal fade" id="areyouSureYouWantToDetele"
 										tabindex="-1">
@@ -158,18 +155,54 @@
 						</div>
 						<!------------------Deleted error------------------------------>
 						<div class="modal fade" id="somthingwhenwrong" tabindex="-1">
-							<div class="modal-dialog modal-dialog-centered">
-								<div class="alert alert-danger alert-dismissible fade show"
-									role="alert">
-									<i class="bi bi-exclamation-octagon me-1"></i>
-									<p>Something when wrong User did not deleted ! Please try
-										again</p>
-									<button type="button" class="btn-close" data-bs-dismiss="alert"
-										aria-label="Close"></button>
-								</div>
+						  <div class="modal-dialog modal-dialog-centered">
+							<div class="alert alert-danger alert-dismissible fade show" role="alert">
+							    <i class="bi bi-exclamation-octagon me-1"></i>
+							    <p>Something when wrong User did not deleted ! Please try again</p>
+							    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+							  </div>
 							</div>
+						 </div>
+						
+						<div class="modal fade" id="ExtralargeModal" tabindex="-1">
+						  <div class="modal-dialog modal-xl">
+							<div class="modal-content"id="modC" >
+							  <div class="modal-body">
+								<ul class="nav nav-tabs nav-tabs-bordered"> </ul>
+							  </div>
+							  <div class="modal-footer" >
+								<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+							  </div>
+							</div>
+						  </div>
+						  
 						</div>
-						<!-- End Table with stripped rows -->
+						<div class="modal fade" id="ExtralargeModal" tabindex="-1">
+						  <div class="modal-dialog modal-xl">
+							<div class="modal-content"id="userUpdate" >
+							  <div class="modal-body">
+								<ul class="nav nav-tabs nav-tabs-bordered"> </ul>
+							  </div>
+							  <div class="modal-footer" >
+								<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+							  </div>
+							</div>
+						  </div>
+						</div>
+						
+						<div class="modal fade" id="ExtralargeModal" tabindex="-1">
+						  <div class="modal-dialog modal-xl">
+							<div class="modal-content"id="addUser" >
+							  <div class="modal-body">
+								<ul class="nav nav-tabs nav-tabs-bordered"> </ul>
+							  </div>
+							  <div class="modal-footer" >
+								<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+							  </div>
+							</div>
+						  </div>
+						</div>
+				
 						<!-- Pagination with icons -->
 						<nav aria-label="Page navigation example">
 							<ul class="pagination nav-no-border">

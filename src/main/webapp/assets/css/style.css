@@ -708,7 +708,8 @@ h6 {
 }
 
 .sidebar-nav .nav-link.collapsed {
-  color: #012970;
+  color: black;
+  font-weight: normal;
   background: #fff;
 }
 
@@ -1228,6 +1229,9 @@ h6 {
   font-size: 14px;
   transition: all 0.3s;
   border-top: 1px solid #cddfff;
+/*  position: absolute;*/
+/*  display: table-row;*/
+  bottom: 0; left: 0; right: 0;
 }
 
 .footer .copyright {

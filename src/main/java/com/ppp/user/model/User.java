@@ -13,8 +13,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
 
 import org.hibernate.annotations.Filter;
 import org.hibernate.annotations.FilterDef;
@@ -38,33 +36,24 @@ public class User implements UserDetails {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
-	
+	private Long id;	
 	@Column(nullable = false, length = 255)
-	private String firstName;
-	
+	private String firstName;	
 	@Column(nullable = false, length = 255)
 	private String lastName;
-	
 	@Column(nullable = false, unique = true, length = 255)
 	private String email;
-	
 	@Column(nullable = false, length = 255)
 	private String password;
-	
 	@Column(nullable = false, length = 15)
 	private String mobile;
-	
 	@Column(nullable = false, length = 255)
 	private String address;
-	
 	@Column(nullable = false, unique = true, length = 255)
-	private String username;
-	
-	private String imagePath;
-	
+	private String username;	
+	private String imagePath;	
+	private boolean active = Boolean.FALSE;
 	private boolean deleted = Boolean.FALSE;
-	
 	private LocalDate createdAt ;
 
 	@ManyToOne(fetch = FetchType.EAGER, optional = false)

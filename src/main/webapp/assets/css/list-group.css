@@ -150,4 +150,8 @@ td {
 .disabled-button {
   color: red; 
 }
+
+a {
+  text-decoration: none;
+}
   

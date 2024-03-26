@@ -8,25 +8,7 @@
 	uri="http://www.springframework.org/security/tags"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
-<meta content="width=device-width, initial-scale=1.0" name="viewport">
-<link href="assets/vendor/simple-datatables/style.css" rel="stylesheet">
-<link href="assets/vendor/bootstrap/css/bootstrap.min.css"
-	rel="stylesheet">
-
-<link href="https://fonts.gstatic.com" rel="preconnect">
-<link href="assets/css/add-user.css" rel="stylesheet">
-
 <main id="add-user">
-	<div class="container">
-		<div class="pagetitle">
-			<nav>
-				<ol class="breadcrumb">
-					<li class="breadcrumb-item"><a href="/">Home</a></li>
-					<li class="breadcrumb-item">Form</li>
-					<li class="breadcrumb-item active">User</li>
-				</ol>
-			</nav>
-		</div>
 
 		<section>
 			<div class="card">
@@ -36,6 +18,7 @@
 						create the user account</p>
 
 					<form class="row g-3 needs-validation"
+					style=" margin-left: 5%;"
 						onsubmit="event.preventDefault(); addUser()">
 						<div class="col-md-6">
 							<label for="firstName" class="form-label"></label>
@@ -119,14 +102,14 @@
 						</div>
 						<div class="col-md-6">
 							<label for="ImageFile" class="form-label"></label>
-							<div class="input-group has-validation">
+							<div class="input-group has-validation" style="width: 93%; left: 7%;">
 								<input type="file" id="imageFile" name="imageFile"
 									class="form-control" accept="image/*">
 							</div>
 						</div>
 						<div class="col-md-6">
 							<label for="groupe" id="groupeLabel" class="form-label"></label>
-							<div class="input-group has-validation">
+							<div class="input-group has-validation" style=" left: -8%;  width: 94%; ">
 								<span class="input-group-text"> <i class="fas fa-users"></i>
 								</span> <select id="groupe" name="groupe" class="form-select">
 									<c:forEach items="${groups}" var="group">
@@ -135,9 +118,10 @@
 								</select>
 							</div>
 						</div>
-						<div class="col-md-3">
+						<div class="col-md-3" style="  width: 13%; left: 21%; position: relative; ">
 							<input type="button" data-bs-toggle="modal" id="create-btn"
 								onclick="loadPage('/user/list-users'); addUser()"
+									style=" bottom: -42%;"
 								class="btn btn-primary w-100" value="Save" />
 						</div>
 

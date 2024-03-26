@@ -5,14 +5,15 @@ import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.security.core.Authentication;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.support.RequestContextUtils;
+
+import com.ppp.user.model.User;
 
 
 @Controller
@@ -20,14 +21,7 @@ public class authController {
 	@Autowired
     private MessageSource messageSource;
 	
-	
-//	@GetMapping("/")
-//	public String homePage(Model model,  Locale locale) {
-//		String greeting = messageSource.getMessage("greeting", null, locale);
-//        model.addAttribute("greeting", greeting);
-//		return "index";
-//	}
-	
+
 	@GetMapping("/")
     public String getPage(HttpServletRequest request, Model model) {
         Locale locale = RequestContextUtils.getLocale(request);
@@ -36,14 +30,7 @@ public class authController {
         
         return "index";
     }
-	
-//	@GetMapping("/changeLanguage")
-//    public String changeLanguage(@RequestParam("lang") String language, HttpServletRequest request) {
-//        LocaleResolver localeResolver = RequestContextUtils.getLocaleResolver(request);
-//        localeResolver.setLocale(request, null, new Locale(language));
-//        return "redirect:/index";
-//    }
-	
+
 	// Login controller
 		@GetMapping("/login")
 		public String login(HttpServletRequest http) {
@@ -58,10 +45,11 @@ public class authController {
 
 		// Logout controller
 		@GetMapping("/logout")
-		public void Logout() {
-			
+		public void Logout(HttpServletRequest request, Authentication authentication) {
+			User user = (User) authentication.getPrincipal();
+			user.setActive(false);
+			request.getSession().invalidate();
 			return;
 		}
 		
-
 }

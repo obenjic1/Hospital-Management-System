@@ -1,0 +1,43 @@
+@charset "ISO-8859-1";
+
+.form-control {
+	position: relative;
+	right: 15%;
+	width: 55%;
+}
+
+.modal-body img{
+	width:20px;
+	height:auto;
+	margin:0 auto;
+	display:block;
+	margin-bottom:25px;
+}
+
+.modal-body p{
+	font-size: 15px;
+    margin-bottom: 27px;
+ 	color:black;
+}
+
+.modal-body{
+	width:100%;
+ 	padding:20px;
+	text-align:center;
+}
+
+.btn-close{
+	position: relative;
+    left: 94%;
+    bottom: -7px;
+}
+.modal-content{
+	height: 150px
+}
+
+/*@media (min-width: 1200px) {*/
+/*  #main, #footer {*/
+/*    margin-left: px;*/
+/*    margin-right: 346px;*/
+/*  }  */
+/*  }*/

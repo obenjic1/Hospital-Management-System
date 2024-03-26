@@ -8,34 +8,16 @@
 	uri="http://www.springframework.org/security/tags"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
-<meta content="width=device-width, initial-scale=1.0" name="viewport">
-<link href="assets/vendor/simple-datatables/style.css" rel="stylesheet">
-<link href="assets/vendor/bootstrap/css/bootstrap.min.css"
-	rel="stylesheet">
-
-<link href="https://fonts.gstatic.com" rel="preconnect">
-<link href="assets/css/add-user.css" rel="stylesheet">
-<link href="assets/css/update-user.css" rel="stylesheet">
 
 <main id="update-user">
 	<div class="container">
-		<div class="pagetitle">
-			<nav>
-				<ol class="breadcrumb">
-					<li class="breadcrumb-item"><a href="/">Home</a></li>
-					<li class="breadcrumb-item">Update</li>
-					<li class="breadcrumb-item active">User</li>
-				</ol>
-			</nav>
-		</div>
-
 		<section>
-			<div class="card">
+			<div class="card" style="width: 102%; left: -1%;">
 				<div class="card-body">
 					<h5 class="card-title text-center pb-0 fs-4">Update User</h5>
 					<p class="text-center small">Enter the nez user's informations</p>
 
-					<form id="myForm" class="row g-3 needs-validation">
+					<form id="myForm" class="row g-3 needs-validation" style=" margin-left: 5%;">
 						<div class="col-md-6">
 							<label for="firstName" class="form-label"></label>
 							<div class="input-group has-validation">
@@ -78,8 +60,9 @@
 						</div>
 						<div class="col-md-6">
 							<label for="ImageFile" class="form-label"></label>
-							<div class="input-group has-validation">
+							<div class="input-group has-validation" style="width: 93%;">
 								<input type="file" id="imageFile" name="imageFile"
+									style=" left: -8%; width: 93%;"
 									class="form-control" accept="image/*"
 									value="${userFinded.imagePath}">
 							</div>
@@ -96,7 +79,7 @@
 
 						<div class="col-md-6">
 							<label for="groupe" id="groupeLabel" class="form-label"></label>
-							<div class="input-group has-validation">
+							<div class="input-group has-validation" style=" width: 92%; left: -7%;">
 								<span class="input-group-text"> <i class="fas fa-users"></i>
 								</span> <select id="groupe" name="groupe" class="form-select">
 									<c:forEach items="${groups}" var="group">
@@ -108,7 +91,7 @@
 						<div class="col-md-6">
 							<input data-bs-toggle="modal" type="button"
 								onclick="loadPage('/user/list-users') ;updateUserById('${userFinded.id}')"
-								class="btn btn-primary" value="Save Changes" />
+								class="btn btn-primary" value="Save Changes" style="left: 164%;bottom: -18%;"/>
 						</div>
 						<!--------------User updated successfully modal ------------->
 						<div class="modal fade" id="userUdatedSuccessfully" tabindex="-1">
@@ -116,6 +99,7 @@
 								<div class="modal-content">
 									<div class="modal-body">
 										<button onclick="loadPage('/user/list-users')" type="button"
+										style="left: 50%; bottom: 12%"
 											class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 										<img src="assets/img/success_icon.png" alt="">
 										<p>User updated successfully</p>

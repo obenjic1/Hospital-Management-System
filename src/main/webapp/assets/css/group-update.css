@@ -1,0 +1,19 @@
+@charset "ISO-8859-1";
+
+/*<----------- Add groups css ----------->*/
+.role-column-0 {
+  width: 50%;
+  float: left;
+}
+
+.role-column-1 {
+  width: 50%;
+  float: right;
+}
+.scrollable-div {
+  max-height: 150px; 
+  overflow: auto;
+}
+
+  
+  
