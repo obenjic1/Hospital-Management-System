@@ -50,59 +50,40 @@
 							<div class="card mb-3">
 								<div class="card-body">
 									<div class="pt-3 pb-4">
-									
-										
 										<div class="d-flex justify-content-center py-4">
-<!-- 				                <a href="index.html" class="logo d-flex align-items-center w-auto"> -->
 				               
 			                 <h4 class="card-title text-center pb-0 fs-2"> Login</h4>
-<!-- 				                </a> -->
 				              </div>
-										<!-- 	                    <p class="text-center small">Enter your username & password to login</p> -->
 									
 									</div>
 									<c:url value="/login" var="loginUrl" />
-									<form class="row g-3 needs-validation"
-												action="<c:url value='/login'/>" method="post">
-										
+									<form class="row g-3 needs-validation" action="<c:url value='/login'/>" method="post">										
 										<c:if test="${param.error != null}">
 											<p class="error">Invalid username or password.</p>
-										</c:if>
-										
+										</c:if>										
 										<c:if test="${param.logout != null}">
 											<p>You have been logged out.</p>
-										</c:if>
-										
+										</c:if>										
 										<div class="col-12 fs-5">
-											<label for="username " class="form-label">Username</label>
-											<div class="input-group has-validation">
-												<span class="input-group-text" id="inputGroupPrepend">@</span>
-												<input type="text" name="username" class="form-control"
-													id="username" required>
-												<div class="invalid-feedback">Please enter your
-													username.</div>
+										  <label for="username " class="form-label">Username</label>
+										  <div class="input-group has-validation">
+											<span class="input-group-text" id="inputGroupPrepend">@</span>
+											<input type="text" name="username" class="form-control" id="username" required>
+											<div class="invalid-feedback">Please enter your username.</div>
 											</div>
-										</div>
+										 </div>
 										
 										<div class="col-12 fs-5">
 											<label for="password" class="form-label">Password</label>
 											<div class="input-group has-validation">
 												<span class="input-group-text"><i class="fas fa-lock"></i></span>
-												<input type="password" name="password" class="form-control"
-													id="password" required>
-												<div class="invalid-feedback">Please enter your
-													password!</div>
+												<input type="password" name="password" class="form-control" id="password" required>
+												<div class="invalid-feedback">Please enter your password!</div>
 											</div>
 										</div>
-										
-											<!-- 	password Reset Section									  -->
-										
-									<label id="reset"  data-toggle="tooltip" data-placement="right" title="click to reset your password"
-  							onclick="resetPassword()">Reset password</label>	
-								
-									
-										<!-- 										Modal to Reset Password						 --> 
-			  
+																				
+									<label id="reset"  data-toggle="tooltip" data-placement="right" title="click to reset your password" onclick="resetPassword()">Reset password</label>	
+											  
 									<div class="modal fade" id="modal1" tabindex="-1"> 
 					                <div class="modal-dialog modal-dialog-centered"> 
 					                  <div class="modal-content"> 

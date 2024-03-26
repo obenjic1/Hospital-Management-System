@@ -30,7 +30,6 @@ public class UserDetailServices implements UserDetailsService {
            return null;
         }
         
-        
         if(user.isDeleted()) {
         	throw new DisabledException("Votre compte a été supprimé");
         }
@@ -42,6 +41,7 @@ public class UserDetailServices implements UserDetailsService {
         List<GroupeRole> roles = group.getGroupRoles();
         
         if (roles.isEmpty()) {
+        	user.setActive(true);
            return new org.springframework.security.core.userdetails.User(
                     username, user.getPassword(), user.isEnabled(),
                     user.isAccountNonExpired(), user.isCredentialsNonExpired(),
@@ -51,7 +51,6 @@ public class UserDetailServices implements UserDetailsService {
         for (GroupeRole role : roles) {
             authorities.add(new SimpleGrantedAuthority(role.getRole().getName()));
         }
-
         return new org.springframework.security.core.userdetails.User(
             username, user.getPassword(), user.isEnabled(),
             user.isAccountNonExpired(), user.isCredentialsNonExpired(),

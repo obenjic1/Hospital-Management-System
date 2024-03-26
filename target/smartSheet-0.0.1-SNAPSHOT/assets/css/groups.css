@@ -1,0 +1,105 @@
+@charset "ISO-8859-1";
+
+/*<----------- List grops css ----------->*/
+
+.button-delete{
+	border-style: none;
+	background-color: transparent;
+	color: orange;
+}
+
+.button-icon{
+	border-style: none;
+	background-color: transparent;
+}
+
+.button-see {
+	border-style: none;
+	background-color: transparent;
+	color: #0d6efd;
+}
+
+.create-button {
+	width: 90px;
+	height: 30px;
+	border-radius: 4px;
+	border-style: none;
+	background-color: #0d6efd;
+	position: relative;
+	left: 88%;
+	bottom: 40px;
+}
+/*<----------- Add groups css ----------->*/
+.btn-primary{
+	position: relative;
+	left: 460px;
+}
+.p-3 {
+    padding: 1rem!important;
+    border-radius: 10px;
+    font-size: 13px; 
+}
+
+.card{
+	width: 700px;
+}
+
+.role-column-0 {
+  width: 50%;
+  float: left;
+}
+
+.role-column-1 {
+  width: 50%;
+  float: right;
+}
+.scrollable-div {
+  max-height: 150px; 
+  overflow: auto;
+}
+
+  
+  .even-row {
+  background-color: #f6f9ff; /* Couleur de fond pour les lignes paires */
+}
+
+.odd-row {
+  background-color: #ffffff; /* Couleur de fond pour les lignes impaires */
+}
+
+.table {
+  --bs-table-bg: unset;
+  }
+  
+/*<----------- Update groups css ----------->*/
+.modal-body img{
+	width:20px;
+	height:auto;
+	margin:0 auto;
+	display:block;
+	margin-bottom:25px;
+}
+
+.modal-body p{
+	font-size: 15px;
+    margin-bottom: 27px;
+ 	color:black;
+}
+
+.modal-body{
+	width:100%;
+ 	padding:20px;
+	text-align: center;
+}
+
+.btn-close{
+	position: relative;
+    left: 94%;
+    bottom: -14px;
+    font-size: 12px;
+}
+.modal-content{
+	height: 150px
+}
+
+  

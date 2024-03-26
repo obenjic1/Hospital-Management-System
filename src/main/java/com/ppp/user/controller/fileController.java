@@ -42,7 +42,7 @@ public class fileController {
 //<----------- Download the image via the access path contained in fileStoragePath -----------> 
 	@GetMapping("/download/{fileName}")
 	public void downloadFile(@PathVariable String fileName, HttpServletResponse response) throws IOException {
-        File fileResource = fileDownloadService.downloadFile(fileName, fileStoragePath);
+       File fileResource = fileDownloadService.downloadFile(fileName, fileStoragePath);
 
        String mimeType = URLConnection.guessContentTypeFromName(fileResource.getName());
        response.setContentType(mimeType);
