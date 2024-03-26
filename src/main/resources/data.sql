@@ -1,4 +1,4 @@
-USE smartsheeet
+
 
 INSERT INTO `role`(`description`, `name`) VALUES ("Listing users in the system refers to obtaining a list of all user accounts that have been created on a particular operating system","ROLE_LIST_USERS");
 INSERT INTO `role`(`description`, `name`) VALUES ("Viewing user details in the system means accessing and examining the specific information associated with a user account","ROLE_VIEW_USER_DETAILS");

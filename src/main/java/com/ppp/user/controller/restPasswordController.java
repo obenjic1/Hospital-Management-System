@@ -43,143 +43,94 @@ public class restPasswordController {
 	 private JavaMailSender mailSender;
 	 
 	 
-//						
-//									@GetMapping("/password/reset") 
-//									public String getPassWordPAge() {
-//										return "welcome";}
-//			
-	
-	 
-	 
-	
-									
-//									
-//								    User user = userServiceImpl.findUserByEmail(userEmail);
-////								    if (user == null) { throw new AccountNotFoundException();}
-//								    System.out.println(user.toString());
-//								    return "/forgot_password";
-//								    }
-//									
-//									
-	
-									@PostMapping("/user/resetPassword/{email}")
-									public String resetPassword(HttpServletRequest request, 
-									  @PathVariable("email")  String userEmail ,Model model)throws Exception {
-									 User user = userServiceImpl.findUserByEmail(userEmail);
-								
-									 if (user!=null) {
-									    String email = request.getParameter("email");
-									    String token = RandomString.make(45);	     
-						    try {
-									    	userServiceImpl.updateResetPasswordToken(token, email);
-								        String resetPasswordLink = getSiteURL(request) + "/reset_password?token=" + token;
-								        
-								        sendEmail(email, resetPasswordLink);
-									        model.addAttribute("message", "We have sent a reset password link to your email. Please check.");										         
-									    } catch (AccountNotFoundException ex) {
-									        model.addAttribute("error", ex.getMessage());}
-									}
-									    return "login";}										
-	    
-	
-											@GetMapping("/reset_password")
-											public String showResetPasswordForm(@RequestParam(value = "token")String token, Model model) {
-											User user = userServiceImpl.getByResetPasswordToken(token);
-											    model.addAttribute("token", token);
-											     
-											    if (user == null) {
-											        model.addAttribute("message", "Invalid Token");
-											        return "message";
-											    }
-											    model.addAttribute("token", token);    
-											    return "reset_password_form";
-									 
-									    }
-						     
-									    @PostMapping("/reset_password")
-									    public String processResetPassword(HttpServletRequest request, Model model) {
-									    	String token = request.getParameter("token");
-									        String password = request.getParameter("password");
-									         
-									        User user = userServiceImpl.getByResetPasswordToken(token);
-									        model.addAttribute("title", "Reset your password");
-									         
-									        if (user == null) {
-									            model.addAttribute("message", "Invalid Token");
-									            return "message";
-									        } else {           
-									        	userServiceImpl.updatePassword(user, password);
-									             
-									            model.addAttribute("message", "You have successfully changed your password.");
-									        }
-									         
-									        return "message";
-									    }
-									 
-			    
-									    
-			    				//			    send email function
-									    
-									    public void sendEmail(String email, String resetPasswordLink) throws Exception {
-									        MimeMessage message = mailSender.createMimeMessage();
-									        MimeMessageHelper helper = new MimeMessageHelper(message, true); // Enable HTML content
-
-									        helper.setFrom(new InternetAddress("contact@shopme.com", "Billing System Support"));
-									        helper.setTo(email);
-
-									        String subject = "Here's the link to reset your password";
-
-									        String content = "<p>Hello,</p>"
-									                + "<p>You have requested to reset your password.</p>"
-									                + "<p>Click the link below to change your password:</p>"
-									                + "<p><a href=\"" + resetPasswordLink + "\">Change my password</a></p>"
-									                + "<br>"
-									                + "<p>Ignore this email if you remember your password or you have not made the request.</p>";
-
-									        helper.setSubject(subject);
-									        helper.setText(content, true); // Set content as HTML
-
-									        mailSender.send(message);
-									    }
-	
-//							    			public void sendEmail1(String email, String resetPasswordLink)throws Exception{
-//							    	
-//										    MimeMessage message = mailSender.createMimeMessage();              
-//										    MimeMessageHelper helper = new MimeMessageHelper(message);
-//										     
-//										    helper.setFrom("contact@shopme.com", "Billing Sytsem Suport");
-//										    helper.setTo(email);
-//										     
-//										    String subject = "Here's the link to reset your password";
-//										     
-//										    String content = "<p>Hello,</p>"
-//										            + "<p>You have requested to reset your password.</p>"
-//										            + "<p>Click the link below to change your password:</p>"
-//									            + "<p><a href=\"" + link +"\">Change my password</a></p>"
-//										            + "<br>"
-//										            + "<p>Ignore this email if you do remember your password, "
-//										            + "or you have not made the request.</p>";
-//										     
-//										    helper.setSubject(subject);
-//										     
-//										    helper.setText(content, true);
-//										     
-//										    mailSender.send(message);
-//							    	 
-//							    } 
-			    
-			    			//			    get site url function 
-    
-						public static String getSiteURL(HttpServletRequest request) {
-							 String siteURL = request.getRequestURL().toString();
-					            return siteURL.replace(request.getServletPath(), "");
-		}
-						
-
-
-						
-}
 		
+	
+		@PostMapping("/user/resetPassword/{email}")
+		public String resetPassword(HttpServletRequest request, @PathVariable("email") String userEmail, Model model)
+				throws Exception {
+			User user = userServiceImpl.findUserByEmail(userEmail);
+
+			if (user != null) {
+				String email = request.getParameter("email");
+				String token = RandomString.make(45);
+				try {
+					userServiceImpl.updateResetPasswordToken(token, email);
+					String resetPasswordLink = getSiteURL(request) + "/reset_password?token=" + token;
+
+					sendEmail(email, resetPasswordLink);
+					model.addAttribute("message", "We have sent a reset password link to your email. Please check.");
+				} catch (AccountNotFoundException ex) {
+					model.addAttribute("error", ex.getMessage());
+				}
+			}
+			return "login";
+		}
+
+		@GetMapping("/reset_password")
+		public String showResetPasswordForm(@RequestParam(value = "token") String token, Model model) {
+			User user = userServiceImpl.getByResetPasswordToken(token);
+			model.addAttribute("token", token);
+
+			if (user == null) {
+				model.addAttribute("message", "Invalid Token");
+				return "message";
+			}
+			model.addAttribute("token", token);
+			return "reset_password_form";
+
+		}
+
+		@PostMapping("/reset_password")
+		public String processResetPassword(HttpServletRequest request, Model model) {
+			String token = request.getParameter("token");
+			String password = request.getParameter("password");
+
+			User user = userServiceImpl.getByResetPasswordToken(token);
+			model.addAttribute("title", "Reset your password");
+
+			if (user == null) {
+				model.addAttribute("message", "Invalid Token");
+				return "message";
+			} else {
+				userServiceImpl.updatePassword(user, password);
+
+				model.addAttribute("message", "You have successfully changed your password.");
+			}
+
+			return "message";
+		}
+
+		// send email function
+
+		public void sendEmail(String email, String resetPasswordLink) throws Exception {
+			MimeMessage message = mailSender.createMimeMessage();
+			MimeMessageHelper helper = new MimeMessageHelper(message, true);
+
+			helper.setFrom(new InternetAddress("contact@shopme.com", "Billing System Support"));
+			helper.setTo(email);
+
+			String subject = "Here's the link to reset your password";
+
+			String content = "<p>Hello,</p>" + "<p>You have requested to reset your password.</p>"
+					+ "<p>Click the link below to change your password:</p>" + "<p><a href=\"" + resetPasswordLink
+					+ "\">Change my password</a></p>" + "<br>"
+					+ "<p>Ignore this email if you remember your password or you have not made the request.</p>";
+
+			helper.setSubject(subject);
+			// Set content as HTML
+			helper.setText(content, true);
+
+			mailSender.send(message);
+		}
+
+
+
+		public static String getSiteURL(HttpServletRequest request) {
+			String siteURL = request.getRequestURL().toString();
+			return siteURL.replace(request.getServletPath(), "");
+		}
+
+	}
 
     
 	
