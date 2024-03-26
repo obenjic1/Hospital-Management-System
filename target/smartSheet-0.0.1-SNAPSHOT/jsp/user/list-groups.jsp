@@ -8,7 +8,7 @@
 <meta charset="utf-8">
 <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-<link href="assets/vendor/simple-datatables/style.css" rel="stylesheet">
+<link rel="stylesheet" href="/DataTables/datatables.dataTables.css" />
 <link href="assets/vendor/bootstrap/css/bootstrap.min.css"
 	rel="stylesheet">
 
@@ -34,7 +34,7 @@
 							class="btn btn-primary">Add Group</button>
 
 						<!-- Table with stripped rows -->
-						<table class="table datatable">
+						<table id="myTable" class="table datatable">
 							<thead>
 								<tr>
 									<th scope="col">N°</th>
@@ -47,18 +47,21 @@
 								<c:forEach items="${groups}" var="group" varStatus="loop">
 									<tr class="${loop.index % 2 == 0 ? 'even-row' : 'odd-row'}">
 										<th scope="row">${group.id}</th>
-										<td>${group.name}</td>
-										<td>${group.description}</td>
+										<td><a>${group.name}</a></td>
+										<td><a  data-toggle="tooltip" title="${group.description}"> ${group.description}</a></td>
 										<td>
 											<button class="button-see"
-												onclick="loadPage('group/group-details/${group.name}')">
+												data-bs-toggle="modal" data-bs-target="#ExtralargeModal"
+												onclick="loadPageModal('group/group-details/${group.name}')">
 												<i class="fas fa-eye"></i>
 											</button>
 											<button class="button-icon"
-												onclick="loadPage('group/update-group/${group.name}')">
+												data-bs-toggle="modal" data-bs-target="#ExtralargeModal"
+												onclick="loadPageModal('group/update-group/${group.name}')">
 												<i class="fas fa-pencil-alt"></i>
 											</button>
-											<button class="button-delete ${group.enabled ? '' : 'disabled-button'}"
+											<button
+												class="button-delete ${group.enabled ? '' : 'disabled-button'}"
 												onclick="confirmDisableGroupe('${group.id}')"
 												data-bs-toggle="modal">
 												<i class="fas fa-ellipsis-h"></i>
@@ -94,6 +97,37 @@
 											</div>
 										</div>
 									</div>
+									
+									<div class="modal fade" id="ExtralargeModal" tabindex="-1">
+										<div class="modal-dialog modal-xl">
+											<div class="modal-content" id="modC">
+												<div class="modal-body">
+													<ul class="nav nav-tabs nav-tabs-bordered">
+													</ul>
+												</div>
+												<div class="modal-footer">
+													<button type="button" class="btn btn-secondary"
+														data-bs-dismiss="modal">Close</button>
+												</div>
+											</div>
+										</div>
+									</div>
+									
+									<div class="modal fade" id="ExtralargeModal" tabindex="-1">
+										<div class="modal-dialog modal-xl">
+											<div class="modal-content">
+												<div class="modal-body"  id="updateGroup">
+													<ul class="nav nav-tabs nav-tabs-bordered">
+													</ul>
+												</div>
+												<div class="modal-footer">
+													<button type="button" class="btn btn-secondary"
+														data-bs-dismiss="modal">Close</button>
+												</div>
+											</div>
+										</div>
+									</div>
+									
 									<!-------------- Are you sure you want t delete this group? modal ------------->
 									<div class="modal fade" id="areyouSureYouWantToDisable"
 										tabindex="-1">
@@ -140,9 +174,9 @@
 									onclick="refreshGroupTable(${currentPage - 1})" value="&laquo;"
 									${currentPage == 1 ? 'disabled' : ''}></li>
 								<c:forEach var="i" begin="1" end="${totalPages}">
-									<li class="page-item ${i == currentPage ? 'active' : ''}"><input type="button"
-										class="page-link" onclick="refreshGroupTable(${i})"
-										value="${i}"></li>
+									<li class="page-item ${i == currentPage ? 'active' : ''}"><input
+										type="button" class="page-link"
+										onclick="refreshGroupTable(${i})" value="${i}"></li>
 								</c:forEach>
 								<li class="page-item"><input type="button"
 									class="page-link"
@@ -158,4 +192,5 @@
 </main>
 <!-- End #main -->
 
+<script src="/DataTables/datatables.js"></script>
 <link href="assets/css/list-group.css" rel="stylesheet">

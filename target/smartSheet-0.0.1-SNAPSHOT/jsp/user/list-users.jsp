@@ -31,7 +31,8 @@
 				<div class="card">
 					<div class="card-body">
 						<h5 class="card-title">Users list</h5>
-						<button onclick="loadPage('/user/add-user')" type="button"
+						<button onclick="loadPageModal('/user/add-user')" type="button"
+							data-bs-toggle="modal" data-bs-target="#ExtralargeModal"
 							class="btn btn-primary">Add User</button>
 
 						<!-- Table with stripped rows -->
@@ -41,6 +42,7 @@
 									<th scope="col">Photo</th>
 									<th scope="col">Name(s)</th>
 									<th scope="col">Group</th>
+									<th scope="col">Status</th>
 									<th scope="col">Actions</th>
 								</tr>
 							</thead>
@@ -49,16 +51,18 @@
 									<tr class="${loop.index % 2 == 0 ? 'even-row' : 'odd-row'}">
 										<th><img src="/download/${user.imagePath}"
 											class="rounded-circle"></th>
-										<td>${user.username}</td>
-										<td>${user.groupe.name}</td>
-										<td>
+										<td><a>${user.username}</a></td>
+										<td><a>${user.groupe.name}</a></td>
+										<td><a class="${user.deleted ? 'Blocked' : 'Active' }">${user.deleted ? 'Blocked' : 'Active'}</a></td>
+										<td><a>
 											<button class="button-see"
 												data-bs-toggle="modal" data-bs-target="#ExtralargeModal"
 												onclick="loadPageModal('user/viewUser/${user.username}')">
 												<i class="fas fa-eye"></i>
 											</button>
 											<button class="button-edite"
-												onclick=" loadPage('user/get-user/${user.username}')">
+												data-bs-toggle="modal" data-bs-target="#ExtralargeModal"
+												onclick=" loadPageModal('user/get-user/${user.username}')">
 												<i class="fas fa-pencil-alt"></i>
 											</button>
 											<button class="button-delete"
@@ -66,8 +70,8 @@
 												data-bs-toggle="modal">
 												<i class="fas fa-trash-alt"></i>
 											</button>
-										</td>
-									</tr>
+										</a></td>
+									 </tr>
 									<!--------------Are you sure you want t delete this user? modal ------------->
 									<div class="modal fade" id="areyouSureYouWantToDetele"
 										tabindex="-1">
@@ -162,12 +166,38 @@
 						
 						<div class="modal fade" id="ExtralargeModal" tabindex="-1">
 						  <div class="modal-dialog modal-xl">
-							<div class="modal-content">
-							  <div class="modal-body" id="modC">
-								<button type="button" onclick="loadPage('/user/list-users')"
-								  class="btn-close" data-bs-dismiss="modal" aria-label="Close">
-								</button>
+							<div class="modal-content"id="modC" >
+							  <div class="modal-body">
 								<ul class="nav nav-tabs nav-tabs-bordered"> </ul>
+							  </div>
+							  <div class="modal-footer" >
+								<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+							  </div>
+							</div>
+						  </div>
+						  
+						</div>
+						<div class="modal fade" id="ExtralargeModal" tabindex="-1">
+						  <div class="modal-dialog modal-xl">
+							<div class="modal-content"id="userUpdate" >
+							  <div class="modal-body">
+								<ul class="nav nav-tabs nav-tabs-bordered"> </ul>
+							  </div>
+							  <div class="modal-footer" >
+								<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+							  </div>
+							</div>
+						  </div>
+						</div>
+						
+						<div class="modal fade" id="ExtralargeModal" tabindex="-1">
+						  <div class="modal-dialog modal-xl">
+							<div class="modal-content"id="addUser" >
+							  <div class="modal-body">
+								<ul class="nav nav-tabs nav-tabs-bordered"> </ul>
+							  </div>
+							  <div class="modal-footer" >
+								<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
 							  </div>
 							</div>
 						  </div>

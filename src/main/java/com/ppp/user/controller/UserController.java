@@ -55,7 +55,7 @@ public class UserController {
  	@PostMapping("/add-user")
 	public String saveUser(UserDTO userDTO, @RequestParam("imageFile") MultipartFile getImageFile, String username, String email) throws Exception {
  		String registeredUser = userServiceImpl.createUser(userDTO);
- 			System.out.println(registeredUser);
+
  		if(registeredUser.equals("error")) {
 			throw new Exception("Username or Email already exist");
 		}
@@ -74,9 +74,11 @@ public class UserController {
 	    return "user/view-user-profile";
 	}
 	
+	
+	
 	//<------------------- View user profile -------------------->
 	@PreAuthorize("hasRole('ROLE_UPDATE_USER')")
-		@GetMapping("/get-user/{username}")
+	@GetMapping("/get-user/{username}")
 		public String getUserByUsername(@PathVariable String username, Model model) throws Exception {
 				List<Groupe> groups = groupeRepository.findAll();
 				User userFinded = userServiceImpl.findUserByUsername(username);
@@ -122,7 +124,7 @@ public class UserController {
 	}
 
 //<--------------------- Remove user Using soft delete ----------------->
-	@PreAuthorize("hasRole('ROLE_REMOVE_USER')")
+@PreAuthorize("hasRole('ROLE_REMOVE_USER')")
 	@PostMapping("remove-user/{id}")
 	public void removeUserByUsername(@PathVariable Long id) {
 	    User existingUser = userRepository.findById(id).get();

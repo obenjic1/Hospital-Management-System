@@ -5,39 +5,21 @@
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
-  <link href="assets/vendor/simple-datatables/style.css" rel="stylesheet">
-  <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-
-<link href="assets/css/role-details.css" rel="stylesheet">
 
   <main id=" view-role-details">
-
-    <div class="pagetitle">
-      <nav>
-        <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a href="/">Home</a></li>
-          <li class="breadcrumb-item">Role</li>
-          <li class="breadcrumb-item active">Details</li>
-        </ol>
-      </nav>
-    </div>
     <section class="section profile">
-      
         <div class="col-xl-8">
-
-          <div class="card">
+          <div class="card" style="position: relative; width: 150%">
             <div class="card-body pt-3">
               <!-- Bordered Tabs -->
-              <ul class="nav nav-tabs nav-tabs-bordered">
-
+              <ul class="nav nav-tabs nav-tabs-bordered" style=" justify-content: center;">
                 <li class="nav-item">
-                  <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#profile-overview">Overview</button>
+                  <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#profile-overview"
+                   style="position: relative; ">Overview</button>
                 </li>
               </ul>
-              <div class="tab-content pt-2">
-
-                <div class="tab-pane fade show active profile-overview" id="profile-overview">
-                 
+              <div class="tab-content pt-2" style="margin-left: 5%">
+                <div class="tab-pane fade show active profile-overview" id="profile-overview">              
                   <h5 class="card-title">Roles Details</h5>
                   <div class="row">
                     <div class="col-lg-3 col-md-4 label ">Name :</div>

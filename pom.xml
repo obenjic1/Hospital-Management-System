@@ -86,12 +86,26 @@
 			<version>3.6.0</version>
 		</dependency>
 		<dependency>
+
 			<groupId>org.apache.maven.plugins</groupId>
 			<artifactId>maven-checkstyle-plugin</artifactId>
 			<version>3.2.1</version>
 			<type>maven-plugin</type>
 		</dependency>
+
+	<dependency>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-mail</artifactId>
+	</dependency>
+	<dependency>
+		<groupId>org.jetbrains</groupId>
+		<artifactId>annotations</artifactId>
+		<version>RELEASE</version>
+		<scope>compile</scope>
+	</dependency>
+
 	</dependencies>
+
 
 	<build>
 		<plugins>

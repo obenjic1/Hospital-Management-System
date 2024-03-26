@@ -1,5 +1,6 @@
 
 //<---------------fontion load different function pages--------------------->
+//alert("hello world")
 function loadPage(page) {
 	fetch(page)
 		.then(response => response.text())
@@ -14,9 +15,12 @@ function loadPageModal(page) {
 		.then(response => response.text())
 		.then(html => {
 			document.getElementById('modC').innerHTML = html;
+			document.getElementById('userUpdate').innerHTML = html;
+			document.getElementById('addUser').innerHTML = html;
 		})
 		.catch(error => console.log(error));
 }
+
 document.getElementById('users-list').addEventListener('click', function() {
 	loadPage('/user/list-users');
 });
@@ -30,9 +34,6 @@ document.getElementById('add-user').addEventListener('click', function() {
 	addUser();
 });
 
-document.getElementById('view-user-profile').addEventListener('click', function() {
-	loadPage('user/viewUser/{username}');
-});
 
 document.getElementById('user-created-sucessffully').addEventListener('click', function() {
 	loadPage('/success');
@@ -108,7 +109,7 @@ function addUser() {
 
 		fetch('/user/add-user', {
 			method: 'POST',
-			body: formData,
+			body: formData,a
 		})
 			.then(function(response) {
 				if (response.status === 200) {
@@ -148,7 +149,8 @@ function confirmDelete(id) {
 		removeUser(deleteId);
 	});
 }
-
+var modal = new bootstrap.Modal(document.getElementById('userDeleteSuccessfully'));
+				modal.show();
 // <------------ Delete User using soft delete --------------------->
 function removeUser(id) {
 	fetch(`user/remove-user/${id}`, {
@@ -225,5 +227,12 @@ function refreshUserTable(pageNo) {
 			alert('Une erreur s\'est produite lors du chargement de la page.');
 		}
 	});
+	
+	
+//<------------------ function to reset password  -------------------->
+
 }
+
+
+//<------------------ function to reset password  -------------------->
 

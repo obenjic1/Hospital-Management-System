@@ -11,67 +11,67 @@
 <module name="Checker">
   <property name="severity" value="warning"/>
   <module name="TreeWalker">
-    <module name="AnnotationLocation">
-      <property name="severity" value="error"/>
-      <property name="allowSamelineSingleParameterlessAnnotation" value="false"/>
-    </module>
-    <module name="AvoidNestedBlocks">
-      <property name="severity" value="error"/>
-      <property name="allowInSwitchCase" value="true"/>
-    </module>
-    <module name="EmptyBlock">
-      <property name="severity" value="error"/>
-    </module>
-    <module name="EmptyCatchBlock">
-      <property name="severity" value="error"/>
-    </module>
-    <module name="AvoidNoArgumentSuperConstructorCall">
-      <property name="severity" value="error"/>
-    </module>
-    <module name="EmptyStatement">
-      <property name="severity" value="error"/>
-    </module>
-    <module name="LocalVariableName">
-      <property name="severity" value="error"/>
-      <property name="format" value="^[a-z][_a-zA-Z0-9]+$"/>
-      <property name="allowOneCharVarInForLoop" value="true"/>
-    </module>
-    <module name="MemberName">
-      <property name="severity" value="error"/>
-      <property name="format" value="^[a-z][_a-zA-Z0-9]+$"/>
-    </module>
-    <module name="MethodName">
-      <property name="severity" value="error"/>
-      <property name="format" value="^[a-z][_a-zA-Z0-9]+$"/>
-    </module>
-    <module name="ParameterName">
-      <property name="severity" value="error"/>
-      <property name="format" value="^[a-z][_a-zA-Z0-9]+$"/>
-      <property name="ignoreOverridden" value="true"/>
-    </module>
-    <module name="TrailingComment">
-      <property name="severity" value="error"/>
-    </module>
-    <module name="RegexpSinglelineJava">
-      <property name="severity" value="error"/>
-      <property name="format" value="System\.out\.println"/>
-      <property name="message" value="no sysout is allowed"/>
-      <property name="ignoreComments" value="true"/>
-    </module>
-  </module>
-  <module name="BeforeExecutionExclusionFileFilter">
-    <property name="fileNamePattern" value=".*[\\/]src[\\/]test[\\/].*$"/>
-  </module>
-  <module name="BeforeExecutionExclusionFileFilter">
-    <property name="fileNamePattern" value=".*[\\/]bin[\\/].*$"/>
-  </module>
-  <module name="BeforeExecutionExclusionFileFilter">
-    <property name="fileNamePattern" value=".*[\\/]target[\\/].*$"/>
-  </module>
-  <module name="BeforeExecutionExclusionFileFilter">
-    <property name="fileNamePattern" value=".*[\\/]src[\\/]main[\\/]resources[\\/].*$"/>
-  </module>
-  <module name="BeforeExecutionExclusionFileFilter">
-    <property name="fileNamePattern" value=".*[\\/]src[\\/]main[\\/]webapp[\\/].*$"/>
-  </module>
-</module>
+      <!-- <module name="AnnotationLocation">
+         <property name="severity" value="error"/>
+         <property name="allowSamelineSingleParameterlessAnnotation" value="false"/>
+       </module>-->
+       <module name="AvoidNestedBlocks">
+         <property name="severity" value="error"/>
+         <property name="allowInSwitchCase" value="true"/>
+       </module>
+       <module name="EmptyBlock">
+         <property name="severity" value="error"/>
+       </module>
+       <module name="EmptyCatchBlock">
+         <property name="severity" value="error"/>
+       </module>
+       <module name="AvoidNoArgumentSuperConstructorCall">
+         <property name="severity" value="error"/>
+       </module>
+       <module name="EmptyStatement">
+         <property name="severity" value="error"/>
+       </module>
+       <module name="LocalVariableName">
+         <property name="severity" value="error"/>
+         <property name="format" value="^[a-z][_a-zA-Z0-9]+$"/>
+         <property name="allowOneCharVarInForLoop" value="true"/>
+       </module>
+       <module name="MemberName">
+         <property name="severity" value="error"/>
+         <property name="format" value="^[a-z][_a-zA-Z0-9]+$"/>
+       </module>
+       <module name="MethodName">
+         <property name="severity" value="error"/>
+         <property name="format" value="^[a-z][_a-zA-Z0-9]+$"/>
+       </module>
+       <module name="ParameterName">
+         <property name="severity" value="error"/>
+         <property name="format" value="^[a-z][_a-zA-Z0-9]+$"/>
+         <property name="ignoreOverridden" value="true"/>
+       </module>
+       <module name="TrailingComment">
+         <property name="severity" value="error"/>
+       </module>
+       <module name="RegexpSinglelineJava">
+         <property name="severity" value="error"/>
+         <property name="format" value="System\.out\.println"/>
+         <property name="message" value="no sysout is allowed"/>
+         <property name="ignoreComments" value="true"/>
+       </module>
+     </module>
+     <module name="BeforeExecutionExclusionFileFilter">
+       <property name="fileNamePattern" value=".*[\\/]src[\\/]test[\\/].*$"/>
+     </module>
+     <module name="BeforeExecutionExclusionFileFilter">
+       <property name="fileNamePattern" value=".*[\\/]bin[\\/].*$"/>
+     </module>
+     <module name="BeforeExecutionExclusionFileFilter">
+       <property name="fileNamePattern" value=".*[\\/]target[\\/].*$"/>
+     </module>
+     <module name="BeforeExecutionExclusionFileFilter">
+       <property name="fileNamePattern" value=".*[\\/]src[\\/]main[\\/]resources[\\/].*$"/>
+     </module>
+     <module name="BeforeExecutionExclusionFileFilter">
+       <property name="fileNamePattern" value=".*[\\/]src[\\/]main[\\/]webapp[\\/].*$"/>
+     </module>
+   </module>

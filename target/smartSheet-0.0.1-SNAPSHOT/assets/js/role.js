@@ -1,4 +1,14 @@
 
+function loadRolePageModal(page) {
+	fetch(page)
+		.then(response => response.text())
+		.then(html => {
+			document.getElementById('modC').innerHTML = html;
+		})
+		.catch(error => console.log(error));
+}
+
+
 $(document).ready(function() {
     // Gestionnaire de clic pour le lien "List Roles"
     $('#list-roles').on('click', function() {
@@ -25,3 +35,9 @@ $(document).ready(function() {
         }
     });
 }
+
+$(document).ready( function () {
+    $('#myTable').DataTable({
+		"dom": "lfrti"
+	});
+} );

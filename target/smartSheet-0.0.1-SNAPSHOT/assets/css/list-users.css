@@ -123,8 +123,19 @@
 
 .alert p{
 	font-size: 15px;
- 	color:#5C5C5C;
- 	
+ 	color:#5C5C5C;	
+}
+.Active {
+  color: green;
+  text-decoration: none;
+}
+
+.Blocked {
+  color: red;
+}
+
+a {
+  text-decoration: none;
 }
 
 

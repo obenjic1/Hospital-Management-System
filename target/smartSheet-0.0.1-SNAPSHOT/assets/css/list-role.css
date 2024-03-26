@@ -39,4 +39,18 @@ td {
 .nav-no-border .page-link {
   border: none !important; /* Supprime les bordures */
 }
+
+a {
+  text-decoration: none;
+}
+
+div.dt-container .dt-search input {
+   position: relative;
+   left: 62%; 
+}
+
+.dt-search label {
+    position: relative;
+   left: 60%; 
+
   

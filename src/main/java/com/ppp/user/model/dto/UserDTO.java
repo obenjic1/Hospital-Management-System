@@ -22,6 +22,7 @@ public class UserDTO {
 	private String username;
 	private MultipartFile imageFile;
 	private String groupe;
+	private String resetPasswordToken;
 }
 
 

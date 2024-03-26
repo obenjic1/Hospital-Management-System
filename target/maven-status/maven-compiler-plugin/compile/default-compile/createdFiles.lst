@@ -3,6 +3,7 @@ com/ppp/user/service/FileStorageService.class
 com/ppp/user/repository/UserRepository.class
 com/ppp/user/service/SecurityService.class
 com/ppp/SecurityConfig.class
+com/ppp/user/controller/restPasswordController.class
 com/ppp/user/model/User.class
 com/ppp/user/repository/HistoryRepository.class
 com/ppp/user/model/GroupeRole.class

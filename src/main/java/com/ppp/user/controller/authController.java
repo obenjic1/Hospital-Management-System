@@ -5,9 +5,9 @@ import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.springframework.security.core.Authentication;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -38,16 +38,16 @@ public class authController {
 			 if(pr == null) {
 				 return "user_auth/login";
 			 }else {
-				 System.out.println("prrr" + pr.getName());
+
 				 return "/";
 			 }
 		}
 
 		// Logout controller
 		@GetMapping("/logout")
-		public void Logout(HttpServletRequest request, Authentication authentication) {
+		public void logout(HttpServletRequest request, Authentication authentication) {
 			User user = (User) authentication.getPrincipal();
-			user.setActive(false);
+		//	user.setActive(false);
 			request.getSession().invalidate();
 			return;
 		}
