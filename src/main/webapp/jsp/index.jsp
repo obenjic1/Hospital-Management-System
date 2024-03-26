@@ -50,22 +50,18 @@
 	<header id="header" class="header fixed-top d-flex align-items-center">
 
 		<div class="d-flex align-items-center justify-content-between">
-			<a href="index" class="logo d-flex align-items-center">
-<!-- 			  <img src="assets/img/presprintc.jpg" alt="">  -->
-			  <span class="d-none d-lg-block">Billing System</span>
-			</a>
-		  <i class="bi bi-list toggle-sidebar-btn"></i>
+		   <a href="index" class="logo d-flex align-items-center">
+			 <img src="assets/img/logo.png" alt="">
+			 <span class="d-none d-lg-block">Billing System</span>
+		   </a>
+		   <i class="bi bi-list toggle-sidebar-btn"></i>
 		</div>
 		<!-- End Logo -->
 
 		<div class="search-bar">
-			<form class="search-form d-flex align-items-center" method="POST"
-				action="#">
-				<input type="text" name="query" placeholder="Search"
-					title="Enter search keyword">
-				<button type="submit" title="Search">
-					<i class="bi bi-search"></i>
-				</button>
+			<form class="search-form d-flex align-items-center" method="POST" action="#">
+			  <input type="text" name="query" placeholder="Search" title="Enter search keyword">
+			  <button type="submit" title="Search"> <i class="bi bi-search"></i> </button>
 			</form>
 		</div>
 		<!-- End Search Bar -->
@@ -115,68 +111,99 @@
 						  </a>
 						</li>
 					</ul> <!-- End Profile Dropdown Items --></li>
-				<!-- End Profile Nav -->
-			</ul>
-		</nav>
+			  </ul>
+		  </nav>
 		<!-- End Icons Navigation -->
-	</header>
+	  </header>
 	<!-- End Header -->
 
 	<!-- ======= Sidebar ======= -->
 			<aside id="sidebar" class="sidebar">
-		  <ul class="sidebar-nav" id="sidebar-nav">
-		    <sec:authorize access="hasRole('ROLE_LIST_USERS')">
-		      <li class="pp-module">
-		        <i class="bi bi-person-lines-fill"></i>
-		        <span><fmt:message key="administration.managemant" /></span>
-		      </li>
-		      <!-- End Printing Press Nav -->		  
-		    </sec:authorize>
-		    <li class="pp-module">
-		      <i class="bx bxl-firebase"></i>
-		      <span><fmt:message key="jobsheet.management" /></span>
-		      <ul class="nav-content collapse">
-		        <li class="nav-item">
-		          <a class="nav-link collapsed" href="list-groupes.jsp">
-		            <i class="ri-file-list-3-line"></i>
-		            <span><fmt:message key="new.controlsheets" /></span>
-		          </a>
-		        </li>
-		        <li class="nav-item">
-		          <a class="nav-link collapsed" href="list-groupes.jsp">
-		            <i class="bi bi-card-list"></i>
-		            <span><fmt:message key="list.controlsheets" /></span>
-		          </a>
-		        </li>
-		        <li class="nav-item">
-		          <a class="nav-link collapsed" href="#">
-		            <i class="bi bi-receipt-cutoff"></i>
-		            <span><fmt:message key="list.ofproforma" /></span>
-		          </a>
-		        </li>
-		        <li class="nav-item">
-		          <a class="nav-link collapsed" onclick="getListOfUser()" href="#">
-		            <i class="ri-bookmark-2-line"></i>
-		            <span><fmt:message key="list.jobsheets" /></span>
-		          </a>
-		        </li>
-		        <li class="nav-item">
-		          <a class="nav-link collapsed" onclick="getListOfUser()" href="#">
-		            <i class="ri-bit-coin-line"></i>
-		            <span><fmt:message key="list.ofbill" /></span>
-		          </a>
-		        </li>
-		        <li class="nav-item">
-		          <a class="nav-link collapsed" onclick="getListOfUser()" href="#">
-		            <i class="bi bi-lightbulb"></i>
-		            <span><fmt:message key="production.management" /></span>
-		          </a>
-		        </li>
-		      </ul>
-		    </li>
-		  </ul>
-		  <!-- End Printing Press Nav -->
-		</aside>
+		     <ul class="sidebar-nav" id="sidebar-nav">
+			  <li class="pp-module">
+			    <i class="bi bi-person-lines-fill"> </i> 
+			     <span>
+			      <span><fmt:message key="administration.managemant" /></span>
+			    </span>
+			  </li>
+			<!-- End Printing Press Nav -->
+			<li class="nav-item">
+			<sec:authorize access="hasRole('ROLE_ADD_USER')">					
+			  <ul id="user-management-nav" class="nav-content " data-bs-parent="#sidebar-nav">
+				<sec:authorize access="hasRole('ROLE_LIST_USERS')">
+			      <li class="nav-item">
+					<a class="nav-link collapsed" onclick="loadPage('/user/list-users')" href="#"> <i class="bi bi-person">
+					  </i> <span><fmt:message key="list.users" /></span>
+					</a>
+				  </li>
+				</sec:authorize>
+				<sec:authorize access="hasRole('ROLE_LIST_GROUPS')">
+				  <li class="nav-item">
+				    <a class="nav-link collapsed" onclick="loadPage('/group/list-groups')" href="#">
+				    <i class="bi bi-person">
+				  </i> <span><fmt:message key="list.groups" /></span></a></li>
+				</sec:authorize>
+				<sec:authorize access="hasRole('ROLE_LIST_ROLES')">
+				  <li class="nav-item"><a class="nav-link collapsed" onclick="loadPage('/role/list-roles')" href="#">
+				    <i class="bi bi-card-list"></i> 
+				    <span><fmt:message key="list.roles" /></span> </a>
+				  </li>
+				</sec:authorize>
+			  </ul>
+			</sec:authorize> 								
+				<!-- End of user management Nav --> <!-- start of job sheet management Nav -->
+				<li class="nav-item">
+				  <li class="pp-module">
+				    <i class="bx bxl-firebase"> </i> 
+				  <span>
+				    <span><fmt:message key="jobsheet.management" /></span>
+				  </span>
+				</li>
+				<ul id="jobsheet-management-nav" class="nav-content " data-bs-parent="#sidebar-nav">
+					<li class="nav-item">
+                      <a class="nav-link collapsed" href="list-groupes.jsp">
+						<i class="ri-file-list-3-line"></i>
+						<span><fmt:message key="new.controlsheets" /></span>
+					  </a>
+					<li class="nav-item">
+					  <a class="nav-link collapsed" href="list-groupes.jsp">
+					    <i class="bi bi-card-list"></i>
+					    <span><fmt:message key="list.controlsheets" /></span>
+					  </a>
+					</li>
+					
+					<li class="nav-item">
+					  <a class="nav-link collapsed" href="#">
+					    <i class="bi bi-receipt-cutoff"></i>
+					    <span><fmt:message key="list.ofproforma" /></span>
+					  </a>
+					</li>
+					<li class="nav-item">
+					  <a class="nav-link collapsed" onclick="getListOfUser()" href="#">
+					    <i class="ri-bookmark-2-line"></i>
+					    <span><fmt:message key="list.jobsheets" /></span>
+					  </a>
+					</li>
+					<li class="nav-item">
+					  <a class="nav-link collapsed" onclick="getListOfUser()" href="#">
+					    <i class="ri-bit-coin-line"></i>
+					    <span><fmt:message key="list.ofbill" /></span>
+					  </a>
+					</li>
+					
+					<li class="nav-item">
+					  <a class="nav-link collapsed" onclick="getListOfUser()" href="#">
+					    <i class="bi bi-lightbulb"></i>
+					    <span><fmt:message key="production.management" /></span>
+					  </a>
+					</li>
+					
+
+				</ul> 
+				<!-- End of job sheet management Nav --> <!-- start of bill management Nav -->
+			
+		</ul>
+	</aside>
 	<!-- End Sidebar-->
 
 	<main id="main" class="main">
