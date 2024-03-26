@@ -66,6 +66,8 @@ public class User implements UserDetails {
 	private boolean deleted = Boolean.FALSE;
 	
 	private LocalDate createdAt ;
+	
+	private String resetPasswordToken;
 
 	@ManyToOne(fetch = FetchType.EAGER, optional = false)
 	@JoinColumn(name = "groupe_id")

@@ -1,5 +1,6 @@
 
 //<---------------fontion load different function pages--------------------->
+//alert("hello world")
 function loadPage(page) {
 	fetch(page)
 		.then(response => response.text())
@@ -100,7 +101,7 @@ function addUser() {
 
 		fetch('/user/add-user', {
 			method: 'POST',
-			body: formData,
+			body: formData,a
 		})
 			.then(function(response) {
 				if (response.status === 200) {
@@ -140,7 +141,8 @@ function confirmDelete(id) {
 		removeUser(deleteId);
 	});
 }
-
+var modal = new bootstrap.Modal(document.getElementById('userDeleteSuccessfully'));
+				modal.show();
 // <------------ Delete User using soft delete --------------------->
 function removeUser(id) {
 	fetch(`user/remove-user/${id}`, {
@@ -217,5 +219,12 @@ function refreshUserTable(pageNo) {
 			alert('Une erreur s\'est produite lors du chargement de la page.');
 		}
 	});
+	
+	
+//<------------------ function to reset password  -------------------->
+
 }
+
+
+//<------------------ function to reset password  -------------------->
 

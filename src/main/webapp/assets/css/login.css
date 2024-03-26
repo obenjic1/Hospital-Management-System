@@ -1,7 +1,7 @@
 @charset "ISO-8859-1";
 
 body {
-    background-image: url('/assets/img/presprint-bg.jpg'); 
+    background-image: url('/assets/img/sample1.jpg'); 
        
     background-size: cover; 
     background-position: center;
@@ -17,6 +17,16 @@ body {
 	text-align: center;
 }
 
+#reset:hover{
+	cursor: pointer;
+	
+}
+#reset{
+	color:blue
+}
 
-
+.top-logo{
+	width: 150px;
+  padding-bottom: 20px;
+}
 
