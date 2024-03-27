@@ -138,5 +138,12 @@ a {
   text-decoration: none;
 }
 
+.bi-record2::before {
+    content: "\f51c";
+    color: green;
+    font-size: 12px;
+    bottom: 5px;
+    position: relative;
+}
 
   

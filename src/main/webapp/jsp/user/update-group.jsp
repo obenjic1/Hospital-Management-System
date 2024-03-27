@@ -9,34 +9,31 @@
 
  <main id="create-group">
  <div class="container" >
-
       <section>
         <div class="container">
           <div class="row justify-content-center">
             <div class="col-lg-4 col-md-6 d-flex flex-column align-items-center justify-content-center">
               <div class="card mb-3" style="width: 1139px;">
                 <div class="card-body">
-                    <h5 class="card-title text-center pb-0 fs-4">Update Group</h5>
-                    <p class="text-center small">Change to update group informations</p>
+                  <h5 class="card-title text-center pb-0 fs-4"> <fmt:message key="update.group"/></h5>
+                  <p class="text-center small"><fmt:message key="change.to.update.group.informations"/></p>
                   <form  class="row g-3 needs-validation" style=" margin-left: 2%;">
                     <div class="col-md-6">
-                        <label for="name" class="form-label">Name</label>
-                     	 <div class="input-group has-validation">
+                      <label for="name" class="form-label"><fmt:message key="name"/></label>
+                      <div class="input-group has-validation">
                         <input type="text" id="name" name="name" class="form-control" value="${groupeFinded.name}" readonly="readonly" style="margin-left: 14%;"/>
-                      <div class="invalid-feedback">Please, enter the role name!</div>
                       </div>
                     </div>
                     <div class="col-md-6">
-                       <label for="description" class="form-label">Description</label>
+                      <label for="description" class="form-label"><fmt:message key="description"/></label>
                       <div class="input-group has-validation">
-                         <textarea  id="description" name="description" class="form-control"  style=" position: relative; left: -2%;">${groupeFinded.description}</textarea>
+                        <textarea  id="description" name="description" class="form-control"  style=" position: relative; left: -2%;">${groupeFinded.description}</textarea>
                       </div>
-                    </div>
-                
+                    </div>              
 	                  <div class="col-md-12">
 					  <div class="row">
 					    <div class="col-md-12">
-					      <label class="ids">Select Role</label>
+					      <label class="ids"><fmt:message key="select.role"/></label>
 					    </div>
 					    <div class="col-md-12">
 					      <div class="input-group has-validation border p-3 d-flex flex-column">
@@ -52,45 +49,40 @@
 					            </div>
 					          </c:forEach>
 					        </div>
-					        <form:errors path="ids" class="invalid-feedback">Please select at least one role!</form:errors>
 					      </div>
 					    </div>
 					  </div>
-					</div>
-					
+					</div>					
                     <div class="col-md-3">
-                      <input type="button" data-bs-toggle="modal" id="create-btn" 
-                      	onclick="updateGroupe('${groupeFinded.name}')" 
-                      	style=" left: 314%; bottom: 2%;"
-                      	class="btn btn-primary w-100"  value="Save Changes"/>
-                     </div>
-                      <!-------------- Group successfully modal ------------->
+                      <input type="button" data-bs-toggle="modal" id="create-btn" onclick="updateGroupe('${groupeFinded.name}')" style=" left: 314%; bottom: 2%;" class="btn btn-primary w-100"  value="Save Changes"/>
+                    </div>
+                    <!-------------- Group successfully modal ------------->
                    	 <div class="modal fade" id="groupUdatedSuccessfully" tabindex="-1">
-	                 <div class="modal-dialog modal-dialog-centered">
-	                   <div class="modal-content">
+	                   <div class="modal-dialog modal-dialog-centered">
+	                     <div class="modal-content">
 	                       <button type="button" onclick="loadPage('/group/list-groups')" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-	                     <div class="modal-body">
-	                       <img src="assets/img/success_icon.png" alt="">
-	                       <p>Group Updated successfully</p>
+	                       <div class="modal-body">
+	                         <img src="assets/img/success_icon.png" alt="">
+	                         <p><fmt:message key ="group.updated.successfully"/></p>
+	                       </div>
 	                     </div>
 	                   </div>
 	                 </div>
-	               </div>
-	                <div class="modal fade" id="somethingWhenWrong" tabindex="-1">
-	                 <div class="modal-dialog somethinWhenWrog">
+	                 <div class="modal fade" id="somethingWhenWrong" tabindex="-1">
+	                   <div class="modal-dialog somethinWhenWrog">
 	                     <div class="alert alert-danger alert-dismissible fade show" role="alert">
-			                <i class="bi bi-exclamation-octagon me-1"></i>
-			                <p> Something when wrong </p>
-			                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+			               <i class="bi bi-exclamation-octagon me-1"></i>
+			               <p><fmt:message key="something.when.wrong "/></p>
+			               <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
 		                 </div>
+	                   </div>
 	                 </div>
-	               </div>
-                  </form>
-                </div>
-              </div>
-            </div>
-          </div>
-          </div>
-      </section>
-      </div>
+                   </form>
+                 </div>
+               </div>
+             </div>
+           </div>
+         </div>
+       </section>
+     </div>
   </main><!-- End #main -->

@@ -30,7 +30,7 @@
 	rel="stylesheet">
 
 <!-- Vendor CSS Files -->
-<link href="DataTables/dataTables.dataTables.css"  rel="stylesheet"  />
+<link href="/DataTables/dataTables.dataTables.css"  rel="stylesheet"  />
 <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
 <link href="assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
@@ -68,7 +68,7 @@
 		<nav class="header-nav ms-auto">
 			<ul class="d-flex align-items-center">
 				<li class="nav-item d-block d-lg-none">
-				    <a class="nav-link nav-icon search-bar-toggle " href="#">
+				  <a class="nav-link nav-icon search-bar-toggle " href="#">
 				    <i class="bi bi-search"></i>
 				  </a>
 				</li>
@@ -76,7 +76,7 @@
 				<!-- End Search Icon-->
 				<!------------------ Select language ------------------>
 				<li class="choose-language">
-				  <a href="${pageContext.request.contextPath}/?lang=fr"> <fmt:message key="lang.fr" /> / </a> 
+				  <a style="margin-right: 10px;" href="${pageContext.request.contextPath}/?lang=fr"> <fmt:message key="lang.fr" />  </a> 
 				  <a href="${pageContext.request.contextPath}/?lang=en"> <fmt:message key="lang.en" /> </a>
 				</li>
 
@@ -129,7 +129,7 @@
 			<!-- End Printing Press Nav -->
 			<li class="nav-item">
 			<sec:authorize access="hasRole('ROLE_ADD_USER')">					
-			  <ul id="user-management-nav" class="nav-content " data-bs-parent="#sidebar-nav">
+			  <ul id="user-management-nav" >
 				<sec:authorize access="hasRole('ROLE_LIST_USERS')">
 			      <li class="nav-item">
 					<a class="nav-link collapsed" onclick="loadPage('/user/list-users')" href="#"> <i class="bi bi-person">
@@ -159,7 +159,7 @@
 				    <span><fmt:message key="jobsheet.management" /></span>
 				  </span>
 				</li>
-				<ul id="jobsheet-management-nav" class="nav-content " data-bs-parent="#sidebar-nav">
+				<ul id="jobsheet-management-nav">
 					<li class="nav-item">
                       <a class="nav-link collapsed" href="list-groupes.jsp">
 						<i class="ri-file-list-3-line"></i>
@@ -170,8 +170,7 @@
 					    <i class="bi bi-card-list"></i>
 					    <span><fmt:message key="list.controlsheets" /></span>
 					  </a>
-					</li>
-					
+					</li>					
 					<li class="nav-item">
 					  <a class="nav-link collapsed" href="#">
 					    <i class="bi bi-receipt-cutoff"></i>
@@ -223,12 +222,12 @@
 
 	<footer id="footer" class="fixed-bottom text-center">
 
-		<div class="copyright"> &copy; Copyright  <strong><span>Billing system</span></strong>. All Rights Reserved
+		<div class="copyright"> &copy; Copyright 2024 <strong><span>Presprint Plc</span></strong>. All Rights Reserved</div>
 
-		
-		<div class="credits"> Designed by 
-		  <a href="https://bootstrapmade.com/">Presprint Plc</a>
-		</div>
+
+<!-- 		<div class="credits"> -->
+<!-- 			Designed by <a href="https://bootstrapmade.com/">Presprint Plc 20</a> -->
+<!-- 		</div> -->
 	</footer>
 	<!-- End Footer -->
 
