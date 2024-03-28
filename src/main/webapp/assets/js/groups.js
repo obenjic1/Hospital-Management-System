@@ -157,5 +157,5 @@ function disableGroup(id){
 }
 
 $(document).ready( function () {
-    $('#myTable').DataTable({});
+    $('#groupDataTable').DataTable({});
 } );

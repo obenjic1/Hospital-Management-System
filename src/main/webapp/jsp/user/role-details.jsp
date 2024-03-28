@@ -15,22 +15,22 @@
               <ul class="nav nav-tabs nav-tabs-bordered" style=" justify-content: center;">
                 <li class="nav-item">
                   <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#profile-overview"
-                   style="position: relative; ">Overview</button>
+                   style="position: relative; "><fmt:message key="overview"/></button>
                 </li>
               </ul>
               <div class="tab-content pt-2" style="margin-left: 5%">
                 <div class="tab-pane fade show active profile-overview" id="profile-overview">              
                   <h5 class="card-title">Roles Details</h5>
                   <div class="row">
-                    <div class="col-lg-3 col-md-4 label ">Name :</div>
+                    <div class="col-lg-3 col-md-4 label "><fmt:message key="name"/></div>
                     <div class="col-lg-9 col-md-8">${roleFind.name}</div>
                   </div>
                   <div class="row">
-                    <div class="col-lg-3 col-md-4 label">Descriptions :</div>
+                    <div class="col-lg-3 col-md-4 label"><fmt:message key="description"/></div>
                     <div class="col-lg-9 col-md-8">${roleFind.description}</div>
                   </div>
                   <div class="row">
-                    <div class="col-lg-3 col-md-4 label">Created Date :</div>
+                    <div class="col-lg-3 col-md-4 label"><fmt:message key="created.date"/></div>
                     <div class="col-lg-9 col-md-8">${roleFind.createdAt}</div>
                   </div>
                 </div>

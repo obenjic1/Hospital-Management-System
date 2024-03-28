@@ -27,27 +27,27 @@
             <div class="col-lg-4 col-md-6 d-flex flex-column align-items-center justify-content-center">
               <div class="card mb-3">
                 <div class="card-body">
-                    <h5 class="card-title text-center pb-0 fs-4">Add Group</h5>
-                    <p class="text-center small">Group informations</p>
+                    <h5 class="card-title text-center pb-0 fs-4"> <fmt:message key="add.group"/></h5>
+                    <p class="text-center small"> <fmt:message key=" group.informations"/></p>
                   <form  class="row g-3 needs-validation">
                     <div class="col-md-6">
-                        <label for="name" class="form-label">Name</label>
+                        <label for="name" class="form-label"><fmt:message key="name"/></label>
                      	 <div class="input-group has-validation">
                         <input type="text" id="name" name="name" class="form-control" />
-                      <div class="invalid-feedback">Please, enter the role name!</div>
+                      <div class="invalid-feedback"><fmt:message key="please.enter.the.group.name"/></div>
                       </div>
                     </div>
                     <div class="col-md-6">
-                       <label for="description" class="form-label">Description</label>
+                       <label for="description" class="form-label"> <fmt:message key="description"/></label>
                       <div class="input-group has-validation">
-                         <textarea  id="description" name="description" class="form-control" placeholder="Enter the description of the groupe..."></textarea>
+                        <textarea  id="description" name="description" class="form-control" placeholder=" <fmt:message key="enter.the.description.of.the.groupe"/>" ></textarea>
                       </div>
                     </div>
                 
 	                  <div class="col-md-12">
 					  <div class="row">
 					    <div class="col-md-12">
-					      <label class="ids">Select Role</label>
+					      <label class="ids"><fmt:message key="select.role"/></label>
 					    </div>
 					    <div class="col-md-12">
 					      <div class="input-group has-validation border p-3 d-flex flex-column">
@@ -59,7 +59,6 @@
 					            </div>
 					          </c:forEach>
 					        </div>
-					        <form:errors path="ids" class="invalid-feedback">Please select at least one role!</form:errors>
 					      </div>
 					    </div>
 					  </div>
@@ -75,7 +74,7 @@
 	                       <input type="button" onclick="loadPage('/group/list-groups')" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
 	                     <div class="modal-body">
 	                       <img src="assets/img/success_icon.png" alt="">
-	                       <p>Group created successfully</p>
+	                       <p> <fmt:message key="group.created.successfully"/></p>
 	                     </div>
 	                   </div>
 	                 </div>
@@ -86,7 +85,7 @@
 	                     <input type="button" onclick="loadPage('/group/list-groups')" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
 	                     <div class="modal-body">
 	                     <img src="assets/img/error.png" alt="">
-	                       <p>Something when wrong : Group name already exist</p>
+	                       <p> <fmt:message key="something.when.wrong.Group.name.already.exist"/></p>
 	                     </div>
 	                   </div>
 	                 </div>

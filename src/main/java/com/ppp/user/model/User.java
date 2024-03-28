@@ -52,7 +52,7 @@ public class User implements UserDetails {
 	@Column(nullable = false, unique = true, length = 255)
 	private String username;	
 	private String imagePath;	
-	private boolean active = Boolean.FALSE;
+	private boolean connected = Boolean.FALSE;
 	private boolean deleted = Boolean.FALSE;
 	private LocalDate createdAt ;
 	

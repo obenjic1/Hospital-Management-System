@@ -41,7 +41,7 @@ public class UserDetailServices implements UserDetailsService {
         List<GroupeRole> roles = group.getGroupRoles();
         
         if (roles.isEmpty()) {
-        	user.setActive(true);
+        	user.isConnected();
            return new org.springframework.security.core.userdetails.User(
                     username, user.getPassword(), user.isEnabled(),
                     user.isAccountNonExpired(), user.isCredentialsNonExpired(),
