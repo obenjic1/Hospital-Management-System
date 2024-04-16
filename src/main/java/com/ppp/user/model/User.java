@@ -50,7 +50,9 @@ public class User implements UserDetails {
 	@Column(nullable = false, length = 255)
 	private String address;
 	@Column(nullable = false, unique = true, length = 255)
-	private String username;	
+	private String username;
+	@Column(nullable = false, length = 255)
+	private String fonction;
 	private String imagePath;	
 	private boolean connected = Boolean.FALSE;
 	private boolean deleted = Boolean.FALSE;

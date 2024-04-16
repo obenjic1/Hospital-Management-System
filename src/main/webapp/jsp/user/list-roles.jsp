@@ -32,7 +32,7 @@
 						<div class="datatable-wrapper no-footer">
 							<div class="datatable-container">							
 							  <table id="myTable" class="table datatable">
-							    <thead>
+							    <thead style="background-color: #dddfe3;">
 								  <tr>
 									<th scope="col"> <fmt:message key="number"/></th>
 								    <th scope="col"><fmt:message key="names"/></th>

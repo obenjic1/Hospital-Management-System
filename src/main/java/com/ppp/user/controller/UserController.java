@@ -74,7 +74,7 @@ public class UserController {
 	    return "user/view-user-profile";
 	}
 	
-	
+
 	
 	//<------------------- View user profile -------------------->
 	@PreAuthorize("hasRole('ROLE_UPDATE_USER')")

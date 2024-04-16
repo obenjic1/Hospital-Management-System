@@ -52,5 +52,9 @@ div.dt-container .dt-search input {
 .dt-search label {
     position: relative;
    left: 60%; 
-
+}
+style="
+    position: relative;
+    bottom: 30px;
+"
   

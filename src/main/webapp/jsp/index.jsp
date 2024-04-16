@@ -118,7 +118,7 @@
 	<!-- End Header -->
 
 	<!-- ======= Sidebar ======= -->
-			<aside id="sidebar" class="sidebar">
+			<aside id="sidebar" class="sidebar" style="background: #dddfe3;">
 		     <ul class="sidebar-nav" id="sidebar-nav">
 			  <li class="pp-module">
 			    <i class="bi bi-person-lines-fill"> </i> 
@@ -196,10 +196,48 @@
 					    <span><fmt:message key="production.management" /></span>
 					  </a>
 					</li>
-					
 
 				</ul> 
+				<!-- End of job sheet management Nav --> <!-- start of bill management Nav -->	
+				<li class="nav-item">
+				  <li class="pp-module">
+				    <i class="bx bxl-firebase"> </i> 
+				  <span>
+				    <span>Configuration mangement</span>
+				  </span>
+				</li>
+				<ul id="configuration-management-nav">
+					<li class="nav-item">
+                      <a class="nav-link collapsed" href="list-groupes.jsp">
+						<i class="ri-file-list-3-line"></i>
+						<span><fmt:message key="new.controlsheets" /></span>
+					  </a>
+										
+					<li class="nav-item">
+					  <a class="nav-link collapsed" href="#">
+					    <i class="bi bi-receipt-cutoff"></i>
+					    <span><fmt:message key="list.ofproforma" /></span>
+					  </a>
+					</li>
+					
+					<li class="nav-item">
+					  <a class="nav-link collapsed" onclick="getListOfUser()" href="#">
+					    <i class="ri-bit-coin-line"></i>
+					    <span><fmt:message key="list.ofbill" /></span>
+					  </a>
+					</li>
+					
+					
+				</ul> 
+				
 				<!-- End of job sheet management Nav --> <!-- start of bill management Nav -->
+			<li class="nav-item">
+				  <li class="pp-module">
+				    <i class="bx bxl-firebase"> </i> 
+				  <span>
+				    <span>Statistics</span>
+				  </span>
+				</li>
 			
 		</ul>
 	</aside>

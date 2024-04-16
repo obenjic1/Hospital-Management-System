@@ -35,7 +35,7 @@
 						</button>
 						<!-- Table with stripped rows -->
 						<table class="table datatable">
-						  <thead>
+						  <thead style="background-color: #dddfe3;">
 						    <tr>
 							  <th scope="col"><fmt:message key="photo"/></th>
 						      <th scope="col"><fmt:message key="username"/></th>

@@ -34,7 +34,7 @@
 
 						<!-- Table with stripped rows -->
 						<table id="groupDataTable" class="table datatable">
-						  <thead>
+						  <thead style="background-color: #dddfe3;">
 						    <tr>
 							  <th scope="col"><fmt:message key="number"/></th>
 							  <th scope="col"><fmt:message key="names"/></th>
@@ -47,7 +47,7 @@
 						      <tr class="${loop.index % 2 == 0 ? 'even-row' : 'odd-row'}">
 							    <th scope="row">${group.id}</th>
 							    <td><a>${group.name}</a></td>
-							    <td><a data-toggle="tooltip" title="${group.description}"> ${group.description}</a></td>
+							    <td><a data-bs-toggle="tooltip" data-bs-placement="top" title="${group.description}"> ${group.description}</a></td>
 							    <td>
 								  <button class="button-see" data-bs-toggle="modal" data-bs-target="#ExtralargeModal" onclick="loadPageModal('group/group-details/${group.name}')">
 								    <a data-toggle="tooltip" title="View"><i class='fas fa-eye'></i></a>												
