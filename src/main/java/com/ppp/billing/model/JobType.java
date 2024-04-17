@@ -26,7 +26,7 @@ public class JobType {
 	@Column(nullable = false, length =  255)
 	private String name;
 	
-	@OneToMany(fetch = FetchType.EAGER, orphanRemoval = true, mappedBy = "jobType")
-	private List<Job> job;
+	@OneToMany(fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "jobType")
+	private List<Job> jobs;
 
 }

@@ -2,9 +2,9 @@ package com.ppp.billing.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.ppp.billing.model.Prepress;
+import com.ppp.billing.model.PrepressPricing;
 
 
-public interface PrepressRepository extends JpaRepository<Prepress, Long> {
+public interface PrepressRepository extends JpaRepository<PrepressPricing, Long> {
 
 }

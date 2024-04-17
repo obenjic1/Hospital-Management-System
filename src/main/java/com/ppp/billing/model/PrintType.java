@@ -26,6 +26,6 @@ public class PrintType {
 	@Column(nullable = false, unique = true, length = 225)
 	private String name;
 	
-	@OneToMany(fetch = FetchType.EAGER,  mappedBy = "printType")
-	private List<JobColorCombination> jobColorCombination;
+	@OneToMany(fetch = FetchType.LAZY,  mappedBy = "printType")
+	private List<JobColorCombination> jobColorCombinations;
 }

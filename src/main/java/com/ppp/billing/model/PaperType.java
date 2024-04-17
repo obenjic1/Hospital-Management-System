@@ -25,7 +25,7 @@ public class PaperType {
 	@Column(nullable = false, unique = true, length = 225)
 	private String name;
 	
-	@OneToMany(fetch = FetchType.EAGER,  mappedBy = "paperType")
-	private List<JobPaper> jobPaper;
+	@OneToMany(fetch = FetchType.LAZY,  mappedBy = "paperType")
+	private List<JobPaper> jobPapers;
 
 }

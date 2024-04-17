@@ -30,6 +30,6 @@ public class JobStatus {
 	@Column(length = 255)
 	private String description;
 
-	@OneToMany(fetch = FetchType.EAGER, orphanRemoval = true, mappedBy = "jobStatus")
-	private List<Job> job;
+	@OneToMany(fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "jobStatus")
+	private List<Job> jobs;
 }

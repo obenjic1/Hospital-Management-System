@@ -12,6 +12,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -26,58 +28,72 @@ public class Job {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	@Column(nullable = false, length =  255)
+	@Column(nullable = false)
 	private String title;
-	@Column(nullable = false, length = 15)
+	@Column(nullable = false, name="reference_number")
 	private String referenceNumber;
-	@Column(length = 255)
+	@Column()
 	private String description;
-	@Column(length = 15)
+	@Column(name="content_volume")
 	private int contentVolume;
-	@Column(length = 15)
+	@Column(name="cover_volume")
 	private int coverVolume;
-	@Column(length = 15)
-	private int contentSignature;
-	@Column(length = 15)
-	private int coverSignature;
-	private boolean existingPlate = Boolean.FALSE;
+	@Column(name="total_content_signature")
+	private int totalContentSignature;
+	@Column(name="total_cover_signature")
+	private int totalCoverSignature;
+	
+	@Column(name="existing_plate", columnDefinition="boolean default false")
+	private boolean existingPlate;
+	
+	@Column(name="ready_to_print_date")
+	@Temporal(TemporalType.DATE)
 	private Date readytoPrintDate;
+	
+	@Column(name="expected_delivery_date")
+	@Temporal(TemporalType.DATE)
 	private Date expectedDeliveryDate;
+	
+	@Column(name="actual_delivery_date")
+	@Temporal(TemporalType.DATE)
+	private Date actualDeliveryDate;
+	
+	@Column(name="creation_date")
 	private Date creationDate;
 	
 	@ManyToOne
-	@JoinColumn(name = "bindingType_id", referencedColumnName = "id")
+	@JoinColumn(name = "binding_type_id", referencedColumnName = "id")
 	private BindingType bindingType;
 	
 	@ManyToOne
-	@JoinColumn(name = "jobStatus_id", referencedColumnName = "id")
+	@JoinColumn(name = "job_status_id", referencedColumnName = "id")
 	private JobStatus jobStatus;
 	
 	@ManyToOne
-	@JoinColumn(name = "jobType_id", referencedColumnName = "id")
+	@JoinColumn(name = "job_type_id", referencedColumnName = "id")
 	private JobType jobType;
 	
 	@ManyToOne
 	@JoinColumn(name = "customer_id", referencedColumnName = "id")
 	private Customer customer;
 	
-	@OneToMany(fetch = FetchType.EAGER, orphanRemoval = true, mappedBy = "job")
-	private List<JobActivity> jobActivity;
+	@OneToMany(fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "job")
+	private List<JobActivity> jobActivities;
 	
 	@OneToMany(fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "job")
-	private List<JobTracking> jobTracking;
+	private List<JobTracking> jobTrackings;
 	
 	@OneToMany(fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "job")
-	private List<Printing> printing;
+	private List<PrintingPricing> printingPricings;
 	
 	@OneToMany(fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "job")
-	private List<Prepress> prepress;
+	private List<PrepressPricing> prepressPricings;
 	
 	@OneToMany(fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "job")
-	private List<Finishing> finishing;
+	private List<FinishingPricing> finishingPricings;
 	
 	@OneToMany(fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "job")
-	private List<JobColorCombination> jobColorCombination;
+	private List<JobPaper> jobPapers;
 
 	
 	

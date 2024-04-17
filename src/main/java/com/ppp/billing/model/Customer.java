@@ -24,18 +24,22 @@ public class Customer {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	@Column(nullable = false, length = 255)
+	@Column(nullable = false)
 	private String name;
-	@Column(nullable = false, length = 255)
+	@Column(nullable = false)
 	private String email;
-	@Column(nullable = false, length = 10)
+	@Column(nullable = false)
 	private String telephone;
 	@Column(nullable = false, length = 255)
 	private String address;
+	
+	@Column(name="thumbnail")
 	private String thumbnail;
+	
+	@Column(name="creation_date")
 	private Date creationDate;
 	
 	@OneToMany(fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "customer")
-	private List<Job> job;
+	private List<Job> jobs;
 
 }

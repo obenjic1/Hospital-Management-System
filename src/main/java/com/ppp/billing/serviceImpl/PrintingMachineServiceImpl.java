@@ -31,8 +31,8 @@ public class PrintingMachineServiceImpl implements PrintingMachineService {
         	updatedPrintMachine.setName(updatePrintingmachineDto.getName());
         	updatedPrintMachine.setPlateLength(updatePrintingmachineDto.getPlateLength());
         	updatedPrintMachine.setPlateWidth(updatePrintingmachineDto.getPlateWidth());
-        	updatedPrintMachine.setCreation_date(updatePrintingmachineDto.getCreation_date());
-        	updatedPrintMachine.set_active(updatePrintingmachineDto.is_active());
+        	updatedPrintMachine.setCreationDate(updatePrintingmachineDto.getCreation_date());
+        	updatedPrintMachine.setActive(updatePrintingmachineDto.is_active());
         	printinMachineRepository.save(updatedPrintMachine);
         	return "machine updated";
         	}
@@ -56,8 +56,8 @@ public class PrintingMachineServiceImpl implements PrintingMachineService {
 		newPriningMachine.setName(machineDto.getName());
 		newPriningMachine.setPlateLength(machineDto.getPlateLength());
 		newPriningMachine.setPlateWidth(machineDto.getPlateWidth());
-		newPriningMachine.setCreation_date(machineDto.getCreation_date());
-		newPriningMachine.set_active(machineDto.is_active());
+		newPriningMachine.setCreationDate(machineDto.getCreation_date());
+		newPriningMachine.setActive(machineDto.is_active());
 		if (machineDto.getImageFile() != null && !machineDto.getImageFile().isEmpty()) {
             try {
                 String imagePath = fileStorageService.storeFile(machineDto.getImageFile());

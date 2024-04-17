@@ -1,12 +1,16 @@
 package com.ppp.billing.model;
 
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -20,12 +24,19 @@ public class JobPaper {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	@Column(nullable = false, length = 50)
-	private int grammage;
+	@Column(nullable = false)
+	private String grammage;
+	
 	@Column(length=255)
 	private String openLength;
+	
+	@Column(length=255)
 	private String closeLength;
+	
+	@Column(length=255)
 	private String openWidth;
+	
+	@Column(length=255)
 	private String closeWidth;
 	
 	@Column(length=10)
@@ -47,7 +58,8 @@ public class JobPaper {
 	@JoinColumn(name = "job_id", referencedColumnName = "id")
 	private Job  job;
 	
-	
+	@OneToMany(fetch = FetchType.LAZY,  mappedBy = "jobPaper")
+	private List<JobColorCombination> jobColorCombinations;
 
 
 

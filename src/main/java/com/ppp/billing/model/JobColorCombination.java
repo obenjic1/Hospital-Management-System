@@ -1,5 +1,6 @@
 package com.ppp.billing.model;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -20,8 +21,14 @@ public class JobColorCombination {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+	
+	@Column(name="front_color_number")
 	private int frontColorNumber; 
+	
+	@Column(name="back_color_number")
 	private int backColorNumber; 
+	
+	@Column(name="number_of_signature")
 	private int numberOfSignature; 
 	
 	@ManyToOne
@@ -29,13 +36,9 @@ public class JobColorCombination {
 	private PrintType  printType;
 
 	@ManyToOne
-	@JoinColumn(name = "content_type_id", referencedColumnName = "id")
-	private ContentType  contentType;
+	@JoinColumn(name = "job_paper_id", referencedColumnName = "id")
+	private JobPaper  jobPaper;
 	
-	@ManyToOne
-	@JoinColumn(name = "job_id", referencedColumnName = "id")
-	private Job  job;
-
 
 	
 }

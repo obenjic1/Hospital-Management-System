@@ -28,5 +28,5 @@ public class JobOperationOption {
 	private String name;
 	
 	@OneToMany(fetch = FetchType.LAZY,  mappedBy = "jobOperationOption")
-	private List<JobActivityOption> jobActivityOption;
+	private List<JobActivityOption> jobActivityOptions;
 }

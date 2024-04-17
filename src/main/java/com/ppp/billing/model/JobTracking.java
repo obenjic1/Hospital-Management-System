@@ -2,12 +2,15 @@ package com.ppp.billing.model;
 
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+
+import com.ppp.user.model.User;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -22,11 +25,19 @@ public class JobTracking {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+	
+	@Column
 	private Date operation;
+	
+	@Column(name="name=creation_date")
 	private Date creationDate;
 	
 	@ManyToOne
 	@JoinColumn(name = "job_id", referencedColumnName = "id")
 	private Job job;
+	
+	@ManyToOne
+	@JoinColumn(name = "user_id", referencedColumnName = "id")
+	private User user;
 
 }
