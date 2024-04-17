@@ -30,8 +30,8 @@ public class PrintTypeServiceImpl implements PrintTypeService{
 	@Override
 	public String updatePrintType(PrintTypeDTO printTypeDto, Long id) {
 		Optional<PrintType> printType = printTyperepository.findById(id);
-        if (PrintType.isPresent()) {
-        	PrintType updatePrintType = PrintType.get();
+        if (printType.isPresent()) {
+        	PrintType updatePrintType = printType.get();
         	updatePrintType.setName(printTypeDto.getName());
         	printTyperepository.save(updatePrintType);
         	return "PrintType updated";

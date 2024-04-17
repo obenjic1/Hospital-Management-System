@@ -24,16 +24,16 @@ public class PrintingMachineServiceImpl implements PrintingMachineService {
 	}
 
 	@Override
-	public String UpdatePrintingMachine(PrintingMachineDTO updatePrintingmachineDto, Long id) {
+	public String updatePrintingMachine(PrintingMachineDTO updatePrintingmachineDto, Long id) {
 		Optional<PrintingMachine> printMachine = printinMachineRepository.findById(id);
         if (printMachine.isPresent()) {
         	PrintingMachine updatedPrintMachine = printMachine.get();
-        	UpdatedPrintMachine.setName(updatePrintingmachineDto.getName());
-        	UpdatedPrintMachine.setPlateLength(updatePrintingmachineDto.getPlateLength());
-        	UpdatedPrintMachine.setPlateWidth(updatePrintingmachineDto.getPlateWidth());
-        	UpdatedPrintMachine.setCreation_date(updatePrintingmachineDto.getCreation_date());
-        	UpdatedPrintMachine.set_active(updatePrintingmachineDto.is_active());
-        	printinMachineRepository.save(UpdatedPrintMachine);
+        	updatedPrintMachine.setName(updatePrintingmachineDto.getName());
+        	updatedPrintMachine.setPlateLength(updatePrintingmachineDto.getPlateLength());
+        	updatedPrintMachine.setPlateWidth(updatePrintingmachineDto.getPlateWidth());
+        	updatedPrintMachine.setCreation_date(updatePrintingmachineDto.getCreation_date());
+        	updatedPrintMachine.set_active(updatePrintingmachineDto.is_active());
+        	printinMachineRepository.save(updatedPrintMachine);
         	return "machine updated";
         	}
         return " failed to update machine ";
@@ -76,6 +76,8 @@ public class PrintingMachineServiceImpl implements PrintingMachineService {
 		printinMachineRepository.deleteById(id);
 		
 	}
+
+	
 
 
 }
