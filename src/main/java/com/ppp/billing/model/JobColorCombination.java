@@ -31,6 +31,11 @@ public class JobColorCombination {
 	@ManyToOne
 	@JoinColumn(name = "content_type_id", referencedColumnName = "id")
 	private ContentType  contentType;
+	
+	@ManyToOne
+	@JoinColumn(name = "job_id", referencedColumnName = "id")
+	private Job  job;
+
 
 	
 }
