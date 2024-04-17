@@ -76,6 +76,10 @@ public class Job {
 	@OneToMany(fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "job")
 	private List<Finishing> finishing;
 	
+	@OneToMany(fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "job")
+	private List<JobColorCombination> jobColorCombination;
+
+	
 	
 
 }

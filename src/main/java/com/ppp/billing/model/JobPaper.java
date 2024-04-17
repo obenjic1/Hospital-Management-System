@@ -43,6 +43,10 @@ public class JobPaper {
 	@JoinColumn(name = "paper_type_id", referencedColumnName = "id")
 	private PaperType  paperType;
 	
+	@ManyToOne
+	@JoinColumn(name = "job_id", referencedColumnName = "id")
+	private Job  job;
+	
 	
 
 
