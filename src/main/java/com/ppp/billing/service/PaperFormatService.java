@@ -13,5 +13,5 @@ public interface PaperFormatService {
 	PaperFormat findByName(String name);
 	PaperFormat updatePaperFormat(PaperGrammageDTO paperGrammageDTO, Long id);
 	Page< PaperFormat > getAllWithPagination(int pageNum, int pageSize);
-	void DeletePaperFormat(Long id);
+	void deletePaperFormat(Long id);
 }
