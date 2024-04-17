@@ -7,4 +7,6 @@ import com.ppp.billing.model.ContentType;
 
 public interface ContentTypeRepository extends JpaRepository<ContentType, Long> {
 
+	ContentType findByName(String name);
+
 }
