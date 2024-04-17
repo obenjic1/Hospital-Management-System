@@ -23,6 +23,7 @@ public class SecurityConfig {
 	    return http.csrf(csrf -> csrf.disable()) 
 	            .authorizeRequests(authorize -> authorize
 	            	.antMatchers("/login").permitAll()
+	            	.antMatchers("/password/forgotten/**").permitAll()
 	            	.antMatchers("/assets/**").permitAll()
 	            	.anyRequest().authenticated()
 	            )

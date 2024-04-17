@@ -10,6 +10,17 @@ function loadPage(page) {
 		.catch(error => console.log(error));
 }
 
+
+
+function loadView(url, div) {
+	fetch(url)
+		.then(response => response.text())
+		.then(html => {
+			document.getElementById(div).innerHTML = html;
+		})
+		.catch(error => console.log(error));
+}
+
 function loadPageModal(page) {
 	fetch(page)
 		.then(response => response.text())

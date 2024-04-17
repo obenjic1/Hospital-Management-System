@@ -46,10 +46,10 @@
 				class="section register min-vh-100 d-flex flex-column align-items-center justify-content-center py-2">	
 				<div class="container">
 
-					<div class="row justify-content-center">
+					<div class="row justify-content-center" id="formContent">
 						<div class="col-lg-4 col-md-6 d-flex flex-column align-items-center justify-content-center">
 							   <img src="assets/img/logo.png" alt="" class="top-logo">
-							<div class="card mb-3">
+							<div class="card mb-3" >
 								<div class="card-body">
 									<div class="pt-3 pb-4">
 										<div class="d-flex justify-content-center py-4">
@@ -83,12 +83,14 @@
 											<div class="input-group has-validation">
 												<span class="input-group-text"><i class="fas fa-lock"></i></span>
 												<input type="password" name="password" class="form-control" id="password" required>
-												<div class="invalid-feedback"><fmt:message key="please.enter.your.password"/> </div>
+												<div class="invalid-feedback"> <fmt:message key="please.enter.your.password"/> </div>
 											</div>
 										</div>
 																				
-									<label id="reset"  data-toggle="tooltip" data-placement="right" title="click to reset your password" onclick="resetPassword()"><fmt:message key="reset.password"/></label>	
-
+<%-- 									<label id="reset"  data-toggle="tooltip" data-placement="right" title="click to reset your password" onclick="resetPassword()"><fmt:message key="reset.password"/></label>	 --%>
+										<a id="reset" data-toggle="tooltip" data-placement="right" title="click to reset your password" onclick="loadView('/password/forgotten', 'formContent');"><br><fmt:message key="reset.password"/></a>
+										
+										
 										<input type="hidden" name="${_csrf.parameterName}"value="${_csrf.token}" />
 										  <div class="col-12">
 <!-- 									    <button class="btn btn-primary w-100" type="submit">Login</button> -->
@@ -111,8 +113,8 @@
 	<!-- End #main -->
 	<script src="assets/js/test.js"></script>
 	<script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-<!-- 	<script src="assets/js/users.js"></script> -->
 	
+	<script src="assets/js/users.js"></script>
 
 </body>
 

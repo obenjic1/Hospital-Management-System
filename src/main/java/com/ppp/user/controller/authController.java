@@ -51,5 +51,10 @@ public class authController {
 			request.getSession().invalidate();
 			return;
 		}
+		// reset password
+		@GetMapping("/password/forgotten")
+		public String displayPwdForm() {
 		
+			return "user_auth/resetpassword";
+		}
 }
