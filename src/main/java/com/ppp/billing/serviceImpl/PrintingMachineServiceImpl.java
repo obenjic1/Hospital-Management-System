@@ -24,10 +24,10 @@ public class PrintingMachineServiceImpl implements PrintingMachineService {
 	}
 
 	@Override
-	public String updatePrintingMachine(PrintingMachineDTO updatePrintingmachineDto, Long id) {
+	public String UpdatePrintingMachine(PrintingMachineDTO updatePrintingmachineDto, Long id) {
 		Optional<PrintingMachine> printMachine = printinMachineRepository.findById(id);
         if (printMachine.isPresent()) {
-        	PrintingMachine UpdatedPrintMachine = printMachine.get();
+        	PrintingMachine updatedPrintMachine = printMachine.get();
         	UpdatedPrintMachine.setName(updatePrintingmachineDto.getName());
         	UpdatedPrintMachine.setPlateLength(updatePrintingmachineDto.getPlateLength());
         	UpdatedPrintMachine.setPlateWidth(updatePrintingmachineDto.getPlateWidth());
