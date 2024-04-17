@@ -7,4 +7,6 @@ import com.ppp.billing.model.PrintingMachine;
 
 public interface PrintingMachineRepository extends JpaRepository<PrintingMachine,Long> {
 
+	PrintingMachine findByName(String name);
+
 }

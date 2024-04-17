@@ -1,6 +1,9 @@
 package com.ppp.billing.model.dto;
 
 import java.util.Date;
+
+import org.springframework.web.multipart.MultipartFile;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -14,6 +17,7 @@ public class PrintingMachineDTO {
 	private int plateLength; 
 	private int plateWidth; 
 	private boolean is_active = Boolean.TRUE;
-	private String thumbnail;
+	//private String thumbnail;
+	private MultipartFile imageFile;
 	private Date creation_date;
 }
