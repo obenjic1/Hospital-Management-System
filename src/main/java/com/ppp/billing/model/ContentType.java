@@ -29,7 +29,7 @@ public class ContentType {
 	@OneToMany(fetch = FetchType.LAZY,  mappedBy = "contentType")
 	private List<JobColorCombination> jobColorCombination;
 	
-	@OneToMany(fetch = FetchType.EAGER,  mappedBy = "contentType")
+	@OneToMany(fetch = FetchType.LAZY,  mappedBy = "contentType")
 	private List<JobPaper> jobPaper;
 
 }

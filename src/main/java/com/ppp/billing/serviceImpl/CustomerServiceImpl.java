@@ -3,17 +3,15 @@ package com.ppp.billing.serviceImpl;
 import java.util.Date;
 import java.util.List;
 
-import org.springframework.stereotype.Service;
-
-import org.springframework.stereotype.Service;
 
 import com.ppp.billing.model.Customer;
 import com.ppp.billing.model.dto.CustomerDTO;
 import com.ppp.billing.service.CustomerService;
 
-@Service 
 public class CustomerServiceImpl implements CustomerService {
 
+
+//<---------------- Add customer ---------------------->
 	@Override
 	public String addCustomer(CustomerDTO customerDTO) {
 		Customer customer = new Customer();
