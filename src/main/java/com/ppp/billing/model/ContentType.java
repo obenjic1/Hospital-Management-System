@@ -25,11 +25,8 @@ public class ContentType {
 	private Long id;
 	@Column(nullable = false, unique = true, length = 255)
 	private String name;
-	
+		
 	@OneToMany(fetch = FetchType.LAZY,  mappedBy = "contentType")
-	private List<JobColorCombination> jobColorCombination;
-	
-	@OneToMany(fetch = FetchType.LAZY,  mappedBy = "contentType")
-	private List<JobPaper> jobPaper;
+	private List<JobPaper> jobPapers;
 
 }

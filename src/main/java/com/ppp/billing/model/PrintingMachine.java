@@ -24,16 +24,23 @@ public class PrintingMachine {
 	private Long id;
 	@Column(nullable = false, unique = true, length = 255)
 	private String name;
-	@Column(length = 50)
+	@Column(name="plate_length")
 	private int plateLength; 
-	@Column(length = 50)
-	private int plateWidth; 
-	private boolean is_active = Boolean.TRUE;
-	private String thumbnail;
-	private Date creation_date;
 	
-	@OneToMany(fetch = FetchType.EAGER,  mappedBy = "printingMachine")
-	private List<JobPaper> jobPaper;
+	@Column(name="plate_width")
+	private int plateWidth; 
+	
+	@Column(columnDefinition="boolean default false")
+	private boolean isActive ;
+	
+	@Column
+	private String thumbnail;
+	
+	@Column(name="creation_date")
+	private Date creationDate;
+	
+	@OneToMany(fetch = FetchType.LAZY,  mappedBy = "printingMachine")
+	private List<JobPaper> jobPapers;
 	
 }
  

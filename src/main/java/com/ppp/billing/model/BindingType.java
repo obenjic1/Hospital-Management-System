@@ -1,3 +1,4 @@
+
 package com.ppp.billing.model;
 
 import java.util.List;
@@ -27,8 +28,8 @@ public class BindingType {
 	private String name;
 	
 
-	@OneToMany(fetch = FetchType.EAGER, orphanRemoval = true, mappedBy = "bindingType")
-	private List<Job> job;
+	@OneToMany(fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "bindingType")
+	private List<Job> jobs;
 	
 
 }

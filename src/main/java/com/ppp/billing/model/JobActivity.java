@@ -24,5 +24,9 @@ public class JobActivity {
 	@ManyToOne
 	@JoinColumn(name = "job_id", referencedColumnName = "id")
 	private Job job;
+	
+	@ManyToOne
+	@JoinColumn(name = "job_activity_option_id", referencedColumnName = "id")
+	private JobActivityOption jobActivityOption;
 
 }
