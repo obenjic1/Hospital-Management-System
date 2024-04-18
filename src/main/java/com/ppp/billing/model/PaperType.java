@@ -21,7 +21,7 @@ public class PaperType {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+	private long id;
 	@Column(nullable = false, unique = true, length = 225)
 	private String name;
 	

@@ -14,46 +14,41 @@ public class PrintTypeServiceImpl implements PrintTypeService{
 	PrintTypeRepository printTyperepository;
 
 	@Override
-	public PrintType findByName(String name) {
-		return printTyperepository.findByName(name);
+	public Optional<PrintType> findByName(String name) {
+		// TODO Auto-generated method stub
+		return Optional.empty();
 	}
+
+	@Override
+	public PrintType update(PrintTypeDTO printTypeDto, long id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Optional<PrintType> findById(long id) {
+		// TODO Auto-generated method stub
+		return Optional.empty();
+	}
+
+	@Override
+	public List<PrintType> findAllPrintTypes() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public PrintType save(PrintTypeDTO machine) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void delete(long id) {
+		// TODO Auto-generated method stub
+		
+	}
+
 	
-	@Override
-	public String addPrintType(PrintTypeDTO printTypeDto) {
-		PrintType newPrintType = new PrintType();
-		newPrintType.setName(printTypeDto.getName());
-		printTyperepository.save(newPrintType);
-		return "new printtype added";
-	}
-
-
-	@Override
-	public String updatePrintType(PrintTypeDTO printTypeDto, Long id) {
-		Optional<PrintType> printType = printTyperepository.findById(id);
-        if (printType.isPresent()) {
-        	PrintType updatePrintType = printType.get();
-        	updatePrintType.setName(printTypeDto.getName());
-        	printTyperepository.save(updatePrintType);
-        	return "PrintType updated";
-        	}
-        return "error";
-	}
-
-	@Override
-	public PrintType findById(Long id) {
-		Optional<PrintType> printType = printTyperepository.findById(id);
-        return printType.orElse(null);	
-	}
-	
-	@Override
-	public List<PrintType> getAllPrintTypes() {
-		return printTyperepository.findAll() ;
-	}
-
-	@Override
-	public void deleteById(Long id) {
-		printTyperepository.deleteById(id);
-	}
-
 	
 }

@@ -20,7 +20,7 @@ public class PrepressPricing {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+	private long id;
 	@Column(length = 255)
 	private String name;
 	

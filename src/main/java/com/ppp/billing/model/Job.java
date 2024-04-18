@@ -27,7 +27,7 @@ public class Job {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+	private long id;
 	@Column(nullable = false)
 	private String title;
 	@Column(nullable = false, name="reference_number")

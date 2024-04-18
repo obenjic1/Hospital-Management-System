@@ -1,30 +1,37 @@
 package com.ppp.billing.serviceImpl;
 
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 
 import com.ppp.billing.model.PaperType;
 import com.ppp.billing.model.dto.PaperTypeDTO;
+import com.ppp.billing.repository.PaperTypeRepository;
 import com.ppp.billing.service.PaperTypeService;
 
 
 public class PaperTypeServiceImpl implements PaperTypeService {
 
+	@Autowired
+	private PaperTypeRepository paperTypeRepository;
+
 	@Override
-	public String addPaperType(PaperTypeDTO paperTypeDTO) {
+	public PaperType save(PaperTypeDTO paperTypeDTO) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public String updateJobType(PaperTypeDTO paperTypeDTO, Long id) {
+	public PaperType update(PaperTypeDTO paperTypeDTO, long id) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public PaperType findByName(String name) {
+	public Optional<PaperType> findByName(String name) {
 		// TODO Auto-generated method stub
-		return null;
+		return Optional.empty();
 	}
 
 	@Override
@@ -34,9 +41,11 @@ public class PaperTypeServiceImpl implements PaperTypeService {
 	}
 
 	@Override
-	public void delatePaperType(Long id) {
+	public void delete(long id) {
 		// TODO Auto-generated method stub
 		
 	}
+
+	
 
 }

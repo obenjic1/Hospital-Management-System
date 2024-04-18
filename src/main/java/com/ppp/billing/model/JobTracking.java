@@ -24,12 +24,12 @@ public class JobTracking {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+	private long id;
 	
 	@Column
 	private Date operation;
 	
-	@Column(name="name=creation_date")
+	@Column(name="creation_date")
 	private Date creationDate;
 	
 	@ManyToOne

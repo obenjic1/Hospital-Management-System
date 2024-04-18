@@ -1,42 +1,51 @@
 package com.ppp.billing.serviceImpl;
 
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 
 import com.ppp.billing.model.PaperFormat;
+import com.ppp.billing.model.dto.PaperFormatDTO;
 import com.ppp.billing.model.dto.PaperGrammageDTO;
+import com.ppp.billing.repository.PaperFormatRepository;
 import com.ppp.billing.service.PaperFormatService;
 
 public class PaperFormatServiceImpl implements PaperFormatService {
 
+	@Autowired
+	private PaperFormatRepository paperFormatRepository;
+
 	@Override
-	public String addPaperFormat(PaperGrammageDTO paperGrammageDTO) {
+	public PaperFormat save(PaperFormatDTO paperFormatDTO) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public PaperFormat findByName(String name) {
+	public Optional<PaperFormat> findByName(String name) {
+		// TODO Auto-generated method stub
+		return Optional.empty();
+	}
+
+	@Override
+	public PaperFormat update(PaperFormatDTO paperFormatDTO, long id) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public PaperFormat updatePaperFormat(PaperGrammageDTO paperGrammageDTO, Long id) {
+	public Page<PaperFormat> findAllWithPagination(int pageNum, int pageSize) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Page<PaperFormat> getAllWithPagination(int pageNum, int pageSize) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void deletePaperFormat(Long id) {
+	public void delete(long id) {
 		// TODO Auto-generated method stub
 		
 	}
 
+	
 	
 }

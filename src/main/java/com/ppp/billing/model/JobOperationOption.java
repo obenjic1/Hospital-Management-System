@@ -23,7 +23,7 @@ public class JobOperationOption {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+	private long id;
 	@Column(nullable = false, length=225)
 	private String name;
 	

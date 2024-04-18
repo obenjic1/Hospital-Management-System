@@ -5,6 +5,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import com.ppp.billing.model.PrepressPricing;
 
 
-public interface PrepressRepository extends JpaRepository<PrepressPricing, Long> {
+public interface PrepressPricingRepository extends JpaRepository<PrepressPricing, Long> {
 
 }

@@ -22,7 +22,7 @@ import lombok.NoArgsConstructor;
 public class ContentType {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+	private long id;
 	@Column(nullable = false, unique = true, length = 255)
 	private String name;
 		

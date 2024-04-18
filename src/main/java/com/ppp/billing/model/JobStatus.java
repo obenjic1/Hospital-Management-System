@@ -24,7 +24,7 @@ public class JobStatus {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id; 
+	private long id; 
 	@Column(nullable = false, length = 20)
 	private String name;
 	@Column(length = 255)

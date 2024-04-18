@@ -1,27 +1,26 @@
 package com.ppp.billing.serviceImpl;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 
 import com.ppp.billing.model.PaperGrammage;
 import com.ppp.billing.model.dto.PaperGrammageDTO;
+import com.ppp.billing.repository.PaperGrammageRepository;
 import com.ppp.billing.service.PaperGrammageService;
 
 public class PaperGrammageServiceImpl implements PaperGrammageService {
 
+	@Autowired
+	private PaperGrammageRepository paperGrammageRepository;
+
 	@Override
-	public String addPaperGrammage(PaperGrammageDTO paperGrammageDTO) {
+	public PaperGrammage save(PaperGrammageDTO paperGrammageDTO) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public PaperGrammage findByValue(String name) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public String updatePaperGrammage(PaperGrammageDTO paperGrammageDTO, Long id) {
+	public PaperGrammage update(PaperGrammageDTO paperGrammageDTO, long id) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -33,9 +32,11 @@ public class PaperGrammageServiceImpl implements PaperGrammageService {
 	}
 
 	@Override
-	public void deletePaperGrammage(Long id) {
+	public void delete(long id) {
 		// TODO Auto-generated method stub
 		
-	}
+	} 
+
+	
 
 }
