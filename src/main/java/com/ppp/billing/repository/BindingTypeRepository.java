@@ -10,6 +10,6 @@ import com.ppp.billing.model.BindingType;
 public interface BindingTypeRepository extends JpaRepository<BindingType, Long> {
 
 	Optional<BindingType>  findByName(String name);
-	Optional<BindingType>  findById(long Id );
+	Optional<BindingType>  findById(long id );
 
 }

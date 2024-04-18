@@ -8,5 +8,5 @@ import com.ppp.billing.model.JobStatus;
 
 public interface JobStatusRepository extends JpaRepository<JobStatus, Long> {
 	
-	Optional<JobStatus>  findById(long Id );
+	Optional<JobStatus>  findById(long id );
 }

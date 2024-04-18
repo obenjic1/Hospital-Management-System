@@ -8,5 +8,5 @@ import com.ppp.billing.model.JobColorCombination;
 
 public interface JobColorCombinationRepository extends JpaRepository<JobColorCombination,Long>{
 
-	Optional<JobColorCombination>  findById(long Id );
+	Optional<JobColorCombination>  findById(long id );
 }

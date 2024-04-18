@@ -8,5 +8,5 @@ import com.ppp.billing.model.JobPaper;
 
 public interface JobPaperRepository extends JpaRepository<JobPaper,Long>{
 	
-	Optional<JobPaper>  findById(long Id );
+	Optional<JobPaper>  findById(long id );
 }

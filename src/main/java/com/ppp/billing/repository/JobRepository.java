@@ -12,6 +12,6 @@ import com.ppp.billing.model.Job;
 
 public interface JobRepository extends JpaRepository<Job, Long> {
 
-	Optional<Job>  findById(long Id );
+	Optional<Job>  findById(long id );
 	List<Job> findByCustomer(Customer customer);
 }

@@ -17,7 +17,7 @@ public interface CustomerRepository extends JpaRepository<Customer, Long> {
 	
 	Page<Customer> findAll(Pageable pageable);
 	Optional<Customer>  findByEmail(String email);
-	Optional<Customer>  findById(long Id );
+	Optional<Customer>  findById(long id );
 	
 
 }

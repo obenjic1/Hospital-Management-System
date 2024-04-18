@@ -8,5 +8,5 @@ import com.ppp.billing.model.JobActivity;
 
 public interface JobActivityRepository extends JpaRepository<JobActivity, Long> {
 
-	Optional<JobActivity>  findById(long Id );
+	Optional<JobActivity>  findById(long id );
 }

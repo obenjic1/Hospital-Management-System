@@ -13,6 +13,6 @@ import com.ppp.billing.model.PaperFormat;
 public interface PaperFormatRepository extends JpaRepository<PaperFormat, Long> {
 	
 	Optional<PaperFormat> findByName(String name);
-	Optional<PaperFormat>  findById(long Id );
+	Optional<PaperFormat>  findById(long id );
 
 }

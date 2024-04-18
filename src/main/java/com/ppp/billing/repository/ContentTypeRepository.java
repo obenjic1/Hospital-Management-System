@@ -10,6 +10,6 @@ import com.ppp.billing.model.ContentType;
 public interface ContentTypeRepository extends JpaRepository<ContentType, Long> {
 
 	Optional<ContentType>  findByName(String name);
-	Optional<ContentType>  findById(long Id );
+	Optional<ContentType>  findById(long id );
 
 }

@@ -13,6 +13,6 @@ import com.ppp.billing.model.PaperType;
 public interface PaperTypeRepository extends JpaRepository<PaperType, Long>{
 	
 		Optional<PaperType> findByName(String name);
-		Optional<PaperType>  findById(long Id );
+		Optional<PaperType>  findById(long id );
 
 }
