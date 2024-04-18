@@ -1,10 +1,12 @@
 package com.ppp.billing.repository;
 
-import org.springframework.data.jpa.repository.JpaRepository;
+import java.util.Optional;
 
+import org.springframework.data.jpa.repository.JpaRepository;
 import com.ppp.billing.model.JobColorCombination;
 
 
 public interface JobColorCombinationRepository extends JpaRepository<JobColorCombination,Long>{
 
+	Optional<JobColorCombination>  findById(long id );
 }

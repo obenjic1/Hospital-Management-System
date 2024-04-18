@@ -19,39 +19,38 @@ public class ContentTypeServiceImpl implements ContentTypeService {
 	}
 	
 	@Override
-	public String updateContentType(ContentTypeDTO contentTypeDto, Long id) {
+	public ContentType update(ContentTypeDTO contentTypeDto, long id) {
 		Optional<ContentType> contentType = contentTypeRepository.findById(id);
         if (contentType.isPresent()) {
         	ContentType updateContentType = contentType.get();
         	updateContentType.setName(contentTypeDto.getName());
-        	contentTypeRepository.save(updateContentType);
-        	return "Content type updated";
+        	return contentTypeRepository.save(updateContentType);
+        	 
         	}
-        return "error";
+        return null;
 	}
 
 	@Override
-	public ContentType findById(Long id) {
-		Optional<ContentType> contentType = contentTypeRepository.findById(id);
-        return contentType.orElse(null);
+	public Optional<ContentType> findById(long id) {
+		
+        return contentTypeRepository.findById(id);
 	}
 	
 	@Override
-	public ContentType findByName(String name) {
+	public Optional<ContentType> findByName(String name) {
 		return contentTypeRepository.findByName(name);
 	}
 
 	@Override
-	public String addContentType(ContentTypeDTO contentTypeDto) {
+	public ContentType save(ContentTypeDTO contentTypeDto) {
 		ContentType newContentType = new ContentType();
 		newContentType.setName(contentTypeDto.getName());
-		contentTypeRepository.save(newContentType);
-		return "new printtype added";
+		return contentTypeRepository.save(newContentType);
 	}
 
 	
 	@Override
-	public void deleteById(Long id) {
+	public void delete(long id) {
 		contentTypeRepository.deleteById(id);
 		
 	}

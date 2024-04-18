@@ -2,48 +2,50 @@ package com.ppp.billing.serviceImpl;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
 
 import com.ppp.billing.model.Customer;
 import com.ppp.billing.model.dto.CustomerDTO;
+import com.ppp.billing.repository.CustomerRepository;
 import com.ppp.billing.service.CustomerService;
 
 public class CustomerServiceImpl implements CustomerService {
-
+	@Autowired
+	private CustomerRepository customerRepostory ;
 
 //<---------------- Add customer ---------------------->
 	@Override
-	public String addCustomer(CustomerDTO customerDTO) {
+	public Customer save(CustomerDTO customerDTO) {
 		Customer customer = new Customer();
 		customer.setName(customerDTO.getName());
 		customer.setEmail(customerDTO.getEmail());
 		customer.setAddress(customerDTO.getAddress());
 		customer.setTelephone(customerDTO.getTelephone());
 		customer.setCreationDate(new Date());
-		return null;
+		return customerRepostory.save(customer);
 	}
 
 	@Override
-	public List<Customer> getAllCustomer() {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Customer> findAll() {
+		return customerRepostory.findAll();
 	}
 
 	@Override
-	public String updateCustomer(Customer updateCustomer, Long id) {
+	public Customer update(CustomerDTO updateCustomerDto, long id) {
 		// TODO Auto-generated method stub
-		return null;
+		return customerRepostory.save(null) ;
 	}
 
 	@Override
-	public Customer findCustomerByName(String name) {
-		// TODO Auto-generated method stub
-		return null;
+	public Optional<Customer> findByEmail(String email) {
+		return customerRepostory.findByEmail(email);
 	}
 
 	@Override
-	public void deleteCustomer(Long id) {
-		// TODO Auto-generated method stub
+	public void delete(long id) {
+		customerRepostory.deleteById(id);
 		
 	}
 

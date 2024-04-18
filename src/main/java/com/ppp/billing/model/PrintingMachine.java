@@ -21,9 +21,13 @@ public class PrintingMachine {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+	private long id;
 	@Column(nullable = false, unique = true, length = 255)
 	private String name;
+	
+	@Column
+	private String abbreviation;
+	
 	@Column(name="plate_length")
 	private int plateLength; 
 	

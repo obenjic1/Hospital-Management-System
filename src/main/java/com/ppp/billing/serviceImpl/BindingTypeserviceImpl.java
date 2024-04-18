@@ -18,42 +18,42 @@ public class BindingTypeserviceImpl implements BindingTypeService {
 	BindingTypeRepository bindingTyperepository;
 	
 	@Override
-	public BindingType findByName(String name) {
+	public Optional<BindingType>  findByName(String name) {
 		return bindingTyperepository.findByName(name);
 	}
 
 	@Override
-	public String updateBindingType(BindingTypeDTO updatbindingTypeDto, Long id) {
+	public BindingType update(BindingTypeDTO updatbindingTypeDto, long id) {
 		Optional<BindingType> bindingType = bindingTyperepository.findById(id);
         if (bindingType.isPresent()) {
         	BindingType updatedBindingType = bindingType.get();
         	updatedBindingType.setName(updatbindingTypeDto.getName());
-        	bindingTyperepository.save(updatedBindingType);
-		return "Binding Type Updated";}
-        return "update not successfull";
+        	return bindingTyperepository.save(updatedBindingType);
+		} return null;
+			
+     
 	}
 
 	@Override
-	public BindingType findById(Long id) {
-		Optional<BindingType> bindingType = bindingTyperepository.findById(id);
-		return bindingType.orElse(null);
+	public  Optional<BindingType> findById(long id) {
+		return bindingTyperepository.findById(id);
 	}
 
 	@Override
-	public List<BindingType> getAllBindingTypes() {
+	public List<BindingType> findAll() {
 		return bindingTyperepository.findAll();
 	}
 
 	@Override
-	public String addBindingType(BindingTypeDTO bindingTypeDto) {
+	public BindingType save (BindingTypeDTO bindingTypeDto) {
 		BindingType newbindingType = new BindingType();
 		newbindingType.setName(bindingTypeDto.getName());
-		bindingTyperepository.save(newbindingType);
-		return "binding type added";
+		return bindingTyperepository.save(newbindingType);
+		 
 	}
 
 	@Override
-	public void deleteById(Long id) {
+	public void delete(long id) {
 		bindingTyperepository.deleteById(id);
 		
 	}

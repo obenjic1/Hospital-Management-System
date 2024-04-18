@@ -9,10 +9,9 @@ import com.ppp.billing.model.dto.PaperGrammageDTO;
 @Service
 public interface PaperGrammageService {
 	
-	String addPaperGrammage(PaperGrammageDTO paperGrammageDTO);
-	PaperGrammage findByValue(String name);
-	String updatePaperGrammage(PaperGrammageDTO paperGrammageDTO, Long id);
-	Page< PaperGrammage > findPaginatedJobType(int pageNo, int pageSize);
-	void deletePaperGrammage(Long id);
+	PaperGrammage save(PaperGrammageDTO paperGrammageDTO);
+	PaperGrammage update(PaperGrammageDTO paperGrammageDTO, long id);
+	Page <PaperGrammage> findPaginatedJobType(int pageNo, int pageSize);
+	void delete(long id);
 
 }

@@ -20,7 +20,7 @@ public class JobColorCombination {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+	private long id;
 	
 	@Column(name="front_color_number")
 	private int frontColorNumber; 

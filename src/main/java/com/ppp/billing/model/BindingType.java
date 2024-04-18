@@ -23,7 +23,7 @@ public class BindingType {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+	private long id;
 	@Column(nullable = false, length = 255)
 	private String name;
 	

@@ -16,67 +16,39 @@ public class PrintingMachineServiceImpl implements PrintingMachineService {
 
 	@Autowired
 	PrintingMachineRepository printinMachineRepository;
-	private FileStorageService fileStorageService;
 	
+	
+
 	@Override
-	public PrintingMachine findByName(String name) {
-		return printinMachineRepository.findByName(name);
+	public Optional<PrintingMachine> findByAbbreviation(String abbreviation) {
+		// TODO Auto-generated method stub
+		return Optional.empty();
 	}
 
 	@Override
-	public String updatePrintingMachine(PrintingMachineDTO updatePrintingmachineDto, Long id) {
-		Optional<PrintingMachine> printMachine = printinMachineRepository.findById(id);
-        if (printMachine.isPresent()) {
-        	PrintingMachine updatedPrintMachine = printMachine.get();
-        	updatedPrintMachine.setName(updatePrintingmachineDto.getName());
-        	updatedPrintMachine.setPlateLength(updatePrintingmachineDto.getPlateLength());
-        	updatedPrintMachine.setPlateWidth(updatePrintingmachineDto.getPlateWidth());
-        	updatedPrintMachine.setCreationDate(updatePrintingmachineDto.getCreation_date());
-        	updatedPrintMachine.setActive(updatePrintingmachineDto.is_active());
-        	printinMachineRepository.save(updatedPrintMachine);
-        	return "machine updated";
-        	}
-        return " failed to update machine ";
+	public PrintingMachine update(PrintingMachineDTO updatePrintingmachineDto, long id) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	@Override
-	public PrintingMachine findById(Long id) {
-		Optional<PrintingMachine> printMachine = printinMachineRepository.findById(id);
-        return printMachine.orElse(null);
+	public Optional<PrintingMachine> findById(long id) {
+		// TODO Auto-generated method stub
+		return Optional.empty();
 	}
 
 	@Override
-	public List<PrintingMachine> getAllPrintingMachines() {
-		return printinMachineRepository.findAll() ;
+	public PrintingMachine save(PrintingMachineDTO machineDto) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	@Override
-	public String addPrintingMachine(PrintingMachineDTO machineDto) {
-		PrintingMachine newPriningMachine = new PrintingMachine();
-		newPriningMachine.setName(machineDto.getName());
-		newPriningMachine.setPlateLength(machineDto.getPlateLength());
-		newPriningMachine.setPlateWidth(machineDto.getPlateWidth());
-		newPriningMachine.setCreationDate(machineDto.getCreation_date());
-		newPriningMachine.setActive(machineDto.is_active());
-		if (machineDto.getImageFile() != null && !machineDto.getImageFile().isEmpty()) {
-            try {
-                String imagePath = fileStorageService.storeFile(machineDto.getImageFile());
-                newPriningMachine.setThumbnail(imagePath);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-		printinMachineRepository.save(newPriningMachine);
-		return "machine added" ;
-	}
-		return "machine not saved";
-				}
-
-	@Override
-	public void deleteById(Long id) {
-		printinMachineRepository.deleteById(id);
+	public void delete(long id) {
+		// TODO Auto-generated method stub
 		
 	}
-
+	
 	
 
 
