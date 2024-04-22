@@ -12,43 +12,15 @@ function loadPage(page) {
 
 
 
-function loadView(url, div) {
-	fetch(url)
-		.then(response => response.text())
-		.then(html => {
-			document.getElementById(div).innerHTML = html;
-		})
-		.catch(error => console.log(error));
-}
+//function loadView(url, div) {
+//	fetch(url)
+//		.then(response => response.text())
+//		.then(html => {
+//			document.getElementById(div).innerHTML = html;
+//		})
+//		.catch(error => console.log(error));
+//}
 
-function loadPageModal(page) {
-	fetch(page)
-		.then(response => response.text())
-		.then(html => {
-			document.getElementById('modC').innerHTML = html;
-			document.getElementById('userUpdate').innerHTML = html;
-			document.getElementById('addUser').innerHTML = html;
-		})
-		.catch(error => console.log(error));
-}
-
-document.getElementById('users-list').addEventListener('click', function() {
-	loadPage('/user/list-users');
-});
-
-document.getElementById('update-user').addEventListener('click', function() {
-	loadPage('user/get-user/{username}');
-});
-
-
-document.getElementById('add-user').addEventListener('click', function() {
-	addUser();
-});
-
-
-document.getElementById('user-created-sucessffully').addEventListener('click', function() {
-	loadPage('/success');
-});
 
 
 // <--------------Create a new user ------------------------->
@@ -108,7 +80,7 @@ function addUser() {
 	}
 
 	var formData = new FormData();
-	formData.append('firstName', firstName),
+		formData.append('firstName', firstName),
 		formData.append('lastName', lastName),
 		formData.append('email', email),
 		formData.append('mobile', mobile),
@@ -120,7 +92,7 @@ function addUser() {
 
 		fetch('/user/add-user', {
 			method: 'POST',
-			body: formData,a
+			body: formData,
 		})
 			.then(function(response) {
 				if (response.status === 200) {

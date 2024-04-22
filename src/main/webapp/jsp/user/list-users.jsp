@@ -193,7 +193,6 @@
 </main>
 <!-- End #main -->
 
-<script src="assets/js/users.js"></script>
 <script src="assets/js/main.js"></script>
 
 

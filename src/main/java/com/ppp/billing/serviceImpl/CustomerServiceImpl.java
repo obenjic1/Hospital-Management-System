@@ -5,13 +5,16 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.ppp.billing.model.Customer;
 import com.ppp.billing.model.dto.CustomerDTO;
 import com.ppp.billing.repository.CustomerRepository;
 import com.ppp.billing.service.CustomerService;
 
+@Service
 public class CustomerServiceImpl implements CustomerService {
+	
 	@Autowired
 	private CustomerRepository customerRepostory ;
 
@@ -26,7 +29,8 @@ public class CustomerServiceImpl implements CustomerService {
 		customer.setCreationDate(new Date());
 		return customerRepostory.save(customer);
 	}
-
+	
+//<---------------- List customers ---------------------->
 	@Override
 	public List<Customer> findAll() {
 		return customerRepostory.findAll();
