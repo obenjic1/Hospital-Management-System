@@ -154,9 +154,9 @@
 				<!-- End of user management Nav --> <!-- start of job sheet management Nav -->
 				<li class="nav-item">
 				  <li class="pp-module">
-				    <i class="bx bxl-firebase"> </i> 
+				    <i class="ri-database-2-fill"> </i> 
 				  <span>
-				    <span><fmt:message key="jobsheet.management" /></span>
+				    <span><fmt:message key="production.management" /></span>
 				  </span>
 				</li>
 				<ul id="jobsheet-management-nav">
@@ -166,64 +166,44 @@
 						<span><fmt:message key="new.controlsheets" /></span>
 					  </a>
 					<li class="nav-item">
-					  <a class="nav-link collapsed" href="list-groupes.jsp">
-					    <i class="bi bi-card-list"></i>
-					    <span><fmt:message key="list.controlsheets" /></span>
-					  </a>
-					</li>					
-					<li class="nav-item">
-					  <a class="nav-link collapsed" href="#">
-					    <i class="bi bi-receipt-cutoff"></i>
-					    <span><fmt:message key="list.ofproforma" /></span>
-					  </a>
-					</li>
-					<li class="nav-item">
 					  <a class="nav-link collapsed" onclick="getListOfUser()" href="#">
-					    <i class="ri-bookmark-2-line"></i>
+					    <i class="ri-steam-fill"></i>
 					    <span><fmt:message key="list.jobsheets" /></span>
 					  </a>
 					</li>
 					<li class="nav-item">
-					  <a class="nav-link collapsed" onclick="getListOfUser()" href="#">
-					    <i class="ri-bit-coin-line"></i>
-					    <span><fmt:message key="list.ofbill" /></span>
+					  <a class="nav-link collapsed" onclick="loadPage('/customer/list')" href="#">
+					    <i class="ri-team-line"></i>
+					    <span><fmt:message key="customer.management" /></span>
 					  </a>
 					</li>
-					
-					<li class="nav-item">
-					  <a class="nav-link collapsed" onclick="getListOfUser()" href="#">
-					    <i class="bi bi-lightbulb"></i>
-					    <span><fmt:message key="production.management" /></span>
-					  </a>
-					</li>
-
 				</ul> 
 				<!-- End of job sheet management Nav --> <!-- start of bill management Nav -->	
 				<li class="nav-item">
 				  <li class="pp-module">
-				    <i class="bx bxl-firebase"> </i> 
+				    <i class="ri-tools-fill"> </i> 
 				  <span>
-				    <span>Configuration mangement</span>
+				    <span>Settings</span>
 				  </span>
 				</li>
 				<ul id="configuration-management-nav">
 					<li class="nav-item">
                       <a class="nav-link collapsed" href="list-groupes.jsp">
-						<i class="ri-file-list-3-line"></i>
-						<span><fmt:message key="new.controlsheets" /></span>
+						<i class="ri-steam-line"></i>
+						<span>Machines</span>
 					  </a>
 										
 					<li class="nav-item">
-					  <a class="nav-link collapsed" href="#">
+					  <a class="nav-link collapsed" onclick="getListOfUser()" href="#">
 					    <i class="bi bi-receipt-cutoff"></i>
-					    <span><fmt:message key="list.ofproforma" /></span>
+					    <span>Paper types</span>
 					  </a>
 					</li>
 					
 					<li class="nav-item">
 					  <a class="nav-link collapsed" onclick="getListOfUser()" href="#">
 					    <i class="ri-bit-coin-line"></i>
-					    <span><fmt:message key="list.ofbill" /></span>
+					    <span>Job activities options</span>
 					  </a>
 					</li>
 					
@@ -233,11 +213,21 @@
 				<!-- End of job sheet management Nav --> <!-- start of bill management Nav -->
 			<li class="nav-item">
 				  <li class="pp-module">
-				    <i class="bx bxl-firebase"> </i> 
+				    <i class="ri-line-chart-line"> </i> 
 				  <span>
 				    <span>Statistics</span>
 				  </span>
 				</li>
+				<ul id="configuration-management-nav">
+					
+					<li class="nav-item">
+					  <a class="nav-link collapsed" onclick="getListOfUser()" href="#">
+					    <i class="ri-line-chart-line"></i>
+					    <span>Statistics</span>
+					  </a>
+					</li>
+										
+				</ul> 
 			
 		</ul>
 	</aside>
@@ -284,6 +274,9 @@
 	<script src="assets/js/app.js"></script>
 	<script src="assets/js/users.js"></script>
 	<script src="assets/js/groups.js"></script>
+	<script src="assets/js/billing/list-customer.js"></script>
+	<script src="assets/js/billing/customer.js"></script>
+	<script src="assets/js/modal.js"></script>
 
 </body>
 

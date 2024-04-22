@@ -1,28 +1,21 @@
 package com.ppp.user.controller;
 
 import java.util.List;
-import java.util.Optional;
 
-import javax.management.relation.RoleNotFoundException;
 
-import org.mockito.internal.stubbing.answers.ThrowsException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.ppp.user.model.Groupe;
-import com.ppp.user.model.GroupeRole;
 import com.ppp.user.model.Role;
 import com.ppp.user.model.dto.GroupDTO;
 import com.ppp.user.repository.GroupRoleRepository;
@@ -45,8 +38,6 @@ public class GroupeController {
 	private RoleRepository roleRepository;
 	@Autowired
 	private GroupeRepository groupeRepository;
-	@Autowired
-	private GroupRoleRepository groupRoleRepository;
 
 //<------------------- Call a new group form -------------------->
 	@PreAuthorize("hasAuthority('ROLE_ADD_GROUP')")
