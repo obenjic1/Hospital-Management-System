@@ -1,11 +1,14 @@
 package com.ppp.billing.controller;
 import java.util.List;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import com.ppp.billing.model.PrintingMachine;
@@ -45,7 +48,7 @@ public class PrintingMachineController {
  		if(newMachine.equals("error")) {
 			throw new Exception("machine already exist or image cant be converted");
 		}
-		return "redirect /getListPage";
+		return "billing/list-machine";
 	}
 	
 	// find  a machine By Id
@@ -60,13 +63,13 @@ public class PrintingMachineController {
 	}
 	
 	// to delete a Machine
-	@PostMapping("/delete-machine/{id}")
+	@PostMapping(value="/delete-machine/{id}")
 	public void removeById(@PathVariable long id) {
-	    PrintingMachine machine = printMachineServiceImp.findById(id).get();
-	    if (machine == null) {
-	      return ;
+	  Optional<PrintingMachine> machine = printMachineServiceImp.findById(id);
+	    if (machine.isPresent()) {
+	      printMachineServiceImp.delete(id); ;
 	    }
-	    printMachineServiceImp.delete(id);
+	   
 	    return ;
 	  }
 	// to get the update page of a machine
@@ -80,8 +83,9 @@ public class PrintingMachineController {
 	    return "billing/update-machine";
 	}
 	// to update a Machine
+	@PostMapping(value="/update/{id}")
 	public String updateMachine(@RequestBody PrintingMachine printingMachine, @PathVariable long id) throws Exception {
 		printMachineServiceImp.update(printingMachine, id) ;
-	    return "redirect /getListPage";
+	    return "billing/update-machine";
 	}
 }

@@ -28,21 +28,21 @@ public class PrintingMachineServiceImpl implements PrintingMachineService {
 	public Optional<PrintingMachine> findByAbbreviation(String abbreviation) {
 		return printinMachineRepository.findByAbbreviation(abbreviation);
 	}
-
+	
 	@Override
 	public PrintingMachine update(PrintingMachine machineD, long id) {
 	    Optional<PrintingMachine> machineOptional = printinMachineRepository.findById(id);
 	    
 	    if (machineOptional.isPresent()) {
-	        PrintingMachine machine = machineOptional.get();
-	        machine.setName(machineD.getName());
-	        machine.setAbbreviation(machineD.getAbbreviation());
-	        machine.setActive(machineD.isActive());
-	        machine.setPlateLength(machineD.getPlateLength());
-	        machine.setPlateWidth(machineD.getPlateWidth());
-	        machine.setThumbnail(machineD.getThumbnail());
+	        PrintingMachine updatemachine = machineOptional.get();
+	        updatemachine.setName(machineD.getName());
+	        updatemachine.setAbbreviation(machineD.getAbbreviation());
+	        updatemachine.setActive(machineD.isActive());
+	        updatemachine.setPlateLength(machineD.getPlateLength());
+	        updatemachine.setPlateWidth(machineD.getPlateWidth());
+	        updatemachine.setThumbnail(machineD.getThumbnail());
 	        
-	        return printinMachineRepository.save(machine);
+	        return printinMachineRepository.save(updatemachine);
 	    } else {
 	        
 	        throw new IllegalArgumentException("Printing machine not found with id: " + id);
@@ -51,14 +51,14 @@ public class PrintingMachineServiceImpl implements PrintingMachineService {
 
 	@Override
 	public PrintingMachine save(PrintingMachineDTO machineDto) {
-		PrintingMachineDTO newMachine = new PrintingMachineDTO();
+		PrintingMachine newMachine = new PrintingMachine();
 		newMachine.setName(machineDto.getName());
 		newMachine.setAbbreviation(machineDto.getAbbreviation());
 		newMachine.setActive(machineDto.isActive());
 		newMachine.setPlateLength(machineDto.getPlateLength());
 		newMachine.setPlateWidth(machineDto.getPlateWidth());
 		newMachine.setThumbnail(machineDto.getThumbnail());
-		newMachine.setCreation_date(new Date());
+		newMachine.setCreationDate(new Date());
 		return printinMachineRepository.save(newMachine);
 	}
 
@@ -75,6 +75,8 @@ public class PrintingMachineServiceImpl implements PrintingMachineService {
 	public Optional<PrintingMachine> findById(long id) {
 		return printinMachineRepository.findById(id);
 	}
+
+	
 	
 	
 

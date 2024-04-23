@@ -6,13 +6,13 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 <main id="add-machine">
-	
+<!-- 	action="machine/add-machine -->
 	<section>
 			<div class="card">
 				<div class="card-body">
 					<h5 class="card-title text-center pb-0 fs-4">Add a Machine</h5>
 					<p class="text-center small">Enter the details of the Machine</p>
-					<form:form class="row g-3" id="machineForm" style=" margin-left: 5%;" method="POST" action="machine/add-machine">
+					<form:form class="row g-3" id="machineForm" style=" margin-left: 5%;" method="POST" action="#">
 					  <div class="col-md-4">
 						<label for="Name" class="form-label"></label>
 						  <div class="input-group has-validation">
@@ -61,7 +61,7 @@
                 </div>
 						
 						<div class="col-md-3" style="width: 15%; left: 32%; position: relative; alignment:center ">
-							<button  id="submitButton" style="left: 42%; bottom: 2%" class="btn btn-primary w-100" onclick="addMachine()" >Save</button>
+							<button  id="submitButton" style="left: 42%; bottom: 2%" class="btn btn-primary w-100"  onclick="addMachine()">Save</button>
 							
 						</div>
 						<!-------------machine added successfully modal ------------->
@@ -69,7 +69,7 @@
 							<div class="modal-dialog modal-dialog-centered">
 								<div class="modal-content">
 									<div class="modal-body">
-<!-- 										<button type="button" onclick="loadPage('/user/list-users')" -->
+										<button type="button" onclick="loadPage('/user/list-users')"
 											class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 										<img src="assets/img/success_icon.png" alt="">
 										<p>machine added successfully</p>

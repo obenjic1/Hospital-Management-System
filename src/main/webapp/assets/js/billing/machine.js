@@ -38,15 +38,16 @@ function deleteMachine(id) {
 	$('#areyouSureYouWantToDetele').modal('show');
 
 	$('#confirmDeleteBtn').click(function() {
-		removeUser(deleteId);
+		removeM(deleteId);
 	});
 }
 var modal = new bootstrap.Modal(document.getElementById('userDeleteSuccessfully'));
 				modal.show();
 // <------------ Delete User using soft delete --------------------->
 
-function removeUser(id) {
+function removeMachine(id) {
 	
+
 	fetch(`machine/delete-machine/${id}`, {
 		method: 'POST',
 		headers: {
@@ -55,12 +56,12 @@ function removeUser(id) {
 	})
 		.then(respose => {
 			if (respose.ok) {
-//				var modal = new bootstrap.Modal(document.getElementById('somthingwhenwrong'));
-//				modal.show();
+			var modal = new bootstrap.Modal(document.getElementById('somthingwhenwrong'));
+			modal.show();
 			
 			} else {
-//				var modal = new bootstrap.Modal(document.getElementById('userDeleteSuccessfully'));
-//				modal.show();
+				var modal = new bootstrap.Modal(document.getElementById('userDeleteSuccessfully'));
+				modal.show();
 
 			}
 		})
@@ -70,12 +71,12 @@ function removeUser(id) {
 }
 
 function updateMachine(id) {
-	const name = document.getElementById('name').value;
-	const abbreviation = document.getElementById('abbreviation').value;
-	const plateLength = document.getElementById("plateLength").value;
-	const plateWidth = document.getElementById("plateWidth").value;
-	const isActive = document.getElementById('isActive').value;
-	const thumbnail = document.getElementById('thumbnail').files[0];
+	const name = document.getElementById('nameU').value;
+	const abbreviation = document.getElementById('abbreviationU').value;
+	const plateLength = document.getElementById("plateLengthU").value;
+	const plateWidth = document.getElementById("plateWidthU").value;
+	const isActive = document.getElementById('isActiveU').value;
+	const thumbnail = document.getElementById('thumbnailU').files[0];
 	var formData = new FormData();
 		formData.append('name', name),
 		formData.append('abbreviation', abbreviation),
@@ -84,7 +85,7 @@ function updateMachine(id) {
 		formData.append('isActive', isActive),
 		formData.append('imageFile', thumbnail),
 
-		fetch('/machine/updateMachine/${id}', {
+		fetch('machine/update/${id}', {
 			method: 'POST',
 			body: formData,
 		})
@@ -95,7 +96,8 @@ function updateMachine(id) {
 				} 
 			})
 			.then(function(data) {
-
+	console.log(data);
+	console.log(id);
 			})
 			.catch(function(error) {
 				var modal = new bootstrap.Modal(document.getElementById('somethingWhenWrong'));

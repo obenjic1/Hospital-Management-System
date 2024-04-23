@@ -47,7 +47,7 @@
 			
 						  <c:forEach var="machine" items="${machines}" varStatus="loop">
 						    <tr class="${loop.index % 2 == 0 ? 'even-row' : 'odd-row'}">
-							   <th><img src="/download/${user.imagePath}" class="rounded-circle"></th>
+							   <th><img src="/download/${machine.thumbnail}" class="rounded-circle"></th>
 							   <td><a>${machine.name}</a></td>
 							   <td><a>${machine.abbreviation}</a></td>
 							   <td><a class="${user.deleted ? 'Blocked' : 'Active' }">${user.deleted ? 'Blocked' : 'Active'}</a></td>
@@ -56,13 +56,13 @@
 							     
 							  <td>
 							     <a>
-								   <button class="button-see" data-bs-toggle="modal" data-bs-target="#ExtralargeModal" onclick="loadPageModal('/machine/viewMachine/${machine.id}')">
+								   <button class="button-see" data-bs-toggle="modal" data-bs-target="#ExtralargeModal" onclick="loadPage('/machine/viewMachine/${machine.id}')">
 								     <i class="fas fa-eye"></i>
 								   </button>
-								   <button class="button-edite" data-bs-toggle="modal" data-bs-target="#ExtralargeModal" onclick=" loadPageModal('/machine/update-form/${machine.id}')">
+								   <button class="button-edite" data-bs-toggle="modal" data-bs-target="#ExtralargeModal" onclick=" loadPage('/machine/update-form/${machine.id}')">
 								     <i class="fas fa-pencil-alt"></i>
 								   </button>
-								   <button class="button-delete" onclick="removeUser(${machine.id})" id="startDeleting" data-bs-toggle="modal">
+								   <button class="button-delete" onclick="removeMachine(${machine.id})" id="startDeleting" data-bs-toggle="modal">
 								     <i class="fas fa-trash-alt"></i>
 								   </button>
 								 </a>
@@ -130,42 +130,42 @@
 							</div>
 						 </div>
 						
-						<div class="modal fade" id="ExtralargeModal" tabindex="-1">
-						  <div class="modal-dialog modal-xl">
-							<div class="modal-content"id="modC" >
-							  <div class="modal-body">
-								<ul class="nav nav-tabs nav-tabs-bordered"> </ul>
-							  </div>
-							  <div class="modal-footer" >
-								<button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><fmt:message key="close"/></button>
-							  </div>
-							</div>
-						  </div>						  
-						</div>
-						<div class="modal fade" id="ExtralargeModal" tabindex="-1">
-						  <div class="modal-dialog modal-xl">
-							<div class="modal-content"id="userUpdate" >
-							  <div class="modal-body">
-								<ul class="nav nav-tabs nav-tabs-bordered"> </ul>
-							  </div>
-							  <div class="modal-footer" >
-								<button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><fmt:message key="close"/></button>
-							  </div>
-							</div>
-						  </div>
-						</div>						
-						<div class="modal fade" id="ExtralargeModal" tabindex="-1">
-						  <div class="modal-dialog modal-xl">
-							<div class="modal-content"id="addUser" >
-							  <div class="modal-body">
-								<ul class="nav nav-tabs nav-tabs-bordered"> </ul>
-							  </div>
-							  <div class="modal-footer" >
-								<button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><fmt:message key="close"/></button>
-							  </div>
-							</div>
-						  </div>
-						</div>				
+<!-- 						<div class="modal fade" id="ExtralargeModal" tabindex="-1"> -->
+<!-- 						  <div class="modal-dialog modal-xl"> -->
+<!-- 							<div class="modal-content"id="modC" > -->
+<!-- 							  <div class="modal-body"> -->
+<!-- 								<ul class="nav nav-tabs nav-tabs-bordered"> </ul> -->
+<!-- 							  </div> -->
+<!-- 							  <div class="modal-footer" > -->
+<%-- 								<button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><fmt:message key="close"/></button> --%>
+<!-- 							  </div> -->
+<!-- 							</div> -->
+<!-- 						  </div>						   -->
+<!-- 						</div> -->
+<!-- 						<div class="modal fade" id="ExtralargeModal" tabindex="-1"> -->
+<!-- 						  <div class="modal-dialog modal-xl"> -->
+<!-- 							<div class="modal-content"id="userUpdate" > -->
+<!-- 							  <div class="modal-body"> -->
+<!-- 								<ul class="nav nav-tabs nav-tabs-bordered"> </ul> -->
+<!-- 							  </div> -->
+<!-- 							  <div class="modal-footer" > -->
+<%-- 								<button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><fmt:message key="close"/></button> --%>
+<!-- 							  </div> -->
+<!-- 							</div> -->
+<!-- 						  </div> -->
+<!-- 						</div>						 -->
+<!-- 						<div class="modal fade" id="ExtralargeModal" tabindex="-1"> -->
+<!-- 						  <div class="modal-dialog modal-xl"> -->
+<!-- 							<div class="modal-content"id="addUser" > -->
+<!-- 							  <div class="modal-body"> -->
+<!-- 								<ul class="nav nav-tabs nav-tabs-bordered"> </ul> -->
+<!-- 							  </div> -->
+<!-- 							  <div class="modal-footer" > -->
+<%-- 								<button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><fmt:message key="close"/></button> --%>
+<!-- 							  </div> -->
+<!-- 							</div> -->
+<!-- 						  </div> -->
+<!-- 						</div>				 -->
 						<!-- Pagination with icons -->
 						<nav aria-label="Page navigation example">
 						  <ul class="pagination nav-no-border">
