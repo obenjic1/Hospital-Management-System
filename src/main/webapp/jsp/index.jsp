@@ -188,7 +188,7 @@
 				</li>
 				<ul id="configuration-management-nav">
 					<li class="nav-item">
-                      <a class="nav-link collapsed" href="list-groupes.jsp">
+                      <a class="nav-link collapsed" onclick="loadPage('machine/getListPage')" href="#">
 						<i class="ri-steam-line"></i>
 						<span>Machines</span>
 					  </a>
@@ -276,6 +276,7 @@
 	<script src="assets/js/groups.js"></script>
 	<script src="assets/js/billing/list-customer.js"></script>
 	<script src="assets/js/billing/customer.js"></script>
+	<script src="assets/js/billing/machine.js"></script> 
 	<script src="assets/js/modal.js"></script>
 
 </body>

@@ -16,8 +16,9 @@ public class PrintingMachineDTO {
 	private String name;
 	private int plateLength; 
 	private int plateWidth; 
-	private boolean is_active = Boolean.TRUE;
-	//private String thumbnail;
-	private MultipartFile imageFile;
+	private boolean isActive = Boolean.TRUE;
+	private String abbreviation; 
+	private String thumbnail;
+//	private MultipartFile imageFile;
 	private Date creation_date;
 }
