@@ -40,18 +40,18 @@ public class fileController {
     private String fileStoragePath;
 	
 //<----------- Download the image via the access path contained in fileStoragePath -----------> 
-	@GetMapping("/download/{fileName}")
-	public void downloadFile(@PathVariable String fileName, HttpServletResponse response) throws IOException {
-       File fileResource = fileDownloadService.downloadFile(fileName, fileStoragePath);
-
-       String mimeType = URLConnection.guessContentTypeFromName(fileResource.getName());
-       response.setContentType(mimeType);
-       response.setHeader("Content-Disposition", String.format("attachement; filename=\""+fileResource.getName()+"\""));
-       InputStream inputStream = new BufferedInputStream(new FileInputStream(fileResource));
-       FileCopyUtils.copy(inputStream, response.getOutputStream());
-       inputStream.close();
-	}
-	
+//	@GetMapping("/download/{fileName}")
+//	public void downloadFile(@PathVariable String fileName, HttpServletResponse response) throws IOException {
+//       File fileResource = fileDownloadService.downloadFile(fileName, fileStoragePath);
+//
+//       String mimeType = URLConnection.guessContentTypeFromName(fileResource.getName());
+//       response.setContentType(mimeType);
+//       response.setHeader("Content-Disposition", String.format("attachement; filename=\""+fileResource.getName()+"\""));
+//       InputStream inputStream = new BufferedInputStream(new FileInputStream(fileResource));
+//       FileCopyUtils.copy(inputStream, response.getOutputStream());
+//       inputStream.close();
+//	}
+//	
 //<----------- Download the user authenticated image via the access path contained in fileStoragePath -----------> 
 	@PreAuthorize("isAuthenticated()")
 	@GetMapping("/download-profile-image")

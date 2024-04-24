@@ -11,9 +11,9 @@
   <main id="users-list" class="main">
     <section class="section profile" id="modal-details">
       <div class="row">
-        <div class="col-xl-8" style="width: 150%">
+        <div class="col-xl-8" style="width: 100%">
           <div class="card">
-            <div class="card-body pt-3">
+            <div class="card-body pt-4">
               <ul class="nav nav-tabs nav-tabs-bordered" style="justify-content: center;">
                 <li class="nav-item">
                   <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#profile-overview" > <fmt:message key="overview"/></button>
@@ -25,7 +25,7 @@
               </ul>
               <div class="tab-content pt-2">
                 <div class="tab-pane fade show active profile-overview" id="profile-overview" style="margin-left: 10%">             
-                  <h5 class="card-title"><fmt:message key="profile.details"/></h5>
+                  <h5 class="card-title">Machine Details</h5>
                   <div class="row">
                     <div class="col-lg-3 col-md-4 label ">Name :</div>
                     <div class="col-lg-9 col-md-8">${findMachine.name}</div>
@@ -56,41 +56,41 @@
                   <div class="row mb-3">  </div>
                     <div class="row mb-3">
                       <label for="firstName" class="col-md-4 col-lg-3 col-form-label">Name</label>
-                      <div class="col-md-8 col-lg-9">
+                      <div class="col-md-6 col-lg-6">
                         <input name="Name" type="text" class="form-control" id="name" value="${findMachine.name}">
                       </div>
                     </div>
                     <div class="row mb-3">
                       <label for="abbreviation" class="col-md-4 col-lg-3 col-form-label">abbreviation</label>
-                      <div class="col-md-8 col-lg-9">
-                        <input name="abbreviation" type="number" class="form-control" id="abbreviation" value="${findMachine.abbreviation}">
+                      <div class="col-md-8 col-lg-6">
+                        <input name="abbreviation" type="text" class="form-control" id="abbreviation" value="${findMachine.abbreviation}">
                       </div>
                     </div>
                     <div class="row mb-3">
                       <label for="username" class="col-md-4 col-lg-3 col-form-label">PLate Length</label>
-                      <div class="col-md-8 col-lg-9">
-                        <input name="plateLength" type="number" class="form-control" id="plateLength" value="${findMachine.plateLength} mm">
+                      <div class="col-md-8 col-lg-6">
+                        <input name="plateLength" type="number" class="form-control" id="plateLength" value="${findMachine.plateLength}">
                       </div>
                     </div>
                     <div class="row mb-3">
                       <label for="username" class="col-md-4 col-lg-3 col-form-label">PLate Width</label>
-                      <div class="col-md-8 col-lg-9">
-                        <input name="plateLength" type="text" class="form-control" id="plateLength" value="${findMachine.plateWidth} mm">
+                      <div class="col-md-8 col-lg-6">
+                       <input name="plateWidth" type="number" class="form-control" id="plateWidth" value="${findMachine.plateWidth}">
                       </div>
                     </div>
                       <div class="row mb-3"> 
                       <label for="thumbnail" class="col-md-4 col-lg-3 col-form-label">Logo</label> 
-                      <div class="col-md-8 col-lg-9">
+                      <div class="col-md-8 col-lg-6">
                        <input name="thumbnail" type="file" class="form-control" id="thumbnail" value="${findMachine.thumbnail}"> 
                       </div> 
                      </div> 
                     
                     <div class="text-center">
-                      <input data-bs-toggle="modal" type="button"  onclick="updateUserById('${userFind.id}')" 
+                      <input type="submit" data-bs-toggle="modal" type="button"  onsubmit="updateMachine('${findMachine.id}')" 
                       	style="left: 42%; bottom: 2%"
                        class="btn btn-primary" value="Save Changes"/>
                     </div>
-                  <!--------------User updated successfully modal ------------->
+                  <!--------------Machine updated successfully modal ------------->
 	              <div class="modal fade" id="userUdatedSuccessfully" tabindex="-1">
 		            <div class="modal-dialog modal-dialog-centered">
 		              <div class="modal-content">

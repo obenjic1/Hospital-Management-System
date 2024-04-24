@@ -30,23 +30,17 @@ public class PrintingMachineServiceImpl implements PrintingMachineService {
 	}
 	
 	@Override
-	public PrintingMachine update(PrintingMachine machineD, long id) {
-	    Optional<PrintingMachine> machineOptional = printinMachineRepository.findById(id);
+	public PrintingMachine update(PrintingMachine machine, long id) {
+		
+	    PrintingMachine machineOptional = printinMachineRepository.findById(id).get();	    
+	    	machineOptional.setName(machine.getName());
+	    	machineOptional.setAbbreviation(machine.getAbbreviation());
 	    
-	    if (machineOptional.isPresent()) {
-	        PrintingMachine updatemachine = machineOptional.get();
-	        updatemachine.setName(machineD.getName());
-	        updatemachine.setAbbreviation(machineD.getAbbreviation());
-	        updatemachine.setActive(machineD.isActive());
-	        updatemachine.setPlateLength(machineD.getPlateLength());
-	        updatemachine.setPlateWidth(machineD.getPlateWidth());
-	        updatemachine.setThumbnail(machineD.getThumbnail());
-	        
-	        return printinMachineRepository.save(updatemachine);
-	    } else {
-	        
-	        throw new IllegalArgumentException("Printing machine not found with id: " + id);
-	    }
+	    	machineOptional.setPlateLength(machine.getPlateLength());
+	    	machineOptional.setPlateWidth(machine.getPlateWidth());
+	    	machineOptional.setThumbnail(machine.getThumbnail());
+	    	printinMachineRepository.save(machineOptional);
+	       return machineOptional;
 	}
 
 	@Override
@@ -72,7 +66,7 @@ public class PrintingMachineServiceImpl implements PrintingMachineService {
 	}
 
 	@Override
-	public Optional<PrintingMachine> findById(long id) {
+	public Optional<PrintingMachine> findById(long id) {	
 		return printinMachineRepository.findById(id);
 	}
 

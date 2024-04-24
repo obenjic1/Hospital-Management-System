@@ -12,7 +12,7 @@
 				<div class="card-body">
 					<h5 class="card-title text-center pb-0 fs-4">Add a Machine</h5>
 					<p class="text-center small">Enter the details of the Machine</p>
-					<form:form class="row g-3" id="machineForm" style=" margin-left: 5%;" method="POST" action="#">
+					<form:form class="row g-3" id="machineForm" style=" margin-left: 5%;" method="POST"  modelAttribute="PrintingMachine" >
 					  <div class="col-md-4">
 						<label for="Name" class="form-label"></label>
 						  <div class="input-group has-validation">
@@ -55,21 +55,21 @@
                   <label for="isActive" class="form-label">is machine Active</label>
                   <select id="isActive" class="form-select">
                     <option selected>select the machine status</option>
-                    <option selected>true</option>
-                    <option selected>false</option>
+                    <option value=1>true</option>
+                    <option value=0>false</option>
                   </select>
                 </div>
 						
-						<div class="col-md-3" style="width: 15%; left: 32%; position: relative; alignment:center ">
-							<button  id="submitButton" style="left: 42%; bottom: 2%" class="btn btn-primary w-100"  onclick="addMachine()">Save</button>
-							
+				<div class="col-md-3" style="  width: 13%; left: 81%; position: relative; ">
+				  <input type="button" id="create-btn" onclick="addMachine()" style=" bottom: -42%;" class="btn btn-primary w-100" value="Save" />
+				</div>
 						</div>
 						<!-------------machine added successfully modal ------------->
 						<div class="modal fade" id="verticalycentered" tabindex="-1">
 							<div class="modal-dialog modal-dialog-centered">
 								<div class="modal-content">
 									<div class="modal-body">
-										<button type="button" onclick="loadPage('/user/list-users')"
+										<button type="button" onclick="loadPage('/machine/list-machines')"
 											class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 										<img src="assets/img/success_icon.png" alt="">
 										<p>machine added successfully</p>
