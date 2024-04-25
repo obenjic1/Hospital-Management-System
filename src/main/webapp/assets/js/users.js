@@ -1,6 +1,6 @@
 
 //<---------------fontion load different function pages--------------------->
-//alert("hello world")
+
 function loadPage(page) {
 	fetch(page)
 		.then(response => response.text())
@@ -10,20 +10,7 @@ function loadPage(page) {
 		.catch(error => console.log(error));
 }
 
-
-
-//function loadView(url, div) {
-//	fetch(url)
-//		.then(response => response.text())
-//		.then(html => {
-//			document.getElementById(div).innerHTML = html;
-//		})
-//		.catch(error => console.log(error));
-//}
-
-
-
-// <--------------Create a new user ------------------------->
+// <-------------- Fieald validation  ------------------------->
 function validateField(field, errorMessage) {
 	if (field.trim() === '') {
 		var alertElement = document.getElementById(errorMessage);
@@ -39,7 +26,7 @@ function validateField(field, errorMessage) {
 
 	return true;
 }
-
+// <-------------- Save user ------------------------->
 function addUser() {
 	const firstName = document.getElementById('firstName').value;
 	const lastName = document.getElementById('lastName').value;
@@ -175,7 +162,7 @@ function updateUserById(id) {
 
 	var jsonUserUpdateData = JSON.stringify(userUpdatedData);
 
-	fetch(`/user/update-user/${id}`, {
+	fetch(`/user/update-user/${email}`, {
 		method: 'POST',
 		headers: {
 			'Content-Type': 'application/json'

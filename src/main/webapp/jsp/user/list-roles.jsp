@@ -67,7 +67,7 @@
 								  </c:forEach>
 							    </tbody>
 							  </table>
-								<!-- Pagination with icons -->
+							  <!-- Pagination with icons -->
 							  <nav aria-label="Page navigation example">
 							    <ul class="pagination nav-no-border">
 						          <li class="page-item">
