@@ -59,8 +59,8 @@ public class User implements UserDetails {
 	@Column(name = "username",nullable = false, unique = true)
 	private String username;
 	
-	@Column(name = "function", nullable = false)
-	private String function;
+//	@Column(name = "function", nullable = false)
+//	private String function;
 	
 	@Column(name = "image_path")
 	private String imagePath;
