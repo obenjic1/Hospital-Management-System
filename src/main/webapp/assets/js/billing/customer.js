@@ -1,7 +1,6 @@
 
-
 // <--------------save customer using form data ------------------------->
-function save(){
+function save() {
 	var name = document.getElementById('name').value;
 	var email = document.getElementById('email').value;
 	var telephone = document.getElementById('telephone').value;
@@ -20,8 +19,12 @@ function save(){
 			body: formData ,
 		})
 		.then(function(response) {
-			
-			})
+   			 if (response.status === 'Success') {
+       			 return loadPage('/customer/list');
+   			 } else if (response.status === 'Error') {
+       			 console.log(response.errorMessage);
+  			 }
+		})
 			.then(function(data) {
 
 			})
@@ -32,19 +35,34 @@ function save(){
 }
 
 
-//function myFunction() {	
-//	loadPage('/customer/displayCustomerForm');
-//
-//}
-
-
-
-
-
-
-
-
-
-
+// <--------------Update customer ------------------------->
+function update(id) {
+	var name = document.getElementById('name').value;
+	var email = document.getElementById('email').value;
+	var telephone = document.getElementById('telephone').value;
+	var address = document.getElementById('address').value;
+	
+	var updateData = {
+		name: name,
+		email: email,
+		telephone: telephone,
+		address: address
+	};	
+	var jsonUpdatedData = JSON.stringify(updateData);
+	
+	fetch(`/customer/updatecustomer/${id}`, {
+		method: 'post',
+		headers: {
+			'Content-Type': 'application/json'
+		},
+      	 body: jsonUpdatedData,
+	})
+	.then(function(response) {
+		
+	})
+	.catch(function(error){
+		console.log('error')
+	})
+}
 
 

@@ -151,7 +151,7 @@
 				</sec:authorize>
 			  </ul>
 			</sec:authorize> 								
-				<!-- End of user management Nav --> <!-- start of job sheet management Nav -->
+				<!-- End of user management Nav --> <!-- start of job sheet management Nav -->			
 				<li class="nav-item">
 				  <li class="pp-module">
 				    <i class="ri-database-2-fill"> </i> 
@@ -171,44 +171,146 @@
 					    <span><fmt:message key="list.jobsheets" /></span>
 					  </a>
 					</li>
+				  <sec:authorize access="hasRole('ROLE_SAVE_CUSTOMER')">
 					<li class="nav-item">
 					  <a class="nav-link collapsed" onclick="loadPage('/customer/list')" href="#">
 					    <i class="ri-team-line"></i>
 					    <span><fmt:message key="customer.management" /></span>
 					  </a>
 					</li>
+				  </sec:authorize> 
+
+					<li class="nav-item">
+					  <a class="nav-link collapsed" onclick="getListOfUser()" href="#">
+					    <i class="ri-keyboard-fill"></i>
+					    <span><fmt:message key="prepress" /> </span>
+					  </a>
+					</li>	
+					<li class="nav-item">
+					  <a class="nav-link collapsed" onclick="getListOfUser()" href="#">
+					    <i class="ri-keyboard-box-line"></i>
+					    <span><fmt:message key="printing" /> </span>
+					  </a>
+					</li>
+					<li class="nav-item">
+					  <a class="nav-link collapsed" onclick="getListOfUser()" href="#">
+					    <i class="ri-rainbow-line"></i>
+					    <span><fmt:message key="finishing" /> </span>
+					  </a>
+					</li>
+					<li class="nav-item">
+					  <a class="nav-link collapsed" onclick="getListOfUser()" href="#">
+					    <i class="ri-file-copy-2-line"></i>
+					    <span><fmt:message key="paper" /> </span>
+					  </a>
+					</li>
 				</ul> 
 				<!-- End of job sheet management Nav --> <!-- start of bill management Nav -->	
+			  <sec:authorize access="hasRole('ROLE_VIEW_SETINGS')">
 				<li class="nav-item">
 				  <li class="pp-module">
 				    <i class="ri-tools-fill"> </i> 
 				  <span>
-				    <span>Settings</span>
+				    <span><fmt:message key="settings" /></span>
 				  </span>
 				</li>
+			  </sec:authorize> 
+			  <sec:authorize access="hasRole('ROLE_VIEW_SETINGS')">
 				<ul id="configuration-management-nav">
 					<li class="nav-item">
                       <a class="nav-link collapsed" href="list-groupes.jsp">
 						<i class="ri-steam-line"></i>
-						<span>Machines</span>
+						<span><fmt:message key="machines" /></span>
 					  </a>
 										
 					<li class="nav-item">
-					  <a class="nav-link collapsed" onclick="getListOfUser()" href="#">
+					  <a class="nav-link collapsed" onclick="loadPage('/papertype/list')" href="#">
 					    <i class="bi bi-receipt-cutoff"></i>
-					    <span>Paper types</span>
+					    <span><fmt:message key="paper.types"/></span>
 					  </a>
 					</li>
 					
 					<li class="nav-item">
 					  <a class="nav-link collapsed" onclick="getListOfUser()" href="#">
-					    <i class="ri-bit-coin-line"></i>
-					    <span>Job activities options</span>
+					    <i class="ri-compasses-line"></i>
+					    <span><fmt:message key="job.activities.options" /> </span>
+					  </a>
+					</li>
+					<li class="nav-item">
+					  <a class="nav-link collapsed" onclick="getListOfUser()" href="#">
+					    <i class="ri-file-damage-line"></i>
+					    <span><fmt:message key="paper.grammage" /> </span>
+					  </a>
+					</li>
+					<li class="nav-item">
+					  <a class="nav-link collapsed" onclick="getListOfUser()" href="#">
+					    <i class="ri-file-edit-line"></i>
+					    <span><fmt:message key="paper.format" /> </span>
+					  </a>
+					</li>
+					<li class="nav-item">
+					  <a class="nav-link collapsed" onclick="getListOfUser()" href="#">
+					    <i class="ri-hammer-line"></i>
+					    <span><fmt:message key="job.type" /> </span>
+					  </a>
+					</li>
+					<li class="nav-item">
+					  <a class="nav-link collapsed" onclick="getListOfUser()" href="#">
+					    <i class="ri-key-2-line"></i>
+					    <span><fmt:message key="job.tracking" /> </span>
+					  </a>
+					</li>
+					<li class="nav-item">
+					  <a class="nav-link collapsed" onclick="getListOfUser()" href="#">
+					    <i class="ri-more-fill"></i>
+					    <span><fmt:message key="job.status" /> </span>
+					  </a>
+					</li>
+					<li class="nav-item">
+					  <a class="nav-link collapsed" onclick="getListOfUser()" href="#">
+					    <i class="ri-pantone-fill"></i>
+					    <span><fmt:message key="binding.type" /> </span>
+					  </a>
+					</li>
+					<li class="nav-item">
+					  <a class="nav-link collapsed" onclick="getListOfUser()" href="#">
+					    <i class="ri-slack-fill"></i>
+					    <span><fmt:message key="job.activity" /> </span>
+					  </a>
+					</li>
+					<li class="nav-item">
+					  <a class="nav-link collapsed" onclick="getListOfUser()" href="#">
+					    <i class="ri-signal-tower-line"></i>
+					    <span><fmt:message key="job.operation.options" /> </span>
+					  </a>
+					</li>
+					<li class="nav-item">
+					  <a class="nav-link collapsed" onclick="getListOfUser()" href="#">
+					    <i class="ri-stack-line"></i>
+					    <span><fmt:message key="job.paper" /> </span>
+					  </a>
+					</li>
+					<li class="nav-item">
+					  <a class="nav-link collapsed" onclick="getListOfUser()" href="#">
+					    <i class="ri-stack-fill"></i>
+					    <span><fmt:message key="content.type" /> </span>
+					  </a>
+					</li>
+					<li class="nav-item">
+					  <a class="nav-link collapsed" onclick="getListOfUser()" href="#">
+					    <i class="ri-test-tube-fill"></i>
+					    <span><fmt:message key="color.combinaition" /> </span>
+					  </a>
+					</li>						
+					<li class="nav-item">
+					  <a class="nav-link collapsed" onclick="getListOfUser()" href="#">
+					    <i class="ri-todo-line"></i>
+					    <span><fmt:message key="print.type" /> </span>
 					  </a>
 					</li>
 					
-					
 				</ul> 
+			  </sec:authorize> 
 				
 				<!-- End of job sheet management Nav --> <!-- start of bill management Nav -->
 			<li class="nav-item">
@@ -227,8 +329,7 @@
 					  </a>
 					</li>
 										
-				</ul> 
-			
+				</ul> 			
 		</ul>
 	</aside>
 	<!-- End Sidebar-->
@@ -274,9 +375,10 @@
 	<script src="assets/js/app.js"></script>
 	<script src="assets/js/users.js"></script>
 	<script src="assets/js/groups.js"></script>
+    <script src="assets/js/modal.js"></script>
 	<script src="assets/js/billing/list-customer.js"></script>
 	<script src="assets/js/billing/customer.js"></script>
-	<script src="assets/js/modal.js"></script>
+	<script src="assets/js/billing/papertype.js"></script>
 
 </body>
 

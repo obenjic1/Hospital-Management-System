@@ -14,7 +14,9 @@ public interface PaperTypeService {
 		PaperType save(PaperTypeDTO paperTypeDTO);
 		PaperType update(PaperTypeDTO paperTypeDTO, long id);
 		Optional<PaperType> findByName(String name);
-		Page <PaperType> findPaginatedJobType(int pageNo, int pageSize);
-		void delete(long id);
+		PaperType findById(Long id);
+		PaperType findToUpdate(Long id);
+		void delete(long id);		
+		Page<PaperType> paginatedList(int pageNo, int pageSize);
 
 }

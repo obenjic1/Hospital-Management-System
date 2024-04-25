@@ -46,18 +46,18 @@
 							</tr>
 						  </thead>
 						  <tbody>
-						  <c:forEach var="customers" items="${customers}" varStatus="loop">
+						  <c:forEach var="customers" items="${allCustomers}" varStatus="loop">
 						    <tr class="${loop.index % 2 == 0 ? 'even-row' : 'odd-row'}">
-							   <th><img src="/download/${customer.thumbnail}" class="rounded-circle"></th>
+							   <th><img src="/customer/image/${customer.thumbnail}" class="rounded-circle"></th>
 							   <td><a>${customers.name}</a></td>
 							   <td><a>${customers.telephone}</a></td>
 							   <td><a>${customers.address}</a></td> 
 							   <td>
 							     <a>
-								   <button class="button-see">
+								   <button class="button-see" onclick="loadPage('customer/find/${customers.email}')">
 								     <i class="fas fa-eye"></i>
 								   </button>
-								   <button class="button-edite">
+								   <button class="button-edite" onclick="loadPage('customer/update/${customers.email}')">
 								     <i class="fas fa-pencil-alt"></i>
 								   </button>
 								   <button class="button-delete" id="startDeleting">
@@ -68,20 +68,7 @@
 							 </tr>						
 						  </c:forEach>
 						</tbody>
-					  </table>
-					  
-					  <div class="modal fade" id="saveCustomerModal1" tabindex="-1">
-						  <div class="modal-dialog modal-xl">
-							<div class="modal-content"   id="saveCustomer">
-							  <div class="modal-body">
-								<ul class="nav nav-tabs nav-tabs-bordered"> </ul>
-							  </div>
-							  <div class="modal-footer" >
-								<button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><fmt:message key="close"/></button>
-							  </div>
-							</div>
-						  </div>
-						</div>		
+					  </table>					  					 		
 						<!-- Pagination with icons -->
 						<nav aria-label="Page navigation example">
 						  <ul class="pagination nav-no-border">

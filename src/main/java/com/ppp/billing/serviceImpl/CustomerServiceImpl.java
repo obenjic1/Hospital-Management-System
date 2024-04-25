@@ -1,10 +1,14 @@
 package com.ppp.billing.serviceImpl;
 
+import java.io.File;
 import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.ppp.billing.model.Customer;
@@ -15,6 +19,7 @@ import com.ppp.billing.service.CustomerService;
 @Service
 public class CustomerServiceImpl implements CustomerService {
 	
+
 	@Autowired
 	private CustomerRepository customerRepostory ;
 
@@ -32,27 +37,47 @@ public class CustomerServiceImpl implements CustomerService {
 	
 //<---------------- List customers ---------------------->
 	@Override
-	public List<Customer> findAll() {
-		return customerRepostory.findAll();
+	public Page<Customer> pagination(int pageNo, int pageSize) {
+		Pageable pageable = PageRequest.of(pageNo - 1, pageSize);		
+		return customerRepostory.findAll(pageable);
 	}
 
+//<---------------- Update ---------------------->
 	@Override
-	public Customer update(CustomerDTO updateCustomerDto, long id) {
-		// TODO Auto-generated method stub
-		return customerRepostory.save(null) ;
+	public Customer update(CustomerDTO customerDTO, Long id) {
+		Customer customer = customerRepostory.findById(id).get();
+		customer.setName(customerDTO.getName());
+		customer.setEmail(customerDTO.getEmail());
+		customer.setAddress(customerDTO.getAddress());
+		customer.setTelephone(customerDTO.getTelephone());
+		customer.setCreationDate(customerDTO.getCreationDate());
+		return customerRepostory.save(customer);
 	}
 
-	@Override
-	public Optional<Customer> findByEmail(String email) {
-		return customerRepostory.findByEmail(email);
-	}
-
+//<---------------- Delete customer ---------------------->
 	@Override
 	public void delete(long id) {
-		customerRepostory.deleteById(id);
+		Customer delete = customerRepostory.findById(id).get();
+		customerRepostory.delete(delete);
 		
 	}
 
-	
+//<---------------- Find by Email ---------------------->
+	@Override
+	public Customer findByEmail(String email) {		
+		return customerRepostory.findByEmail(email);
+	}
+
+//<---------------- Save customer image ---------------------->
+	@Override
+    public File downloadFile(String fileName, String fileStoragePath) {
+           String filePath = fileStoragePath + "/" + fileName;
+           File file = new File(filePath);
+           if (file.exists()) {
+               return file;
+           } else {
+               return null;
+           }
+       }
 
 }
