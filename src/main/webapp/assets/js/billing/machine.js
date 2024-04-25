@@ -23,18 +23,15 @@ function addMachine() {
 		})
 			.then(function(response) {
 				if (response.status === 200) {
-					var modal = new bootstrap.Modal(document.getElementById('verticalycentered'));
+					var modal = new bootstrap.Modal(document.getElementById('machineModal'));
 					modal.show();
 				} 
 			})
 			.then(function(data) {
-
+			
 			})
 			.catch(function(error) {
-				var modal = new bootstrap.Modal(document.getElementById('somethingWhenWrong'));
-				modal.show();
 				
-					
 			});console.log(isActive);
 				loadPage('machine/getListPage');
 }

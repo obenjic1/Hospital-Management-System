@@ -86,21 +86,22 @@
 								</div>
 							  </div>
 							</div>
+							
+							<!--------------machine created successfully modal ------------->
+							  <div class="modal fade" id="machineModal" tabindex="-1">
+							    <div class="modal-dialog modal-dialog-centered">
+							      <div class="modal-content">
+								    <div class="modal-body">
+									  <button type="button" style="position: relative; left: 50%; bottom: 12px;"  class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+									  <img src="assets/img/success_icon.png" alt="">
+									  <p>Machine Deleted Successfully</p>
+									</div>
+								  </div>
+							    </div>
+							  </div>
 						  </c:forEach>
 						</tbody>
-					  </table>
-						<!--------------machine created successfully modal ------------->
-					  <div class="modal fade" id="machineModal" tabindex="-1">
-					    <div class="modal-dialog modal-dialog-centered">
-					      <div class="modal-content">
-						    <div class="modal-body">
-							  <button type="button" style="position: relative; left: 50%; bottom: 12px;"  class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-							  <img src="assets/img/success_icon.png" alt="">
-							  <p>Machine Added Successfully</p>
-							</div>
-						  </div>
-					    </div>
-					  </div>
+					</table>
 						<!--------------MAchine updated successfully modal ------------->
 					  <div class="modal fade" id="userUdatedSuccessfully" tabindex="-1">
 					    <div class="modal-dialog modal-dialog-centered">
@@ -113,18 +114,6 @@
 						  </div>
 					    </div>
 					  </div>
-					  <!--------------User deleted successfully modal ------------->
-					  <div class="modal fade" id="userDeleteSuccessfully" tabindex="-1">
-					    <div class="modal-dialog modal-dialog-centered">
-						  <div class="modal-content">
-							<div class="modal-body">
-							  <button type="button" class="btn-close" data-bs-dismiss="modal" style="position: relative; left: 50%; bottom: 12px;" onclick="loadPage('/user/list-users')" aria-label="Close"></button>
-							  <img src="assets/img/success_icon.png" alt="">
-							  <p><fmt:message key="user.deleted.successfully" /></p>
-							</div>
-						  </div>
-						</div>
-					  </div>
 						<!------------------Deleted error------------------------------>
 						<div class="modal fade" id="somthingwhenwrong" tabindex="-1">
 						  <div class="modal-dialog modal-dialog-centered">
@@ -135,43 +124,6 @@
 							  </div>
 							</div>
 						 </div>
-						
-<!-- 						<div class="modal fade" id="ExtralargeModal" tabindex="-1"> -->
-<!-- 						  <div class="modal-dialog modal-xl"> -->
-<!-- 							<div class="modal-content"id="modC" > -->
-<!-- 							  <div class="modal-body"> -->
-<!-- 								<ul class="nav nav-tabs nav-tabs-bordered"> </ul> -->
-<!-- 							  </div> -->
-<!-- 							  <div class="modal-footer" > -->
-<%-- 								<button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><fmt:message key="close"/></button> --%>
-<!-- 							  </div> -->
-<!-- 							</div> -->
-<!-- 						  </div>						   -->
-<!-- 						</div> -->
-<!-- 						<div class="modal fade" id="ExtralargeModal" tabindex="-1"> -->
-<!-- 						  <div class="modal-dialog modal-xl"> -->
-<!-- 							<div class="modal-content"id="userUpdate" > -->
-<!-- 							  <div class="modal-body"> -->
-<!-- 								<ul class="nav nav-tabs nav-tabs-bordered"> </ul> -->
-<!-- 							  </div> -->
-<!-- 							  <div class="modal-footer" > -->
-<%-- 								<button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><fmt:message key="close"/></button> --%>
-<!-- 							  </div> -->
-<!-- 							</div> -->
-<!-- 						  </div> -->
-<!-- 						</div>						 -->
-<!-- 						<div class="modal fade" id="ExtralargeModal" tabindex="-1"> -->
-<!-- 						  <div class="modal-dialog modal-xl"> -->
-<!-- 							<div class="modal-content"id="addUser" > -->
-<!-- 							  <div class="modal-body"> -->
-<!-- 								<ul class="nav nav-tabs nav-tabs-bordered"> </ul> -->
-<!-- 							  </div> -->
-<!-- 							  <div class="modal-footer" > -->
-<%-- 								<button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><fmt:message key="close"/></button> --%>
-<!-- 							  </div> -->
-<!-- 							</div> -->
-<!-- 						  </div> -->
-<!-- 						</div>				 -->
 						<!-- Pagination with icons -->
 						<nav aria-label="Page navigation example">
 						  <ul class="pagination nav-no-border">
@@ -188,7 +140,7 @@
 		</div>
 	</section>
 </main>
-
+	<script src="assets/js/billing/job-activity-options.js"></script> 
 	<script src="assets/js/billing/machine.js"></script> 
 	<script src="assets/js/main.js"></script>	
 	<script src="assets/js/app.js"></script> 

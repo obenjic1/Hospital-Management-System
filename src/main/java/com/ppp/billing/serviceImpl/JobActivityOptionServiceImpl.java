@@ -22,8 +22,9 @@ public class JobActivityOptionServiceImpl implements JobActivityOptionService{
 
 	@Override
 	public JobActivityOption update(JobActivityOption jobActivityOption, long id) {
-		// TODO Auto-generated method stub
-		return null;
+		JobActivityOption machineOptional = jobActivityOptionRepository.findById(id).get();	    
+		machineOptional.setName(jobActivityOption.getName());
+		return jobActivityOptionRepository.save(machineOptional);
 	}
 
 	@Override

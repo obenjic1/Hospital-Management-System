@@ -64,9 +64,8 @@
 				  <input type="button" id="create-btn" onclick="addMachine()" style=" bottom: -42%;" class="btn btn-primary w-100" value="Save" />
 				</div>
 				</form:form>
-						</div>
 						<!-------------machine added successfully modal ------------->
-						<div class="modal fade" id="activityOption" tabindex="-1">
+						<div class="modal fade" id="addMachine" tabindex="-1">
 							<div class="modal-dialog modal-dialog-centered">
 								<div class="modal-content">
 									<div class="modal-body">
@@ -90,8 +89,8 @@
 									</div>
 								</div>
 							</div>
-								
 						</div>
+					</div>
 				</div>
 		</section>
 	</main>

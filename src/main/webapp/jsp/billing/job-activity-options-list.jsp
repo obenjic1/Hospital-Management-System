@@ -35,43 +35,38 @@
 						<button onclick="loadPage('activityOption/add-activity')" type="button" class="btn btn-primary">
 						  <fmt:message key="add.group"/>
 						</button>
-						
 						<!-- Table with stripped rows -->
 						<table class="table datatable">
 						  <thead style="background-color: #dddfe3;">
 						    <tr>
-						    
 							  <th scope="col">Number</th>
-							   <th scope="col"></th>
 						      <th scope="col">Name</th>
-						        <th scope="col"></th>
 							  <th scope="col">Actions</th>
 							</tr>
 						  </thead>
 						  <tbody>
-			
 						  <c:forEach var="activity" items="${activities}" varStatus="loop">
 						    <tr class="${loop.index % 2 == 0 ? 'even-row' : 'odd-row'}">
-							   
-							     <td><a>${machine.plateLength}</a></td>
-							     <td><a>${activity.name}</a></td>
-							     
+							    <c:set var="index" value="${loop.index}" />
+							    <%    int index = (Integer) pageContext.getAttribute("index");  %>
+							 <td>  <%= index + 1 %></td>
+							 <td><a>${activity.name}</a></td>
 							  <td>
 							     <a>
-								   <button class="button-see" data-bs-toggle="modal" data-bs-target="#ExtralargeModal" onclick="loadPage('/machine/viewMachine/${machine.id}')">
+								   <button class="button-see" data-bs-toggle="modal" data-bs-target="#ExtralargeModal" onclick=" loadPage('/activityOption/view/${activity.id}')">
 								     <i class="fas fa-eye"></i>
 								   </button>
-								   <button class="button-edite" data-bs-toggle="modal" data-bs-target="#ExtralargeModal" onclick=" loadPage('/machine/update-form/${machine.id}')">
+								   <button class="button-edite" data-bs-toggle="modal" data-bs-target="#ExtralargeModal" onclick=" loadPage('/activityOption/update-form/${activity.id}')">
 								     <i class="fas fa-pencil-alt"></i>
 								   </button>
-								   <button class="button-delete" onclick="removeMachine(${machine.id})" id="startDeleting" data-bs-toggle="modal">
+								   <button class="button-delete" onclick="removeActivity(${activity.id})" id="startDeleting" data-bs-toggle="modal">
 								     <i class="fas fa-trash-alt"></i>
 								   </button>
 								 </a>
 							   </td>
 							 </tr>
 							 <!--------------confirmation to delete Machine ------------->
-						     <div class="modal fade" id="areyouSureYouWantToDetele" tabindex="-1">
+						     <div class="modal fade" id="jobActivityDelete" tabindex="-1">
 						       <div class="modal-dialog modal-dialog-centered">
 							     <div class="modal-content">
 								   <div class="modal-body">
@@ -86,7 +81,7 @@
 						</tbody>
 					  </table>
 						<!--------------machine created successfully modal ------------->
-					  <div class="modal fade" id="machineModal" tabindex="-1">
+					  <div class="modal fade" id="jobActivityDelete" tabindex="-1">
 					    <div class="modal-dialog modal-dialog-centered">
 					      <div class="modal-content">
 						    <div class="modal-body">
@@ -110,13 +105,13 @@
 					    </div>
 					  </div>
 					  <!--------------User deleted successfully modal ------------->
-					  <div class="modal fade" id="userDeleteSuccessfully" tabindex="-1">
+					  <div class="modal fade" id="activityDeleteSuccessfully" tabindex="-1">
 					    <div class="modal-dialog modal-dialog-centered">
 						  <div class="modal-content">
 							<div class="modal-body">
-							  <button type="button" class="btn-close" data-bs-dismiss="modal" style="position: relative; left: 50%; bottom: 12px;" onclick="loadPage('/user/list-users')" aria-label="Close"></button>
+							  <button type="button" class="btn-close" data-bs-dismiss="modal" style="position: relative; left: 50%; bottom: 12px;" onclick="loadPage('activityOption/list-activityOptions')" aria-label="Close"></button>
 							  <img src="assets/img/success_icon.png" alt="">
-							  <p><fmt:message key="user.deleted.successfully" /></p>
+							  <p>ACTIVITY DELETED SUCCESSFULLY</p>
 							</div>
 						  </div>
 						</div>
@@ -148,7 +143,7 @@
 	</section>
 </main>
 
-
+	<script src="assets/js/billing/job-activity-options.js"></script> 
 	<script src="assets/js/main.js"></script>	
 	<script src="assets/js/app.js"></script> 
 
