@@ -20,7 +20,7 @@ public class UserDTO {
 	private String mobile;
 	private String address;
 	private String username;
-	private String fonction;
+	private String function;
 	private MultipartFile imageFile;
 	private String groupe;
 	private String resetPasswordToken;

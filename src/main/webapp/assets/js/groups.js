@@ -88,8 +88,8 @@ function updateGroupe(name) {
       description: description,
       ids: ids
    };
-
    var jsonGroupUpdatedValue = JSON.stringify(updatedGroupValue);
+   
    fetch(`/group/update-group/${name}`, {
       method: "POST",
       headers: {

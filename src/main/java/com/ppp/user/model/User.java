@@ -36,28 +36,45 @@ public class User implements UserDetails {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;	
-	@Column(nullable = false, length = 255)
-	private String firstName;	
-	@Column(nullable = false, length = 255)
+	private Long id;
+	
+	@Column(name = "first_name", nullable = false)
+	private String firstName;
+	
+	@Column(name = "last_name", nullable = false)
 	private String lastName;
-	@Column(nullable = false, unique = true, length = 255)
+	
+	@Column(name = "email", nullable = false, unique = true)
 	private String email;
-	@Column(nullable = false, length = 255)
+	
+	@Column(name = "password", nullable = false)
 	private String password;
-	@Column(nullable = false, length = 15)
+	
+	@Column(name = "mobile", nullable = false)
 	private String mobile;
-	@Column(nullable = false, length = 255)
+	
+	@Column(name = "address", nullable = false)
 	private String address;
-	@Column(nullable = false, unique = true, length = 255)
+	
+	@Column(name = "username",nullable = false, unique = true)
 	private String username;
-	@Column(nullable = false, length = 255)
-	private String fonction;
-	private String imagePath;	
+	
+//	@Column(name = "function", nullable = false)
+//	private String function;
+	
+	@Column(name = "image_path")
+	private String imagePath;
+	
+	@Column(name = "connected")
 	private boolean connected = Boolean.FALSE;
+	
+	@Column(name = "deleted")
 	private boolean deleted = Boolean.FALSE;
+	
+	@Column(name = "created_at")
 	private LocalDate createdAt ;
 	
+	@Column(name = "reset_password_token")
 	private String resetPasswordToken;
 
 	@ManyToOne(fetch = FetchType.EAGER, optional = false)

@@ -7,7 +7,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-
 import com.ppp.billing.model.Customer;
 
 
@@ -16,8 +15,8 @@ import com.ppp.billing.model.Customer;
 public interface CustomerRepository extends JpaRepository<Customer, Long> {
 	
 	Page<Customer> findAll(Pageable pageable);
-	Optional<Customer>  findByEmail(String email);
-	Optional<Customer>  findById(long id );
+	Customer findByEmail(String email);
+	Optional<Customer> findById(Long id );
 	
 
 }

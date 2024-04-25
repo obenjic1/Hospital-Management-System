@@ -133,8 +133,7 @@ public class UserServiceImpl implements UserService {
 	public String updateUser(User updatedUser, Long id) {
 		User existingUser = userRepository.findById(id).get();
 		if(existingUser == null) {
-			return " error";
-			
+			return " error";		
 		}
 		existingUser.setFirstName(updatedUser.getFirstName());
 		existingUser.setLastName(updatedUser.getLastName());

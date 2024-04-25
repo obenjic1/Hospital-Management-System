@@ -26,14 +26,14 @@ public class RoleServiceImpl implements RoleService {
 	}
 
 	@Override
-	public Role viewRoleDetails(String name) {
-		return roleRepository.findByName(name);
-	}
-
-	@Override
 	public Page<Role> findPaginated(int pageNo, int pageSize) {
 		 Pageable pageable = PageRequest.of(pageNo - 1, pageSize);		 
 		 return roleRepository.findAll(pageable);
 		
+	}
+	
+	@Override
+	public Role viewRoleDetails(String name) {
+		return roleRepository.findByName(name);
 	}
 }
