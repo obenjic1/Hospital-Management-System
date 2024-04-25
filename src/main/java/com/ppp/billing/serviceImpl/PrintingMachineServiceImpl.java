@@ -15,8 +15,6 @@ public class PrintingMachineServiceImpl implements PrintingMachineService {
 	@Autowired
 	PrintingMachineRepository printinMachineRepository;
 	
-	
-
 	@Override
 	public Optional<PrintingMachine> findByAbbreviation(String abbreviation) {
 		return printinMachineRepository.findByAbbreviation(abbreviation);
@@ -62,10 +60,4 @@ public class PrintingMachineServiceImpl implements PrintingMachineService {
 	public Optional<PrintingMachine> findById(long id) {	
 		return printinMachineRepository.findById(id);
 	}
-
-	
-	
-	
-
-
 }

@@ -37,8 +37,8 @@ public class JobActivityOptionController {
 	}
 	// adding a new activity option
 	@PostMapping("/add-activity")
-	public String addActivity(@Validated @ModelAttribute("JobActivityOption") JobActivityOptionDTO JobActivityOptionDto) {
-		JobActivityOption newActivity = jobActivityOptionServiceImp.save(JobActivityOptionDto);
+	public String addActivity(@Validated @ModelAttribute("JobActivityOption") JobActivityOptionDTO jobActivityOptionDto) {
+		JobActivityOption newActivity = jobActivityOptionServiceImp.save(jobActivityOptionDto);
 			return "/billing/activity-list";
 		}
 		

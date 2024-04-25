@@ -69,7 +69,7 @@ public class PrintingMachineController {
 	public void removeById(@PathVariable long id) {
 	  Optional<PrintingMachine> machine = printMachineServiceImp.findById(id);
 	    if (machine.isPresent()) {
-	      printMachineServiceImp.delete(id); ;
+	      printMachineServiceImp.delete(id);
 	    }
 	   
 	    return ;
