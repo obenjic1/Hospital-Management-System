@@ -26,7 +26,7 @@ public class PrintingMachineServiceImpl implements PrintingMachineService {
 	    PrintingMachine machineOptional = printinMachineRepository.findById(id).get();	    
 	    	machineOptional.setName(machine.getName());
 	    	machineOptional.setAbbreviation(machine.getAbbreviation());
-	    	machineOptional.setActive(machine.isActive());;
+	    	machineOptional.setActive(machine.isActive());
 	    	machineOptional.setPlateLength(machine.getPlateLength());
 	    	machineOptional.setPlateWidth(machine.getPlateWidth());
 	    	machineOptional.setThumbnail(machine.getThumbnail());
