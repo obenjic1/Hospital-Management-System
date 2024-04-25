@@ -1,20 +1,13 @@
 package com.ppp.billing.serviceImpl;
-
-import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import com.ppp.billing.model.Customer;
 import com.ppp.billing.model.PrintingMachine;
 import com.ppp.billing.model.dto.PrintingMachineDTO;
 import com.ppp.billing.repository.PrintingMachineRepository;
 import com.ppp.billing.service.PrintingMachineService;
-import com.ppp.user.model.User;
-import com.ppp.user.model.dto.UserDTO;
-import com.ppp.user.service.FileStorageService;
 
 @Service
 public class PrintingMachineServiceImpl implements PrintingMachineService {
@@ -35,7 +28,7 @@ public class PrintingMachineServiceImpl implements PrintingMachineService {
 	    PrintingMachine machineOptional = printinMachineRepository.findById(id).get();	    
 	    	machineOptional.setName(machine.getName());
 	    	machineOptional.setAbbreviation(machine.getAbbreviation());
-	    
+	    	machineOptional.setActive(machine.isActive());;
 	    	machineOptional.setPlateLength(machine.getPlateLength());
 	    	machineOptional.setPlateWidth(machine.getPlateWidth());
 	    	machineOptional.setThumbnail(machine.getThumbnail());

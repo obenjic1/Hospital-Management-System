@@ -201,7 +201,7 @@
 					</li>
 					
 					<li class="nav-item">
-					  <a class="nav-link collapsed" onclick="getListOfUser()" href="#">
+					  <a class="nav-link collapsed" onclick="loadPage('activityOption/list-activityOptions')" href="#">
 					    <i class="ri-bit-coin-line"></i>
 					    <span>Job activities options</span>
 					  </a>
@@ -278,6 +278,7 @@
 	<script src="assets/js/billing/customer.js"></script>
 	<script src="assets/js/billing/machine.js"></script> 
 	<script src="assets/js/modal.js"></script>
+	<script src="assets/js/billing/activityOptions"></script> 
 
 </body>
 

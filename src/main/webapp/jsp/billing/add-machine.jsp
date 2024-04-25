@@ -63,16 +63,17 @@
 				<div class="col-md-3" style="  width: 13%; left: 81%; position: relative; ">
 				  <input type="button" id="create-btn" onclick="addMachine()" style=" bottom: -42%;" class="btn btn-primary w-100" value="Save" />
 				</div>
+				</form:form>
 						</div>
 						<!-------------machine added successfully modal ------------->
-						<div class="modal fade" id="verticalycentered" tabindex="-1">
+						<div class="modal fade" id="activityOption" tabindex="-1">
 							<div class="modal-dialog modal-dialog-centered">
 								<div class="modal-content">
 									<div class="modal-body">
 										<button type="button" onclick="loadPage('/machine/list-machines')"
 											class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 										<img src="assets/img/success_icon.png" alt="">
-										<p>machine added successfully</p>
+										<p>an Activity has been added successfully</p>
 									</div>
 								</div>
 							</div>
@@ -89,10 +90,9 @@
 									</div>
 								</div>
 							</div>
+								
 						</div>
-					</form:form>
 				</div>
-			</div>
 		</section>
 	</main>
 		<script src="assets/js/main.js"></script>
