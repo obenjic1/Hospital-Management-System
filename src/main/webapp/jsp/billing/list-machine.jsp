@@ -32,7 +32,7 @@
 				<div class="card">
 					<div class="card-body">
 						<h5 class="card-title"> Machines</h5>
-						<button onclick="loadPage('machine/add-machine')" type="button" class="btn btn-primary">
+						<button onclick="loadPage('machine/add')" type="button" class="btn btn-primary">
 						  <fmt:message key="add.group"/>
 						</button>
 						
@@ -40,7 +40,7 @@
 						<table class="table datatable">
 						  <thead style="background-color: #dddfe3;">
 						    <tr>
-						     <th scope="col">Logo</th>
+						     <th scope="col">Photo</th>
 							  <th scope="col">Name</th>
 						      <th scope="col">Abbreviation</th>
 						       <th scope="col">Status</th>
@@ -56,7 +56,7 @@
 							   <th><img src="/download/${machine.thumbnail}" class="rounded-circle"></th>
 							   <td><a>${machine.name}</a></td>
 							   <td><a>${machine.abbreviation}</a></td>
-							   <td><a class="${user.deleted ? 'Blocked' : 'Active' }">${user.deleted ? 'Blocked' : 'Active'}</a></td>
+							   <td><a class="${user.is_active ? 'Blocked' : 'Active' }">${user.deleted ? 'Blocked' : 'Active'}</a></td>
 							     <td><a>${machine.plateLength}</a></td>
 							     <td><a>${machine.plateWidth}</a></td>
 							     
@@ -68,7 +68,7 @@
 								   <button class="button-edite" data-bs-toggle="modal" data-bs-target="#ExtralargeModal" onclick=" loadPage('/machine/update-form/${machine.id}')">
 								     <i class="fas fa-pencil-alt"></i>
 								   </button>
-								   <button class="button-delete" onclick="removeMachine(${machine.id})" id="startDeleting" data-bs-toggle="modal">
+								   <button class="button-delete" onclick="removeMachine(${machine.id})" id="startDeleting1" data-bs-toggle="modal">
 								     <i class="fas fa-trash-alt"></i>
 								   </button>
 								 </a>
@@ -115,12 +115,15 @@
 					    </div>
 					  </div>
 						<!------------------Deleted error------------------------------>
-						<div class="modal fade" id="somthingwhenwrong" tabindex="-1">
+						<div class="modal fade" id="confirmationModal" tabindex="-1">
 						  <div class="modal-dialog modal-dialog-centered">
 							<div class="alert alert-danger alert-dismissible fade show" role="alert">
+							      <h2  class="modal title"id="confirmationTitle"></h2>
 							    <i class="bi bi-exclamation-octagon me-1"></i>
-							    <p><fmt:message key="something.when.wrong.user.did.not.deleted"/></p>
-							    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+ 								<p id="confirmationMessage"></p>
+ 								 <button class="btn-close" id="confirmButton">Confirm</button>
+     							 <button  class="btn-close" id="cancelButton">Cancel</button>
+<!--  							    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button> -->
 							  </div>
 							</div>
 						 </div>

@@ -218,7 +218,7 @@
 			  <sec:authorize access="hasRole('ROLE_VIEW_SETINGS')">
 				<ul id="configuration-management-nav">
 					<li class="nav-item">
-                      <a class="nav-link collapsed" onclick="loadPage('machine/getListPage')" href="#">
+                      <a class="nav-link collapsed" onclick="loadPage('machine/list')" href="#">
 						<i class="ri-steam-line"></i>
 						<span><fmt:message key="machines" /></span>
 					  </a>

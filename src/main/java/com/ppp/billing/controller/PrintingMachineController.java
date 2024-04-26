@@ -26,7 +26,7 @@ public class PrintingMachineController {
 	private PrintingMachineServiceImpl printMachineServiceImp;
 	
 	// end point to show the list machine page 
-	@GetMapping("/getListPage")
+	@GetMapping("/list")
     public String showListMachines(Model model ,String name) {
 		List<PrintingMachine> machines=printMachineServiceImp.listMachines();
 		model.addAttribute("machines", machines);
@@ -35,7 +35,7 @@ public class PrintingMachineController {
 	
 	// end point to show the add machine form 
 	
-	@RequestMapping("/add-machine")
+	@RequestMapping("/add")
     public String getAddForm(Model model ) {
 		model.addAttribute("PrintingMachine", new PrintingMachine());
 		return "/billing/add-machine";
@@ -63,7 +63,7 @@ public class PrintingMachineController {
 	}
 	
 	// to delete a Machine
-	@PostMapping(value="/delete-machine/{id}")
+	@PostMapping(value="/delete/{id}")
 	public void removeById(@PathVariable long id) {
 	  Optional<PrintingMachine> machine = printMachineServiceImp.findById(id);
 	    if (machine.isPresent()) {
