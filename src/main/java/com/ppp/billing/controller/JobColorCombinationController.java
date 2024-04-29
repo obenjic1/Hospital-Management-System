@@ -19,7 +19,7 @@ import com.ppp.billing.serviceImpl.JobColorCombinationServiceImpl;
 public class JobColorCombinationController {
 
 	@Value("${paginationSise}")
-	private int JobColorCombinationPaginationSize;
+	private int jobColorCombinationPaginationSize;
 	
 	@Autowired
 	private JobColorCombinationServiceImpl jobColorCombinationServiceImpl;
@@ -33,7 +33,7 @@ public class JobColorCombinationController {
 //<------------------------ Pagination ---------------------------->	
 	@GetMapping("pagination/{pageNo}")
 	public String pagination(@PathVariable int pageNo, Model model) {
-		int pageSize = JobColorCombinationPaginationSize;
+		int pageSize = jobColorCombinationPaginationSize;
 		Page<JobColorCombination> jobColorCombination = jobColorCombinationServiceImpl.pagination(pageNo, pageSize);
 		List<JobColorCombination> result = jobColorCombination.getContent();
 		 model.addAttribute("currentPage", pageNo);
