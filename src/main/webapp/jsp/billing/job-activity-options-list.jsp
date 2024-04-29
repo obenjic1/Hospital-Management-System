@@ -32,7 +32,7 @@
 				<div class="card">
 					<div class="card-body">
 						<h5 class="card-title"> Job Activity Options</h5>
-						<button onclick="loadPage('activityOption/add-activity')" type="button" class="btn btn-primary">
+						<button onclick="loadPage('activity-option/add')" type="button" class="btn btn-primary">
 						  <fmt:message key="add.group"/>
 						</button>
 						<!-- Table with stripped rows -->

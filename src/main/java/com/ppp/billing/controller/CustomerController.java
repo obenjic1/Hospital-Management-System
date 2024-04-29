@@ -27,6 +27,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ppp.billing.model.Customer;
 import com.ppp.billing.model.dto.CustomerDTO;
@@ -38,10 +39,16 @@ import com.ppp.billing.serviceImpl.CustomerServiceImpl;
 public class CustomerController {
 
 //<------------------- Retrieve the value from application.properties  -------------------->	
+
 	@Value("${paginationSise}")
 	private int paginationSize;	
-	@Value("{file.storage;path}")
+	
+	@Value("${file.storage.path}")
 	private String customerFileStorage;
+	
+//	@Value("${page.initial.size}")
+//	private int initialPage;
+//	
 	
 	
 //<------------------- Injection of dependencies  -------------------->
@@ -59,15 +66,15 @@ public class CustomerController {
 
 //<------------------- Save customer -------------------->	
 	@PostMapping("/save")
-	public ResponseEntity<String> save(CustomerDTO customerDTO) {
+	@ResponseBody
+	public String save(CustomerDTO customerDTO) {
 		
 		try {
-			Customer customer = customerServiceImpl.save(customerDTO);
-			return new ResponseEntity<String>("Success", HttpStatus.CREATED);
+			Customer customer = customerServiceImpl.save(customerDTO);		
+			return "SUCCESS";	
 			
 		} catch (Exception e) {
-			Customer customer = customerServiceImpl.save(customerDTO);
-			return new ResponseEntity<String>("failed", HttpStatus.ALREADY_REPORTED);
+			return "FAILED";
 		}
 		
 	}
@@ -75,7 +82,8 @@ public class CustomerController {
 //<------------------- Customers -------------------->
 	@PreAuthorize("hasAuthority('ROLE_LIST_CUSTOMER')")
 	@GetMapping("/list")
-	public String list(Model model) {	
+	public String list(Model model) {
+		//int firstPage = initialPage;
 		return pagination(1, model);
 	}
 	
@@ -126,8 +134,8 @@ public class CustomerController {
 
 //<------------------- Delete customer -------------------->
 	@PreAuthorize("hasAuthority('ROLE_DELETE_CUSTOMER')")
-	@DeleteMapping("/delete/{id}")
-	public ResponseEntity<String> delete(Long id) {
+	@PostMapping("/delete/{id}")
+	public ResponseEntity<String> delete(@PathVariable Long id) {
 		try {
 			customerServiceImpl.delete(id);
 			return new ResponseEntity<String>("Success", HttpStatus.OK);

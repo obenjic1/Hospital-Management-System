@@ -18,15 +18,17 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity(name="job_operation")
+@Entity(name="job_operation_option")
 public class JobOperationOption {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
-	@Column(nullable = false, length=225)
+	
+	@Column(name = "name", nullable = false)
 	private String name;
 	
+	@Column(name = "job_activity_options")
 	@OneToMany(fetch = FetchType.LAZY,  mappedBy = "jobOperationOption")
 	private List<JobActivityOption> jobActivityOptions;
 }

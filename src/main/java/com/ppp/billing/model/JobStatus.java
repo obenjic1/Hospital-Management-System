@@ -25,9 +25,11 @@ public class JobStatus {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id; 
-	@Column(nullable = false, length = 20)
+	
+	@Column(name = "name", nullable = false)
 	private String name;
-	@Column(length = 255)
+	
+	@Column(name = "description", length = 255)
 	private String description;
 
 	@OneToMany(fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "jobStatus")
