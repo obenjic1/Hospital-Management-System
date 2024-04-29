@@ -25,7 +25,7 @@ public class JobStatusController {
 	
 //<--------------------- List ------------------------->	
 	@GetMapping("/list")
-	public String List(Model model) {
+	public String list(Model model) {
 		return pagination(1, model);
 	}
 
