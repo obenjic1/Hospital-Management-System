@@ -26,7 +26,7 @@ public class JobTracking {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 	
-	@Column
+	@Column(name = "operation")
 	private Date operation;
 	
 	@Column(name="creation_date")

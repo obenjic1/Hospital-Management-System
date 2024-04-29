@@ -80,7 +80,7 @@
 						  </c:forEach>
 						</tbody>
 					  </table>
-						<!--------------User created successfully modal ------------->
+					<!--------------User created successfully modal ------------->
 					  <div class="modal fade" id="verticalycentered" tabindex="-1">
 					    <div class="modal-dialog modal-dialog-centered">
 					      <div class="modal-content">

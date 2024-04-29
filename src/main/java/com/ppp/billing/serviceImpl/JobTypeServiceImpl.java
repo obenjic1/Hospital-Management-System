@@ -4,14 +4,18 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
 
 import com.ppp.billing.model.JobType;
 import com.ppp.billing.model.dto.JobTypeDTO;
 import com.ppp.billing.repository.JobTypeRepository;
 import com.ppp.billing.service.JobTypeService;
 
-
+@Service
 public class JobTypeServiceImpl implements JobTypeService {
+	
 	@Autowired
 	private JobTypeRepository jobTypeRepository;
 
@@ -26,11 +30,12 @@ public class JobTypeServiceImpl implements JobTypeService {
 		// TODO Auto-generated method stub
 		return Optional.empty();
 	}
-
+	
+//<---------------- List ---------------------->	
 	@Override
 	public Page<JobType> findPaginatedJobType(int pageNo, int pageSize) {
-		// TODO Auto-generated method stub
-		return null;
+		Pageable pageable = PageRequest.of(pageNo, pageSize);
+		return jobTypeRepository.findAll(pageable);
 	}
 
 	@Override

@@ -1,16 +1,20 @@
 package com.ppp.billing.serviceImpl;
 
+
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
 
 import com.ppp.billing.model.PaperFormat;
 import com.ppp.billing.model.dto.PaperFormatDTO;
-import com.ppp.billing.model.dto.PaperGrammageDTO;
 import com.ppp.billing.repository.PaperFormatRepository;
 import com.ppp.billing.service.PaperFormatService;
 
+@Service
 public class PaperFormatServiceImpl implements PaperFormatService {
 
 	@Autowired
@@ -34,10 +38,11 @@ public class PaperFormatServiceImpl implements PaperFormatService {
 		return null;
 	}
 
+//<---------------- List all ---------------------->
 	@Override
 	public Page<PaperFormat> findAllWithPagination(int pageNum, int pageSize) {
-		// TODO Auto-generated method stub
-		return null;
+		Pageable pageable = PageRequest.of(pageNum, pageSize);
+		return paperFormatRepository.findAll(pageable);
 	}
 
 	@Override

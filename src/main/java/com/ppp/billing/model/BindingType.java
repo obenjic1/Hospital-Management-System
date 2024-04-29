@@ -24,10 +24,11 @@ public class BindingType {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
-	@Column(nullable = false, length = 255)
+	
+	@Column(name = "name", nullable = false)
 	private String name;
 	
-
+	@Column(name = "jobs")
 	@OneToMany(fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "bindingType")
 	private List<Job> jobs;
 	

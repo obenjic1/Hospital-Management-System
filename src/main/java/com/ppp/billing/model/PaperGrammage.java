@@ -19,7 +19,8 @@ public class PaperGrammage {
 	@Id 
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
-	@Column(nullable = false)
+	
+	@Column(name="value", nullable = false)
 	private String value;
 
 }

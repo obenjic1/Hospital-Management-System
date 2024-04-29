@@ -15,14 +15,14 @@ import com.ppp.billing.model.dto.JobActivityOptionDTO;
 import com.ppp.billing.serviceImpl.JobActivityOptionServiceImpl;
 
 @Controller
-@RequestMapping("activityOption")
+@RequestMapping("activity-option")
 public class JobActivityOptionController {
 	
 	@Autowired
 	private JobActivityOptionServiceImpl jobActivityOptionServiceImp;
 	
 	// get a page of all the listed job activities
-	@GetMapping("/list-activityOptions")
+	@GetMapping("/list")
 	public String showListPage(Model model,String name) {
 	List<JobActivityOption> activities =  jobActivityOptionServiceImp.getAllJobActivityOptions();
 		model.addAttribute("activities",activities);
@@ -30,7 +30,7 @@ public class JobActivityOptionController {
 	}
 	
 	// get a page to add activity option
-	@GetMapping("/add-activity")
+	@GetMapping("/add")
 	public String getAddFrom(Model model) {
 		model.addAttribute("JobActivityOption",new JobActivityOption());
 		return"/billing/add-activity-options";

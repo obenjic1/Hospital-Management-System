@@ -7,7 +7,9 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class jobOperationOptionDTO {
+public class JobActivityDTO {
+	
+	private String job;
+	private String jobActivityOption;
 
-	private String name;
 }
