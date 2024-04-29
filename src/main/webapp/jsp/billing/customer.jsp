@@ -1,12 +1,12 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1" 
+							pageEncoding="ISO-8859-1"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
-<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-<%@ taglib prefix="sec"
-	uri="http://www.springframework.org/security/tags"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
+  <link href="assets/vendor/simple-datatables/style.css" rel="stylesheet">
+  <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
 <main id="add-user">
 
@@ -58,9 +58,9 @@
 						</div>
 						
 						<div class="col-md-3" style="  width: 13%; left: 21%; position: relative; ">
-							<input type="button" id="create-btn" onclick="save()" style=" bottom: -42%;" class="btn btn-primary w-100" value="Save" />
-						</div>					
-					</form>
+						  <input type="button" data-bs-toggle="modal" data-bs-target="#creation" id="create-btn" onclick="savecutomer()" style=" bottom: -42%;" class="btn btn-primary w-100" value="Save" />
+						</div>							
+					</form>					
 				</div>
 			</div>
 		</section>

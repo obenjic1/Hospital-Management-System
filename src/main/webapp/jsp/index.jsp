@@ -40,7 +40,7 @@
 <link href="assets/css/style.css" rel="stylesheet">
 <link href="assets/css/smartsheet.css" rel="stylesheet">
 <link href="assets/css/profile.css" rel="stylesheet">
-
+<!-- <link href="assets/modal/modal.css" rel="stylesheet"> -->
 
 </head>
 
@@ -231,82 +231,79 @@
 					</li>
 					
 					<li class="nav-item">
-					  <a class="nav-link collapsed" onclick="loadPage('activityOption/list-activityOptions')" href="#">
-					    <i class="ri-bit-coin-line"></i>
-					    <span>Job activities options</span>
-					  <a class="nav-link collapsed" onclick="getListOfUser()" href="#">
+					  <a class="nav-link collapsed" onclick="loadPage('/activity-option/list')" href="#">
 					    <i class="ri-compasses-line"></i>
 					    <span><fmt:message key="job.activities.options" /> </span>
 					  </a>
 					</li>
 					<li class="nav-item">
-					  <a class="nav-link collapsed" onclick="getListOfUser()" href="#">
+					  <a class="nav-link collapsed" onclick="loadPage('/grammage/list')" href="#">
 					    <i class="ri-file-damage-line"></i>
 					    <span><fmt:message key="paper.grammage" /> </span>
 					  </a>
 					</li>
 					<li class="nav-item">
-					  <a class="nav-link collapsed" onclick="getListOfUser()" href="#">
+					  <a class="nav-link collapsed" onclick="loadPage('/paperformat/list')" href="#">
 					    <i class="ri-file-edit-line"></i>
 					    <span><fmt:message key="paper.format" /> </span>
 					  </a>
 					</li>
 					<li class="nav-item">
-					  <a class="nav-link collapsed" onclick="getListOfUser()" href="#">
+					  <a class="nav-link collapsed" onclick="loadPage('/jobtype/list')" href="#">
 					    <i class="ri-hammer-line"></i>
 					    <span><fmt:message key="job.type" /> </span>
 					  </a>
 					</li>
 					<li class="nav-item">
-					  <a class="nav-link collapsed" onclick="getListOfUser()" href="#">
+					  <a class="nav-link collapsed" onclick="loadPage('/jobtracking/list')" href="#">
 					    <i class="ri-key-2-line"></i>
 					    <span><fmt:message key="job.tracking" /> </span>
 					  </a>
 					</li>
 					<li class="nav-item">
-					  <a class="nav-link collapsed" onclick="getListOfUser()" href="#">
+					  <a class="nav-link collapsed" onclick="loadPage('/jobstatus/list')" href="#">
 					    <i class="ri-more-fill"></i>
 					    <span><fmt:message key="job.status" /> </span>
 					  </a>
 					</li>
 					<li class="nav-item">
-					  <a class="nav-link collapsed" onclick="getListOfUser()" href="#">
+					  <a class="nav-link collapsed" onclick="loadPage('/bindingtype/list')" href="#">
 					    <i class="ri-pantone-fill"></i>
 					    <span><fmt:message key="binding.type" /> </span>
 					  </a>
 					</li>
 					<li class="nav-item">
-					  <a class="nav-link collapsed" onclick="getListOfUser()" href="#">
+					  <a class="nav-link collapsed" onclick="loadPage('/jobactivity/list')" href="#">
 					    <i class="ri-slack-fill"></i>
 					    <span><fmt:message key="job.activity" /> </span>
 					  </a>
 					</li>
 					<li class="nav-item">
-					  <a class="nav-link collapsed" onclick="getListOfUser()" href="#">
+					  <a class="nav-link collapsed"  onclick="loadPage('/job-opr-opt/list')" href="#">
 					    <i class="ri-signal-tower-line"></i>
 					    <span><fmt:message key="job.operation.options" /> </span>
 					  </a>
 					</li>
 					<li class="nav-item">
-					  <a class="nav-link collapsed" onclick="getListOfUser()" href="#">
+					  <a class="nav-link collapsed" onclick="loadPage('/jobpaper/list')" href="#">
 					    <i class="ri-stack-line"></i>
 					    <span><fmt:message key="job.paper" /> </span>
 					  </a>
 					</li>
 					<li class="nav-item">
-					  <a class="nav-link collapsed" onclick="getListOfUser()" href="#">
+					  <a class="nav-link collapsed" onclick="loadPage('/contenttype/list')" href="#">
 					    <i class="ri-stack-fill"></i>
 					    <span><fmt:message key="content.type" /> </span>
 					  </a>
 					</li>
 					<li class="nav-item">
-					  <a class="nav-link collapsed" onclick="getListOfUser()" href="#">
+					  <a class="nav-link collapsed" onclick="loadPage('/job-color-combinaisation/list')" href="#">
 					    <i class="ri-test-tube-fill"></i>
 					    <span><fmt:message key="color.combinaition" /> </span>
 					  </a>
 					</li>						
 					<li class="nav-item">
-					  <a class="nav-link collapsed" onclick="getListOfUser()" href="#">
+					  <a class="nav-link collapsed" onclick="loadPage('/print-type/list')" href="#">
 					    <i class="ri-todo-line"></i>
 					    <span><fmt:message key="print.type" /> </span>
 					  </a>
@@ -344,7 +341,47 @@
 	  <section class="section dashboard">
 		<div class="row">
 		<!-- Left side columns -->
+			
 		  <div id="main-content" class="row"></div>
+		  		  
+		  <!-- modal content -->
+		   <div>
+		     <div class="modal fade" id="creation" tabindex="-1">
+	           <div class="modal-dialog modal-dialog-centered">
+	             <div class="modal-content">
+	               <input type="button" onclick="loadPage('/customer/list')" class="btn-close" data-bs-dismiss="modal" aria-label="Close" style=" left: 93%;  bottom: -7px; ">
+	               <div class="modal-body">
+	                 <img id="messageImage" src="" alt="">	 
+	                 <div id="successMesssage"> </div>
+	               </div>
+	             </div>
+	           </div>
+	         </div>	                 
+			 <div class="modal fade" id="ExtralargeModal" tabindex="-1">
+			   <div class="modal-dialog modal-xl">
+				 <div class="modal-content" id="addUser" >
+				  <div class="modal-body">
+				    <ul class="nav nav-tabs nav-tabs-bordered"> </ul>
+				  </div>
+				  <div class="modal-footer" >
+				    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><fmt:message key="close"/></button>
+				  </div>
+			    </div>
+			  </div>
+			</div>	
+			<!-------------- Modal ------------->
+			<div class="modal fade" id="areyouSureYouWantToDetele" tabindex="-1">
+			  <div class="modal-dialog modal-dialog-centered">
+			    <div class="modal-content">
+			      <div class="modal-body">
+	                <p> <br><fmt:message key="are.you.sure.you.want.to.delete.this.user.this.action.will"/></p>
+			        <button class="delete-denied" type="button" id="cancelButton" data-bs-dismiss="modal"><fmt:message key="cancel"/></button>
+		          <button class="accept-delete" type="button" id="confirmDeleteBtn" data-bs-toggle="modal" data-bs-target="#creation" onclick="loadPage('/customer/list')"><fmt:message key="delete"/></button>
+			    </div>
+		      </div>
+		   </div>
+	     </div>	  
+		 </div>
 		</div>
 	  </section>
 	</main>
@@ -382,7 +419,7 @@
 	<script src="assets/js/billing/list-customer.js"></script>
 	<script src="assets/js/billing/customer.js"></script>
 	<script src="assets/js/billing/machine.js"></script> 
-	<script src="assets/js/modal.js"></script>
+	<script src="assets/modal/modal.js"></script>
 	<script src="assets/js/billing/activityOptions"></script> 
 	<script src="assets/js/billing/papertype.js"></script>
 

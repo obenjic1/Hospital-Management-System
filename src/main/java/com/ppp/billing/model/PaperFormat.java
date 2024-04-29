@@ -19,11 +19,14 @@ public class PaperFormat {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
-	@Column(nullable = false, unique = true)
+	
+	@Column(name = "name", nullable = false, unique = true)
 	private String name;
-	@Column(nullable = false)
+	
+	@Column(name = "length", nullable = false)
 	private String length;
-	@Column(nullable = false)
+	
+	@Column(name = "width", nullable = false)
 	private String width;
 
 }

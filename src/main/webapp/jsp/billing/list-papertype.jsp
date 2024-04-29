@@ -11,6 +11,7 @@
 <link rel="stylesheet" href="/DataTables/datatables.dataTables.css" />
 <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 <link href="assets/css/list-role.css" rel="stylesheet">
+<link href="assets/css/list-users.css" rel="stylesheet">
 
 
 <main id="list-customer" class="main">
@@ -29,7 +30,7 @@
 				<div class="card">
 					<div class="card-body">
 						<h5 class="card-title"> <fmt:message key="paper.types"/></h5>
-						<button onclick="loadPage('/papertype/displayform')" type="button" class="btn btn-primary" style=" position: relative; left: 94%; width: 77px;">
+						<button data-bs-target="#ExtralargeModal" data-bs-toggle="modal" onclick="fillContentModal('/papertype/displayform')" type="button" class="btn btn-primary" style=" position: relative; left: 94%; width: 77px;">
 						  <fmt:message key="add.group"/>
 						</button>
 						<!-- Table with stripped rows -->
@@ -48,13 +49,13 @@
 							   <td>${paperType.name}</td>
 							   <td>
 							     <a>
-								   <button class="button-see" onclick="loadPage('papertype/paper/${paperType.id}')">
+								   <button data-bs-toggle="modal" data-bs-target="#ExtralargeModal" data-bs-toggle="modal" class="button-see" onclick="fillContentModal('papertype/paper/${paperType.id}')">
 								     <i class="fas fa-eye"></i>
 								   </button>
-								   <button class="button-edite" onclick="loadPage('papertype/toUpdate/${paperType.id}')">
+								   <button class="button-edite" data-bs-target="#ExtralargeModal" data-bs-toggle="modal" class="button-see" onclick="fillContentModal('papertype/toUpdate/${paperType.id}')">
 								     <i class="fas fa-pencil-alt"></i>
 								   </button>
-								   <button class="button-delete" id="startDeleting">
+								   <button class="button-delete" id="startDeleting" data-bs-toggle="modal" onclick="confirmDelete('${paperType.id}')" data-bs-target="#areyouSureYouWantToDetele">
 								     <i class="fas fa-trash-alt"></i>
 								   </button>
 								 </a>
@@ -62,7 +63,31 @@
 							 </tr>						
 						  </c:forEach>
 						</tbody>
-					  </table>					  					 		
+					  </table>
+					  <div class="modal fade" id="ExtralargeModal" tabindex="-1">
+						  <div class="modal-dialog modal-xl">
+							<div class="modal-content"id="addUser" >
+							  <div class="modal-body">
+								<ul class="nav nav-tabs nav-tabs-bordered"> </ul>
+							  </div>
+							  <div class="modal-footer" >
+								<button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><fmt:message key="close"/></button>
+							  </div>
+							</div>
+						  </div>
+						</div>	
+					  <!-------------- Modal ------------->
+					    <div class="modal fade" id="areyouSureYouWantToDetele" tabindex="-1">
+						  <div class="modal-dialog modal-dialog-centered">
+					        <div class="modal-content">
+						    <div class="modal-body">
+							  <p> <br><fmt:message key="are.you.sure.you.want.to.delete.this.user.this.action.will"/></p>
+				 			  <button class="delete-denied" type="button" id="cancelButton" data-bs-dismiss="modal"><fmt:message key="cancel"/></button>
+							  <button class="accept-delete" type="button" id="confirmDeleteBtn" data-bs-toggle="modal"><fmt:message key="delete"/></button>
+						    </div>
+						  </div>
+					    </div>
+					  </div>					  					 		
 					 <nav aria-label="Page navigation example">
 					   <ul class="pagination nav-no-border">
 						 <li class="page-item">

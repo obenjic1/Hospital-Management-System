@@ -30,7 +30,7 @@
 				<div class="card">
 					<div class="card-body">
 						<h5 class="card-title"> <fmt:message key="customers"/></h5>
-						<button onclick="loadPage('/customer/displayCustomerForm')" type="button" class="btn btn-primary" style=" position: relative; left: 94%; width: 77px;">
+						<button data-bs-toggle="modal" data-bs-target="#ExtralargeModal" onclick="fillContentModal('/customer/displayCustomerForm')" type="button" class="btn btn-primary" style=" position: relative; left: 94%; width: 77px;">
 						  <fmt:message key="add.group"/>
 <!-- 						   data-bs-toggle="modal" data-bs-target="#saveCustomerModal1" -->
 						</button>
@@ -54,13 +54,13 @@
 							   <td><a>${customers.address}</a></td> 
 							   <td>
 							     <a>
-								   <button class="button-see" onclick="loadPage('customer/find/${customers.email}')">
+								   <button class="button-see" data-bs-toggle="modal" data-bs-target="#ExtralargeModal" onclick="fillContentModal('customer/find/${customers.email}')">
 								     <i class="fas fa-eye"></i>
 								   </button>
-								   <button class="button-edite" onclick="loadPage('customer/update/${customers.email}')">
+								   <button class="button-edite" data-bs-toggle="modal" data-bs-target="#ExtralargeModal" onclick="fillContentModal('customer/update/${customers.email}')">
 								     <i class="fas fa-pencil-alt"></i>
 								   </button>
-								   <button class="button-delete" id="startDeleting">
+								   <button class="button-delete" data-bs-toggle="modal" onclick="confirmDelete('${customers.id}')" data-bs-target="#areyouSureYouWantToDetele" id="startDeleting">
 								     <i class="fas fa-trash-alt"></i>
 								   </button>
 								 </a>
@@ -68,7 +68,8 @@
 							 </tr>						
 						  </c:forEach>
 						</tbody>
-					  </table>					  					 		
+					  </table>	
+					  					  					 		
 						<!-- Pagination with icons -->
 						<nav aria-label="Page navigation example">
 						  <ul class="pagination nav-no-border">
@@ -88,7 +89,6 @@
 <!-- End #main -->
 
 <script src="assets/js/users.js"></script>
-<script src="assets/js/billing/list-customer.js"></script>
 <script src="assets/js/billing/customer.js"></script>
 
 

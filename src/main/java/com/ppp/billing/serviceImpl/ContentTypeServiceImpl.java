@@ -1,22 +1,23 @@
 package com.ppp.billing.serviceImpl;
 
-import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
+
 import com.ppp.billing.model.ContentType;
 import com.ppp.billing.model.dto.ContentTypeDTO;
 import com.ppp.billing.repository.ContentTypeRepository;
 import com.ppp.billing.service.ContentTypeService;
 
+@Service
 public class ContentTypeServiceImpl implements ContentTypeService {
 	
 	@Autowired
 	ContentTypeRepository contentTypeRepository;
 	
-	@Override
-	public List<ContentType> getAllContentTypes() {
-		return contentTypeRepository.findAll();
-	}
 	
 	@Override
 	public ContentType update(ContentTypeDTO contentTypeDto, long id) {
@@ -53,6 +54,13 @@ public class ContentTypeServiceImpl implements ContentTypeService {
 	public void delete(long id) {
 		contentTypeRepository.deleteById(id);
 		
+	}
+
+//<------------------------ list paginated ------------------------->	
+	@Override
+	public Page<ContentType> findAllpaginate(int pageNo, int pageSize) {
+		Pageable pageable = PageRequest.of(pageNo, pageSize);
+		return contentTypeRepository.findAll(pageable);
 	}
 
 }

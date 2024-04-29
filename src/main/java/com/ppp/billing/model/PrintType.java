@@ -23,9 +23,11 @@ public class PrintType {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
-	@Column(nullable = false, unique = true, length = 225)
+	
+	@Column(name = "name", nullable = false, unique = true)
 	private String name;
 	
+	@Column(name = "jobColorCombinations")
 	@OneToMany(fetch = FetchType.LAZY,  mappedBy = "printType")
 	private List<JobColorCombination> jobColorCombinations;
 }

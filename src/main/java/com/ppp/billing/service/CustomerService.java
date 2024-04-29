@@ -16,11 +16,11 @@ import com.ppp.billing.model.dto.CustomerDTO;
 public interface CustomerService {
 	
 	Customer save(CustomerDTO cutomerDTO);
-	void delete(long id);
 	Page<Customer> pagination(int pageNo, int pageSize);
 	Customer findByEmail(String email);
 	Customer update(CustomerDTO customerDTO, Long id);
 	File downloadFile(String fileName, String fileStoragePath);
+	void delete(long id);
 
 	
 }

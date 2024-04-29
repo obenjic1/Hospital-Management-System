@@ -24,7 +24,8 @@ public class JobPaper {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
-	@Column(nullable = false)
+	
+	@Column(name = "grammage", nullable = false)
 	private String grammage;
 	
 	@Column(length=255)

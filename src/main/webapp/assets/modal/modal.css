@@ -1,0 +1,11 @@
+@charset "UTF-8";
+
+.modal {
+       display: none;
+       /* Ajoutez ici les styles spécifiques à votre modal */
+       }
+        
+.modal-visible {
+	
+            display: block !important;
+        }
