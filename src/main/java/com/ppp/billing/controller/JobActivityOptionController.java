@@ -22,7 +22,7 @@ import com.ppp.billing.model.dto.JobActivityOptionDTO;
 import com.ppp.billing.serviceImpl.JobActivityOptionServiceImpl;
 
 @Controller
-@RequestMapping("activity-option")
+@RequestMapping("/activity-option")
 public class JobActivityOptionController {
 	
 	@Autowired

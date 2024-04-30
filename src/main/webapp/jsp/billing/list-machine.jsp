@@ -62,10 +62,10 @@
 							     
 							  <td>
 							     <a>
-								   <button class="button-see" data-bs-toggle="modal" data-bs-target="#ExtralargeModal" onclick="loadPage('/machine/viewMachine/${machine.id}')">
+								   <button class="button-see" data-bs-toggle="modal" data-bs-target="#ExtralargeModal" onclick="loadPageModal('/machine/viewMachine/${machine.id}')">
 								     <i class="fas fa-eye"></i>
 								   </button>
-								   <button class="button-edite" data-bs-toggle="modal" data-bs-target="#ExtralargeModal" onclick=" loadPage('/machine/update-form/${machine.id}')">
+								   <button class="button-edite" data-bs-toggle="modal" data-bs-target="#ExtralargeModal" onclick=" loadPageModal('/machine/update-form/${machine.id}')">
 								     <i class="fas fa-pencil-alt"></i>
 								   </button>
 								   <button class="button-delete" onclick="removeMachine(${machine.id})" id="startDeleting1" data-bs-toggle="modal">

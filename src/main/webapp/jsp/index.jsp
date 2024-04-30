@@ -231,8 +231,8 @@
 					</li>
 					
 					<li class="nav-item">
-<<<<<<< HEAD
-					  <a class="nav-link collapsed" onclick="loadPage('/activityOption/list-activityOptions')" href="#">
+
+					  <a class="nav-link collapsed" onclick="loadPage('/activity-option/list')" href="#">
 					    <i class="ri-bit-coin-line"></i>
 					   <span><fmt:message key="job.activities.options" /> </span></a>
 
