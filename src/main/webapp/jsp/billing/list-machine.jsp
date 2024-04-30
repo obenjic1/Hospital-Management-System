@@ -32,7 +32,7 @@
 				<div class="card">
 					<div class="card-body">
 						<h5 class="card-title"> Machines</h5>
-						<button onclick="loadPage('machine/add-machine')" type="button" class="btn btn-primary">
+						<button onclick="loadPage('machine/add')" type="button" class="btn btn-primary">
 						  <fmt:message key="add.group"/>
 						</button>
 						
@@ -40,7 +40,7 @@
 						<table class="table datatable">
 						  <thead style="background-color: #dddfe3;">
 						    <tr>
-						     <th scope="col">Logo</th>
+						     <th scope="col">Photo</th>
 							  <th scope="col">Name</th>
 						      <th scope="col">Abbreviation</th>
 						       <th scope="col">Status</th>
@@ -56,19 +56,19 @@
 							   <th><img src="/download/${machine.thumbnail}" class="rounded-circle"></th>
 							   <td><a>${machine.name}</a></td>
 							   <td><a>${machine.abbreviation}</a></td>
-							   <td><a class="${user.deleted ? 'Blocked' : 'Active' }">${user.deleted ? 'Blocked' : 'Active'}</a></td>
+							   <td><a class="${user.is_active ? 'Blocked' : 'Active' }">${user.deleted ? 'Blocked' : 'Active'}</a></td>
 							     <td><a>${machine.plateLength}</a></td>
 							     <td><a>${machine.plateWidth}</a></td>
 							     
 							  <td>
 							     <a>
-								   <button class="button-see" data-bs-toggle="modal" data-bs-target="#ExtralargeModal" onclick="loadPage('/machine/viewMachine/${machine.id}')">
+								   <button class="button-see" data-bs-toggle="modal" data-bs-target="#ExtralargeModal" onclick="loadPageModal('/machine/viewMachine/${machine.id}')">
 								     <i class="fas fa-eye"></i>
 								   </button>
-								   <button class="button-edite" data-bs-toggle="modal" data-bs-target="#ExtralargeModal" onclick=" loadPage('/machine/update-form/${machine.id}')">
+								   <button class="button-edite" data-bs-toggle="modal" data-bs-target="#ExtralargeModal" onclick=" loadPageModal('/machine/update-form/${machine.id}')">
 								     <i class="fas fa-pencil-alt"></i>
 								   </button>
-								   <button class="button-delete" onclick="removeMachine(${machine.id})" id="startDeleting" data-bs-toggle="modal">
+								   <button class="button-delete" onclick="removeMachine(${machine.id})" id="startDeleting1" data-bs-toggle="modal">
 								     <i class="fas fa-trash-alt"></i>
 								   </button>
 								 </a>
@@ -86,21 +86,22 @@
 								</div>
 							  </div>
 							</div>
+							
+							<!--------------machine created successfully modal ------------->
+							  <div class="modal fade" id="machineModal" tabindex="-1">
+							    <div class="modal-dialog modal-dialog-centered">
+							      <div class="modal-content">
+								    <div class="modal-body">
+									  <button type="button" style="position: relative; left: 50%; bottom: 12px;"  class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+									  <img src="assets/img/success_icon.png" alt="">
+									  <p>Machine Deleted Successfully</p>
+									</div>
+								  </div>
+							    </div>
+							  </div>
 						  </c:forEach>
 						</tbody>
-					  </table>
-						<!--------------machine created successfully modal ------------->
-					  <div class="modal fade" id="machineModal" tabindex="-1">
-					    <div class="modal-dialog modal-dialog-centered">
-					      <div class="modal-content">
-						    <div class="modal-body">
-							  <button type="button" style="position: relative; left: 50%; bottom: 12px;"  class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-							  <img src="assets/img/success_icon.png" alt="">
-							  <p>Machine Added Successfully</p>
-							</div>
-						  </div>
-					    </div>
-					  </div>
+					</table>
 						<!--------------MAchine updated successfully modal ------------->
 					  <div class="modal fade" id="userUdatedSuccessfully" tabindex="-1">
 					    <div class="modal-dialog modal-dialog-centered">
@@ -113,65 +114,19 @@
 						  </div>
 					    </div>
 					  </div>
-					  <!--------------User deleted successfully modal ------------->
-					  <div class="modal fade" id="userDeleteSuccessfully" tabindex="-1">
-					    <div class="modal-dialog modal-dialog-centered">
-						  <div class="modal-content">
-							<div class="modal-body">
-							  <button type="button" class="btn-close" data-bs-dismiss="modal" style="position: relative; left: 50%; bottom: 12px;" onclick="loadPage('/user/list-users')" aria-label="Close"></button>
-							  <img src="assets/img/success_icon.png" alt="">
-							  <p><fmt:message key="user.deleted.successfully" /></p>
-							</div>
-						  </div>
-						</div>
-					  </div>
 						<!------------------Deleted error------------------------------>
-						<div class="modal fade" id="somthingwhenwrong" tabindex="-1">
+						<div class="modal fade" id="confirmationModal" tabindex="-1">
 						  <div class="modal-dialog modal-dialog-centered">
 							<div class="alert alert-danger alert-dismissible fade show" role="alert">
+							      <h2  class="modal title"id="confirmationTitle"></h2>
 							    <i class="bi bi-exclamation-octagon me-1"></i>
-							    <p><fmt:message key="something.when.wrong.user.did.not.deleted"/></p>
-							    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+ 								<p id="confirmationMessage"></p>
+ 								 <button class="btn-close" id="confirmButton">Confirm</button>
+     							 <button  class="btn-close" id="cancelButton">Cancel</button>
+<!--  							    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button> -->
 							  </div>
 							</div>
 						 </div>
-						
-<!-- 						<div class="modal fade" id="ExtralargeModal" tabindex="-1"> -->
-<!-- 						  <div class="modal-dialog modal-xl"> -->
-<!-- 							<div class="modal-content"id="modC" > -->
-<!-- 							  <div class="modal-body"> -->
-<!-- 								<ul class="nav nav-tabs nav-tabs-bordered"> </ul> -->
-<!-- 							  </div> -->
-<!-- 							  <div class="modal-footer" > -->
-<%-- 								<button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><fmt:message key="close"/></button> --%>
-<!-- 							  </div> -->
-<!-- 							</div> -->
-<!-- 						  </div>						   -->
-<!-- 						</div> -->
-<!-- 						<div class="modal fade" id="ExtralargeModal" tabindex="-1"> -->
-<!-- 						  <div class="modal-dialog modal-xl"> -->
-<!-- 							<div class="modal-content"id="userUpdate" > -->
-<!-- 							  <div class="modal-body"> -->
-<!-- 								<ul class="nav nav-tabs nav-tabs-bordered"> </ul> -->
-<!-- 							  </div> -->
-<!-- 							  <div class="modal-footer" > -->
-<%-- 								<button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><fmt:message key="close"/></button> --%>
-<!-- 							  </div> -->
-<!-- 							</div> -->
-<!-- 						  </div> -->
-<!-- 						</div>						 -->
-<!-- 						<div class="modal fade" id="ExtralargeModal" tabindex="-1"> -->
-<!-- 						  <div class="modal-dialog modal-xl"> -->
-<!-- 							<div class="modal-content"id="addUser" > -->
-<!-- 							  <div class="modal-body"> -->
-<!-- 								<ul class="nav nav-tabs nav-tabs-bordered"> </ul> -->
-<!-- 							  </div> -->
-<!-- 							  <div class="modal-footer" > -->
-<%-- 								<button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><fmt:message key="close"/></button> --%>
-<!-- 							  </div> -->
-<!-- 							</div> -->
-<!-- 						  </div> -->
-<!-- 						</div>				 -->
 						<!-- Pagination with icons -->
 						<nav aria-label="Page navigation example">
 						  <ul class="pagination nav-no-border">
@@ -188,7 +143,7 @@
 		</div>
 	</section>
 </main>
-
+	<script src="assets/js/billing/job-activity-options.js"></script> 
 	<script src="assets/js/billing/machine.js"></script> 
 	<script src="assets/js/main.js"></script>	
 	<script src="assets/js/app.js"></script> 

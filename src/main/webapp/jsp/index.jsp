@@ -218,7 +218,7 @@
 			  <sec:authorize access="hasRole('ROLE_VIEW_SETINGS')">
 				<ul id="configuration-management-nav">
 					<li class="nav-item">
-                      <a class="nav-link collapsed" onclick="loadPage('machine/getListPage')" href="#">
+                      <a class="nav-link collapsed" onclick="loadPage('machine/list')" href="#">
 						<i class="ri-steam-line"></i>
 						<span><fmt:message key="machines" /></span>
 					  </a>
@@ -231,10 +231,11 @@
 					</li>
 					
 					<li class="nav-item">
+
 					  <a class="nav-link collapsed" onclick="loadPage('/activity-option/list')" href="#">
-					    <i class="ri-compasses-line"></i>
-					    <span><fmt:message key="job.activities.options" /> </span>
-					  </a>
+					    <i class="ri-bit-coin-line"></i>
+					   <span><fmt:message key="job.activities.options" /> </span></a>
+
 					</li>
 					<li class="nav-item">
 					  <a class="nav-link collapsed" onclick="loadPage('/grammage/list')" href="#">
@@ -419,8 +420,13 @@
 	<script src="assets/js/billing/list-customer.js"></script>
 	<script src="assets/js/billing/customer.js"></script>
 	<script src="assets/js/billing/machine.js"></script> 
+<<<<<<< HEAD
+	<script src="assets/js/modal.js"></script>
+	<script src="assets/js/billing/job-activity-options.js"></script> 
+=======
 	<script src="assets/modal/modal.js"></script>
 	<script src="assets/js/billing/activityOptions"></script> 
+>>>>>>> dev
 	<script src="assets/js/billing/papertype.js"></script>
 
 </body>

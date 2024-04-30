@@ -17,26 +17,23 @@ function addMachine() {
 		formData.append('isActive', isActive),
 		formData.append('imageFile', thumbnail),
 
-		fetch('/machine/add-machine', {
+		fetch('/machine/add', {
 			method: 'POST',
 			body: formData,
 		})
 			.then(function(response) {
 				if (response.status === 200) {
-					var modal = new bootstrap.Modal(document.getElementById('verticalycentered'));
+					var modal = new bootstrap.Modal(document.getElementById('machineModal'));
 					modal.show();
 				} 
 			})
 			.then(function(data) {
-
+			
 			})
 			.catch(function(error) {
-				var modal = new bootstrap.Modal(document.getElementById('somethingWhenWrong'));
-				modal.show();
 				
-					
 			});console.log(isActive);
-				loadPage('machine/getListPage');
+				loadPage('machine/list');
 }
 
 function deleteMachine(id) {
@@ -65,7 +62,7 @@ bouton.addEventListener("click", function(event) {
 function removeMachine(id) {
 	
 
-	fetch(`machine/delete-machine/${id}`, {
+	fetch(`machine/delete/${id}`, {
 		method: 'POST',
 		headers: {
 			'Content-type': 'application/json'
@@ -82,7 +79,7 @@ function removeMachine(id) {
 				var modal = new bootstrap.Modal(document.getElementById('machineModal'));
 				modal.show();
 				
-				loadPage('machine/getListPage')
+				loadPage('machine/list')
 			}
 		})
 		.catch(error => {
@@ -119,5 +116,37 @@ function updateMachine(id) {
 			.catch(function(error) {
 				console.log('Oups')
 			});
-			loadPage('machine/getListPage');
+			loadPage('machine/list');
+			
+			
+			};
+			
+function showConfirmationModal(action, message, icon, callback) {
+  const modal = document.getElementById('confirmation-modal');
+  const modalMessage = document.getElementById('modal-message');
+  const modalIcon = document.getElementById('modal-icon');
+  const confirmButton = document.getElementById('confirm-button');
+  const cancelButton = document.getElementById('cancel-button');
+
+  modalMessage.textContent = message;
+  modalIcon.src = icon;
+
+  confirmButton.addEventListener('click', () => {
+    modal.style.display = 'none';
+    callback();
+  });
+
+  cancelButton.addEventListener('click', () => {
+    modal.style.display = 'none';
+  });
+
+  modal.style.display = 'flex';
 }
+
+
+const deleteButton = document.getElementById('startDeleting1');
+deleteButton.addEventListener('click', function() {
+showConfirmationModal('delete', 'Are you sure you want to delete?', () => {
+ removeMachine(id);
+});});
+	

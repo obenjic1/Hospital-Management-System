@@ -26,21 +26,19 @@ public class PrintingMachineController {
 	private PrintingMachineServiceImpl printMachineServiceImp;
 	
 	// end point to show the list machine page 
-	
-	@GetMapping("/getListPage")
+	@GetMapping("/list")
     public String showListMachines(Model model ,String name) {
 		List<PrintingMachine> machines=printMachineServiceImp.listMachines();
 		model.addAttribute("machines", machines);
 		return "/billing/list-machine";
-		
 	}
+	
 	// end point to show the add machine form 
 	
-	@RequestMapping("/add-machine")
+	@RequestMapping("/add")
     public String getAddForm(Model model ) {
 		model.addAttribute("PrintingMachine", new PrintingMachine());
 		return "/billing/add-machine";
-		
 	}
 	
 	// end point to add a new machine and return the list-machine page 
@@ -65,21 +63,20 @@ public class PrintingMachineController {
 	}
 	
 	// to delete a Machine
-	@PostMapping(value="/delete-machine/{id}")
+	@PostMapping(value="/delete/{id}")
 	public void removeById(@PathVariable long id) {
 	  Optional<PrintingMachine> machine = printMachineServiceImp.findById(id);
 	    if (machine.isPresent()) {
 	      printMachineServiceImp.delete(id);
 	    }
-	   
 	    return ;
 	  }
+	
 	// to get the update page of a machine
 	@GetMapping("/update-form/{id}")
 	public String getUpdateForm(@PathVariable Long id, Model model) {
 		PrintingMachine findMachine = printMachineServiceImp.findById(id).get();
 		model.addAttribute("findMachine", findMachine);
-		
 	    return "/billing/update-machine";
 	}
 		
@@ -93,6 +90,7 @@ public class PrintingMachineController {
 			return new ResponseEntity<String>("Failed", HttpStatus.BAD_REQUEST);
 		}
 	}
+	
 	
 	
 }

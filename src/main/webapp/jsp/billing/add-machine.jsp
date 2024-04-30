@@ -28,6 +28,14 @@
 							  <input type="text" id="abbreviation" name="abbreviation" class="form-control" placeholder="Abbreviation" required />
 							</div>
 						</div>
+								<div class="col-md-3">
+		                  <label for="isActive" class="form-label"></label>
+		                  <select id="isActive" class="form-select">
+		                    <option selected>select the machine status</option>
+		                    <option value=1>true</option>
+		                    <option value=0>false</option>
+		                  </select>
+		                </div>
 						<div class="col-md-4">
 							<label for="Plate Length" class="form-label"></label>
 							<div class="input-group has-validation">
@@ -51,22 +59,14 @@
 						    <input type="file" id="thumbnail" name="thumbnail" class="form-control" accept="image/*">
 						  </div>
 						</div>
-						 <div class="col-md-3">
-                  <label for="isActive" class="form-label">is machine Active</label>
-                  <select id="isActive" class="form-select">
-                    <option selected>select the machine status</option>
-                    <option value=1>true</option>
-                    <option value=0>false</option>
-                  </select>
-                </div>
+						 
 						
 				<div class="col-md-3" style="  width: 13%; left: 81%; position: relative; ">
 				  <input type="button" id="create-btn" onclick="addMachine()" style=" bottom: -42%;" class="btn btn-primary w-100" value="Save" />
 				</div>
 				</form:form>
-						</div>
 						<!-------------machine added successfully modal ------------->
-						<div class="modal fade" id="activityOption" tabindex="-1">
+						<div class="modal fade" id="addMachine" tabindex="-1">
 							<div class="modal-dialog modal-dialog-centered">
 								<div class="modal-content">
 									<div class="modal-body">
@@ -90,8 +90,8 @@
 									</div>
 								</div>
 							</div>
-								
 						</div>
+					</div>
 				</div>
 		</section>
 	</main>

@@ -28,11 +28,25 @@
 						   </div>
 						</div>
 				   </form:form>
-				</div>
-			</div>
+						   <!-------------Activity Option  added successfully modal ------------->
+								<div class="modal fade" id="activityAdded" tabindex="-1">
+									<div class="modal-dialog modal-dialog-centered">
+										<div class="modal-content">
+											<div class="modal-body">
+												<button type="button" onclick="loadPage('activityOption/list-activityOptions')"
+													class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+												<img src="assets/img/success_icon.png" alt="">
+												<p>an Activity has been added successfully</p>
+											</div>
+										</div>
+									</div>
+								</div>
+						</div>
+					</div>
 		</section>
 	</main>
-		<script src="assets/js/main.js"></script>
-	<script src="assets/js/billing/activityOptions"></script> 
+	<script src="assets/js/main.js"></script>
+	<script src="assets/js/billing/job-activity-options.js"></script> 
+
 
 
