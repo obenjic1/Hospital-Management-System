@@ -103,10 +103,11 @@ public class JobServiceImpl implements JobService {
 		newJob.setJobStatusDTO(jobStatusDTO);
 		newJob.setJobTypeDTO(jobDTO.getJobTypeDTO());
 		
-		List<JobActivityDTO> jobActivitiesDTO = jobDTO.getJobActivitiesDTO();
-		newJob.setJobActivitiesDTO(jobActivitiesDTO);
+//		List<JobActivityDTO> jobActivitiesDTO = jobDTO.getJobActivitiesDTO();
+//		newJob.setJobActivitiesDTO(jobActivitiesDTO);
 //	  Job newJobResult = modelMapper.map(newJob, Job.class);
 //	  jobRepository.save(newJobResult);
+}
 	 
 	@Override
 	public void delete(long id) {
