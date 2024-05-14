@@ -96,9 +96,7 @@ public class JobController {
 	}
 
 	@PostMapping("/list-job")
-	public String listJob(Model model) {
-		List<Job> Jobs = jobServiceImpl.findall();
-		model.addAttribute("jobs", Jobs);
+	public String listJob() {
 		return "billing/list-job";
 	}
 
