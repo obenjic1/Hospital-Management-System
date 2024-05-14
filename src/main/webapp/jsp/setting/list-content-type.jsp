@@ -48,7 +48,7 @@
 						    <tr class="${loop.index % 2 == 0 ? 'even-row' : 'odd-row'}">
 						    <th scope="row">${content.id}</th>
 							   <td>${content.name}</td>
-							   <td>${content.jobs}</td>
+							   <td>${content.jobPapers}</td>
 							   <td>
 							     <a>
 								   <button data-bs-toggle="modal" data-bs-target="#ExtralargeModal" data-bs-toggle="modal" class="button-see" onclick="fillContentModal('papertype/paper/${paperType.id}')">

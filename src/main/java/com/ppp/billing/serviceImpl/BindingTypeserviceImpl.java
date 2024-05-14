@@ -1,5 +1,6 @@
 package com.ppp.billing.serviceImpl;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,6 +45,11 @@ public class BindingTypeserviceImpl implements BindingTypeService {
 		return bindingTyperepository.findAll(pageable);
 	}
 	
+//<------------------- List with pagination -------------------->	
+	@Override
+	public List<BindingType> listAll() {
+		return bindingTyperepository.findAll();
+	}
 
 
 	@Override
@@ -57,5 +63,6 @@ public class BindingTypeserviceImpl implements BindingTypeService {
 		// TODO Auto-generated method stub
 		
 	}
+
 
 }

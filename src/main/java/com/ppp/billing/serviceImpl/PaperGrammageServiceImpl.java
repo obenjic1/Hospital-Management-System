@@ -1,5 +1,7 @@
 package com.ppp.billing.serviceImpl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -35,13 +37,20 @@ public class PaperGrammageServiceImpl implements PaperGrammageService {
 		Pageable pageable = PageRequest.of(pageNo, pageSize);
 		return paperGrammageRepository.findAll(pageable);
 	}
+	
+//<-------------------Find all -------------------->
+	@Override
+	public List<PaperGrammage> findAll() {
+		return paperGrammageRepository.findAll();
+	} 
+
+	
+
 
 	@Override
 	public void delete(long id) {
 		// TODO Auto-generated method stub
 		
-	} 
-
-	
+	}
 
 }

@@ -11,4 +11,5 @@ public class JobStatusDTO {
 
 	private String name;
 	private String description;
+	
 }

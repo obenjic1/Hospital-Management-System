@@ -1,6 +1,7 @@
 package com.ppp.billing.service;
 
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
@@ -15,6 +16,7 @@ public interface PrintingMachineService {
 	PrintingMachine update (PrintingMachine updatePrintingmachineD, long id);
 	Optional<PrintingMachine> findById(long id);
 	PrintingMachine save (PrintingMachineDTO machineDto);
+	List<PrintingMachine> listMachines();
 	void delete(long id);
 
 

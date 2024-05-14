@@ -28,23 +28,39 @@ public class Job {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
-	@Column(nullable = false)
+	
+	@Column(name = "title", nullable = false)
 	private String title;
+	
 	@Column(nullable = false, name="reference_number")
 	private String referenceNumber;
-	@Column()
+	
+	@Column(name = "description", nullable = false)
 	private String description;
-	@Column(name="content_volume")
+	
+	@Column(name = "content_volume")
 	private int contentVolume;
-	@Column(name="cover_volume")
+	
+	@Column(name = "cover_volume")
 	private int coverVolume;
+	
 	@Column(name="total_content_signature")
 	private int totalContentSignature;
+	
 	@Column(name="total_cover_signature")
 	private int totalCoverSignature;
 	
 	@Column(name="existing_plate", columnDefinition="boolean default false")
 	private boolean existingPlate;
+	
+	@Column(name="typesetting_by_us", columnDefinition="boolean default true")
+	private boolean typesettingByUs;
+	
+	@Column(name="data_supply_by_customer", columnDefinition="boolean default true")
+	private boolean dataSuppliedByCustomer;
+	
+	@Column(name="layout_by_us", columnDefinition="boolean default true")
+	private boolean layOutByUs;
 	
 	@Column(name="ready_to_print_date")
 	@Temporal(TemporalType.DATE)
@@ -61,10 +77,34 @@ public class Job {
 	@Column(name="creation_date")
 	private Date creationDate;
 	
+	@Column(name="job_activities")
+	@OneToMany(fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "job")
+	private List<JobActivity> jobActivities;
+	
+	@Column(name="job_trackings")
+	@OneToMany(fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "job")
+	private List<JobTracking> jobTrackings;
+	
+	@Column(name="printing_pricings")
+	@OneToMany(fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "job")
+	private List<PrintingPricing> printingPricings;
+	
+	@Column(name="prepress_pricings")
+	@OneToMany(fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "job")
+	private List<PrepressPricing> prepressPricings;
+	
+	@Column(name="finishing_pricings")
+	@OneToMany(fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "job")
+	private List<FinishingPricing> finishingPricings;
+	
+	@Column(name="job_papers")
+	@OneToMany(fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "job")
+	private List<JobPaper> jobPapers;
+	
 	@ManyToOne
 	@JoinColumn(name = "binding_type_id", referencedColumnName = "id")
 	private BindingType bindingType;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "job_status_id", referencedColumnName = "id")
 	private JobStatus jobStatus;
@@ -77,23 +117,7 @@ public class Job {
 	@JoinColumn(name = "customer_id", referencedColumnName = "id")
 	private Customer customer;
 	
-	@OneToMany(fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "job")
-	private List<JobActivity> jobActivities;
 	
-	@OneToMany(fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "job")
-	private List<JobTracking> jobTrackings;
-	
-	@OneToMany(fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "job")
-	private List<PrintingPricing> printingPricings;
-	
-	@OneToMany(fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "job")
-	private List<PrepressPricing> prepressPricings;
-	
-	@OneToMany(fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "job")
-	private List<FinishingPricing> finishingPricings;
-	
-	@OneToMany(fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "job")
-	private List<JobPaper> jobPapers;
 
 	
 	

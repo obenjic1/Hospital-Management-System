@@ -161,12 +161,12 @@
 				</li>
 				<ul id="jobsheet-management-nav">
 					<li class="nav-item">
-                      <a class="nav-link collapsed" href="list-groupes.jsp">
+                      <a class="nav-link collapsed" onclick="loadPage('job/displayform')" href="#">
 						<i class="ri-file-list-3-line"></i>
 						<span><fmt:message key="new.controlsheets" /></span>
 					  </a>
 					<li class="nav-item">
-					  <a class="nav-link collapsed" onclick="getListOfUser()" href="#">
+					  <a class="nav-link collapsed" onclick="loadPage('job/list-job')" href="#">
 					    <i class="ri-steam-fill"></i>
 					    <span><fmt:message key="list.jobsheets" /></span>
 					  </a>
@@ -250,7 +250,7 @@
 					  </a>
 					</li>
 					<li class="nav-item">
-					  <a class="nav-link collapsed" onclick="loadPage('/jobtype/list')" href="#">
+					  <a class="nav-link collapsed" onclick="loadPage('/jobtype/list-all')" href="#">
 					    <i class="ri-hammer-line"></i>
 					    <span><fmt:message key="job.type" /> </span>
 					  </a>
@@ -402,6 +402,7 @@
 	<!-- End Footer -->
 
 	<!-- Vendor JS Files -->
+	
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 	<script src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
 	<script src="assets/js/role.js"></script>
@@ -420,14 +421,13 @@
 	<script src="assets/js/billing/list-customer.js"></script>
 	<script src="assets/js/billing/customer.js"></script>
 	<script src="assets/js/billing/machine.js"></script> 
-<<<<<<< HEAD
 	<script src="assets/js/modal.js"></script>
 	<script src="assets/js/billing/job-activity-options.js"></script> 
-=======
 	<script src="assets/modal/modal.js"></script>
 	<script src="assets/js/billing/activityOptions"></script> 
->>>>>>> dev
 	<script src="assets/js/billing/papertype.js"></script>
+    <script src="assets/js/billing/job.js"></script>
+	
 
 </body>
 

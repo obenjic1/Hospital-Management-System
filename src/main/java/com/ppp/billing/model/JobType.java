@@ -23,9 +23,11 @@ public class JobType {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
-	@Column(nullable = false, length =  255)
+	
+	@Column(name = "name", nullable = false)
 	private String name;
 	
+	@Column(name = "jobs")
 	@OneToMany(fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "jobType")
 	private List<Job> jobs;
 

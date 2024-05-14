@@ -1,5 +1,6 @@
 package com.ppp.billing.serviceImpl;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,12 +38,21 @@ public class PrintTypeServiceImpl implements PrintTypeService{
 		// TODO Auto-generated method stub
 		return Optional.empty();
 	}
-
+	
+//<-------------------------------- List all with pagination--------------------------------->	
 	@Override
 	public Page<PrintType> paginatedList(int pageNo, int pageSize) {
 		Pageable pageable = PageRequest.of(pageNo, pageSize);
 		return printTyperepository.findAll(pageable);
 	}
+	
+//<-------------------------------- List all --------------------------------->	
+	@Override
+	public List<PrintType> findAll() {
+		// TODO Auto-generated method stub
+		return printTyperepository.findAll();
+	}
+
 
 	
 	@Override

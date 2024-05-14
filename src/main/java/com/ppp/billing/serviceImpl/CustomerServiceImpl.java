@@ -2,7 +2,7 @@ package com.ppp.billing.serviceImpl;
 
 import java.io.File;
 import java.util.Date;
-
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -35,12 +35,19 @@ public class CustomerServiceImpl implements CustomerService {
 		return customerRepostory.save(customer);
 	}
 	
-//<---------------- List customers ---------------------->
+//<---------------- List customers with pagination ---------------------->
 	@Override
 	public Page<Customer> pagination(int pageNo, int pageSize) {
 		Pageable pageable = PageRequest.of(pageNo - 1, pageSize);		
 		return customerRepostory.findAll(pageable);
 	}
+	
+//<---------------- List customers ---------------------->	
+	@Override
+	public List<Customer> findAll() {
+		return customerRepostory.findAll();
+	}
+
 
 //<---------------- Update ---------------------->
 	@Override
@@ -79,5 +86,6 @@ public class CustomerServiceImpl implements CustomerService {
                return null;
            }
        }
+
 
 }

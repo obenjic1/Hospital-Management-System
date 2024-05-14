@@ -22,5 +22,6 @@ public class PaperGrammage {
 	
 	@Column(name="value", nullable = false)
 	private String value;
+	
 
 }

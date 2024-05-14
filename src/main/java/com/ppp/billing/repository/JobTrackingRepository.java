@@ -5,4 +5,6 @@ import com.ppp.billing.model.JobTracking;
 
 public interface JobTrackingRepository extends JpaRepository<JobTracking, Long> {
 	
+	JobTracking findByOperation(String operation);
+	
 }

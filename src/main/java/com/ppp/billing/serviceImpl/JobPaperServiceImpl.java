@@ -1,5 +1,6 @@
 package com.ppp.billing.serviceImpl;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +38,13 @@ public class JobPaperServiceImpl implements JobPaperService {
 		Pageable pageable = PageRequest.of(pageNo, pageSize);
 		return jobPaperRepository.findAll(pageable);
 	}
+	
+//<---------------------- List with pagination ------------------------>		
+	@Override
+	public List<JobPaper> findAll() {
+		return jobPaperRepository.findAll();
+	}
+
 
 	@Override
 	public JobPaper update(JobPaperDTO jobPaperDTO, long id) {
@@ -49,5 +57,6 @@ public class JobPaperServiceImpl implements JobPaperService {
 		// TODO Auto-generated method stub
 		
 	}
+
 
 }

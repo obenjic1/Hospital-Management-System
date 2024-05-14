@@ -30,7 +30,7 @@ public class PaperGrammageController {
 		return pagination(1, model);
 	}
 
-	@GetMapping("/paginated/{pageNo}")
+	@GetMapping("/page/{pageNo}")
 	public String pagination(@PathVariable int pageNo, Model model) {
 		int pageSize = paginationSize;
 		Page<PaperGrammage> paperGrammage = paperGrammageServiceImpl.findPaginatedJobType(pageNo, pageSize);
@@ -38,7 +38,7 @@ public class PaperGrammageController {
 		 model.addAttribute("currentPage", pageNo);
 		 model.addAttribute("totalPages", paperGrammage.getTotalPages());
 		 model.addAttribute("totalItems", paperGrammage.getTotalElements());
-		 model.addAttribute("allgrammage", result);
+		 model.addAttribute("allgrammages", result);
 		 
 		return "setting/list-paper-grammage";
 	}

@@ -43,7 +43,7 @@
 							</tr>
 						  </thead>
 						  <tbody>
-						  <c:forEach var="grammage" items="${allCustomers}" varStatus="loop">
+						  <c:forEach var="grammage" items="${allgrammages}" varStatus="loop">
 						    <tr class="${loop.index % 2 == 0 ? 'even-row' : 'odd-row'}">
 						    <th scope="row">${grammage.id}</th>
 							   <td>${grammage.value}</td>

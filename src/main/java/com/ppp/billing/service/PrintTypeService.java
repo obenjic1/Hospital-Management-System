@@ -1,5 +1,6 @@
 package com.ppp.billing.service;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.domain.Page;
@@ -14,6 +15,7 @@ public interface PrintTypeService {
 	PrintType update (PrintTypeDTO printTypeDto, long id);
 	Optional<PrintType> findById(long id);
 	Page<PrintType> paginatedList(int pageNo, int pageSize);
+	List<PrintType> findAll();
 	PrintType save (PrintTypeDTO machine);
 	void delete(long id);
 	

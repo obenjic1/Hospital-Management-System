@@ -12,5 +12,5 @@ import lombok.NoArgsConstructor;
 public class ContentTypeDTO {
 	
 	private String name;
-	private List<String> jobPapers;
+	private List<JobPaperDTO> jobPapersDTO;
 }
