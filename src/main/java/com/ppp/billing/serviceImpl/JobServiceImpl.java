@@ -113,11 +113,9 @@ public class JobServiceImpl implements JobService {
 	  }
 			return null;
 	}
-
 	@Override
 	public void delete(long id) {
-		// TODO Auto-generated method stub
-		
+	
 	}
 
 	@Override
