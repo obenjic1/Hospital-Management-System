@@ -33,6 +33,7 @@ public class JobActivityOptionController {
 	public String showListPage(Model model,String name) {
 	List<JobActivityOption> activities =  jobActivityOptionServiceImp.getAllJobActivityOptions();
 		model.addAttribute("activities",activities);
+		
 		return "/billing/job-activity-options-list";
 	}
 	
@@ -46,6 +47,7 @@ public class JobActivityOptionController {
 	@PostMapping("/add-activity")
 	public String addActivity(@Validated @ModelAttribute("JobActivityOption") JobActivityOptionDTO jobActivityOptionDto) {
 		JobActivityOption newActivity = jobActivityOptionServiceImp.save(jobActivityOptionDto);
+		
 			return "/billing/job-activity-options-list";
 		}
 	

@@ -1,6 +1,7 @@
 package com.ppp.billing.serviceImpl;
 
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,12 +39,19 @@ public class PaperFormatServiceImpl implements PaperFormatService {
 		return null;
 	}
 
-//<---------------- List all ---------------------->
+//<---------------- List all with pagination ---------------------->
 	@Override
 	public Page<PaperFormat> findAllWithPagination(int pageNum, int pageSize) {
 		Pageable pageable = PageRequest.of(pageNum, pageSize);
 		return paperFormatRepository.findAll(pageable);
 	}
+
+//<---------------- List all ---------------------->
+	@Override
+	public List<PaperFormat> findAll() {
+		return paperFormatRepository.findAll();
+	}
+
 
 	@Override
 	public void delete(long id) {
@@ -51,6 +59,5 @@ public class PaperFormatServiceImpl implements PaperFormatService {
 		
 	}
 
-	
 	
 }

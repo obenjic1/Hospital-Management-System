@@ -29,7 +29,7 @@
 			<div class="col-lg-12">
 				<div class="card">
 					<div class="card-body">
-						<h5 class="card-title"> <fmt:message key="paper.format"/></h5>
+						<h5 class="card-title"> <fmt:message key="job.type"/></h5>
 						<button data-bs-target="#ExtralargeModal" data-bs-toggle="modal" onclick="fillContentModal('/papertype/displayform')" type="button" class="btn btn-primary" style=" position: relative; left: 94%; width: 77px;">
 						  <fmt:message key="add.group"/>
 						</button>
@@ -39,23 +39,25 @@
 						    <tr>
 						       <th scope="col"><fmt:message key="number"/></th>
 						       <th scope="col"><fmt:message key="name"/></th>
+						        <th scope="col"><fmt:message key="jobs"/></th>
 						       <th scope="col"><fmt:message key="actions"/></th>
 							</tr>
 						  </thead>
 						  <tbody>
-						  <c:forEach var="format" items="${allformat}" varStatus="loop">
+						   <c:forEach var="allJobtype" items="${allJobtypes}" varStatus="loop">
 						    <tr class="${loop.index % 2 == 0 ? 'even-row' : 'odd-row'}">
-						    <th scope="row">${format.id}</th>
-							   <td>${format.name}</td>
+						    <th scope="row">${allJobtype.id}</th>
+							   <td>${allJobtype.name}</td>
+							   <td>${allJobtype.jobs}</td>
 							   <td>
 							     <a>
-								   <button data-bs-toggle="modal" data-bs-target="#ExtralargeModal" data-bs-toggle="modal" class="button-see" onclick="fillContentModal('papertype/paper/${paperType.id}')">
+								   <button data-bs-toggle="modal" data-bs-target="#ExtralargeModal" data-bs-toggle="modal" class="button-see" onclick="fillContentModal('papertype/paper/${jobttype.id}')">
 								     <i class="fas fa-eye"></i>
 								   </button>
-								   <button class="button-edite" data-bs-target="#ExtralargeModal" data-bs-toggle="modal" class="button-see" onclick="fillContentModal('papertype/toUpdate/${paperType.id}')">
+								   <button class="button-edite" data-bs-target="#ExtralargeModal" data-bs-toggle="modal" class="button-see" onclick="fillContentModal('papertype/toUpdate/${jobttype.id}')">
 								     <i class="fas fa-pencil-alt"></i>
 								   </button>
-								   <button class="button-delete" id="startDeleting" data-bs-toggle="modal" onclick="confirmDelete('${paperType.id}')" data-bs-target="#areyouSureYouWantToDetele">
+								   <button class="button-delete" id="startDeleting" data-bs-toggle="modal" onclick="confirmDelete('${jobttype.id}')" data-bs-target="#areyouSureYouWantToDetele">
 								     <i class="fas fa-trash-alt"></i>
 								   </button>
 								 </a>

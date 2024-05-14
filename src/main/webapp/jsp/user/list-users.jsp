@@ -54,127 +54,20 @@
 							   <td>
 							     <a>
 								   <button class="button-see" data-bs-toggle="modal" data-bs-target="#ExtralargeModal" onclick="loadPageModal('user/viewUser/${user.username}')">
-								     <i class="fas fa-eye"></i>
+								     <i class="ri-eye-line"></i>
 								   </button>
 								   <button class="button-edite" data-bs-toggle="modal" data-bs-target="#ExtralargeModal" onclick=" loadPageModal('user/get-user/${user.username}')">
-								     <i class="fas fa-pencil-alt"></i>
+								     <i class="ri-pencil-line"></i>
 								   </button>
-								   <button class="button-delete" onclick="confirmDelete('${user.id}')" id="startDeleting" data-bs-toggle="modal">
-								     <i class="fas fa-trash-alt"></i>
+								   <button class="button-delete" data-bs-toggle="modal" onclick="confirmDelete('${user.id}')" data-bs-target="#areyouSureYouWantToDetele" id="startDeleting" data-bs-toggle="modal">
+								     <i class="ri-delete-bin-3-line"></i>
 								   </button>
 								 </a>
 							   </td>
 							 </tr>
-							 <!--------------Are you sure you want t delete this user? modal ------------->
-						     <div class="modal fade" id="areyouSureYouWantToDetele" tabindex="-1">
-						       <div class="modal-dialog modal-dialog-centered">
-							     <div class="modal-content">
-								   <div class="modal-body">
-									 <p> <br><fmt:message key="are.you.sure.you.want.to.delete.this.user.this.action.will"/></p>
-									 <button class="delete-denied" type="button" id="cancelButton" data-bs-dismiss="modal"><fmt:message key="cancel"/></button>
-									 <button class="accept-delete" type="button" id="confirmDeleteBtn" data-bs-toggle="modal"><fmt:message key="delete"/></button>
-								  </div>
-								</div>
-							  </div>
-							</div>
 						  </c:forEach>
 						</tbody>
-					  </table>
-					<!--------------User created successfully modal ------------->
-					  <div class="modal fade" id="verticalycentered" tabindex="-1">
-					    <div class="modal-dialog modal-dialog-centered">
-					      <div class="modal-content">
-						    <div class="modal-body">
-							  <button type="button" style="position: relative; left: 50%; bottom: 12px;"  class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-							  <img src="assets/img/success_icon.png" alt="">
-							  <p><fmt:message key="user.created.successfully"/></p>
-							</div>
-						  </div>
-					    </div>
-					  </div>
-					  <!--------------Email already exist modal ------------->
-					  <div class="modal fade" id="emailAlreadyExist" tabindex="-1">
-					    <div class="modal-dialog modal-dialog-centered">
-						  <div class="modal-content">
-							<div class="modal-body">
-							  <button type="button" style="position: relative; left: 50%; bottom: 12px;" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="loadPage('/user/list-users')"></button>
-							  <img src="assets/img/error.png" alt="">
-							  <p><fmt:message key="something.when.wrong.user.name.or.email.already.exist"/></p>
-							</div>
-						  </div>
-					    </div>
-					  </div>
-						<!--------------User updated successfully modal ------------->
-					  <div class="modal fade" id="userUdatedSuccessfully" tabindex="-1">
-					    <div class="modal-dialog modal-dialog-centered">
-					 	  <div class="modal-content">
-						    <div class="modal-body">
-							  <button onclick="loadPage('/user/list-users')" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-							  <img src="assets/img/success_icon.png" alt="">
-							  <p><fmt:message key="user.updated.successfully"/></p>
-							</div>
-						  </div>
-					    </div>
-					  </div>
-					  <!--------------User deleted successfully modal ------------->
-					  <div class="modal fade" id="userDeleteSuccessfully" tabindex="-1">
-					    <div class="modal-dialog modal-dialog-centered">
-						  <div class="modal-content">
-							<div class="modal-body">
-							  <button type="button" class="btn-close" data-bs-dismiss="modal" style="position: relative; left: 50%; bottom: 12px;" onclick="loadPage('/user/list-users')" aria-label="Close"></button>
-							  <img src="assets/img/success_icon.png" alt="">
-							  <p><fmt:message key="user.deleted.successfully" /></p>
-							</div>
-						  </div>
-						</div>
-					  </div>
-						<!------------------Deleted error------------------------------>
-						<div class="modal fade" id="somthingwhenwrong" tabindex="-1">
-						  <div class="modal-dialog modal-dialog-centered">
-							<div class="alert alert-danger alert-dismissible fade show" role="alert">
-							    <i class="bi bi-exclamation-octagon me-1"></i>
-							    <p><fmt:message key="something.when.wrong.user.did.not.deleted"/></p>
-							    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-							  </div>
-							</div>
-						 </div>
-						
-						<div class="modal fade" id="ExtralargeModal" tabindex="-1">
-						  <div class="modal-dialog modal-xl">
-							<div class="modal-content"id="modC" >
-							  <div class="modal-body">
-								<ul class="nav nav-tabs nav-tabs-bordered"> </ul>
-							  </div>
-							  <div class="modal-footer" >
-								<button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><fmt:message key="close"/></button>
-							  </div>
-							</div>
-						  </div>						  
-						</div>
-						<div class="modal fade" id="ExtralargeModal" tabindex="-1">
-						  <div class="modal-dialog modal-xl">
-							<div class="modal-content"id="userUpdate" >
-							  <div class="modal-body">
-								<ul class="nav nav-tabs nav-tabs-bordered"> </ul>
-							  </div>
-							  <div class="modal-footer" >
-								<button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><fmt:message key="close"/></button>
-							  </div>
-							</div>
-						  </div>
-						</div>						
-						<div class="modal fade" id="ExtralargeModal" tabindex="-1">
-						  <div class="modal-dialog modal-xl">
-							<div class="modal-content"id="addUser" >
-							  <div class="modal-body">
-								<ul class="nav nav-tabs nav-tabs-bordered"> </ul>
-							  </div>
-							  <div class="modal-footer" >
-								<button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><fmt:message key="close"/></button>
-							  </div>
-							</div>
-						  </div>
-						</div>				
+					  </table>						
 						<!-- Pagination with icons -->
 						<nav aria-label="Page navigation example">
 						  <ul class="pagination nav-no-border">

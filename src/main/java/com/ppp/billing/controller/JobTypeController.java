@@ -26,22 +26,22 @@ public class JobTypeController {
 	@Autowired
 	private JobTypeServiceImpl jobTypeServiceImpl;
 	
-	@GetMapping("/list")
+	@GetMapping("/list-all")
 	public String list(Model model) {
 		return pagination(1, model);
 	}
 
 //<------------------- Pagination -------------------->
-	@GetMapping("/pagination/{pageNo}")
+	@GetMapping("/page/{pageNo}")
 	public String pagination(@PathVariable int pageNo, Model model) {
 		int pageSize = paginationSize;
-		Page<JobType> jobvType = jobTypeServiceImpl.findPaginatedJobType(pageNo, pageSize);
-		List<JobType> result = jobvType.getContent();
+		Page<JobType> jobType = jobTypeServiceImpl.findPaginatedJobType(pageNo, pageSize);		
+		List<JobType> result = jobType.getContent();
 		 model.addAttribute("currentPage", pageNo);
-		 model.addAttribute("totalPages", jobvType.getTotalPages());
-		 model.addAttribute("totalItems", jobvType.getTotalElements());
-		 model.addAttribute("allCustomers", result);
+		 model.addAttribute("totalPages", jobType.getTotalPages());
+		 model.addAttribute("totalItems", jobType.getTotalElements());
+		 model.addAttribute("allJobtypes", result);
 		 
-		return "setting/job-type";
+		return "setting/list-job-type";
 	}
 }

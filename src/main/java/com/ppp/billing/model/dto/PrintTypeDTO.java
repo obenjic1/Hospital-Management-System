@@ -12,6 +12,6 @@ import lombok.NoArgsConstructor;
 public class PrintTypeDTO {
 	
 	private String name;
-	private List<String> jobColorCombinations;
+	private List<JobColorCombinationDTO> joobColorCombinationDTO;
 
 }

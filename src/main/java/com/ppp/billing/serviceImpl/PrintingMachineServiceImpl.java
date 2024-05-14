@@ -52,6 +52,7 @@ public class PrintingMachineServiceImpl implements PrintingMachineService {
 		printinMachineRepository.deleteById(id);
 	}
 
+	@Override
 	public List<PrintingMachine> listMachines() {
 		return printinMachineRepository.findAll();
 	}

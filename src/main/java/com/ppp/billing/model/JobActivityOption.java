@@ -24,13 +24,15 @@ public class JobActivityOption {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
-	@Column(nullable = false, length = 255)
+	
+	@Column(name = "name", nullable = false)
 	private String name;
 
 	@ManyToOne
 	@JoinColumn(name = "job_operation_option_id", referencedColumnName = "id")
 	private JobOperationOption  jobOperationOption;
    
+	@Column(name = "job_activities")
 	@OneToMany(fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "jobActivityOption")
 	private List<JobActivity> jobActivities;
 	

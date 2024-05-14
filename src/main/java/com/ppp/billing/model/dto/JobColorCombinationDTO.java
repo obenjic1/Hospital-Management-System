@@ -9,7 +9,10 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class JobColorCombinationDTO {
+	
 	private int frontColorNumber; 
 	private int backColorNumber; 
 	private int numberOfSignature; 
+	private PrintTypeDTO  printTypeDTO;
+	private JobPaperDTO  jobPaperDTO;
 }

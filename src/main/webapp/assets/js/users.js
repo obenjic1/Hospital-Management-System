@@ -203,6 +203,5 @@ function refreshUserTable(pageNo) {
 
 }
 
-
 //<------------------ function to reset password  -------------------->
 

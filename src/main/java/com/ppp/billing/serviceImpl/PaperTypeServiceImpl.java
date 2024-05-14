@@ -1,5 +1,6 @@
 package com.ppp.billing.serviceImpl;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -70,6 +71,13 @@ public class PaperTypeServiceImpl implements PaperTypeService {
 		PaperType paperType = paperTypeRepository.findById(id).get();
 		paperTypeRepository.delete(paperType);
 		
+	}
+
+
+
+	@Override
+	public List<PaperType> listAll() {
+		return paperTypeRepository.findAll();
 	}
 
 

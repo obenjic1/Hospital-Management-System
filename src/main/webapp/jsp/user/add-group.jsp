@@ -66,30 +66,7 @@
 					
                     <div class="col-md-3">
                       <input type="button" data-bs-toggle="modal" id="create-btn" onclick="loadPage('/group/list-groups'); addGroupe()" class="btn btn-primary w-100"  value="Save"/>
-                     </div>
-                      <!-------------- Group created successfully modal ------------->
-                   	 <div class="modal fade" id="groupCreatedSuccessfuly" tabindex="-1">
-	                 <div class="modal-dialog modal-dialog-centered">
-	                   <div class="modal-content">
-	                       <input type="button" onclick="loadPage('/group/list-groups')" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
-	                     <div class="modal-body">
-	                       <img src="assets/img/success_icon.png" alt="">
-	                       <p> <fmt:message key="group.created.successfully"/></p>
-	                     </div>
-	                   </div>
-	                 </div>
-	               </div>
-	                <div class="modal fade" id="groupNameAlreadyExist" tabindex="-1">
-	                <div class="modal-dialog modal-dialog-centered">
-	                   <div class="modal-content">
-	                     <input type="button" onclick="loadPage('/group/list-groups')" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
-	                     <div class="modal-body">
-	                     <img src="assets/img/error.png" alt="">
-	                       <p> <fmt:message key="something.when.wrong.Group.name.already.exist"/></p>
-	                     </div>
-	                   </div>
-	                 </div>
-	               </div>
+                     </div>	              
                   </form>
                 </div>
               </div>

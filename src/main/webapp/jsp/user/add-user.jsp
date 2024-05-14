@@ -94,44 +94,6 @@
 							<input type="button" data-bs-toggle="modal" id="create-btn" onclick="loadPage('/user/list-users'); addUser()" style=" bottom: -42%;" class="btn btn-primary w-100" value="Save" />
 						</div>
 
-						<!--------------User created successfully modal ------------->
-						<div class="modal fade" id="verticalycentered" tabindex="-1">
-							<div class="modal-dialog modal-dialog-centered">
-								<div class="modal-content">
-									<div class="modal-body">
-										<button type="button" onclick="loadPage('/user/list-users')"
-											class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-										<img src="assets/img/success_icon.png" alt="">
-										<p><fmt:message key="user.created.successfully"/></p>
-									</div>
-								</div>
-							</div>
-						</div>
-						<!--------------Email already exist modal ------------->
-						<div class="modal fade" id="emailAlreadyExist" tabindex="-1">
-							<div class="modal-dialog modal-dialog-centered">
-								<div class="modal-content">
-									<div class="modal-body">
-										<button type="button" onclick="loadPage('/user/list-users')" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-										<img src="assets/img/error.png" alt="">
-										<p><fmt:message key="something.when.wrong.user.name.or.email.already.exist"/> </p>
-									</div>
-								</div>
-							</div>
-						</div>
-						<!-------------- Something when wrong Modal ------------->
-						<div class="modal fade" id="somethingWhenWrong" tabindex="-1">
-							<div class="modal-dialog modal-dialog-centered">
-								<div class="modal-content">
-									<div class="modal-body">
-										<button type="button" class="btn-close"
-											data-bs-dismiss="modal" aria-label="Close"></button>
-										<img src="assets/img/success_icon.png" alt="">
-										<p><fmt:message key="something.when.wrong.with.the.server"/></p>
-									</div>
-								</div>
-							</div>
-						</div>
 					</form>
 				</div>
 			</div>

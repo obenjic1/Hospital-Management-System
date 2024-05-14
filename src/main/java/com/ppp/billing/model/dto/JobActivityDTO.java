@@ -1,5 +1,6 @@
 package com.ppp.billing.model.dto;
 
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -9,7 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class JobActivityDTO {
 	
-	private String job;
-	private String jobActivityOption;
+	private JobDTO jobDTO;
+	private JobActivityOptionDTO jobActivityOptionDTO;
 
 }

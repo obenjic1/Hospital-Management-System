@@ -1,5 +1,7 @@
 package com.ppp.billing.serviceImpl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -23,12 +25,20 @@ public class JobColorCombinationServiceImpl implements JobColorCombinationServic
 		return null;
 	}
 
-//<-------------------- List all --------------------->	
+//<-------------------- List all with pagination --------------------->	
 	@Override
 	public Page<JobColorCombination> pagination(int pageNo, int pageSize) {
 		Pageable pageable = PageRequest.of(pageNo, pageSize);
 		return jobColorCombinationRepository.findAll(pageable);
 	}
+	
+//<-------------------- List all --------------------->		
+	@Override
+	public List<JobColorCombination> findAll() {
+		return jobColorCombinationRepository.findAll();
+	}
+	
+	
 
 	@Override
 	public JobColorCombination findById(Long id) {
@@ -47,7 +57,6 @@ public class JobColorCombinationServiceImpl implements JobColorCombinationServic
 		// TODO Auto-generated method stub
 		
 	}
-	
-	
+
 
 }

@@ -2,6 +2,7 @@ package com.ppp.billing.model.dto;
 
 import java.util.List;
 
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -12,5 +13,5 @@ import lombok.NoArgsConstructor;
 public class JobOperationOptionDTO {
 
 	private String name;
-	private List<String> jobActivityOptions;
+	private List<JobActivityOptionDTO> jobActivityOptionsDTO;
 }

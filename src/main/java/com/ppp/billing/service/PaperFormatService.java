@@ -1,5 +1,6 @@
 package com.ppp.billing.service;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.domain.Page;
@@ -16,5 +17,6 @@ public interface PaperFormatService {
 	Optional<PaperFormat> findByName(String name);
 	PaperFormat update(PaperFormatDTO paperFormatDTO, long id);
 	Page <PaperFormat> findAllWithPagination(int pageNum, int pageSize);
+	List<PaperFormat> findAll();
 	void delete(long id);
 }

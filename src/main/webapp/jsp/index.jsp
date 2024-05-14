@@ -161,12 +161,12 @@
 				</li>
 				<ul id="jobsheet-management-nav">
 					<li class="nav-item">
-                      <a class="nav-link collapsed" href="list-groupes.jsp">
+                      <a class="nav-link collapsed" onclick="loadPage('job/displayform')" href="#">
 						<i class="ri-file-list-3-line"></i>
 						<span><fmt:message key="new.controlsheets" /></span>
 					  </a>
 					<li class="nav-item">
-					  <a class="nav-link collapsed" onclick="getListOfUser()" href="#">
+					  <a class="nav-link collapsed" onclick="loadPage('job/list-job')" href="#">
 					    <i class="ri-steam-fill"></i>
 					    <span><fmt:message key="list.jobsheets" /></span>
 					  </a>
@@ -179,31 +179,6 @@
 					  </a>
 					</li>
 				  </sec:authorize> 
-
-					<li class="nav-item">
-					  <a class="nav-link collapsed" onclick="getListOfUser()" href="#">
-					    <i class="ri-keyboard-fill"></i>
-					    <span><fmt:message key="prepress" /> </span>
-					  </a>
-					</li>	
-					<li class="nav-item">
-					  <a class="nav-link collapsed" onclick="getListOfUser()" href="#">
-					    <i class="ri-keyboard-box-line"></i>
-					    <span><fmt:message key="printing" /> </span>
-					  </a>
-					</li>
-					<li class="nav-item">
-					  <a class="nav-link collapsed" onclick="getListOfUser()" href="#">
-					    <i class="ri-rainbow-line"></i>
-					    <span><fmt:message key="finishing" /> </span>
-					  </a>
-					</li>
-					<li class="nav-item">
-					  <a class="nav-link collapsed" onclick="getListOfUser()" href="#">
-					    <i class="ri-file-copy-2-line"></i>
-					    <span><fmt:message key="paper" /> </span>
-					  </a>
-					</li>
 				</ul> 
 				<!-- End of job sheet management Nav --> <!-- start of bill management Nav -->	
 			  <sec:authorize access="hasRole('ROLE_VIEW_SETINGS')">
@@ -250,23 +225,12 @@
 					  </a>
 					</li>
 					<li class="nav-item">
-					  <a class="nav-link collapsed" onclick="loadPage('/jobtype/list')" href="#">
+					  <a class="nav-link collapsed" onclick="loadPage('/jobtype/list-all')" href="#">
 					    <i class="ri-hammer-line"></i>
 					    <span><fmt:message key="job.type" /> </span>
 					  </a>
 					</li>
-					<li class="nav-item">
-					  <a class="nav-link collapsed" onclick="loadPage('/jobtracking/list')" href="#">
-					    <i class="ri-key-2-line"></i>
-					    <span><fmt:message key="job.tracking" /> </span>
-					  </a>
-					</li>
-					<li class="nav-item">
-					  <a class="nav-link collapsed" onclick="loadPage('/jobstatus/list')" href="#">
-					    <i class="ri-more-fill"></i>
-					    <span><fmt:message key="job.status" /> </span>
-					  </a>
-					</li>
+					
 					<li class="nav-item">
 					  <a class="nav-link collapsed" onclick="loadPage('/bindingtype/list')" href="#">
 					    <i class="ri-pantone-fill"></i>
@@ -274,33 +238,9 @@
 					  </a>
 					</li>
 					<li class="nav-item">
-					  <a class="nav-link collapsed" onclick="loadPage('/jobactivity/list')" href="#">
-					    <i class="ri-slack-fill"></i>
-					    <span><fmt:message key="job.activity" /> </span>
-					  </a>
-					</li>
-					<li class="nav-item">
-					  <a class="nav-link collapsed"  onclick="loadPage('/job-opr-opt/list')" href="#">
-					    <i class="ri-signal-tower-line"></i>
-					    <span><fmt:message key="job.operation.options" /> </span>
-					  </a>
-					</li>
-					<li class="nav-item">
-					  <a class="nav-link collapsed" onclick="loadPage('/jobpaper/list')" href="#">
-					    <i class="ri-stack-line"></i>
-					    <span><fmt:message key="job.paper" /> </span>
-					  </a>
-					</li>
-					<li class="nav-item">
 					  <a class="nav-link collapsed" onclick="loadPage('/contenttype/list')" href="#">
 					    <i class="ri-stack-fill"></i>
 					    <span><fmt:message key="content.type" /> </span>
-					  </a>
-					</li>
-					<li class="nav-item">
-					  <a class="nav-link collapsed" onclick="loadPage('/job-color-combinaisation/list')" href="#">
-					    <i class="ri-test-tube-fill"></i>
-					    <span><fmt:message key="color.combinaition" /> </span>
 					  </a>
 					</li>						
 					<li class="nav-item">
@@ -402,6 +342,7 @@
 	<!-- End Footer -->
 
 	<!-- Vendor JS Files -->
+	
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 	<script src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
 	<script src="assets/js/role.js"></script>
@@ -420,14 +361,13 @@
 	<script src="assets/js/billing/list-customer.js"></script>
 	<script src="assets/js/billing/customer.js"></script>
 	<script src="assets/js/billing/machine.js"></script> 
-<<<<<<< HEAD
 	<script src="assets/js/modal.js"></script>
 	<script src="assets/js/billing/job-activity-options.js"></script> 
-=======
 	<script src="assets/modal/modal.js"></script>
 	<script src="assets/js/billing/activityOptions"></script> 
->>>>>>> dev
 	<script src="assets/js/billing/papertype.js"></script>
+    <script src="assets/js/billing/job.js"></script>
+	
 
 </body>
 
