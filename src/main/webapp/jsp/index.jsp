@@ -179,31 +179,6 @@
 					  </a>
 					</li>
 				  </sec:authorize> 
-
-					<li class="nav-item">
-					  <a class="nav-link collapsed" onclick="getListOfUser()" href="#">
-					    <i class="ri-keyboard-fill"></i>
-					    <span><fmt:message key="prepress" /> </span>
-					  </a>
-					</li>	
-					<li class="nav-item">
-					  <a class="nav-link collapsed" onclick="getListOfUser()" href="#">
-					    <i class="ri-keyboard-box-line"></i>
-					    <span><fmt:message key="printing" /> </span>
-					  </a>
-					</li>
-					<li class="nav-item">
-					  <a class="nav-link collapsed" onclick="getListOfUser()" href="#">
-					    <i class="ri-rainbow-line"></i>
-					    <span><fmt:message key="finishing" /> </span>
-					  </a>
-					</li>
-					<li class="nav-item">
-					  <a class="nav-link collapsed" onclick="getListOfUser()" href="#">
-					    <i class="ri-file-copy-2-line"></i>
-					    <span><fmt:message key="paper" /> </span>
-					  </a>
-					</li>
 				</ul> 
 				<!-- End of job sheet management Nav --> <!-- start of bill management Nav -->	
 			  <sec:authorize access="hasRole('ROLE_VIEW_SETINGS')">
@@ -255,18 +230,7 @@
 					    <span><fmt:message key="job.type" /> </span>
 					  </a>
 					</li>
-					<li class="nav-item">
-					  <a class="nav-link collapsed" onclick="loadPage('/jobtracking/list')" href="#">
-					    <i class="ri-key-2-line"></i>
-					    <span><fmt:message key="job.tracking" /> </span>
-					  </a>
-					</li>
-					<li class="nav-item">
-					  <a class="nav-link collapsed" onclick="loadPage('/jobstatus/list')" href="#">
-					    <i class="ri-more-fill"></i>
-					    <span><fmt:message key="job.status" /> </span>
-					  </a>
-					</li>
+					
 					<li class="nav-item">
 					  <a class="nav-link collapsed" onclick="loadPage('/bindingtype/list')" href="#">
 					    <i class="ri-pantone-fill"></i>
@@ -274,33 +238,9 @@
 					  </a>
 					</li>
 					<li class="nav-item">
-					  <a class="nav-link collapsed" onclick="loadPage('/jobactivity/list')" href="#">
-					    <i class="ri-slack-fill"></i>
-					    <span><fmt:message key="job.activity" /> </span>
-					  </a>
-					</li>
-					<li class="nav-item">
-					  <a class="nav-link collapsed"  onclick="loadPage('/job-opr-opt/list')" href="#">
-					    <i class="ri-signal-tower-line"></i>
-					    <span><fmt:message key="job.operation.options" /> </span>
-					  </a>
-					</li>
-					<li class="nav-item">
-					  <a class="nav-link collapsed" onclick="loadPage('/jobpaper/list')" href="#">
-					    <i class="ri-stack-line"></i>
-					    <span><fmt:message key="job.paper" /> </span>
-					  </a>
-					</li>
-					<li class="nav-item">
 					  <a class="nav-link collapsed" onclick="loadPage('/contenttype/list')" href="#">
 					    <i class="ri-stack-fill"></i>
 					    <span><fmt:message key="content.type" /> </span>
-					  </a>
-					</li>
-					<li class="nav-item">
-					  <a class="nav-link collapsed" onclick="loadPage('/job-color-combinaisation/list')" href="#">
-					    <i class="ri-test-tube-fill"></i>
-					    <span><fmt:message key="color.combinaition" /> </span>
 					  </a>
 					</li>						
 					<li class="nav-item">
