@@ -107,6 +107,7 @@ public class JobServiceImpl implements JobService {
 //		newJob.setJobActivitiesDTO(jobActivitiesDTO);
 //	  Job newJobResult = modelMapper.map(newJob, Job.class);
 //	  jobRepository.save(newJobResult);
+return null;
 }
 	 
 	@Override
