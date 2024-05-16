@@ -18,7 +18,7 @@ public class PrintingMachineDTO {
 	private boolean isActive;
 	private String abbreviation; 
 	private String thumbnail;
-	private MultipartFile imageFile;
+	//private MultipartFile imageFile;
 	private Date creation_date;
 	private List<JobPaperDTO> jobPaperDTO;
 	

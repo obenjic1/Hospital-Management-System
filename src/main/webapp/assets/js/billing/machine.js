@@ -17,7 +17,7 @@ function addMachine() {
 		formData.append('isActive', isActive),
 		formData.append('imageFile', thumbnail),
 
-		fetch('/machine/add', {
+		fetch('/machine/add-machine', {
 			method: 'POST',
 			body: formData,
 		})
@@ -33,6 +33,7 @@ function addMachine() {
 			.catch(function(error) {
 				
 			});console.log(isActive);
+			console.log(formData);
 				loadPage('machine/list');
 }
 

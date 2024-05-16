@@ -6,7 +6,7 @@ function addActivity() {
 	var formData = new FormData();
 		formData.append('name', name),
 		
-		fetch('/activityOption/add-activity', {
+		fetch('/activity-option/add-activity', {
 			method: 'POST',
 			body: formData,
 		})
@@ -39,7 +39,7 @@ function updateActivity() {
 	var formData = new FormData();
 		formData.append('name', name),
 		
-		fetch('/activityOption//update/{id}', {
+		fetch('/activity-option//update/{id}', {
 			method: 'POST',
 			body: formData,
 		})
@@ -64,7 +64,7 @@ function updateActivity() {
 // function to delete an activity
 function removeActivity(id) {
 	
-	fetch(`activityOption/delete-activity/${id}`, {
+	fetch(`activity-option/delete-activity/${id}`, {
 		method: 'POST',
 		headers: {
 			'Content-type': 'application/json'
