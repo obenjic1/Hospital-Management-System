@@ -26,8 +26,8 @@
 
 <!-- Google Fonts -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
-	rel="stylesheet">
+<!-- <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" -->
+<!-- 	rel="stylesheet"> -->
 
 <!-- Vendor CSS Files -->
 <link href="/DataTables/dataTables.dataTables.css"  rel="stylesheet"  />
@@ -207,7 +207,7 @@
 					
 					<li class="nav-item">
 
-					  <a class="nav-link collapsed" onclick="loadPage('/activity-option/list')" href="#">
+					  <a class="nav-link collapsed" onclick="loadPage('activity-option/list')" href="#">
 					    <i class="ri-bit-coin-line"></i>
 					   <span><fmt:message key="job.activities.options" /> </span></a>
 
@@ -343,8 +343,8 @@
 
 	<!-- Vendor JS Files -->
 	
-	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-	<script src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
+<!-- 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> -->
+<!-- 	<script src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script> -->
 	<script src="assets/js/role.js"></script>
 
 	<script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>

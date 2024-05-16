@@ -74,10 +74,103 @@ function paperF(paperFormat){
 	
 	document.getElementById("closeWidth").value =halfWidth;
 	document.getElementById("closeLength").value =length;
-	
-	
 
 }
+
+function updateContentSignature(parent,index,node){
+	let child = parent.children[index];
+	let cloneChild =child.cloneNode(true);
+	cloneChild.style.display="block";
+	cloneChild.style.display="";
+	let machineParam = node.querySelector("[contentPrintingMachine]").value; 
+	let childSelectInput = cloneChild.querySelector("[contentPrintingMachine]");
+	childSelectInput.value = machineParam;
+	parent.appendChild(cloneChild);
+	
+}
+
+function signatureChange(SignatureValue,parent){
+		let readOnlyInput = parent.querySelector("[inputSignReadonly]");
+		let volumeOfContent = readOnlyInput.value;
+		if(isNaN(parseInt(SignatureValue))==false){
+		volumeOfContent=parseInt(volumeOfContent) -  parseInt(SignatureValue);
+	}
+	readOnlyInput.value = volumeOfContent;
+}
+
+function deleteContentsignature(noteToDel,parent){
+	let inputValue = parent.querySelectorAll("[delContentSign]")[1].value;
+	let readonlyValue =parent.querySelector("[inputSignReadonly]").value;
+	
+	if(isNaN(parseInt(inputValue))==false){
+		readonlyValue=parseInt(readonlyValue) + parseInt(inputValue);
+	}
+	parent.querySelector("[inputSignReadonly]").value = readonlyValue;
+	noteToDel.remove();
+}
+
+function signatureCalculation(){
+	let mainContentVolumeDiv = document.getElementById("contentDiv");
+	let mainContentSignatureDiv = document.getElementById("mainContentSignature");
+	
+	let mainContentVolumeDivRows = mainContentVolumeDiv.children;	
+	let mainContentSignatureDivRows = mainContentSignatureDiv.children;
+	let i = 0;
+	for(volumeRow of mainContentVolumeDivRows){
+		if(i != 0){
+			let volumeValue = volumeRow.querySelector("[contentVolume]").value;
+			let signatureRow = mainContentSignatureDivRows[i];
+//			let pagesPerSignature = 
+			let signatureValue =  volumeValue;
+			console.log(signatureValue);
+			signatureRow.querySelector("[inputSignReadonly]").value = signatureValue;
+			
+		}
+		i++;
+	}
+	
+}
+
+function signatureCalculation(machineParams,node){
+	
+	let allSignatureNodes=document.getElementById("mainContentSignature");
+	let nodeIndex =Array.from(allSignatureNodes.children).indexOf(node);
+	let contentDivTab2 = document.getElementById("contentDiv");
+	let volumeRow = contentDivTab2.children[nodeIndex];
+	let inputVolume = volumeRow.querySelector("[contentVolume]");
+	let inputSignature = node.querySelector("[inputSignReadonly]");
+	
+	let volume = inputVolume.value;
+	
+	let machineParamArray = machineParams.split(",");
+	let machinePlateLength = parseInt(machineParamArray[1]);
+	let machinePlateWidth = parseInt(machineParamArray[2]);
+	
+	let closeWidth =parseInt(document.getElementById("closeWidth").value);
+	let closeLength =parseInt(document.getElementById("closeLength").value);
+	
+	let logP = Math.log((machinePlateLength * machinePlateWidth)/ (closeLength*closeWidth));
+		logP = logP/Math.log(2);
+		logP= Math.floor(logP)+1;
+	let pagesPerSignature = Math.pow(2,logP);
+	
+	let totalSignature = Math.ceil( volume / pagesPerSignature);
+	
+	inputSignature.value = totalSignature;
+	
+	let machines = node.querySelectorAll("[contentPrintingMachine]");
+	let i = 0;
+	for(i=2;i<machines.length;i++){
+		machines[i].value = machineParams;
+	};
+	
+	let signatures = node.querySelectorAll("[delContentSign]");
+	for(i=1;i<signatures.length;i++){
+		signatures[i].value=0;
+	};
+
+}
+
 
 
 //${coverVolume}
