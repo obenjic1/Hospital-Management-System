@@ -70,7 +70,7 @@
 							<div class="modal-dialog modal-dialog-centered">
 								<div class="modal-content">
 									<div class="modal-body">
-										<button type="button" onclick="loadPage('/machine/list-machines')"
+										<button type="button" onclick="loadPage('/machine/list')"
 											class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 										<img src="assets/img/success_icon.png" alt="">
 										<p>an Activity has been added successfully</p>
@@ -86,6 +86,7 @@
 										<button type="button" class="btn-close"
 											data-bs-dismiss="modal" aria-label="Close"></button>
 										<img src="assets/img/success_icon.png" alt="">
+											<button type="button" onclick="loadPage('/machine/list')"></button>
 										<p><fmt:message key="something.when.wrong.with.the.server"/></p>
 									</div>
 								</div>

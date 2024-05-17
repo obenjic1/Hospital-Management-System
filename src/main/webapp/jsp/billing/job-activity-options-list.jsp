@@ -65,7 +65,7 @@
 								 </a>
 							   </td>
 							 </tr>
-							 <!--------------confirmation to delete Machine ------------->
+							 <!--------------confirmation to delete activity ------------->
 						     <div class="modal fade" id="jobActivityDelete" tabindex="-1">
 						       <div class="modal-dialog modal-dialog-centered">
 							     <div class="modal-content">
@@ -109,7 +109,7 @@
 					    <div class="modal-dialog modal-dialog-centered">
 						  <div class="modal-content">
 							<div class="modal-body">
-							  <button type="button" class="btn-close" data-bs-dismiss="modal" style="position: relative; left: 50%; bottom: 12px;" onclick="loadPage('activityOption/list-activityOptions')" aria-label="Close"></button>
+							  <button type="button" class="btn-close" data-bs-dismiss="modal" style="position: relative; left: 50%; bottom: 12px;" onclick="loadPage('activity-option/list')" aria-label="Close"></button>
 							  <img src="assets/img/success_icon.png" alt="">
 							  <p>ACTIVITY DELETED SUCCESSFULLY</p>
 							</div>

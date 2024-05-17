@@ -45,7 +45,9 @@
 						  <tbody>
 						  <c:forEach var="grammage" items="${allgrammages}" varStatus="loop">
 						    <tr class="${loop.index % 2 == 0 ? 'even-row' : 'odd-row'}">
-						    <th scope="row">${grammage.id}</th>
+							    <c:set var="index" value="${loop.index}" />
+							    <%    int index = (Integer) pageContext.getAttribute("index");  %>
+							 <td>  <%= index + 1 %></td>
 							   <td>${grammage.value}</td>
 							   <td>
 							     <a>

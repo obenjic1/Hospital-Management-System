@@ -14,12 +14,15 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.support.RequestContextUtils;
 
 import com.ppp.user.model.User;
+import com.ppp.user.repository.UserRepository;
 
 
 @Controller
 public class authController {
 	@Autowired
     private MessageSource messageSource;
+	@Autowired
+	private UserRepository userRepository;
 	
 
 	@GetMapping("/")
@@ -33,12 +36,14 @@ public class authController {
 
 	// Login controller
 		@GetMapping("/login")
-		public String login(HttpServletRequest http) {
+		public String login(HttpServletRequest http, Model model , Authentication authentication) {
 			 Principal pr = http.getUserPrincipal();
 			 if(pr == null) {
 				 return "user_auth/login";
 			 }else {
-
+//				 User user = userRepository.findByUsername(authentication.getName()) ;	
+//				 
+//				 model.addAttribute("userFind", user);
 				 return "/";
 			 }
 		}

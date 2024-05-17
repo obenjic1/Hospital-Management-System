@@ -35,7 +35,7 @@ public class PrintingMachineController {
 	
 	// end point to show the add machine form 
 	
-	@RequestMapping("/add")
+	@GetMapping("/add")
     public String getAddForm(Model model ) {
 		model.addAttribute("PrintingMachine", new PrintingMachine());
 		return "/billing/add-machine";

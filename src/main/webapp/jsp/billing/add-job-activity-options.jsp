@@ -33,7 +33,7 @@
 									<div class="modal-dialog modal-dialog-centered">
 										<div class="modal-content">
 											<div class="modal-body">
-												<button type="button" onclick="loadPage('activityOption/list-activityOptions')"
+												<button type="button" onclick="loadPage('activity-option/list')"
 													class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 												<img src="assets/img/success_icon.png" alt="">
 												<p>an Activity has been added successfully</p>

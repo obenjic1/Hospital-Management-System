@@ -7,8 +7,18 @@ function tab1NextBtnAction(){
 	let contentVolumes = document.querySelectorAll("[contentVolume]");  
 	if(contentVolumes[1].value == 0)
 	contentVolumes[1].value = volumeOfContent;
+
+ 	 navigate(1,2);
+ 	
 	}
 
+function navigate(activeTab,tabToActivate){
+	
+	$('.nav-tabs button[data-bs-target= "#tab'+tabToActivate+'"]').tab('show');
+	$('.nav-tabs button[data-bs-target= "#tab'+tabToActivate+'"]').css("color", "blue") ;
+	tabToActivate = tabToActivate-tabToActivate + activeTab;
+	$('.nav-tabs button[data-bs-target= "#tab'+tabToActivate+'"]').css("color", "black");
+}
 
 
 function totalContentVolumeChange(){
@@ -109,27 +119,6 @@ function deleteContentsignature(noteToDel,parent){
 	noteToDel.remove();
 }
 
-function signatureCalculation(){
-	let mainContentVolumeDiv = document.getElementById("contentDiv");
-	let mainContentSignatureDiv = document.getElementById("mainContentSignature");
-	
-	let mainContentVolumeDivRows = mainContentVolumeDiv.children;	
-	let mainContentSignatureDivRows = mainContentSignatureDiv.children;
-	let i = 0;
-	for(volumeRow of mainContentVolumeDivRows){
-		if(i != 0){
-			let volumeValue = volumeRow.querySelector("[contentVolume]").value;
-			let signatureRow = mainContentSignatureDivRows[i];
-//			let pagesPerSignature = 
-			let signatureValue =  volumeValue;
-			console.log(signatureValue);
-			signatureRow.querySelector("[inputSignReadonly]").value = signatureValue;
-			
-		}
-		i++;
-	}
-	
-}
 
 function signatureCalculation(machineParams,node){
 	
@@ -137,6 +126,7 @@ function signatureCalculation(machineParams,node){
 	let nodeIndex =Array.from(allSignatureNodes.children).indexOf(node);
 	let contentDivTab2 = document.getElementById("contentDiv");
 	let volumeRow = contentDivTab2.children[nodeIndex];
+	
 	let inputVolume = volumeRow.querySelector("[contentVolume]");
 	let inputSignature = node.querySelector("[inputSignReadonly]");
 	
