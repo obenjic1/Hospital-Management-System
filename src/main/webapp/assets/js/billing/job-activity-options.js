@@ -74,9 +74,12 @@ function removeActivity(id) {
 			if (respose.ok) {
 			var modal = new bootstrap.Modal(document.getElementById('somthingwhenwrong'));
 			modal.show();
+			loadPage('activity-option/list');
+			
 			} else {
 				var modal = new bootstrap.Modal(document.getElementById('activityDeleteSuccessfully'));
 				modal.show();
+				loadPage('activity-option/list');
 			}
 		})
 		.catch(error => {

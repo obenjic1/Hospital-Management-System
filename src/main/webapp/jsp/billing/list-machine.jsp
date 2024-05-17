@@ -107,9 +107,9 @@
 					    <div class="modal-dialog modal-dialog-centered">
 					 	  <div class="modal-content">
 						    <div class="modal-body">
-							  <button onclick="loadPage('/machine/viewMachine/${machine.id}')" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+							  <button onclick="loadPage('/machine/list')" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 							  <img src="assets/img/success_icon.png" alt="">
-							  <p><fmt:message key="user.updated.successfully"/></p>
+							  <p>Machine Added Successfully</p>
 							</div>
 						  </div>
 					    </div>

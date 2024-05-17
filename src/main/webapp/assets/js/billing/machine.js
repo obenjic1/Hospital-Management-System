@@ -17,13 +17,13 @@ function addMachine() {
 		formData.append('isActive', isActive),
 		formData.append('imageFile', thumbnail),
 
-		fetch('/machine/add-machine', {
+		fetch('machine/add-machine', {
 			method: 'POST',
 			body: formData,
 		})
 			.then(function(response) {
 				if (response.status === 200) {
-					var modal = new bootstrap.Modal(document.getElementById('machineModal'));
+					var modal = new bootstrap.Modal(document.getElementById('userUdatedSuccessfully'));
 					modal.show();
 				} 
 			})
@@ -54,7 +54,6 @@ var bouton = document.getElementById("create-btn");
 bouton.removeAttribute("onclick");
 bouton.addEventListener("click", function(event) {
   event.preventDefault();
-
   addMachine();
 });
 				
@@ -112,6 +111,7 @@ function updateMachine(id) {
 				if (response.status === 200) {
 					var modal = new bootstrap.Modal(document.getElementById('verticalycentered'));
 					modal.show();
+					loadPage('machine/list');
 				} 
 			})
 			.catch(function(error) {

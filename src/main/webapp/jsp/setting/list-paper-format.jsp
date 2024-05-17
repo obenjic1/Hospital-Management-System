@@ -45,9 +45,12 @@
 							</tr>
 						  </thead>
 						  <tbody>
-						  <c:forEach var="format" items="${allformat}" varStatus="loop">
+						  
+						  <c:forEach var="format" items="${allformats}" varStatus="loop">
 						    <tr class="${loop.index % 2 == 0 ? 'even-row' : 'odd-row'}">
-						    <th scope="row">${format.id}</th>
+							    <c:set var="index" value="${loop.index}" />
+							    <%    int index = (Integer) pageContext.getAttribute("index");  %>
+							 <td>  <%= index + 1 %></td>
 							   <td>${format.name}</td>
 							   <td>${format.length}</td>
 							   <td>${format.width}</td>

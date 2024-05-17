@@ -32,24 +32,24 @@
               <!-- Default Tabs -->
               <ul style="background-color: #fbfbfb;"  class="nav nav-tabs d-flex" id="myTabjustified" role="tablist">
                 <li class="nav-item flex-fill" role="presentation">
-                  <button class="nav-link w-100 active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home-justified" type="button" role="tab" aria-controls="home" aria-selected="true">JOB DESCRIPTION</button>
+                  <button style="color: blue;" disabled="disabled" class="nav-link w-100 active" id="home-tab" data-bs-toggle="tab" data-bs-target="#tab1" type="button" role="tab" aria-controls="home" aria-selected="true">JOB DESCRIPTION</button>
                 </li>
                 <li class="nav-item flex-fill" role="presentation">
-                  <button class="nav-link w-100"  data-bs-toggle="tab" data-bs-target="#profile-justified" type="button" role="tab" aria-controls="profile" aria-selected="false">PAPER OPTIONS</button>
+                  <button disabled="disabled" class="nav-link w-100"  data-bs-toggle="tab" data-bs-target="#tab2" type="button" role="tab" aria-controls="profile" aria-selected="false">PAPER OPTIONS</button>
                 </li>
                 <li class="nav-item flex-fill" role="presentation">
-                  <button class="nav-link w-100" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact-justified" type="button" role="tab" aria-controls="contact" aria-selected="false">PRINTING OPTIONS</button>
+                  <button disabled="disabled" class="nav-link w-100" id="contact-tab" data-bs-toggle="tab" data-bs-target="#tab3" type="button" role="tab" aria-controls="contact" aria-selected="false">PRINTING OPTIONS</button>
                 </li>
                 <li class="nav-item flex-fill" role="presentation">
-                  <button class="nav-link w-100" id="contact-tabm" data-bs-toggle="tab" data-bs-target="#justified" type="button" role="tab" aria-controls="justified" aria-selected="false">FINISHING OPTIONS</button>
+                  <button disabled="disabled" class="nav-link w-100" id="contact-tabm" data-bs-toggle="tab" data-bs-target="#tab4" type="button" role="tab" aria-controls="justified" aria-selected="false">FINISHING OPTIONS</button>
                 </li>
                  <li class="nav-item flex-fill" role="presentation">
-                  <button class="nav-link w-100" id="contact-taob" data-bs-toggle="tab" data-bs-target="#samary" type="button" role="tab" aria-controls="samary" aria-selected="false">SUMMARY</button>
+                  <button disabled="disabled" class="nav-link w-100" id="contact-taob" data-bs-toggle="tab" data-bs-target="#tab5" type="button" role="tab" aria-controls="samary" aria-selected="false">SUMMARY</button>
                 </li>
               </ul>
            <form action="" method="post" id="myForm" style=" padding-left: 5%;">             
               <div class="tab-content pt-2" id="myTabjustifiedContent">
-                <div class=" container tab-pane fade show active" id="home-justified" role="tabpanel" aria-labelledby="home-tab">  
+                <div class=" container tab-pane fade show active" id="tab1" role="tabpanel" aria-labelledby="home-tab">  
                               
 <!-- <--------------------------------- TAB 1----------------------------------------------------------> 
                 <div style="position: relative;bottom: -20px;" >		
@@ -163,15 +163,15 @@
 			  <div class ="col-lg-3 px8" style="position: relative; left: 10px;">
 			  
 			  </div>
-		    </div>	
-		    
-			<button  style=" width: 94px;" type="button"  class="next" onclick="tab1NextBtnAction()" id="next-btn" >Next</button>	
+		    </div>			    
+			<button  style=" width: 94px;" type="button"  class="btn btn-primary" onclick="tab1NextBtnAction()" id="next-btn" >Next</button>	
 					
           </div>             
         </div>
+        
  <!-- <----------------------------------- Tab2 ------------------------------->   
  
-       <div class=" container tab-pane fade"  id="profile-justified" role="tabpanel" aria-labelledby="profile-tab">
+       <div class=" container tab-pane fade"  id="tab2" role="tabpanel" aria-labelledby="profile-tab">
          <div style="position: relative;bottom: -20px;" id="mainDiv" >	
          	
 		   <div class="row py-4">
@@ -227,7 +227,7 @@
 			  <div class="col-lg-3 px-8 coverDup" style="position: relative; left: 10px;float:left">
 			    <label for="" class="form-label"><fmt:message key="volume"/> </label> 
 				<input type="number" contentVolume name="contentVolume" onchange="updateTotalContentvolume(this.value)">
-				<button type="button" style="float:right; background:red" onclick="removeContentNode(this,this.previousElementSibling)"><i class="fas fa-trash-alt"></i> </button>
+				<button type="button" id="deleteButton"  onclick="removeContentNode(this,this.previousElementSibling)"><i class="ri-delete-bin-3-line"></i> </button>
 			  </div>
 			  
 		   </div>
@@ -259,7 +259,7 @@
 			   <div class="col-lg-3 px-8 " style="position: relative; left: 10px">
 			       <label for="" class="form-label" style=""><fmt:message key="add"/></label> 
 			       <span>
-			       	<button type="button"  id="duplicateButton"  onclick="addContentPaperChild()" style= "display:block;heigth: 40px;background:green"><i class="ri-add-fill"></i>
+			       	<button type="button"  id="duplicateButton"  onclick="addContentPaperChild()" ><i class="ri-add-fill"></i>
 			       	</button>
 
 			       </span>
@@ -270,19 +270,17 @@
 		  
 	     </div>	
 	     <div class ="row py-3 "style="margin-top:50px" >
-		     <div class ="col-sm-6"> <button   style ="width:125px;float:left"class="previous"><fmt:message key="previews"/></button>	
+		     <div class ="col-sm-6"> <button type="button" style ="width:125px;float:left" class="btn btn-primary" onclick="navigate(2,1);"><fmt:message key="previews"/></button>	
 		    </div>
 	        <div class ="col-sm-6">
-	        <button type="button"  style ="width:125px;float:right" onclick="signatureCalculation()"  class="next" id=""><fmt:message key="next"/></button>	
+	        <button type="button"  style ="width:125px;float:right" onclick="navigate(2,3)"  class="btn btn-primary" id=""><fmt:message key="next"/></button>	
 	       </div>
-	     
-	     
-		
+
 	     </div>
 				
        </div>         
 <!------------------------------- TAB 3 BIGINS --------------->
-       <div class="tab-pane fade" id="contact-justified" role="tabpanel" aria-labelledby="contact-tab">
+       <div class="tab-pane fade" id="tab3" role="tabpanel" aria-labelledby="contact-tab">
         <div class="container" >	
           <div class="row py-3">
 		    <div class ="col-lg-3 px8" >
@@ -356,11 +354,11 @@
 					<label for="" class="form-label"><fmt:message key="color.combination"/></label>
 					 <div class="row">
 				   <div class="col-6 content-cover-l">
-                     <input contentFrontColorNumber placeholder="<fmt:message key='back'/>" type="number" min="0" max="5" style="postion-relative-left:2px;position: relative;left: 4px;">
+                     <input contentFrontColorNumber placeholder="<fmt:message key='front'/>" type="number" min="0" max="5" style="postion-relative-left:2px;position: relative;left: 4px;">
 					                  
 				     </div>
 				     <div class="col-6 volume-cover-w">
-				       <input type="number" min="0" max="5"  contentBackColorNumber>
+				       <input type="number" min="0" max="5" placeholder="<fmt:message key='back'/>" contentBackColorNumber>
 					     
                     </div>
 				  </div>
@@ -369,7 +367,7 @@
 				  <label for="" class="form-label"><fmt:message key="signature"/></label>
 				  <div> 
 				  <input type="number" delContentSign style="width:70px;color:red; text-align:center" onchange="signatureChange(this.value,this.parentNode.parentNode.parentNode.parentNode)">
-				  <span> <button  type="button" onclick="deleteContentsignature(this.parentNode.parentNode.parentNode.parentNode,this.parentNode.parentNode.parentNode.parentNode.parentNode)" style="background:red"><i class="fas fa-trash-alt"></i></i></button> </span>
+				  <span> <button  type="button" onclick="deleteContentsignature(this.parentNode.parentNode.parentNode.parentNode,this.parentNode.parentNode.parentNode.parentNode.parentNode)" style="background:red"><i class="ri-delete-bin-3-line"></i></i></button> </span>
 				 </div> 
 	            </div>
 	           
@@ -398,11 +396,11 @@
 					<label for="" class="form-label"><fmt:message key="color.combination"/></label>
 					 <div class="row">
 				   <div class="col-6 volume-cover-l">
-                     <input contentFrontColorNumber type="number" min="0" placeholder="<fmt:message key='back'/>" max="5" style="postion-relative-left:2px;position: relative;left: 4px;">
+                     <input contentFrontColorNumber type="number" min="0" placeholder="<fmt:message key='front'/>" max="5" style="postion-relative-left:2px;position: relative;left: 4px;">
 					                  
 				     </div>
 				     <div class="col-6 volume-cover-w">
-				       <input type="number" min="0" max="5"  contentBackColorNumber>
+				       <input type="number" min="0" max="5" placeholder="<fmt:message key='back'/>" contentBackColorNumber>
 					     
                     </div>
 				  </div>
@@ -410,7 +408,7 @@
                   <div class ="col-lg-3 px8" style="position: relative; left:10px;">
 				  <label for="" class="form-label"><fmt:message key="signature"/></label>
 				  <div> <input type="number" id="" style="width:70px;color:red; text-align:center" inputSignReadonly>
-				  <span> <button   type="button" style="background:green" onclick="updateContentSignature(this.parentNode.parentNode.parentNode.parentNode.parentNode,1,this.parentNode.parentNode.parentNode.parentNode)"><i class="ri-add-fill"></i></button> </span>
+				  <span> <button   type="button" id="duplicateButton" style="display: inline;" onclick="updateContentSignature(this.parentNode.parentNode.parentNode.parentNode.parentNode,1,this.parentNode.parentNode.parentNode.parentNode)"><i class="ri-add-fill"></i></button> </span>
 				 </div> 
 	            </div>
 				</div>
@@ -432,7 +430,7 @@
 			   </div>
 			   <div class ="col-lg-3 px8" style="position: relative; left: 10px;">
 				 <label for="" class="form-label"><fmt:message key="content.print.type"/> </label>
-				 <select contentPrintType name="name" class="form-select">
+				 <select contentPrintType name="name" updateContentSignature class="form-select">
 				   <option selected>Choose...</option>
 				   <c:forEach items="${printTypes}" var="printType">
                      <option value="${printType.id}">${printType.name}</option>
@@ -441,14 +439,12 @@
                </div>
 				  <div class ="col-lg-3 px8" style="position: relative; left: 10px;">
 					<label for="" class="form-label"><fmt:message key="color.combination"/></label>
-					 <div class="row">
+				<div class="row">
 				   <div class="col-6 volume-cover-l">
-                     <input contentFrontColorNumber type="number" min="0" placeholder="<fmt:message key='back'/>" max="5" style="postion-relative-left:2px;position: relative;left: 4px;">
-					                  
+                     <input contentFrontColorNumber type="number" min="0" placeholder="<fmt:message key='front'/>" max="5" style="postion-relative-left:2px;position: relative;left: 4px;">                 
 				     </div>
 				     <div class="col-6 volume-cover-w">
-				       <input type="number" min="0" max="5"  contentBackColorNumber>
-					     
+				       <input type="number" min="0" max="5"  contentBackColorNumber placeholder="<fmt:message key='back'/>">  
                     </div>
 				  </div>
                   </div>
@@ -456,12 +452,12 @@
 				  <label for="" class="form-label"><fmt:message key="signature"/></label>
 				  <div>
 				  <input type="number" delContentSign style="width:70px;color:red; text-align:center" onchange="signatureChange(this.value,this.parentNode.parentNode.parentNode.parentNode)">
-				  <span> <button  type="button" onclick="deleteContentsignature(this.parentNode.parentNode.parentNode.parentNode,this.parentNode.parentNode.parentNode.parentNode.parentNode)" style="background:red"><i class="fas fa-trash-alt"></i></i></button> </span>
+				  <span> <button style="background:transparent;border-style: none;color: orange; font-size: 20px;" type="button" onclick="deleteContentsignature(this.parentNode.parentNode.parentNode.parentNode,this.parentNode.parentNode.parentNode.parentNode.parentNode)" style="background:red"><i class="ri-delete-bin-3-line"></i></i></button> </span>
 				 </div> 
 	            </div>
 	          		  
 				</div>
-			
+
 			  <div class="row py-3">
 			   <div class ="col-lg-3 px8" >
 				  <label for="" class="form-label"><fmt:message key="printing.machine"/></label> 
@@ -497,7 +493,7 @@
                   <div class ="col-lg-3 px8" style="position: relative; left:10px;">
 				  <label for="" class="form-label"><fmt:message key="signature"/></label>
 				  <div> <input type="number" id="" style="width:70px;color:red; text-align:center" readonly="readonly"  inputSignReadonly>
-				  <span><button   type="button" style="background:green" onclick="updateContentSignature(this.parentNode.parentNode.parentNode.parentNode.parentNode,0,this.parentNode.parentNode.parentNode.parentNode)" ><i class="ri-add-fill"></i></button> </span>
+				  <span><button  type="button" style="display: inline;" id="duplicateButton" onclick="updateContentSignature(this.parentNode.parentNode.parentNode.parentNode.parentNode,0,this.parentNode.parentNode.parentNode.parentNode)" ><i class="ri-add-fill"></i></button> </span>
 				 </div> 
 	            </div>
 				</div>
@@ -510,8 +506,8 @@
 	
 				
 				<div style=" position: relative; bottom: 15px; margin-top:70px">
-                   <button style=" position: relative;" class="previous"><fmt:message key="previews"/></button>	
-			       <button style=" position: relative; left: 85%; width: 90px;"  type="button" class="next" id="next-btn1"><fmt:message key="next"/></button>	
+                   <button type="button" style=" position: relative;" class="btn btn-primary" onclick="navigate(3,2);"><fmt:message key="previews"/></button>	
+			       <button style=" position: relative; left: 85%; width: 90px;"  type="button" class="btn btn-primary" id="next-btn1" onclick="navigate(3,4);"><fmt:message key="next"/></button>	
 			     </div>	
 			     
 			     
@@ -521,7 +517,7 @@
              </div>  	<!-- 			main div ends -->
           
 <!-- <--------------------TAB 4 BEGINS HERE----------------------------------------------------------------------->  
-             <div class="tab-pane fade" id="justified" role="tabpanel" aria-labelledby="contact-tab">
+             <div class="tab-pane fade" id="tab4" role="tabpanel" aria-labelledby="contact-tab">
                 <div class="container" style="position: relative;bottom: -20px;" >
                 <div class="row py-4">
 				  <div class ="col-lg-3 px8" >
@@ -602,8 +598,8 @@
 				<div class="row py-4">			
                   </div>
                   <div style=" position: relative; bottom: 20px;">
-                   <button style=" position: relative;" class="previous"><fmt:message key="previews"/></button>	
-			       <button style=" position: relative; left: 85%; width: 90px;"  type="button" class="next" id="next-btn1"><fmt:message key="next"/></button>	
+                   <button type="button" style=" position: relative;" class="btn btn-primary" onclick="navigate(4,3);"> <fmt:message key="previews"/></button>	
+			       <button style=" position: relative; left: 85%; width: 90px;"  type="button" class="btn btn-primary" id="next-btn1"><fmt:message key="next"/></button>	
 			     </div>
                	</div>
                </form>  
@@ -614,7 +610,8 @@
       </div>
     </section>  
 <script src="assets/js/billing/job.js"></script> 
-  
+
+   
   
   
   

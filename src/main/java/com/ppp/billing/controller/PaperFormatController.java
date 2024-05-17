@@ -28,7 +28,7 @@ public class PaperFormatController {
 //<------------------- list Format -------------------->	
 	@GetMapping("/list")
 	public String list(Model model) {
-		return pagination(1, model);
+		return pagination(0, model);
 	}
 
 //<------------------- Pagination -------------------->	
@@ -40,7 +40,7 @@ public class PaperFormatController {
 		model.addAttribute("currentPage", pageNo);
 		model.addAttribute("totalPages", paperFormat.getTotalPages());
 		model.addAttribute("totalItems", paperFormat.getTotalElements());
-		model.addAttribute("allformat", result);
+		model.addAttribute("allformats", result);
 		
 		return "setting/list-paper-format";
 	}

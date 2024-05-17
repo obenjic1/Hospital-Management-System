@@ -150,7 +150,78 @@
 				  </li>
 				</sec:authorize>
 			  </ul>
-			</sec:authorize> 								
+			</sec:authorize>
+			 <sec:authorize access="hasRole('ROLE_VIEW_SETINGS')">
+				<li class="nav-item">
+				  <li class="pp-module">
+				    <i class="ri-tools-fill"> </i> 
+				  <span>
+				    <span><fmt:message key="settings" /></span>
+				  </span>
+				</li>
+			  </sec:authorize> 
+			  <sec:authorize access="hasRole('ROLE_VIEW_SETINGS')">
+				<ul id="configuration-management-nav">
+					<li class="nav-item">
+                      <a class="nav-link collapsed" onclick="loadPage('machine/list')" href="#">
+						<i class="ri-steam-line"></i>
+						<span><fmt:message key="machines" /></span>
+					  </a>
+										
+					<li class="nav-item">
+					  <a class="nav-link collapsed" onclick="loadPage('/papertype/list')" href="#">
+					    <i class="bi bi-receipt-cutoff"></i>
+					    <span><fmt:message key="paper.types"/></span>
+					  </a>
+					</li>
+					
+<!-- 					<li class="nav-item"> -->
+
+<!-- 					  <a class="nav-link collapsed" onclick="loadPage('activity-option/list')" href="#"> -->
+<!-- 					    <i class="ri-bit-coin-line"></i> -->
+<%-- 					   <span><fmt:message key="job.activities.options" /> </span></a> --%>
+
+<!-- 					</li> -->
+					<li class="nav-item">
+					  <a class="nav-link collapsed" onclick="loadPage('/grammage/list')" href="#">
+					    <i class="ri-file-damage-line"></i>
+					    <span><fmt:message key="paper.grammage" /> </span>
+					  </a>
+					</li>
+					<li class="nav-item">
+					  <a class="nav-link collapsed" onclick="loadPage('/paperformat/list')" href="#">
+					    <i class="ri-file-edit-line"></i>
+					    <span><fmt:message key="paper.format" /> </span>
+					  </a>
+					</li>
+<!-- 					<li class="nav-item"> -->
+<!-- 					  <a class="nav-link collapsed" onclick="loadPage('/jobtype/list-all')" href="#"> -->
+<!-- 					    <i class="ri-hammer-line"></i> -->
+<%-- 					    <span><fmt:message key="job.type" /> </span> --%>
+<!-- 					  </a> -->
+<!-- 					</li> -->
+					
+					<li class="nav-item">
+					  <a class="nav-link collapsed" onclick="loadPage('/bindingtype/list')" href="#">
+					    <i class="ri-pantone-fill"></i>
+					    <span><fmt:message key="binding.type" /> </span>
+					  </a>
+					</li>
+<!-- 					<li class="nav-item"> -->
+<!-- 					  <a class="nav-link collapsed" onclick="loadPage('/contenttype/list')" href="#"> -->
+<!-- 					    <i class="ri-stack-fill"></i> -->
+<%-- 					    <span><fmt:message key="content.type" /> </span> --%>
+<!-- 					  </a> -->
+<!-- 					</li>						 -->
+<!-- 					<li class="nav-item"> -->
+<!-- 					  <a class="nav-link collapsed" onclick="loadPage('/print-type/list')" href="#"> -->
+<!-- 					    <i class="ri-todo-line"></i> -->
+<%-- 					    <span><fmt:message key="print.type" /> </span> --%>
+<!-- 					  </a> -->
+<!-- 					</li> -->
+					
+				</ul> 
+			  </sec:authorize>  								
 				<!-- End of user management Nav --> <!-- start of job sheet management Nav -->			
 				<li class="nav-item">
 				  <li class="pp-module">
@@ -181,77 +252,7 @@
 				  </sec:authorize> 
 				</ul> 
 				<!-- End of job sheet management Nav --> <!-- start of bill management Nav -->	
-			  <sec:authorize access="hasRole('ROLE_VIEW_SETINGS')">
-				<li class="nav-item">
-				  <li class="pp-module">
-				    <i class="ri-tools-fill"> </i> 
-				  <span>
-				    <span><fmt:message key="settings" /></span>
-				  </span>
-				</li>
-			  </sec:authorize> 
-			  <sec:authorize access="hasRole('ROLE_VIEW_SETINGS')">
-				<ul id="configuration-management-nav">
-					<li class="nav-item">
-                      <a class="nav-link collapsed" onclick="loadPage('machine/list')" href="#">
-						<i class="ri-steam-line"></i>
-						<span><fmt:message key="machines" /></span>
-					  </a>
-										
-					<li class="nav-item">
-					  <a class="nav-link collapsed" onclick="loadPage('/papertype/list')" href="#">
-					    <i class="bi bi-receipt-cutoff"></i>
-					    <span><fmt:message key="paper.types"/></span>
-					  </a>
-					</li>
-					
-					<li class="nav-item">
-
-					  <a class="nav-link collapsed" onclick="loadPage('activity-option/list')" href="#">
-					    <i class="ri-bit-coin-line"></i>
-					   <span><fmt:message key="job.activities.options" /> </span></a>
-
-					</li>
-					<li class="nav-item">
-					  <a class="nav-link collapsed" onclick="loadPage('/grammage/list')" href="#">
-					    <i class="ri-file-damage-line"></i>
-					    <span><fmt:message key="paper.grammage" /> </span>
-					  </a>
-					</li>
-					<li class="nav-item">
-					  <a class="nav-link collapsed" onclick="loadPage('/paperformat/list')" href="#">
-					    <i class="ri-file-edit-line"></i>
-					    <span><fmt:message key="paper.format" /> </span>
-					  </a>
-					</li>
-					<li class="nav-item">
-					  <a class="nav-link collapsed" onclick="loadPage('/jobtype/list-all')" href="#">
-					    <i class="ri-hammer-line"></i>
-					    <span><fmt:message key="job.type" /> </span>
-					  </a>
-					</li>
-					
-					<li class="nav-item">
-					  <a class="nav-link collapsed" onclick="loadPage('/bindingtype/list')" href="#">
-					    <i class="ri-pantone-fill"></i>
-					    <span><fmt:message key="binding.type" /> </span>
-					  </a>
-					</li>
-					<li class="nav-item">
-					  <a class="nav-link collapsed" onclick="loadPage('/contenttype/list')" href="#">
-					    <i class="ri-stack-fill"></i>
-					    <span><fmt:message key="content.type" /> </span>
-					  </a>
-					</li>						
-					<li class="nav-item">
-					  <a class="nav-link collapsed" onclick="loadPage('/print-type/list')" href="#">
-					    <i class="ri-todo-line"></i>
-					    <span><fmt:message key="print.type" /> </span>
-					  </a>
-					</li>
-					
-				</ul> 
-			  </sec:authorize> 
+			 
 				
 				<!-- End of job sheet management Nav --> <!-- start of bill management Nav -->
 			<li class="nav-item">
@@ -283,7 +284,9 @@
 		<div class="row">
 		<!-- Left side columns -->
 			
-		  <div id="main-content" class="row"></div>
+		  <div id="main-content" class="row">
+		  <jsp:include page="user/view-user-profile.jsp"></jsp:include>
+		   </div>
 		  		  
 		  <!-- modal content -->
 		   <div>

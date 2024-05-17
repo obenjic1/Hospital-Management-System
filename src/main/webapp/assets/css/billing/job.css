@@ -62,3 +62,25 @@ textArea{
 .lastBtn .button{
 	width:50px;
 }
+
+input[type=number]{
+	-moz-appearance: textfield;
+}
+
+#duplicateButton{
+	display: block; 
+	background-color: #03cc19; 
+	border-style: none;
+}
+
+#deleteButton{
+	float:right;
+	background-color:transparent;
+	color: orange;
+	border-style: none;
+	font-size: 20px;
+}
+
+.acitve {
+	color: blue !important; 
+}
