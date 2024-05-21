@@ -48,7 +48,7 @@ public class Job {
 	private int totalContentSignature;
 	
 	@Column(name="total_cover_signature")
-	private int totalCoverSignature;
+	private double totalCoverSignature;
 	
 	@Column(name="existing_plate", columnDefinition="boolean default false")
 	private boolean existingPlate;
