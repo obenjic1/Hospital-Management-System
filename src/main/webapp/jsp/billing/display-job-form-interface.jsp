@@ -95,7 +95,13 @@
 					  <input id= "volumeOfContent" name="volumeOfContent" type="number" onchange="totalContentVolumeChange()">
 				    </div>
 				  </div>
-				  <div class ="col-lg-3 px8" style="position: relative; left: 10px;">
+				  <div class ="col-lg-3 px8"  style="position: relative; left: 10px;">
+				    <label for="" class="form-label"><fmt:message key="ctp.fees"/></label> 
+					<input type="number" id="ctpFees">
+			      </div>
+		       </div>		
+			 <div class="row py-3">
+			  <div class ="col-lg-3 px8" >
 				   <label for="" class="form-label"> <fmt:message key="format"/></label>
               	   <select id="paperFormat" onchange="paperF(this.value)" name="name" class="form-select">
               	      <option selected>Choose...</option>
@@ -105,9 +111,7 @@
                       </c:forEach>
                     </select>
 			      </div>
-		       </div>		
-			 <div class="row py-3">
-			   <div class ="col-lg-3 px8">
+			   <div class ="col-lg-3 px8" style="position: relative; left: 10px;">
 			     <label for="" class="form-label"> <fmt:message key="open.format"/></label> 
 			       <div class="row">
 				     <div class="col-6 volume-cover-l">
@@ -124,7 +128,7 @@
 			   <label for="" class="form-label"><fmt:message key="close.format"/></label>
 			     <div class="row">
 				   <div class="col-6 volume-cover-l">
-                     <input type="number" id="closeWidth" style="postion-relative-left:2px;position: relative;left: 4px;"  placeholder= "<fmt:message key="close.width"/> ">
+                     <input type="number" id="closeWidth" style="postion-relative-left:2px;position: relative;left: 4px;"  placeholder= "<fmt:message key="open.width"/> ">
 					                 
 				     </div>
 				     <div  class="col-6 volume-cover-w">
@@ -154,18 +158,19 @@
                     <label class="form-check-label" for="gridCheck1"><fmt:message key="data.supplied.by.customer"/></label>
                     <input class="form-check-input" type="checkbox" id="dataSuppliedByCustomer">
                   </div>
-                  <div class="form-check">
-                    <label class="form-check-label" for="gridCheck1"><fmt:message key="layout.by.us"/></label>
-                    <input class="form-check-input" type="checkbox" id="layoutByUs">
-                  </div>
+                  
 			    </div>
 			  </div>
 			  <div class ="col-lg-3 px8" style="position: relative; left: 10px;">
-			  
+			  <div class="form-check">
+                    <label class="form-check-label" for="gridCheck1"><fmt:message key="layout.by.us"/></label>
+                    <input class="form-check-input" type="checkbox" id="layoutByUs">
+                  </div>
 			  </div>
-		    </div>			    
+		    </div>	
+		     <div class="row py-3">    
 			<button  style=" width: 94px;" type="button"  class="btn btn-primary" onclick="tab1NextBtnAction()" id="next-btn" >Next</button>	
-					
+		   </div>  	
           </div>             
         </div>
         
@@ -195,15 +200,12 @@
 	                   </datalist>  
               </div>
 			  <div class ="col-lg-3 px8" style="position: relative; left: 10px;">
-			    <label for="" class="form-label"><fmt:message key="volume"/></label>
+			    <label for="" class="form-label"><fmt:message key="cover.volume"/></label>
 			     <input id="coverVolume" type="number"  name="fname" readonly="readonly">
               </div>
 		    </div>	
 		    
-		   <div id="contentDiv">
-		   
-		   
-		   		
+		   <div id="contentDiv">   		
 			<div class="row py-3"  style="display:none">
 			
 			  <div class="col-lg-3 px-8" >
@@ -225,8 +227,8 @@
 	            </datalist>   
 			  </div>
 			  <div class="col-lg-3 px-8 coverDup" style="position: relative; left: 10px;float:left">
-			    <label for="" class="form-label"><fmt:message key="volume"/> </label> 
-				<input type="number" contentVolume name="contentVolume" onchange="updateTotalContentvolume(this.value)">
+			    <label for="" class="form-label"><fmt:message key="content.volume"/> </label> 
+				<input type="number" contentVolume  name="contentVolume" oldValue="" onclick="this.oldValue=this.value" onchange="updateTotalContentvolume(this.value,this.oldValue)"  >
 				<button type="button" id="deleteButton"  onclick="removeContentNode(this,this.previousElementSibling)"><i class="ri-delete-bin-3-line"></i> </button>
 			  </div>
 			  
@@ -253,7 +255,7 @@
 	            </datalist>   
 			  </div>
 			  <div class="col-lg-3 px-8 " style="position: relative; left: 10px">
-			    <label for="" class="form-label"><fmt:message key="volume"/> </label> 
+			    <label for="" class="form-label"><fmt:message key="content.volume"/> </label> 
 				<input type="number" contentVolume name="contentVolume" readonly="readonly">
 			  </div>
 			   <div class="col-lg-3 px-8 " style="position: relative; left: 10px">
@@ -284,7 +286,7 @@
         <div class="container" >	
           <div class="row py-3">
 		    <div class ="col-lg-3 px8" >
-			  <label for="" class="form-label"><fmt:message key="printing.machine"/></label> 
+			  <label for="" class="form-label"><fmt:message key="cover.printing.machine"/></label> 
 			  <select id="coverPrintingMachine" name="name" class="form-select">
 			    <option selected>Choose...</option>
 			    <c:forEach items="${printingMachines}" var="printingMachine">
@@ -302,7 +304,7 @@
               </select>
             </div>
 			<div class ="col-lg-3 px8" style="position: relative; left: 10px;">
-			  <label for="" class="form-label"><fmt:message key="color.combination"/></label>
+			  <label for="" class="form-label"><fmt:message key="cover.color.combination"/></label>
 				 <div class="row">
 				   <div class="col-6 volume-cover-l">
                      <input id="coverFrontColorNumber" placeholder="<fmt:message key='front'/>" type="number" min="0" max="5" style="postion-relative-left:2px;position: relative;left: 4px;">
@@ -351,7 +353,7 @@
                  </select>
                </div>
 				  <div class ="col-lg-3 px8" style="position: relative; left: 10px;">
-					<label for="" class="form-label"><fmt:message key="color.combination"/></label>
+					<label for="" class="form-label"><fmt:message key="content.color.combination"/></label>
 					 <div class="row">
 				   <div class="col-6 content-cover-l">
                      <input contentFrontColorNumber placeholder="<fmt:message key='front'/>" type="number" min="0" max="5" style="postion-relative-left:2px;position: relative;left: 4px;">
@@ -366,7 +368,7 @@
                   <div class ="col-lg-3 px8" style="position: relative; left:10px;">
 				  <label for="" class="form-label"><fmt:message key="signature"/></label>
 				  <div> 
-				  <input type="number" delContentSign style="width:70px;color:red; text-align:center" onchange="signatureChange(this.value,this.parentNode.parentNode.parentNode.parentNode)">
+				  <input type="number" step=".1" delContentSign style="width:70px;color:red; text-align:center" onclick="this.oldValue=this.value" onchange="signatureChange(this.value,this.parentNode.parentNode.parentNode.parentNode,oldValue)">
 				  <span> <button  type="button" onclick="deleteContentsignature(this.parentNode.parentNode.parentNode.parentNode,this.parentNode.parentNode.parentNode.parentNode.parentNode)" style="background:red"><i class="ri-delete-bin-3-line"></i></i></button> </span>
 				 </div> 
 	            </div>
@@ -393,7 +395,7 @@
                  </select>
                </div>
 				  <div class ="col-lg-3 px8" style="position: relative; left: 10px;">
-					<label for="" class="form-label"><fmt:message key="color.combination"/></label>
+					<label for="" class="form-label"><fmt:message key="content.color.combination"/></label>
 					 <div class="row">
 				   <div class="col-6 volume-cover-l">
                      <input contentFrontColorNumber type="number" min="0" placeholder="<fmt:message key='front'/>" max="5" style="postion-relative-left:2px;position: relative;left: 4px;">
@@ -407,7 +409,7 @@
                   </div>
                   <div class ="col-lg-3 px8" style="position: relative; left:10px;">
 				  <label for="" class="form-label"><fmt:message key="signature"/></label>
-				  <div> <input type="number" id="" style="width:70px;color:red; text-align:center" inputSignReadonly>
+				  <div> <input type="number" step=".1" id="" style="width:70px;color:red; text-align:center" inputSignReadonly>
 				  <span> <button   type="button" id="duplicateButton" style="display: inline;" onclick="updateContentSignature(this.parentNode.parentNode.parentNode.parentNode.parentNode,1,this.parentNode.parentNode.parentNode.parentNode)"><i class="ri-add-fill"></i></button> </span>
 				 </div> 
 	            </div>
@@ -438,7 +440,7 @@
                  </select>
                </div>
 				  <div class ="col-lg-3 px8" style="position: relative; left: 10px;">
-					<label for="" class="form-label"><fmt:message key="color.combination"/></label>
+					<label for="" class="form-label"><fmt:message key="content.color.combination"/></label>
 				<div class="row">
 				   <div class="col-6 volume-cover-l">
                      <input contentFrontColorNumber type="number" min="0" placeholder="<fmt:message key='front'/>" max="5" style="postion-relative-left:2px;position: relative;left: 4px;">                 
@@ -451,7 +453,7 @@
                   <div class ="col-lg-3 px8" style="position: relative; left:10px;">
 				  <label for="" class="form-label"><fmt:message key="signature"/></label>
 				  <div>
-				  <input type="number" delContentSign style="width:70px;color:red; text-align:center" onchange="signatureChange(this.value,this.parentNode.parentNode.parentNode.parentNode)">
+				  <input type="number" step=".1" delContentSign style="width:70px;color:red; text-align:center" onclick="this.oldValue=this.value" onchange="signatureChange(this.value,this.parentNode.parentNode.parentNode.parentNode, oldValue)">
 				  <span> <button style="background:transparent;border-style: none;color: orange; font-size: 20px;" type="button" onclick="deleteContentsignature(this.parentNode.parentNode.parentNode.parentNode,this.parentNode.parentNode.parentNode.parentNode.parentNode)" style="background:red"><i class="ri-delete-bin-3-line"></i></i></button> </span>
 				 </div> 
 	            </div>
@@ -478,7 +480,7 @@
                  </select>
                </div>
 				  <div class ="col-lg-3 px8" style="position: relative; left: 10px;">
-					<label for="" class="form-label"><fmt:message key="color.combination"/></label>
+					<label for="" class="form-label"><fmt:message key="content.color.combination"/></label>
 					 <div class="row">
 				   <div class="col-6 volume-cover-l">
                      <input contentFrontColorNumber type="number" min="0" max="5" placeholder="<fmt:message key='front'/>" style="postion-relative-left:2px;position: relative;left: 4px;" >
@@ -492,7 +494,7 @@
                   </div>
                   <div class ="col-lg-3 px8" style="position: relative; left:10px;">
 				  <label for="" class="form-label"><fmt:message key="signature"/></label>
-				  <div> <input type="number" id="" style="width:70px;color:red; text-align:center" readonly="readonly"  inputSignReadonly>
+				  <div> <input type="number" id="" step=".1" style="width:70px;color:red; text-align:center" readonly="readonly"  inputSignReadonly>
 				  <span><button  type="button" style="display: inline;" id="duplicateButton" onclick="updateContentSignature(this.parentNode.parentNode.parentNode.parentNode.parentNode,0,this.parentNode.parentNode.parentNode.parentNode)" ><i class="ri-add-fill"></i></button> </span>
 				 </div> 
 	            </div>
@@ -500,17 +502,23 @@
 		
 				</div>
 					
-				
 <!-- 							duplicated div ends 	-->
 				</div> 
 	
-				
-				<div style=" position: relative; bottom: 15px; margin-top:70px">
-                   <button type="button" style=" position: relative;" class="btn btn-primary" onclick="navigate(3,2);"><fmt:message key="previews"/></button>	
-			       <button style=" position: relative; left: 85%; width: 90px;"  type="button" class="btn btn-primary" id="next-btn1" onclick="navigate(3,4);"><fmt:message key="next"/></button>	
-			     </div>	
-			     
-			     
+			<div class ="row py-3 "style="margin-top:50px" >
+		     <div class ="col-sm-6"> 
+		     
+		      <button type="button" style="width:125px;float:left" class="btn btn-primary" onclick="navigate(3,2);"><fmt:message key="previews"/></button>	
+		     
+		    </div>
+	        <div class ="col-sm-6">
+	        	
+	         <button style="width:125px;float:right"  type="button" class="btn btn-primary" id="next-btn1" onclick="navigate(3,4);"><fmt:message key="next"/></button>	
+	        		
+	       </div>
+
+	     </div>
+			
 			     	<!-- 			main content div -->
 			     		
                </div>
@@ -520,11 +528,8 @@
              <div class="tab-pane fade" id="tab4" role="tabpanel" aria-labelledby="contact-tab">
                 <div class="container" style="position: relative;bottom: -20px;" >
                 <div class="row py-4">
-				  <div class ="col-lg-3 px8" >
-				    <label for="" class="form-label"><fmt:message key="ctp.fees"/></label> 
-					<input type="number" id="ctpFees">
-			      </div>
-				 <div class ="col-lg-3 px8" style="position: relative; left: 10px;">
+				 
+				 <div class ="col-lg-3 px8">
 					<label for="" class="form-label"><fmt:message key="x.Perforated"/></label>
 					<input type="number" id="xPerforated">
                   </div>
@@ -532,6 +537,16 @@
 					<label for="" class="form-label"><fmt:message key="x.Numbered"/></label>
 					<input type="number" id="xNumbered">
                   </div>
+                    <div class ="col-lg-3 px8" style="position: relative; left:10px;">
+			   <label for="" class="form-label"><fmt:message key="lamination"/></label> 
+			      <select id="lamination" name="name" class="form-select">
+			        <option selected>Choose...</option>
+					<option value="1">1</option>
+					<option value="2">2</option>
+					<option value="3">3</option>
+					<option value="4">4</option>
+                  </select>
+			    </div>
 				</div>	
 				   <div class="row py-4">
 				  <div class ="col-lg-3 px8" >
@@ -565,8 +580,19 @@
                       <option value="${bindingTyp.id}">${bindingTyp.name}</option>
                     </c:forEach>
                   </select>
-			  
 			    </div>
+			    <div class ="col-lg-3 px8" style="position: relative; left: 10px;">
+				  <div>
+                     <div class="form-check">
+                      <label class="form-check-label" for="handgather"><fmt:message key="handgather"/></label>
+                       <input class="form-check-input" type="checkbox" id="handgather">
+                    </div>
+                    <div class="form-check">
+                      <label class="form-check-label" for="stitching"><fmt:message key="stitching"/></label>
+                       <input class="form-check-input" type="checkbox" id="stitching">
+                    </div>
+				  </div>
+                  </div>
 			   </div>
 				
                  <div class="row py-4">
@@ -595,12 +621,16 @@
 				  </div>
                   </div>
 				</div>	
-				<div class="row py-4">			
-                  </div>
-                  <div style=" position: relative; bottom: 20px;">
-                   <button type="button" style=" position: relative;" class="btn btn-primary" onclick="navigate(4,3);"> <fmt:message key="previews"/></button>	
-			       <button style=" position: relative; left: 85%; width: 90px;"  type="button" class="btn btn-primary" id="next-btn1"><fmt:message key="next"/></button>	
-			     </div>
+				
+		           <div class ="row py-3 "style="margin-top:50px" >
+				     <div class ="col-sm-6"> 
+				      <button type="button" style="float:left" class="btn btn-primary" onclick="navigate(4,3);"> <fmt:message key="previews"/></button>	
+				     </div>
+			         <div class ="col-sm-6">
+			         <button   type="button" style="width:125px;float:right"  class="btn btn-primary" id="next-btn1" onclick="navigate(3,4);"><fmt:message key="next"/></button>			
+			        </div>
+			        </div>
+
                	</div>
                </form>  
             </div>
