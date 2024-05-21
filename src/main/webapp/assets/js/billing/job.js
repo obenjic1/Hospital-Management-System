@@ -47,13 +47,20 @@ function addContentPaperChild(){
 
 	}
 
-function updateTotalContentvolume(value){
+function updateTotalContentvolume(value,oldValue){
 
+	
+	
 	let volumeOfContent = document.querySelectorAll("[contentVolume]")[1].value;
 		if(isNaN(parseInt(value))==false){
-		volumeOfContent= parseInt(volumeOfContent)-parseInt(value);
+		volumeOfContent = parseInt(volumeOfContent)-parseInt(value);	
+	}
+		
+		if(isNaN(parseInt(oldValue))==false){
+		volumeOfContent = parseInt(volumeOfContent)+parseInt(oldValue);	
 	}
 		document.querySelectorAll("[contentVolume]")[1].value = volumeOfContent;
+
 }
 
 
@@ -99,14 +106,20 @@ function updateContentSignature(parent,index,node){
 	
 }
 
-function signatureChange(SignatureValue,parent){
+function signatureChange(SignatureValue,parent,oldValue){
 		let readOnlyInput = parent.querySelector("[inputSignReadonly]");
 		let volumeOfContent = readOnlyInput.value;
-		if(isNaN(parseInt(SignatureValue))==false){
-		volumeOfContent=parseInt(volumeOfContent) -  parseInt(SignatureValue);
+		if(isNaN(parseFloat(SignatureValue))==false){
+		volumeOfContent=parseFloat(volumeOfContent) -  parseFloat(SignatureValue);
+	}
+	if(isNaN(parseFloat(oldValue))==false){
+		volumeOfContent=parseFloat(volumeOfContent) +  parseFloat(oldValue);
 	}
 	readOnlyInput.value = volumeOfContent;
+	
+	
 }
+
 
 function deleteContentsignature(noteToDel,parent){
 	let inputValue = parent.querySelectorAll("[delContentSign]")[1].value;
@@ -143,9 +156,8 @@ function signatureCalculation(machineParams,node){
 		logP = logP/Math.log(2);
 		logP= Math.floor(logP)+1;
 	let pagesPerSignature = Math.pow(2,logP);
-	
-	let totalSignature = Math.ceil( volume / pagesPerSignature);
-	
+	let floatingSignature = ( volume / pagesPerSignature);
+	let totalSignature = Math.floor(floatingSignature)<floatingSignature&&floatingSignature<Math.floor(floatingSignature+0.5)&&(floatingSignature+0.5 != Math.floor(floatingSignature+0.5)) ?Math.ceil(floatingSignature):Math.floor(floatingSignature)<floatingSignature?Math.floor(floatingSignature)+0.5:Math.floor(floatingSignature); 
 	inputSignature.value = totalSignature;
 	
 	let machines = node.querySelectorAll("[contentPrintingMachine]");
