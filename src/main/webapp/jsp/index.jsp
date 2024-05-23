@@ -293,7 +293,7 @@
 		     <div class="modal fade" id="creation" tabindex="-1">
 	           <div class="modal-dialog modal-dialog-centered">
 	             <div class="modal-content">
-	               <input type="button" onclick="loadPage('/customer/list')" class="btn-close" data-bs-dismiss="modal" aria-label="Close" style=" left: 93%;  bottom: -7px; ">
+	               <input type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" style=" left: 93%;  bottom: -7px; ">
 	               <div class="modal-body">
 	                 <img id="messageImage" src="" alt="">	 
 	                 <div id="successMesssage"> </div>

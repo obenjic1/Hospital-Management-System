@@ -32,10 +32,7 @@ public class JobTracking {
 	@Column(name="creation_date")
 	private Date creationDate;
 	
-	@ManyToOne
-	@JoinColumn(name = "job_id", referencedColumnName = "id")
-	private Job job;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "user_id", referencedColumnName = "id")
 	private User user;

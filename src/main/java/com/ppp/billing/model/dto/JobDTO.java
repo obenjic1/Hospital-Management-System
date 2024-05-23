@@ -1,6 +1,5 @@
 package com.ppp.billing.model.dto;
 
-import java.util.Date;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -11,26 +10,20 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class JobDTO {
 	
+	private int customerId;
+	private int jobTypeId;
 	private String title;
-	private String referenceNumber;
-	private String description;
-	private int contentVolume;
 	private int coverVolume;
-	private int totalContentSignature;
-	private int totalCoverSignature;
-	private boolean existingPlate;
-	private boolean dataSuppliedByCustomer;
-	private boolean typesettingByUs;
-	private boolean layOutByUs;
-	private Date readytoPrintDate;
-	private Date expectedDeliveryDate;
-	private Date creationDate;
-	private List<JobActivityDTO> jobActivitiesDTO;
-	private List<JobTrackingDTO> jobTrackingsDTO;
-	private List<JobPaperDTO> jobPapersDTO;
-	private CustomerDTO customerDTO;
-	private BindingTypeDTO bindingTypeDTO;
-	private JobStatusDTO jobStatusDTO;
-	private JobTypeDTO jobTypeDTO;
-
+	private int contentVolume;
+	private int  ctpFees;
+	private double openWidth;
+	private double  openLength;
+	private double  closeWidth;
+	private double  closeLength;
+	private boolean  existingPlate;
+	private boolean  dataSuppliedByCustomer;
+	private boolean  layOutByUs;
+	private boolean  typesettingByUs;
+	private JobActivityOptionDTO jobActivities;
+	private List<JobPaperDTO> jobPapers;
 }

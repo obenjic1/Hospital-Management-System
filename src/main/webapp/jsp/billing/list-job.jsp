@@ -31,8 +31,8 @@
 			<div class="col-lg-12">
 				<div class="card">
 					<div class="card-body">
-						<h5 class="card-title"> Machines</h5>
-						<button onclick="loadPage('job/displayform')" type="button" class="btn btn-primary">
+						<h5 class="card-title">Job</h5>
+						<button onclick="loadPage('job/displayform')" style="width: 120px;" type="button" class="btn btn-primary">
 						  <fmt:message key="add.group"/>
 						</button>
 						
@@ -40,94 +40,44 @@
 						<table class="table datatable">
 						  <thead style="background-color: #dddfe3;">
 						    <tr>
-						     <th scope="col">title</th>
-							  <th scope="col">description</th>
+						      <th scope="col">Number</th>
+						       <th scope="col">Job type</th>
+						      <th scope="col">Title</th>
+							  <th scope="col">Reference</th>
+						      <th scope="col">JobStatus</th>
+						      <th scope="col">Creation date</th>
 						      <th scope="col">Customer</th>
-						       <th scope="col">JobStatus</th>
-							  <th scope="col"></th>
-							  <th scope="col"></th>
-							  <th scope="col"></th>
+						      <th scope="col">Actions</th>
 							</tr>
 						  </thead>
 						  <tbody>
 			
 						  <c:forEach var="job" items="${jobs}" varStatus="loop">
-						    <tr class="${loop.index % 2 == 0 ? 'even-row' : 'odd-row'}">
-<%-- 							   <th><img src="/download/${machine.thumbnail}" class="rounded-circle"></th> --%>
+						   <tr class="${loop.index % 2 == 0 ? 'even-row' : 'odd-row'}">
+							    <c:set var="index" value="${loop.index}" />
+							    <%    int index = (Integer) pageContext.getAttribute("index");  %>
+							 <td>  <%= index + 1 %></td>
 							   <td><a>${job.title}</a></td>
-							   <td><a>${job.description}</a></td>
-<%-- 							   <td><a class="${user.is_active ? 'Blocked' : 'Active' }">${user.deleted ? 'Blocked' : 'Active'}</a></td> --%>
-							     <td><a>${job.Customer}</a></td>
-							     <td><a>${job.JobStatus}</a></td>
+							   <td><a>${job.jobType.name}</a></td>
+							   <td><a>${job.referenceNumber}</a></td>
+							   <td><a>${job.status}</a></td>
+							   <td><a>${job.creationDate}</a></td>
+							   <td><a>${job.customer.name}</a></td>
 							     
 							  <td>
-							     <a>
-								   <button class="button-see" data-bs-toggle="modal" data-bs-target="#ExtralargeModal" onclick="loadPageModal('/machine/viewMachine/${machine.id}')">
-								     <i class="fas fa-eye"></i>
-								   </button>
-								   <button class="button-edite" data-bs-toggle="modal" data-bs-target="#ExtralargeModal" onclick=" loadPageModal('/machine/update-form/${machine.id}')">
-								     <i class="fas fa-pencil-alt"></i>
-								   </button>
-								   <button class="button-delete" onclick="removeMachine(${machine.id})" id="startDeleting1" data-bs-toggle="modal">
-								     <i class="fas fa-trash-alt"></i>
-								   </button>
-								 </a>
+							  <select id="coverPaperType" name="name" class="form-select">
+							     <option selected>View</option>
+							     <option selected>Delete</option>
+							     <option selected>Update</option>
+							     <option selected>Genrate</option>
+				               </select>
 							   </td>
 							 </tr>
-							 <!--------------confirmation to delete Machine ------------->
-						     <div class="modal fade" id="areyouSureYouWantToDetele" tabindex="-1">
-						       <div class="modal-dialog modal-dialog-centered">
-							     <div class="modal-content">
-								   <div class="modal-body">
-									 <p> <br>Are you sure you want to delete this Machine, this Action cannot be changed </p>
-									 <button class="delete-denied" type="button" id="cancelButton" data-bs-dismiss="modal"><fmt:message key="cancel"/></button>
-									 <button class="accept-delete" type="button" id="confirmDeleteBtn" data-bs-toggle="modal"><fmt:message key="delete"/></button>
-								  </div>
-								</div>
-							  </div>
-							</div>
-							
-							<!--------------machine created successfully modal ------------->
-							  <div class="modal fade" id="machineModal" tabindex="-1">
-							    <div class="modal-dialog modal-dialog-centered">
-							      <div class="modal-content">
-								    <div class="modal-body">
-									  <button type="button" style="position: relative; left: 50%; bottom: 12px;"  class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-									  <img src="assets/img/success_icon.png" alt="">
-									  <p>Machine Deleted Successfully</p>
-									</div>
-								  </div>
-							    </div>
-							  </div>
+
 						  </c:forEach>
 						</tbody>
 					</table>
-						<!--------------MAchine updated successfully modal ------------->
-					  <div class="modal fade" id="userUdatedSuccessfully" tabindex="-1">
-					    <div class="modal-dialog modal-dialog-centered">
-					 	  <div class="modal-content">
-						    <div class="modal-body">
-							  <button onclick="loadPage('/machine/viewMachine/${machine.id}')" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-							  <img src="assets/img/success_icon.png" alt="">
-							  <p><fmt:message key="user.updated.successfully"/></p>
-							</div>
-						  </div>
-					    </div>
-					  </div>
-						<!------------------Deleted error------------------------------>
-						<div class="modal fade" id="confirmationModal" tabindex="-1">
-						  <div class="modal-dialog modal-dialog-centered">
-							<div class="alert alert-danger alert-dismissible fade show" role="alert">
-							      <h2  class="modal title"id="confirmationTitle"></h2>
-							    <i class="bi bi-exclamation-octagon me-1"></i>
- 								<p id="confirmationMessage"></p>
- 								 <button class="btn-close" id="confirmButton">Confirm</button>
-     							 <button  class="btn-close" id="cancelButton">Cancel</button>
-<!--  							    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button> -->
-							  </div>
-							</div>
-						 </div>
-						<!-- Pagination with icons -->
+					<!-- Pagination with icons -->
 						<nav aria-label="Page navigation example">
 						  <ul class="pagination nav-no-border">
 							<li class="page-item"><input type="button" class="page-link" onclick="refreshUserTable(${currentPage - 1})" value="&laquo;" ${currentPage == 1 ? 'disabled' : ''}></li>
@@ -143,8 +93,6 @@
 		</div>
 	</section>
 </main>
-	<script src="assets/js/billing/job-activity-options.js"></script> 
-	<script src="assets/js/billing/machine.js"></script> 
 	<script src="assets/js/main.js"></script>	
 	<script src="assets/js/app.js"></script> 
 

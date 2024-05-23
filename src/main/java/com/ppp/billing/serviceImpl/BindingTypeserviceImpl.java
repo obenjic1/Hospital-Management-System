@@ -10,7 +10,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.ppp.billing.model.BindingType;
-import com.ppp.billing.model.dto.BindingTypeDTO;
 import com.ppp.billing.repository.BindingTypeRepository;
 import com.ppp.billing.service.BindingTypeService;
 
@@ -26,11 +25,11 @@ public class BindingTypeserviceImpl implements BindingTypeService {
 		return Optional.empty();
 	}
 
-	@Override
-	public BindingType update(BindingTypeDTO bindingTypeDTO, long id) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+//	@Override
+//	public BindingType update(BindingTypeDTO bindingTypeDTO, long id) {
+//		// TODO Auto-generated method stub
+//		return null;
+//	}
 
 	@Override
 	public Optional<BindingType> findById(long id) {
@@ -52,11 +51,11 @@ public class BindingTypeserviceImpl implements BindingTypeService {
 	}
 
 
-	@Override
-	public BindingType saveBindingType(BindingTypeDTO bindingTypeDTO) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+//	@Override
+//	public BindingType saveBindingType(BindingTypeDTO bindingTypeDTO) {
+//		// TODO Auto-generated method stub
+//		return null;
+//	}
 
 	@Override
 	public void delete(long id) {

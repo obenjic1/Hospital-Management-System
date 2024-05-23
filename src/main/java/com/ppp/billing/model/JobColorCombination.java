@@ -29,11 +29,16 @@ public class JobColorCombination {
 	private int backColorNumber; 
 	
 	@Column(name="number_of_signature")
-	private int numberOfSignature; 
+	private double numberOfSignature; 
 	
 	@ManyToOne
 	@JoinColumn(name = "print_type_id", referencedColumnName = "id")
 	private PrintType  printType;
+	
+	@ManyToOne
+	@JoinColumn(name = "printing_machine_id", referencedColumnName = "id")
+	private PrintingMachine  printingMachine;
+
 
 	@ManyToOne
 	@JoinColumn(name = "job_paper_id", referencedColumnName = "id")

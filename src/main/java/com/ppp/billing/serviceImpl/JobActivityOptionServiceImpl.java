@@ -37,17 +37,23 @@ public class JobActivityOptionServiceImpl implements JobActivityOptionService{
 		return jobActivityOptionRepository.findAll();
 	}
 
-	@Override
-	public JobActivityOption save(JobActivityOptionDTO jobActivityOptionDTO) {
-		JobActivityOption newActivity = new JobActivityOption();
-		newActivity.setName(jobActivityOptionDTO.getName());
-		return jobActivityOptionRepository.save(newActivity);
-	}
+//	@Override
+//	public JobActivityOption save(JobActivityOptionDTO jobActivityOptionDTO) {
+//		JobActivityOption newActivity = new JobActivityOption();
+//		newActivity.setName(jobActivityOptionDTO.getName());
+//		return jobActivityOptionRepository.save(newActivity);
+//	}
 
 	@Override
 	public void delete(long id) {
 		jobActivityOptionRepository.deleteById(id);
 	}
+
+@Override
+public JobActivityOption save(JobActivityOptionDTO jobActivityOptionDTO) {
+	// TODO Auto-generated method stub
+	return null;
+}
 	
 
 }

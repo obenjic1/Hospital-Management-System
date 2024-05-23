@@ -59,7 +59,7 @@ public class PaperTypeController {
 //<------------------- find paper type to update -------------------->	
 	@PreAuthorize("hasAuthority('ROLE_MANAGE_SETINGS')")
 	@GetMapping("/toUpdate/{id}")
-	public String findToUpdate(@PathVariable Long id, Model model) {
+	public String findToUpdate(@PathVariable int id, Model model) {
 		PaperType result = paperTypeServiceImpl.findById(id);
 		model.addAttribute("update", result);
 		return "billing/update-papertype";
@@ -68,7 +68,7 @@ public class PaperTypeController {
 //<------------------- Update paper type -------------------->	
 	@PreAuthorize("hasAuthority('ROLE_MANAGE_SETINGS')")
 	@PostMapping("/update/{id}")
-	public ResponseEntity<String> update(@PathVariable Long id, @RequestBody PaperTypeDTO paperTypeDTO) {		
+	public ResponseEntity<String> update(@PathVariable int id, @RequestBody PaperTypeDTO paperTypeDTO) {		
 		try {
 			paperTypeServiceImpl.update(paperTypeDTO, id);
 			return ResponseEntity.status(HttpStatus.OK).body("Success");			
@@ -111,7 +111,7 @@ public class PaperTypeController {
 //<------------------- Find by id -------------------->	
 	@PreAuthorize("hasAuthority('ROLE_MANAGE_SETINGS')")
 	@GetMapping("/paper/{id}")
-	public String findById(@PathVariable Long id, Model model) {
+	public String findById(@PathVariable int id, Model model) {
 		PaperType result = paperTypeServiceImpl.findById(id);
 		model.addAttribute("papertype", result);
 		
@@ -121,7 +121,7 @@ public class PaperTypeController {
 //<------------------- Delete -------------------->	
 	@PreAuthorize("hasAuthority('ROLE_MANAGE_SETINGS')")
 	@DeleteMapping("/delete/{id}")
-	public ResponseEntity<String> delete(@PathVariable Long id){		
+	public ResponseEntity<String> delete(@PathVariable int id){		
 		try {
 			paperTypeServiceImpl.delete(id);
 			return new ResponseEntity<String>("Success", HttpStatus.OK);
