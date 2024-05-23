@@ -45,10 +45,7 @@
 						  </thead>
 						  <tbody>
 						  <c:forEach var="binding" items="${allBinding}" varStatus="loop">
-						    <tr class="${loop.index % 2 == 0 ? 'even-row' : 'odd-row'}">
-							    <c:set var="index" value="${loop.index}" />
-							    <%    int index = (Integer) pageContext.getAttribute("index");  %>
-							 <td>  <%= index + 1 %></td>
+						   c
 							   <td>${binding.name}</td>
 							   <td>${binding.jobs}</td>
 							   <td>

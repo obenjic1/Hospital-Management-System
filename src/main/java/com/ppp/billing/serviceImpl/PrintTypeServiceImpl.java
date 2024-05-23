@@ -10,7 +10,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.ppp.billing.model.PrintType;
-import com.ppp.billing.model.dto.PrintTypeDTO;
 import com.ppp.billing.repository.PrintTypeRepository;
 import com.ppp.billing.service.PrintTypeService;
 
@@ -27,11 +26,11 @@ public class PrintTypeServiceImpl implements PrintTypeService{
 		return Optional.empty();
 	}
 
-	@Override
-	public PrintType update(PrintTypeDTO printTypeDto, long id) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+//	@Override
+//	public PrintType update(PrintTypeDTO printTypeDto, long id) {
+//		// TODO Auto-generated method stub
+//		return null;
+//	}
 
 	@Override
 	public Optional<PrintType> findById(long id) {
@@ -54,12 +53,12 @@ public class PrintTypeServiceImpl implements PrintTypeService{
 	}
 
 
-	
-	@Override
-	public PrintType save(PrintTypeDTO machine) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+//	
+//	@Override
+//	public PrintType save(PrintTypeDTO machine) {
+//		// TODO Auto-generated method stub
+//		return null;
+//	}
 
 	@Override
 	public void delete(long id) {

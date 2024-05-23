@@ -32,13 +32,13 @@ public class PaperTypeServiceImpl implements PaperTypeService {
 
 //<-----------------  Find to update --------------------->
 	@Override
-	public PaperType findToUpdate(Long id) {		
+	public PaperType findToUpdate(int id) {		
 		return paperTypeRepository.findById(id).get();
 	}
 
 //<-----------------  Update paper type --------------------->	
 	@Override
-	public PaperType update(PaperTypeDTO paperTypeDTO, long id) {
+	public PaperType update(PaperTypeDTO paperTypeDTO, int id) {
 		PaperType paperType = paperTypeRepository.findById(id).get();
 			paperType.setName(paperTypeDTO.getName());	
 			paperTypeRepository.save(paperType);
@@ -61,13 +61,13 @@ public class PaperTypeServiceImpl implements PaperTypeService {
 
 //<----------------- Find by id --------------------->
 	@Override
-	public PaperType findById(Long id) {
+	public PaperType findById(int id) {
 		return paperTypeRepository.findById(id).get();
 	}
 
 //<-----------------  Delete with id --------------------->
 	@Override
-	public void delete(long id) {
+	public void delete(int id) {
 		PaperType paperType = paperTypeRepository.findById(id).get();
 		paperTypeRepository.delete(paperType);
 		

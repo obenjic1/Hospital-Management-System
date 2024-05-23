@@ -7,12 +7,15 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity(name = "job_activity")
@@ -25,8 +28,6 @@ public class JobActivity {
 	@Column(name = "glueing_option")
 	private String glueOption;
 	
-	@Column(name = "binding_type")
-	private String bindingType;
 	
 	@Column(name = "x_perforated")
 	private int xPerforated;
@@ -61,9 +62,14 @@ public class JobActivity {
 	@Column(name = "is_trimmed")
 	private boolean isTrimmed = Boolean.FALSE;
 	
-	@ManyToOne
-	@JoinColumn(name = "job_id", referencedColumnName = "id")
+	@OneToOne(mappedBy = "jobActivity")
 	private Job job;
+	
+	@ManyToOne
+	@JoinColumn(name = "binding_type_id", referencedColumnName = "id")
+	private BindingType bindingType;
+	
+
 	
 	
 }

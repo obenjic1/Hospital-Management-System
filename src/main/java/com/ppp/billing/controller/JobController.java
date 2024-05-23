@@ -3,11 +3,15 @@ package com.ppp.billing.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ppp.billing.model.BindingType;
 import com.ppp.billing.model.Customer;
@@ -20,9 +24,7 @@ import com.ppp.billing.model.PaperGrammage;
 import com.ppp.billing.model.PaperType;
 import com.ppp.billing.model.PrintType;
 import com.ppp.billing.model.PrintingMachine;
-import com.ppp.billing.model.dto.JobColorCombinationDTO;
 import com.ppp.billing.model.dto.JobDTO;
-import com.ppp.billing.model.dto.JobPaperDTO;
 import com.ppp.billing.serviceImpl.BindingTypeserviceImpl;
 import com.ppp.billing.serviceImpl.CustomerServiceImpl;
 import com.ppp.billing.serviceImpl.JobColorCombinationServiceImpl;
@@ -89,14 +91,21 @@ public class JobController {
 		return "billing/display-job-form-interface";
 	}
 	
-	@PostMapping("/save")
-	public String saveJob(JobDTO jobDTO, JobPaperDTO jobPaperDTO, JobColorCombinationDTO jobColorCombinationDTO,Model model) {
-		Job newJob = jobServiceImpl.saveJob(jobDTO, jobPaperDTO, jobColorCombinationDTO);
-		return "billing/list-job";
+	@PostMapping(value="/save", consumes=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public ResponseEntity<String> saveJob(@RequestBody JobDTO jobDTO,Model model){
+		try {
+			jobServiceImpl.saveJob(jobDTO);
+			return ResponseEntity.ok("OK");
+		} catch (Exception e) {
+			return ResponseEntity.badRequest().body("KO" + e.getMessage());
+		}
 	}
 
-	@PostMapping("/list-job")
-	public String listJob() {
+	@GetMapping("/list-job")
+	public String listJob(Model model) {
+		List<Job> result = jobServiceImpl.listAllJob();
+		model.addAttribute("jobs", result);
 		return "billing/list-job";
 	}
 

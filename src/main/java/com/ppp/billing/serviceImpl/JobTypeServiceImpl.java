@@ -10,7 +10,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.ppp.billing.model.JobType;
-import com.ppp.billing.model.dto.JobTypeDTO;
 import com.ppp.billing.repository.JobTypeRepository;
 import com.ppp.billing.service.JobTypeService;
 
@@ -20,11 +19,11 @@ public class JobTypeServiceImpl implements JobTypeService {
 	@Autowired
 	private JobTypeRepository jobTypeRepository;
 
-	@Override
-	public JobType save(JobTypeDTO jobTypeDTO) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+//	@Override
+//	public JobType save(JobTypeDTO jobTypeDTO) {
+//		// TODO Auto-generated method stub
+//		return null;
+//	}
 
 	@Override
 	public Optional<JobType> findByName(String name) {
@@ -46,11 +45,11 @@ public class JobTypeServiceImpl implements JobTypeService {
 	}
 	
 
-	@Override
-	public JobType update(JobTypeDTO jobTypeDTO, long id) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+//	@Override
+//	public JobType update(JobTypeDTO jobTypeDTO, long id) {
+//		// TODO Auto-generated method stub
+//		return null;
+//	}
 
 	@Override
 	public void delete(long id) {

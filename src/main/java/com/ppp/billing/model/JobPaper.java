@@ -2,6 +2,7 @@ package com.ppp.billing.model;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -26,7 +27,7 @@ public class JobPaper {
 	private long id;
 	
 	@Column(name = "grammage", nullable = false)
-	private String grammage;
+	private int grammage;
 	
 	@Column(name = "volume")
 	private int volume;
@@ -47,7 +48,7 @@ public class JobPaper {
 	@JoinColumn(name = "job_id", referencedColumnName = "id")
 	private Job  job;
 	
-	@OneToMany(fetch = FetchType.LAZY,  mappedBy = "jobPaper")
+	@OneToMany(fetch = FetchType.LAZY,  mappedBy = "jobPaper", cascade = CascadeType.PERSIST)
 	private List<JobColorCombination> jobColorCombinations;
 
 

@@ -3,6 +3,7 @@ package com.ppp.billing.model;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -12,6 +13,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
@@ -32,38 +34,32 @@ public class Job {
 	@Column(name = "title", nullable = false)
 	private String title;
 	
-	@Column(nullable = false, name="reference_number")
-	private String referenceNumber;
+	@Column(name = "status")
+	private String status;
 	
-	@Column(name = "description", nullable = false)
-	private String description;
+	@Column(name="reference_number")
+	private String referenceNumber;
 	
 	@Column(name = "content_volume")
 	private int contentVolume;
 	
 	@Column(name = "cover_volume")
 	private int coverVolume;
-	
-	@Column(name="total_content_signature")
-	private int totalContentSignature;
-	
-	@Column(name="total_cover_signature")
-	private double totalCoverSignature;
 
 	@Column(name = "open_width")
-	private String openWidth;
+	private double openWidth;
 	
 	@Column(name = "open_length")
-	private String openLength;
+	private double openLength;
 	
 	@Column(name = "close_length")
-	private String closeLength;
+	private double closeLength;
 	
 	@Column(name = "close_width")
-	private String closeWidth;
+	private double closeWidth;
 	
 	@Column(name = "ctp_fees")
-	private String ctpFees;
+	private int ctpFees;
 	
 	@Column(name="existing_plate", columnDefinition="boolean default false")
 	private boolean existingPlate;
@@ -92,37 +88,13 @@ public class Job {
 	@Column(name="creation_date")
 	private Date creationDate;
 	
-	@Column(name="job_activities")
-	@OneToMany(fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "job")
-	private List<JobActivity> jobActivities;
-	
-	@Column(name="job_trackings")
-	@OneToMany(fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "job")
-	private List<JobTracking> jobTrackings;
-	
-	@Column(name="printing_pricings")
-	@OneToMany(fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "job")
-	private List<PrintingPricing> printingPricings;
-	
-	@Column(name="prepress_pricings")
-	@OneToMany(fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "job")
-	private List<PrepressPricing> prepressPricings;
-	
-	@Column(name="finishing_pricings")
-	@OneToMany(fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "job")
-	private List<FinishingPricing> finishingPricings;
+	@OneToOne(fetch = FetchType.LAZY, orphanRemoval = true, cascade = CascadeType.PERSIST)
+	@JoinColumn(name = "job_activity_id", referencedColumnName = "id")
+	private JobActivity jobActivity;
 	
 	@Column(name="job_papers")
-	@OneToMany(fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "job")
+	@OneToMany(fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "job", cascade = CascadeType.PERSIST)
 	private List<JobPaper> jobPapers;
-	
-	@ManyToOne
-	@JoinColumn(name = "binding_type_id", referencedColumnName = "id")
-	private BindingType bindingType;
-
-	@ManyToOne
-	@JoinColumn(name = "job_status_id", referencedColumnName = "id")
-	private JobStatus jobStatus;
 	
 	@ManyToOne
 	@JoinColumn(name = "job_type_id", referencedColumnName = "id")
@@ -131,9 +103,6 @@ public class Job {
 	@ManyToOne
 	@JoinColumn(name = "customer_id", referencedColumnName = "id")
 	private Customer customer;
-	
-	
-
 	
 	
 

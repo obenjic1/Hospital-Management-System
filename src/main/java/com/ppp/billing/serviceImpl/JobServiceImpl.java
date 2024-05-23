@@ -1,124 +1,157 @@
 package com.ppp.billing.serviceImpl;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.atomic.AtomicInteger;
 
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
+import com.ppp.billing.model.BindingType;
+import com.ppp.billing.model.ContentType;
+import com.ppp.billing.model.Customer;
 import com.ppp.billing.model.Job;
 import com.ppp.billing.model.JobActivity;
-import com.ppp.billing.model.JobActivityOption;
-import com.ppp.billing.model.dto.JobActivityDTO;
-import com.ppp.billing.model.dto.JobColorCombinationDTO;
+import com.ppp.billing.model.JobColorCombination;
+import com.ppp.billing.model.JobPaper;
+import com.ppp.billing.model.JobType;
+import com.ppp.billing.model.PaperType;
+import com.ppp.billing.model.PrintType;
+import com.ppp.billing.model.PrintingMachine;
+import com.ppp.billing.model.dto.JobActivityOptionDTO;
 import com.ppp.billing.model.dto.JobDTO;
-import com.ppp.billing.model.dto.JobPaperDTO;
-import com.ppp.billing.model.dto.JobStatusDTO;
+import com.ppp.billing.repository.BindingTypeRepository;
+import com.ppp.billing.repository.ContentTypeRepository;
 import com.ppp.billing.repository.CustomerRepository;
-import com.ppp.billing.repository.JobActivityOptionRepository;
-import com.ppp.billing.repository.JobActivityRepository;
-import com.ppp.billing.repository.JobPaperRepository;
 import com.ppp.billing.repository.JobRepository;
+import com.ppp.billing.repository.JobTypeRepository;
+import com.ppp.billing.repository.PaperTypeRepository;
+import com.ppp.billing.repository.PrintTypeRepository;
+import com.ppp.billing.repository.PrintingMachineRepository;
 import com.ppp.billing.service.JobService;
 
 
 @Service
 public class JobServiceImpl implements JobService {
-
+	
 	@Autowired
 	private JobRepository jobRepository;
 	@Autowired
 	private CustomerRepository customerRepository;
 	@Autowired
-	private JobPaperRepository jobPaperRepository;
+	private ContentTypeRepository contentTypeRepository;
 	@Autowired
-	private JobActivityOptionRepository jobActivityOptionRepository;
-//	@Autowired
-//	private ModelMapper modelMapper;
-
-
-	
+	private PrintingMachineRepository printingMachineRepository;
+    @Autowired
+    private JobTypeRepository jobTypeRepository;
+    @Autowired
+    private BindingTypeRepository bindingTypeRepository;
+    @Autowired
+    private PaperTypeRepository paperTypeRepository;
+    @Autowired
+    private PrintTypeRepository printTypeRepository;
+    
 	@Override
-	public Optional<Job> findByTitle(String name) {
-		// TODO Auto-generated method stub
-		return Optional.empty();
-	}
-
-	@Override
-	public Job update(JobDTO jobDTO, long id) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Optional<Job> findById(long id) {
-		// TODO Auto-generated method stub
-		return Optional.empty();
-	}
-
-	@Override
-	public Page<Job> findPaginatedJob(int pageNo, int pageSize) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Job saveJob(JobDTO jobDTO, JobPaperDTO jobPaperDTO, JobColorCombinationDTO jobColorCombinationDTO) {
-		JobDTO newJob = new JobDTO();
+	public Job saveJob(JobDTO jobDTO) {
+		try {
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		Job newJob = new Job();
 		newJob.setTitle(jobDTO.getTitle());
-		newJob.setDescription(jobDTO.getDescription());
-		newJob.setCoverVolume(jobDTO.getCoverVolume());
 		newJob.setContentVolume(jobDTO.getContentVolume());
-		newJob.setTotalCoverSignature(jobDTO.getTotalCoverSignature());
-		newJob.setTotalContentSignature(jobDTO.getTotalContentSignature());
+		newJob.setCoverVolume(jobDTO.getCoverVolume());
+		newJob.setOpenLength(jobDTO.getOpenLength());
+		newJob.setCloseLength(jobDTO.getCloseLength());
+		newJob.setOpenWidth(jobDTO.getOpenWidth());
+		newJob.setCloseWidth(jobDTO.getCloseWidth());
+		newJob.setCtpFees(jobDTO.getCtpFees());
 		newJob.setExistingPlate(jobDTO.isExistingPlate());
+		newJob.setDataSuppliedByCustomer(jobDTO.isDataSuppliedByCustomer());
 		newJob.setLayOutByUs(jobDTO.isLayOutByUs());
 		newJob.setTypesettingByUs(jobDTO.isTypesettingByUs());
-		newJob.setDataSuppliedByCustomer(jobDTO.isDataSuppliedByCustomer());
 		newJob.setCreationDate(new Date());
-		newJob.setExpectedDeliveryDate(jobDTO.getExpectedDeliveryDate());
-		  JobPaperDTO newJobPaperDTO = new JobPaperDTO();
-		  newJobPaperDTO.setGrammage(jobPaperDTO.getGrammage());
-		  newJobPaperDTO.setOpenLength(jobPaperDTO.getOpenLength());
-		  newJobPaperDTO.setCloseLength(jobPaperDTO.getCloseLength());
-		  newJobPaperDTO.setOpenWidth(jobPaperDTO.getOpenWidth());
-		  newJobPaperDTO.setCloseWidth(jobPaperDTO.getCloseWidth());
-		  newJobPaperDTO.setVolume(jobPaperDTO.getVolume());
-		  newJobPaperDTO.setPaperTypeDTO(jobPaperDTO.getPaperTypeDTO());
-		  newJobPaperDTO.setPrintingMachineDTO(jobPaperDTO.getPrintingMachineDTO());		  
-		  newJobPaperDTO.setContentTypeDTO(jobPaperDTO.getContentTypeDTO());
-			JobColorCombinationDTO newJobColorCombinationDTO = new JobColorCombinationDTO();
-		    newJobColorCombinationDTO.setBackColorNumber(jobColorCombinationDTO.getBackColorNumber());
-		    newJobColorCombinationDTO.setFrontColorNumber(jobColorCombinationDTO.getFrontColorNumber());
-		    newJobColorCombinationDTO.setPrintTypeDTO(jobColorCombinationDTO.getPrintTypeDTO());		    
-		  newJobPaperDTO.setJobColorCombinationsDTO(newJobColorCombinationDTO);
-		  List<JobPaperDTO> jobPaperdtos = jobDTO.getJobPapersDTO();
-		  newJob.setJobPapersDTO(jobPaperdtos);	
-		  newJob.setBindingTypeDTO(jobDTO.getBindingTypeDTO());
-		  JobStatusDTO jobStatusDTO = new JobStatusDTO();
-		  jobStatusDTO.setName("CREATED");
-		newJob.setJobStatusDTO(jobStatusDTO);
-		newJob.setJobTypeDTO(jobDTO.getJobTypeDTO());
+		Optional<Customer> customer = customerRepository.findById(jobDTO.getCustomerId());
+		newJob.setCustomer(customer.get());
+		Optional<JobType>  jobType = jobTypeRepository.findById(jobDTO.getJobTypeId());
+		newJob.setJobType(jobType.get());
 		
-//		List<JobActivityDTO> jobActivitiesDTO = jobDTO.getJobActivitiesDTO();
-//		newJob.setJobActivitiesDTO(jobActivitiesDTO);
-//	  Job newJobResult = modelMapper.map(newJob, Job.class);
-//	  jobRepository.save(newJobResult);
-return null;
-}
-	 
-	@Override
-	public void delete(long id) {
+		JobActivityOptionDTO jobdto = jobDTO.getJobActivities();
+		JobActivity activity = new JobActivity();
+		activity.setXPerforated(jobdto.getxPerforated());
+		activity.setXNumbered(jobdto.getxNumbered());
+		activity.setLamination(jobdto.getLamination());
+		activity.setXCreased(jobdto.getxCreased());
+		activity.setXWiredStiched(jobdto.getxWiredStiched());
+		activity.setXCross(jobdto.getxCross());
+		activity.setGlueOption(jobdto.getGlueOption());
+		activity.setHandgather(jobdto.isHandgather());
+		activity.setStitching(jobdto.isStitching());
+		activity.setTrimmed(jobdto.isTrimmed());
+		activity.setSewn(jobdto.isSewn());
+		activity.setSelloptaped(jobdto.isSelloptaped());
+		Optional<BindingType> bindingtp = bindingTypeRepository.findById(jobdto.getBindingType());
+		activity.setBindingType(bindingtp.get());
+		activity.setJob(newJob);
+		newJob.setJobActivity(activity);
+				
+		List<JobPaper> jobPapers = new ArrayList<JobPaper>();
+		jobDTO.getJobPapers().forEach(row-> {
+			JobPaper jobPaper = new JobPaper();
+			jobPaper.setGrammage(row.getGramage());
+			jobPaper.setVolume(row.getVolume());
+			Optional<PaperType> paperType = paperTypeRepository.findById(row.getPaperTypeId());
+			jobPaper.setPaperType(paperType.get());
+			Optional<ContentType> contentType = contentTypeRepository.findById(row.getContentTypeId());
+			jobPaper.setContentType(contentType.get());
+
+			List<JobColorCombination> colorCombinations = new ArrayList<JobColorCombination>();
+			row.getJobColorCombinations().forEach(colors->{
+				JobColorCombination jobColorCombination = new JobColorCombination();
+				jobColorCombination.setBackColorNumber(colors.getBackColorNumber());
+				jobColorCombination.setFrontColorNumber(colors.getFrontColorNumber());
+				jobColorCombination.setNumberOfSignature(colors.getSignatureNumber());
+				int machineId = Integer.valueOf(colors.getPrintingMachineId().split(",")[0]);
+				Optional<PrintingMachine> printingMachine =  printingMachineRepository.findById(machineId);
+				jobColorCombination.setPrintingMachine(printingMachine.get());
+				Optional<PrintType> printType =  printTypeRepository.findById(colors.getPrintTypeId());
+				jobColorCombination.setPrintType(printType.get());
+				jobColorCombination.setJobPaper(jobPaper);
+				colorCombinations.add(jobColorCombination);
+			
+			});
+			jobPaper.setJobColorCombinations(colorCombinations);
+			jobPaper.setJob(newJob);
+			jobPapers.add(jobPaper);
+			
+		});
+		newJob.setJobPapers(jobPapers);		
+		jobRepository.save(newJob);
+        generateSerialNumber(newJob);
+		
+        return newJob;
+	}
+
+	public void generateSerialNumber(Job job) {
+		LocalDate today = LocalDate.now();
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyMMdd");
+		String dateString = today.format(formatter);
+		int currentCount = (int) (job.getId()%9999); 
+		String countString = String.format("%04d", currentCount);
+		String serialNuber = dateString + "JBN" + countString;
+		job.setReferenceNumber(serialNuber);
+		jobRepository.save(job);
+	}
 	
-	}
-
 	@Override
-	public List<Job> findall() {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Job> listAllJob() {
+		return jobRepository.findAll();
 	}
 
+	
 }

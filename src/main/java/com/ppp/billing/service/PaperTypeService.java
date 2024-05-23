@@ -13,11 +13,11 @@ import com.ppp.billing.model.dto.PaperTypeDTO;
 public interface PaperTypeService {
 	
 		PaperType save(PaperTypeDTO paperTypeDTO);
-		PaperType update(PaperTypeDTO paperTypeDTO, long id);
+		PaperType update(PaperTypeDTO paperTypeDTO, int id);
 		Optional<PaperType> findByName(String name);
-		PaperType findById(Long id);
-		PaperType findToUpdate(Long id);
-		void delete(long id);		
+		PaperType findById(int id);
+		PaperType findToUpdate(int id);
+		void delete(int id);		
 		Page<PaperType> paginatedList(int pageNo, int pageSize);
 		List<PaperType> listAll();
 

@@ -198,11 +198,11 @@ let job = { };
 	 jobActivity.xCross = document.getElementById("xcross").value;
 	 jobActivity.glueOption = document.getElementById("glueingOption").value;
 	 jobActivity.bindingType = document.getElementById("bindingType").value;
-	 jobActivity.isHandgather = document.getElementById("handgather").checked;
-	 jobActivity.isStitching = document.getElementById("stitching").checked;
-	 jobActivity.isTrimmed = document.getElementById("trimmed").checked;  
-	 jobActivity.isSelloptaped = document.getElementById("sellotaped").checked;
-	 jobActivity.isSewn = document.getElementById("sewn").checked;
+	 jobActivity.handgather = document.getElementById("handgather").checked;
+	 jobActivity.stitching = document.getElementById("stitching").checked;
+	 jobActivity.trimmed = document.getElementById("trimmed").checked;  
+	 jobActivity.selloptaped = document.getElementById("sellotaped").checked;
+	 jobActivity.sewn = document.getElementById("sewn").checked;
   job.jobActivities = jobActivity;
  	
  	// Adding coverJobPaper and color combination  
@@ -214,13 +214,13 @@ let job = { };
 	  coverJobPaper.contentTypeId = 1;
 	  
 	  let coverColorCombinations = [];
-	  let colorCombinaition = {};
-	   colorCombinaition.frontColorNumber = document.getElementById("coverFrontColorNumber").value;
-	   colorCombinaition.backColorNumber = document.getElementById("converBackColorNumber").value;
-	   colorCombinaition.printTypeId = document.getElementById("coverPrintType").value;
-	   colorCombinaition.printingMachineId = document.getElementById("coverPrintingMachine").value;
-	   colorCombinaition.signatureNumber = document.getElementById("coverSignature").innerHTML;
-       coverColorCombinations.push(colorCombinaition);
+	  let colorCombination = {};
+	   colorCombination.frontColorNumber = document.getElementById("coverFrontColorNumber").value;
+	   colorCombination.backColorNumber = document.getElementById("converBackColorNumber").value;
+	   colorCombination.printTypeId = document.getElementById("coverPrintType").value;
+	   colorCombination.printingMachineId = document.getElementById("coverPrintingMachine").value;
+	   colorCombination.signatureNumber = document.getElementById("coverSignature").innerHTML;
+       coverColorCombinations.push(colorCombination);
        coverJobPaper.jobColorCombinations = coverColorCombinations;
        jobPapers.push(coverJobPaper);
     //End of Adding CoverJobPaper and color combination
@@ -241,9 +241,9 @@ let job = { };
 		 contentJobPaper.paperTypeId = paperType;
 		 
 		 let jobColorCombinations = [];
-		 contentJobPaper.contentTypeId = 2;
-		let currentContentSignature = mainContentSignature[i];
 		 let colorConbination = {}; 
+		 contentJobPaper.contentTypeId = 2;
+		 let currentContentSignature = mainContentSignature[i];
 		 colorConbination.signatureNumber = currentContentSignature.querySelector("[inputSignReadonly]").value; 
 		 colorConbination.printingMachineId = currentContentSignature.querySelectorAll("[contentPrintingMachine]")[1].value;
 		 colorConbination.printTypeId  = currentContentSignature.querySelectorAll("[contentPrintType]")[1].value;
@@ -251,8 +251,8 @@ let job = { };
 		 colorConbination.backColorNumber = currentContentSignature.querySelectorAll("[contentBackColorNumber]")[1].value;
 		 jobColorCombinations.push(colorConbination);
 		 
-		  let mainContentSignatureChildren = currentContentSignature.children;
-		  let k  = 2; if(i > 1) k = 3;
+		 let mainContentSignatureChildren = currentContentSignature.children;
+		 let k  = 2; if(i > 1) k = 3;
 		 for(let j = k; j < mainContentSignatureChildren.length; j ++){
 		 let colorConbination = {}; 
 		 let currentContentSignature = mainContentSignatureChildren[j];
@@ -266,15 +266,30 @@ let job = { };
 		 contentJobPaper.jobColorCombinations = jobColorCombinations;
 		 jobPapers.push(contentJobPaper);
 	 }
-	 
+	  
 	 job.jobPapers = jobPapers;
-	 
+	 fetch('/job/save', {
+			method: 'POST',
+			body: JSON.stringify(job) ,
+			 headers: {
+           "Content-Type": "application/json",
+           },
+		})
+		.then( response => {	
+
+   			 if (response.status === 200) {
+       			sendMessage('Succes/Success', 1);
+			return loadPage("job/list-job");				
+   			 } else if (response.status !== 200) {
+				sendMessage('Failed / Echec', 2);
+  			 }
+		})
+		 .then(function(data) {
+
+		 })
+			.catch(function(error) {
+
+			});
 	 	 
 	}
-	 
-
-    
-
-      
-      
      

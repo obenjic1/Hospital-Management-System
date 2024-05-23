@@ -8,9 +8,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import com.ppp.billing.model.BindingType;
 import com.ppp.billing.model.JobOperationOption;
-import com.ppp.billing.model.dto.JobOperationOptionDTO;
 import com.ppp.billing.repository.JobOperationOptionRepository;
 import com.ppp.billing.service.JobOperationOptionService;
 
@@ -26,11 +24,11 @@ public class JobOperationOptionServiceImpl implements JobOperationOptionService 
 		return Optional.empty();
 	}
 
-	@Override
-	public BindingType update(JobOperationOptionDTO jobOperationOptionDTO, long id) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+//	@Override
+//	public BindingType update(JobOperationOptionDTO jobOperationOptionDTO, long id) {
+//		// TODO Auto-generated method stub
+//		return null;
+//	}
 
 	@Override
 	public Optional<JobOperationOption> findById(long id) {
@@ -45,11 +43,11 @@ public class JobOperationOptionServiceImpl implements JobOperationOptionService 
 		return jobOperationOptionRepository.findAll(pageable);
 	}
 
-	@Override
-	public JobOperationOption saveJobOperationOption(JobOperationOptionDTO jobOperationOptionDTO) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+//	@Override
+//	public JobOperationOption saveJobOperationOption(JobOperationOptionDTO jobOperationOptionDTO) {
+//		// TODO Auto-generated method stub
+//		return null;
+//	}
 
 	@Override
 	public void delete(long id) {

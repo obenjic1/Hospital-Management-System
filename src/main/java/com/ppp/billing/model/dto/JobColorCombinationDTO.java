@@ -12,7 +12,8 @@ public class JobColorCombinationDTO {
 	
 	private int frontColorNumber; 
 	private int backColorNumber; 
-	private int numberOfSignature; 
-	private PrintTypeDTO  printTypeDTO;
-	private JobPaperDTO  jobPaperDTO;
+	private double signatureNumber; 
+	private int printTypeId;
+	private String printingMachineId;
+	
 }

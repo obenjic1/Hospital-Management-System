@@ -1,5 +1,7 @@
 package com.ppp.billing.model.dto;
 
+import java.util.List;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -9,14 +11,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class JobPaperDTO {
 
-	private String grammage;
-	private String openLength;
-	private String closeLength;
-	private String openWidth;
-	private String closeWidth;
-	private int volume;
-	private JobColorCombinationDTO jobColorCombinationsDTO;
-	private ContentTypeDTO  contentTypeDTO;
-	private PrintingMachineDTO  printingMachineDTO;
-	private PaperTypeDTO  paperTypeDTO;
+   private int gramage;
+   private int volume;
+   private int paperTypeId;
+   private int contentTypeId;
+   private List<JobColorCombinationDTO> jobColorCombinations;
 }

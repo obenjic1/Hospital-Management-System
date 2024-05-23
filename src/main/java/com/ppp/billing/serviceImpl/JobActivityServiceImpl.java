@@ -9,7 +9,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.ppp.billing.model.JobActivity;
-import com.ppp.billing.model.dto.JobActivityDTO;
 import com.ppp.billing.repository.JobActivityRepository;
 import com.ppp.billing.service.JobActivityService;
 
@@ -19,11 +18,11 @@ public class JobActivityServiceImpl implements JobActivityService {
 	@Autowired
 	private JobActivityRepository jobActivityRepository;
 	
-	@Override
-	public JobActivity save(JobActivityDTO jobActivityDTO) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+//	@Override
+//	public JobActivity save(JobActivityDTO jobActivityDTO) {
+//		// TODO Auto-generated method stub
+//		return null;
+//	}
 
 	@Override
 	public Optional<JobActivity> findByName(String name) {
@@ -38,11 +37,11 @@ public class JobActivityServiceImpl implements JobActivityService {
 		return jobActivityRepository.findAll(pageable);
 	}
 
-	@Override
-	public JobActivity update(JobActivityDTO jobActivityDTO, long id) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+//	@Override
+//	public JobActivity update(JobActivityDTO jobActivityDTO, long id) {
+//		// TODO Auto-generated method stub
+//		return null;
+//	}
 
 	@Override
 	public void delete(long id) {

@@ -624,7 +624,7 @@
 				      <button type="button" style="float:left" class="btn btn-primary" onclick="navigate(4,3);"> <fmt:message key="previews"/></button>	
 				     </div>
 			         <div class ="col-sm-6">
-			         <button   type="button" style="width:125px;float:right"  class="btn btn-primary" id="next-btn1" onclick="navigate(3,4); submitForm()"><fmt:message key="next"/></button>			
+			         <button   type="button" style="width:125px;float:right"  class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#creation" id="next-btn1" onclick="navigate(3,4); submitForm()"><fmt:message key="next"/></button>			
 			        </div>
 			        </div>
 
