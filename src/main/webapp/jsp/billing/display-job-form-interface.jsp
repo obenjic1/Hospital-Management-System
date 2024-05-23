@@ -116,7 +116,6 @@
 			       <div class="row">
 				     <div class="col-6 volume-cover-l">
                        <input id="openWidth" type="number" style="postion-relative-left:2px;position: relative;left: 4px;"  placeholder= "<fmt:message key='open.width'/> ">
-					                
 				      </div>
 				      <div  class="col-6 volume-cover-w">
 				      <input id="openLength" type="number" placeholder="<fmt:message key='open.legnth'/>">
@@ -192,7 +191,7 @@
 
 			 <div class ="col-lg-3 px8" style="position: relative; left:10px;">
 			   <label for="" class="form-label"><fmt:message key="grammage"/></label>
-			   <input style="postion-relative-left:2px;position: relative;left: 10px;" list="coverGrammage" id="xx" name="xx">
+			   <input style="postion-relative-left:2px;position: relative;left: 10px;" list="coverGrammage" id="coverGrammage" name="xx">
 					   <datalist id="coverGrammage">
 	                    <c:forEach items="${paperGrammages}" var="paperGrammage">
                     <option value="${paperGrammage.value}"></option>
@@ -318,7 +317,7 @@
               </div>
               <div class ="col-lg-3 px8" style="position: relative; left:10px;">
 			  <label for="" class="form-label"> <fmt:message key="signature"/></label>
-			  <div> <span class="coverSpace"> 1 </span>
+			  <div> <span class="coverSpace" id="coverSignature">1</span>
 			 </div> 
             </div>
 			</div>	
@@ -414,11 +413,9 @@
 				 </div> 
 	            </div>
 				</div>
-					
-					  
 			</div>	
 			
-			 <div>
+			 <div >
 			  <div class="row py-3" style="display:none">
 			 
 			    <div class ="col-lg-3 px8">
@@ -520,7 +517,7 @@
 	     </div>
 			
 			     	<!-- 			main content div -->
-			     		
+			     		inputSignReadonly
                </div>
              </div>  	<!-- 			main div ends -->
           
@@ -627,7 +624,7 @@
 				      <button type="button" style="float:left" class="btn btn-primary" onclick="navigate(4,3);"> <fmt:message key="previews"/></button>	
 				     </div>
 			         <div class ="col-sm-6">
-			         <button   type="button" style="width:125px;float:right"  class="btn btn-primary" id="next-btn1" onclick="navigate(3,4);"><fmt:message key="next"/></button>			
+			         <button   type="button" style="width:125px;float:right"  class="btn btn-primary" id="next-btn1" onclick="navigate(3,4); submitForm()"><fmt:message key="next"/></button>			
 			        </div>
 			        </div>
 

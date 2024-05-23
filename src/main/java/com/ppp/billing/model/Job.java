@@ -49,6 +49,21 @@ public class Job {
 	
 	@Column(name="total_cover_signature")
 	private double totalCoverSignature;
+
+	@Column(name = "open_width")
+	private String openWidth;
+	
+	@Column(name = "open_length")
+	private String openLength;
+	
+	@Column(name = "close_length")
+	private String closeLength;
+	
+	@Column(name = "close_width")
+	private String closeWidth;
+	
+	@Column(name = "ctp_fees")
+	private String ctpFees;
 	
 	@Column(name="existing_plate", columnDefinition="boolean default false")
 	private boolean existingPlate;

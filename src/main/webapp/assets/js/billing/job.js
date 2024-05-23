@@ -172,112 +172,109 @@ function signatureCalculation(machineParams,node){
 	};
 
 }
+function submitForm(){
+let job = { };
+ job.customerId = document.getElementById("customer").value;
+ job.jobTypeId = document.getElementById("jobType").value;
+ job.title = document.getElementById("title").value;
+ job.coverVolume = document.getElementById("volumeOfCover").value;
+ job.contentVolume = document.getElementById("volumeOfContent").value;
+ job.ctpFees = document.getElementById("ctpFees").value;
+ job.openWidth = document.getElementById("openWidth").value;
+ job.openLength = document.getElementById("openLength").value;
+ job.closeWidth = document.getElementById("closeWidth").value;
+ job.closeLength = document.getElementById("closeLength").value;
+ job.existingPlate = document.getElementById("existingPlate").checked; 
+ job.dataSuppliedByCustomer = document.getElementById("dataSuppliedByCustomer").checked; 
+ job.layOutByUs = document.getElementById("layoutByUs").checked;
+ job.typesettingByUs = document.getElementById("typesettingByUs").checked;
+ 
+	let jobActivity = { };
+	 jobActivity.xPerforated = document.getElementById("xPerforated").value;
+	 jobActivity.xNumbered = document.getElementById("xNumbered").value;
+	 jobActivity.lamination = document.getElementById("lamination").value
+	 jobActivity.xCreased = document.getElementById("creased").value;
+	 jobActivity.xWiredStiched = document.getElementById("xWire-stitched").value;
+	 jobActivity.xCross = document.getElementById("xcross").value;
+	 jobActivity.glueOption = document.getElementById("glueingOption").value;
+	 jobActivity.bindingType = document.getElementById("bindingType").value;
+	 jobActivity.isHandgather = document.getElementById("handgather").checked;
+	 jobActivity.isStitching = document.getElementById("stitching").checked;
+	 jobActivity.isTrimmed = document.getElementById("trimmed").checked;  
+	 jobActivity.isSelloptaped = document.getElementById("sellotaped").checked;
+	 jobActivity.isSewn = document.getElementById("sewn").checked;
+  job.jobActivities = jobActivity;
+ 	
+ 	// Adding coverJobPaper and color combination  
+	 let jobPapers = [ ];
+	 let coverJobPaper = { };
+	  coverJobPaper.gramage = document.getElementById("coverGrammage").value;
+	  coverJobPaper.volume = document.getElementById("coverVolume").value;
+	  coverJobPaper.paperTypeId = document.getElementById("coverPaperType").value;
+	  coverJobPaper.contentTypeId = 1;
+	  
+	  let coverColorCombinations = [];
+	  let colorCombinaition = {};
+	   colorCombinaition.frontColorNumber = document.getElementById("coverFrontColorNumber").value;
+	   colorCombinaition.backColorNumber = document.getElementById("converBackColorNumber").value;
+	   colorCombinaition.printTypeId = document.getElementById("coverPrintType").value;
+	   colorCombinaition.printingMachineId = document.getElementById("coverPrintingMachine").value;
+	   colorCombinaition.signatureNumber = document.getElementById("coverSignature").innerHTML;
+       coverColorCombinations.push(colorCombinaition);
+       coverJobPaper.jobColorCombinations = coverColorCombinations;
+       jobPapers.push(coverJobPaper);
+    //End of Adding CoverJobPaper and color combination
+    
+    // Start adding contentJobPaper and color combination
+     let contentPaperTypes = document.getElementById("contentDiv").children;
+     let mainContentSignature = document.getElementById("mainContentSignature").children;
 
+  
+     for(let i = 1;  i < contentPaperTypes.length; i ++){
+		 let contentJobPaper = { };
+		 let currentRow = contentPaperTypes[i];
+		 let paperType=currentRow.querySelector("[contentPaperType]").value;
+		 let grammage = currentRow.querySelector("[contentGrammage]").value;
+		 let volume = currentRow.querySelector("[contentVolume]").value;
+		 contentJobPaper.grammage = grammage;
+		 contentJobPaper.volume = volume;
+		 contentJobPaper.paperTypeId = paperType;
+		 
+		 let jobColorCombinations = [];
+		 contentJobPaper.contentTypeId = 2;
+		let currentContentSignature = mainContentSignature[i];
+		 let colorConbination = {}; 
+		 colorConbination.signatureNumber = currentContentSignature.querySelector("[inputSignReadonly]").value; 
+		 colorConbination.printingMachineId = currentContentSignature.querySelectorAll("[contentPrintingMachine]")[1].value;
+		 colorConbination.printTypeId  = currentContentSignature.querySelectorAll("[contentPrintType]")[1].value;
+		 colorConbination.frontColorNumber = currentContentSignature.querySelectorAll("[contentFrontColorNumber]")[1].value;
+		 colorConbination.backColorNumber = currentContentSignature.querySelectorAll("[contentBackColorNumber]")[1].value;
+		 jobColorCombinations.push(colorConbination);
+		 
+		  let mainContentSignatureChildren = currentContentSignature.children;
+		  let k  = 2; if(i > 1) k = 3;
+		 for(let j = k; j < mainContentSignatureChildren.length; j ++){
+		 let colorConbination = {}; 
+		 let currentContentSignature = mainContentSignatureChildren[j];
+		 colorConbination.signatureNumber = currentContentSignature.querySelector("[delContentSign]").value;
+		 colorConbination.printingMachineId = currentContentSignature.querySelector("[contentPrintingMachine]").value;
+		 colorConbination.printTypeId  = currentContentSignature.querySelector("[contentPrintType]").value;
+		 colorConbination.frontColorNumber = currentContentSignature.querySelector("[contentFrontColorNumber]").value;
+		 colorConbination.backColorNumber = currentContentSignature.querySelector("[contentBackColorNumber]").value;
+		 jobColorCombinations.push(colorConbination);
+		 }
+		 contentJobPaper.jobColorCombinations = jobColorCombinations;
+		 jobPapers.push(contentJobPaper);
+	 }
+	 
+	 job.jobPapers = jobPapers;
+	 
+	 	 
+	}
+	 
 
+    
 
-//${coverVolume}
-//
-// 	var jobType  = document.getElemntById("jobType").value;
-//	var title = document.getElementById("title").value = "vujdhjqshhjhj";
-//	var decription = document.getElemntById("description").value;
-//	var customer = document.getElemntById("customer").value;
-//	var contentVolume = document.getElemntById("contentVolume").value;
-//	var paperFormat = document.getElemntById("paperFormat").value;
-//	var opentwidth = document.getElemntById("opentwidth").value;
-//	var opentLength = document.getElemntById("opentLength").value;
-//	var closetwidth = document.getElemntById("closetwidth").value;
-//	var closeLength = document.getElemntById("closeLength").value;
-//	var volume = document.getElemntById("volume").value;
-//	var bindingType = document.getElemntById("bindingTyp").value
-//	var existingPlate = document.getElemntById("existingPlate").value;
-//	var typesettingByUs = document.getElemntById("typesettingByUs").value;
-//	var dataSuppliedByCustomer = document.getElyId("dataSuppliedByCustomer").value;
-//	var layoutByUs = document.getElemntById("layoutByUs").value;
-//	var coverPaperType = document.getElemntById("coverPaperType").value;
-//	var coverGrammage = document.getElemntById("coverGrammage").value;
-//	var coverVolume = document.getElemntById("coverVolume").value;
-//	var contentPaperType = document.getElemntById("contentPaperType").value;
-//	var contentGrammage = document.getElemntById("contentGrammage").value;
-//	var totalCoverSignature = document.getElemntById("converSignature").value;
-//	var printingMachineCover = document.getElemntById("printingMachineCover").value;
-//	var coverPrintType = document.getElemntById("coverPrintType").value;
-//	var coverFrontColorNumber = document.getElemntById("coverFrontColorNumber").value;
-//	var backColorNumber = document.getElemntById("coverBackColorNumber").value;
-//	var printingMachineContent = document.getElemntById("printingMachineContent").value;
-//	var contentPrintType = document.getElemntById("contentPrintType").value;
-//	var frontColorNumber = document.getElemntById("frontColorNumber").value;
-//	var backColorNumber = document.getElemntById("backColorNumber").value;
-//	var totalContentSignature = document.getElemntById("totalContentSignature").value;
-//	var ctpFees = document.getElemntById("ctpFees").value;
-//	var xPerforated = document.getElemntById("xPerforated").value;
-//	var xNumbered = document.getElemntById("xNumbered").value;
-//	var creased = document.getElemntById("creased").value;
-//	var xWireStitched = document.getElemntById("xWire-stitched").value;
-//	var xcross = document.getElemntById("xcross").value;
-//	var glued = document.getElemntById("glued").value;
-//	var trimmed = document.getElemntById("trimmed").value;
-//	var head = document.getElemntById("head").value;
-//	var sellotaped = document.getElemntById("sellotaped").value;
-//	var glueBound = document.getElemntById("glueBound").value;
-//	var sewn = document.getElemntById("sewn").value;
-//	var leftSide = document.getElemntById("leftSide").value;
-//	var extraFeesValue = document.getElemntById("value").value;
-//	var extraFeesDescription = document.getElemntById("textArea").value;
-//	
-//	var formData = new FormData();
-//		formData.append('jobType', jobType),
-//		formData.append('title', title),
-//		formData.append('decription', decription),
-//		formData.append('customer', customer),
-//		formData.append('coverVolume', coverVolume),
-//		formData.append('contentVolume',contentVolume ),
-//		formData.append('paperFormat',paperFormat ),
-//		formData.append('opentwidth',opentwidth ),
-//		formData.append('opentLength', opentLength),
-//		formData.append('closetwidth',closetwidth ),
-//		formData.append('closeLength',closeLength ),
-//		formData.append('volume',volume ),
-//		formData.append('bindingType', bindingType),
-//		formData.append('existingPlate',existingPlate ),
-//		formData.append('typesettingByUs',typesettingByUs ),
-//		formData.append('dataSuppliedByCustomer',dataSuppliedByCustomer ),
-//		formData.append('layoutByUs',layoutByUs ),
-//		formData.append('coverPaperType',coverPaperType ),
-//		formData.append('coverGrammage',coverGrammage ),
-//		formData.append('coverVolume',coverVolume ),
-//		formData.append('contentPaperType',contentPaperType ),
-//		formData.append('contentGrammage',contentGrammage ),
-//		formData.append('totalCoverSignature',totalCoverSignature ),
-//		formData.append('printingMachineCover',printingMachineCover ),
-//		formData.append('coverPrintType',coverPrintType ),
-//		formData.append('coverFrontColorNumber',coverFrontColorNumber ),
-//		formData.append('backColorNumber',backColorNumber ),
-//		formData.append('totalContentSignature',totalContentSignature ),
-//		formData.append('ctpFees',ctpFees ),
-//		formData.append('xPerforated',xPerforated ),
-//		formData.append('xNumbered',xNumbered ),
-//		formData.append('creased', creased),
-//		formData.append('xWireStitched', xWireStitched),
-//		formData.append('xcross',xcross ),
-//		formData.append('glued',glued ),
-//		formData.append('trimmed',trimmed ),
-//		formData.append('head',head ),
-//		formData.append('sellotaped', sellotaped),
-//		formData.append('glueBound', glueBound),
-//		formData.append('sewn',sewn ),
-//		formData.append('leftSide',leftSide ),
-//		formData.append('extraFeesValue',extraFeesValue ),
-//		formData.append('extraFeesDescription',extraFeesDescription )
-
-
-//var defaultValue = "4"
-//coverVolume.value = defaultValue;
-//defaultValue.addEventListener.
-
-
-
-
-
-
-
-
+      
+      
+     

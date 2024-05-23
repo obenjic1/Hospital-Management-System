@@ -22,9 +22,11 @@ public class JobActivity {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 	
+	@Column(name = "glueing_option")
+	private String glueOption;
 	
-	@Column(name = "glue_bound")
-	private int glueBound;
+	@Column(name = "binding_type")
+	private String bindingType;
 	
 	@Column(name = "x_perforated")
 	private int xPerforated;
@@ -34,6 +36,9 @@ public class JobActivity {
 	
 	@Column(name = "x_creased")
 	private int xCreased;
+	
+	@Column(name = "lamination")
+	private int lamination;
 	
 	@Column(name = "x_wired_stiched")
 	private int xWiredStiched;

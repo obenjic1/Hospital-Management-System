@@ -28,19 +28,7 @@ public class JobPaper {
 	@Column(name = "grammage", nullable = false)
 	private String grammage;
 	
-	@Column(length=255)
-	private String openLength;
-	
-	@Column(length=255)
-	private String closeLength;
-	
-	@Column(length=255)
-	private String openWidth;
-	
-	@Column(length=255)
-	private String closeWidth;
-	
-	@Column(length=10)
+	@Column(name = "volume")
 	private int volume;
 	
 	@ManyToOne
