@@ -57,11 +57,6 @@ public class JobServiceImpl implements JobService {
     
 	@Override
 	public Job saveJob(JobDTO jobDTO) {
-		try {
-			
-		} catch (Exception e) {
-			// TODO: handle exception
-		}
 		Job newJob = new Job();
 		newJob.setTitle(jobDTO.getTitle());
 		newJob.setContentVolume(jobDTO.getContentVolume());
