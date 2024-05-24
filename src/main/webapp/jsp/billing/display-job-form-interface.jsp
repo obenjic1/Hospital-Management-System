@@ -504,9 +504,7 @@
 	
 			<div class ="row py-3 "style="margin-top:50px" >
 		     <div class ="col-sm-6"> 
-		     
 		      <button type="button" style="width:125px;float:left" class="btn btn-primary" onclick="navigate(3,2);"><fmt:message key="previews"/></button>	
-		     
 		    </div>
 	        <div class ="col-sm-6">
 	        	
@@ -517,7 +515,6 @@
 	     </div>
 			
 			     	<!-- 			main content div -->
-			     		inputSignReadonly
                </div>
              </div>  	<!-- 			main div ends -->
           
@@ -618,21 +615,241 @@
 				  </div>
                   </div>
 				</div>	
-				
 		           <div class ="row py-3 "style="margin-top:50px" >
 				     <div class ="col-sm-6"> 
 				      <button type="button" style="float:left" class="btn btn-primary" onclick="navigate(4,3);"> <fmt:message key="previews"/></button>	
 				     </div>
 			         <div class ="col-sm-6">
-			         <button   type="button" style="width:125px;float:right"  class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#creation" id="next-btn1" onclick="navigate(3,4); submitForm()"><fmt:message key="next"/></button>			
+			         <button type="button" style="width:125px;float:right"  class="btn btn-primary" id="next-btn1" onclick="navigate(4,5),summary()"><fmt:message key="next"/></button>			
 			        </div>
+			        
+			        
+<!-- 			         <div class ="col-sm-6">  -->
+<%-- 				      <button type="button" style="float:left" class="btn btn-primary" onclick="navigate(4,3);"> <fmt:message key="previews"/></button>	 --%>
+<!-- 				     </div> -->
 			        </div>
+               	</div>
+               	
+               	<!-- <--------------------TAB 5 BEGINS HERE----------------------------------------------------------------------->  
+             <div class="tab-pane fade" id="tab5" role="tabpanel" aria-labelledby="contact-tab">
+                <div class="container" style="position: relative;bottom: -20px;" >
+       				<h4>Job Description</h4>
+       				<hr>
+					  <div class="row">
+					 	 <div class="row">
+					      <div class="col-sm-4">
+					    	The Type of Job : <span id="job-type"> </span>
+					      </div>
+					      <div class="col-sm-4">
+					    	 Title of Job : <span id="job-title"> </span> 
+					      </div>
+					      <div class="col-sm-4">
+					    	 Name of Customer : <span id="job-customer">  </span> 
+					      </div>
+					    </div>
+					   
+					   	 <div class="row">
+					    <div class="col-sm-4">
+					    	Number of Pages for Cover : <span id="cover-pages"> </span>
+					    </div>
+					    <div class="col-sm-4">
+					    	Number of Pages for Content :  <span id="content-pages"> </span> 
+					    </div>
+					    <div class="col-sm-4">
+					    	 CTP Fees : <span id="ctp">  </span> 
+					    </div>
+					   </div>
+					   
+					     <div class="row">
+					    <div class="col-sm-4">
+					    	Paper Format : <span id="paper-format"> </span>
+					    </div>
+					    <div class="col-sm-4">
+					    	Open :<span id="open"></span> </div> 
+					    	<div class="col-sm-4">
+					    	Fold :<span id="fold"></span>
+					    </div>
+					    </div>
+					       <div class="row">
+					    <div class="col-sm-4">
+					    	Data Supply By Us : <span></span>
+					    </div>
+					    <div class="col-sm-4">
+					    	Lay Out by Us : <span></span>
+					    </div> 
+					    <div class="col-sm-4" id="">
+					    	Type Setting By Us : <span></span> 
+					    </div>
+					    </div>
+					   </div>
+					   
+					<!--            job decription ends     -->
+					<br>
+					<h4 id="top">Cover Paper Option</h4>
+					<hr>
+					   <div class="row">
+					    <div class="row">
+					    <div class="col-sm-4">
+					    	Paper Type : <span> dfdfdf</span>
+					    </div>
+					    <div class="col-sm-4">
+					    	 Paper Grammage (GSM) : <span> 1</span> 
+					    </div>
+					    <div class="col-sm-4">
+					    	Volume : <span> sddsdd </span> 
+					    </div>
+					   </div>
+	
+					   </div>
+					   
+					   <br>
+					<h4 id="top"> Content Paper Option</h4>
+					<hr>
 
+					     <div class="row">
+					   <table class="table table-striped">
+					  <thead class="thead-dark">
+					    <tr>
+					      <th scope="col">Num</th>
+					      <th scope="col">Print Type</th>
+					      <th scope="col">Gramage (GSM)</th>
+					      <th scope="col">Volume (Pages)</th>
+					    </tr>
+					  </thead>
+					  <tbody>
+					    <tr>
+					      <th scope="row">1</th>
+					  
+					      <td>glows</td>
+					      <td>250</td>
+					      <td>2000</td>
+					    </tr>
+					    <tr>
+					      <th scope="row">2</th>
+					      <td>glossy</td>
+					      <td>450</td>
+					      <td>200</td>
+					    </tr>
+					  </tbody>
+					</table>
+					   </div>
+					      <br>
+		  
+					 <h4>Cover Printing Option</h4>
+					 <hr>
+						<div class="row">
+					    <div class="row">
+					     <div class="col-sm-3">
+					    	 Machine   <span> dfdfdf</span>
+					    </div>
+					    <div class="col-sm-3">
+					    	Print Type : <span> dfdfdf</span> 
+					    </div>
+					    <div class="col-sm-3">
+					    	Color Combination : <span></span> |<span></span> 
+					    </div>
+					     <div class="col-sm-3">
+					    	Signature : <span></span> |<span></span> 
+					    </div>
+					    </div>
+					  </div>
+					  
+					  
+					   <h4>Content Printing Option</h4>
+					 <hr>
+					  
+					  <div class="row">
+						<table class="table table-striped">
+					  <thead style="background-color: #dddfe3;">
+					    <tr>
+					      <th scope="col">Num</th>
+					      <th scope="col">Paper Type</th>
+					      <th scope="col">Machine</th>
+					      <th scope="col"> Print Type</th>
+					      <th scope="col">Color Combination</th>
+					      <th scope="col">Signature</th>
+					    </tr>
+					  </thead>
+					  <tbody>
+					    <tr>
+					      <th scope="row">1</th>
+					      <td><span>GLOSSY</span><span>540 </span>GSM</td>
+					      <td>SOM</td>
+					      <td>BW</td>
+					      <td><span>2</span>|<span>2</span></td>
+					      <td>8</td>
+					    </tr>
+					    <tr>
+					      <th scope="row"></th>
+					      <td></td>
+					      <td>SOM</td>
+					      <td>B/W</td>
+					      <td><span>2</span>|<span>2</span></td>
+					     <td>2</td>
+					    </tr>
+					     <tr>
+					      <th scope="row">2</th>
+					      <td><span>GLOSSY</span><span>540 </span> GSM</td>
+					      <td>SPEED MASTER</td>
+					      <td>B/W</td>
+					      <td><span>2</span>|<span>2</span></td>
+					      <td>5</td>
+					    </tr>
+					    <tr>
+					      <th scope="row"></th>
+					      <td></td>
+					      <td>SPEED MASTER</td>
+					      <td>Planton</td>
+					   
+					      <td><span>2</span>|<span>2</span></td>
+					     <td>200</td>
+					    </tr>
+					  </tbody>
+					</table>
+					   </div>
+					  </div>
+					  
+						<br>
+						 <h4>Finishing option</h4>
+						 <hr>
+						 <div class="row ">
+					    <div class="col-sm-4">
+					    	<div> X Perforated : <span>yes</span> </div>
+					    	<div> X Numbered : <span>yes</span> </div>
+					    	<div> X Crossed : <span>yes</span>|<span></span> </div>
+					    	<div> X Wired-stitched : <span>yes</span> </div>
+					    </div>
+					   <div class="col-sm-4">
+					    	<div> Lamination Sides : <span>2</span> </div>
+					    	<div> Glueing Bound: <span>head</span> </div>
+					    	<div> Binding Type : <span>spiral</span> </div>
+					    	<div> Sewn : <span></span> </div>
+					    
+					    </div>
+					    
+					    <div class="col-sm-4">
+					    	<div> Handgather : <span></span> </div>
+					    	<div> Stitching : <span></span> </div>
+					    	<div> Trimmed : <span></span>|<span></span> </div>
+					    	<div> Sellotaped : <span></span> </div>
+					    </div>
+					 </div>
+		           <div class ="row py-3 "style="margin-top:50px" >
+				     <div class ="col-sm-6"> 
+				      <button type="button" style="float:left" class="btn btn-primary" onclick="navigate(5,4);"> <fmt:message key="previews"/></button>	
+				     </div>
+			         <div class ="col-sm-6">
+			         <button   type="button" style="width:125px;float:right"  class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#creation" id="next-btn1" onclick="navigate(4,5); submitForm()"><fmt:message key="submit"/></button>			
+			        </div>
+			        </div>
+               	</div>
+               	<!-- <--------------------tab 5 ends ----------------------------------------------------------------------->  
                	</div>
                </form>  
             </div>
          </div>
       </div>
+      
       <!-- End Default Tabs -->
       </div>
     </section>  

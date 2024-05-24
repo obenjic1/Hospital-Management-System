@@ -293,3 +293,24 @@ let job = { };
 	 	 
 	}
      
+    function summary(){
+	document.getElementById("job-type").innerHTML= document.getElementById("jobType").selectedOptions[0].innerHTML;
+	document.getElementById("job-title").innerHTML= document.getElementById("title").value;
+	document.getElementById("job-customer").innerHTML= document.getElementById("customer").selectedOptions[0].innerHTML;
+	document.getElementById("cover-pages").innerHTMl= document.getElementById("volumeOfCover").value;
+	
+	console.log(document.getElementById("job-customer").selectedOptions[0].innerHTML);
+	
+	console.log(document.getElementById("job-title").value);
+	
+		console.log(document.getElementById("job-title").value);
+
+
+
+	
+
+	
+
+     }
+
+     
