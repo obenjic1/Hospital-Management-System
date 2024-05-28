@@ -374,7 +374,7 @@
 	           
 				</div>
 
-			  <div class="row py-3">
+			  <div class="row py-3" >
 			    <div class ="col-lg-3 px8" >
 				  <label for="" class="form-label"><fmt:message key="printing.machine"/></label> 
 				  <select  contentPrintingMachine name="name" class="form-select" onchange="signatureCalculation(this.value,this.parentNode.parentNode.parentNode)">
@@ -415,7 +415,7 @@
 				</div>
 			</div>	
 			
-			 <div >
+			 <div  id="signatureDiv">
 			  <div class="row py-3" style="display:none">
 			 
 			    <div class ="col-lg-3 px8">
@@ -457,7 +457,7 @@
 	          		  
 				</div>
 
-			  <div class="row py-3">
+			  <div class="row py-3" id="test-me">
 			   <div class ="col-lg-3 px8" >
 				  <label for="" class="form-label"><fmt:message key="printing.machine"/></label> 
 				  <select  contentPrintingMachine name="name" class="form-select"  onchange="signatureCalculation(this.value,this.parentNode.parentNode.parentNode)">
@@ -665,20 +665,23 @@
 					    	Paper Format : <span id="paper-format"> </span>
 					    </div>
 					    <div class="col-sm-4">
-					    	Open :<span id="open"></span> </div> 
+					    	Open :<span id="open-l"></span> | <span id="open-w"></span></div> 
 					    	<div class="col-sm-4">
-					    	Fold :<span id="fold"></span>
+					    	Fold :<span id="fold-l"></span> | <span id="fold-w"></span>
 					    </div>
 					    </div>
-					       <div class="row">
+					    <div class="row">
 					    <div class="col-sm-4">
-					    	Data Supply By Us : <span></span>
+					    	Existing Plate : <span id="existing-plate"></span>
 					    </div>
 					    <div class="col-sm-4">
-					    	Lay Out by Us : <span></span>
+					    	Data Supply By Us : <span id="supply-data"></span>
+					    </div>
+					    <div class="col-sm-4">
+					    	Lay Out by Us : <span id="data-layout"></span>
 					    </div> 
 					    <div class="col-sm-4" id="">
-					    	Type Setting By Us : <span></span> 
+					    	Type Setting By Us : <span id="type-setting"></span> 
 					    </div>
 					    </div>
 					   </div>
@@ -690,13 +693,13 @@
 					   <div class="row">
 					    <div class="row">
 					    <div class="col-sm-4">
-					    	Paper Type : <span> dfdfdf</span>
+					    	Paper Type : <span id="cover-paper"> </span>
 					    </div>
 					    <div class="col-sm-4">
-					    	 Paper Grammage (GSM) : <span> 1</span> 
+					    	 Paper Grammage (GSM) : <span id="cover-grammage"> 1</span> 
 					    </div>
 					    <div class="col-sm-4">
-					    	Volume : <span> sddsdd </span> 
+					    	Volume : <span id="cover-volume">  </span> 
 					    </div>
 					   </div>
 	
@@ -706,9 +709,9 @@
 					<h4 id="top"> Content Paper Option</h4>
 					<hr>
 
-					     <div class="row">
-					   <table class="table table-striped">
-					  <thead class="thead-dark">
+					    <div class="row">
+					   <table class="ta" id="cover-table">
+					  <thead>
 					    <tr>
 					      <th scope="col">Num</th>
 					      <th scope="col">Print Type</th>
@@ -717,19 +720,12 @@
 					    </tr>
 					  </thead>
 					  <tbody>
-					    <tr>
-					      <th scope="row">1</th>
-					  
-					      <td>glows</td>
-					      <td>250</td>
-					      <td>2000</td>
-					    </tr>
-					    <tr>
-					      <th scope="row">2</th>
-					      <td>glossy</td>
-					      <td>450</td>
-					      <td>200</td>
-					    </tr>
+<!-- 					    <tr> -->
+<!-- 					      <th scope="row">1</th> -->
+<!-- 					      <td>glows</td> -->
+<!-- 					      <td>250</td> -->
+<!-- 					      <td>2000</td> -->
+<!-- 					    </tr> -->
 					  </tbody>
 					</table>
 					   </div>
@@ -740,16 +736,16 @@
 						<div class="row">
 					    <div class="row">
 					     <div class="col-sm-3">
-					    	 Machine   <span> dfdfdf</span>
+					    	 Machine   <span id="cover-machine"> </span>
 					    </div>
 					    <div class="col-sm-3">
-					    	Print Type : <span> dfdfdf</span> 
+					    	Print Type : <span id="cover-printtype"> </span> 
 					    </div>
 					    <div class="col-sm-3">
-					    	Color Combination : <span></span> |<span></span> 
+					    	Color Combination : <span id=cover-color-front></span> / <span id=cover-color-back></span> 
 					    </div>
 					     <div class="col-sm-3">
-					    	Signature : <span></span> |<span></span> 
+					    	Signature : <span id=cover-signature></span> 
 					    </div>
 					    </div>
 					  </div>
@@ -759,8 +755,8 @@
 					 <hr>
 					  
 					  <div class="row">
-						<table class="table table-striped">
-					  <thead style="background-color: #dddfe3;">
+						<table class="ta" id="content-table">
+					  <thead>
 					    <tr>
 					      <th scope="col">Num</th>
 					      <th scope="col">Paper Type</th>
@@ -770,40 +766,8 @@
 					      <th scope="col">Signature</th>
 					    </tr>
 					  </thead>
-					  <tbody>
-					    <tr>
-					      <th scope="row">1</th>
-					      <td><span>GLOSSY</span><span>540 </span>GSM</td>
-					      <td>SOM</td>
-					      <td>BW</td>
-					      <td><span>2</span>|<span>2</span></td>
-					      <td>8</td>
-					    </tr>
-					    <tr>
-					      <th scope="row"></th>
-					      <td></td>
-					      <td>SOM</td>
-					      <td>B/W</td>
-					      <td><span>2</span>|<span>2</span></td>
-					     <td>2</td>
-					    </tr>
-					     <tr>
-					      <th scope="row">2</th>
-					      <td><span>GLOSSY</span><span>540 </span> GSM</td>
-					      <td>SPEED MASTER</td>
-					      <td>B/W</td>
-					      <td><span>2</span>|<span>2</span></td>
-					      <td>5</td>
-					    </tr>
-					    <tr>
-					      <th scope="row"></th>
-					      <td></td>
-					      <td>SPEED MASTER</td>
-					      <td>Planton</td>
-					   
-					      <td><span>2</span>|<span>2</span></td>
-					     <td>200</td>
-					    </tr>
+					  <tbody id="table-body">
+					
 					  </tbody>
 					</table>
 					   </div>
@@ -814,29 +778,31 @@
 						 <hr>
 						 <div class="row ">
 					    <div class="col-sm-4">
-					    	<div> X Perforated : <span>yes</span> </div>
-					    	<div> X Numbered : <span>yes</span> </div>
-					    	<div> X Crossed : <span>yes</span>|<span></span> </div>
-					    	<div> X Wired-stitched : <span>yes</span> </div>
+					    	<div> X Perforated : <span id="x-perforated"></span> </div>
+					    	<div> X Numbered : <span id="x-numbered"></span> </div>
+					    	<div> X Crossed : <span id="x-crossed"></span></div>
+					    	<div> X Wired-stitched : <span id="x-wired"></span> </div>
+					    	<div> Creased : <span id="crease"></span> </div>
+					    	
 					    </div>
 					   <div class="col-sm-4">
-					    	<div> Lamination Sides : <span>2</span> </div>
-					    	<div> Glueing Bound: <span>head</span> </div>
-					    	<div> Binding Type : <span>spiral</span> </div>
-					    	<div> Sewn : <span></span> </div>
+					    	<div> Lamination Sides : <span id="laminated-sides"></span> </div>
+					    	<div> Glueing Bound: <span id="glue-bound"></span> </div>
+					    	<div> Binding Type : <span id="binding-type"></span> </div>
+					    	<div> Sewn : <span id="sown"></span> </div>
 					    
 					    </div>
 					    
 					    <div class="col-sm-4">
-					    	<div> Handgather : <span></span> </div>
-					    	<div> Stitching : <span></span> </div>
-					    	<div> Trimmed : <span></span>|<span></span> </div>
-					    	<div> Sellotaped : <span></span> </div>
+					    	<div> Handgather : <span id="hand-gather"></span> </div>
+					    	<div> Stitching : <span id="stitch"></span> </div>
+					    	<div> Trimmed : <span id="trim"></span> </div>
+					    	<div> Sellotaped : <span id="sello-tape"></span> </div>
 					    </div>
 					 </div>
 		           <div class ="row py-3 "style="margin-top:50px" >
 				     <div class ="col-sm-6"> 
-				      <button type="button" style="float:left" class="btn btn-primary" onclick="navigate(5,4);"> <fmt:message key="previews"/></button>	
+				      <button type="button" style="float:left" class="btn btn-primary" onclick="navigate(5,4);removeRows()"> <fmt:message key="previews"/></button>	
 				     </div>
 			         <div class ="col-sm-6">
 			         <button   type="button" style="width:125px;float:right"  class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#creation" id="next-btn1" onclick="navigate(4,5); submitForm()"><fmt:message key="submit"/></button>			

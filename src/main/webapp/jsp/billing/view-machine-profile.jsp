@@ -8,7 +8,7 @@
 
 <link href="assets/css/profile.css" rel="stylesheet">
 
-  <main id="users-list" class="main">
+  <main id="job-details" class="main">
     <section class="section profile" id="modal-details">
       <div class="row">
         <div class="col-xl-8" style="width: 100%">
@@ -24,6 +24,8 @@
                 
               </ul>
               <div class="tab-content pt-2">
+              	
+              <h1> hello my job view baby</h1>
                 <div class="tab-pane fade show active profile-overview" id="profile-overview" style="margin-left: 10%">             
                   <h5 class="card-title">Machine Details</h5>
                   <div class="row">

@@ -48,6 +48,8 @@
 						      <th scope="col">Creation date</th>
 						      <th scope="col">Customer</th>
 						      <th scope="col">Actions</th>
+						      <th scope="col"></th>
+						      
 							</tr>
 						  </thead>
 						  <tbody>
@@ -66,11 +68,20 @@
 							     
 							  <td>
 							  <select id="coverPaperType" name="name" class="form-select">
-							     <option selected>View</option>
-							     <option selected>Delete</option>
-							     <option selected>Update</option>
-							     <option selected>Genrate</option>
+							     <option value="">Action</option>
+							     <option onClick="loadPageModal('/job/viewJob/${job.id}');" >View</option>
+							     <option>Delete</option>
+							     <option>Update</option>
+							     <option>Genrate</option>
 				               </select>
+							   </td>
+							   
+							   <td>
+							     <a>
+								   <button class="button-see" data-bs-toggle="modal" data-bs-target="#ExtralargeModal" onclick="loadPageModal('/job/viewJob/${job.id}')">
+								     <i class="fas fa-eye"></i>
+								   </button>
+								 </a>
 							   </td>
 							 </tr>
 
@@ -94,6 +105,6 @@
 	</section>
 </main>
 	<script src="assets/js/main.js"></script>	
-	<script src="assets/js/app.js"></script> 
+	<script src="assets/js/job.js"></script> 
 
 

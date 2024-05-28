@@ -148,5 +148,10 @@ public class JobServiceImpl implements JobService {
 		return jobRepository.findAll();
 	}
 
+	public Optional<Job> findById(long id) {
+		
+		return jobRepository.findById(id);
+	}
+
 	
 }
