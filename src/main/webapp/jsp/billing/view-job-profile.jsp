@@ -4,12 +4,13 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %> 
 
 
 <link href="assets/css/profile.css" rel="stylesheet">
-<link href="assets/css/job.css" rel="stylesheet">
+<link href="assets/css/billing/job.css" rel="stylesheet">
 
-  <main id="users-list" class="main">
+<main id="users-list" class="main">
     <section class="section profile" id="modal-details">
       <div class="row">
         <div class="col-xl-8" style="width: 100%">
@@ -19,17 +20,11 @@
                 <li class="nav-item">
                   <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#profile-overview" > <fmt:message key="overview"/></button>
                 </li>
-                <li class="nav-item">
-                  <button class="nav-link"  data-bs-toggle="tab" data-bs-target="#profile-edit">Edit Machine</button>
-                </li>
-                
               </ul>
-              <div class="tab-content pt-2">
-                <div class="tab-pane fade show active profile-overview" id="profile-overview" style="margin-left: 10%">    
-                         
+                <div class="tab-content pt-2">
+                  <div class="tab-pane fade show active profile-overview" id="profile-overview" style="margin-left: 10%">    
                   <h5 class="card-title">job Details</h5>
-    
-      <div class="container" style="position: relative;bottom: -20px;" >
+      				<div class="container" style="position: relative;bottom: -20px;" >
        				<h4>Job Description</h4>
        				<hr>
 					  <div class="row">
@@ -43,21 +38,20 @@
 					      <div class="col-sm-4">
 					    	 Name of Customer : <span id="job-customer"> ${job.customer.name} </span> 
 					      </div>
-					    </div>
-					   
+					      </div>
 					   	 <div class="row">
-					    <div class="col-sm-4">
+					       <div class="col-sm-4">
 					    	Number of Pages for Cover : <span id="cover-pages">${job.coverVolume} </span>
-					    </div>
-					    <div class="col-sm-4">
+					      </div>
+					      <div class="col-sm-4">
 					    	Number of Pages for Content :  <span id="content-pages"> ${job.contentVolume}</span> 
-					    </div>
-					    <div class="col-sm-4">
+					      </div>
+					      <div class="col-sm-4">
 					    	 CTP Fees : <span id="ctp">${job.ctpFees}</span> 
-					    </div>
+					      </div>
 					   </div>
 					   
-					     <div class="row">
+					   <div class="row">
 					    <div class="col-sm-4">
 					    	Paper Format : <span id="paper-format"></span>
 					    </div>
@@ -69,43 +63,43 @@
 					    </div>
 					    <div class="row">
 					    <div class="col-sm-4">
-					    	Existing Plate : <span id="existing-plate">${job.existingPlate}</span>
+					    	Existing Plate: <span class="${job.existingPlate ? 'true' : 'false'}">${job.existingPlate ? 'yes' : 'no'}</span>
 					    </div>
 					    <div class="col-sm-4">
-					    	Data Supply By Us : <span id="supply-data"> ${job.dataSuppliedByCustomer} </span>
+					    	Data Supply By Us : <span class="${job.dataSuppliedByCustomer ? 'true' : 'false'}"> ${job.dataSuppliedByCustomer ? 'yes' : 'no'}</span>
 					    </div>
 					    <div class="col-sm-4">
-					    	Lay Out by Us : <span id="data-layout">${job.layOutByUs}</span>
-					    </div> 
+					    	Lay Out by Us :   <span class="${job.layOutByUs ? 'true' : 'false'}">${job.layOutByUs ? 'yes' : 'no'}</span>
+					    </div>
+					     
 					    <div class="col-sm-4" id="">
-					    	Type Setting By Us : <span id="type-setting"> ${job.typesettingByUs}</span> 
-					    </div>
+					    	Type-Setting By Us : <span class="${job.typesettingByUs ? 'true' : 'false'}">${job.typesettingByUs ? 'yes' : 'no'}</span>
+					   </div>
+					   <div class="col-sm-4" id="">
+	    				Created Date : <fmt:formatDate type = "both" value = "${job.creationDate}" />
+					    	
+					   </div>
 					    </div>
 					   </div>
-					   
 					<!--            job decription ends     -->
-					<br>
-					<h4 id="top">Cover Paper Option</h4>
-					<hr>
+					
+							<h4 id="top2">Cover Paper Option</h4>
+							<hr>
 					   <div class="row">
 					    <div class="row">
 					    <div class="col-sm-4">
-					    	Paper Type : <span id="cover-paper"> ${job.jobPapers.contentType.}</span>
+					    	Paper Type : <span id="cover-paper"> ${coverjobPapers.paperType.name}</span>
 					    </div>
 					    <div class="col-sm-4">
-					    	 Paper Grammage (GSM) : <span id="cover-grammage"> 1</span> 
+					    	 Paper Grammage (GSM) :${coverjobPapers.grammage}<span id="cover-grammage"> </span> 
 					    </div>
 					    <div class="col-sm-4">
-					    	Volume : <span id="cover-volume">  </span> 
+					    	Volume : <span id="cover-volume"> ${coverjobPapers.volume} </span> 
 					    </div>
 					   </div>
-	
 					   </div>
-					   
-					   <br>
-					<h4 id="top"> Content Paper Option</h4>
-					<hr>
-
+						<h4 id="top2"> Content Paper Option</h4>
+						<hr>
 					    <div class="row">
 					   <table class="ta" id="cover-table">
 					  <thead>
@@ -116,32 +110,43 @@
 					      <th scope="col">Volume (Pages)</th>
 					    </tr>
 					  </thead>
-					  <tbody>
-
-					  </tbody>
-					</table>
-					   </div>
+					 				  <tbody>
+			
+						  <c:forEach var="jobPaper" items="${jobPapers}" varStatus="loop">
+							    <c:set var="index" value="${loop.index}" />
+							    <%    int index = (Integer) pageContext.getAttribute("index");  %>
+							 <td>  <%= index + 1 %></td>
+							   <td><a>${jobPaper.paperType.name}</a></td>
+							   <td><a>${jobPaper.grammage}</a></td>
+							   <td><a>${jobPaper.volume}</a></td>
+							 </tr>
+							   </c:forEach>
+							    </tbody>
+						</table>
+					  	</div>
 					      <br>
 		  
 					 <h4>Cover Printing Option</h4>
+
 					 <hr>
 						<div class="row">
 					    <div class="row">
 					     <div class="col-sm-3">
-					    	 Machine   <span id="cover-machine"> </span>
+					    	 Machine  : <span id="cover-machine">${coverjobPapers.jobColorCombinations[0].printingMachine.name} </span>
 					    </div>
 					    <div class="col-sm-3">
-					    	Print Type : <span id="cover-printtype"> </span> 
+					    	Print Type : <span id="cover-printtype">${coverjobPapers.jobColorCombinations[0].printType.name} </span> 
 					    </div>
 					    <div class="col-sm-3">
-					    	Color Combination : <span id=cover-color-front></span> / <span id=cover-color-back></span> 
+					    	Color Combination : <span id=cover-color-front></span> ${coverjobPapers.jobColorCombinations[0].frontColorNumber} / <span id=cover-color-back>${coverjobPapers.jobColorCombinations[0].backColorNumber}</span> 
 					    </div>
 					     <div class="col-sm-3">
-					    	Signature : <span id=cover-signature></span> 
+					    	Signature : <span id=cover-signature>${coverjobPapers.jobColorCombinations[0].numberOfSignature}</span> 
 					    </div>
 					    </div>
 					  </div>
 					   <h4>Content Printing Option</h4>
+
 					 <hr>
 					  <div class="row">
 					<table class="ta" id="content-table">
@@ -156,81 +161,57 @@
 					    </tr>
 					  </thead>
 					  <tbody>
-					
-					  </tbody>
-					</table>
-					   </div>
-					  </div>
-						<br>
+						<c:forEach var="jobPaper" items="${jobPapers}" varStatus="loop">
+					       <c:set var="index" value="${loop.index}" />
+							    <%    int index = (Integer) pageContext.getAttribute("index");  %>
+							    <tr>
+							 <td rowSpan="${fn:length(jobPaper.jobColorCombinations)+1}">  <%= index + 1 %></td>
+							 </tr>
+							 <c:forEach var="color" items="${jobPaper.jobColorCombinations}" varStatus="loop">
+							 <tr>
+						       <td>${jobPaper.paperType.name}</td>
+							   <td>${color.printingMachine.name}</td>
+							   <td>${color.printType.name}</td>
+							   <td> ${color.frontColorNumber} / ${color.backColorNumber}</td>
+							   <td>${color.numberOfSignature}</td>
+							 </tr>
+							  </c:forEach>
+							   </c:forEach>
+					 		 </tbody>
+							 </table>
+						  	 </div>
+						  	</div>
+						  <br>
 						 <h4>Finishing option</h4>
 						 <hr>
 						 <div class="row ">
 					    <div class="col-sm-4">
-					    	<div> X Perforated : <span id="x-perforated"></span> </div>
-					    	<div> X Numbered : <span id="x-numbered"></span> </div>
-					    	<div> X Crossed : <span id="x-crossed"></span></div>
-					    	<div> X Wired-stitched : <span id="x-wired"></span> </div>
-					    	<div> Creased : <span id="crease"></span> </div>
-					    	
+					    	<div> X Perforated : <span id="x-perforated"> </span>${job.getJobActivity().getXPerforated()}</div>
+					    	<div> X Numbered : <span id="x-numbered"></span> ${job.getJobActivity().getXNumbered()}</div>
+					    	<div> X Crossed : <span id="x-crossed"></span>${job.getJobActivity().getXCross()}</div>
+					    	<div> X Wired-stitched : <span id="x-wired"></span>${job.getJobActivity().getXWiredStiched()}</div>
+					    	<div> Creased : <span id="crease"></span>${job.getJobActivity().getXCreased()}</div>
 					    </div>
 					   <div class="col-sm-4">
-					    	<div> Lamination Sides : <span id="laminated-sides"></span> </div>
-					    	<div> Glueing Bound: <span id="glue-bound"></span> </div>
-					    	<div> Binding Type : <span id="binding-type"></span> </div>
-					    	<div> Sewn : <span id="sown"></span> </div>
-					    
+					    	<div> Lamination Sides : <span id="laminated-sides"></span> ${job.getJobActivity().getLamination()} </div>
+					    	<div> Glueing Bound: <span id="glue-bound"></span>${job.getJobActivity().getGlueOption()}</div>
+					    	<div> Binding Type : <span id="binding-type"></span> ${job.getJobActivity().getBindingType().getName()}</div>
+					    	<div> Sewn :<span class=" ${job.getJobActivity().isSewn() ? 'true' : 'false'}"> ${job.getJobActivity().isSewn() ? 'yes' : 'no'}</span>
+					    	</div>
 					    </div>
-					    
 					    <div class="col-sm-4">
-					    	<div> Handgather : <span id="hand-gather"></span> </div>
-					    	<div> Stitching : <span id="stitch"></span> </div>
-					    	<div> Trimmed : <span id="trim"></span> </div>
-					    	<div> Sellotaped : <span id="sello-tape"></span> </div>
+					    	<div> Handgather :<span class=" ${job.getJobActivity().isHandgather() ? 'true' : 'false'}"> ${job.getJobActivity().isHandgather() ? 'yes' : 'no'}</span>
+					    	 </div>
+					    	<div> Stitching :  <span class=" ${job.getJobActivity().isStitching() ? 'true' : 'false'}"> ${job.getJobActivity().isStitching() ? 'yes' : 'no'}</span>
+					    	</div>
+					    	<div> Trimmed :<span class=" ${job.getJobActivity().isTrimmed() ? 'true' : 'false'}"> ${job.getJobActivity().isTrimmed() ? 'yes' : 'no'}</span>
+							</div>
+					    	<div> Sellotaped :<span class=" ${job.getJobActivity().isSelloptaped() ? 'true' : 'false'}"> ${job.getJobActivity().isSelloptaped() ? 'yes' : 'no'}</span>
+							</div>
 					    </div>
 					 </div>
 					 </div>
-                   </div>
-                <div class="tab-pane fade profile-edit pt-3" id="profile-edit">
-                <form style="margin-left: 5%">
-                  <div class="row mb-3">  </div>
-                    <div class="row mb-3">
-                      <label for="firstName" class="col-md-4 col-lg-3 col-form-label">Name</label>
-                      <div class="col-md-6 col-lg-6">
-                        <input name="Name" type="text" class="form-control" id="name" value="${findMachine.name}">
-                      </div>
-                    </div>
-                    <div class="row mb-3">
-                      <label for="abbreviation" class="col-md-4 col-lg-3 col-form-label">abbreviation</label>
-                      <div class="col-md-8 col-lg-6">
-                        <input name="abbreviation" type="text" class="form-control" id="abbreviation" value="${findMachine.abbreviation}">
-                      </div>
-                    </div>
-                    <div class="row mb-3">
-                      <label for="username" class="col-md-4 col-lg-3 col-form-label">PLate Length</label>
-                      <div class="col-md-8 col-lg-6">
-                        <input name="plateLength" type="number" class="form-control" id="plateLength" value="${findMachine.plateLength}">
-                      </div>
-                    </div>
-                    <div class="row mb-3">
-                      <label for="username" class="col-md-4 col-lg-3 col-form-label">PLate Width</label>
-                      <div class="col-md-8 col-lg-6">
-                       <input name="plateWidth" type="number" class="form-control" id="plateWidth" value="${findMachine.plateWidth}">
-                      </div>
-                    </div>
-                      <div class="row mb-3"> 
-                      <label for="thumbnail" class="col-md-4 col-lg-3 col-form-label">Logo</label> 
-                      <div class="col-md-8 col-lg-6">
-                       <input name="thumbnail" type="file" class="form-control" id="thumbnail" value="${findMachine.thumbnail}"> 
-                      </div> 
-                     </div> 
-                    
-                    <div class="text-center">
-                      <input type="submit" data-bs-toggle="modal" type="button"  onsubmit="updateMachine('${findMachine.id}')" 
-                      	style="left: 42%; bottom: 2%"
-                       class="btn btn-primary" value="Save Changes"/>
-                    </div>
-                   </form><!-- End Profile Edit Form -->
-                </div>				
+                  </div>
             </div>
           </div>
         </div>

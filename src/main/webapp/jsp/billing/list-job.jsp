@@ -63,23 +63,22 @@
 							   <td><a>${job.jobType.name}</a></td>
 							   <td><a>${job.referenceNumber}</a></td>
 							   <td><a>${job.status}</a></td>
-							   <td><a>${job.creationDate}</a></td>
+							   <td><a><fmt:formatDate type = "both" value = "${job.creationDate}" /></a></td>
 							   <td><a>${job.customer.name}</a></td>
 							     
 							  <td>
 							  <select id="coverPaperType" name="name" class="form-select">
 							     <option value="">Action</option>
-							     <option onClick="loadPageModal('/job/viewJob/${job.id}');" >View</option>
-							     <option>Delete</option>
-							     <option>Update</option>
+							     <option onClick="loadPage('/job/viewJob/${job.id}');">View</option>
+							     <option onClick="loadPage('/job/update-form/${job.id}');">Edit</option>
+							     <option onclick="deleteJob(${job.id})">Delete</option>
 							     <option>Genrate</option>
 				               </select>
 							   </td>
-							   
 							   <td>
 							     <a>
 								   <button class="button-see" data-bs-toggle="modal" data-bs-target="#ExtralargeModal" onclick="loadPageModal('/job/viewJob/${job.id}')">
-								     <i class="fas fa-eye"></i>
+								     <i class="ri-eye-line"></i>
 								   </button>
 								 </a>
 							   </td>

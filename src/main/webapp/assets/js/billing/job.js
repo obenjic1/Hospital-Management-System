@@ -479,8 +479,36 @@ let job = { };
     }
     for(let i=1;i<allContentPrintingTable.length;i++){
 	           		allContentPrintingTable[i].remove();
+	 }
+	  }
 
-	           		}
-    
-  }
 
+
+
+
+	function deleteJob(id) {
+	fetch(`job/delete/${id}`, {
+		method: 'POST',
+		headers: {
+			'Content-type': 'application/json'
+		},
+	})
+		.then(respose => {
+			if (respose.ok) {
+			var modal = new bootstrap.Modal(document.getElementById('somthingwhenwrong'));
+			modal.show();
+			
+			} else {
+				
+				
+				var modal = new bootstrap.Modal(document.getElementById('machineModal'));
+				modal.show();
+				
+				loadPage('machine/list')
+			}
+		})
+		.catch(error => {
+			console.error("internal server error :", error);
+		})
+		
+	}

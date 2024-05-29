@@ -50,7 +50,6 @@
 							</tr>
 						  </thead>
 						  <tbody>
-			
 						  <c:forEach var="machine" items="${machines}" varStatus="loop">
 						    <tr class="${loop.index % 2 == 0 ? 'even-row' : 'odd-row'}">
 							   <th><img src="/download/${machine.thumbnail}" class="rounded-circle"></th>

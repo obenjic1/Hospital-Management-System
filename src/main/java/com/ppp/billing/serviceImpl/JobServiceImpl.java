@@ -27,6 +27,7 @@ import com.ppp.billing.model.dto.JobDTO;
 import com.ppp.billing.repository.BindingTypeRepository;
 import com.ppp.billing.repository.ContentTypeRepository;
 import com.ppp.billing.repository.CustomerRepository;
+import com.ppp.billing.repository.JobActivityRepository;
 import com.ppp.billing.repository.JobRepository;
 import com.ppp.billing.repository.JobTypeRepository;
 import com.ppp.billing.repository.PaperTypeRepository;
@@ -54,6 +55,7 @@ public class JobServiceImpl implements JobService {
     private PaperTypeRepository paperTypeRepository;
     @Autowired
     private PrintTypeRepository printTypeRepository;
+ 
     
 	@Override
 	public Job saveJob(JobDTO jobDTO) {
@@ -149,9 +151,9 @@ public class JobServiceImpl implements JobService {
 	}
 
 	public Optional<Job> findById(long id) {
-		
 		return jobRepository.findById(id);
 	}
-
-	
+	public void deleteById(long id) {
+		jobRepository.deleteById(id);
+	}
 }
