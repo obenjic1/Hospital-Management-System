@@ -1,5 +1,6 @@
 package com.ppp.billing.controller;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -79,6 +80,7 @@ public class JobController {
 		List<JobColorCombination> jobColorCombinationResult = jobColorCombinationServiceImpl.findAll();
 		List<PaperGrammage> paperGrammageResult = paperGrammageServiceImpl.findAll();
 		List<BindingType> bindingTypeResult = bindingTypeserviceImpl.listAll();
+
 		
 		model.addAttribute("customers", customerResult);
 		model.addAttribute("jobTypes", jobTypeResult);

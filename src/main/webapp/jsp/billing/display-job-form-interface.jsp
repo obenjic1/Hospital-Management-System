@@ -97,7 +97,7 @@
 				  </div>
 				  <div class ="col-lg-3 px8"  style="position: relative; left: 10px;">
 				    <label for="" class="form-label"><fmt:message key="ctp.fees"/></label> 
-					<input type="number" id="ctpFees">
+					<input type="number" id="ctpFees" value="0">
 			      </div>
 		       </div>		
 			 <div class="row py-3">
@@ -367,7 +367,7 @@
                   <div class ="col-lg-3 px8" style="position: relative; left:10px;">
 				  <label for="" class="form-label"><fmt:message key="signature"/></label>
 				  <div> 
-				  <input type="number" step=".1" delContentSign style="width:70px;color:red; text-align:center" onclick="this.oldValue=this.value" onchange="signatureChange(this.value,this.parentNode.parentNode.parentNode.parentNode,oldValue)">
+				  <input type="number" step=".1" delContentSign allSignatures style="width:70px;color:red; text-align:center" onclick="this.oldValue=this.value" onchange="signatureChange(this.value,this.parentNode.parentNode.parentNode.parentNode,oldValue)">
 				  <span> <button  type="button" onclick="deleteContentsignature(this.parentNode.parentNode.parentNode.parentNode,this.parentNode.parentNode.parentNode.parentNode.parentNode)" style="background:red"><i class="ri-delete-bin-3-line"></i></i></button> </span>
 				 </div> 
 	            </div>
@@ -408,7 +408,7 @@
                   </div>
                   <div class ="col-lg-3 px8" style="position: relative; left:10px;">
 				  <label for="" class="form-label"><fmt:message key="signature"/></label>
-				  <div> <input type="number" step=".1" id="" style="width:70px;color:red; text-align:center" inputSignReadonly>
+				  <div> <input type="number" step=".1" id="" style="width:70px;color:red; text-align:center" allSignatures inputSignReadonly>
 				  <span> <button   type="button" id="duplicateButton" style="display: inline;" onclick="updateContentSignature(this.parentNode.parentNode.parentNode.parentNode.parentNode,1,this.parentNode.parentNode.parentNode.parentNode)"><i class="ri-add-fill"></i></button> </span>
 				 </div> 
 	            </div>
@@ -450,7 +450,7 @@
                   <div class ="col-lg-3 px8" style="position: relative; left:10px;">
 				  <label for="" class="form-label"><fmt:message key="signature"/></label>
 				  <div>
-				  <input type="number" step=".1" delContentSign style="width:70px;color:red; text-align:center" onclick="this.oldValue=this.value" onchange="signatureChange(this.value,this.parentNode.parentNode.parentNode.parentNode, oldValue)">
+				  <input type="number" step=".1" delContentSign allSignatures style="width:70px;color:red; text-align:center" onclick="this.oldValue=this.value" onchange="signatureChange(this.value,this.parentNode.parentNode.parentNode.parentNode, oldValue)">
 				  <span> <button style="background:transparent;border-style: none;color: orange; font-size: 20px;" type="button" onclick="deleteContentsignature(this.parentNode.parentNode.parentNode.parentNode,this.parentNode.parentNode.parentNode.parentNode.parentNode)" style="background:red"><i class="ri-delete-bin-3-line"></i></i></button> </span>
 				 </div> 
 	            </div>
@@ -491,7 +491,7 @@
                   </div>
                   <div class ="col-lg-3 px8" style="position: relative; left:10px;">
 				  <label for="" class="form-label"><fmt:message key="signature"/></label>
-				  <div> <input type="number" id="" step=".1" style="width:70px;color:red; text-align:center" readonly="readonly"  inputSignReadonly>
+				  <div> <input type="number" id="" step=".1" style="width:70px;color:red; text-align:center" readonly="readonly" allSignatures inputSignReadonly>
 				  <span><button  type="button" style="display: inline;" id="duplicateButton" onclick="updateContentSignature(this.parentNode.parentNode.parentNode.parentNode.parentNode,0,this.parentNode.parentNode.parentNode.parentNode)" ><i class="ri-add-fill"></i></button> </span>
 				 </div> 
 	            </div>
@@ -525,16 +525,16 @@
 				 
 				 <div class ="col-lg-3 px8">
 					<label for="" class="form-label"><fmt:message key="x.Perforated"/></label>
-					<input type="number" id="xPerforated">
+					<input type="number" id="xPerforated" value="0">
                   </div>
 				  <div class ="col-lg-3 px8" style="position: relative; left: 10px;">
 					<label for="" class="form-label"><fmt:message key="x.Numbered"/></label>
-					<input type="number" id="xNumbered">
+					<input type="number" id="xNumbered" value="0">
                   </div>
                     <div class ="col-lg-3 px8" style="position: relative; left:10px;">
 			   <label for="" class="form-label"><fmt:message key="lamination"/></label> 
 			      <select id="lamination" name="name" class="form-select">
-			        <option selected>Choose...</option>
+			        <option value="0" selected>Choose...</option>
 					<option value="1">1</option>
 					<option value="2">2</option>
 					<option value="3">3</option>
@@ -545,22 +545,22 @@
 				   <div class="row py-4">
 				  <div class ="col-lg-3 px8" >
 				    <label for="" class="form-label"><fmt:message key="creased"/></label> 
-					<input type="number" id="creased">
+					<input type="number" id="creased" value="0">
 			      </div>
 				 <div class ="col-lg-3 px8" style="position: relative; left:10px;">
 					<label for="" class="form-label"><fmt:message key="x.Wire-stitched"/></label>
-					<input type="number" id="xWire-stitched">
+					<input type="number" id="xWire-stitched" value="0">
                   </div>
 				  <div class ="col-lg-3 px8" style="position: relative; left: 10px;">
 					<label for="" class="form-label"><fmt:message key="x.cross"/></label>
-					<input type="number" id="xcross">
+					<input type="number" id="xcross" value="0">
                   </div>
 				</div>	
 				 <div class="row py-4">
 				<div class ="col-lg-3 px8" >
 				  <label for="" class="form-label"><fmt:message key="glued.option"/></label> 
 				  <select id="glueingOption" name="name" class="form-select">
-				    <option  selected>Choose...</option>
+				    <option value="0" selected>Choose...</option>
 				    <option value="leftSide"><fmt:message key="left.side"/></option>
 				   <option value="head"><fmt:message key="head"/></option>
 				   <option value="glueBound"><fmt:message key="glue.bound"/></option>
@@ -569,7 +569,7 @@
 			     <div class ="col-lg-3 px8" style="position: relative; left:10px;">
 			   <label for="" class="form-label"><fmt:message key="binding.type"/></label> 
 			      <select id="bindingType" name="name" class="form-select">
-			        <option selected>Choose...</option>
+			        <option value="0" selected>Choose...</option>
 					<c:forEach items="${bindingTypes}" var="bindingTyp">
                       <option value="${bindingTyp.id}">${bindingTyp.name}</option>
                     </c:forEach>

@@ -306,8 +306,8 @@ let job = { };
 			document.getElementById("fold-l").innerHTML=document.getElementById("closeLength").value;
 			document.getElementById("fold-w").innerHTML= document.getElementById("closeWidth").value;
 			
-			let yes = "yes";
-			let no ="no";
+			let yes = "Yes";
+			let no ="No";
 			
 			if(document.getElementById("dataSuppliedByCustomer").checked)
 			document.getElementById("supply-data").innerHTML=yes;
@@ -390,29 +390,36 @@ let job = { };
 		fc4.innerHTML =currentContentSignature.querySelectorAll("[contentPrintingMachine]")[j].selectedOptions[0].innerHTML;
 		fc5.innerHTML =currentContentSignature.querySelectorAll("[contentPrintType]")[j].selectedOptions[0].innerHTML;
 		fc6.innerHTML =currentContentSignature.querySelectorAll("[contentFrontColorNumber]")[j].value +" / "+ currentContentSignature.querySelectorAll("[contentBackColorNumber]")[j].value;
-		fc7.innerHTML =currentContentSignature.querySelector("[inputSignReadonly]").value;
+		fc7.innerHTML =currentContentSignature.querySelectorAll("[allSignatures]")[j].value;
 		}
 		
-
-//		let Row =fc3.insertRow();
-//		Row.forEach(function(rows){
-//	
-//		let fc4 = rows.insertCell;
-//		let fc5 = rows.insertCell;
-//			let fc6= rows.insertCell;
-//			let fc7 = wows.insertCell;
-//	});
 		}
 					// PAPER OPTIONS SECTION
 
+
+			console.log(document.getElementById("xPerforated").value);
 			document.getElementById("x-perforated").innerHTML=document.getElementById("xPerforated").value;
 			document.getElementById("x-numbered").innerHTML=document.getElementById("xNumbered").value;
 			document.getElementById("x-wired").innerHTML=document.getElementById("xWire-stitched").value;
 			document.getElementById("x-crossed").innerHTML=document.getElementById("xcross").value;
 			document.getElementById("crease").innerHTML=document.getElementById("creased").value;
-			document.getElementById("laminated-sides").innerHTML=document.getElementById("lamination").selectedOptions[0].innerHTML;
-			document.getElementById("glue-bound").innerHTML=document.getElementById("glueingOption").selectedOptions[0].innerHTML;
-			document.getElementById("binding-type").innerHTML=document.getElementById("bindingType").selectedOptions[0].innerHTML;
+			if(document.getElementById("lamination").selectedOptions[0].value==0){
+				document.getElementById("laminated-sides").innerHTML=0;
+			}else{
+				document.getElementById("laminated-sides").innerHTML=document.getElementById("lamination").selectedOptions[0].innerHTML;
+			}
+			
+			if(document.getElementById("glueingOption").selectedOptions[0].value==0){
+				document.getElementById("glue-bound").innerHTML="No";
+			}else{
+				document.getElementById("glue-bound").innerHTML=document.getElementById("glueingOption").selectedOptions[0].innerHTML;
+			}
+			if(document.getElementById("bindingType").selectedOptions[0].value==0){
+				document.getElementById("binding-type").innerHTML="No";
+			}else{
+				document.getElementById("binding-type").innerHTML=document.getElementById("bindingType").selectedOptions[0].innerHTML;
+			}
+		
 			
 			if(document.getElementById("handgather").checked)
 			document.getElementById("hand-gather").innerHTML=yes;
