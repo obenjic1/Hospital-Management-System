@@ -44,20 +44,22 @@
 							</tr>
 						  </thead>
 						  <tbody>
+						  
 						  <c:forEach var="binding" items="${allBinding}" varStatus="loop">
-						   c
 							   <td>${binding.name}</td>
 							   <td>${binding.jobs}</td>
+							   ${allBinding}
+							   
 							   <td>
 							     <a>
 								   <button data-bs-toggle="modal" data-bs-target="#ExtralargeModal" data-bs-toggle="modal" class="button-see" onclick="fillContentModal('papertype/paper/${paperType.id}')">
-								     <i class="fas fa-eye"></i>
+								    <i class="ri-eye-line"></i>
 								   </button>
 								   <button class="button-edite" data-bs-target="#ExtralargeModal" data-bs-toggle="modal" class="button-see" onclick="fillContentModal('papertype/toUpdate/${paperType.id}')">
-								     <i class="fas fa-pencil-alt"></i>
+								       <i class="ri-pencil-line"></i>
 								   </button>
 								   <button class="button-delete" id="startDeleting" data-bs-toggle="modal" onclick="confirmDelete('${paperType.id}')" data-bs-target="#areyouSureYouWantToDetele">
-								     <i class="fas fa-trash-alt"></i>
+								    <i class="ri-delete-bin-3-line"></i>
 								   </button>
 								 </a>
 							   </td>

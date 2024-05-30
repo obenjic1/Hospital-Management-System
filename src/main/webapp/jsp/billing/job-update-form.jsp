@@ -17,7 +17,7 @@
         <ol class="breadcrumb">
           <li class="breadcrumb-item"><a href="index.html">Home</a></li>
           <li class="breadcrumb-item"><fmt:message key="jobs"/></li>
-          <li class="breadcrumb-item active"><fmt:message key="new"/></li>
+          <li class="breadcrumb-item active">Update Job</li>
         </ol>
       </nav>
     </div><!-- End Page Title -->
@@ -57,8 +57,7 @@
 				  <div class ="col-lg-3 px8" >					 
 				   <label for="" class="form-label"><fmt:message key="customer"/></label>
 				   <select id="customer"  class="form-select" >
-				   <option>Choose...</option>
-				    <option value="0"><fmt:message key="new.customer"/></option>
+				   	<option selected>${job.customer.name}</option>
 	                 <c:forEach items="${customers}" var="customer">
 	                   <option value="${customer.id}">${customer.name}</option>
 	                 </c:forEach>
@@ -68,9 +67,8 @@
 				  <div class ="col-lg-3 px8" style="position: relative; left: 10px;"> 
 					<label for="" class="form-label"><fmt:message key="job.type"/></label> 
 					<select id="jobType" name="jobType" class="form-select" >
-					  <option>Choose...</option>
 					  <c:forEach items="${jobTypes}" var="jobType">
-                        <option value="${jobType.id}" >${jobType.name}</option>
+                        <option value="${jobType.id}" >${job.jobType.name}</option>
                       </c:forEach>
                      
                     </select>
@@ -78,7 +76,7 @@
 				  <div class ="col-lg-3 px8" style="position: relative; left: 10px;">
 				  <label for="title" class="form-label"><fmt:message key="title"/></label>
 					<div>
-					  <input id= "title" name="title" type= "text">
+					  <input id= "title" name="title" type= "text" value=${job.title}>
 					</div>
                   </div>
 				</div>						
@@ -86,18 +84,20 @@
 				  <div class ="col-lg-3 px8">
 				    <label for="coverVolume" class="form-label"><fmt:message key="volume.cover"/></label> 
 				     <div>
+<%-- 				     value=${coverJobPaper.volume} --%>
 					  <input id= "volumeOfCover" name="volumeOfCover" type="number" value=4>
 				    </div>
 				  </div>
 				  <div class ="col-lg-3 px8" style="position: relative; left: 10px;"> 
-				    <label for="volumeOfContent"   class="form-label"><fmt:message key="volume.content"/></label>
+				    <label for="volumeOfContent"   class="form-label" ><fmt:message key="volume.content"/></label>
 				    <div>
-					  <input id= "volumeOfContent" name="volumeOfContent" type="number" onchange="totalContentVolumeChange()">
+<%-- 				    value=${jobPaperResults.volume} --%>
+					  <input id= "volumeOfContent" name="volumeOfContent"  type="number" onchange="totalContentVolumeChange()">
 				    </div>
 				  </div>
 				  <div class ="col-lg-3 px8"  style="position: relative; left: 10px;">
 				    <label for="" class="form-label"><fmt:message key="ctp.fees"/></label> 
-					<input type="number" id="ctpFees" value="0">
+					<input type="number" id="ctpFees" value=${job.ctpFees}>
 			      </div>
 		       </div>		
 			 <div class="row py-3">
@@ -115,10 +115,10 @@
 			     <label for="" class="form-label"> <fmt:message key="open.format"/></label> 
 			       <div class="row">
 				     <div class="col-6 volume-cover-l">
-                       <input id="openWidth" type="number" style="postion-relative-left:2px;position: relative;left: 4px;"  placeholder= "<fmt:message key='open.width'/> ">
+                       <input id="openWidth" type="number" value=${job.openWidth} style="postion-relative-left:2px;position: relative;left: 4px;"  placeholder= "<fmt:message key='open.width'/> ">
 				      </div>
 				      <div  class="col-6 volume-cover-w">
-				      <input id="openLength" type="number" placeholder="<fmt:message key='open.legnth'/>">
+				      <input id="openLength" type="number"  value=${job.openLength} placeholder="<fmt:message key='open.legnth'/>">
 					  
                    </div>
 				 </div>
@@ -127,11 +127,11 @@
 			   <label for="" class="form-label"><fmt:message key="close.format"/></label>
 			     <div class="row">
 				   <div class="col-6 volume-cover-l">
-                     <input type="number" id="closeWidth" style="postion-relative-left:2px;position: relative;left: 4px;"  placeholder= "<fmt:message key="open.width"/> ">
+                     <input type="number" id="closeWidth" value=${job.closeWidth} style="postion-relative-left:2px;position: relative;left: 4px;"  placeholder= "<fmt:message key="open.width"/> ">
 					                 
 				     </div>
 				     <div  class="col-6 volume-cover-w">
-				       <input id="closeLength" type="number" placeholder="<fmt:message key="open.legnth"/>">
+				       <input id="closeLength" type="number"  value=${job.closeLength} placeholder="<fmt:message key="open.legnth"/>">
 					 
                     </div>
 				  </div>
@@ -182,7 +182,7 @@
 			 <div class ="col-lg-3 px8" >
 			   <label for="" class="form-label"><fmt:message key="cover.paper.type"/></label> 
 			   <select id="coverPaperType" name="name" class="form-select">
-			     <option selected>Choose...</option>
+			     <option selected>${coverJobPaper.paperType.name}</option>
 				 <c:forEach items="${paperTypes}" var="paperType">
                    <option value="${paperType.id}">${paperType.name}</option>
                  </c:forEach>
@@ -193,6 +193,7 @@
 			   <label for="" class="form-label"><fmt:message key="grammage"/></label>
 			   <input style="postion-relative-left:2px;position: relative;left: 10px;" list="coverGrammage" id="coverGrammage" name="xx">
 					   <datalist id="coverGrammage">
+					   <option selected>${coverJobPaper.grammage}
 	                    <c:forEach items="${paperGrammages}" var="paperGrammage">
                     <option value="${paperGrammage.value}"></option>
                     </c:forEach>
@@ -367,7 +368,7 @@
                   <div class ="col-lg-3 px8" style="position: relative; left:10px;">
 				  <label for="" class="form-label"><fmt:message key="signature"/></label>
 				  <div> 
-				  <input type="number" step=".1" delContentSign allSignatures style="width:70px;color:red; text-align:center" onclick="this.oldValue=this.value" onchange="signatureChange(this.value,this.parentNode.parentNode.parentNode.parentNode,oldValue)">
+				  <input type="number" step=".1" delContentSign style="width:70px;color:red; text-align:center" onclick="this.oldValue=this.value" onchange="signatureChange(this.value,this.parentNode.parentNode.parentNode.parentNode,oldValue)">
 				  <span> <button  type="button" onclick="deleteContentsignature(this.parentNode.parentNode.parentNode.parentNode,this.parentNode.parentNode.parentNode.parentNode.parentNode)" style="background:red"><i class="ri-delete-bin-3-line"></i></i></button> </span>
 				 </div> 
 	            </div>
@@ -408,7 +409,7 @@
                   </div>
                   <div class ="col-lg-3 px8" style="position: relative; left:10px;">
 				  <label for="" class="form-label"><fmt:message key="signature"/></label>
-				  <div> <input type="number" step=".1" id="" style="width:70px;color:red; text-align:center" allSignatures inputSignReadonly>
+				  <div> <input type="number" step=".1" id="" style="width:70px;color:red; text-align:center" inputSignReadonly>
 				  <span> <button   type="button" id="duplicateButton" style="display: inline;" onclick="updateContentSignature(this.parentNode.parentNode.parentNode.parentNode.parentNode,1,this.parentNode.parentNode.parentNode.parentNode)"><i class="ri-add-fill"></i></button> </span>
 				 </div> 
 	            </div>
@@ -450,7 +451,7 @@
                   <div class ="col-lg-3 px8" style="position: relative; left:10px;">
 				  <label for="" class="form-label"><fmt:message key="signature"/></label>
 				  <div>
-				  <input type="number" step=".1" delContentSign allSignatures style="width:70px;color:red; text-align:center" onclick="this.oldValue=this.value" onchange="signatureChange(this.value,this.parentNode.parentNode.parentNode.parentNode, oldValue)">
+				  <input type="number" step=".1" delContentSign style="width:70px;color:red; text-align:center" onclick="this.oldValue=this.value" onchange="signatureChange(this.value,this.parentNode.parentNode.parentNode.parentNode, oldValue)">
 				  <span> <button style="background:transparent;border-style: none;color: orange; font-size: 20px;" type="button" onclick="deleteContentsignature(this.parentNode.parentNode.parentNode.parentNode,this.parentNode.parentNode.parentNode.parentNode.parentNode)" style="background:red"><i class="ri-delete-bin-3-line"></i></i></button> </span>
 				 </div> 
 	            </div>
@@ -491,7 +492,7 @@
                   </div>
                   <div class ="col-lg-3 px8" style="position: relative; left:10px;">
 				  <label for="" class="form-label"><fmt:message key="signature"/></label>
-				  <div> <input type="number" id="" step=".1" style="width:70px;color:red; text-align:center" readonly="readonly" allSignatures inputSignReadonly>
+				  <div> <input type="number" id="" step=".1" style="width:70px;color:red; text-align:center" readonly="readonly"  inputSignReadonly>
 				  <span><button  type="button" style="display: inline;" id="duplicateButton" onclick="updateContentSignature(this.parentNode.parentNode.parentNode.parentNode.parentNode,0,this.parentNode.parentNode.parentNode.parentNode)" ><i class="ri-add-fill"></i></button> </span>
 				 </div> 
 	            </div>
@@ -525,16 +526,16 @@
 				 
 				 <div class ="col-lg-3 px8">
 					<label for="" class="form-label"><fmt:message key="x.Perforated"/></label>
-					<input type="number" id="xPerforated" value="0">
+					<input type="number" id="xPerforated">
                   </div>
 				  <div class ="col-lg-3 px8" style="position: relative; left: 10px;">
 					<label for="" class="form-label"><fmt:message key="x.Numbered"/></label>
-					<input type="number" id="xNumbered" value="0">
+					<input type="number" id="xNumbered">
                   </div>
                     <div class ="col-lg-3 px8" style="position: relative; left:10px;">
 			   <label for="" class="form-label"><fmt:message key="lamination"/></label> 
 			      <select id="lamination" name="name" class="form-select">
-			        <option value="0" selected>Choose...</option>
+			        <option selected>Choose...</option>
 					<option value="1">1</option>
 					<option value="2">2</option>
 					<option value="3">3</option>
@@ -545,22 +546,22 @@
 				   <div class="row py-4">
 				  <div class ="col-lg-3 px8" >
 				    <label for="" class="form-label"><fmt:message key="creased"/></label> 
-					<input type="number" id="creased" value="0">
+					<input type="number" id="creased">
 			      </div>
 				 <div class ="col-lg-3 px8" style="position: relative; left:10px;">
 					<label for="" class="form-label"><fmt:message key="x.Wire-stitched"/></label>
-					<input type="number" id="xWire-stitched" value="0">
+					<input type="number" id="xWire-stitched">
                   </div>
 				  <div class ="col-lg-3 px8" style="position: relative; left: 10px;">
 					<label for="" class="form-label"><fmt:message key="x.cross"/></label>
-					<input type="number" id="xcross" value="0">
+					<input type="number" id="xcross">
                   </div>
 				</div>	
 				 <div class="row py-4">
 				<div class ="col-lg-3 px8" >
 				  <label for="" class="form-label"><fmt:message key="glued.option"/></label> 
 				  <select id="glueingOption" name="name" class="form-select">
-				    <option value="0" selected>Choose...</option>
+				    <option  selected>Choose...</option>
 				    <option value="leftSide"><fmt:message key="left.side"/></option>
 				   <option value="head"><fmt:message key="head"/></option>
 				   <option value="glueBound"><fmt:message key="glue.bound"/></option>
@@ -569,7 +570,7 @@
 			     <div class ="col-lg-3 px8" style="position: relative; left:10px;">
 			   <label for="" class="form-label"><fmt:message key="binding.type"/></label> 
 			      <select id="bindingType" name="name" class="form-select">
-			        <option value="0" selected>Choose...</option>
+			        <option selected>Choose...</option>
 					<c:forEach items="${bindingTypes}" var="bindingTyp">
                       <option value="${bindingTyp.id}">${bindingTyp.name}</option>
                     </c:forEach>
@@ -805,7 +806,7 @@
 				      <button type="button" style="float:left" class="btn btn-primary" onclick="navigate(5,4);removeRows()"> <fmt:message key="previews"/></button>	
 				     </div>
 			         <div class ="col-sm-6">
-			         <button   type="button" style="width:125px;float:right"  class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#creation" id="next-btn1" onclick="navigate(4,5); submitForm()"><fmt:message key="submit"/></button>			
+			         <button type="button" style="width:125px;float:right"  class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#creation" id="next-btn1" onclick="navigate(4,5); submitForm()"><fmt:message key="submit"/></button>			
 			        </div>
 			        </div>
                	</div>

@@ -1,6 +1,8 @@
 package com.ppp.billing.controller;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -8,12 +10,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ppp.billing.model.BindingType;
+import com.ppp.billing.model.ContentType;
 import com.ppp.billing.model.Customer;
 import com.ppp.billing.model.Job;
 import com.ppp.billing.model.JobColorCombination;
@@ -76,6 +80,7 @@ public class JobController {
 		List<JobColorCombination> jobColorCombinationResult = jobColorCombinationServiceImpl.findAll();
 		List<PaperGrammage> paperGrammageResult = paperGrammageServiceImpl.findAll();
 		List<BindingType> bindingTypeResult = bindingTypeserviceImpl.listAll();
+
 		
 		model.addAttribute("customers", customerResult);
 		model.addAttribute("jobTypes", jobTypeResult);
@@ -109,4 +114,58 @@ public class JobController {
 		return "billing/list-job";
 	}
 
-}
+	@GetMapping("/viewJob/{id}")
+	public String viewJobDetails(@PathVariable long id, Model model) {
+		Job findJob = jobServiceImpl.findById(id).get();
+		List<JobPaper> jobPapers = findJob.getJobPapers();
+		JobPaper cover = jobPapers.remove(0);
+		model.addAttribute("job",findJob);
+		model.addAttribute("jobPapers",jobPapers);
+		model.addAttribute("coverjobPapers",cover);
+
+    return "/billing/view-job-profile";
+	}
+	
+	@PostMapping(value="/delete/{id}")
+	public void delete(@PathVariable long id) {
+	  Optional<Job> job = jobServiceImpl.findById(id);
+	    if (job.isPresent()) 
+	    	jobServiceImpl.deleteById(id);
+	}
+	
+	// to get the update page of job
+	
+		@GetMapping("/update-form/{id}")
+		public String getUpdateForm(@PathVariable Long id, Model model) {
+			List<Customer> customerResult = customerServiceImpl.findAll();
+			List<JobType> jobTypeResult = jobTypeServiceImpl.findAll();
+			List<PaperFormat> paperFormatResult = paperFormatServiceImpl.findAll();
+			List<JobPaper> jobPaperResult = jobPaperServiceImpl.findAll();
+			List<PaperType>  paperTypeResult = paperTypeServiceImpl.listAll();
+			List<PrintingMachine> printingMachineResult = printingMachineServiceImpl.listMachines();
+			List<PrintType> printTypeResult = printTypeServiceImpl.findAll();
+			List<JobColorCombination> jobColorCombinationResult = jobColorCombinationServiceImpl.findAll();
+			List<PaperGrammage> paperGrammageResult = paperGrammageServiceImpl.findAll();
+			List<BindingType> bindingTypeResult = bindingTypeserviceImpl.listAll();
+			
+			Job existingJob = jobServiceImpl.findById(id).get();
+			JobPaper existingJobPaper = existingJob.getJobPapers().remove(0);
+			model.addAttribute("job", existingJob);
+			model.addAttribute("customers", customerResult);
+			model.addAttribute("jobTypes", jobTypeResult);
+			model.addAttribute("paperFormats", paperFormatResult);
+			model.addAttribute("bindingTypes", bindingTypeResult);
+			model.addAttribute("coverJobPaper", existingJobPaper);
+			model.addAttribute("jobPaperResults", jobPaperResult);
+			model.addAttribute("paperTypes", paperTypeResult);
+			model.addAttribute("printingMachines", printingMachineResult);
+			model.addAttribute("printTypes", printTypeResult);
+			model.addAttribute("jobColorCombinations", jobColorCombinationResult);
+			model.addAttribute("paperGrammages", paperGrammageResult);
+			
+			
+		    return "/billing/job-update-form";
+		}
+	
+	
+	}

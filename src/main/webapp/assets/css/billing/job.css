@@ -7,7 +7,7 @@ input{
     border-color:none;
 
 }
-b
+
 #myTabjustified{
 	background: #dddfe3;
 }
@@ -83,4 +83,65 @@ input[type=number]{
 
 .acitve {
 	color: blue !important; 
+}
+#tab5{
+	gap:2px;
+	
+}
+#top{
+	padding-top: 20px;
+	
+}
+#top2{
+	padding-top: 1px;
+	
+}
+#bottom{
+	padding-bottom:100px;
+}
+#tab5 div{
+	padding-bottom:4px;
+}
+
+#tab5 h4{
+	color: #012970;
+	padding-top:5px;
+	
+}
+#tab5 span{
+	font-weight:bold;
+	font-style:italic;
+}
+#tab5 rows{
+	background:red;
+}
+
+.ta{
+	
+	margin:25px 0;
+	margin: 0.9em;
+	min-width:auto;
+	
+}
+
+.ta th{
+	background-color:#012970;
+	color:#ffffff;
+	text-align:left;
+	font-weight:bold;
+}
+.ta th, 
+.ta td{
+	padding: 8px 11px;
+}
+
+.ta tr{
+	border-bottom:1px solid #dddddd; 
+}
+.ta tr:nth-of-type(odd){
+	background-color:#f3f3f3;
+}
+
+.ta tr:last-of-type{
+	border-bottom:2px solid #012970; 
 }

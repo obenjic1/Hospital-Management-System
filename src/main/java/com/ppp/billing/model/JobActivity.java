@@ -69,6 +69,7 @@ public class JobActivity {
 	@JoinColumn(name = "binding_type_id", referencedColumnName = "id")
 	private BindingType bindingType;
 	
+	
 
 	
 	

@@ -35,7 +35,6 @@
 						<button onclick="loadPage('job/displayform')" style="width: 120px;" type="button" class="btn btn-primary">
 						  <fmt:message key="add.group"/>
 						</button>
-						
 						<!-- Table with stripped rows -->
 						<table class="table datatable">
 						  <thead style="background-color: #dddfe3;">
@@ -48,9 +47,11 @@
 						      <th scope="col">Creation date</th>
 						      <th scope="col">Customer</th>
 						      <th scope="col">Actions</th>
+						      <th scope="col"></th>
+						      
 							</tr>
-						  </thead>
-						  <tbody>
+						   </thead>
+						<tbody>
 			
 						  <c:forEach var="job" items="${jobs}" varStatus="loop">
 						   <tr class="${loop.index % 2 == 0 ? 'even-row' : 'odd-row'}">
@@ -61,22 +62,28 @@
 							   <td><a>${job.jobType.name}</a></td>
 							   <td><a>${job.referenceNumber}</a></td>
 							   <td><a>${job.status}</a></td>
-							   <td><a>${job.creationDate}</a></td>
+							   <td><a><fmt:formatDate type = "both" value = "${job.creationDate}" /></a></td>
 							   <td><a>${job.customer.name}</a></td>
-							     
+							 <td>
+								  <select id="coverPaperType" name="name" class="form-select">
+								     <option >Action</option>
+								     <option onClick="loadPage('/job/viewJob/${job.id}');">View</option>
+								     <option onClick="loadPage('/job/update-form/${job.id}');">Edit</option>
+								     <option onclick="deleteJob(${job.id})">Delete</option>
+								     <option>Generate</option>
+					               </select>
+							  </td>
 							  <td>
-							  <select id="coverPaperType" name="name" class="form-select">
-							     <option selected>View</option>
-							     <option selected>Delete</option>
-							     <option selected>Update</option>
-							     <option selected>Genrate</option>
-				               </select>
-							   </td>
-							 </tr>
-
-						  </c:forEach>
-						</tbody>
-					</table>
+							     <a>
+								   <button class="button-see" data-bs-toggle="modal" data-bs-target="#ExtralargeModal" onclick="loadPageModal('/job/viewJob/${job.id}')">
+								     <i class="ri-eye-line"></i>
+								   </button>
+								 </a>
+							  </td>
+							</tr>
+						   </c:forEach>
+						 </tbody>
+					   </table>
 					<!-- Pagination with icons -->
 						<nav aria-label="Page navigation example">
 						  <ul class="pagination nav-no-border">
@@ -94,6 +101,6 @@
 	</section>
 </main>
 	<script src="assets/js/main.js"></script>	
-	<script src="assets/js/app.js"></script> 
+	<script src="assets/js/job.js"></script> 
 
 
