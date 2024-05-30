@@ -103,31 +103,9 @@
                       </div>
                     </div>
                     <div class="text-center">
-                      <input data-bs-toggle="modal" type="button"  onclick="updateUserById('${userFind.id}')"
-                      	style="left: 42%; bottom: 2%"
-                       class="btn btn-primary" value="Save Changes"/>
+                      <input data-bs-toggle="modal" data-bs-target="#creation" type="button"  onclick="updateUserById('${userFind.id}')" style="left: 42%; bottom: 2%" class="btn btn-primary" value="Save Changes"/>
                     </div>
-                  <!--------------User updated successfully modal ------------->
-	              <div class="modal fade" id="userUdatedSuccessfully" tabindex="-1">
-		            <div class="modal-dialog modal-dialog-centered">
-		              <div class="modal-content">
-		                <button onclick="loadPage('/user/list-users')" type="button" class="btn-close"  data-bs-dismiss="modal" aria-label="Close"></button>
-		                <div class="modal-body">
-		                  <img src="assets/img/success_icon.png" alt="">
-		                  <p><fmt:message key="user.updated.successfully"/></p>
-		                </div>
-		              </div>
-		            </div>
-		          </div>
-		          <div class="modal fade" id="userNotDeleted" tabindex="-1">
-		            <div class="modal-dialog modal-dialog-centered">
-		              <div class="alert alert-danger alert-dismissible fade show" role="alert">
-				        <i class="bi bi-exclamation-octagon me-1"></i>
-				        <p> <fmt:message key="something.when.wrong"/></p>
-				        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-			          </div>
-		            </div>
-		          </div>
+                 
                   </form><!-- End Profile Edit Form -->
                 </div>				
                 <div class="tab-pane fade pt-3" id="profile-change-password">

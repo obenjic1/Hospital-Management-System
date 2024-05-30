@@ -25,22 +25,22 @@
         <div class="container">
           <div class="row justify-content-center">
             <div class="col-lg-4 col-md-6 d-flex flex-column align-items-center justify-content-center">
-              <div class="card mb-3">
+              <div class="card mb-3" style="width: 328%;bottom: 41px;">
                 <div class="card-body">
                     <h5 class="card-title text-center pb-0 fs-4"> <fmt:message key="add.group"/></h5>
-                    <p class="text-center small"> <fmt:message key=" group.informations"/></p>
+                    <p class="text-center small"> <fmt:message key="group.informations"/></p>
                   <form  class="row g-3 needs-validation">
                     <div class="col-md-6">
                         <label for="name" class="form-label"><fmt:message key="name"/></label>
                      	 <div class="input-group has-validation">
-                        <input type="text" id="name" name="name" class="form-control" />
+                        <input type="text" id="name" name="name" class="form-control" style="left: 2px"/>
                       <div class="invalid-feedback"><fmt:message key="please.enter.the.group.name"/></div>
                       </div>
                     </div>
                     <div class="col-md-6">
                        <label for="description" class="form-label"> <fmt:message key="description"/></label>
                       <div class="input-group has-validation">
-                        <textarea  id="description" name="description" class="form-control" placeholder=" <fmt:message key="enter.the.description.of.the.groupe"/>" ></textarea>
+                        <textarea style="left: -1px"  id="description" name="description" class="form-control" placeholder=" <fmt:message key="enter.the.description.of.the.groupe"/>" ></textarea>
                       </div>
                     </div>
                 
@@ -63,9 +63,8 @@
 					    </div>
 					  </div>
 					</div>
-					
                     <div class="col-md-3">
-                      <input type="button" data-bs-toggle="modal" id="create-btn" onclick="loadPage('/group/list-groups'); addGroupe()" class="btn btn-primary w-100"  value="Save"/>
+                      <input type="button" style=" left: 832px;  bottom: 2px;" data-bs-toggle="modal" data-bs-target="#creation" id="create-btn" onclick="addGroupe()" class="btn btn-primary w-100"  value="Save"/>
                      </div>	              
                   </form>
                 </div>

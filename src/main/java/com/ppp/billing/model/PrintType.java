@@ -27,6 +27,9 @@ public class PrintType {
 	@Column(name = "name", nullable = false, unique = true)
 	private String name;
 	
+	@Column(name = "abreviation", nullable = false, unique = true)
+	private String abreviation;
+	
 	@Column(name = "jobColorCombinations")
 	@OneToMany(fetch = FetchType.LAZY,  mappedBy = "printType")
 	private List<JobColorCombination> jobColorCombinations;

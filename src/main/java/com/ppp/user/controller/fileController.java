@@ -44,7 +44,8 @@ public class fileController {
 //       FileCopyUtils.copy(inputStream, response.getOutputStream());
 //       inputStream.close();
 //	}
-//	
+//
+
 //<----------- Download the user authenticated image via the access path contained in fileStoragePath -----------> 
 	@PreAuthorize("isAuthenticated()")
 	@GetMapping("/download-profile-image")
@@ -73,7 +74,5 @@ public class fileController {
 	        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 	    }
 	}
-	
-	
 
 }

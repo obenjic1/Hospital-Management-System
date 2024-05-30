@@ -25,6 +25,7 @@ public class PaperType {
 	
 	@Column(name = "name", nullable = false, unique = true)
 	private String name;
+
 	
 	@Column(name = "jobPapers")
 	@OneToMany(fetch = FetchType.LAZY,  mappedBy = "paperType")
