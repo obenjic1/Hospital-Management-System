@@ -50,7 +50,6 @@
 							</tr>
 						  </thead>
 						  <tbody>
-			
 						  <c:forEach var="machine" items="${machines}" varStatus="loop">
 						    <tr class="${loop.index % 2 == 0 ? 'even-row' : 'odd-row'}">
 							   <th><img src="/download/${machine.thumbnail}" class="rounded-circle"></th>
@@ -63,13 +62,13 @@
 							  <td>
 							     <a>
 								   <button class="button-see" data-bs-toggle="modal" data-bs-target="#ExtralargeModal" onclick="loadPageModal('/machine/viewMachine/${machine.id}')">
-								     <i class="fas fa-eye"></i>
+								     <i class="ri-eye-line"></i>
 								   </button>
 								   <button class="button-edite" data-bs-toggle="modal" data-bs-target="#ExtralargeModal" onclick=" loadPageModal('/machine/update-form/${machine.id}')">
-								     <i class="fas fa-pencil-alt"></i>
+								    <i class="ri-pencil-line"></i>
 								   </button>
 								   <button class="button-delete" onclick="removeMachine(${machine.id})" id="startDeleting1" data-bs-toggle="modal">
-								     <i class="fas fa-trash-alt"></i>
+								    <i class="ri-delete-bin-3-line"></i>
 								   </button>
 								 </a>
 							   </td>

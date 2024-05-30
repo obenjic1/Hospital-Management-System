@@ -24,5 +24,6 @@ public interface CustomerService {
 	File downloadFile(String fileName, String fileStoragePath);
 	void delete(int id);
 
+
 	
 }

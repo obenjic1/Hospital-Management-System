@@ -54,13 +54,13 @@
 							  <td>
 							     <a>
 								   <button class="button-see" data-bs-toggle="modal" data-bs-target="#ExtralargeModal" onclick=" loadPage('/activityOption/view/${activity.id}')">
-								     <i class="fas fa-eye"></i>
+								      <i class="ri-eye-line"></i>
 								   </button>
 								   <button class="button-edite" data-bs-toggle="modal" data-bs-target="#ExtralargeModal" onclick=" loadPage('/activityOption/update-form/${activity.id}')">
-								     <i class="fas fa-pencil-alt"></i>
+								     <i class="ri-pencil-line"></i>
 								   </button>
 								   <button class="button-delete" onclick="removeActivity(${activity.id})" id="startDeleting" data-bs-toggle="modal">
-								     <i class="fas fa-trash-alt"></i>
+								     <i class="ri-delete-bin-3-line"></i>
 								   </button>
 								 </a>
 							   </td>

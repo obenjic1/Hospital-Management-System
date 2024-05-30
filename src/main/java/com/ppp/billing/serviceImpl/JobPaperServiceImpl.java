@@ -57,6 +57,4 @@ public class JobPaperServiceImpl implements JobPaperService {
 		// TODO Auto-generated method stub
 		
 	}
-
-
 }

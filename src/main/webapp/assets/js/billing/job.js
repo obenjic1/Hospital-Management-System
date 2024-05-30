@@ -1,4 +1,3 @@
-
 function tab1NextBtnAction(){
 	let volumeOfCover = document.getElementById("volumeOfCover").value;
 	let volumeOfContent = document.getElementById("volumeOfContent").value;
@@ -49,8 +48,6 @@ function addContentPaperChild(){
 
 function updateTotalContentvolume(value,oldValue){
 
-	
-	
 	let volumeOfContent = document.querySelectorAll("[contentVolume]")[1].value;
 		if(isNaN(parseInt(value))==false){
 		volumeOfContent = parseInt(volumeOfContent)-parseInt(value);	
@@ -293,3 +290,232 @@ let job = { };
 	 	 
 	}
      
+    function summary(){
+		
+					//  JOB DESCRIPTION SECTION
+	
+			document.getElementById("job-type").innerHTML= document.getElementById("jobType").selectedOptions[0].innerHTML;
+			document.getElementById("job-title").innerHTML= document.getElementById("title").value;
+			document.getElementById("job-customer").innerHTML= document.getElementById("customer").selectedOptions[0].innerHTML;
+			document.getElementById("cover-pages").innerHTML= document.getElementById("volumeOfCover").value;
+			document.getElementById("content-pages").innerHTML= document.getElementById("volumeOfContent").value;
+			document.getElementById("ctp").innerHTML= document.getElementById("ctpFees").value;
+			document.getElementById("paper-format").innerHTML= document.getElementById("paperFormat").selectedOptions[0].innerHTML;
+			document.getElementById("open-l").innerHTML= document.getElementById("openLength").value;
+			document.getElementById("open-w").innerHTML= document.getElementById("openWidth").value;
+			document.getElementById("fold-l").innerHTML=document.getElementById("closeLength").value;
+			document.getElementById("fold-w").innerHTML= document.getElementById("closeWidth").value;
+			
+			let yes = "Yes";
+			let no ="No";
+			
+			if(document.getElementById("dataSuppliedByCustomer").checked)
+			document.getElementById("supply-data").innerHTML=yes;
+			else document.getElementById("supply-data").innerHTML=no;
+			
+			if(document.getElementById("existingPlate").checked)
+			document.getElementById("existing-plate").innerHTML=yes;
+			else document.getElementById("existing-plate").innerHTML=no;
+			
+			if(document.getElementById("dataSuppliedByCustomer").checked)
+			document.getElementById("data-layout").innerHTML=yes;
+			else document.getElementById("data-layout").innerHTML=no;
+			
+			if(document.getElementById("typesettingByUs").checked)
+			document.getElementById("type-setting").innerHTML=yes;
+			else document.getElementById("type-setting").innerHTML=no;
+			
+				// PAPER OPTIONS SECTION
+			
+			document.getElementById("cover-paper").innerHTML= document.getElementById("coverPaperType").selectedOptions[0].innerHTML;
+			document.getElementById("cover-volume").innerHTML= document.getElementById("coverVolume").value;
+			document.getElementById("cover-grammage").innerHTML= document.getElementById("coverGrammage").value;
+
+
+		let contentPaperTypes = document.getElementById("contentDiv").children;
+		let mainContentSignature = document.getElementById("mainContentSignature").children;
+		let signatureDive = document.getElementById("signatureDiv").children;
+		let coverTable = document.getElementById("cover-table");
+
+	for (let i = 1; i < contentPaperTypes.length; i++) {
+			
+			
+		let currentRow = contentPaperTypes[i];
+		let contentSignatureRow = mainContentSignature[i];
+		let Row = coverTable.insertRow(-1);
+		let c1 = Row.insertCell(0);
+		let c2 = Row.insertCell(1);
+		let c3 = Row.insertCell(2);
+		let c4 = Row.insertCell(3);
+		c1.innerHTML = i;
+		c2.innerHTML = currentRow.querySelector("[contentPaperType]").selectedOptions[0].innerHTML;
+		c3.innerHTML = currentRow.querySelector("[contentGrammage]").value;
+		c4.innerHTML = currentRow.querySelector("[contentVolume]").value;
+
+}
+
+					// PAPER OPTIONS SECTION ( cover )
+					
+			document.getElementById("cover-machine").innerHTML= document.getElementById("coverPrintingMachine").selectedOptions[0].innerHTML;
+			document.getElementById("cover-printtype").innerHTML= document.getElementById("coverPrintType").selectedOptions[0].innerHTML;
+			document.getElementById("cover-color-front").innerHTML= document.getElementById("coverFrontColorNumber").value;
+			document.getElementById("cover-color-back").innerHTML= document.getElementById("converBackColorNumber").value;
+			document.getElementById("cover-signature").innerHTML= document.getElementById("coverSignature").innerHTML
+
+					// PAPER OPTIONS SECTION ( content )
+
+		let contentTable = document.getElementById("content-table");
+	for (let i=1 ; i<contentPaperTypes.length;i++){
+		let currentContentSignature = mainContentSignature[i];
+		let lengthOfSignature = currentContentSignature.querySelectorAll("[contentPrintingMachine]").length;
+		let currentRow = contentPaperTypes[i];
+		let firstRow = contentTable.insertRow(-1);
+
+		let fc1 = firstRow.insertCell(0);
+		fc1.rowSpan=lengthOfSignature;
+		fc1.innerHTML= i;
+		
+		
+		for (let j=1 ; j<lengthOfSignature;j++){
+			let firstRow = contentTable.insertRow(-1);
+			let fc3 = firstRow.insertCell(0);
+			let fc4 = firstRow.insertCell(1);
+			let fc5 = firstRow.insertCell(2);
+			let fc6 = firstRow.insertCell(3);
+			let fc7 = firstRow.insertCell(4);
+
+//		console.log(" check here" + currentContentSignature.querySelectorAll("[contentPrintingMachine]").length);
+		fc3.innerHTML=currentRow.querySelector("[contentPaperType]").selectedOptions[0].innerHTML;
+
+		fc4.innerHTML =currentContentSignature.querySelectorAll("[contentPrintingMachine]")[j].selectedOptions[0].innerHTML;
+		fc5.innerHTML =currentContentSignature.querySelectorAll("[contentPrintType]")[j].selectedOptions[0].innerHTML;
+		fc6.innerHTML =currentContentSignature.querySelectorAll("[contentFrontColorNumber]")[j].value +" / "+ currentContentSignature.querySelectorAll("[contentBackColorNumber]")[j].value;
+		fc7.innerHTML =currentContentSignature.querySelectorAll("[allSignatures]")[j].value;
+		}
+		
+		}
+					// PAPER OPTIONS SECTION
+
+
+			console.log(document.getElementById("xPerforated").value);
+			document.getElementById("x-perforated").innerHTML=document.getElementById("xPerforated").value;
+			document.getElementById("x-numbered").innerHTML=document.getElementById("xNumbered").value;
+			document.getElementById("x-wired").innerHTML=document.getElementById("xWire-stitched").value;
+			document.getElementById("x-crossed").innerHTML=document.getElementById("xcross").value;
+			document.getElementById("crease").innerHTML=document.getElementById("creased").value;
+			if(document.getElementById("lamination").selectedOptions[0].value==0){
+				document.getElementById("laminated-sides").innerHTML=0;
+			}else{
+				document.getElementById("laminated-sides").innerHTML=document.getElementById("lamination").selectedOptions[0].innerHTML;
+			}
+			
+			if(document.getElementById("glueingOption").selectedOptions[0].value==0){
+				document.getElementById("glue-bound").innerHTML="No";
+			}else{
+				document.getElementById("glue-bound").innerHTML=document.getElementById("glueingOption").selectedOptions[0].innerHTML;
+			}
+			if(document.getElementById("bindingType").selectedOptions[0].value==0){
+				document.getElementById("binding-type").innerHTML="No";
+			}else{
+				document.getElementById("binding-type").innerHTML=document.getElementById("bindingType").selectedOptions[0].innerHTML;
+			}
+		
+			
+			if(document.getElementById("handgather").checked)
+			document.getElementById("hand-gather").innerHTML=yes;
+			else document.getElementById("hand-gather").innerHTML=no;
+			
+			if(document.getElementById("stitching").checked)
+			document.getElementById("stitch").innerHTML=yes;
+			else document.getElementById("stitch").innerHTML=no;
+			
+			if(document.getElementById("trimmed").checked)
+			document.getElementById("trim").innerHTML=yes;
+			else document.getElementById("trim").innerHTML=no;
+			
+			if(document.getElementById("sellotaped").checked)
+			document.getElementById("sello-tape").innerHTML=yes;
+			else document.getElementById("sello-tape").innerHTML=no;
+			
+			if(document.getElementById("sewn").checked)
+			document.getElementById("sown").innerHTML=yes;
+			else document.getElementById("sown").innerHTML=no;
+     }
+   
+   
+   
+		function removeRows() {
+		let contentPaperTypes = document.getElementById("contentDiv").children;
+		let contentPaperTable = document.getElementById("cover-table");
+		let contentPrintingTable = document.getElementById("content-table");
+		let allContentPaperTableRows = contentPaperTable.querySelectorAll("tr");
+		let allContentPrintingTable = contentPrintingTable.querySelectorAll("tr");
+//		let tbody = document.getElementById("table-body");
+	           		
+	           		removeRowspan()
+		for(let i=1;i<contentPaperTypes.length;i++){
+				    removeRowspan();
+	           		allContentPaperTableRows[i].remove();
+//	           		allContentPrintingTable[i].remove;
+// 					removeContentRow()
+	           		}
+
+				}
+				
+				
+				
+	function removeRowspan() {
+    let contentTable = document.getElementById("content-table");
+	let allContentPrintingTable = contentTable.querySelectorAll("tr");
+    // Find the cell with the rowspan
+    let rowspanCell = contentTable.querySelector("td[rowspan]");
+    if (rowspanCell) {
+      // Get the parent row
+      let parentRow = rowspanCell.parentNode;
+
+      // Get the rowspan value
+      let rowspanValue = parseInt(rowspanCell.getAttribute("rowspan"));
+
+      // Remove the rows with the rowspan
+      for (let i = 1; i < rowspanValue; i++) {
+        contentTable.deleteRow(parentRow.rowIndex + 1);
+      }
+
+      // Remove the rowspan from the cell
+      rowspanCell.removeAttribute("rowspan");
+    }
+    for(let i=1;i<allContentPrintingTable.length;i++){
+	           		allContentPrintingTable[i].remove();
+	 }
+	  }
+
+
+
+
+
+	function deleteJob(id) {
+	fetch(`job/delete/${id}`, {
+		method: 'POST',
+		headers: {
+			'Content-type': 'application/json'
+		},
+	})
+		.then(respose => {
+			if (respose.ok) {
+			var modal = new bootstrap.Modal(document.getElementById('somthingwhenwrong'));
+			modal.show();
+			
+			} else {
+				
+				
+				var modal = new bootstrap.Modal(document.getElementById('machineModal'));
+				modal.show();
+				
+				loadPage('machine/list')
+			}
+		})
+		.catch(error => {
+			console.error("internal server error :", error);
+		})
+		
+	}
