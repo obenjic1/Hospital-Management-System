@@ -18,22 +18,6 @@ function loadPageModal(page) {
 		.catch(error => console.log(error));
 }
 
-//<---------------- Event listener to load group list ------------------>
-document.getElementById('list-groups').addEventListener('click', function() {
-    loadPage('/group/list-groups');
-});
-
-//<------------------ Event listener to create a group ----------------------->
-document.getElementById('create-group').addEventListener('click', function() {
-    addGroupe();
-});
-
-//<------------------ view group details ----------------------->
-document.getElementById('group-details').addEventListener('click', function() {
-    loadPage('/group/group-details/{name}');
-});
-
-
 //<---------------- Function to create a group ------------------------>
 function addGroupe() {
     var name = document.getElementById('name').value;
@@ -58,19 +42,21 @@ function addGroupe() {
             },
             body: stringData
         })
-        .then(function(response) {
-            if (response.ok) {
-				loadPage('/group/list-groups')
-                var modal = new bootstrap.Modal(document.getElementById('groupCreatedSuccessfuly'));
-                modal.show();
-            } else {
-                var modal = new bootstrap.Modal(document.getElementById('groupNameAlreadyExist'));
-                modal.show();
-            }
-        })
-        .catch(function(error) {
-            console.error('Something went wrong with the request:', error);
-        });
+        .then( response => {	
+
+   			 if (response.status === 200) {
+       			sendMessage('Succes/Success', 1);
+			return loadPage("group/list-groups");				
+   			 } else if (response.status !== 200) {
+				sendMessage('Failed / Echec', 2);
+  			 }
+		})
+		 .then(function(data) {
+
+		 })
+			.catch(function(error) {
+
+			});
 }
 
 
@@ -97,20 +83,21 @@ function updateGroupe(name) {
       },
       body: jsonGroupUpdatedValue
    })
-      .then(function(response) {
-         if (response.ok) {
-			 loadPage('/group/list-groups')
-            var modal = new bootstrap.Modal(document.getElementById('groupUdatedSuccessfully'));
-            modal.show();
-         } else {
-			loadPage('/group/list-groups')
-            var modal = new bootstrap.Modal(document.getElementById('somethingWhenWrong'));
-            modal.show();
-         }
-      })
-      .catch(function(error) {
-         console.error('Something went wrong with the request:', error);
-      });
+      .then( response => {	
+
+   			 if (response.status === 200) {
+       			sendMessage('Succes/Success', 1);
+			return loadPage("group/list-groups");				
+   			 } else if (response.status !== 200) {
+				sendMessage('Failed / Echec', 2);
+  			 }
+		})
+		 .then(function(data) {
+
+		 })
+			.catch(function(error) {
+
+			});
 }
 
 //<-------------------- List group with paginations --------------------->
@@ -142,18 +129,21 @@ function disableGroup(id){
 	fetch(`/group/disable-group/${id}`, {
 		method: 'POST',
 	})
-	.then(response => {
-    if (response.ok) {
-      var modal = new bootstrap.Modal(document.getElementById('groupdisabledSuccessfully'));
-      modal.show();
-    } else {
-	  var modal = new bootstrap.Modal(document.getElementById('groupdisabledSuccessfully'));
-      modal.show();
-    }
-  })
-  .catch(error => {
-    console.error(error);
-  });
+	.then( response => {	
+
+   			 if (response.status === 200) {
+       			sendMessage('Succes/Success', 1);
+			return loadPage("group/list-groups");				
+   			 } else if (response.status !== 200) {
+				sendMessage('Failed / Echec', 2);
+  			 }
+		})
+		 .then(function(data) {
+
+		 })
+			.catch(function(error) {
+
+			});
 }
 
 $(document).ready( function () {

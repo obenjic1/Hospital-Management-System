@@ -1,12 +1,22 @@
 package com.ppp.billing.controller;
 
+import java.awt.Color;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
+import javax.swing.text.Position;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.acls.model.NotFoundException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,6 +26,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.itextpdf.kernel.pdf.PdfDocument;
+import com.itextpdf.kernel.pdf.PdfWriter;
+import com.itextpdf.layout.Document;
+import com.itextpdf.layout.element.Paragraph;
+import com.itextpdf.layout.property.UnitValue;
 import com.ppp.billing.model.BindingType;
 import com.ppp.billing.model.ContentType;
 import com.ppp.billing.model.Customer;
@@ -29,6 +44,7 @@ import com.ppp.billing.model.PaperType;
 import com.ppp.billing.model.PrintType;
 import com.ppp.billing.model.PrintingMachine;
 import com.ppp.billing.model.dto.JobDTO;
+import com.ppp.billing.repository.JobRepository;
 import com.ppp.billing.serviceImpl.BindingTypeserviceImpl;
 import com.ppp.billing.serviceImpl.CustomerServiceImpl;
 import com.ppp.billing.serviceImpl.JobColorCombinationServiceImpl;
@@ -40,13 +56,21 @@ import com.ppp.billing.serviceImpl.PaperGrammageServiceImpl;
 import com.ppp.billing.serviceImpl.PaperTypeServiceImpl;
 import com.ppp.billing.serviceImpl.PrintTypeServiceImpl;
 import com.ppp.billing.serviceImpl.PrintingMachineServiceImpl;
+import com.ppp.printable.PlateMakingCosting;
+import com.ppp.printable.PrintableElement;
+import com.ppp.printable.PrintingElementCost;
 
 @Controller
 @RequestMapping("/job")
 public class JobController {
 	
+	@Value("${pdf.path}")
+    private String pdfStoragePath;
+	
 	@Autowired
 	private JobServiceImpl jobServiceImpl;
+	@Autowired
+	private JobRepository jobRepository;
 	@Autowired
 	private CustomerServiceImpl customerServiceImpl;
 	@Autowired
@@ -68,6 +92,7 @@ public class JobController {
 	@Autowired
 	private BindingTypeserviceImpl bindingTypeserviceImpl;
 	
+//<--------------------- Collect datas form @Vincent------------------------------>
 	@GetMapping("/displayform")
 	public String displayFormInterface(Model model) {
 		List<Customer> customerResult = customerServiceImpl.findAll();
@@ -95,7 +120,8 @@ public class JobController {
 		
 		return "billing/display-job-form-interface";
 	}
-	
+
+//<--------------------- Save data collected to the data base @Vincent ------------------------------>
 	@PostMapping(value="/save", consumes=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public ResponseEntity<String> saveJob(@RequestBody JobDTO jobDTO,Model model){
@@ -113,6 +139,35 @@ public class JobController {
 		model.addAttribute("jobs", result);
 		return "billing/list-job";
 	}
+
+////<--------------------- Generate a job pdf @Vincent ------------------------------>
+	@GetMapping("/generate-pdf/{id}")
+	public ResponseEntity<FileSystemResource> generatePdf(@PathVariable long id) throws IOException {
+		 String pdfFile = createPdf(id);
+		 HttpHeaders headers = new HttpHeaders();
+		 headers.add("Content-Disposition", "inline");
+		 
+		 return ResponseEntity
+	                .ok()
+	                .headers(headers)
+	                .contentType(MediaType.APPLICATION_PDF)
+	                .body(new FileSystemResource(pdfFile));
+	}	
+	private String createPdf(Long id) throws FileNotFoundException {
+		String pdf = "Hello.pdf";
+		PdfWriter pdfWriter = new PdfWriter(pdf);
+		PdfDocument pdfDocument = new PdfDocument(pdfWriter);
+		Document document = new Document(pdfDocument);
+		try {
+
+			document.close();
+			
+		} catch (Exception e) {
+			throw new NotFoundException("Error", e);
+		}
+		return "okay";
+	}
+
 
 	@GetMapping("/viewJob/{id}")
 	public String viewJobDetails(@PathVariable long id, Model model) {

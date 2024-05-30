@@ -81,21 +81,20 @@ function addUser() {
 			method: 'POST',
 			body: formData,
 		})
-			.then(function(response) {
-				if (response.status === 200) {
-					var modal = new bootstrap.Modal(document.getElementById('verticalycentered'));
-					modal.show();
-				} else if (response.status === 500) {
-					var modal = new bootstrap.Modal(document.getElementById('emailAlreadyExist'));
-					modal.show();
-				}
-			})
-			.then(function(data) {
+			.then( response => {	
 
-			})
+   			 if (response.status === 200) {
+       			sendMessage('Succes/Success', 1);
+			return loadPage("user/add-user");				
+   			 } else if (response.status !== 200) {
+				sendMessage('Failed / Echec', 2);
+  			 }
+		})
+		 .then(function(data) {
+
+		 })
 			.catch(function(error) {
-				var modal = new bootstrap.Modal(document.getElementById('somethingWhenWrong'));
-				modal.show();
+
 			});
 }
 

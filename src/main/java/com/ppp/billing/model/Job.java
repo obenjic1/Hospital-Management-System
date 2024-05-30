@@ -61,6 +61,12 @@ public class Job {
 	@Column(name = "ctp_fees")
 	private int ctpFees;
 	
+	@Column(name = "variable_cost", nullable = true, columnDefinition = "float default 0")
+	private float variableCost;
+	
+	@Column(name = "fix_cost", nullable = true, columnDefinition = "float default 0")
+	private float fixCost;
+	
 	@Column(name="existing_plate", columnDefinition="boolean default false")
 	private boolean existingPlate;
 	
