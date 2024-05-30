@@ -121,16 +121,16 @@ public class CustomerController {
 
 
 //<------------------- Update customer -------------------->
-	@PreAuthorize("hasAuthority('ROLE_UPDATE_CUSTOMER')")
-	@PostMapping("/updatecustomer/{id}")
-	private ResponseEntity<String> update(@RequestBody CustomerDTO customerDTO, @PathVariable Long id) {			
-		try {
-			Customer updatedCustomer = customerServiceImpl.update(customerDTO, id);		
-			return new ResponseEntity<String>("Success", HttpStatus.OK);
-		} catch (Exception e) {			
-			return new ResponseEntity<String>("Failed", HttpStatus.BAD_REQUEST);
-		}
-	}
+//	@PreAuthorize("hasAuthority('ROLE_UPDATE_CUSTOMER')")
+//	@PostMapping("/updatecustomer/{id}")
+//	private ResponseEntity<String> update(@RequestBody CustomerDTO customerDTO, @PathVariable Long id) {			
+//		try {
+//			Customer updatedCustomer = customerServiceImpl.update(customerDTO, id);		
+//			return new ResponseEntity<String>("Success", HttpStatus.OK);
+//		} catch (Exception e) {			
+//			return new ResponseEntity<String>("Failed", HttpStatus.BAD_REQUEST);
+//		}
+//	}
 
 //<------------------- Delete customer -------------------->
 	@PreAuthorize("hasAuthority('ROLE_DELETE_CUSTOMER')")
