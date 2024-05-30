@@ -123,7 +123,7 @@ public class CustomerController {
 //<------------------- Update customer -------------------->
 	@PreAuthorize("hasAuthority('ROLE_UPDATE_CUSTOMER')")
 	@PostMapping("/updatecustomer/{id}")
-	private ResponseEntity<String> update(@RequestBody CustomerDTO customerDTO, @PathVariable Long id) {			
+	private ResponseEntity<String> update(@RequestBody CustomerDTO customerDTO, @PathVariable int id) {			
 		try {
 			Customer updatedCustomer = customerServiceImpl.update(customerDTO, id);		
 			return new ResponseEntity<String>("Success", HttpStatus.OK);
@@ -135,7 +135,7 @@ public class CustomerController {
 //<------------------- Delete customer -------------------->
 	@PreAuthorize("hasAuthority('ROLE_DELETE_CUSTOMER')")
 	@PostMapping("/delete/{id}")
-	public ResponseEntity<String> delete(@PathVariable Long id) {
+	public ResponseEntity<String> delete(@PathVariable int id) {
 		try {
 			customerServiceImpl.delete(id);
 			return new ResponseEntity<String>("Success", HttpStatus.OK);

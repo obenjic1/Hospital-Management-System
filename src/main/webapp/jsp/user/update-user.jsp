@@ -73,34 +73,7 @@
 						  </div>
 						</div>
 						<div class="col-md-6">
-						  <input data-bs-toggle="modal" type="button" onclick="loadPage('/user/list-users') ;updateUserById('${userFinded.id}')" class="btn btn-primary" value="Save Changes" style="left: 164%;bottom: -18%;"/>
-						</div>
-						<!--------------User updated successfully modal ------------->
-						<div class="modal fade" id="userUdatedSuccessfully" tabindex="-1">
-						  <div class="modal-dialog modal-dialog-centered">
-						    <div class="modal-content">
-							  <div class="modal-body">
-							    <button onclick="loadPage('/user/list-users')" type="button" style="left: 50%; bottom: 12%" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-								<img src="assets/img/success_icon.png" alt="">
-								<p><fmt:message key="user.updated.successfully"/></p>
-							  </div>
-						    </div>
-						  </div>
-						</div>
-						<!-------------- Something when wrong Modal ------------->
-						<div class="modal fade" id="somethingWhenWrong" tabindex="-1">
-						  <div class="modal-dialog modal-dialog-centered">
-						    <div class="modal-content">
-							  <div class="modal-header">
-								<h5 class="modal-title">Error</h5>
-							    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-							  </div>
-							  <div class="modal-body">
-							    <img src="assets/img/success_icon.png" alt="">
-								<p> <fmt:message key="something.when.wrong"/></p>
-							  </div>
-							</div>
-						  </div>
+						  <input data-bs-toggle="modal" data-bs-target="#creation" type="button" onclick="loadPage('/user/list-users') ;updateUserById('${userFinded.id}')" class="btn btn-primary" value="Save Changes" style="left: 164%;bottom: -18%;"/>
 						</div>
 					</form>
 				</div>

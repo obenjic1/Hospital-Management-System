@@ -51,7 +51,7 @@ public class CustomerServiceImpl implements CustomerService {
 
 //<---------------- Update ---------------------->
 	@Override
-	public Customer update(CustomerDTO customerDTO, Long id) {
+	public Customer update(CustomerDTO customerDTO, int id) {
 		Customer customer = customerRepostory.findById(id).get();
 		customer.setName(customerDTO.getName());
 		customer.setEmail(customerDTO.getEmail());
@@ -63,7 +63,7 @@ public class CustomerServiceImpl implements CustomerService {
 
 //<---------------- Delete customer ---------------------->
 	@Override
-	public void delete(long id) {
+	public void delete(int id) {
 		Customer delete = customerRepostory.findById(id).get();
 		customerRepostory.delete(delete);
 		

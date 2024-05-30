@@ -54,29 +54,8 @@
 					  </div>
 					</div>					
                     <div class="col-md-3">
-                      <input type="button" data-bs-toggle="modal" id="create-btn" onclick="updateGroupe('${groupeFinded.name}')" style=" left: 314%; bottom: 2%;" class="btn btn-primary w-100"  value="Save Changes"/>
+                      <input type="button" data-bs-toggle="modal" data-bs-target="#creation" id="create-btn" onclick="updateGroupe('${groupeFinded.name}')" style=" left: 314%; bottom: 2%;" class="btn btn-primary w-100"  value="Save Changes"/>
                     </div>
-                    <!-------------- Group successfully modal ------------->
-                   	 <div class="modal fade" id="groupUdatedSuccessfully" tabindex="-1">
-	                   <div class="modal-dialog modal-dialog-centered">
-	                     <div class="modal-content">
-	                       <button type="button" onclick="loadPage('/group/list-groups')" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-	                       <div class="modal-body">
-	                         <img src="assets/img/success_icon.png" alt="">
-	                         <p><fmt:message key ="group.updated.successfully"/></p>
-	                       </div>
-	                     </div>
-	                   </div>
-	                 </div>
-	                 <div class="modal fade" id="somethingWhenWrong" tabindex="-1">
-	                   <div class="modal-dialog somethinWhenWrog">
-	                     <div class="alert alert-danger alert-dismissible fade show" role="alert">
-			               <i class="bi bi-exclamation-octagon me-1"></i>
-			               <p><fmt:message key="something.when.wrong "/></p>
-			               <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-		                 </div>
-	                   </div>
-	                 </div>
                    </form>
                  </div>
                </div>

@@ -47,23 +47,12 @@
 									  <td><a>${role.name}</a></td>
 									  <td><a data-toggle="tooltip" title="${role.description}">${role.description}</a></td>
 									  <td>
-										<button class="button-see" data-bs-toggle="modal" data-bs-target="#ExtralargeModal" onclick="loadRolePageModal('role/view-role-details/${role.name}')">
+										<button class="button-see" data-bs-toggle="modal" data-bs-target="#ExtralargeModal" onclick="loadPageModal('role/view-role-details/${role.name}')">
 										  <i class="fas fa-eye"></i>
 										</button>
 									  </td>
 									</tr>
-								    <div class="modal fade" id="ExtralargeModal" tabindex="-1">
-								      <div class="modal-dialog modal-xl">
-									    <div class="modal-content" id="modC">
-								          <div class="modal-body">
-											<ul class="nav nav-tabs nav-tabs-bordered"></ul>
-										  </div>
-										  <div class="modal-footer">
-										    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><fmt:message key="close"/></button>
-										  </div>
-										</div>
-									  </div>
-									</div>
+								   
 								  </c:forEach>
 							    </tbody>
 							  </table>

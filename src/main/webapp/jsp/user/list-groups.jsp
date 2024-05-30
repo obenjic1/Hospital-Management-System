@@ -29,8 +29,7 @@
 				<div class="card">
 					<div class="card-body">
 						<h5 class="card-title">List groups</h5>
-						<button type="button" onclick="loadPage('/group/add-group')"
-							class="btn btn-primary">Add Group</button>
+						<button type="button" onclick="loadPageModal('/group/add-group')" data-bs-toggle="modal" data-bs-target="#ExtralargeModal" class="btn btn-primary">Add Group</button>
 
 						<!-- Table with stripped rows -->
 						<table id="groupDataTable" class="table datatable">
@@ -60,80 +59,9 @@
 								  </button>
 							    </td>
 							  </tr>
-									<!-------------- Group created successfully modal ------------->
-								   <div class="modal fade" id="groupCreatedSuccessfuly" tabindex="-1">
-									 <div class="modal-dialog modal-dialog-centered"> 
-									   <div class="modal-content">
-										 <input type="button" onclick="loadPage('/group/list-groups')" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
-										 <div class="modal-body">
-										    <img src="assets/img/success_icon.png" alt="">
-										    <p><fmt:message key="group.created.successfully"/></p>
-										  </div>
-										</div>
-									  </div>
-									</div>
-									<div class="modal fade" id="groupNameAlreadyExist" tabindex="-1">
-									  <div class="modal-dialog modal-dialog-centered">
-									   <div class="modal-content">
-										 <input type="button" onclick="loadPage('/group/list-groups')" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
-										 <div class="modal-body">
-										   <img src="assets/img/error.png" alt="">
-											<p><fmt:message key="something.when.wrong.group.name.already.exist"/></p>
-										  </div>
-									    </div>
-									  </div>
-									</div>									
-									<div class="modal fade" id="ExtralargeModal" tabindex="-1">
-									  <div class="modal-dialog modal-xl">
-										<div class="modal-content" id="modC">
-										  <div class="modal-body">
-										    <ul class="nav nav-tabs nav-tabs-bordered"> </ul>
-										  </div>
-										  <div class="modal-footer">
-											<button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><fmt:message key="close"/></button>
-										  </div>
-										</div>
-									  </div>
-									</div>								
-									<div class="modal fade" id="ExtralargeModal" tabindex="-1">
-									  <div class="modal-dialog modal-xl">
-									    <div class="modal-content">
-									      <div class="modal-body"  id="updateGroup">
-											<ul class="nav nav-tabs nav-tabs-bordered"> </ul>
-										  </div>
-										  <div class="modal-footer">
-											<button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><fmt:message key="close"/></button>
-										  </div>
-									    </div>
-									  </div>
-									</div>			
-									<!-------------- Are you sure you want t delete this group? modal ------------->
-									<div class="modal fade" id="areyouSureYouWantToDisable" tabindex="-1">
-									  <div class="modal-dialog modal-dialog-centered">
-										<div class="modal-content">
-									      <div class="modal-body">
-											 <p><fmt:message key="are.you.sure.you.want.to.disable.the.group.This.action.will.block.the.group.functionality.until.you.re-enable.it"/></p>
-											 <button class="delete-denied" type="button" id="cancelButton" data-bs-dismiss="modal"><fmt:message key="cancel"/></button>
-											 <button class="accept-delete" type="button" id="confirmDisabledBtn" data-bs-toggle="modal"><fmt:message key="disable"/></button>
-										  </div>
-										</div>
-									  </div>
-									</div>
-								  </c:forEach>
+							</c:forEach>
 							    </tbody>
 						      </table>
-						    <!-------------- Group disabled successfully modal ------------->
-						    <div class="modal fade" id="groupdisabledSuccessfully" tabindex="-1">
-							  <div class="modal-dialog modal-dialog-centered">
-								<div class="modal-content">
-								 <button onclick="loadPage('/group/list-groups')" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-								 <div class="modal-body">
-								   <img src="assets/img/success_icon.png" alt="">
-								   <p><fmt:message key="the.group.has.been.disabled.successfully "/></p>
-								 </div>
-							   </div>
-							 </div>
-						  </div>
 						  <nav aria-label="Page navigation example">
 					        <ul class="pagination nav-no-border">
 						      <li class="page-item"><input type="button" class="page-link" onclick="refreshGroupTable(${currentPage - 1})" value="&laquo;" ${currentPage == 1 ? 'disabled' : ''}></li>

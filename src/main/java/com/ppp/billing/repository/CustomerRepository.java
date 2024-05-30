@@ -12,7 +12,7 @@ import com.ppp.billing.model.Customer;
 
 
 @Repository
-public interface CustomerRepository extends JpaRepository<Customer, Long> {
+public interface CustomerRepository extends JpaRepository<Customer, Integer> {
 	
 	Page<Customer> findAll(Pageable pageable);
 	Customer findByEmail(String email);

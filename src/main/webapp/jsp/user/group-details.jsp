@@ -90,31 +90,10 @@
                       </div>
                     </div>                          
                     <div class="text-center">
-                      <input type="button" data-bs-dismiss="modal" onclick="updateGroupe('${existingGroupe.name}')" class="btn btn-primary" value="Save Changes"                       
+                      <input type="button" onclick="updateGroupe('${existingGroupe.name}')" data-bs-toggle="modal" data-bs-target="#creation" class="btn btn-primary" value="Save Changes"                       
    						style=" position: relative; left: 42%; bottom: -3px;">
                     </div>                    
-                    <!-------------- Group updated successfully modal ------------->
-	              <div class="modal fade" id="groupUdatedSuccessfully" tabindex="-1">
-		            <div class="modal-dialog modal-dialog-centered">
-		              <div class="modal-content">
-		                  <input onclick="loadPage('/group/list-groups')" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
-		                <div class="modal-body">
-		                  <img src="assets/img/success_icon.png" alt="">
-		                  <p><fmt:message key= "group.updated.successfully"/></p>
-		                </div>
-		              </div>
-		            </div>
-		          </div>
-		          <!-------------- Something when wrong modal ------------->
-		           <div class="modal fade" id="userNotDeleted" tabindex="-1">
-		            <div class="modal-dialog modal-dialog-centered">
-		              <div class="alert alert-danger alert-dismissible fade show" role="alert">
-				        <i class="bi bi-exclamation-octagon me-1"></i>
-				        <p> <fmt:message key= "something.when.wrong.Group.did.not.updated.Please.try.again"/> </p>
-				        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-			          </div>
-		            </div>
-		          </div>
+              
                   </form><!-- End Profile Edit Form -->
                 </div>              
               </div><!-- End Bordered Tabs -->
