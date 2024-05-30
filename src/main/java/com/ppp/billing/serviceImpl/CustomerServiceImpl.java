@@ -50,23 +50,23 @@ public class CustomerServiceImpl implements CustomerService {
 
 
 //<---------------- Update ---------------------->
-	@Override
-	public Customer update(CustomerDTO customerDTO, Long id) {
-		Customer customer = customerRepostory.findById(id).get();
-		customer.setName(customerDTO.getName());
-		customer.setEmail(customerDTO.getEmail());
-		customer.setAddress(customerDTO.getAddress());
-		customer.setTelephone(customerDTO.getTelephone());
-		customer.setCreationDate(customerDTO.getCreationDate());
-		return customerRepostory.save(customer);
-	}
+//	@Override
+//	public Customer update(CustomerDTO customerDTO, Long id) {
+//		Customer customer = customerRepostory.findById(id).get();
+//		customer.setName(customerDTO.getName());
+//		customer.setEmail(customerDTO.getEmail());
+//		customer.setAddress(customerDTO.getAddress());
+//		customer.setTelephone(customerDTO.getTelephone());
+//		customer.setCreationDate(customerDTO.getCreationDate());
+//		return customerRepostory.save(customer);
+//	}
 
 //<---------------- Delete customer ---------------------->
 	@Override
 	public void delete(long id) {
-		Customer delete = customerRepostory.findById(id).get();
-		customerRepostory.delete(delete);
-		
+//		Customer delete = customerRepostory.findById(id).get();
+//		customerRepostory.delete(delete);
+//		
 	}
 
 //<---------------- Find by Email ---------------------->

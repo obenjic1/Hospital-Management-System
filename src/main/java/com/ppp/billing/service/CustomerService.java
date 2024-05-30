@@ -20,7 +20,7 @@ public interface CustomerService {
 	Page<Customer> pagination(int pageNo, int pageSize);
 	Customer findByEmail(String email);
 	List<Customer> findAll();
-	Customer update(CustomerDTO customerDTO, Long id);
+//	Customer update(CustomerDTO customerDTO, Long id);
 	File downloadFile(String fileName, String fileStoragePath);
 	void delete(long id);
 
