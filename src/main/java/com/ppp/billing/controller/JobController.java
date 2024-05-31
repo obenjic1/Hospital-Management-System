@@ -472,7 +472,7 @@ public class JobController {
 			if(jobActivity.isSelloptaped()) finishingActivities += "sellotaped, " ;
 			if(jobActivity.isTrimmed()) finishingActivities += "trimmed, " ;
 			if(jobActivity.getXPerforated()>0) finishingActivities += "Job perforated " + jobActivity.getXPerforated()+ " times, " ;
-			if(!(jobActivity.getGlueOption().isEmpty() && jobActivity.getGlueOption().isBlank())) finishingActivities += "Glue option is" + jobActivity.getGlueOption()+ ", " ;
+			if(!(jobActivity.getGlueOption().isEmpty())) finishingActivities += "Glue option is" + jobActivity.getGlueOption()+ ", " ;
 			if(jobActivity.getBindingType()!=null) finishingActivities += "final binding: " + jobActivity.getBindingType().getName()+ " " ;
 			
 			
