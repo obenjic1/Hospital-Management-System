@@ -28,7 +28,7 @@ public class JobTypeController {
 	
 	@GetMapping("/list-all")
 	public String list(Model model) {
-		return pagination(1, model);
+		return pagination(0, model);
 	}
 
 //<------------------- Pagination -------------------->
