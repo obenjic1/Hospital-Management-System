@@ -68,7 +68,7 @@
 								     <option onClick="loadPage('/job/viewJob/${job.id}');">View</option>
 								     <option onClick="loadPage('/job/update-form/${job.id}');">Edit</option>
 								     <option onclick="deleteJob(${job.id})">Delete</option>
-								     <option onclick="loadPage('/job/estimate/${job.id}');">Generate</option>
+								     <option onclick="loadPage('/job/estimate/${job.id}');">Generate Estimate</option>
 								     
 					              </select>
 							  </td>

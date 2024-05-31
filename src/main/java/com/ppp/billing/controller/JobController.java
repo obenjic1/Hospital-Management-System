@@ -29,6 +29,7 @@ import com.itextpdf.layout.Document;
 import com.ppp.billing.model.BindingType;
 import com.ppp.billing.model.Customer;
 import com.ppp.billing.model.Job;
+import com.ppp.billing.model.JobActivity;
 import com.ppp.billing.model.JobColorCombination;
 import com.ppp.billing.model.JobPaper;
 import com.ppp.billing.model.JobType;
@@ -226,6 +227,35 @@ public class JobController {
 				@RequestParam("extraFee") int extraFee, @RequestParam("extraFeeDescription") String extraFeeDescription, Model model) {
 			
 			Job job = jobServiceImpl.findById(id).get();
+			//Get and structure typesetting values
+			List<String> typsettingActivities = new ArrayList<String>();
+			if(job.isTypesettingByUs()) typsettingActivities.add("Typesetting by us");
+			if(job.isDataSuppliedByCustomer()) typsettingActivities.add("Data Supplied by customer");
+			if(job.isLayOutByUs()) typsettingActivities.add("Layout by us");
+			if(job.isExistingPlate()) typsettingActivities.add("Has existing Plates");
+			
+			//Get and Structure printing 
+			List<JobPaper> jobPapers = job.getJobPapers();
+			JobPaper coverJobPaper = jobPapers.remove(0);
+			
+			//Get Finishing structure
+			String finishingActivities = "";
+			JobActivity jobActivity = job.getJobActivity();
+			
+			if(jobActivity.getXCross()>0) finishingActivities += "Signatures " + jobActivity.getXCross()+ " x cross-folded, " ;
+			if(jobActivity.getXCreased()>0) finishingActivities += "Cover " + jobActivity.getXCreased()+ " x creased, " ;
+			if(jobActivity.getLamination()>0) finishingActivities += "Cover " + jobActivity.getLamination()+ " side laminated, " ;
+			if(jobActivity.getXWiredStiched()>0) finishingActivities += "Booklets " + jobActivity.getXWiredStiched()+ " x wire-stitched, " ;
+			if(jobActivity.isSewn()) finishingActivities += "Booklets sewn, " ;
+			if(jobActivity.isHandgather()) finishingActivities += "hand-gathered, " ;
+			if(jobActivity.isSelloptaped()) finishingActivities += "sellotaped, " ;
+			if(jobActivity.isTrimmed()) finishingActivities += "trimmed, " ;
+			if(jobActivity.getXPerforated()>0) finishingActivities += "Job perforated " + jobActivity.getXPerforated()+ " times, " ;
+			if(!(jobActivity.getGlueOption().isEmpty() && jobActivity.getGlueOption().isBlank())) finishingActivities += "Glue option is" + jobActivity.getGlueOption()+ ", " ;
+			if(jobActivity.getBindingType()!=null) finishingActivities += "final binding: " + jobActivity.getBindingType().getName()+ " " ;
+			
+			
+
 			String[] qty = quantities.split("@");
 			//TO REMOVE SETTERS
 			job.setFixCost(10000);
@@ -234,7 +264,7 @@ public class JobController {
 			for(int i=0; i<qty.length;i++) {
 				EstimateDTO estimateDTO = new EstimateDTO();
 				estimateDTO.setQuantity(Integer.parseInt(qty[i]));
-				float totalPrice=  ( ((job.getVariableCost()/1000) * Integer.parseInt(qty[i])) +(job.getFixCost()+ extraFee) );
+				float totalPrice=  ( ((job.getVariableCost()/1000) * Integer.parseInt(qty[i])) +(job.getFixCost()+ extraFee));
 				estimateDTO.setTotalPrice(totalPrice);
 				estimateDTO.setUnitPrice(totalPrice/Integer.parseInt(qty[i]));
 				estimates.add(estimateDTO);
@@ -243,7 +273,10 @@ public class JobController {
 			Job findJob = jobServiceImpl.findById(id).get();
 			model.addAttribute("job", findJob);
 			model.addAttribute("estimates", estimates);
-			
+			model.addAttribute("typeSettingActivities", typsettingActivities);
+			model.addAttribute("finishingActivities", finishingActivities);
+			model.addAttribute("coverJobPaper", coverJobPaper);			
+			model.addAttribute("contentJobPapers", jobPapers);
 			return "/billing/estimate/generated-estimate-result";
 		}
 		

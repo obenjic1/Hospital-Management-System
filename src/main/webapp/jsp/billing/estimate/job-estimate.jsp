@@ -34,33 +34,29 @@
 											<div>Address :${job.customer.address}</div> 
 											
 										</div>
-									</div>
-									<div class="row">
-										<div class="col-sm-4">
-											Date : <span><fmt:formatDate type = "both" value = "${now}" /></span>
-										</div>
-									</div>
+									</div><hr>
+		
 									<div class="row">
 										<form>
 										<input id="jobId" value="${job.id}" type="hidden">
-										<div id="main-estimate-div" class="col-xl-8">
-											<div class="col-sm-8" id="quantity-div" style="display:none">
+										<div id="main-estimate-div" class="">
+											<div class="" id="quantity-div" style="display:none">
 												<label> Enter Quantity</label>
-												<div style="  display: flex;width: 115%;padding-bottom:15px;;">
+												<div style="  display: flex;width: 100%;padding-bottom:15px;;">
 													<input estimate-quantity type=number class="input-box">
 													<button type="button" id="deleteButton"  onclick="removeEstmateContentNode(this);"><i class="ri-delete-bin-3-line"></i> </button>
 												</div>
 											</div>
-											<div class="col-sm-8" id="quantity-div" style="display:inline">
+											<div class="" id="quantity-div" style="display:inline">
 												<label> Enter Quantity</label>
 													<div style="  display: block ruby;padding-bottom:15px;">
-														<input estimate-quantity type=number class="input-box" style="  width: 71%;" >
+														<input estimate-quantity type=number class="input-box" style=" width: 100%;" >
 														<button type="button"  id="duplicateButton"  onclick="addNextEstimateChild();" ><i class="ri-add-fill"></i></button>
 
 													</div>
 											</div>
 										</div>
-										<div class="col-sm-6 row" id="extra-fees">
+										<div class="" id="extra-fees">
 												<div style="padding-bottom:15px">
 													<label>Extra Fees (FCFA)</label>
 												  <div>
@@ -70,7 +66,7 @@
 												<div>
 													<label>Description</label>
 													<div>
-													<textarea id="extra-fee-description" name="" rows="5" cols="50"></textarea>
+													<textarea id="extra-fee-description" name="" rows="5" ></textarea>
 													</div> 
 												</div>
 										</div>

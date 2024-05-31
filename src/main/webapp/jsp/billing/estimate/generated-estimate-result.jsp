@@ -4,9 +4,8 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@page import="java.time.LocalDate"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %> 
-
-
 <link href="assets/css/profile.css" rel="stylesheet">
 <link href="assets/css/billing/job.css" rel="stylesheet">
 
@@ -23,212 +22,164 @@
               </ul>
                 <div class="tab-content pt-2">
                   <div class="tab-pane fade show active profile-overview" id="profile-overview" style="margin-left: 10%">    
-                  <h5 class="card-title">job Details</h5>
+                  <class="card-title"><h5></h5>
       				<div class="container estimate" style="position: relative;bottom: -20px" >
-       				<h4>Job Description</h4>
-       				<hr>
 					  <div class="row">
 					 	 <div class="row">
-					      <div class="col-sm-4">
-					    	The Type of Job : <span id="job-type">${job.jobType.name}</span>
-					      </div>
-					      <div class="col-sm-4">
-					    	 Title of Job : <span id="job-title">${job.title} </span> 
-					      </div>
-					      <div class="col-sm-4">
-					    	 Name of Customer : <span id="job-customer"> ${job.customer.name} </span> 
-					      </div>
-					      </div>
-					   	 <div class="row">
-					       <div class="col-sm-4">
-					    	Number of Pages for Cover : <span id="cover-pages">${job.coverVolume} </span>
-					      </div>
-					      <div class="col-sm-4">
-					    	Number of Pages for Content :  <span id="content-pages"> ${job.contentVolume}</span> 
-					      </div>
-					      <div class="col-sm-4">
-					    	 CTP Fees : <span id="ctp">${job.ctpFees}</span> 
-					      </div>
-					   </div>
-					   
-					   <div class="row">
-					    <div class="col-sm-4">
-					    	Paper Format : <span id="paper-format"></span>
-					    </div>
-					    <div class="col-sm-4">
-					    	Open :<span id="open-l">${job.openLength}</span> | <span id="open-w">${job.openWidth}</span></div> 
-					    	<div class="col-sm-4">
-					    	Fold :<span id="fold-l">${job.closeLength}</span> | <span id="fold-w">${job.closeWidth}</span>
-					    </div>
-					    </div>
-					    <div class="row">
-					    <div class="col-sm-4">
-					    	Existing Plate: <span class="${job.existingPlate ? 'true' : 'false'}">${job.existingPlate ? 'yes' : 'no'}</span>
-					    </div>
-					    <div class="col-sm-4">
-					    	Data Supply By Us : <span class="${job.dataSuppliedByCustomer ? 'true' : 'false'}"> ${job.dataSuppliedByCustomer ? 'yes' : 'no'}</span>
-					    </div>
-					    <div class="col-sm-4">
-					    	Lay Out by Us :   <span class="${job.layOutByUs ? 'true' : 'false'}">${job.layOutByUs ? 'yes' : 'no'}</span>
-					    </div>
-					     
-					    <div class="col-sm-4" id="">
-					    	Type-Setting By Us : <span class="${job.typesettingByUs ? 'true' : 'false'}">${job.typesettingByUs ? 'yes' : 'no'}</span>
-					   </div>
-					   <div class="col-sm-4" id="">
-	    				Created Date : <fmt:formatDate type = "both" value = "${job.creationDate}" />
-					    	
-					   </div>
-					    </div>
-					   </div>
-					<!--            job decription ends     -->
-					
-							<h4 id="top2">Cover Paper Option</h4>
-							<hr>
-					   <div class="row">
-					    <div class="row">
-					    <div class="col-sm-4">
-					    	Paper Type : <span id="cover-paper"> ${coverjobPapers.paperType.name}</span>
-					    </div>
-					    <div class="col-sm-4">
-					    	 Paper Grammage (GSM) :${coverjobPapers.grammage}<span id="cover-grammage"> </span> 
-					    </div>
-					    <div class="col-sm-4">
-					    	Volume : <span id="cover-volume"> ${coverjobPapers.volume} </span> 
-					    </div>
-					   </div>
-					   </div>
-						<h4 id="top2"> Content Paper Option</h4>
-						<hr>
-					    <div class="row">
-					   <table class="ta" id="cover-table">
-					  <thead>
-					    <tr>
-					      <th scope="col">Num</th>
-					      <th scope="col">Print Type</th>
-					      <th scope="col">Gramage (GSM)</th>
-					      <th scope="col">Volume (Pages)</th>
-					    </tr>
-					  </thead>
-					 				  <tbody>
-			
-						  <c:forEach var="jobPaper" items="${jobPapers}" varStatus="loop">
-							    <c:set var="index" value="${loop.index}" />
-							    <%    int index = (Integer) pageContext.getAttribute("index");  %>
-							 <td>  <%= index + 1 %></td>
-							   <td><a>${jobPaper.paperType.name}</a></td>
-							   <td><a>${jobPaper.grammage}</a></td>
-							   <td><a>${jobPaper.volume}</a></td>
-							 </tr>
-							   </c:forEach>
+					 	 	<div class="col-sm-6" style="text-align:left">
+					 	 		<h3><strong>Estimate</strong></h3>
+					 	 	</div>
+					 	 	<div class="col-sm-3">
+					 	 	</div>
+					 	 	<div class="col-sm-3" style="text-align:left">
+					 	 		<div>${job.customer.name}</div>
+								<div>${job.customer.telephone}</div>
+								<div>${job.customer.address}</div> 
+					 		</div>
+					 	 </div>
+					 	 <div class="row">
+					 	 		Date :<fmt:formatDate value="${now}" type="both" dateStyle="long" timeStyle="long" />
+					 	 </div>
+					 	<div class="row table-responsive">
+					 	
+					 		<table class="ta" id="cover-table">
+					  			<tbody>
+									<tr>
+								   		<td>Description</td>
+								   		<td>${job.title}</td>
+								   		<td></td>
+								   		
+							 		</tr>
+							 		<tr>
+								   		<td>Format</td>
+								   		<td> 
+								   			Open  :<span>${job.openLength}</span> x <span>${job.openWidth}</span>mm<br>
+								   		 	Folded : <span>${job.closeLength}</span> x <span>${job.closeWidth}</span>mm 
+								   		</td>
+								   		<td></td>
+							 		</tr>
+							 		<tr>
+								   		<td>Volume</td>
+								   		<td> Cover : <span>${job.coverVolume}</span>  <span>Pages</span><br>
+								   			 Content : <span>${job.contentVolume}</span> <span>Pages</span> 
+								   		</td>
+								   		<td></td>
+							 		</tr>
+							 		<tr>
+								   		<td>TypeSetting &<br> Reproduction</td>
+								   		<td>
+								   			<span>
+								   				<c:forEach var="typeSettingActivity" items="${typeSettingActivities}" varStatus="loop">
+												   ${typeSettingActivity} <br>
+												</c:forEach>
+								   			</span>
+								   		</td>
+								   		<td></td>
+							 		</tr>
+							 		<tr>
+								   		<td>Printing</td>
+								   		<td>
+								   			<span>
+								   				${coverJobPaper.contentType.name } : 
+								   				<c:forEach var="jobColorCombination" items="${coverJobPaper.jobColorCombinations}" varStatus="loop">
+								   					<span> 
+												   		${jobColorCombination.frontColorNumber} / ${jobColorCombination.backColorNumber}  ${jobColorCombination.printType.name} 
+												   </span>
+												   <br>
+												</c:forEach>
+
+								   			</span>
+								   			
+								   			<span>
+								   			<c:set var="contentType" value="${contentJobPapers[0].contentType.name}"></c:set>
+								   				<span>
+								   					<c:if test="${ contentJobPapers[0].contentType.name==contentType}">
+								   						${contentJobPapers[0].contentType.name } : <br>
+								   						<c:set var="contentType" value="contenu "></c:set>
+								   					</c:if>
+								   				</span>
+								   				
+								   					<c:forEach var="jobPaper" items="${contentJobPapers}" varStatus="loop">
+
+											   					<ul>
+															   		<c:forEach var="jobColorCombination" items="${jobPaper.jobColorCombinations}" varStatus="loop">
+													   					<li>
+													   					<span> 
+																	   		${jobColorCombination.frontColorNumber} / ${jobColorCombination.backColorNumber}  ${jobColorCombination.printType.name} 
+																	   </span>
+																	   </li>
+																	</c:forEach> 
+																	</ul>
+													</c:forEach>
+								   				
+								   				
+								   			</span>
+								   		</td>
+								   		<td></td>
+							 		</tr>
+							 		
+							 		<tr>
+								   		<td>Finishing</td>
+								   		<td><span>${ finishingActivities}</span></td>
+								   		<td></td>
+							 		</tr>
+							 		
+							 		<tr>
+								   		<td>Paper </td>
+									   	<td>
+								   		 	Cover :<span>${coverJobPaper.paperType.name}</span>
+								   		 		<span style="float:right">${coverJobPaper.grammage} GSM</span>
+								   		 
+								   		 	<br>
+								   		 		<span>
+								   					<c:set var="contentType" value="${contentJobPapers[0].contentType.name}"></c:set>
+							   						<span>
+							   							<c:if test="${ contentJobPapers[0].contentType.name==contentType}">
+							   								${contentJobPapers[0].contentType.name } : 
+							   							<c:set var="contentType" value="contenu "></c:set>
+							   							</c:if>
+							   						</span>
+						   							<ul>
+							   							<c:forEach var="jobPaper" items="${contentJobPapers}" varStatus="loop">
+							   								<li>
+											   					<span style="display:left">								   					
+											   						${jobPaper.paperType.name}
+																</span>
+															 	<span style="float:right"> 
+																 	${jobPaper.grammage} GSM <br>
+															 	</span>
+															 	<br>
+														 	</li>
+														</c:forEach>
+													</ul>
+								   				</span>
+											</td>
+										<td>
+										
+										</td>
+							 		</tr>
 							    </tbody>
 						</table>
-					  	</div>
-					      <br>
-		  
-					 <h4>Cover Printing Option</h4>
-
-					 <hr>
-						<div class="row">
-					    <div class="row">
-					     <div class="col-sm-3">
-					    	 Machine  : <span id="cover-machine">${coverjobPapers.jobColorCombinations[0].printingMachine.name} </span>
-					    </div>
-					    <div class="col-sm-3">
-					    	Print Type : <span id="cover-printtype">${coverjobPapers.jobColorCombinations[0].printType.name} </span> 
-					    </div>
-					    <div class="col-sm-3">
-					    	Color Combination : <span id=cover-color-front></span> ${coverjobPapers.jobColorCombinations[0].frontColorNumber} / <span id=cover-color-back>${coverjobPapers.jobColorCombinations[0].backColorNumber}</span> 
-					    </div>
-					     <div class="col-sm-3">
-					    	Signature : <span id=cover-signature>${coverjobPapers.jobColorCombinations[0].numberOfSignature}</span> 
-					    </div>
-					    </div>
-					  </div>
-					   <h4>Content Printing Option</h4>
-
-					 <hr>
-					  <div class="row">
-					<table class="ta" id="content-table">
-					  <thead>
-					    <tr>
-					      <th scope="col">Num</th>
-					      <th scope="col">Paper Type</th>
-					      <th scope="col">Machine</th>
-					      <th scope="col"> Print Type</th>
-					      <th scope="col">Color Combination</th>
-					      <th scope="col">Signature</th>
-					    </tr>
-					  </thead>
-					  <tbody>
-						<c:forEach var="jobPaper" items="${jobPapers}" varStatus="loop">
-					       <c:set var="index" value="${loop.index}" />
-							    <%    int index = (Integer) pageContext.getAttribute("index");  %>
-							    <tr>
-							 <td rowSpan="${fn:length(jobPaper.jobColorCombinations)+1}">  <%= index + 1 %></td>
-							 </tr>
-							 <c:forEach var="color" items="${jobPaper.jobColorCombinations}" varStatus="loop">
-							 <tr>
-						       <td>${jobPaper.paperType.name}</td>
-							   <td>${color.printingMachine.name}</td>
-							   <td>${color.printType.name}</td>
-							   <td> ${color.frontColorNumber} / ${color.backColorNumber}</td>
-							   <td>${color.numberOfSignature}</td>
-							 </tr>
-							  </c:forEach>
-							   </c:forEach>
-					 		 </tbody>
-							 </table>
-						  	 </div>
-						  	</div>
-						  <br>
-						 <h4>Finishing option</h4>
-						 <hr>
-						 <div class="row ">
-					    <div class="col-sm-4">
-					    	<div> X Perforated : <span id="x-perforated"> </span>${job.getJobActivity().getXPerforated()}</div>
-					    	<div> X Numbered : <span id="x-numbered"></span> ${job.getJobActivity().getXNumbered()}</div>
-					    	<div> X Crossed : <span id="x-crossed"></span>${job.getJobActivity().getXCross()}</div>
-					    	<div> X Wired-stitched : <span id="x-wired"></span>${job.getJobActivity().getXWiredStiched()}</div>
-					    	<div> Creased : <span id="crease"></span>${job.getJobActivity().getXCreased()}</div>
-					    </div>
-					   <div class="col-sm-4">
-					    	<div> Lamination Sides : <span id="laminated-sides"></span> ${job.getJobActivity().getLamination()} </div>
-					    	<div> Glueing Bound: <span id="glue-bound"></span>${job.getJobActivity().getGlueOption()}</div>
-					    	<div> Binding Type : <span id="binding-type"></span> ${job.getJobActivity().getBindingType().getName()}</div>
-					    	<div> Sewn :<span class=" ${job.getJobActivity().isSewn() ? 'true' : 'false'}"> ${job.getJobActivity().isSewn() ? 'yes' : 'no'}</span>
-					    	</div>
-					    </div>
-					    <div class="col-sm-4">
-					    	<div> Handgather :<span class=" ${job.getJobActivity().isHandgather() ? 'true' : 'false'}"> ${job.getJobActivity().isHandgather() ? 'yes' : 'no'}</span>
-					    	 </div>
-					    	<div> Stitching :  <span class=" ${job.getJobActivity().isStitching() ? 'true' : 'false'}"> ${job.getJobActivity().isStitching() ? 'yes' : 'no'}</span>
-					    	</div>
-					    	<div> Trimmed :<span class=" ${job.getJobActivity().isTrimmed() ? 'true' : 'false'}"> ${job.getJobActivity().isTrimmed() ? 'yes' : 'no'}</span>
-							</div>
-					    	<div> Sellotaped :<span class=" ${job.getJobActivity().isSelloptaped() ? 'true' : 'false'}"> ${job.getJobActivity().isSelloptaped() ? 'yes' : 'no'}</span>
-							</div>
-					    </div>
 					 </div>
-					  <br>
-					 
-					 	<h4 id="top2"> PRICING OPTIONS</h4>
-						<hr>
-					    <div class="row">
-					     <table class="ta" id="cover-table">
+					 <div class="row">
+					 	<table class="table-responsive ta" id="cover-table">
 					      <thead id="estimate-header"> 
-					        <tr>
+					      	<tr>
 						      <th scope="col">Quantity</th>
+						      <th><span style="padding:10px"></span></th>
 						      <th scope="col">Unit price(FCFA)</th>
 						      <th scope="col">Total Price (FCFA)</th>
 					   		 </tr>
-					  		</thead>
+					  	 </thead>
 					 		<tbody>
 					 		 <tr>
 						     	<c:forEach var="estimate" items="${estimates}" varStatus="loop">
+								  <tr>
+								  <td></td>
 								   <td><a>${estimate.quantity}</a></td>
 								   <td><a>${estimate.unitPrice}</a></td>
 								   <td><a>${estimate.totalPrice}</a></td>
+								   </tr>
 							  	</c:forEach>
 							 </tr>
 						   </tbody>
@@ -236,9 +187,9 @@
 					  	</div>
 					 </div>
 					 <div>
-							<button   type="button" style="width:125px;float:right"  class="btn btn-primary" onclick="printEstimate();"><fmt:message key="print"/></button>			
+						<button   type="button" style="width:125px;float:right"  class="btn btn-primary" onclick="printEstimate();"><fmt:message key="print"/></button>			
 					 </div>
-                  </div>
+               </div>
             </div>
           </div>
         </div>

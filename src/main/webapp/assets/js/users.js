@@ -10,6 +10,16 @@ function loadPage(page) {
 		.catch(error => console.log(error));
 }
 
+function loadPageModal(page) {
+	fetch(page)
+		.then(response => response.text())
+		.then(html => {
+			document.getElementById('main-content').innerHTML = html;
+		})
+		.catch(error => console.log(error));
+}
+
+
 // <-------------- Fieald validation  ------------------------->
 function validateField(field, errorMessage) {
 	if (field.trim() === '') {
