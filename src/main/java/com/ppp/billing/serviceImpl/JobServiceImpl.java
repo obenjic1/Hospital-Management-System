@@ -100,7 +100,7 @@ public class JobServiceImpl implements JobService {
 		List<JobPaper> jobPapers = new ArrayList<JobPaper>();
 		jobDTO.getJobPapers().forEach(row-> {
 			JobPaper jobPaper = new JobPaper();
-			jobPaper.setGrammage(row.getGramage());
+			jobPaper.setGrammage(row.getGrammage());
 			jobPaper.setVolume(row.getVolume());
 			Optional<PaperType> paperType = paperTypeRepository.findById(row.getPaperTypeId());
 			jobPaper.setPaperType(paperType.get());

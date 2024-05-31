@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class JobPaperDTO {
 
-   private int gramage;
+   private int grammage;
    private int volume;
    private int paperTypeId;
    private int contentTypeId;
