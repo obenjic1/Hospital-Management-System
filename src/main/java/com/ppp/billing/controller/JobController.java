@@ -2,6 +2,7 @@ package com.ppp.billing.controller;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.net.MalformedURLException;
 import java.util.List;
 import java.util.Optional;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.itextpdf.io.image.ImageData;
@@ -32,11 +34,13 @@ import com.itextpdf.layout.Document;
 import com.itextpdf.layout.border.Border;
 import com.itextpdf.layout.element.AreaBreak;
 import com.itextpdf.layout.element.Image;
+
 import com.itextpdf.layout.element.Paragraph;
 import com.itextpdf.layout.property.AreaBreakType;
 import com.ppp.billing.model.BindingType;
 import com.ppp.billing.model.Customer;
 import com.ppp.billing.model.Job;
+import com.ppp.billing.model.JobActivity;
 import com.ppp.billing.model.JobColorCombination;
 import com.ppp.billing.model.JobPaper;
 import com.ppp.billing.model.JobType;
@@ -45,6 +49,7 @@ import com.ppp.billing.model.PaperGrammage;
 import com.ppp.billing.model.PaperType;
 import com.ppp.billing.model.PrintType;
 import com.ppp.billing.model.PrintingMachine;
+import com.ppp.billing.model.dto.EstimateDTO;
 import com.ppp.billing.model.dto.JobDTO;
 import com.ppp.billing.repository.JobRepository;
 import com.ppp.billing.serviceImpl.BindingTypeserviceImpl;
@@ -427,9 +432,74 @@ public class JobController {
 			model.addAttribute("jobColorCombinations", jobColorCombinationResult);
 			model.addAttribute("paperGrammages", paperGrammageResult);
 			
-			
 		    return "/billing/job-update-form";
 		}
 	
-	
-	}
+		@GetMapping("/estimate/{id}")
+		public String getEstimateForm (@PathVariable long id, Model model) {
+			Job findJob = jobServiceImpl.findById(id).get();
+			model.addAttribute("job", findJob);		
+
+			return "/billing/estimate/job-estimate";
+		}
+		
+		@GetMapping("/generate/{id}")
+		public String generateEstimate(@PathVariable long id,@RequestParam("quantities") String quantities, 
+				@RequestParam("extraFee") int extraFee, @RequestParam("extraFeeDescription") String extraFeeDescription, Model model) {
+			
+			Job job = jobServiceImpl.findById(id).get();
+			//Get and structure typesetting values
+			List<String> typsettingActivities = new ArrayList<String>();
+			if(job.isTypesettingByUs()) typsettingActivities.add("Typesetting by us");
+			if(job.isDataSuppliedByCustomer()) typsettingActivities.add("Data Supplied by customer");
+			if(job.isLayOutByUs()) typsettingActivities.add("Layout by us");
+			if(job.isExistingPlate()) typsettingActivities.add("Has existing Plates");
+			
+			//Get and Structure printing 
+			List<JobPaper> jobPapers = job.getJobPapers();
+			JobPaper coverJobPaper = jobPapers.remove(0);
+			
+			//Get Finishing structure
+			String finishingActivities = "";
+			JobActivity jobActivity = job.getJobActivity();
+			
+			if(jobActivity.getXCross()>0) finishingActivities += "Signatures " + jobActivity.getXCross()+ " x cross-folded, " ;
+			if(jobActivity.getXCreased()>0) finishingActivities += "Cover " + jobActivity.getXCreased()+ " x creased, " ;
+			if(jobActivity.getLamination()>0) finishingActivities += "Cover " + jobActivity.getLamination()+ " side laminated, " ;
+			if(jobActivity.getXWiredStiched()>0) finishingActivities += "Booklets " + jobActivity.getXWiredStiched()+ " x wire-stitched, " ;
+			if(jobActivity.isSewn()) finishingActivities += "Booklets sewn, " ;
+			if(jobActivity.isHandgather()) finishingActivities += "hand-gathered, " ;
+			if(jobActivity.isSelloptaped()) finishingActivities += "sellotaped, " ;
+			if(jobActivity.isTrimmed()) finishingActivities += "trimmed, " ;
+			if(jobActivity.getXPerforated()>0) finishingActivities += "Job perforated " + jobActivity.getXPerforated()+ " times, " ;
+			if(!(jobActivity.getGlueOption().isEmpty())) finishingActivities += "Glue option is" + jobActivity.getGlueOption()+ ", " ;
+			if(jobActivity.getBindingType()!=null) finishingActivities += "final binding: " + jobActivity.getBindingType().getName()+ " " ;
+			
+			
+
+			String[] qty = quantities.split("@");
+			//TO REMOVE SETTERS
+			job.setFixCost(10000);
+			job.setVariableCost(200000);
+			List<EstimateDTO> estimates = new ArrayList<EstimateDTO>();
+			for(int i=0; i<qty.length;i++) {
+				EstimateDTO estimateDTO = new EstimateDTO();
+				estimateDTO.setQuantity(Integer.parseInt(qty[i]));
+				float totalPrice=  ( ((job.getVariableCost()/1000) * Integer.parseInt(qty[i])) +(job.getFixCost()+ extraFee));
+				estimateDTO.setTotalPrice(totalPrice);
+				estimateDTO.setUnitPrice(totalPrice/Integer.parseInt(qty[i]));
+				estimates.add(estimateDTO);
+			}
+
+			Job findJob = jobServiceImpl.findById(id).get();
+			model.addAttribute("job", findJob);
+			model.addAttribute("estimates", estimates);
+			model.addAttribute("typeSettingActivities", typsettingActivities);
+			model.addAttribute("finishingActivities", finishingActivities);
+			model.addAttribute("coverJobPaper", coverJobPaper);			
+			model.addAttribute("contentJobPapers", jobPapers);
+			return "/billing/estimate/generated-estimate-result";
+		}
+		
+		
+}

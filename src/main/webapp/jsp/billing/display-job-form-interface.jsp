@@ -561,9 +561,9 @@
 				  <label for="" class="form-label"><fmt:message key="glued.option"/></label> 
 				  <select id="glueingOption" name="name" class="form-select">
 				    <option value="0" selected>Choose...</option>
-				    <option value="leftSide"><fmt:message key="left.side"/></option>
+				    <option value="left"><fmt:message key="left.side"/></option>
 				   <option value="head"><fmt:message key="head"/></option>
-				   <option value="glueBound"><fmt:message key="glue.bound"/></option>
+				   <option value="glue-bound"><fmt:message key="glue.bound"/></option>
 		         </select>
 			   </div>
 			     <div class ="col-lg-3 px8" style="position: relative; left:10px;">
@@ -702,13 +702,9 @@
 					    	Volume : <span id="cover-volume">  </span> 
 					    </div>
 					   </div>
-	
-					   </div>
-					   
-					   <br>
+					   </div><br>
 					<h4 id="top"> Content Paper Option</h4>
 					<hr>
-
 					    <div class="row">
 					   <table class="ta" id="cover-table">
 					  <thead>
@@ -720,12 +716,6 @@
 					    </tr>
 					  </thead>
 					  <tbody>
-<!-- 					    <tr> -->
-<!-- 					      <th scope="row">1</th> -->
-<!-- 					      <td>glows</td> -->
-<!-- 					      <td>250</td> -->
-<!-- 					      <td>2000</td> -->
-<!-- 					    </tr> -->
 					  </tbody>
 					</table>
 					   </div>

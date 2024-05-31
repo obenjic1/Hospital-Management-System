@@ -6,16 +6,17 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %> 
 
-
+<head>
 <link href="assets/css/profile.css" rel="stylesheet">
 <link href="assets/css/billing/job.css" rel="stylesheet">
-
+</head>
 <main id="users-list" class="main">
     <section class="section profile" id="modal-details">
       <div class="row">
         <div class="col-xl-8" style="width: 100%">
           <div class="card">
             <div class="card-body pt-4">
+
               <ul class="nav nav-tabs" style="justify-content: center; background-color: #012970;">
                 <li class="nav-item">
                   <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#profile-overview" style="height:35px;background:#012970"></button>

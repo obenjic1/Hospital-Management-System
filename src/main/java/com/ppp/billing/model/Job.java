@@ -110,6 +110,12 @@ public class Job {
 	@JoinColumn(name = "customer_id", referencedColumnName = "id")
 	private Customer customer;
 	
+	@Column(name = "other_fee", nullable = true, columnDefinition = "float default 0")
+	private float otherFee;
+	
+	@Column(name = "other_fee_description")
+	private String otherFeeDescription;
+	
 	
 
 }

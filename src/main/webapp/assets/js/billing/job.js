@@ -519,3 +519,38 @@ let job = { };
 		})
 		
 	}
+	
+function removeEstmateContentNode(deleteBtn){
+	let parentNode = deleteBtn.parentNode;
+	deleteBtn.parentNode.parentNode.remove();
+	
+}
+function addNextEstimateChild(){
+	let contentDiv = document.getElementById("main-estimate-div");
+	let ContentFirstChild = contentDiv.children[0];
+	let	cloneContentFirstChild = ContentFirstChild.cloneNode(true);
+		cloneContentFirstChild.style.display="block";
+		cloneContentFirstChild.style.display="";
+		contentDiv.appendChild(cloneContentFirstChild);	
+
+
+}
+
+function generateEstimate(url){
+	let quantities = document.querySelectorAll("[estimate-quantity]");
+	let estimateQuanties = "";
+
+	for(let i=1; i<quantities.length; i++){
+		estimateQuanties+=quantities[i].value + "@";
+	}
+		
+	let extraFee = document.getElementById("extra-fee").value;
+	let description = document.getElementById("extra-fee-description").value;
+
+	url+= "?quantities=" + estimateQuanties + "&extraFee=" +extraFee + "&extraFeeDescription=" + description;
+	loadPage(url);
+	
+	
+}
+
+

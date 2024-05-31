@@ -48,11 +48,9 @@
 						      <th scope="col">Customer</th>
 						      <th scope="col">Actions</th>
 						      <th scope="col"></th>
-						      
 							</tr>
 						   </thead>
 						<tbody>
-			
 						  <c:forEach var="job" items="${jobs}" varStatus="loop">
 						   <tr class="${loop.index % 2 == 0 ? 'even-row' : 'odd-row'}">
 							    <c:set var="index" value="${loop.index}" />
@@ -70,12 +68,13 @@
 								     <option onClick="loadPage('/job/viewJob/${job.id}');">View</option>
 								     <option onClick="loadPage('/job/update-form/${job.id}');">Edit</option>
 								     <option onclick="deleteJob(${job.id})">Delete</option>
-								     <option>Generate</option>
-					               </select>
+								     <option onclick="loadPage('/job/estimate/${job.id}');">Generate Estimate</option>
+								     
+					              </select>
 							  </td>
 							  <td>
 							     <a>
-								   <button class="button-see" data-bs-toggle="modal" data-bs-target="#ExtralargeModal" onclick="loadPageModal('/job/viewJob/${job.id}')">
+								   <button class="button-see" data-bs-toggle="modal" data-bs-target="#ExtralargeModal" onclick="loadPageModal('/job/viewJob/${job.id}');">
 								     <i class="ri-eye-line"></i>
 								   </button>
 								 </a>
