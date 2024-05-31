@@ -192,28 +192,28 @@ public class JobController {
 				}
 			}
 			printer.print(document, message, 35, 297-173.5f);
-			float y = 297-188;
-			printer.print(document, job.getJobActivity().getXPerforated()+ "", 34, y-8);
-			printer.print(document, job.getJobActivity().getXNumbered()+"", 69, y-8);
+			float yx = 297-188;
+			printer.print(document, job.getJobActivity().getXPerforated()+ "", 34, yx-8);
+			printer.print(document, job.getJobActivity().getXNumbered()+"", 69, yx-8);
 			if(job.getJobActivity().getGlueOption().toLowerCase().equals("Head".toLowerCase()))
-			printer.print(document, "X",  111, y-8.5f);
+			printer.print(document, "X",  111, yx-8.5f);
 			
 			if(job.getJobActivity().getGlueOption().toLowerCase().equals("Left side".toLowerCase()))
-				printer.print(document, "X",  128, y-8.5f);
+				printer.print(document, "X",  128, yx-8.5f);
 			
 			if(job.getJobActivity().getGlueOption().toLowerCase().equals("Glue-bound".toLowerCase()))
-				printer.print(document, "X",  181.5f, y-17);
+				printer.print(document, "X",  181.5f, yx-17);
 			
 			if(job.getJobActivity().isSelloptaped())
-				printer.print(document, "X",  183, y-8.5f);
+				printer.print(document, "X",  183, yx-8.5f);
 			
 			if(job.getJobActivity().isTrimmed()) {
-				printer.print(document, "X",  149.5f, y-8.5f);
-				printer.print(document, "Trimmed",  154, y-8);
+				printer.print(document, "X",  149.5f, yx-8.5f);
+				printer.print(document, "Trimmed",  154, yx-8);
 			}
 
 			if(job.getJobActivity().isSewn())
-				printer.print(document, "X",  164, y-17);
+				printer.print(document, "X",  164, yx-17);
 
 			printer.print(document, "" +job.getJobActivity().getXCross(),  11, 297-204);
 			printer.print(document, "" +job.getJobActivity().getXCreased(),  100, 297-204);
@@ -278,11 +278,11 @@ public class JobController {
 			
 				 float mmToPoint = 2.83465f;
 				if(basic>0) {
-					int k = (int) (Math.log(basic)/Math.log(2));
-					int a =k/2;
-					int b=k-a;
-					int horizontalLignes = (int) Math.pow(2, a)-1;
-					int verticalLigne = (int) Math.pow(2, b)-1;
+					int kx = (int) (Math.log(basic)/Math.log(2));
+					int ax =kx/2;
+					int bx=kx-ax;
+					int horizontalLignes = (int) Math.pow(2, ax)-1;
+					int verticalLigne = (int) Math.pow(2, bx)-1;
 					float step = 24/(horizontalLignes+1);
 					float acc = 0;
 					for(int i1=1; i1<=horizontalLignes; i1++) {
