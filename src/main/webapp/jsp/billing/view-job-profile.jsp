@@ -16,9 +16,9 @@
         <div class="col-xl-8" style="width: 100%">
           <div class="card">
             <div class="card-body pt-4">
-              <ul class="nav nav-tabs nav-tabs-bordered" style="justify-content: center;">
+              <ul class="nav nav-tabs" style="justify-content: center; background-color: #012970;">
                 <li class="nav-item">
-                  <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#profile-overview" > <fmt:message key="overview"/></button>
+                  <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#profile-overview" style="height:35px;background:#012970"></button>
                 </li>
               </ul>
                 <div class="tab-content pt-2">

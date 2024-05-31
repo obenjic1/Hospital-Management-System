@@ -1,5 +1,11 @@
 package com.ppp.printable;
 
+
+import java.io.IOException;
+
+import com.itextpdf.io.font.FontConstants;
+import com.itextpdf.kernel.font.PdfFont;
+import com.itextpdf.kernel.font.PdfFontFactory;
 import com.itextpdf.layout.Document;
 import com.itextpdf.layout.element.Paragraph;
 
@@ -9,9 +15,11 @@ public class PrintableElement {
 	private String message ;
 	private float xAxis;
 	private float yAxis;
+	
 	public String getMessage() {
 		return message;
 	}
+	
 	public void setMessage(String message) {
 		this.message = message;
 	}
@@ -34,10 +42,12 @@ public class PrintableElement {
 	
 	}
 	
-  public void print(Document document, String message, float xAxis, float yAxis) {
+  public void print(Document document, String message, float xAxis, float yAxis) throws IOException {
+	    PdfFont font = PdfFontFactory.createFont(FontConstants.TIMES_BOLDITALIC);
 		this.setxAxis(xAxis);
 		this.setyAxis(yAxis);
 		this.message= message;
+		document.setFont(font);
 		document.add(new Paragraph(this.message).setFixedPosition(this.xAxis, this.yAxis, 595));
 	
 	}
