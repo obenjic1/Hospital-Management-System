@@ -6,10 +6,10 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %> 
 
-<head>
+
 <link href="assets/css/profile.css" rel="stylesheet">
 <link href="assets/css/billing/job.css" rel="stylesheet">
-</head>
+
 <main id="users-list" class="main">
     <section class="section profile" id="modal-details">
       <div class="row">
@@ -24,7 +24,7 @@
                 <div class="tab-content pt-2">
                   <div class="tab-pane fade show active profile-overview" id="profile-overview" style="margin-left: 10%">    
                   <h5 class="card-title">job Details</h5>
-      				<div class="container" style="position: relative;bottom: -20px;" >
+      				<div class="container estimate" style="position: relative;bottom: -20px" >
        				<h4>Job Description</h4>
        				<hr>
 					  <div class="row">
@@ -210,6 +210,33 @@
 							</div>
 					    </div>
 					 </div>
+					  <br>
+					 
+					 	<h4 id="top2"> PRICING OPTIONS</h4>
+						<hr>
+					    <div class="row">
+					     <table class="ta" id="cover-table">
+					      <thead id="estimate-header"> 
+					        <tr>
+						      <th scope="col">Quantity</th>
+						      <th scope="col">Unit price(FCFA)</th>
+						      <th scope="col">Total Price (FCFA)</th>
+					   		 </tr>
+					  		</thead>
+					 		<tbody>
+					 		 <tr>
+						     	<c:forEach var="estimate" items="${estimates}" varStatus="loop">
+								   <td><a>${estimate.quantity}</a></td>
+								   <td><a>${estimate.unitPrice}</a></td>
+								   <td><a>${estimate.totalPrice}</a></td>
+							  	</c:forEach>
+							 </tr>
+						   </tbody>
+						 </table>
+					  	</div>
+					 </div>
+					 <div>
+							<button   type="button" style="width:125px;float:right"  class="btn btn-primary" onclick="printEstimate();"><fmt:message key="print"/></button>			
 					 </div>
                   </div>
             </div>

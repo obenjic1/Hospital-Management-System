@@ -145,3 +145,17 @@ input[type=number]{
 .ta tr:last-of-type{
 	border-bottom:2px solid #012970; 
 }
+.input-box {
+
+}
+.card-body {
+  padding-right: 10%;
+}
+.customer-info div {
+	padding-bottom: 7px;
+	font-size:1.6em;
+	font-family:Cursive;
+}
+.estimate ta th {
+	background-color:#1f8278
+}

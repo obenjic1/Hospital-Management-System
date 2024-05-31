@@ -1,14 +1,10 @@
 package com.ppp.billing.controller;
 
-import java.awt.Color;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-
-import javax.swing.text.Position;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -24,15 +20,13 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.itextpdf.kernel.pdf.PdfDocument;
 import com.itextpdf.kernel.pdf.PdfWriter;
 import com.itextpdf.layout.Document;
-import com.itextpdf.layout.element.Paragraph;
-import com.itextpdf.layout.property.UnitValue;
 import com.ppp.billing.model.BindingType;
-import com.ppp.billing.model.ContentType;
 import com.ppp.billing.model.Customer;
 import com.ppp.billing.model.Job;
 import com.ppp.billing.model.JobColorCombination;
@@ -43,6 +37,7 @@ import com.ppp.billing.model.PaperGrammage;
 import com.ppp.billing.model.PaperType;
 import com.ppp.billing.model.PrintType;
 import com.ppp.billing.model.PrintingMachine;
+import com.ppp.billing.model.dto.EstimateDTO;
 import com.ppp.billing.model.dto.JobDTO;
 import com.ppp.billing.repository.JobRepository;
 import com.ppp.billing.serviceImpl.BindingTypeserviceImpl;
@@ -56,9 +51,6 @@ import com.ppp.billing.serviceImpl.PaperGrammageServiceImpl;
 import com.ppp.billing.serviceImpl.PaperTypeServiceImpl;
 import com.ppp.billing.serviceImpl.PrintTypeServiceImpl;
 import com.ppp.billing.serviceImpl.PrintingMachineServiceImpl;
-import com.ppp.printable.PlateMakingCosting;
-import com.ppp.printable.PrintableElement;
-import com.ppp.printable.PrintingElementCost;
 
 @Controller
 @RequestMapping("/job")
@@ -218,9 +210,42 @@ public class JobController {
 			model.addAttribute("jobColorCombinations", jobColorCombinationResult);
 			model.addAttribute("paperGrammages", paperGrammageResult);
 			
-			
 		    return "/billing/job-update-form";
 		}
 	
-	
-	}
+		@GetMapping("/estimate/{id}")
+		public String getEstimateForm (@PathVariable long id, Model model) {
+			Job findJob = jobServiceImpl.findById(id).get();
+			model.addAttribute("job", findJob);		
+
+			return "/billing/estimate/job-estimate";
+		}
+		
+		@GetMapping("/generate/{id}")
+		public String generateEstimate(@PathVariable long id,@RequestParam("quantities") String quantities, 
+				@RequestParam("extraFee") int extraFee, @RequestParam("extraFeeDescription") String extraFeeDescription, Model model) {
+			
+			Job job = jobServiceImpl.findById(id).get();
+			String[] qty = quantities.split("@");
+			//TO REMOVE SETTERS
+			job.setFixCost(10000);
+			job.setVariableCost(200000);
+			List<EstimateDTO> estimates = new ArrayList<EstimateDTO>();
+			for(int i=0; i<qty.length;i++) {
+				EstimateDTO estimateDTO = new EstimateDTO();
+				estimateDTO.setQuantity(Integer.parseInt(qty[i]));
+				float totalPrice=  ( ((job.getVariableCost()/1000) * Integer.parseInt(qty[i])) +(job.getFixCost()+ extraFee) );
+				estimateDTO.setTotalPrice(totalPrice);
+				estimateDTO.setUnitPrice(totalPrice/Integer.parseInt(qty[i]));
+				estimates.add(estimateDTO);
+			}
+
+			Job findJob = jobServiceImpl.findById(id).get();
+			model.addAttribute("job", findJob);
+			model.addAttribute("estimates", estimates);
+			
+			return "/billing/estimate/generated-estimate-result";
+		}
+		
+		
+}
