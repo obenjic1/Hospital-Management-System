@@ -43,7 +43,7 @@ public class PrintableElement {
 	}
 	
   public void print(Document document, String message, float xAxis, float yAxis) throws IOException {
-	    PdfFont font = PdfFontFactory.createFont(FontConstants.TIMES_BOLDITALIC);
+	    PdfFont font = PdfFontFactory.createFont(FontConstants.TIMES_ITALIC);
 		this.setxAxis(xAxis);
 		this.setyAxis(yAxis);
 		this.message= message;

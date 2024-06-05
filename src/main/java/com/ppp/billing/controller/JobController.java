@@ -16,6 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.acls.model.NotFoundException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -31,12 +32,8 @@ import com.itextpdf.kernel.pdf.PdfDocument;
 import com.itextpdf.kernel.pdf.PdfWriter;
 import com.itextpdf.kernel.pdf.canvas.PdfCanvas;
 import com.itextpdf.layout.Document;
-import com.itextpdf.layout.border.Border;
 import com.itextpdf.layout.element.AreaBreak;
-import com.itextpdf.layout.element.Image;
 
-import com.itextpdf.layout.element.Paragraph;
-import com.itextpdf.layout.property.AreaBreakType;
 import com.ppp.billing.model.BindingType;
 import com.ppp.billing.model.Customer;
 import com.ppp.billing.model.Job;
@@ -69,17 +66,16 @@ import com.ppp.printable.PrintingElementCost;
 
 @Controller
 @RequestMapping("/job")
+@CrossOrigin(origins="*")
 public class JobController {
-	
-	@Value("${pdf.path}")
-    private String pdfStoragePath;
 	
 	@Value("${folder.image.background}")
 	private String backgroundFolder;
+	@Value("${folder.controlSheet}")
+	private String controlSheetDir;
 	@Autowired
 	private JobServiceImpl jobServiceImpl;
-	@Autowired
-	private JobRepository jobRepository;
+	
 	@Autowired
 	private CustomerServiceImpl customerServiceImpl;
 	@Autowired
@@ -151,19 +147,22 @@ public class JobController {
 
 ////<--------------------- Generate a job pdf @Vincent ------------------------------>
 	@GetMapping("/generate-pdf/{id}")
-	public ResponseEntity<FileSystemResource> generatePdf(@PathVariable long id) throws IOException {
-		 String pdfFile = createJobDataPdf(id);
-		 HttpHeaders headers = new HttpHeaders();
-		 headers.add("Content-Disposition", "inline");
-		 
-		 return ResponseEntity
-	                .ok()
-	                .headers(headers)
-	                .contentType(MediaType.APPLICATION_PDF)
-	                .body(new FileSystemResource(pdfFile));
+	@ResponseBody
+	public String generatePdf(@PathVariable long id) throws IOException {
+		try {
+			
+			String file=createJobDataPdf(id);
+			return "file="+file+"&dir=folder.controlSheet";
+			
+		}catch (Exception e) {
+			return "file=error.pdf&dir=folder.controlSheet";
+		}
+		
 	}	
 	private String createJobDataPdf(Long id) throws FileNotFoundException, MalformedURLException {
-		String pdf = "Hello.pdf";
+		Job job = jobServiceImpl.findById(id).get();
+
+		String pdf = controlSheetDir+job.getReferenceNumber()+".pdf";
 		PdfWriter pdfWriter = new PdfWriter(pdf);
 		PdfDocument pdfDocument = new PdfDocument(pdfWriter);
 		Document document = new Document(pdfDocument, PageSize.A4);
@@ -175,16 +174,15 @@ public class JobController {
 			/**
 			 * Impression de la premiere page du controle sheet
 			 */
-			Job job = jobServiceImpl.findById(id).get();
 			PrintableElement printer = new PrintableElement();	
 			printer.print(document, job.getCustomer().getName(), 9, 297-16);
 			printer.print(document, job.getCustomer().getAddress(), 9, 297-25);
 			printer.print(document, job.getCustomer().getTelephone(), 9, 297-35);
 			printer.print(document, job.getTitle(), 80, 297-66);
-			printer.print(document, job.getOpenLength()+"", 83, 297-88);
-			printer.print(document, job.getOpenWidth()+"", 109, 297-88);
-			printer.print(document, job.getCloseLength()+"", 157, 297-88);
-			printer.print(document, job.getCloseWidth()+"", 182, 297-88);
+			printer.print(document, job.getOpenWidth()+"", 83, 297-88);
+			printer.print(document, job.getOpenLength()+"", 109, 297-88);
+			printer.print(document, job.getCloseWidth()+"", 157, 297-88);
+			printer.print(document, job.getCloseLength()+"", 182, 297-88);
 			printer.print(document, "Cover : "+job.getCoverVolume()+" Pages", 69, 297-99);
 			printer.print(document, "Content : "+job.getContentVolume()+" Pages", 69, 297-108);
 			
@@ -274,9 +272,6 @@ public class JobController {
 				
 				printer.print(document, machine+"("+contentType+")",  165, 297-35-vecteur2);
 				
-				printer.print(document, plateMakingCosting.getPrintingMachine().getPlateLength()+"",  175, 297-42-vecteur2);
-				printer.print(document, plateMakingCosting.getPrintingMachine().getPlateWidth()+"",  197, 297-59-vecteur2);
-				
 				printer.print(document, exposior+"",  180, 297-78-vecteur2);
 				printer.print(document, signature+"",  180, 297-85-vecteur2);
 				printer.print(document,run+"",  180, 297-91-vecteur2);
@@ -288,13 +283,27 @@ public class JobController {
 					int bx=kx-ax;
 					int horizontalLignes = (int) Math.pow(2, ax)-1;
 					int verticalLigne = (int) Math.pow(2, bx)-1;
+					
+					double max = Math.max(job.getCloseLength(), job.getCloseWidth());
+					double min = Math.min(job.getCloseLength(), job.getCloseWidth());
+					double lengthFoldedJob =min/(horizontalLignes+1);
+					double widthFoldedJob =max/(verticalLigne+1);
+					if(widthFoldedJob>lengthFoldedJob) {
+						widthFoldedJob = Math.ceil(max*(verticalLigne+1)/10)+2;
+						lengthFoldedJob = Math.ceil(min*(horizontalLignes+1)/10)+2;
+					}else {
+						widthFoldedJob=Math.ceil(min*(verticalLigne+1)/10)+2;
+						lengthFoldedJob=Math.ceil(max*(horizontalLignes+1)/10)+2;
+					}
+					
+					printer.print(document, widthFoldedJob+"",  175, 297-42-vecteur2);
+					printer.print(document,lengthFoldedJob +"",  197, 297-59-vecteur2);					
 					float step = 24/(horizontalLignes+1);
 					float acc = 0;
 					for(int i1=1; i1<=horizontalLignes; i1++) {
 						acc += step;
 						canvas_.moveTo(155*mmToPoint, (297-46-acc-vecteur3)*mmToPoint);
 						canvas_.lineTo(196*mmToPoint, (297-46-acc-vecteur3)*mmToPoint);
-//						canvas_.closePathStroke();
 					}
 					step = 40/(verticalLigne+1);
 					acc=0;
@@ -337,7 +346,7 @@ public class JobController {
 					
 
 					printer.print(document, jobPeper.getContentType().getName(), 10, 297-29-decalage);
-					printer.print(document, jobPeper.getPaperType().getName(), 54, 297-29-decalage);
+					printer.print(document, jobColorCombination.getPrintType().getName(), 54, 297-29-decalage);
 					printer.print(document, printinElementCost.getPreparationUnitCost()+"", 134, 297-29-decalage);	
 					
 					printer.print(document, printinElementCost.getInckChange()+"", 55, 297-35f-decalage);
@@ -352,36 +361,50 @@ public class JobController {
 					printer.print(document, printinElementCost.getInckChange()*printinElementCost.getInckChangeUnitCost()+"", 135, 297-35-decalage);
 					printer.print(document, printinElementCost.getPlateChange()*printinElementCost.getPlateChangeUnitCost()+"", 135, 297-41-decalage);
 					printer.print(document, printinElementCost.getRun()*printinElementCost.getRunUnitCost()+"", 175, 297-47-decalage);
-
 				}
 				
 			}
 			
-			document.close();
+
+			/**
+			 * Print Finishing Elements
+			 */
 			
+			document.add(new AreaBreak());
+			PdfCanvas canvas2= new PdfCanvas(pdfDocument.getLastPage());
+			data = ImageDataFactory.create(backgroundFolder + "P4.jpg");
+			canvas2.addImage(data, PageSize.A4, false);
+			for(int i3=1; i3<jobPapers.size(); i3++) {
+				JobPaper jobPeper = jobPapers.get(i3);
+				JobColorCombination jobColorCombination = jobPeper.getJobColorCombinations().get(0);
+				PrintingElementCost printinElementCost = new PrintingElementCost(jobColorCombination);
+				
+				printer.print(document, printinElementCost.getFinishinFolde()+"", 47, 297-20 );
+				printer.print(document, printinElementCost.getFoldedFixeCost()+"", 132, 297-20 );
+				
+				printer.print(document, printinElementCost.getFinishingRun()+"", 45, 297-25.5f );
+				printer.print(document, printinElementCost.getFinishinFolde()+"", 70f, 297-25.5f );
+				printer.print(document, printinElementCost.getFinishingRunFixCost()+"", 83, 297-26 );
+				printer.print(document, printinElementCost.getFinishingRunVaribleCost()+"", 173, 297-26 );
+				
+				printer.print(document, printinElementCost.getCreasinPreparetion1()+"", 132, 297-38 );
+				printer.print(document, printinElementCost.getCreasinPreparetion2()+"", 173, 297-38 );
+				
+			}
+			
+			document.close();
+			return job.getReferenceNumber()+".pdf";
 		} catch (Exception e) {
 			throw new NotFoundException("Error", e);
 		}
-		return null;
 	}
-	
-//	public String createPrepressPdf(long id) throws FileNotFoundException, MalformedURLException {
-//		String pdf = "prepress.pdf";
-//		PdfWriter pdfWriter = new PdfWriter(pdf);
-//		PdfDocument pdfDocument = new PdfDocument(pdfWriter);
-//		Document document = new Document(pdfDocument, PageSize.A4);
-//		PdfCanvas canvas= new PdfCanvas(pdfDocument.addNewPage());
-//		ImageData data = ImageDataFactory.create(backgroundFolder + "P2.jpg");
-//		canvas.addImage(data, PageSize.A4, false);
-//		try {
-//			document.close();
-//		} catch (Exception e) {
-//			// TODO: handle exception
-//		}
-//		
-//		return null;
-//	}
 
+	@GetMapping("/error-pdf")
+	@ResponseBody
+	public String fileError(Model model) throws FileNotFoundException {
+
+		return "file=error.pdf&dir=folder.controlSheet";
+	}
 
 	@GetMapping("/viewJob/{id}")
 	public String viewJobDetails(@PathVariable long id, Model model) {

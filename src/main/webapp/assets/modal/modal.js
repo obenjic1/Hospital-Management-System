@@ -3,7 +3,12 @@ function loadPageModal(page) {
 	fetch(page)
 		.then(response => response.text())
 		.then(html => {
-			document.getElementById('addUser').innerHTML = html;
+			
+			console.log('localhost:8000/file/download?'+ html);
+			fetch('http://localhost:8000/file/download?'+ html).then(resp=> resp.blob()).then(blob=>{
+			let file = window.URL.createObjectURL(blob);
+			document.getElementById('controlSheetViewer').src=file;
+			});
 		})
 		.catch(error => console.log(error));
 }
@@ -25,7 +30,6 @@ function closeModal() {
 	 loadPageModal(url);
 	 
  }
- //loadPage('customer/update/${customers.email}')
  
 
  function sendMessage(msg, n){
@@ -37,6 +41,10 @@ function closeModal() {
 		document.getElementById("messageImage").src = "assets/img/delete.jpg"; 
 	} else {
 		document.getElementById("messageImage").src = " "; 
+	}
+	
+	function loadPdfToTheModal(modal){
+		let display = document.getElementById('ExtralargeModal');
 	}
 	
 	 
