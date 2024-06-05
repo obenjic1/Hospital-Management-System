@@ -11,7 +11,7 @@ import org.springframework.web.multipart.MultipartFile;
 public class FileStorageService {
 
 //<------------- Access control contained in application.properties ------------------->
-    @Value("${file.storage.path}")
+    @Value("${folder.storage.path}")
     private String fileStoragePath;
 
 //<--- Store the image in the fileStorage folder, which contains the variable access path declared in application.properties --->
