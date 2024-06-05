@@ -128,7 +128,7 @@ public class JobServiceImpl implements JobService {
 			
 		});
 		newJob.setJobPapers(jobPapers);		
-		jobRepository.save(newJob);
+		jobRepository.saveAndFlush(newJob);
         generateSerialNumber(newJob);
 		
         return newJob;

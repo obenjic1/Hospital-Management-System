@@ -32,7 +32,7 @@ public class PlateMakingCosting {
 		this.jobPaper = jobPaper;
 		this.printingMachine = jobPaper.getJobColorCombinations().get(0).getPrintingMachine();
 		float machinePlateLength = printingMachine.getPlateLength();
-		float machinePlateWidth = printingMachine.getPlateLength();
+		float machinePlateWidth = printingMachine.getPlateWidth();
 		float closeLength = (float) jobPaper.getJob().getCloseLength();
 		float closeWidth = (float) jobPaper.getJob().getCloseWidth();
 		double logP = Math.log((machinePlateLength*machinePlateWidth)/(closeLength*closeWidth));
@@ -40,6 +40,9 @@ public class PlateMakingCosting {
 		logP= Math.floor(logP)+1;
 		double pagesPerSignature = Math.pow(2,logP);
 		this.basic = (int) (pagesPerSignature/2);
+		if(jobPaper.getContentType().getName().equals("Cover")) {
+			this.basic=2;
+		}
 		plates=0;
 		jobPaper.getJobColorCombinations().forEach(colorCombination->{
 			int signature = (int) Math.ceil(colorCombination.getNumberOfSignature());
@@ -49,8 +52,6 @@ public class PlateMakingCosting {
 	}
 	public float generateBasicCost() {
 		
-		if(this.jobPaper.getContentType().getName().equals("Cover"))
-			this.basic = 2;
 		if(printingMachine.getAbbreviation().equals("GTO")) {
 			if(this.basic > 16)
 				return gtoBasicValues.get(16);

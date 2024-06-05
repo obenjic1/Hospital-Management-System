@@ -4,6 +4,8 @@ package com.ppp.printable;
 import java.util.Hashtable;
 
 import com.ppp.billing.model.JobColorCombination;
+import com.ppp.billing.model.JobPaper;
+import com.ppp.billing.model.PaperFormat;
 import com.ppp.billing.model.PrintingMachine;
 
 public class PrintingElementCost {
@@ -18,6 +20,11 @@ public class PrintingElementCost {
 	private int perforating;
 	private int ups;
 	private float upsUnitCost;
+	private int finishinFolde;
+	private int finishingRun;
+	private String paperFormat;	
+	private float creasinPreparetion1;
+	private float creasinPreparetion2;
 	private JobColorCombination colorCombination;
 	private Hashtable<String, Integer> gtoPrintTypeCosting = new Hashtable<String, Integer>();
 	private Hashtable<String, Integer> sormPrintTypeCosting = new Hashtable<String, Integer>();
@@ -99,6 +106,27 @@ public class PrintingElementCost {
 		logP= Math.floor(logP)+1;
 		double pagesPerSignature = Math.pow(2,logP);
 		this.ups = (int) (pagesPerSignature/4);
+		this.creasinPreparetion1 = 1000*2;
+		this.creasinPreparetion2 = 1000*4;
+		this.finishinFolde = (int) (Math.log(this.basic)/Math.log(2));
+		this.finishingRun = signature;
+		
+		double closewidthFormat = colorCombination.getJobPaper().getJob().getCloseWidth();
+		if(closewidthFormat<=74)
+			this.paperFormat = 8+"";
+		else if(closewidthFormat<=105)
+			this.paperFormat = 7+"";
+		else if(closewidthFormat<=148)
+			this.paperFormat = 6+"";
+		else if(closewidthFormat<=210)
+			this.paperFormat = 5+"";
+		else if(closewidthFormat<=297)
+			this.paperFormat = 4+"";
+		else if(closewidthFormat<=420)
+			this.paperFormat = 3+"";
+		else if(closewidthFormat>420)
+			this.paperFormat = 2+"";
+			
 	}
 
 	
@@ -107,7 +135,7 @@ public class PrintingElementCost {
 		switch (machine) {
 		case "GTO":
 			return this.basic<70? 2300: this.basic<160?1800:2300;
-		case "SP":
+		case "SPO":
 			return this.basic<70? 13900: this.basic<160?12900:15000;
 		default:
 			return this.basic<70? 8300: this.basic<160?7600:9100;
@@ -119,7 +147,7 @@ public class PrintingElementCost {
 		switch (machine) {
 		case "GTO":
 			return gtoPrintTypeCosting.get(this.colorCombination.getPrintType().getAbreviation());
-		case "SP":
+		case "SPO":
 			return spPrintTypeCosting.get(this.colorCombination.getPrintType().getAbreviation());
 		default:
 			return sormPrintTypeCosting.get(this.colorCombination.getPrintType().getAbreviation());
@@ -131,7 +159,7 @@ public class PrintingElementCost {
 		switch (machine) {
 		case "GTO":
 			return colorCombination.getPrintType().getAbreviation().equals("BWK")? 0:colorCombination.getPrintType().getAbreviation().equals("POLY")?2800:5600;
-		case "SP":
+		case "SPO":
 			return colorCombination.getPrintType().getAbreviation().equals("BWK")? 0:colorCombination.getPrintType().getAbreviation().equals("POLY")?9700:13000;
 		default:
 			return colorCombination.getPrintType().getAbreviation().equals("BWK")? 0:colorCombination.getPrintType().getAbreviation().equals("POLY")?5300:7700;
@@ -143,7 +171,7 @@ public class PrintingElementCost {
 		switch (machine) {
 		case "GTO":
 			return colorCombination.getPrintType().getAbreviation().equals("BWK")? 2000:colorCombination.getPrintType().getAbreviation().indexOf("POLY")!=-1?4700:3400;
-		case "SP":
+		case "SPO":
 			return colorCombination.getPrintType().getAbreviation().equals("BWK")? 8800:colorCombination.getPrintType().getAbreviation().indexOf("POLY")!=-1?19000:11700;
 		default:
 			return colorCombination.getPrintType().getAbreviation().equals("BWK")? 3500:colorCombination.getPrintType().getAbreviation().indexOf("POLY")!=-1?7200:4500;
@@ -158,28 +186,28 @@ public class PrintingElementCost {
 					return this.basic<70?5400:this.basic<160?4000:4400;
 			}
 			if(this.colorCombination.getPrintType().getAbreviation().indexOf("POLY")!=-1) {
-				if(colorCombination.getJobPaper().getPaperType().getName().indexOf("Glazed")!=-1)
+				if(colorCombination.getJobPaper().getPaperType().getName().toLowerCase().indexOf("Glazed".toLowerCase())!=-1)
 					return 6200;
 				else
 					return this.basic<160?5200:5600;
 			}
 			else
-				 if(colorCombination.getJobPaper().getPaperType().getName().indexOf("Glazed")!=-1)
+				if(colorCombination.getJobPaper().getPaperType().getName().toLowerCase().indexOf("Glazed".toLowerCase())!=-1)
 					  return 5400;
 					else
 					 return this.basic<70?6000:basic<160?4600:5000;
-		case "SP":
+		case "SPO":
 			if(this.colorCombination.getPrintType().getAbreviation().equals("BWK")) {
 				return this.basic<70?9800:this.basic<160?7600:8200;
 		}
 		if(this.colorCombination.getPrintType().getAbreviation().indexOf("POLY")!=-1) {
-			if(colorCombination.getJobPaper().getPaperType().getName().indexOf("Glazed")!=-1)
+			if(colorCombination.getJobPaper().getPaperType().getName().toLowerCase().indexOf("Glazed".toLowerCase())!=-1)
 				return 10800;
 			else
 				return this.basic<160?9200:9800;
 		}
 		else
-			 if(colorCombination.getJobPaper().getPaperType().getName().indexOf("Glazed")!=-1)
+			if(colorCombination.getJobPaper().getPaperType().getName().toLowerCase().indexOf("Glazed".toLowerCase())!=-1)
 				  return 10400;
 				else
 				 return this.basic<70?11000:basic<160?8600:9400;
@@ -188,18 +216,31 @@ public class PrintingElementCost {
 				return this.basic<70?6800:this.basic<160?5200:5800;
 		}
 		if(this.colorCombination.getPrintType().getAbreviation().indexOf("POLY")!=-1) {
-			if(colorCombination.getJobPaper().getPaperType().getName().indexOf("Glazed")!=-1)
+			if(colorCombination.getJobPaper().getPaperType().getName().toLowerCase().indexOf("Glazed".toLowerCase())!=-1)
 				return 7800;
 			else
 				return this.basic<160?6400:7000;
 		}
 		else
-			 if(colorCombination.getJobPaper().getPaperType().getName().indexOf("Glazed")!=-1)
+			if(colorCombination.getJobPaper().getPaperType().getName().toLowerCase().indexOf("Glazed".toLowerCase())!=-1)
 				  return 7200;
 				else
 				 return this.basic<70?7600:basic<160?6000:6600;
 		}
 	}
+	
+	public float getFoldedFixeCost() {
+		return this.finishinFolde<1?0:this.finishinFolde==1?4600:this.finishinFolde==2?7100:8600;
+	}
+	
+	public float getFinishingRunFixCost() {
+		return 2500;
+	}
+	
+	public float getFinishingRunVaribleCost() {
+		return ((int) Math.ceil(colorCombination.getNumberOfSignature()))*(getFinishingRunFixCost());
+	}
+
 	
 	public float getTrimmingUpsUnitCost() {
 		if(this.basic<=100)
@@ -342,6 +383,57 @@ public class PrintingElementCost {
 		this.upsUnitCost = upsUnitCost;
 	}
 
+
+	public float getCreasinPreparetion1() {
+		return creasinPreparetion1;
+	}
+
+
+	public void setCreasinPreparetion1(float creasinPreparetion1) {
+		this.creasinPreparetion1 = creasinPreparetion1;
+	}
+
+
+	public float getCreasinPreparetion2() {
+		return creasinPreparetion2;
+	}
+
+
+	public void setCreasinPreparetion2(float creasinPreparetion2) {
+		this.creasinPreparetion2 = creasinPreparetion2;
+	}
+
+
+	public int getFinishinFolde() {
+		return finishinFolde;
+	}
+
+
+	public void setFinishinFolde(int finishinFoldes) {
+		this.finishinFolde = finishinFoldes;
+	}
+
+	public String getPaperFormat() {
+		return paperFormat;
+	}
+
+
+	public void setPaperFormat(String paperFormat) {
+		this.paperFormat = paperFormat;
+	}
+
+
+	public int getFinishingRun() {
+		return finishingRun;
+	}
+
+
+	public void setFinishingRun(int finishingRun) {
+		this.finishingRun = finishingRun;
+	}
+
+	
+	
 	
 	
 }

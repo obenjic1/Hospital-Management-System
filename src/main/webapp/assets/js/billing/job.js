@@ -205,7 +205,7 @@ let job = { };
  	// Adding coverJobPaper and color combination  
 	 let jobPapers = [ ];
 	 let coverJobPaper = { };
-	  coverJobPaper.gramage = document.getElementById("coverGrammage").value;
+	  coverJobPaper.grammage = document.getElementById("coverGrammage").value;
 	  coverJobPaper.volume = document.getElementById("coverVolume").value;
 	  coverJobPaper.paperTypeId = document.getElementById("coverPaperType").value;
 	  coverJobPaper.contentTypeId = 1;
