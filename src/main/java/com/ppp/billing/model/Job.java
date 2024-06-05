@@ -61,6 +61,9 @@ public class Job {
 	@Column(name = "ctp_fees")
 	private int ctpFees;
 	
+	@Column(name = "paper_format")
+	private String paperFormat;
+	
 	@Column(name = "variable_cost", nullable = true, columnDefinition = "float default 0")
 	private float variableCost;
 	

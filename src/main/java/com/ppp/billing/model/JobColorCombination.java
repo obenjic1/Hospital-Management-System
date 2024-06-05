@@ -28,7 +28,7 @@ public class JobColorCombination {
 	@Column(name="back_color_number")
 	private int backColorNumber; 
 	
-	@Column(name="number_of_signature")
+	@Column(name="number_of_signature", columnDefinition = "double default 0")
 	private double numberOfSignature; 
 	
 	@ManyToOne

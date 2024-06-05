@@ -43,7 +43,7 @@ public class CustomerController {
 	@Value("${paginationSise}")
 	private int paginationSize;	
 	
-	@Value("${file.storage.path}")
+	@Value("${folder.storage.path}")
 	private String customerFileStorage;
 	
 //	@Value("${page.initial.size}")

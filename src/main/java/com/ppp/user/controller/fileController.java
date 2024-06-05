@@ -29,7 +29,7 @@ public class fileController {
 	private UserService userService;
 	
 //<------------- Access control contained in application.properties ------------------->
-	@Value("${file.storage.path}")
+	@Value("${folder.storage.path}")
     private String fileStoragePath;
 	
 //<----------- Download the image via the access path contained in fileStoragePath -----------> 

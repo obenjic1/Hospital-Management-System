@@ -304,12 +304,23 @@
 			 <div class="modal fade" id="ExtralargeModal" tabindex="-1">
 			   <div class="modal-dialog modal-xl">
 				 <div class="modal-content" id="addUser" >
+				 	
+				 
 				  <div class="modal-body">
-				    <ul class="nav nav-tabs nav-tabs-bordered"> </ul>
 				  </div>
 				  <div class="modal-footer" >
 				    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><fmt:message key="close"/></button>
 				  </div>
+			    </div>
+			  </div>
+			</div>	
+			
+			 <div class="modal fade" id="ExtralargeModalFile" tabindex="-1">
+			   <div class="modal-dialog modal-xl">
+				 <div class="modal-content"  style="height: 800px; width: 100%" >
+				 	
+				  <iframe src="" height="100%" id="controlSheetViewer" framedorder="0" style="height:100%; width: 100%;display: block; "></iframe>
+				
 			    </div>
 			  </div>
 			</div>	
