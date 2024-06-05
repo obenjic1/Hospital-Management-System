@@ -69,6 +69,7 @@
 								     <option onClick="loadPage('/job/update-form/${job.id}');">Edit</option>
 								     <option onclick="deleteJob(${job.id})">Delete</option>
 								     <option onclick="loadPage('/job/estimate/${job.id}');">Generate Estimate</option>
+								     <option data-bs-toggle="modal" data-bs-target="#ExtralargeModal" onclick="loadPageModal('/job/estimate/${job.id}');">Generate Estimate 2</option>
 								     
 					              </select>
 							  </td>

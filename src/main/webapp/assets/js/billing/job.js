@@ -536,7 +536,7 @@ function addNextEstimateChild(){
 
 }
 
-function generateEstimate(url){
+function generateEstimate(url, currentDiv, nextDiv){
 	let quantities = document.querySelectorAll("[estimate-quantity]");
 	let estimateQuanties = "";
 
@@ -548,9 +548,27 @@ function generateEstimate(url){
 	let description = document.getElementById("extra-fee-description").value;
 
 	url+= "?quantities=" + estimateQuanties + "&extraFee=" +extraFee + "&extraFeeDescription=" + description;
-	loadPage(url);
+	loadDynamicPageContent(url, nextDiv);
+	document.getElementById(nextDiv).style.display="block";
+	document.getElementById(currentDiv).style.display="none";
 	
 	
 }
 
+function confirmEstimate(url, currentDiv, nextDiv){
+	let quantities = document.querySelectorAll("[estimate-quantity]");
+	let estimateQuanties = "";
+
+	for(let i=1; i<quantities.length; i++){
+		estimateQuanties+=quantities[i].value + "@";
+	}
+
+	let extraFee = document.getElementById("extra-fee").value;
+	let description = document.getElementById("extra-fee-description").value;
+
+	url+= "?quantities=" + estimateQuanties + "&extraFee=" +extraFee + "&extraFeeDescription=" + description;
+	loadDynamicPageContent(url, nextDiv);
+
+
+}
 

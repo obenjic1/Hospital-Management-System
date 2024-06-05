@@ -485,9 +485,9 @@ public class JobController {
 			for(int i=0; i<qty.length;i++) {
 				EstimateDTO estimateDTO = new EstimateDTO();
 				estimateDTO.setQuantity(Integer.parseInt(qty[i]));
-				float totalPrice=  ( ((job.getVariableCost()/1000) * Integer.parseInt(qty[i])) +(job.getFixCost()+ extraFee));
+				int totalPrice= Math.round(((job.getVariableCost()/1000) * Integer.parseInt(qty[i])) +(job.getFixCost()+ extraFee));
 				estimateDTO.setTotalPrice(totalPrice);
-				estimateDTO.setUnitPrice(totalPrice/Integer.parseInt(qty[i]));
+				estimateDTO.setUnitPrice(Math.round(totalPrice/Integer.parseInt(qty[i])));
 				estimates.add(estimateDTO);
 			}
 

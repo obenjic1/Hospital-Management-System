@@ -41,3 +41,12 @@ function closeModal() {
 	
 	 
  }
+
+ function loadDynamicPageContent(url, idContainer) {
+     fetch(url)
+         .then(response => response.text())
+         .then(html => {
+             document.getElementById(idContainer).innerHTML = html;
+         })
+         .catch(error => console.log(error));
+ }
