@@ -538,16 +538,16 @@ function addNextEstimateChild(){
 
 function generateEstimate(url, currentDiv, nextDiv){
 	let quantities = document.querySelectorAll("[estimate-quantity]");
-	let estimateQuanties = "";
+	let estimateQuantities = "";
 
 	for(let i=1; i<quantities.length; i++){
-		estimateQuanties+=quantities[i].value + "@";
+		estimateQuantities+=quantities[i].value + "@";
 	}
 		
 	let extraFee = document.getElementById("extra-fee").value;
 	let description = document.getElementById("extra-fee-description").value;
 
-	url+= "?quantities=" + estimateQuanties + "&extraFee=" +extraFee + "&extraFeeDescription=" + description;
+	url+= "?quantities=" + estimateQuantities + "&extraFee=" +extraFee + "&extraFeeDescription=" + description;
 	loadDynamicPageContent(url, nextDiv);
 	document.getElementById(nextDiv).style.display="block";
 	document.getElementById(currentDiv).style.display="none";
@@ -557,17 +557,42 @@ function generateEstimate(url, currentDiv, nextDiv){
 
 function confirmEstimate(url, currentDiv, nextDiv){
 	let quantities = document.querySelectorAll("[estimate-quantity]");
-	let estimateQuanties = "";
+	let estimateQuantities = "";
 
 	for(let i=1; i<quantities.length; i++){
-		estimateQuanties+=quantities[i].value + "@";
+		estimateQuantities+=quantities[i].value + "@";
 	}
 
 	let extraFee = document.getElementById("extra-fee").value;
 	let description = document.getElementById("extra-fee-description").value;
 
-	url+= "?quantities=" + estimateQuanties + "&extraFee=" +extraFee + "&extraFeeDescription=" + description;
+	url+= "?quantities=" + estimateQuantities + "&extraFee=" +extraFee + "&extraFeeDescription=" + description;
 	loadDynamicPageContent(url, nextDiv);
+
+	fetch(url, {
+    		method: 'POST',
+    		headers: {
+    			'Content-type': 'application/json'
+    		},
+    	})
+    		.then(respose => {
+    		    console.log(response);
+    		/*	if (respose.ok) {
+    			var modal = new bootstrap.Modal(document.getElementById('somthingwhenwrong'));
+    			modal.show();
+
+    			} else {
+
+
+    				var modal = new bootstrap.Modal(document.getElementById('machineModal'));
+    				modal.show();
+
+    				loadPage('machine/list')
+    			} */
+    		})
+    		.catch(error => {
+    			console.error("internal server error :", error);
+    		})
 
 
 }
