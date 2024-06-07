@@ -11,8 +11,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class EstimateDTO {
 	private int quantity;
-	private float unitPrice;
-	private float totalPrice;
+	private double unitPrice;
+	private double totalPrice;
 	private String reference;
 
 }

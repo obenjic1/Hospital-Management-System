@@ -17,16 +17,16 @@
           <div class="card">
             <div class="card-body pt-4">
 
-              <ul class="nav nav-tabs" style="justify-content: center; background-color: #012970;">
+              <ul class="nav nav-tabs" style="margin-left:10%; justify-content: center; background-color: #012970;">
                 <li class="nav-item">
-                  <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#profile-overview" style="height:35px;background:#012970"></button>
+                  <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#profile-overview" style="height:35px;background:#012970; color:white;"><h5>Job Details</h5></button>
                 </li>
               </ul>
                 <div class="tab-content pt-2">
                   <div class="tab-pane fade show active profile-overview" id="profile-overview" style="margin-left: 10%">    
-                  <h5 class="card-title">job Details</h5>
+
       				<div class="container" style="position: relative;bottom: -20px;" >
-       				<h4>Job Description</h4>
+       				<h4>Description</h4>
        				<hr>
 					  <div class="row">
 					 	 <div class="row">
@@ -151,68 +151,89 @@
 					 <hr>
 					  <div class="row">
 					<table class="ta" id="content-table">
-					  <thead>
-					    <tr>
-					      <th scope="col">Num</th>
-					      <th scope="col">Paper Type</th>
-					      <th scope="col">Machine</th>
-					      <th scope="col"> Print Type</th>
-					      <th scope="col">Color Combination</th>
-					      <th scope="col">Signature</th>
-					    </tr>
-					  </thead>
-					  <tbody>
-						<c:forEach var="jobPaper" items="${jobPapers}" varStatus="loop">
-					       <c:set var="index" value="${loop.index}" />
-							    <%    int index = (Integer) pageContext.getAttribute("index");  %>
-							    <tr>
-							 <td rowSpan="${fn:length(jobPaper.jobColorCombinations)+1}">  <%= index + 1 %></td>
-							 </tr>
-							 <c:forEach var="color" items="${jobPaper.jobColorCombinations}" varStatus="loop">
-							 <tr>
-						       <td>${jobPaper.paperType.name}</td>
-							   <td>${color.printingMachine.name}</td>
-							   <td>${color.printType.name}</td>
-							   <td> ${color.frontColorNumber} / ${color.backColorNumber}</td>
-							   <td>${color.numberOfSignature}</td>
-							 </tr>
-							  </c:forEach>
-							   </c:forEach>
-					 		 </tbody>
-							 </table>
-						  	 </div>
-						  	</div>
-						  <br>
-						 <h4>Finishing option</h4>
-						 <hr>
-						 <div class="row ">
-					    <div class="col-sm-4">
-					    	<div> X Perforated : <span id="x-perforated"> </span>${job.getJobActivity().getXPerforated()}</div>
-					    	<div> X Numbered : <span id="x-numbered"></span> ${job.getJobActivity().getXNumbered()}</div>
-					    	<div> X Crossed : <span id="x-crossed"></span>${job.getJobActivity().getXCross()}</div>
-					    	<div> X Wired-stitched : <span id="x-wired"></span>${job.getJobActivity().getXWiredStiched()}</div>
-					    	<div> Creased : <span id="crease"></span>${job.getJobActivity().getXCreased()}</div>
-					    </div>
-					   <div class="col-sm-4">
-					    	<div> Lamination Sides : <span id="laminated-sides"></span> ${job.getJobActivity().getLamination()} </div>
-					    	<div> Glueing Bound: <span id="glue-bound"></span>${job.getJobActivity().getGlueOption()}</div>
-					    	<div> Binding Type : <span id="binding-type"></span> ${job.getJobActivity().getBindingType().getName()}</div>
-					    	<div> Sewn :<span class=" ${job.getJobActivity().isSewn() ? 'true' : 'false'}"> ${job.getJobActivity().isSewn() ? 'yes' : 'no'}</span>
-					    	</div>
-					    </div>
-					    <div class="col-sm-4">
-					    	<div> Handgather :<span class=" ${job.getJobActivity().isHandgather() ? 'true' : 'false'}"> ${job.getJobActivity().isHandgather() ? 'yes' : 'no'}</span>
-					    	 </div>
-					    	<div> Stitching :  <span class=" ${job.getJobActivity().isStitching() ? 'true' : 'false'}"> ${job.getJobActivity().isStitching() ? 'yes' : 'no'}</span>
-					    	</div>
-					    	<div> Trimmed :<span class=" ${job.getJobActivity().isTrimmed() ? 'true' : 'false'}"> ${job.getJobActivity().isTrimmed() ? 'yes' : 'no'}</span>
-							</div>
-					    	<div> Sellotaped :<span class=" ${job.getJobActivity().isSelloptaped() ? 'true' : 'false'}"> ${job.getJobActivity().isSelloptaped() ? 'yes' : 'no'}</span>
-							</div>
-					    </div>
-					 </div>
-					 </div>
-                  </div>
+					    <thead>
+					        <tr>
+                                <th scope="col">Num</th>
+                                <th scope="col">Paper Type</th>
+                                <th scope="col">Machine</th>
+                                <th scope="col"> Print Type</th>
+                                <th scope="col">Color Combination</th>
+                                <th scope="col">Signature</th>
+					        </tr>
+					    </thead>
+					    <tbody>
+                            <c:forEach var="jobPaper" items="${jobPapers}" varStatus="loop">
+                                <c:set var="index" value="${loop.index}" />
+                                    <%    int index = (Integer) pageContext.getAttribute("index");  %>
+                                    <tr>
+                                        <td rowSpan="${fn:length(jobPaper.jobColorCombinations)+1}">  <%= index + 1 %></td>
+                                    </tr>
+                                    <c:forEach var="color" items="${jobPaper.jobColorCombinations}" varStatus="loop">
+                                         <tr>
+                                           <td>${jobPaper.paperType.name}</td>
+                                           <td>${color.printingMachine.name}</td>
+                                           <td>${color.printType.name}</td>
+                                           <td> ${color.frontColorNumber} / ${color.backColorNumber}</td>
+                                           <td>${color.numberOfSignature}</td>
+                                         </tr>
+                                    </c:forEach>
+                            </c:forEach>
+					    </tbody>
+					</table>
+				</div>
+			</div>
+			<br>
+			<h4>Finishing option</h4>
+			<hr>
+                <div class="row ">
+                    <div class="col-sm-4">
+                        <div> X Perforated : <span id="x-perforated"> </span>${job.getJobActivity().getXPerforated()}</div>
+                        <div> X Numbered : <span id="x-numbered"></span> ${job.getJobActivity().getXNumbered()}</div>
+                        <div> X Crossed : <span id="x-crossed"></span>${job.getJobActivity().getXCross()}</div>
+                        <div> X Wired-stitched : <span id="x-wired"></span>${job.getJobActivity().getXWiredStiched()}</div>
+                        <div> Creased : <span id="crease"></span>${job.getJobActivity().getXCreased()}</div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div> Lamination Sides : <span id="laminated-sides"></span> ${job.getJobActivity().getLamination()} </div>
+                        <div> Glueing Bound: <span id="glue-bound"></span>${job.getJobActivity().getGlueOption()}</div>
+                        <div> Binding Type : <span id="binding-type"></span> ${job.getJobActivity().getBindingType().getName()}</div>
+                        <div> Sewn :<span class=" ${job.getJobActivity().isSewn() ? 'true' : 'false'}"> ${job.getJobActivity().isSewn() ? 'yes' : 'no'}</span>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div> Handgather :<span class=" ${job.getJobActivity().isHandgather() ? 'true' : 'false'}"> ${job.getJobActivity().isHandgather() ? 'yes' : 'no'}</span>
+                        </div>
+                        <div> Stitching :  <span class=" ${job.getJobActivity().isStitching() ? 'true' : 'false'}"> ${job.getJobActivity().isStitching() ? 'yes' : 'no'}</span>
+                        </div>
+                        <div> Trimmed :<span class=" ${job.getJobActivity().isTrimmed() ? 'true' : 'false'}"> ${job.getJobActivity().isTrimmed() ? 'yes' : 'no'}</span>
+                        </div>
+                        <div> Sellotaped :<span class=" ${job.getJobActivity().isSelloptaped() ? 'true' : 'false'}"> ${job.getJobActivity().isSelloptaped() ? 'yes' : 'no'}</span>
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <h4>Estimates</h4>
+                <hr>
+                <div class="row" >
+
+                        <c:forEach var="jobEstimate" items="${jobEstimates}" varStatus="loop">
+                            <div class="col-sm-3">
+                                <div class="card">
+
+                                        <a class="nav-link" href="#">
+                                            <span>${jobEstimate}</span>
+                                            <i class="bi bi-download"></i>
+                                        </a>
+
+
+                                </div>
+                            </div>
+                        </c:forEach>
+
+
+                </div
+			</div>
+            </div>
             </div>
           </div>
         </div>

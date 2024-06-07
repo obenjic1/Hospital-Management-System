@@ -303,15 +303,14 @@
 	         </div>	                 
 			 <div class="modal fade" id="ExtralargeModal" tabindex="-1">
 			   <div class="modal-dialog modal-xl">
-				 <div class="modal-content" id="addUser" >
-				 	
-				 
-				  <div class="modal-body">
-				  </div>
-				  <div class="modal-footer" >
-				    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><fmt:message key="close"/></button>
-				  </div>
-			    </div>
+				 <div class="modal-content" id="addUser">
+
+				        <div class="modal-body"  >
+				        </div>
+				        <div class="modal-footer" >
+				            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><fmt:message key="close"/></button>
+				        </div>
+			        </div>
 			  </div>
 			</div>	
 			

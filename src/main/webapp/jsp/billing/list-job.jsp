@@ -65,7 +65,7 @@
 							 <td>
 								  <select id="coverPaperType" name="name" class="form-select">
 								     <option >Action</option>
-								     <option onClick="loadPage('/job/viewJob/${job.id}');">View</option>
+								     <option data-bs-toggle="modal" data-bs-target="#ExtralargeModal" onclick="loadDynamicPageModal('/job/viewJob/${job.id}');">View</option>
 								     <option onClick="loadPage('/job/update-form/${job.id}');">Edit</option>
 								     <option onclick="deleteJob(${job.id})">Delete</option>
 								      <option data-bs-toggle="modal" data-bs-target="#ExtralargeModal" onclick="loadDynamicPageModal('/job/estimate/${job.id}');">Generate Estimate</option>

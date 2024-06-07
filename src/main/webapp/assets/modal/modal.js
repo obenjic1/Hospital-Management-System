@@ -58,3 +58,17 @@ function closeModal() {
          })
          .catch(error => console.log(error));
  }
+
+ function loadDynamicPageModal(page) {
+ 	fetch(page)
+ 		.then(response => response.text())
+ 		.then(html => {
+ 			document.getElementById('addUser').innerHTML = html;
+ 		})
+ 		.catch(error => console.log(error));
+ }
+
+function closeModalView(modalId) {
+    var modal = document.getElementById(modalId);
+    modal.style.display="none";
+ }

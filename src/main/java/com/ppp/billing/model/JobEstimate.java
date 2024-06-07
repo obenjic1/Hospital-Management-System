@@ -24,10 +24,10 @@ public class JobEstimate {
     private int quantity;
 
     @Column(name = "unit_price")
-    private float unitPrice;
+    private double unitPrice;
 
     @Column(name = "total_price")
-    private float totalPrice;
+    private double totalPrice;
 
     @Column(name="expected_delivery_date")
     @Temporal(TemporalType.DATE)

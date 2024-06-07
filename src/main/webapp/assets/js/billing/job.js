@@ -567,27 +567,16 @@ function confirmEstimate(url, currentDiv, nextDiv){
 	let description = document.getElementById("extra-fee-description").value;
 
 	url+= "?quantities=" + estimateQuantities + "&extraFee=" +extraFee + "&extraFeeDescription=" + description;
-	loadDynamicPageContent(url, nextDiv);
-
 	fetch(url, {
     		method: 'POST',
     		headers: {
     			'Content-type': 'application/json'
     		},
     	}).then(response => {
-            console.log(response);
-        /*	if (respose.ok) {
-            var modal = new bootstrap.Modal(document.getElementById('somthingwhenwrong'));
-            modal.show();
 
-            } else {
+                alert(" Successful!!");
 
 
-                var modal = new bootstrap.Modal(document.getElementById('machineModal'));
-                modal.show();
-
-                loadPage('machine/list')
-            } */
         })
         .catch(error => {
             console.error("internal server error :", error);

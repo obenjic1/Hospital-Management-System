@@ -28,11 +28,11 @@
       							<div class="container" style="position: relative;" >
 									<div class="row " style="  font-weight: bold;">
 										<div class="col-sm-4"> <h3><strong>Estimate</strong></h3></div>
-										<div class="col-sm-4"></div>
-										<div class="col-sm-4  customer-info">
-											<div>Name : ${job.customer.name}</div>
-											<div>Tel : ${job.customer.telephone}</div>
-											<div>Address :${job.customer.address}</div> 
+										<div class="col-sm-3"></div>
+										<div class="col-sm-5  customer-info">
+											<div>${job.customer.name}</div>
+											<div>${job.customer.telephone}</div>
+											<div>${job.customer.address}</div>
 											
 										</div>
 									</div><hr>

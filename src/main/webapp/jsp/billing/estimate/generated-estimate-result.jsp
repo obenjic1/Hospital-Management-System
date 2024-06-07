@@ -24,9 +24,9 @@
                                                 <div class="col-sm-6" style="text-align:left">
                                                     <h3><strong>Estimate</strong></h3>
                                                 </div>
-                                                <div class="col-sm-3">
+                                                <div class="col-sm-1">
                                                 </div>
-                                                <div class="col-sm-3 customer-info"  style="text-align:left; font-weight: bold;">
+                                                <div class="col-sm-5 customer-info"  style="text-align:left; font-weight: bold;">
                                                     <div>${job.customer.name}</div>
                                                     <div>${job.customer.telephone}</div>
                                                     <div>${job.customer.address}</div>
@@ -182,8 +182,10 @@
                                         </div>
                                         <hr><br>
                                         <div class="" style="margin-top:50px;">
-                                            <button class="btn btn-primary" onclick="confirmEstimate('/job/estimate/confirm/${job.id}');"><fmt:message key="confirm"/></button>
-                                            <button  class="btn btn-danger" onclick="printEstimate();"><fmt:message key="cancel"/></button>
+                           <!--                 <button class="btn btn-primary" onclick="confirmEstimate('/job/estimate/confirm/${job.id}');"><fmt:message key="confirm"/></button> -->
+
+                                            <button class="btn btn-primary" onclick="confirmEstimate('/job/estimate/confirm/${job.id}');"><fmt:message key="print"/></button>
+                              <!--                <button  class="btn btn-danger" onclick="closeModalView('ExtralargeModal');"><fmt:message key="cancel"/></button> -->
 
                                         </div>
 
