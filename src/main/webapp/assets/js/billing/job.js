@@ -574,25 +574,24 @@ function confirmEstimate(url, currentDiv, nextDiv){
     		headers: {
     			'Content-type': 'application/json'
     		},
-    	})
-    		.then(respose => {
-    		    console.log(response);
-    		/*	if (respose.ok) {
-    			var modal = new bootstrap.Modal(document.getElementById('somthingwhenwrong'));
-    			modal.show();
+    	}).then(response => {
+            console.log(response);
+        /*	if (respose.ok) {
+            var modal = new bootstrap.Modal(document.getElementById('somthingwhenwrong'));
+            modal.show();
 
-    			} else {
+            } else {
 
 
-    				var modal = new bootstrap.Modal(document.getElementById('machineModal'));
-    				modal.show();
+                var modal = new bootstrap.Modal(document.getElementById('machineModal'));
+                modal.show();
 
-    				loadPage('machine/list')
-    			} */
-    		})
-    		.catch(error => {
-    			console.error("internal server error :", error);
-    		})
+                loadPage('machine/list')
+            } */
+        })
+        .catch(error => {
+            console.error("internal server error :", error);
+        })
 
 
 }

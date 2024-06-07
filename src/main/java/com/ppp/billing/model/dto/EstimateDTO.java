@@ -13,5 +13,6 @@ public class EstimateDTO {
 	private int quantity;
 	private float unitPrice;
 	private float totalPrice;
+	private String reference;
 
 }

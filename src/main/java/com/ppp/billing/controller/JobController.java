@@ -4,6 +4,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.net.MalformedURLException;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -39,6 +40,7 @@ import com.ppp.billing.model.Customer;
 import com.ppp.billing.model.Job;
 import com.ppp.billing.model.JobActivity;
 import com.ppp.billing.model.JobColorCombination;
+import com.ppp.billing.model.JobEstimate;
 import com.ppp.billing.model.JobPaper;
 import com.ppp.billing.model.JobType;
 import com.ppp.billing.model.PaperFormat;
@@ -52,6 +54,7 @@ import com.ppp.billing.repository.JobRepository;
 import com.ppp.billing.serviceImpl.BindingTypeserviceImpl;
 import com.ppp.billing.serviceImpl.CustomerServiceImpl;
 import com.ppp.billing.serviceImpl.JobColorCombinationServiceImpl;
+import com.ppp.billing.serviceImpl.JobEstimateServiceImpl;
 import com.ppp.billing.serviceImpl.JobPaperServiceImpl;
 import com.ppp.billing.serviceImpl.JobServiceImpl;
 import com.ppp.billing.serviceImpl.JobTypeServiceImpl;
@@ -96,6 +99,8 @@ public class JobController {
 	private PaperGrammageServiceImpl paperGrammageServiceImpl;
 	@Autowired
 	private BindingTypeserviceImpl bindingTypeserviceImpl;
+	@Autowired
+	private JobEstimateServiceImpl jobEstimateServiceImpl;
 	
 //<--------------------- Collect datas form @Vincent------------------------------>
 	@GetMapping("/displayform")
@@ -501,9 +506,6 @@ public class JobController {
 			
 
 			String[] qty = quantities.split("@");
-			//TO REMOVE SETTERS
-			job.setFixCost(10000);
-			job.setVariableCost(200000);
 			List<EstimateDTO> estimates = new ArrayList<EstimateDTO>();
 			for(int i=0; i<qty.length;i++) {
 				EstimateDTO estimateDTO = new EstimateDTO();
@@ -525,62 +527,31 @@ public class JobController {
 		}
 
 	@GetMapping("/estimate/confirm/{id}")
+	@ResponseBody
 	public String confirmEstimate(@PathVariable long id,@RequestParam("quantities") String quantities,
 								   @RequestParam("extraFee") int extraFee, @RequestParam("extraFeeDescription") String extraFeeDescription, Model model) {
 
 		Job job = jobServiceImpl.findById(id).get();
-		//Get and structure typesetting values
-		List<String> typsettingActivities = new ArrayList<String>();
-		if(job.isTypesettingByUs()) typsettingActivities.add("Typesetting by us");
-		if(job.isDataSuppliedByCustomer()) typsettingActivities.add("Data Supplied by customer");
-		if(job.isLayOutByUs()) typsettingActivities.add("Layout by us");
-		if(job.isExistingPlate()) typsettingActivities.add("Has existing Plates");
-
-		//Get and Structure printing
-		List<JobPaper> jobPapers = job.getJobPapers();
-		JobPaper coverJobPaper = jobPapers.remove(0);
-
-		//Get Finishing structure
-		String finishingActivities = "";
-		JobActivity jobActivity = job.getJobActivity();
-
-		if(jobActivity.getXCross()>0) finishingActivities += "Signatures " + jobActivity.getXCross()+ " x cross-folded, " ;
-		if(jobActivity.getXCreased()>0) finishingActivities += "Cover " + jobActivity.getXCreased()+ " x creased, " ;
-		if(jobActivity.getLamination()>0) finishingActivities += "Cover " + jobActivity.getLamination()+ " side laminated, " ;
-		if(jobActivity.getXWiredStiched()>0) finishingActivities += "Booklets " + jobActivity.getXWiredStiched()+ " x wire-stitched, " ;
-		if(jobActivity.isSewn()) finishingActivities += "Booklets sewn, " ;
-		if(jobActivity.isHandgather()) finishingActivities += "hand-gathered, " ;
-		if(jobActivity.isSelloptaped()) finishingActivities += "sellotaped, " ;
-		if(jobActivity.isTrimmed()) finishingActivities += "trimmed, " ;
-		if(jobActivity.getXPerforated()>0) finishingActivities += "Job perforated " + jobActivity.getXPerforated()+ " times, " ;
-		if(!(jobActivity.getGlueOption().isEmpty())) finishingActivities += "Glue option is" + jobActivity.getGlueOption()+ ", " ;
-		if(jobActivity.getBindingType()!=null) finishingActivities += "final binding: " + jobActivity.getBindingType().getName()+ " " ;
-
-
-
+		String reference = "PPP-" + job.getId()+ "-ES ";
 		String[] qty = quantities.split("@");
-		//TO REMOVE SETTERS
-		job.setFixCost(10000);
-		job.setVariableCost(200000);
-		List<EstimateDTO> estimates = new ArrayList<EstimateDTO>();
-		for(int i=0; i<qty.length;i++) {
-			EstimateDTO estimateDTO = new EstimateDTO();
-			estimateDTO.setQuantity(Integer.parseInt(qty[i]));
-			int totalPrice= Math.round(((job.getVariableCost()/1000) * Integer.parseInt(qty[i])) +(job.getFixCost()+ extraFee));
-			estimateDTO.setTotalPrice(totalPrice);
-			estimateDTO.setUnitPrice(Math.round(totalPrice/Integer.parseInt(qty[i])));
-			estimates.add(estimateDTO);
-		}
 
+		List<JobEstimate> estimates = new ArrayList<JobEstimate>();
+		for(int i=0; i<qty.length;i++) {
+			JobEstimate estimate = new JobEstimate();
+			estimate.setReference(reference);
+			estimate.setQuantity(Integer.parseInt(qty[i]));
+			int totalPrice= Math.round(((job.getVariableCost()/1000) * Integer.parseInt(qty[i])) +(job.getFixCost()+ extraFee));
+			estimate.setTotalPrice(totalPrice);
+			estimate.setUnitPrice(Math.round(totalPrice/Integer.parseInt(qty[i])));
+			estimate.setCreatedDate(new Date());
+			estimate.setJob(job);
+			jobEstimateServiceImpl.save(estimate);
+			estimates.add(estimate);
+		}
 		Job findJob = jobServiceImpl.findById(id).get();
-		model.addAttribute("job", findJob);
-		model.addAttribute("estimates", estimates);
-		model.addAttribute("typeSettingActivities", typsettingActivities);
-		model.addAttribute("finishingActivities", finishingActivities);
-		model.addAttribute("coverJobPaper", coverJobPaper);
-		model.addAttribute("contentJobPapers", jobPapers);
-		return "/billing/estimate/generated-estimate-result";
+		if (estimates.size()==0) return "ko-" +job.getReferenceNumber();
+		else
+		return "ok-"+reference;
 	}
-		
 		
 }

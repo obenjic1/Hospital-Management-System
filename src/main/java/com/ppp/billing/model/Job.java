@@ -104,6 +104,10 @@ public class Job {
 	@Column(name="job_papers")
 	@OneToMany(fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "job", cascade = CascadeType.PERSIST)
 	private List<JobPaper> jobPapers;
+
+	@Column(name="job_estimate")
+	@OneToMany(fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "job", cascade = CascadeType.PERSIST)
+	private List<JobEstimate> jobEstimates;
 	
 	@ManyToOne
 	@JoinColumn(name = "job_type_id", referencedColumnName = "id")
