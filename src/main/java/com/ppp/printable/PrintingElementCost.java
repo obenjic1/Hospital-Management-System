@@ -88,7 +88,7 @@ public class PrintingElementCost {
 		this.colorCombination = colorCombination;
 		this.basic = colorCombination.getJobPaper().getGrammage();
 		int signature =(int) Math.ceil(colorCombination.getNumberOfSignature());
-		this.plateChange= signature*(Math.max(colorCombination.getBackColorNumber(),colorCombination.getFrontColorNumber()))-1;
+		this.plateChange= signature*(colorCombination.getBackColorNumber()+colorCombination.getFrontColorNumber())-1;
 		this.inckChange = colorCombination.getBackColorNumber() > colorCombination.getFrontColorNumber() ? colorCombination.getBackColorNumber()-1 : colorCombination.getFrontColorNumber()-1;
 		this.run = this.plateChange+1;
 		this.preparation = colorCombination.getPrintType().getName();
