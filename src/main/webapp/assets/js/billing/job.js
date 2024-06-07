@@ -540,21 +540,52 @@ function addNextEstimateChild(){
 
 }
 
-function generateEstimate(url){
+function generateEstimate(url, currentDiv, nextDiv){
 	let quantities = document.querySelectorAll("[estimate-quantity]");
-	let estimateQuanties = "";
+	let estimateQuantities = "";
 
 	for(let i=1; i<quantities.length; i++){
-		estimateQuanties+=quantities[i].value + "@";
+		estimateQuantities+=quantities[i].value + "@";
 	}
 		
 	let extraFee = document.getElementById("extra-fee").value;
 	let description = document.getElementById("extra-fee-description").value;
 
-	url+= "?quantities=" + estimateQuanties + "&extraFee=" +extraFee + "&extraFeeDescription=" + description;
-	loadPage(url);
+	url+= "?quantities=" + estimateQuantities + "&extraFee=" +extraFee + "&extraFeeDescription=" + description;
+	loadDynamicPageContent(url, nextDiv);
+	document.getElementById(nextDiv).style.display="block";
+	document.getElementById(currentDiv).style.display="none";
 	
 	
 }
 
+function confirmEstimate(url, currentDiv, nextDiv){
+	let quantities = document.querySelectorAll("[estimate-quantity]");
+	let estimateQuantities = "";
+
+	for(let i=1; i<quantities.length; i++){
+		estimateQuantities+=quantities[i].value + "@";
+	}
+
+	let extraFee = document.getElementById("extra-fee").value;
+	let description = document.getElementById("extra-fee-description").value;
+
+	url+= "?quantities=" + estimateQuantities + "&extraFee=" +extraFee + "&extraFeeDescription=" + description;
+	fetch(url, {
+    		method: 'POST',
+    		headers: {
+    			'Content-type': 'application/json'
+    		},
+    	}).then(response => {
+
+                alert(" Successful!!");
+
+
+        })
+        .catch(error => {
+            console.error("internal server error :", error);
+        })
+
+
+}
 

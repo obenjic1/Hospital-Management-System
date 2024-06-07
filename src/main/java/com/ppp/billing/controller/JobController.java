@@ -2,6 +2,10 @@ package com.ppp.billing.controller;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
+import java.net.MalformedURLException;
 import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.net.MalformedURLException;
@@ -43,6 +47,7 @@ import com.ppp.billing.model.Customer;
 import com.ppp.billing.model.Job;
 import com.ppp.billing.model.JobActivity;
 import com.ppp.billing.model.JobColorCombination;
+import com.ppp.billing.model.JobEstimate;
 import com.ppp.billing.model.JobPaper;
 import com.ppp.billing.model.JobType;
 import com.ppp.billing.model.PaperFormat;
@@ -56,6 +61,7 @@ import com.ppp.billing.repository.JobRepository;
 import com.ppp.billing.serviceImpl.BindingTypeserviceImpl;
 import com.ppp.billing.serviceImpl.CustomerServiceImpl;
 import com.ppp.billing.serviceImpl.JobColorCombinationServiceImpl;
+import com.ppp.billing.serviceImpl.JobEstimateServiceImpl;
 import com.ppp.billing.serviceImpl.JobPaperServiceImpl;
 import com.ppp.billing.serviceImpl.JobServiceImpl;
 import com.ppp.billing.serviceImpl.JobTypeServiceImpl;
@@ -100,6 +106,8 @@ public class JobController {
 	private PaperGrammageServiceImpl paperGrammageServiceImpl;
 	@Autowired
 	private BindingTypeserviceImpl bindingTypeserviceImpl;
+	@Autowired
+	private JobEstimateServiceImpl jobEstimateServiceImpl;
 	
 //<--------------------- Collect datas form @Vincent------------------------------>
 	@GetMapping("/displayform")
@@ -643,9 +651,20 @@ public class JobController {
 		Job findJob = jobServiceImpl.findById(id).get();
 		List<JobPaper> jobPapers = findJob.getJobPapers();
 		JobPaper cover = jobPapers.remove(0);
+		List<String> jobEstimates = new ArrayList<>();
+		String countRef ="";
+
+		for(JobEstimate jobEstimate : findJob.getJobEstimates()){
+			if(!jobEstimate.getReference().equals(countRef)){
+				jobEstimates.add(jobEstimate.getReference());
+				countRef = jobEstimate.getReference();
+			}
+		}
+
 		model.addAttribute("job",findJob);
 		model.addAttribute("jobPapers",jobPapers);
 		model.addAttribute("coverjobPapers",cover);
+		model.addAttribute("jobEstimates",jobEstimates);
 
     return "/billing/view-job-profile";
 	}
@@ -733,16 +752,13 @@ public class JobController {
 			
 
 			String[] qty = quantities.split("@");
-			//TO REMOVE SETTERS
-			job.setFixCost(10000);
-			job.setVariableCost(200000);
 			List<EstimateDTO> estimates = new ArrayList<EstimateDTO>();
 			for(int i=0; i<qty.length;i++) {
 				EstimateDTO estimateDTO = new EstimateDTO();
 				estimateDTO.setQuantity(Integer.parseInt(qty[i]));
-				float totalPrice=  ( ((job.getVariableCost()/1000) * Integer.parseInt(qty[i])) +(job.getFixCost()+ extraFee));
+				int totalPrice= Math.round(((job.getVariableCost()/1000) * Integer.parseInt(qty[i])) +(job.getFixCost()+ extraFee));
 				estimateDTO.setTotalPrice(totalPrice);
-				estimateDTO.setUnitPrice(totalPrice/Integer.parseInt(qty[i]));
+				estimateDTO.setUnitPrice(Math.round(totalPrice/Integer.parseInt(qty[i])));
 				estimates.add(estimateDTO);
 			}
 
@@ -755,6 +771,55 @@ public class JobController {
 			model.addAttribute("contentJobPapers", jobPapers);
 			return "/billing/estimate/generated-estimate-result";
 		}
-		
+
+	@PostMapping("/estimate/confirm/{id}")
+	@ResponseBody
+	public String confirmEstimate(@PathVariable long id,@RequestParam("quantities") String quantities,
+								   @RequestParam("extraFee") int extraFee, @RequestParam("extraFeeDescription") String extraFeeDescription, Model model) {
+
+		Job job = jobServiceImpl.findById(id).get();
+		String[] qty = quantities.split("@");
+/*
+		Date today = Calendar.getInstance().getTime();
+		System.out.println(today.getTime()/(60*60*60));
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyMMdd");
+		String dateString = today.;
+		int currentCount = (int) (job.getId()%999);
+		String countString = String.format("%03d", currentCount);
+		String reference = dateString + "ESN-" + countString;
+		System.out.println(dateString);
+
+*/
+
+		String countRef = " ";
+		int count = 1 ;
+		for(JobEstimate jobEstimate : job.getJobEstimates()){
+			if(!jobEstimate.getReference().equals(countRef)){
+				countRef = jobEstimate.getReference();
+				count++;
+			}
+
+		}
+		String reference = "ESN-" + job.getReferenceNumber()+ "-" +count;
+
+
+		List<JobEstimate> estimates = new ArrayList<JobEstimate>();
+		for(int i=0; i<qty.length;i++) {
+			JobEstimate estimate = new JobEstimate();
+			estimate.setReference(reference);
+			estimate.setQuantity(Integer.parseInt(qty[i]));
+			int totalPrice= Math.round(((job.getVariableCost()/1000) * Integer.parseInt(qty[i])) +(job.getFixCost()+ extraFee));
+			estimate.setTotalPrice(totalPrice);
+			estimate.setUnitPrice(Math.round(totalPrice/Integer.parseInt(qty[i])));
+			estimate.setCreatedDate(new Date());
+			estimate.setJob(job);
+			jobEstimateServiceImpl.save(estimate);
+			estimates.add(estimate);
+		}
+		Job findJob = jobServiceImpl.findById(id).get();
+		if (estimates.size()==0) return "ko@" +job.getReferenceNumber();
+		else
+		return "ok@"+reference;
+	}
 		
 }
