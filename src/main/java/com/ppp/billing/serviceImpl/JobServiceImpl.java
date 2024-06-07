@@ -91,6 +91,7 @@ public class JobServiceImpl implements JobService {
 		activity.setStitching(jobdto.isStitching());
 		activity.setTrimmed(jobdto.isTrimmed());
 		activity.setSewn(jobdto.isSewn());
+		activity.setHandFoldingCov(jobdto.getHandFoldCov());
 		activity.setSelloptaped(jobdto.isSelloptaped());
 		Optional<BindingType> bindingtp = bindingTypeRepository.findById(jobdto.getBindingType());
 		activity.setBindingType(bindingtp.get());
@@ -102,6 +103,7 @@ public class JobServiceImpl implements JobService {
 			JobPaper jobPaper = new JobPaper();
 			jobPaper.setGrammage(row.getGrammage());
 			jobPaper.setVolume(row.getVolume());
+			jobPaper.setUnitPrice(row.getPaperUnitPrice());
 			Optional<PaperType> paperType = paperTypeRepository.findById(row.getPaperTypeId());
 			jobPaper.setPaperType(paperType.get());
 			Optional<ContentType> contentType = contentTypeRepository.findById(row.getContentTypeId());
@@ -155,5 +157,10 @@ public class JobServiceImpl implements JobService {
 	}
 	public void deleteById(long id) {
 		jobRepository.deleteById(id);
+	}
+
+	public void save(Job job) {
+		jobRepository.save(job);
+		
 	}
 }

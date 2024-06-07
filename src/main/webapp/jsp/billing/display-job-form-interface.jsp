@@ -202,6 +202,11 @@
 			    <label for="" class="form-label"><fmt:message key="cover.volume"/></label>
 			     <input id="coverVolume" type="number"  name="fname" readonly="readonly">
               </div>
+              
+              <div class ="col-lg-3 px8" style="position: relative;">
+			    <label for="" class="form-label"><fmt:message key="cover.paper.price"/></label>
+			     <input id="coverPaperUnitPrice" type="number"  name="coverPaperUnitPrice">
+              </div>
 		    </div>	
 		    
 		   <div id="contentDiv">   		
@@ -225,11 +230,17 @@
                     </c:forEach>
 	            </datalist>   
 			  </div>
+			 
 			  <div class="col-lg-3 px-8 coverDup" style="position: relative; left: 10px;float:left">
 			    <label for="" class="form-label"><fmt:message key="content.volume"/> </label> 
 				<input type="number" contentVolume  name="contentVolume" oldValue="" onclick="this.oldValue=this.value" onchange="updateTotalContentvolume(this.value,this.oldValue)"  >
-				<button type="button" id="deleteButton"  onclick="removeContentNode(this,this.previousElementSibling)"><i class="ri-delete-bin-3-line"></i> </button>
 			  </div>
+			  
+			   <div class ="col-lg-3 px8" style="position: relative;">
+			    <label for="" class="form-label"><fmt:message key="content.paper.price"/></label>
+			     <input paperUnitPrice type="number"  name="paperUnitPrice">
+			     <button type="button" id="deleteButton"  onclick="removeContentNode(this,this.previousElementSibling)"><i class="ri-delete-bin-3-line"></i> </button>
+              </div>
 			  
 		   </div>
 		   
@@ -257,6 +268,11 @@
 			    <label for="" class="form-label"><fmt:message key="content.volume"/> </label> 
 				<input type="number" contentVolume name="contentVolume" readonly="readonly">
 			  </div>
+
+				<div class ="col-lg-3 px8" style="position: relative;">
+			    <label for="" class="form-label"><fmt:message key="content.paper.price"/></label>
+			     <input paperUnitPrice type="number"  name="paperUnitPrice">
+              </div>
 			   <div class="col-lg-3 px-8 " style="position: relative; left: 10px">
 			       <label for="" class="form-label" style=""><fmt:message key="add"/></label> 
 			       <span>
@@ -575,21 +591,15 @@
                     </c:forEach>
                   </select>
 			    </div>
-			    <div class ="col-lg-3 px8" style="position: relative; left: 10px;">
-				  <div>
-                     <div class="form-check">
-                      <label class="form-check-label" for="handgather"><fmt:message key="handgather"/></label>
-                       <input class="form-check-input" type="checkbox" id="handgather">
-                    </div>
-                    <div class="form-check">
-                      <label class="form-check-label" for="stitching"><fmt:message key="stitching"/></label>
-                       <input class="form-check-input" type="checkbox" id="stitching">
-                    </div>
-				  </div>
-                  </div>
+			    
+			    <div class ="col-lg-3 px8" style="position: relative; left:10px;">
+				  <label for="" class="form-label"><fmt:message key="handFoldCov"/></label>
+				  <input type="number" id="handFoldCov" value="0">
+                </div>
+			 
 			   </div>
-				
-                 <div class="row py-4">
+    
+                  <div class="row py-4">
 				   <div class ="col-lg-3 px8" >
 				    <div>
                      <div class="form-check">
@@ -614,6 +624,27 @@
                     </div>
 				  </div>
                   </div>
+                  
+                  
+                   <div class="row py-4">
+				   <div class ="col-lg-3 px8" >
+				    <div>
+                     <div class="form-check">
+                      <label class="form-check-label" for="handgather"><fmt:message key="handgather"/></label>
+                       <input class="form-check-input" type="checkbox" id="handgather">
+                    </div>
+				  </div>
+			    </div>
+				<div class ="col-lg-3 px8" style="position: relative; left: 10px;">
+				  <div>
+                      <div class="form-check">
+                      <label class="form-check-label" for="stitching"><fmt:message key="stitching"/></label>
+                       <input class="form-check-input" type="checkbox" id="stitching">
+                    </div>
+				  </div>
+                  </div>
+                  </div>
+                  
 				</div>	
 		           <div class ="row py-3 "style="margin-top:50px" >
 				     <div class ="col-sm-6"> 

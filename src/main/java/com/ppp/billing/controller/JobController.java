@@ -6,6 +6,14 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.net.MalformedURLException;
+import java.math.RoundingMode;
+import java.util.ArrayList;
+import java.net.MalformedURLException;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.util.List;
+import java.util.Locale;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -165,7 +173,8 @@ public class JobController {
 	}	
 	private String createJobDataPdf(Long id) throws FileNotFoundException, MalformedURLException {
 		Job job = jobServiceImpl.findById(id).get();
-
+		double fixePrice = 0;
+		double variablePrice = 0;
 		String pdf = controlSheetDir+job.getReferenceNumber()+".pdf";
 		PdfWriter pdfWriter = new PdfWriter(pdf);
 		PdfDocument pdfDocument = new PdfDocument(pdfWriter);
@@ -173,7 +182,10 @@ public class JobController {
 		PdfCanvas canvas= new PdfCanvas(pdfDocument.addNewPage());
 		ImageData data = ImageDataFactory.create(backgroundFolder + "P1.jpg");
 		canvas.addImage(data, PageSize.A4, false);
-
+		double p1=0;
+		double p2=0;
+		double p3=0;
+		double p4=0;
 		try {
 			/**
 			 * Impression de la premiere page du controle sheet
@@ -257,7 +269,8 @@ public class JobController {
 				
 				int exposior = plateMakingCosting.getPlates();
 				float exposiorCusting = plateMakingCosting.generateExposureCost();
-				
+				//fix price
+				fixePrice+=exposiorCusting;
 				
 				String contentType = plateMakingCosting.getJobPaper().getContentType().getName();
 				double signature = plateMakingCosting.getSignatures();
@@ -267,7 +280,8 @@ public class JobController {
 				printer.print(document, machine, 27, y1-vecteur);
 				printer.print(document, basic+"", 55, y1-vecteur);
 				printer.print(document, basicCost+"", 128, y1-vecteur);
-				
+				//fix price
+				fixePrice+=basicCost;
 				float y2 = 103;
 				printer.print(document, exposior+"", 55, y2-vecteur);
 				printer.print(document, exposiorCusting+"", 127, y2-vecteur);
@@ -320,10 +334,16 @@ public class JobController {
 					canvas_.closePathStroke();
 				}
 				printer.print(document, job.getCtpFees()+"", 126, 171);
-				printer.print(document, "CTP", 107, 171);
+				//fix price
+				
 				
 
 			}
+			fixePrice+=job.getCtpFees();
+			printer.print(document, "CTP", 107, 171);
+			p1=variablePrice;
+			//System.out.println(p1+"------------- Fixe Price   1-----------");
+			
 			/**
 			 * Print Printing Elements
 			 */
@@ -347,12 +367,14 @@ public class JobController {
 					printer.print(document, machine, 22, 297-23-decalage);
 					printer.print(document, grammage+"g", 60, 297-23-decalage);
 					printer.print(document, basicPrice+"", 134, 297-23-decalage);
-					
+					//fix price
+					fixePrice+=basicPrice;
 
 					printer.print(document, jobPeper.getContentType().getName(), 10, 297-29-decalage);
 					printer.print(document, jobColorCombination.getPrintType().getName(), 54, 297-29-decalage);
 					printer.print(document, printinElementCost.getPreparationUnitCost()+"", 134, 297-29-decalage);	
-					
+					//fix price
+					fixePrice+=printinElementCost.getPreparationUnitCost();
 					printer.print(document, printinElementCost.getInckChange()+"", 55, 297-35f-decalage);
 					printer.print(document, printinElementCost.getInckChangeUnitCost()+"", 75, 297-35f-decalage);
 					
@@ -363,11 +385,31 @@ public class JobController {
 					printer.print(document, printinElementCost.getRunUnitCost()+"", 75, 297-47f-decalage);
 					
 					printer.print(document, printinElementCost.getInckChange()*printinElementCost.getInckChangeUnitCost()+"", 135, 297-35-decalage);
+					//fix price
+					fixePrice+=printinElementCost.getInckChange()*printinElementCost.getInckChangeUnitCost();
 					printer.print(document, printinElementCost.getPlateChange()*printinElementCost.getPlateChangeUnitCost()+"", 135, 297-41-decalage);
+					//fix price
+					fixePrice+=printinElementCost.getPlateChange()*printinElementCost.getPlateChangeUnitCost();
 					printer.print(document, printinElementCost.getRun()*printinElementCost.getRunUnitCost()+"", 175, 297-47-decalage);
+					//var price
+					variablePrice+=printinElementCost.getRun()*printinElementCost.getRunUnitCost();
+					if(Math.ceil(jobColorCombination.getNumberOfSignature())!=Math.floor(jobColorCombination.getNumberOfSignature())) {
+						printer.print(document, 500+"", 38, 297-150);
+						PlateMakingCosting pmcst= new PlateMakingCosting(jobPeper);
+						printer.print(document,pmcst.getBasic()/2+"", 67, 297-150);
+						//fix cost
+						fixePrice+=1000;
+						printer.print(document,printinElementCost.getTrimmingUpsUnitCost()+"", 95, 297-150);
+						//variable cust
+						variablePrice+=printinElementCost.getTrimmingUpsUnitCost()*(pmcst.getBasic()/2)*1000;
+						printer.print(document,printinElementCost.getTrimmingUpsUnitCost()*(pmcst.getBasic()/2)*1000+"", 180, 297-150);
+					}
+					
 				}
 				
 			}
+			p2=variablePrice-p1;
+			//System.out.println(p2+"------------- Fix Price  2-----------");
 			
 
 			/**
@@ -378,27 +420,221 @@ public class JobController {
 			PdfCanvas canvas2= new PdfCanvas(pdfDocument.getLastPage());
 			data = ImageDataFactory.create(backgroundFolder + "P4.jpg");
 			canvas2.addImage(data, PageSize.A4, false);
+			float translation = -5;
+			String paperFormat = "";
 			for(int i3=1; i3<jobPapers.size(); i3++) {
+				translation +=5;
 				JobPaper jobPeper = jobPapers.get(i3);
 				JobColorCombination jobColorCombination = jobPeper.getJobColorCombinations().get(0);
 				PrintingElementCost printinElementCost = new PrintingElementCost(jobColorCombination);
-				
+				PlateMakingCosting pmc = new PlateMakingCosting(jobPeper);
 				printer.print(document, printinElementCost.getFinishinFolde()+"", 47, 297-20 );
 				printer.print(document, printinElementCost.getFoldedFixeCost()+"", 132, 297-20 );
+				//fixCost
+				fixePrice+=printinElementCost.getFoldedFixeCost();
+				paperFormat=printinElementCost.getPaperFormat();
+				printer.print(document, printinElementCost.getFinishingRun()+"", 45, 297-25.5f-translation);
+				printer.print(document, paperFormat, 70f, 297-25.5f-translation);
+				printer.print(document, printinElementCost.getFinishingRunVaribleCost()+"", 173, 297-26-translation);
+				//VariableCost
+				variablePrice+=printinElementCost.getFinishingRunVaribleCost();
+				printer.print(document, printinElementCost.getFinishingRunFixCost()+"", 83, 297-26-translation);
+
 				
-				printer.print(document, printinElementCost.getFinishingRun()+"", 45, 297-25.5f );
-				printer.print(document, printinElementCost.getFinishinFolde()+"", 70f, 297-25.5f );
-				printer.print(document, printinElementCost.getFinishingRunFixCost()+"", 83, 297-26 );
-				printer.print(document, printinElementCost.getFinishingRunVaribleCost()+"", 173, 297-26 );
-				
-				printer.print(document, printinElementCost.getCreasinPreparetion1()+"", 132, 297-38 );
-				printer.print(document, printinElementCost.getCreasinPreparetion2()+"", 173, 297-38 );
 				
 			}
+
+			printer.print(document,2000+"", 132, 297-38);
+			//fixePrice
+			fixePrice+=2000;
+			printer.print(document, 4000+"", 175, 297-38);
+			//variablePrice
+			variablePrice+=4000;
 			
+			printer.print(document, job.getJobActivity().getHandFoldingCov()+"", 43, 297-43 );
+			printer.print(document, job.getJobActivity().getHandFoldingCov()*2000+"", 175, 297-44);
+			//variablePrice
+			variablePrice+=job.getJobActivity().getHandFoldingCov()*2000;
+			int plates=0;
+			for(int i=0; i<jobPapers.size(); i++) {
+				JobPaper jpr = jobPapers.get(i);
+				PlateMakingCosting plmCst = new PlateMakingCosting(jpr);
+				plates+=plmCst.getPlates();
+			}
+			if(job.getJobActivity().getXWiredStiched()>0) {
+				printer.print(document, 4500+"", 135, 297-50);
+				//fixePrice
+				fixePrice+=4500;
+				boolean isCover =false;
+				isCover=job.getJobPapers().stream().anyMatch(t->t.getContentType().getId()==1);
+				if(isCover) {
+					printer.print(document, 15000+"", 175, 297-55);
+					//variableCost
+					variablePrice+=15000;
+				}else {
+					printer.print(document, 12000+"", 175, 297-55);
+					//variableCost
+					variablePrice+=12000;
+				}
+				
+				printer.print(document, plates+"", 50, 297-62);
+				printer.print(document, plates*4700+"", 175, 297-62);
+				//variablePrice
+				variablePrice+=plates*4700;
+			}
+			
+			if(job.getJobActivity().isSewn()) {
+				float totalContentOfSignature = 0;
+			    for(int i=0; i<job.getJobPapers().size();i++) {
+			    	if(job.getJobPapers().get(i).getContentType().getId()!=1) {
+			    		for(int j=0;j<job.getJobPapers().get(i).getJobColorCombinations().size(); j++) {
+			    			totalContentOfSignature+=job.getJobPapers().get(i).getJobColorCombinations().get(j).getNumberOfSignature();
+			    		}
+			    	}
+			    }
+			    printer.print(document, totalContentOfSignature+"", 50, 297-67);
+				printer.print(document, totalContentOfSignature*2000+"", 175, 297-67);
+				//variableCost
+				variablePrice+=totalContentOfSignature*2000;
+			}
+			
+			if(job.getJobActivity().isHandgather()) {
+				float totalContentOfSignature = 0;
+			    for(int i=0; i<job.getJobPapers().size();i++) {
+			    		for(int j=0;j<job.getJobPapers().get(i).getJobColorCombinations().size(); j++) {
+			    			totalContentOfSignature+=job.getJobPapers().get(i).getJobColorCombinations().get(j).getNumberOfSignature();
+			    	}
+			    }
+				printer.print(document, totalContentOfSignature+"", 50, 297-74);
+				printer.print(document, totalContentOfSignature*1000+"", 175, 297-74);
+				//variablePrice
+				variablePrice+=totalContentOfSignature*1000;
+			}
+			
+			if(job.getJobActivity().getGlueOption()!=null&&job.getJobActivity().getGlueOption().toLowerCase().equals("glue-bound")) {
+				printer.print(document, 10000+"", 130, 297-79.5f);
+				//fixePrice
+				fixePrice+=10000;
+				printer.print(document, 80000+"", 175, 297-79.5f);
+				//variablePrice
+				variablePrice+=80000;
+			}
+			if(job.getJobActivity().getLamination()>0) {
+				printer.print(document, paperFormat, 40, 297-91);
+				printer.print(document, job.getJobActivity().getLamination()+"", 57, 297-92);
+				int laminationUnitePrice = 0;
+				if(job.getJobActivity().getLamination()==1) {
+					laminationUnitePrice =  Integer.valueOf(paperFormat)>=6?30:Integer.valueOf(paperFormat)>=5?50:Integer.valueOf(paperFormat)>=4?100:Integer.valueOf(paperFormat)>=3?170:300;
+				}else {
+					laminationUnitePrice =  Integer.valueOf(paperFormat)>=6?50:Integer.valueOf(paperFormat)>=5?90:Integer.valueOf(paperFormat)>=4?150:Integer.valueOf(paperFormat)>=3?270:500;	
+				}
+				printer.print(document, laminationUnitePrice/1000.0+"", 85, 297-91);
+				printer.print(document, job.getJobActivity().getLamination()*(laminationUnitePrice/1000.0)*1000_000+"", 175, 297-92);
+				//variablePrice
+				variablePrice+=job.getJobActivity().getLamination()*(laminationUnitePrice/1000.0)*1000_000;
+			
+			}
+
+			/**
+			 * Print  Paper Element
+			 */
+			p3=variablePrice-p1-p2;
+			//System.out.println(p3+"------------- Fix Price  3-----------");
+			document.add(new AreaBreak());
+			PdfCanvas canvas3= new PdfCanvas(pdfDocument.getLastPage());
+			data = ImageDataFactory.create(backgroundFolder + "P5.jpg");
+			canvas3.addImage(data, PageSize.A4, false);
+			 List<JobPaper> papers= job.getJobPapers();
+			 float vct=-56;
+			 for(int i=0; i<papers.size(); i++) {
+				 JobPaper paper = papers.get(i);
+				 for(int j=0; j<paper.getJobColorCombinations().size(); j++) {
+				 vct+=56;
+				 JobColorCombination cb= paper.getJobColorCombinations().get(j);
+				 printer.print(document, paper.getContentType().getName(), 20, 297-24.5f-vct);
+				 printer.print(document, paper.getPaperType().getName(), 65, 297-24-vct);
+				 printer.print(document, paper.getGrammage()+"", 123, 297-23-vct);
+				 printer.print(document, 65+"", 155, 297-23-vct);
+				 printer.print(document, 92+"", 180, 297-23-vct);
+				 
+				 int maxC = Math.max(cb.getBackColorNumber(), cb.getFrontColorNumber());
+				 int percentage = maxC +6;
+				 printer.print(document, percentage+"", 180, 297-28-vct);
+				 printer.print(document, cb.getNumberOfSignature()*1000+"", 25, 297-30-vct);
+				 printer.print(document, (cb.getNumberOfSignature()*10)*percentage+"", 25, 297-36-vct);
+				 int totalOversh = (int) (cb.getNumberOfSignature()*10*percentage + cb.getNumberOfSignature()*1000);
+				 printer.print(document, totalOversh+"", 29, 297-43-vct);
+				 int up = 65*92;
+				 PlateMakingCosting pltc = new PlateMakingCosting(paper);
+				 int kx = (int) (Math.log(pltc.getBasic())/Math.log(2));
+					int ax =kx/2;
+					int bx=kx-ax;
+					int horizontalLignes = (int) Math.pow(2, ax)-1;
+					int verticalLigne = (int) Math.pow(2, bx)-1;
+					
+					double max = Math.max(job.getCloseLength(), job.getCloseWidth());
+					double min = Math.min(job.getCloseLength(), job.getCloseWidth());
+					double lengthFoldedJob =min/(horizontalLignes+1);
+					double widthFoldedJob =max/(verticalLigne+1);
+					if(widthFoldedJob>lengthFoldedJob) {
+						widthFoldedJob = Math.ceil(max*(verticalLigne+1)/10)+2;
+						lengthFoldedJob = Math.ceil(min*(horizontalLignes+1)/10)+2;
+					}else {
+						widthFoldedJob=Math.ceil(min*(verticalLigne+1)/10)+2;
+						lengthFoldedJob=Math.ceil(max*(horizontalLignes+1)/10)+2;
+					}
+					
+					up = (int) Math.floor(up/(lengthFoldedJob*widthFoldedJob)) ;
+					DecimalFormat dcf= new DecimalFormat("#.###");
+					dcf.setDecimalFormatSymbols(DecimalFormatSymbols.getInstance(Locale.ENGLISH));
+					dcf.setRoundingMode(RoundingMode.CEILING);
+					printer.print(document, up+"", 56, 297-42-vct);
+					double variableC= totalOversh/(up*1000.0);
+					printer.print(document, dcf.format(variableC)+"", 80, 297-42-vct);
+					printer.print(document, paper.getUnitPrice()+"", 120, 297-42-vct);
+					//fixeCost
+					//fixePrice+=paper.getUnitPrice();
+					printer.print(document, paper.getUnitPrice()*Double.valueOf(dcf.format(variableC))+"", 175, 297-40-vct);
+					//variableCost
+					variablePrice+=paper.getUnitPrice()*Double.valueOf(dcf.format(variableC));
+					printer.print(document, cb.getNumberOfSignature()+"", 13, 297-53-vct);
+					
+					int ps = maxC*50;
+				
+					if(cb.getPrintingMachine().getAbbreviation().equals("SPM"))
+						ps+=50;
+					
+					if(cb.getBackColorNumber()!=0&&cb.getFrontColorNumber()!=0)
+						ps=ps*2;
+					
+					printer.print(document, ps+"", 43, 297-53-vct);
+					printer.print(document, cb.getNumberOfSignature()*ps+"", 95, 297-51.5f-vct);
+					
+					printer.print(document, 40+"", 43, 297-58-vct);
+					printer.print(document, 40*cb.getNumberOfSignature()+"", 95, 297-58-vct);
+					
+					printer.print(document, (40+ps)*cb.getNumberOfSignature()+"", 29, 297-64-vct);
+					printer.print(document, up+"", 66, 297-64-vct);
+					printer.print(document, dcf.format((40+ps)*cb.getNumberOfSignature()/(up*1000.0)), 95, 297-64-vct);
+					
+					printer.print(document, Double.valueOf(dcf.format((40+ps)*cb.getNumberOfSignature()/(up*1000.0)))*paper.getUnitPrice()+"", 130, 297-64-vct);
+					//fixeCost
+					fixePrice+=Double.valueOf(dcf.format((40+ps)*cb.getNumberOfSignature()/(up*1000.0)))*paper.getUnitPrice();
+					
+				 }
+				 
+			 }
+			 p4=variablePrice-p1-p2-p3;
+				//System.out.println(p4+"------------- Fix Price  4-----------");
+			printer.print(document, fixePrice+"", 135, 99);
+			printer.print(document, variablePrice+"", 175, 99);
+			job.setFixCost((float) fixePrice);
+			job.setVariableCost((float) variablePrice);
+			jobServiceImpl.save(job);
 			document.close();
 			return job.getReferenceNumber()+".pdf";
 		} catch (Exception e) {
+			e.printStackTrace();
 			throw new NotFoundException("Error", e);
 		}
 	}

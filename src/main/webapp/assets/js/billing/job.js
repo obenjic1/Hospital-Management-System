@@ -200,6 +200,7 @@ let job = { };
 	 jobActivity.trimmed = document.getElementById("trimmed").checked;  
 	 jobActivity.selloptaped = document.getElementById("sellotaped").checked;
 	 jobActivity.sewn = document.getElementById("sewn").checked;
+	 jobActivity.handFoldCov = document.getElementById("handFoldCov").value;
   job.jobActivities = jobActivity;
  	
  	// Adding coverJobPaper and color combination  
@@ -209,6 +210,7 @@ let job = { };
 	  coverJobPaper.volume = document.getElementById("coverVolume").value;
 	  coverJobPaper.paperTypeId = document.getElementById("coverPaperType").value;
 	  coverJobPaper.contentTypeId = 1;
+	  coverJobPaper.paperUnitPrice = document.getElementById("coverPaperUnitPrice").value;
 	  
 	  let coverColorCombinations = [];
 	  let colorCombination = {};
@@ -233,9 +235,11 @@ let job = { };
 		 let paperType=currentRow.querySelector("[contentPaperType]").value;
 		 let grammage = currentRow.querySelector("[contentGrammage]").value;
 		 let volume = currentRow.querySelector("[contentVolume]").value;
+		 let paperUnitPrice = currentRow.querySelector("[paperUnitPrice]").value;
 		 contentJobPaper.grammage = grammage;
 		 contentJobPaper.volume = volume;
 		 contentJobPaper.paperTypeId = paperType;
+		 contentJobPaper.paperUnitPrice=paperUnitPrice;
 		 
 		 let jobColorCombinations = [];
 		 let colorConbination = {}; 
