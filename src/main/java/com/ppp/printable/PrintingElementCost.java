@@ -4,8 +4,6 @@ package com.ppp.printable;
 import java.util.Hashtable;
 
 import com.ppp.billing.model.JobColorCombination;
-import com.ppp.billing.model.JobPaper;
-import com.ppp.billing.model.PaperFormat;
 import com.ppp.billing.model.PrintingMachine;
 
 public class PrintingElementCost {
@@ -90,7 +88,7 @@ public class PrintingElementCost {
 		this.colorCombination = colorCombination;
 		this.basic = colorCombination.getJobPaper().getGrammage();
 		int signature =(int) Math.ceil(colorCombination.getNumberOfSignature());
-		this.plateChange= signature*(colorCombination.getBackColorNumber()+colorCombination.getFrontColorNumber())-1;
+		this.plateChange= signature*(Math.max(colorCombination.getBackColorNumber(),colorCombination.getFrontColorNumber()))-1;
 		this.inckChange = colorCombination.getBackColorNumber() > colorCombination.getFrontColorNumber() ? colorCombination.getBackColorNumber()-1 : colorCombination.getFrontColorNumber()-1;
 		this.run = this.plateChange+1;
 		this.preparation = colorCombination.getPrintType().getName();
@@ -108,15 +106,19 @@ public class PrintingElementCost {
 		this.ups = (int) (pagesPerSignature/4);
 		this.creasinPreparetion1 = 1000*2;
 		this.creasinPreparetion2 = 1000*4;
-		this.finishinFolde = (int) (Math.log(this.basic)/Math.log(2));
+		colorCombination.getJobPaper().getJob().getJobPapers().forEach(jobPaper->{
+				PlateMakingCosting plcM = new PlateMakingCosting(jobPaper);
+				this.finishinFolde = Math.max(this.finishinFolde, (int) (Math.log(plcM.getBasic())/Math.log(2)));
+		});
+		
 		this.finishingRun = signature;
 		
-		double closewidthFormat = colorCombination.getJobPaper().getJob().getCloseWidth();
+		double closewidthFormat = colorCombination.getJobPaper().getJob().getOpenWidth();
 		if(closewidthFormat<=74)
 			this.paperFormat = 8+"";
 		else if(closewidthFormat<=105)
 			this.paperFormat = 7+"";
-		else if(closewidthFormat<=148)
+		else if(closewidthFormat<=145)
 			this.paperFormat = 6+"";
 		else if(closewidthFormat<=210)
 			this.paperFormat = 5+"";
@@ -124,8 +126,9 @@ public class PrintingElementCost {
 			this.paperFormat = 4+"";
 		else if(closewidthFormat<=420)
 			this.paperFormat = 3+"";
-		else if(closewidthFormat>420)
+		else if(closewidthFormat>594)
 			this.paperFormat = 2+"";
+		
 			
 	}
 
@@ -135,8 +138,8 @@ public class PrintingElementCost {
 		switch (machine) {
 		case "GTO":
 			return this.basic<70? 2300: this.basic<160?1800:2300;
-		case "SPO":
-			return this.basic<70? 13900: this.basic<160?12900:15000;
+		case "SPM":
+			return this.basic<70?13900: this.basic<160?12900:15000;
 		default:
 			return this.basic<70? 8300: this.basic<160?7600:9100;
 		}
@@ -147,7 +150,7 @@ public class PrintingElementCost {
 		switch (machine) {
 		case "GTO":
 			return gtoPrintTypeCosting.get(this.colorCombination.getPrintType().getAbreviation());
-		case "SPO":
+		case "SPM":
 			return spPrintTypeCosting.get(this.colorCombination.getPrintType().getAbreviation());
 		default:
 			return sormPrintTypeCosting.get(this.colorCombination.getPrintType().getAbreviation());
@@ -159,7 +162,7 @@ public class PrintingElementCost {
 		switch (machine) {
 		case "GTO":
 			return colorCombination.getPrintType().getAbreviation().equals("BWK")? 0:colorCombination.getPrintType().getAbreviation().equals("POLY")?2800:5600;
-		case "SPO":
+		case "SPM":
 			return colorCombination.getPrintType().getAbreviation().equals("BWK")? 0:colorCombination.getPrintType().getAbreviation().equals("POLY")?9700:13000;
 		default:
 			return colorCombination.getPrintType().getAbreviation().equals("BWK")? 0:colorCombination.getPrintType().getAbreviation().equals("POLY")?5300:7700;
@@ -171,7 +174,7 @@ public class PrintingElementCost {
 		switch (machine) {
 		case "GTO":
 			return colorCombination.getPrintType().getAbreviation().equals("BWK")? 2000:colorCombination.getPrintType().getAbreviation().indexOf("POLY")!=-1?4700:3400;
-		case "SPO":
+		case "SPM":
 			return colorCombination.getPrintType().getAbreviation().equals("BWK")? 8800:colorCombination.getPrintType().getAbreviation().indexOf("POLY")!=-1?19000:11700;
 		default:
 			return colorCombination.getPrintType().getAbreviation().equals("BWK")? 3500:colorCombination.getPrintType().getAbreviation().indexOf("POLY")!=-1?7200:4500;
@@ -196,7 +199,7 @@ public class PrintingElementCost {
 					  return 5400;
 					else
 					 return this.basic<70?6000:basic<160?4600:5000;
-		case "SPO":
+		case "SPM":
 			if(this.colorCombination.getPrintType().getAbreviation().equals("BWK")) {
 				return this.basic<70?9800:this.basic<160?7600:8200;
 		}
@@ -277,6 +280,11 @@ public class PrintingElementCost {
 	public float getVarPerforatingCost() {
 		return this.perforating*1000;
 	}
+	
+	
+	
+
+	
 	
 	
 	public int getBasic() {

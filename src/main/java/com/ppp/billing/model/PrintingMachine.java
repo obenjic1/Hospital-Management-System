@@ -42,9 +42,6 @@ public class PrintingMachine {
 	
 	@Column(name="creation_date")
 	private Date creationDate;
-	
-	@OneToMany(fetch = FetchType.LAZY,  mappedBy = "printingMachine")
-	private List<JobPaper> jobPapers;
-	
+
 }
  

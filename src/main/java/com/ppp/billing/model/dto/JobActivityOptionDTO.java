@@ -15,6 +15,7 @@ public class JobActivityOptionDTO {
 	private boolean trimmed;
 	private boolean selloptaped;
 	private boolean sewn;
+	private int handFoldCov;
 	public int getxPerforated() {
 		return xPerforated;
 	}
@@ -93,6 +94,12 @@ public class JobActivityOptionDTO {
 	}
 	public void setBindingType(int bindingType) {
 		this.bindingType = bindingType;
+	}
+	public int getHandFoldCov() {
+		return handFoldCov;
+	}
+	public void setHandFoldCov(int handFoldCov) {
+		this.handFoldCov = handFoldCov;
 	}
 
 	

@@ -15,5 +15,6 @@ public class JobPaperDTO {
    private int volume;
    private int paperTypeId;
    private int contentTypeId;
+   private int paperUnitPrice;
    private List<JobColorCombinationDTO> jobColorCombinations;
 }

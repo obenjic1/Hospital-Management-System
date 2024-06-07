@@ -13,6 +13,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import net.sf.saxon.functions.ConstantFunction.True;
 
 @Getter
 @Setter
@@ -46,6 +47,9 @@ public class JobActivity {
 	
 	@Column(name = "x_cross")
 	private int xCross;
+	
+	@Column(name = "hand_folding_cov", nullable = true, columnDefinition = "int default 0")
+	private int handFoldingCov;
 	
 	@Column(name = "is_sewn")
 	private boolean isSewn = Boolean.FALSE;
