@@ -32,13 +32,12 @@ public class JobPaper {
 	@Column(name = "volume")
 	private int volume;
 	
+	@Column(name = "unit_price", columnDefinition = "int default 0")
+	private int unitPrice;
+	
 	@ManyToOne
 	@JoinColumn(name = "content_type_id", referencedColumnName = "id")
 	private ContentType  contentType;
-	
-	@ManyToOne
-	@JoinColumn(name = "printing_machine_id", referencedColumnName = "id")
-	private PrintingMachine  printingMachine;
 	
 	@ManyToOne
 	@JoinColumn(name = "paper_type_id", referencedColumnName = "id")
