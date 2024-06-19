@@ -47,7 +47,6 @@
 						      <th scope="col">Creation date</th>
 						      <th scope="col">Customer</th>
 						      <th scope="col">Actions</th>
-						      <th scope="col"></th>
 							</tr>
 						   </thead>
 						<tbody>
@@ -73,13 +72,7 @@
 								     
 					              </select>
 							  </td>
-							  <td>
-							     <a>
-								   <button class="button-see" data-bs-toggle="modal" data-bs-target="#ExtralargeModal" onclick="loadPageModal('/job/viewJob/${job.id}');">
-								     <i class="ri-eye-line"></i>
-								   </button>
-								 </a>
-							  </td>
+							 
 							</tr>
 						   </c:forEach>
 						 </tbody>

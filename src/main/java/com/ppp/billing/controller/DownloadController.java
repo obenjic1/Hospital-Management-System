@@ -22,6 +22,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class DownloadController {
 	@Value("${folder.controlSheet}")
 	private String controlSheetFolder;
+	@Value("${folder.estimate}")
+	private String estimateFolder;
 	
 	@Autowired
 	private ServletContext context;
@@ -32,6 +34,9 @@ public class DownloadController {
 		switch (resourceDir) {
 		case "folder.controlSheet":
 			dir= controlSheetFolder;
+			break;
+		case "folder.estimate":
+			dir= estimateFolder;
 			break;
 
 		default:

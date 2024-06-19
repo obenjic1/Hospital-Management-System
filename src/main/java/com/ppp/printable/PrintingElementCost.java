@@ -81,6 +81,7 @@ public class PrintingElementCost {
 		upsUnitPrice400g.put(16, 2.3f);
 		upsUnitPrice400g.put(24, 3.2f);
 		upsUnitPrice400g.put(32, 3.7f);
+
 	}
 	
 	

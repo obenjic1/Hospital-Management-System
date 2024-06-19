@@ -14,6 +14,7 @@ public class PlateMakingCosting {
 	private JobPaper jobPaper;
 	private Hashtable<Integer, Integer> gtoBasicValues = new Hashtable<Integer, Integer>();
 	private Hashtable<Integer, Integer> soSpBasicValues = new Hashtable<Integer, Integer>();
+
 	{
 		gtoBasicValues.put(2, 450);
 		gtoBasicValues.put(4, 1300);
@@ -25,6 +26,7 @@ public class PlateMakingCosting {
 		soSpBasicValues.put(8, 2000);
 		soSpBasicValues.put(16, 2500);
 		soSpBasicValues.put(32, 3500);
+
 	}
 	
 	
@@ -68,7 +70,9 @@ public class PlateMakingCosting {
 		
 		if(printingMachine.getAbbreviation().equals("GTO"))
 			return this.plates*3800;
-			else
+		else if(printingMachine.getAbbreviation().equals("SPM5UNITS"))
+			return this.plates*9000;
+		else
 			return this.plates*5000;
 	}
 	
@@ -81,7 +85,16 @@ public class PlateMakingCosting {
 		return plates;
 	}
 	
+				// Foil preparation cost
+	public float foilPreparation() {
+		if(printingMachine.getAbbreviation().equals("GTO")) {
+			 return	 this.plates<=2?650:this.plates==4?1000:this.plates==8?1300:1600;
+			}else {
+				 return	 this.plates<=2?800:this.plates==4?1100:this.plates==8?1500:this.plates==16?1900:2700;
+			}
+	}
 	
+
 	
 	public int getPlates() {
 		return plates;

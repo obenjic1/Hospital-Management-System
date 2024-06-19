@@ -43,7 +43,7 @@
                                             <div id="main-estimate-div" class="">
                                                 <div class="" id="quantity-div" style="display:none">
                                                     <label> Enter Quantity</label>
-                                                    <div style="  display: flex;width: 100%;padding-bottom:15px;;">
+                                                    <div style="  display: flex;width: 98%;padding-bottom:15px;">
                                                         <input estimate-quantity type=number class="input-box">
                                                         <button type="button" id="deleteButton"  onclick="removeEstmateContentNode(this);"><i class="ri-delete-bin-3-line"></i> </button>
                                                     </div>
@@ -51,17 +51,25 @@
                                                 <div class="" id="quantity-div" style="display:inline">
                                                     <label> Enter Quantity</label>
                                                         <div style="  display: block ruby;padding-bottom:15px;">
-                                                            <input estimate-quantity type=number class="input-box" style=" width: 100%;" >
+                                                            <input estimate-quantity type=number class="input-box" style=" width: 95%;" >
                                                             <button type="button"  id="duplicateButton"  onclick="addNextEstimateChild();" ><i class="ri-add-fill"></i></button>
 
                                                         </div>
                                                 </div>
                                             </div>
+                                            <div class="row">
+                                                        <label>Percentage of advance payment</label>
+                                                      <div>
+                                                            <input type=number id="advancePercentage" value="0" style=" width: 95%;" >
+                                                      </div>
+
+                                            </div>
+                                            
                                             <div class="" id="extra-fees">
                                                     <div style="padding-bottom:15px">
                                                         <label>Extra Fees (FCFA)</label>
                                                       <div>
-                                                            <input type=number id="extra-fee" value="0">
+                                                            <input type=number id="extra-fee" value="0" style=" width: 95%;">
                                                       </div>
                                                     </div>
                                                     <div>
@@ -71,7 +79,18 @@
                                                         </div>
                                                     </div>
                                             </div>
-
+<!-- 											<div class="row"> -->
+<!-- 												 <div class="col-sm-8 form-check">                       -->
+<!-- 							                    <input class="form-check-input" type="checkbox" id="irTaxe" onclick="iRtax()" > -->
+<!-- 							                     <label class="form-check-label" for="gridCheck">Apply IR Tax</label> -->
+<!-- 							                     <input type=number id="irTax" value="0" style="display:none"> -->
+<!-- 							                  </div> -->
+<!-- 							                  <div class="col-sm-4 form-check">                       -->
+<!-- 							                    <input class="form-check-input" type="checkbox" id="tva"> -->
+<!-- 							                      <label class="form-check-label" for="gridCheck">TVA 19.5%</label> -->
+<!-- 							                  </div> -->
+											
+<!-- 											</div> -->
                                         </form>
                                         <hr><br>
                                         <div class="" style="margin-top:50px;">
@@ -82,7 +101,6 @@
                             </div>
                         </div>
                         <div id="tab-2" style="display:none;">
-                            sdfasdasdfasd
 
                         </div>
                     </div>
@@ -92,6 +110,8 @@
     </div>
 </section>
 </main><!-- End #main -->
+<script src="assets/js/billing/job.js"></script> 
+
   
   
   

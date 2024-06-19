@@ -540,6 +540,7 @@ function addNextEstimateChild(){
 
 }
 
+		
 function generateEstimate(url, currentDiv, nextDiv){
 	let quantities = document.querySelectorAll("[estimate-quantity]");
 	let estimateQuantities = "";
@@ -550,19 +551,37 @@ function generateEstimate(url, currentDiv, nextDiv){
 		
 	let extraFee = document.getElementById("extra-fee").value;
 	let description = document.getElementById("extra-fee-description").value;
+	let advancePercentage = document.getElementById("advancePercentage").value;
+	
 
-	url+= "?quantities=" + estimateQuantities + "&extraFee=" +extraFee + "&extraFeeDescription=" + description;
+	
+	
+	
+
+	url+= "?quantities=" + estimateQuantities + "&extraFee=" +extraFee + "&extraFeeDescription=" + description +"&advancePercentage="+advancePercentage;
 	loadDynamicPageContent(url, nextDiv);
 	document.getElementById(nextDiv).style.display="block";
 	document.getElementById(currentDiv).style.display="none";
 	
 	
 }
-
-function confirmEstimate(url, currentDiv, nextDiv){
+	
+	
+	function advancePercentage(){
+			let advancePercentageCheckbox= document.getElementById("advancePercentageC");
+			let advancePercentageInput =document.getElementById("advancePercentage");
+				if(advancePercentageCheckbox.checked){
+				advancePercentageInput.style.display="block";
+	} else {
+		advancePercentageInput.style.display="none";
+	}
+	}
+	
+function confirmEstimate(urlConfirm, urlPrintEstimate){
 	let quantities = document.querySelectorAll("[estimate-quantity]");
 	let estimateQuantities = "";
-
+	let advancePercentage = document.getElementById("advancePercentage").value;
+	
 	for(let i=1; i<quantities.length; i++){
 		estimateQuantities+=quantities[i].value + "@";
 	}
@@ -570,20 +589,25 @@ function confirmEstimate(url, currentDiv, nextDiv){
 	let extraFee = document.getElementById("extra-fee").value;
 	let description = document.getElementById("extra-fee-description").value;
 
-	url+= "?quantities=" + estimateQuantities + "&extraFee=" +extraFee + "&extraFeeDescription=" + description;
-	fetch(url, {
+	urlConfirm+= "?quantities=" + estimateQuantities + "&extraFee=" +extraFee + "&extraFeeDescription=" + description+"&advancePercentage="+advancePercentage;
+	fetch(urlConfirm, {
     		method: 'POST',
     		headers: {
     			'Content-type': 'application/json'
     		},
-    	}).then(response => {
+    	}).then(response => response.text())
+    	   .then(html=> {
 
-                alert(" Successful!!");
-
+            if(html.indexOf("k0###")== -1){
+				loadPageModal(urlPrintEstimate+html);
+				
+			}else{
+				alert("something when wrong");
+			}
 
         })
         .catch(error => {
-            console.error("internal server error :", error);
+            console.log("internal server error :", error);
         })
 
 

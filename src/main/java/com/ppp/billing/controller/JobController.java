@@ -3,22 +3,15 @@ package com.ppp.billing.controller;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.net.MalformedURLException;
 import java.math.RoundingMode;
-import java.util.ArrayList;
-import java.net.MalformedURLException;
+import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
-import java.util.List;
-import java.util.Locale;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.io.FileSystemResource;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.acls.model.NotFoundException;
@@ -41,9 +34,9 @@ import com.itextpdf.kernel.pdf.PdfWriter;
 import com.itextpdf.kernel.pdf.canvas.PdfCanvas;
 import com.itextpdf.layout.Document;
 import com.itextpdf.layout.element.AreaBreak;
-
 import com.ppp.billing.model.BindingType;
 import com.ppp.billing.model.Customer;
+import com.ppp.billing.model.EstimatePricing;
 import com.ppp.billing.model.Job;
 import com.ppp.billing.model.JobActivity;
 import com.ppp.billing.model.JobColorCombination;
@@ -57,9 +50,10 @@ import com.ppp.billing.model.PrintType;
 import com.ppp.billing.model.PrintingMachine;
 import com.ppp.billing.model.dto.EstimateDTO;
 import com.ppp.billing.model.dto.JobDTO;
-import com.ppp.billing.repository.JobRepository;
+import com.ppp.billing.repository.JobEstimateRepository;
 import com.ppp.billing.serviceImpl.BindingTypeserviceImpl;
 import com.ppp.billing.serviceImpl.CustomerServiceImpl;
+import com.ppp.billing.serviceImpl.EstimatePricingServiceImpl;
 import com.ppp.billing.serviceImpl.JobColorCombinationServiceImpl;
 import com.ppp.billing.serviceImpl.JobEstimateServiceImpl;
 import com.ppp.billing.serviceImpl.JobPaperServiceImpl;
@@ -83,6 +77,8 @@ public class JobController {
 	private String backgroundFolder;
 	@Value("${folder.controlSheet}")
 	private String controlSheetDir;
+	@Value("${folder.estimate}")
+	private String estimateDir;
 	@Autowired
 	private JobServiceImpl jobServiceImpl;
 	
@@ -108,6 +104,11 @@ public class JobController {
 	private BindingTypeserviceImpl bindingTypeserviceImpl;
 	@Autowired
 	private JobEstimateServiceImpl jobEstimateServiceImpl;
+	@Autowired
+	private EstimatePricingServiceImpl estimatePricingServiceImpl;
+	@Autowired
+	private JobEstimateRepository jobEstimateRepository; 
+	
 	
 //<--------------------- Collect datas form @Vincent------------------------------>
 	@GetMapping("/displayform")
@@ -161,8 +162,7 @@ public class JobController {
 	@GetMapping("/generate-pdf/{id}")
 	@ResponseBody
 	public String generatePdf(@PathVariable long id) throws IOException {
-		try {
-			
+		try {			
 			String file=createJobDataPdf(id);
 			return "file="+file+"&dir=folder.controlSheet";
 			
@@ -173,6 +173,7 @@ public class JobController {
 	}	
 	private String createJobDataPdf(Long id) throws FileNotFoundException, MalformedURLException {
 		Job job = jobServiceImpl.findById(id).get();
+		 DecimalFormat formateur = new DecimalFormat("0.00");
 		double fixePrice = 0;
 		double variablePrice = 0;
 		String pdf = controlSheetDir+job.getReferenceNumber()+".pdf";
@@ -257,11 +258,13 @@ public class JobController {
 			float vecteur = -24;
 			float vecteur2 = -73;
 			 float vecteur3 = -73;
+			 float vecteurex =-47;
 			for(int i=0; i<jobPapers.size(); i++) {
 				PlateMakingCosting plateMakingCosting = new PlateMakingCosting(jobPapers.get(i));
 				vecteur +=24;
 				vecteur2 +=73;
 				vecteur3 +=73;
+				vecteurex += 47;
 				int basic = plateMakingCosting.getBasic();
 				float basicCost = plateMakingCosting.generateBasicCost();
 				
@@ -279,12 +282,26 @@ public class JobController {
 				float y1 = 120.5f;
 				printer.print(document, machine, 27, y1-vecteur);
 				printer.print(document, basic+"", 55, y1-vecteur);
-				printer.print(document, basicCost+"", 128, y1-vecteur);
+				printer.print(document, formateur.format(basicCost)+"", 128, y1-vecteur);
 				//fix price
 				fixePrice+=basicCost;
+				
+				//**********************//
+				float y4 = 115;
+				printer.print(document, exposior+"", 75, y4-vecteur);
+				printer.print(document, plateMakingCosting.foilPreparation()+"", 98, y4-vecteur);
+				printer.print(document, formateur.format(exposior*plateMakingCosting.foilPreparation()) +"", 128, y4-vecteur);
+				//fix price
+				fixePrice+=exposior*plateMakingCosting.foilPreparation();
+					
+
+				float yex = 113;
+				//printer.print(document, exposior+"", 55, yex-vecteurex);
+				//printer.print(document, messageResult+"", 127, yex-vecteurex);
+				
 				float y2 = 103;
 				printer.print(document, exposior+"", 55, y2-vecteur);
-				printer.print(document, exposiorCusting+"", 127, y2-vecteur);
+				printer.print(document, formateur.format(exposiorCusting) +"", 127, y2-vecteur);
 				
 				printer.print(document, contentType, 15, 115-vecteur);
 				
@@ -366,13 +383,13 @@ public class JobController {
 					
 					printer.print(document, machine, 22, 297-23-decalage);
 					printer.print(document, grammage+"g", 60, 297-23-decalage);
-					printer.print(document, basicPrice+"", 134, 297-23-decalage);
+					printer.print(document, formateur.format(basicPrice)+"", 134, 297-23-decalage);
 					//fix price
 					fixePrice+=basicPrice;
 
 					printer.print(document, jobPeper.getContentType().getName(), 10, 297-29-decalage);
 					printer.print(document, jobColorCombination.getPrintType().getName(), 54, 297-29-decalage);
-					printer.print(document, printinElementCost.getPreparationUnitCost()+"", 134, 297-29-decalage);	
+					printer.print(document, formateur.format(printinElementCost.getPreparationUnitCost()) +"", 134, 297-29-decalage);	
 					//fix price
 					fixePrice+=printinElementCost.getPreparationUnitCost();
 					printer.print(document, printinElementCost.getInckChange()+"", 55, 297-35f-decalage);
@@ -384,13 +401,13 @@ public class JobController {
 					printer.print(document, printinElementCost.getRun()+"", 55, 297-47f-decalage);
 					printer.print(document, printinElementCost.getRunUnitCost()+"", 75, 297-47f-decalage);
 					
-					printer.print(document, printinElementCost.getInckChange()*printinElementCost.getInckChangeUnitCost()+"", 135, 297-35-decalage);
+					printer.print(document, formateur.format(printinElementCost.getInckChange()*printinElementCost.getInckChangeUnitCost())+"", 135, 297-35-decalage);
 					//fix price
 					fixePrice+=printinElementCost.getInckChange()*printinElementCost.getInckChangeUnitCost();
-					printer.print(document, printinElementCost.getPlateChange()*printinElementCost.getPlateChangeUnitCost()+"", 135, 297-41-decalage);
+					printer.print(document, formateur.format(printinElementCost.getPlateChange()*printinElementCost.getPlateChangeUnitCost())+"", 135, 297-41-decalage);
 					//fix price
 					fixePrice+=printinElementCost.getPlateChange()*printinElementCost.getPlateChangeUnitCost();
-					printer.print(document, printinElementCost.getRun()*printinElementCost.getRunUnitCost()+"", 175, 297-47-decalage);
+					printer.print(document, formateur.format(printinElementCost.getRun()*printinElementCost.getRunUnitCost())+"", 175, 297-47-decalage);
 					//var price
 					variablePrice+=printinElementCost.getRun()*printinElementCost.getRunUnitCost();
 					if(Math.ceil(jobColorCombination.getNumberOfSignature())!=Math.floor(jobColorCombination.getNumberOfSignature())) {
@@ -402,7 +419,7 @@ public class JobController {
 						printer.print(document,printinElementCost.getTrimmingUpsUnitCost()+"", 95, 297-150);
 						//variable cust
 						variablePrice+=printinElementCost.getTrimmingUpsUnitCost()*(pmcst.getBasic()/2)*1000;
-						printer.print(document,printinElementCost.getTrimmingUpsUnitCost()*(pmcst.getBasic()/2)*1000+"", 180, 297-150);
+						printer.print(document,formateur.format(printinElementCost.getTrimmingUpsUnitCost()*(pmcst.getBasic()/2)*1000)+"", 180, 297-150);
 					}
 					
 				}
@@ -435,10 +452,10 @@ public class JobController {
 				paperFormat=printinElementCost.getPaperFormat();
 				printer.print(document, printinElementCost.getFinishingRun()+"", 45, 297-25.5f-translation);
 				printer.print(document, paperFormat, 70f, 297-25.5f-translation);
-				printer.print(document, printinElementCost.getFinishingRunVaribleCost()+"", 173, 297-26-translation);
+				printer.print(document, formateur.format(printinElementCost.getFinishingRunVaribleCost())+"", 173, 297-26-translation);
 				//VariableCost
 				variablePrice+=printinElementCost.getFinishingRunVaribleCost();
-				printer.print(document, printinElementCost.getFinishingRunFixCost()+"", 83, 297-26-translation);
+				printer.print(document, formateur.format(printinElementCost.getFinishingRunFixCost())+"", 83, 297-26-translation);
 
 				
 				
@@ -478,7 +495,7 @@ public class JobController {
 				}
 				
 				printer.print(document, plates+"", 50, 297-62);
-				printer.print(document, plates*4700+"", 175, 297-62);
+				printer.print(document, formateur.format(plates*4700)+"", 175, 297-62);
 				//variablePrice
 				variablePrice+=plates*4700;
 			}
@@ -493,7 +510,7 @@ public class JobController {
 			    	}
 			    }
 			    printer.print(document, totalContentOfSignature+"", 50, 297-67);
-				printer.print(document, totalContentOfSignature*2000+"", 175, 297-67);
+				printer.print(document, formateur.format(totalContentOfSignature*2000)+"", 175, 297-67);
 				//variableCost
 				variablePrice+=totalContentOfSignature*2000;
 			}
@@ -506,7 +523,7 @@ public class JobController {
 			    	}
 			    }
 				printer.print(document, totalContentOfSignature+"", 50, 297-74);
-				printer.print(document, totalContentOfSignature*1000+"", 175, 297-74);
+				printer.print(document, formateur.format(totalContentOfSignature*1000)+"", 175, 297-74);
 				//variablePrice
 				variablePrice+=totalContentOfSignature*1000;
 			}
@@ -529,7 +546,7 @@ public class JobController {
 					laminationUnitePrice =  Integer.valueOf(paperFormat)>=6?50:Integer.valueOf(paperFormat)>=5?90:Integer.valueOf(paperFormat)>=4?150:Integer.valueOf(paperFormat)>=3?270:500;	
 				}
 				printer.print(document, laminationUnitePrice/1000.0+"", 85, 297-91);
-				printer.print(document, job.getJobActivity().getLamination()*(laminationUnitePrice/1000.0)*1000_000+"", 175, 297-92);
+				printer.print(document, formateur.format(job.getJobActivity().getLamination()*(laminationUnitePrice/1000.0)*1000_000)+"", 175, 297-92);
 				//variablePrice
 				variablePrice+=job.getJobActivity().getLamination()*(laminationUnitePrice/1000.0)*1000_000;
 			
@@ -560,10 +577,10 @@ public class JobController {
 				 int maxC = Math.max(cb.getBackColorNumber(), cb.getFrontColorNumber());
 				 int percentage = maxC +6;
 				 printer.print(document, percentage+"", 180, 297-28-vct);
-				 printer.print(document, cb.getNumberOfSignature()*1000+"", 25, 297-30-vct);
-				 printer.print(document, (cb.getNumberOfSignature()*10)*percentage+"", 25, 297-36-vct);
+				 printer.print(document, formateur.format(cb.getNumberOfSignature()*1000)+"", 25, 297-30-vct);
+				 printer.print(document, formateur.format((cb.getNumberOfSignature()*10)*percentage)+"", 25, 297-36-vct);
 				 int totalOversh = (int) (cb.getNumberOfSignature()*10*percentage + cb.getNumberOfSignature()*1000);
-				 printer.print(document, totalOversh+"", 29, 297-43-vct);
+				 printer.print(document, formateur.format(totalOversh) +"", 29, 297-43-vct);
 				 int up = 65*92;
 				 PlateMakingCosting pltc = new PlateMakingCosting(paper);
 				 int kx = (int) (Math.log(pltc.getBasic())/Math.log(2));
@@ -594,7 +611,7 @@ public class JobController {
 					printer.print(document, paper.getUnitPrice()+"", 120, 297-42-vct);
 					//fixeCost
 					//fixePrice+=paper.getUnitPrice();
-					printer.print(document, paper.getUnitPrice()*Double.valueOf(dcf.format(variableC))+"", 175, 297-40-vct);
+					printer.print(document, formateur.format(paper.getUnitPrice()*Double.valueOf(dcf.format(variableC)))+"", 175, 297-40-vct);
 					//variableCost
 					variablePrice+=paper.getUnitPrice()*Double.valueOf(dcf.format(variableC));
 					printer.print(document, cb.getNumberOfSignature()+"", 13, 297-53-vct);
@@ -608,16 +625,16 @@ public class JobController {
 						ps=ps*2;
 					
 					printer.print(document, ps+"", 43, 297-53-vct);
-					printer.print(document, cb.getNumberOfSignature()*ps+"", 95, 297-51.5f-vct);
+					printer.print(document, formateur.format(cb.getNumberOfSignature()*ps)+"", 95, 297-51.5f-vct);
 					
 					printer.print(document, 40+"", 43, 297-58-vct);
-					printer.print(document, 40*cb.getNumberOfSignature()+"", 95, 297-58-vct);
+					printer.print(document, formateur.format(40*cb.getNumberOfSignature())+"", 95, 297-58-vct);
 					
-					printer.print(document, (40+ps)*cb.getNumberOfSignature()+"", 29, 297-64-vct);
+					printer.print(document, formateur.format((40+ps)*cb.getNumberOfSignature())+"", 29, 297-64-vct);
 					printer.print(document, up+"", 66, 297-64-vct);
 					printer.print(document, dcf.format((40+ps)*cb.getNumberOfSignature()/(up*1000.0)), 95, 297-64-vct);
 					
-					printer.print(document, Double.valueOf(dcf.format((40+ps)*cb.getNumberOfSignature()/(up*1000.0)))*paper.getUnitPrice()+"", 130, 297-64-vct);
+					printer.print(document, formateur.format(Double.valueOf(dcf.format((40+ps)*cb.getNumberOfSignature()/(up*1000.0)))*paper.getUnitPrice())+"", 130, 297-64-vct);
 					//fixeCost
 					fixePrice+=Double.valueOf(dcf.format((40+ps)*cb.getNumberOfSignature()/(up*1000.0)))*paper.getUnitPrice();
 					
@@ -626,8 +643,8 @@ public class JobController {
 			 }
 			 p4=variablePrice-p1-p2-p3;
 				//System.out.println(p4+"------------- Fix Price  4-----------");
-			printer.print(document, fixePrice+"", 135, 99);
-			printer.print(document, variablePrice+"", 175, 99);
+			printer.print(document, formateur.format(fixePrice)+"", 135, 99);
+			printer.print(document, formateur.format(variablePrice)+"", 175, 99);
 			job.setFixCost((float) fixePrice);
 			job.setVariableCost((float) variablePrice);
 			jobServiceImpl.save(job);
@@ -651,15 +668,7 @@ public class JobController {
 		Job findJob = jobServiceImpl.findById(id).get();
 		List<JobPaper> jobPapers = findJob.getJobPapers();
 		JobPaper cover = jobPapers.remove(0);
-		List<String> jobEstimates = new ArrayList<>();
-		String countRef ="";
-
-		for(JobEstimate jobEstimate : findJob.getJobEstimates()){
-			if(!jobEstimate.getReference().equals(countRef)){
-				jobEstimates.add(jobEstimate.getReference());
-				countRef = jobEstimate.getReference();
-			}
-		}
+		List<JobEstimate>  jobEstimates = findJob.getJobEstimates();
 
 		model.addAttribute("job",findJob);
 		model.addAttribute("jobPapers",jobPapers);
@@ -718,8 +727,9 @@ public class JobController {
 		}
 		
 		@GetMapping("/generate/{id}")
-		public String generateEstimate(@PathVariable long id,@RequestParam("quantities") String quantities, 
-				@RequestParam("extraFee") int extraFee, @RequestParam("extraFeeDescription") String extraFeeDescription, Model model) {
+		public String generateEstimate(@PathVariable long id, @RequestParam("quantities") String quantities, 
+				@RequestParam("extraFee") int extraFee, @RequestParam("extraFeeDescription") String extraFeeDescription,
+				@RequestParam("advancePercentage") float advancePercentage, Model model) {
 			
 			Job job = jobServiceImpl.findById(id).get();
 			//Get and structure typesetting values
@@ -755,11 +765,14 @@ public class JobController {
 			List<EstimateDTO> estimates = new ArrayList<EstimateDTO>();
 			for(int i=0; i<qty.length;i++) {
 				EstimateDTO estimateDTO = new EstimateDTO();
+				estimateDTO.setCreatedDate(new Date());	
+				estimateDTO.setAdvancePercentage(advancePercentage);
 				estimateDTO.setQuantity(Integer.parseInt(qty[i]));
-				int totalPrice= Math.round(((job.getVariableCost()/1000) * Integer.parseInt(qty[i])) +(job.getFixCost()+ extraFee));
+				int totalPrice=  Math.round(((job.getVariableCost()/1000) * Integer.parseInt(qty[i])) +(job.getFixCost()+ extraFee));
 				estimateDTO.setTotalPrice(totalPrice);
 				estimateDTO.setUnitPrice(Math.round(totalPrice/Integer.parseInt(qty[i])));
 				estimates.add(estimateDTO);
+				
 			}
 
 			Job findJob = jobServiceImpl.findById(id).get();
@@ -774,52 +787,189 @@ public class JobController {
 
 	@PostMapping("/estimate/confirm/{id}")
 	@ResponseBody
-	public String confirmEstimate(@PathVariable long id,@RequestParam("quantities") String quantities,
-								   @RequestParam("extraFee") int extraFee, @RequestParam("extraFeeDescription") String extraFeeDescription, Model model) {
-
+	public String confirmEstimate(@PathVariable Long id,@RequestParam("quantities") String quantities,
+								   @RequestParam("extraFee") int extraFee, @RequestParam("extraFeeDescription") String extraFeeDescription,
+								   @RequestParam("advancePercentage") float advancePercentage, Model model) {
+		try {
+		DecimalFormat formateur = new DecimalFormat("0.00");
 		Job job = jobServiceImpl.findById(id).get();
 		String[] qty = quantities.split("@");
-/*
-		Date today = Calendar.getInstance().getTime();
-		System.out.println(today.getTime()/(60*60*60));
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyMMdd");
-		String dateString = today.;
-		int currentCount = (int) (job.getId()%999);
-		String countString = String.format("%03d", currentCount);
-		String reference = dateString + "ESN-" + countString;
-		System.out.println(dateString);
-
-*/
-
-		String countRef = " ";
-		int count = 1 ;
-		for(JobEstimate jobEstimate : job.getJobEstimates()){
-			if(!jobEstimate.getReference().equals(countRef)){
-				countRef = jobEstimate.getReference();
-				count++;
-			}
-
-		}
-		String reference = "ESN-" + job.getReferenceNumber()+ "-" +count;
-
-
-		List<JobEstimate> estimates = new ArrayList<JobEstimate>();
+		String updateRef = job.getReferenceNumber();
+		String reference =updateRef.replace('J', 'E');
+	    reference = reference+"-"+(job.getJobEstimates().size()+1);
+		JobEstimate estimate = new JobEstimate();
+		estimate.setReference(reference);
+		estimate.setAdvancePercentage(advancePercentage);
+		estimate.setCreatedDate(new Date());
+		List<EstimatePricing> estimatePricings = new ArrayList<EstimatePricing>();
 		for(int i=0; i<qty.length;i++) {
-			JobEstimate estimate = new JobEstimate();
-			estimate.setReference(reference);
-			estimate.setQuantity(Integer.parseInt(qty[i]));
+			EstimatePricing estimatePricing =  new EstimatePricing();
+			estimatePricing.setQuantity(Integer.parseInt(qty[i]));
 			int totalPrice= Math.round(((job.getVariableCost()/1000) * Integer.parseInt(qty[i])) +(job.getFixCost()+ extraFee));
-			estimate.setTotalPrice(totalPrice);
-			estimate.setUnitPrice(Math.round(totalPrice/Integer.parseInt(qty[i])));
-			estimate.setCreatedDate(new Date());
-			estimate.setJob(job);
-			jobEstimateServiceImpl.save(estimate);
-			estimates.add(estimate);
+			estimatePricing.setTotalPrice(totalPrice);
+			estimatePricing.setUnitPrice(Math.round(totalPrice/Integer.parseInt(qty[i])));
+			estimatePricing.setJobEstimate(estimate);
+			estimatePricings.add(estimatePricing);
 		}
-		Job findJob = jobServiceImpl.findById(id).get();
-		if (estimates.size()==0) return "ko@" +job.getReferenceNumber();
-		else
-		return "ok@"+reference;
+		estimate.setEstimatePricings(estimatePricings);
+		estimate.setJob(job);
+		jobEstimateRepository.save(estimate);
+		//jobEstimateServiceImpl.save(estimate); 
+
+		return reference;
+		}catch (Exception e) {
+			e.printStackTrace();
+			return "k0###";
+		}
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	@GetMapping("/estimate-pdf/{reference}")
+	@ResponseBody
+	public String generateEstimatePdf(@PathVariable String reference) throws IOException {
+	
+			
+			return createEstimateDataPdf(reference);
+			
+	}	
+	
+	/*
+	 * Print the estimate pdf
+	 */
+	public String createEstimateDataPdf(String estimateName) throws IOException{
+	 try {
+		 DecimalFormat formateur = new DecimalFormat("0.00");
+		PdfWriter pdfWriter = new PdfWriter(estimateDir+estimateName+".pdf");
+		JobEstimate jobEstimate=jobEstimateRepository.findByReference(estimateName).get();
+		Job job=jobEstimate.getJob();
+		PdfDocument pdfDocument = new PdfDocument(pdfWriter);
+		Document document = new Document(pdfDocument, PageSize.A4);
+//		 document.setMargins(25, 25, 297-156, 50);
+
+		PrintableElement printer = new PrintableElement();	
+		JobActivity jobActivity = job.getJobActivity();
+		List<JobPaper> jcc = job.getJobPapers();
+		JobPaper coverPaper = null;
+		for(JobPaper pp : jcc) {
+			if(pp.getContentType().getId()==1)
+				coverPaper=pp;
+		}
+		String jobActivities = "";
+		String typeSettings = "";
+		String reproduction = "";
 		
+	
+			
+			printer.printHeader(document, "Estimate".toUpperCase(), 73, 297-42);
+			printer.printHeader(document,job.getCustomer().getName().toUpperCase(), 123, 297-52);
+			printer.printHeader(document,job.getCustomer().getAddress().toUpperCase(), 123, 297-58);
+
+			printer.printHeader(document, "Description", 38, 297-83);
+			printer.print(document, job.getJobType().getName(), 73, 297-83);
+
+			if(job.isTypesettingByUs()||job.isLayOutByUs()) typeSettings =	typeSettings + "By us,";
+			if(job.isExistingPlate()) {
+				reproduction = reproduction +  "Existing Plate";
+				
+			}else reproduction = reproduction +  "Data supplied By Customer";
+
+			printer.printHeader(document, "Typesetting ", 38, 297-123);
+			printer.print(document, typeSettings, 73, 297-123);
+			
+			printer.printHeader(document, " Reproduction", 38, 297-128 );
+			printer.print(document, reproduction, 73, 297-128);
+
+			printer.printHeader(document, "Format", 38, 297-93);
+			printer.printHeader(document, "Volume", 38, 297-110);
+			
+			printer.printHeader(document, "Printing", 38, 297-137);
+			
+			printer.print(document,"Cover: "+  coverPaper.getJobColorCombinations().get(0).getFrontColorNumber() + "/" +coverPaper.getJobColorCombinations().get(0).getBackColorNumber()+" " + coverPaper.getJobColorCombinations().get(0).getPrintType().getName(), 73, 297-136);
+			
+			printer.print(document, "Content", 73, 297-142);
+
+			
+				printer.print(document,"Cover: "+ job.getOpenLength()+" X "+job.getOpenWidth()+" mm", 73, 297-93);
+				printer.print(document,"Content: "+  job.getCloseLength()+" X "+ job.getCloseWidth()+ " mm", 73, 297-99);
+				printer.print(document, "Cover: " +job.getCoverVolume()+" Pages", 73, 297-110);
+				printer.print(document, "Content: " +job.getContentVolume()+" Pages", 73, 297-116);
+				String message_ =" ";
+				for(JobPaper pp:jcc) {
+					if(pp.getContentType().getId()!=1)
+				for(int j=0; j<pp.getJobColorCombinations().size(); j++) {
+					message_+=  pp.getJobColorCombinations().get(j).getFrontColorNumber()+"/"+ pp.getJobColorCombinations().get(j).getBackColorNumber()+" "+pp.getJobColorCombinations().get(j).getPrintType().getName()+"";
+				}
+				
+			}
+			printer.print(document, message_, 90, 297-142);
+			
+			printer.printHeader(document, "Finishing", 38, 297-161);
+			if(jobActivity.isHandgather()) jobActivities =	jobActivities + "hand-gatherd, ";
+			if(jobActivity.isSelloptaped()) jobActivities =	jobActivities + " Selloptaped, ";
+			if(jobActivity.isSewn()) jobActivities =	jobActivities + " Sewn,";
+			if(jobActivity.isTrimmed()) jobActivities =	jobActivities + " trimmed, ";
+			if(jobActivity.isStitching()) jobActivities =	jobActivities + " Stitched, ";
+			if(!jobActivity.getGlueOption().isEmpty()) jobActivities =	jobActivities + jobActivity.getGlueOption()+ ", ";
+			if(jobActivity.getXWiredStiched()>0) jobActivities =	jobActivities + jobActivity.getXWiredStiched()+ " x Stiched, ";
+			if(jobActivity.getXCreased()>0) jobActivities =	jobActivities + " Cover "+ jobActivity.getXCreased()+ " x creased, ";
+			if(jobActivity.getXCross()>0) jobActivities =	jobActivities + jobActivity.getXCross()+ " x folded,";
+			if(jobActivity.getXNumbered()>0) jobActivities =	jobActivities + jobActivity.getXNumbered()+ " x Numbered, ";
+			if(jobActivity.getBindingType()!=null) jobActivities =	jobActivities + jobActivity.getBindingType().getName()+" ";
+			if(jobActivity.getLamination()>0) jobActivities =	jobActivities +" Cover " + jobActivity.getLamination() + " side(s) laminated, ";
+
+		 printer.printParagraphe(document,jobActivities, 73, 297-170);
+		 
+		 printer.printHeader(document,"Paper", 38, 297-182);
+		 printer.print(document, "Cover : "+ job.getJobPapers().get(0).getPaperType().getName(), 73, 297-182);
+		 printer.print(document, job.getJobPapers().get(0).getGrammage()+" GSM", 168, 297-182);
+		 			
+			printer.printParagraphe(document,"Content : ", 73, 297-187);
+			float vecto = -5;
+			for(JobPaper pp:jcc) {
+				if(pp.getContentType().getId()!=1) {
+					vecto+=5;
+					printer.print(document, pp.getPaperType().getName(),  90, 297-187-vecto);
+					printer.print(document, pp.getGrammage()+" GSM",  168, 297-187-vecto);
+				}
+
+			}
+			printer.printHeader(document, "Quantity",  38, 297-200);
+			printer.printHeader(document, "Unit",  132, 297-200);
+			printer.printHeader(document, "Total",  172, 297-200);
+			
+			String messagesAdvancePayment="";
+			List<EstimatePricing> estimates =jobEstimate.getEstimatePricings();
+			float vect = -5;
+			DateFormat date =  DateFormat.getDateInstance(DateFormat.DEFAULT,Locale.ENGLISH);
+			printer.printHeader(document,date.format(new Date())+"", 38, 297-73);
+			for(int i=0; i<estimates.size(); i++) {
+				vect+=5;
+				printer.print(document,estimates.get(i).getQuantity()+"", 82, 297-207-vect);
+				printer.print(document, estimates.get(i).getUnitPrice()+"", 132, 297-207-vect);
+				printer.print(document,formateur.format(estimates.get(i).getTotalPrice()) +"", 171, 297-207-vect);
+				
+			}
+			if(jobEstimate.getAdvancePercentage()> 0)
+				messagesAdvancePayment =" Terms of payment "+ jobEstimate.getAdvancePercentage()  + "%" + "in advance."+(100-jobEstimate.getAdvancePercentage())+ ""+"% on delivery";
+		printer.printHeader(document,messagesAdvancePayment, 38, 55);
+			
+			document.close();
+			String	file = jobEstimate.getReference()+".pdf";
+		 return "file="+file+"&dir=folder.estimate";
+		} 
+		
+		catch (Exception e) {
+			e.printStackTrace();
+			return "file=error.pdf&dir=folder.estimate";
+		}
+		
+	}
 }

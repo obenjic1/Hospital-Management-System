@@ -1,12 +1,9 @@
 package com.ppp.billing.serviceImpl;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
-import java.util.concurrent.atomic.AtomicInteger;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,7 +24,6 @@ import com.ppp.billing.model.dto.JobDTO;
 import com.ppp.billing.repository.BindingTypeRepository;
 import com.ppp.billing.repository.ContentTypeRepository;
 import com.ppp.billing.repository.CustomerRepository;
-import com.ppp.billing.repository.JobActivityRepository;
 import com.ppp.billing.repository.JobRepository;
 import com.ppp.billing.repository.JobTypeRepository;
 import com.ppp.billing.repository.PaperTypeRepository;
@@ -75,7 +71,7 @@ public class JobServiceImpl implements JobService {
 		newJob.setCreationDate(new Date());
 		Optional<Customer> customer = customerRepository.findById(jobDTO.getCustomerId());
 		newJob.setCustomer(customer.get());
-		Optional<JobType>  jobType = jobTypeRepository.findById(jobDTO.getJobTypeId());
+		Optional<JobType> jobType = jobTypeRepository.findById(jobDTO.getJobTypeId());
 		newJob.setJobType(jobType.get());
 		
 		JobActivityOptionDTO jobdto = jobDTO.getJobActivities();
@@ -137,12 +133,9 @@ public class JobServiceImpl implements JobService {
 	}
 
 	public void generateSerialNumber(Job job) {
-		LocalDate today = LocalDate.now();
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyMMdd");
-		String dateString = today.format(formatter);
-		int currentCount = (int) (job.getId()%9999); 
-		String countString = String.format("%04d", currentCount);
-		String serialNuber = dateString + "JBN" + countString;
+		//LocalDate today = LocalDate.now();
+		String countString = String.format("%06d");
+		String serialNuber =  "J" + countString;
 		job.setReferenceNumber(serialNuber);
 		jobRepository.save(job);
 	}

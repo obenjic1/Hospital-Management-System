@@ -1,5 +1,6 @@
 package com.ppp.billing.model.dto;
 
+import java.util.Date;
 import java.util.List;
 
 import lombok.AllArgsConstructor;
@@ -14,5 +15,10 @@ public class EstimateDTO {
 	private double unitPrice;
 	private double totalPrice;
 	private String reference;
+	private Date createdDate;
+    private float advancePercentage;
+    private boolean tva;
+    private float irTax;
+
 
 }

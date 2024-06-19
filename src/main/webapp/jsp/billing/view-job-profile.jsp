@@ -224,14 +224,10 @@
                                             <span>${jobEstimate}</span>
                                             <i class="bi bi-download"></i>
                                         </a>
-
-
                                 </div>
                             </div>
                         </c:forEach>
-
-
-                </div
+                </div>
 			</div>
             </div>
             </div>

@@ -171,7 +171,7 @@
                                                                     <td><c:out value = "${i}"/></td>
                                                                     <td><a>${estimate.quantity}</a></td>
                                                                     <td class="right-align"><a>${estimate.unitPrice}</a></td>
-                                                                    <td><a>${estimate.totalPrice}</a></td>
+                                                                    <td><a>${estimate.totalPrice}</a></td>                                
                                                                 </tr>
                                                                 <c:set var = "i"  value = "${i+1}"/>
                                                             </c:forEach>
@@ -184,7 +184,7 @@
                                         <div class="" style="margin-top:50px;">
                            <!--                 <button class="btn btn-primary" onclick="confirmEstimate('/job/estimate/confirm/${job.id}');"><fmt:message key="confirm"/></button> -->
 
-                                            <button class="btn btn-primary" onclick="confirmEstimate('/job/estimate/confirm/${job.id}');"><fmt:message key="print"/></button>
+                                            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#ExtralargeModalFile" onclick="confirmEstimate('/job/estimate/confirm/${job.id}','/job/estimate-pdf/');"><fmt:message key="print"/></button>
                               <!--                <button  class="btn btn-danger" onclick="closeModalView('ExtralargeModal');"><fmt:message key="cancel"/></button> -->
 
                                         </div>

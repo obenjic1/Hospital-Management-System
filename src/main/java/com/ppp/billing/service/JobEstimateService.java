@@ -8,6 +8,6 @@ import java.util.List;
 public interface JobEstimateService {
 
 	JobEstimate save(JobEstimate jobEstimate);
-
+//	JobEstimate saveEstimate (String quantity,float advancePercentage);
 
 }

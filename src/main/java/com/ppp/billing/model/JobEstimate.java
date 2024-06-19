@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -20,24 +21,20 @@ public class JobEstimate {
     @Column(name = "reference")
     private  String reference;
 
-    @Column(name = "quantity")
-    private int quantity;
-
-    @Column(name = "unit_price")
-    private double unitPrice;
-
-    @Column(name = "total_price")
-    private double totalPrice;
+    @Column(name = "advance_percentage", columnDefinition = "float default 0")
+    private float advancePercentage;
 
     @Column(name="expected_delivery_date")
     @Temporal(TemporalType.DATE)
     private Date createdDate;
 
-    @ManyToOne
     @JoinColumn(name = "job_id", referencedColumnName = "id")
-    private Job  job;
+    @ManyToOne(fetch = FetchType.LAZY,  cascade = CascadeType.PERSIST)
+    private Job job;
+    
 
-
-
+	@Column(name = "estimate_pricing_id")
+	@OneToMany(fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "jobEstimate",cascade = CascadeType.PERSIST)
+	private List<EstimatePricing> estimatePricings;
 
 }

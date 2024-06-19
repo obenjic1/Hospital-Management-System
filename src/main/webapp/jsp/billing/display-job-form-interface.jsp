@@ -81,26 +81,8 @@
 					  <input id= "title" name="title" type= "text">
 					</div>
                   </div>
-				</div>						
-			     <div class="row py-3">
-				  <div class ="col-lg-3 px8">
-				    <label for="coverVolume" class="form-label"><fmt:message key="volume.cover"/></label> 
-				     <div>
-					  <input id= "volumeOfCover" name="volumeOfCover" type="number" value=4>
-				    </div>
-				  </div>
-				  <div class ="col-lg-3 px8" style="position: relative; left: 10px;"> 
-				    <label for="volumeOfContent"   class="form-label"><fmt:message key="volume.content"/></label>
-				    <div>
-					  <input id= "volumeOfContent" name="volumeOfContent" type="number" onchange="totalContentVolumeChange()">
-				    </div>
-				  </div>
-				  <div class ="col-lg-3 px8"  style="position: relative; left: 10px;">
-				    <label for="" class="form-label"><fmt:message key="ctp.fees"/></label> 
-					<input type="number" id="ctpFees" value="0">
-			      </div>
-		       </div>		
-			 <div class="row py-3">
+				</div>	
+							 <div class="row py-3">
 			  <div class ="col-lg-3 px8" >
 				   <label for="" class="form-label"> <fmt:message key="format"/></label>
               	   <select id="paperFormat" onchange="paperF(this.value)" name="name" class="form-select">
@@ -137,7 +119,27 @@
 				  </div>
 			   </div>
 			
-		      </div>	
+		      </div>
+									
+			     <div class="row py-3">
+				  <div class ="col-lg-3 px8">
+				    <label for="coverVolume" class="form-label"><fmt:message key="volume.cover"/></label> 
+				     <div>
+					  <input id= "volumeOfCover" name="volumeOfCover" type="number" value=4>
+				    </div>
+				  </div>
+				  <div class ="col-lg-3 px8" style="position: relative; left: 10px;"> 
+				    <label for="volumeOfContent"   class="form-label"><fmt:message key="volume.content"/></label>
+				    <div>
+					  <input id= "volumeOfContent" name="volumeOfContent" type="number" onchange="totalContentVolumeChange()">
+				    </div>
+				  </div>
+				  <div class ="col-lg-3 px8"  style="position: relative; left: 10px;">
+				    <label for="" class="form-label"><fmt:message key="ctp.fees"/></label> 
+					<input type="number" id="ctpFees" value="0">
+			      </div>
+		       </div>		
+	
 		      <div class="row py-3">
 			    <div class ="col-lg-3 px8">
 			      <div>

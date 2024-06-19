@@ -13,6 +13,8 @@ function loadPageModal(page) {
 		.catch(error => console.log(error));
 }
 
+
+
 function showModal(){
 	
 	var modal = document.getElementById('ExtralargeModal');
