@@ -10,8 +10,8 @@
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.ppp</groupId>
-	<artifactId>smartSheet</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<artifactId>billing</artifactId>
+	<version>1</version>
 	<packaging>war</packaging>
 	<name>smartSheet</name>
 	<description>Demo project for Spring Boot</description>

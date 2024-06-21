@@ -32,7 +32,7 @@
 				<div class="card">
 					<div class="card-body">
 						<h5 class="card-title"> Machines</h5>
-						<button onclick="loadPage('machine/add')" type="button" class="btn btn-primary">
+						<button data-bs-target="#ExtralargeModal" data-bs-toggle="modal" onclick="loadPageModalForm('machine/add')" type="button" class="btn btn-primary">
 						  <fmt:message key="add.group"/>
 						</button>
 						
@@ -61,10 +61,10 @@
 							     
 							  <td>
 							     <a>
-								   <button class="button-see" data-bs-toggle="modal" data-bs-target="#ExtralargeModal" onclick="loadPageModal('/machine/viewMachine/${machine.id}')">
+								   <button class="button-see" data-bs-toggle="modal" data-bs-target="#ExtralargeModal" onclick="loadPageModalForm('machine/viewMachine/${machine.id}')">
 								     <i class="ri-eye-line"></i>
 								   </button>
-								   <button class="button-edite" data-bs-toggle="modal" data-bs-target="#ExtralargeModal" onclick=" loadPageModal('/machine/update-form/${machine.id}')">
+								   <button class="button-edite" data-bs-toggle="modal" data-bs-target="#ExtralargeModal" onclick=" loadPageModalForm('machine/update-form/${machine.id}')">
 								    <i class="ri-pencil-line"></i>
 								   </button>
 								   <button class="button-delete" onclick="removeMachine(${machine.id})" id="startDeleting1" data-bs-toggle="modal">

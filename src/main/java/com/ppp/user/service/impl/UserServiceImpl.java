@@ -49,13 +49,17 @@ public class UserServiceImpl implements UserService {
 	
 	@Override
 	public Page<User> findPaginatedUser(int pageNo, int pageSize, boolean isDeleted) {
-		Pageable pageable = PageRequest.of(pageNo - 1, pageSize);
-		Session session = entityManager.unwrap(Session.class);
-	    Filter filter = session.enableFilter("deletedUsertFilter");
-	    filter.setParameter("isDeleted", isDeleted);
-	    Iterable<User> users = userRepository.findAll();
-	    session.disableFilter("deletedUserFilter");
-		return userRepository.findAll(pageable);
+		try {
+			Pageable pageable = PageRequest.of(pageNo - 1, pageSize);
+			Session session = entityManager.unwrap(Session.class);
+		    Filter filter = session.enableFilter("deletedUsertFilter");
+		    filter.setParameter("isDeleted", isDeleted);
+		    Iterable<User> users = userRepository.findAll();
+		    session.disableFilter("deletedUserFilter");
+			return userRepository.findAll(pageable);
+		} catch (Exception e) {
+			throw e;
+		}
 	}
 
 //<-------------------- Create user using userDTO ---------------------->
@@ -99,14 +103,22 @@ public class UserServiceImpl implements UserService {
 	
 	//<--------------------- find user by email ojong--------------------------> 
 	public User findUserByEmail(String email) {
-		return userRepository.findByEmail(email);
+		try {
+			return userRepository.findByEmail(email);
+		} catch (Exception e) {
+			throw e;
+		}
 	}
 
 	
 //<--------------------- Delete User --------------------------> 
 	@Override
 	public void deleteUserByUsername(Long id) {
-		userRepository.deleteById(id);
+		try {
+			userRepository.deleteById(id);
+		} catch (Exception e) {
+			throw e;
+		}
 	}
 
 //<----------------- Get user by user name using DTO object ------------------->	
@@ -131,19 +143,23 @@ public class UserServiceImpl implements UserService {
 //<---------------------- Update user ---------------------> 
 	@Override
 	public String updateUser(User updatedUser, Long id) {
-		User existingUser = userRepository.findById(id).get();
-		if(existingUser == null) {
-			return " error";		
-		}
-		existingUser.setFirstName(updatedUser.getFirstName());
-		existingUser.setLastName(updatedUser.getLastName());
-		existingUser.setUsername(updatedUser.getUsername());
-		existingUser.setEmail(updatedUser.getEmail());
-		existingUser.setAddress(updatedUser.getAddress());
-		existingUser.setMobile(updatedUser.getMobile());
-		 userRepository.save(existingUser);
+		try {
+			User existingUser = userRepository.findById(id).get();
+			if(existingUser == null) {
+				return " error";		
+			}
+			existingUser.setFirstName(updatedUser.getFirstName());
+			existingUser.setLastName(updatedUser.getLastName());
+			existingUser.setUsername(updatedUser.getUsername());
+			existingUser.setEmail(updatedUser.getEmail());
+			existingUser.setAddress(updatedUser.getAddress());
+			existingUser.setMobile(updatedUser.getMobile());
+			 userRepository.save(existingUser);
 
-		return " success";
+			return " success";
+		} catch (Exception e) {
+			throw e;
+		}
 	}
 
 	

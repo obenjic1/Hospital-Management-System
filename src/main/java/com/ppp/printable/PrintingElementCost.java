@@ -139,10 +139,12 @@ public class PrintingElementCost {
 		switch (machine) {
 		case "GTO":
 			return this.basic<70? 2300: this.basic<160?1800:2300;
-		case "SPM":
-			return this.basic<70?13900: this.basic<160?12900:15000;
-		default:
+		case "SO":
 			return this.basic<70? 8300: this.basic<160?7600:9100;
+		default:
+			return this.basic<70?13900: this.basic<160?12900:15000;
+
+			
 		}
 	}
 	
@@ -151,10 +153,10 @@ public class PrintingElementCost {
 		switch (machine) {
 		case "GTO":
 			return gtoPrintTypeCosting.get(this.colorCombination.getPrintType().getAbreviation());
-		case "SPM":
-			return spPrintTypeCosting.get(this.colorCombination.getPrintType().getAbreviation());
-		default:
+		case "SO":
 			return sormPrintTypeCosting.get(this.colorCombination.getPrintType().getAbreviation());
+		default:
+			return spPrintTypeCosting.get(this.colorCombination.getPrintType().getAbreviation());
 		}
 	}
 	
@@ -175,10 +177,10 @@ public class PrintingElementCost {
 		switch (machine) {
 		case "GTO":
 			return colorCombination.getPrintType().getAbreviation().equals("BWK")? 2000:colorCombination.getPrintType().getAbreviation().indexOf("POLY")!=-1?4700:3400;
-		case "SPM":
-			return colorCombination.getPrintType().getAbreviation().equals("BWK")? 8800:colorCombination.getPrintType().getAbreviation().indexOf("POLY")!=-1?19000:11700;
-		default:
+		case "SO":
 			return colorCombination.getPrintType().getAbreviation().equals("BWK")? 3500:colorCombination.getPrintType().getAbreviation().indexOf("POLY")!=-1?7200:4500;
+		default:
+			return colorCombination.getPrintType().getAbreviation().equals("BWK")? 8800:colorCombination.getPrintType().getAbreviation().indexOf("POLY")!=-1?19000:11700;
 		}
 	}
 	
@@ -200,22 +202,8 @@ public class PrintingElementCost {
 					  return 5400;
 					else
 					 return this.basic<70?6000:basic<160?4600:5000;
-		case "SPM":
-			if(this.colorCombination.getPrintType().getAbreviation().equals("BWK")) {
-				return this.basic<70?9800:this.basic<160?7600:8200;
-		}
-		if(this.colorCombination.getPrintType().getAbreviation().indexOf("POLY")!=-1) {
-			if(colorCombination.getJobPaper().getPaperType().getName().toLowerCase().indexOf("Glazed".toLowerCase())!=-1)
-				return 10800;
-			else
-				return this.basic<160?9200:9800;
-		}
-		else
-			if(colorCombination.getJobPaper().getPaperType().getName().toLowerCase().indexOf("Glazed".toLowerCase())!=-1)
-				  return 10400;
-				else
-				 return this.basic<70?11000:basic<160?8600:9400;
-		default:
+		case "SO":
+			
 			if(this.colorCombination.getPrintType().getAbreviation().equals("BWK")) {
 				return this.basic<70?6800:this.basic<160?5200:5800;
 		}
@@ -230,6 +218,30 @@ public class PrintingElementCost {
 				  return 7200;
 				else
 				 return this.basic<70?7600:basic<160?6000:6600;
+			
+		default:
+			/*
+			 * debut
+			 */
+			if(this.colorCombination.getPrintType().getAbreviation().equals("BWK")) {
+				return this.basic<70?9800:this.basic<160?7600:8200;
+		}
+		if(this.colorCombination.getPrintType().getAbreviation().indexOf("POLY")!=-1) {
+			if(colorCombination.getJobPaper().getPaperType().getName().toLowerCase().indexOf("Glazed".toLowerCase())!=-1)
+				return 10800;
+			else
+				return this.basic<160?9200:9800;
+		}
+		else
+			if(colorCombination.getJobPaper().getPaperType().getName().toLowerCase().indexOf("Glazed".toLowerCase())!=-1)
+				  return 10400;
+				else
+				 return this.basic<70?11000:basic<160?8600:9400;
+			
+			/*
+			 * Fin
+			 */
+			
 		}
 	}
 	

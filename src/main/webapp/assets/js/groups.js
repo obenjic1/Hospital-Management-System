@@ -35,7 +35,7 @@ function addGroupe() {
 
     var stringData = JSON.stringify(data);
 
-    fetch('/group/add-group', {
+    fetch('group/add-group', {
             method: "POST",
             headers: {
                 'Content-type': 'application/json'
@@ -76,7 +76,7 @@ function updateGroupe(name) {
    };
    var jsonGroupUpdatedValue = JSON.stringify(updatedGroupValue);
    
-   fetch(`/group/update-group/${name}`, {
+   fetch(`group/update-group/${name}`, {
       method: "POST",
       headers: {
          'Content-type': 'application/json'
@@ -103,7 +103,7 @@ function updateGroupe(name) {
 //<-------------------- List group with paginations --------------------->
 function refreshGroupTable(pageNo) {
     $.ajax({
-        url: '/group/page/' + pageNo,
+        url: 'group/page/' + pageNo,
         type: 'GET',
         success: function(data) {
             $('#pagination-list').html(data);
@@ -126,7 +126,7 @@ function confirmDisableGroupe(id) {
 }
 
 function disableGroup(id){
-	fetch(`/group/disable-group/${id}`, {
+	fetch(`group/disable-group/${id}`, {
 		method: 'POST',
 	})
 	.then( response => {	

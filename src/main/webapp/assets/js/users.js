@@ -87,7 +87,7 @@ function addUser() {
 		formData.append('groupe', groupe),
 		formData.append('imageFile', imageFile),
 
-		fetch('/user/add-user', {
+		fetch('user/add-user', {
 			method: 'POST',
 			body: formData,
 		})
@@ -171,7 +171,7 @@ function updateUserById(id) {
 
 	var jsonUserUpdateData = JSON.stringify(userUpdatedData);
 
-	fetch(`/user/update-user/${email}`, {
+	fetch(`user/update-user/${email}`, {
 		method: 'POST',
 		headers: {
 			'Content-Type': 'application/json'
@@ -190,7 +190,7 @@ function updateUserById(id) {
 		.catch(error => {
 			var modal = new bootstrap.Modal(document.getElementById('userNotDeleted'));
 			modal.show();
-			loadPage('/user/list-users');
+			loadPage('user/list-users');
 		});
 }
 

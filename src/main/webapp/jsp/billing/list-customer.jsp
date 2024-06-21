@@ -30,7 +30,7 @@
 				<div class="card">
 					<div class="card-body">
 						<h5 class="card-title"> <fmt:message key="customers"/></h5>
-						<button data-bs-toggle="modal" data-bs-target="#ExtralargeModal" onclick="fillContentModal('/customer/displayCustomerForm')" type="button" class="btn btn-primary" style=" position: relative; left: 94%; width: 77px;">
+						<button data-bs-toggle="modal" data-bs-target="#ExtralargeModal" onclick="loadPageModalForm('customer/displayCustomerForm')" type="button" class="btn btn-primary" style=" position: relative; left: 94%; width: 77px;">
 						  <fmt:message key="add.group"/>
 <!-- 						   data-bs-toggle="modal" data-bs-target="#saveCustomerModal1" -->
 						</button>
@@ -48,16 +48,16 @@
 						  <tbody>
 						  <c:forEach var="customers" items="${allCustomers}" varStatus="loop">
 						    <tr class="${loop.index % 2 == 0 ? 'even-row' : 'odd-row'}">
-							   <th><img src="/customer/image/${customer.thumbnail}" class="rounded-circle"></th>
+							   <th><img src="customer/image/${customer.thumbnail}" class="rounded-circle"></th>
 							   <td><a>${customers.name}</a></td>
 							   <td><a>${customers.telephone}</a></td>
 							   <td><a>${customers.address}</a></td> 
 							   <td>
 							     <a>
-								   <button class="button-see" data-bs-toggle="modal" data-bs-target="#ExtralargeModal" onclick="fillContentModal('customer/find/${customers.email}')">
+								   <button class="button-see" data-bs-toggle="modal" data-bs-target="#ExtralargeModal" onclick="loadPageModalForm('customer/find/${customers.email}')">
 								     <i class="fas fa-eye"></i>
 								   </button>
-								   <button class="button-edite" data-bs-toggle="modal" data-bs-target="#ExtralargeModal" onclick="fillContentModal('customer/update/${customers.email}')">
+								   <button class="button-edite" data-bs-toggle="modal" data-bs-target="#ExtralargeModal" onclick="loadPageModalForm('customer/update/${customers.email}')">
 								     <i class="fas fa-pencil-alt"></i>
 								   </button>
 								   <button class="button-delete" data-bs-toggle="modal" onclick="confirmDelete('${customers.id}')" data-bs-target="#areyouSureYouWantToDetele" id="startDeleting">

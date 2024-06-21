@@ -29,7 +29,7 @@
 				<div class="card">
 					<div class="card-body">
 						<h5 class="card-title">List groups</h5>
-						<button type="button" onclick="loadPageModal('/group/add-group')" data-bs-toggle="modal" data-bs-target="#ExtralargeModal" class="btn btn-primary">Add Group</button>
+						<button type="button" onclick="loadPageModalForm('group/add-group')" data-bs-toggle="modal" data-bs-target="#ExtralargeModal" class="btn btn-primary">Add Group</button>
 
 						<!-- Table with stripped rows -->
 						<table id="groupDataTable" class="table datatable">
@@ -48,10 +48,10 @@
 							    <td><a>${group.name}</a></td>
 							    <td><a data-bs-toggle="tooltip" data-bs-placement="top" title="${group.description}"> ${group.description}</a></td>
 							    <td>
-								  <button class="button-see" data-bs-toggle="modal" data-bs-target="#ExtralargeModal" onclick="loadPageModal('group/group-details/${group.name}')">
+								  <button class="button-see" data-bs-toggle="modal" data-bs-target="#ExtralargeModal" onclick="loadPageModalForm('group/group-details/${group.name}')">
 								    <a data-toggle="tooltip" title="View"><i class='fas fa-eye'></i></a>												
 								  </button>
-							      <button class="button-icon" data-bs-toggle="modal" data-bs-target="#ExtralargeModal" onclick="loadPageModal('group/update-group/${group.name}')">
+							      <button class="button-icon" data-bs-toggle="modal" data-bs-target="#ExtralargeModal" onclick="loadPageModalForm('group/update-group/${group.name}')">
 							        <i class="fas fa-pencil-alt"></i>
 								  </button>
 							      <button class="button-delete ${group.enabled ? '' : 'disabled-button'}" data-bs-toggle="modal"> 

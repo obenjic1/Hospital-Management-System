@@ -12,7 +12,7 @@ function loadRolePageModal(page) {
 $(document).ready(function() {
     // Gestionnaire de clic pour le lien "List Roles"
     $('#list-roles').on('click', function() {
-        loadPage('/role/list-roles');
+        loadPage('role/list-roles');
     });
 
     // Gestionnaire de clic pour le lien "View Role Details"

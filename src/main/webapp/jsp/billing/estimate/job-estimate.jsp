@@ -58,7 +58,7 @@
                                                 </div>
                                             </div>
                                             <div class="row">
-                                                        <label>Percentage of advance payment</label>
+                                                        <label>Advance Payment</label>
                                                       <div>
                                                             <input type=number id="advancePercentage" value="0" style=" width: 95%;" >
                                                       </div>
@@ -79,22 +79,10 @@
                                                         </div>
                                                     </div>
                                             </div>
-<!-- 											<div class="row"> -->
-<!-- 												 <div class="col-sm-8 form-check">                       -->
-<!-- 							                    <input class="form-check-input" type="checkbox" id="irTaxe" onclick="iRtax()" > -->
-<!-- 							                     <label class="form-check-label" for="gridCheck">Apply IR Tax</label> -->
-<!-- 							                     <input type=number id="irTax" value="0" style="display:none"> -->
-<!-- 							                  </div> -->
-<!-- 							                  <div class="col-sm-4 form-check">                       -->
-<!-- 							                    <input class="form-check-input" type="checkbox" id="tva"> -->
-<!-- 							                      <label class="form-check-label" for="gridCheck">TVA 19.5%</label> -->
-<!-- 							                  </div> -->
-											
-<!-- 											</div> -->
                                         </form>
                                         <hr><br>
                                         <div class="" style="margin-top:50px;">
-                                            <button class="btn btn-primary" onclick="generateEstimate('/job/generate/${job.id}', 'tab-1', 'tab-2');"><fmt:message key="generate"/></button>
+                                            <button class="btn btn-primary" onclick="generateEstimate('job/generate/${job.id}', 'tab-1', 'tab-2');"><fmt:message key="generate"/></button>
                                         </div>
                                     </div>
                                 </div>

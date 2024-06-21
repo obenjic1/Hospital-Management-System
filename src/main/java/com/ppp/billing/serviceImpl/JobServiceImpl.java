@@ -1,8 +1,11 @@
 package com.ppp.billing.serviceImpl;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -131,14 +134,15 @@ public class JobServiceImpl implements JobService {
 		
         return newJob;
 	}
-
+	
 	public void generateSerialNumber(Job job) {
-		//LocalDate today = LocalDate.now();
-		String countString = String.format("%06d");
-		String serialNuber =  "J" + countString;
+		int currentCount = (int) (job.getId()%9999); 
+		String countString = String.format("%06d", currentCount);
+		String serialNuber = "J" + countString;
 		job.setReferenceNumber(serialNuber);
 		jobRepository.save(job);
 	}
+
 	
 	@Override
 	public List<Job> listAllJob() {
@@ -155,5 +159,19 @@ public class JobServiceImpl implements JobService {
 	public void save(Job job) {
 		jobRepository.save(job);
 		
+	}
+	
+	public String currencyFormarter(double amount) {
+		Locale locale = new Locale("en", "EN");
+
+		NumberFormat numberFormat = NumberFormat.getInstance(locale);
+		return numberFormat.format(amount);
+	}
+	
+	public String currencyFormarterCfa(double amount) {
+		Locale locale = new Locale("en", "EN");
+
+		NumberFormat numberFormat = NumberFormat.getInstance(locale);
+		return numberFormat.format(amount);
 	}
 }

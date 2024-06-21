@@ -17,7 +17,7 @@ function save(){
 	};
 	
 	var jsonData = JSON.stringify(data);
-	fetch('/papertype/save', {
+	fetch('papertype/save', {
 		method: 'POST',
 		headers: {
            'Content-type': 'application/json'
@@ -59,7 +59,7 @@ function update(id){
         }
    })
    .then(data => {
-      loadPage('/papertype/list');
+      loadPage('papertype/list');
     })
 	.catch(error => {
 		

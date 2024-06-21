@@ -2,23 +2,24 @@ package com.ppp.printable;
 
 
 import java.io.IOException;
+import java.text.NumberFormat;
+import java.util.Locale;
 
 import com.itextpdf.io.font.FontConstants;
 import com.itextpdf.kernel.font.PdfFont;
 import com.itextpdf.kernel.font.PdfFontFactory;
 import com.itextpdf.layout.Document;
-import com.itextpdf.layout.border.Border;
 import com.itextpdf.layout.element.Paragraph;
 import com.itextpdf.layout.element.Table;
-import com.itextpdf.layout.property.TextAlignment;
 
 public class PrintableElement {
 	private final float mmToPoint = 2.83465f;
 	
-	private String message ;
 
+	private String message;
 	private float xAxis;
 	private float yAxis;
+	private double money;
 	
 	public String getMessage() {
 		return message;
@@ -39,8 +40,15 @@ public class PrintableElement {
 	public void setyAxis(float yAxis) {
 		this.yAxis = yAxis*mmToPoint;
 	}
-	
-	
+		
+
+	public double getMoney() {
+		return money;
+	}
+
+	public void setMoney(double money) {
+		this.money = money;
+	}
 
 	public void print(Document document) {
 		
@@ -70,6 +78,8 @@ public class PrintableElement {
 		document.add(paragraph);
 	
 	}
+  
+  
 
   public void print(Document document, Table table, float xAxis, float yAxis) throws IOException {
 	    PdfFont font = PdfFontFactory.createFont(FontConstants.TIMES_ITALIC);
@@ -87,6 +97,22 @@ public class PrintableElement {
 		this.message= message;
 		document.setFont(font);
 		document.add(new Paragraph(this.message).setFixedPosition(this.xAxis, this.yAxis, 595));
+	
+	}
+  
+  public void printMoney(Document document, double money, float xAxis, float yAxis) throws IOException {
+	    PdfFont font = PdfFontFactory.createFont(FontConstants.TIMES_ITALIC);
+		this.setxAxis(xAxis);
+		this.setyAxis(yAxis);
+		this.money= (long) money;
+		String message =money+"";
+		Locale locale = new Locale("en", "EN");
+		NumberFormat numberFormat = NumberFormat.getInstance(locale);
+		 numberFormat.format(this.money);
+		document.setFont(font);
+		Paragraph  paragraph = new Paragraph(numberFormat.format(this.money)).setFixedPosition(this.xAxis, this.yAxis, 595);
+		paragraph.setPaddingRight(250);
+		document.add(paragraph);
 	
 	}
  

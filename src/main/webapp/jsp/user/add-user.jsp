@@ -98,7 +98,6 @@
 				</div>
 			</div>
 		</section>
-	</div>
 </main>
 <!-- End #main -->
 <script src="assets/js/users.js"></script>

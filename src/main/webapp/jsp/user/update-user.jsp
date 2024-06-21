@@ -73,7 +73,7 @@
 						  </div>
 						</div>
 						<div class="col-md-6">
-						  <input data-bs-toggle="modal" data-bs-target="#creation" type="button" onclick="loadPage('/user/list-users') ;updateUserById('${userFinded.id}')" class="btn btn-primary" value="Save Changes" style="left: 164%;bottom: -18%;"/>
+						  <input data-bs-toggle="modal" data-bs-target="#creation" type="button" onclick="loadPage('user/list-users') ;updateUserById('${userFinded.id}')" class="btn btn-primary" value="Save Changes" style="left: 164%;bottom: -18%;"/>
 						</div>
 					</form>
 				</div>

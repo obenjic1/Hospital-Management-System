@@ -102,7 +102,6 @@
         </div>
     </section>
 
-  </main><!-- End #main -->
   <link href="assets/css/group-details.css" rel="stylesheet">
   <script src="assets/js/users.js"></script>
   

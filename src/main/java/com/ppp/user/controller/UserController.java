@@ -65,13 +65,17 @@ public class UserController {
 //<------------------- View user profile -------------------->
 	@PreAuthorize("hasRole('ROLE_VIEW_USER_DETAILS')")
 	@GetMapping("/viewUser/{username}")
-	public String findOneUser(@PathVariable String username, Model model) {
-			User userFind = userServiceImpl.findUserByUsername(username);
-			if(userFind  == null) {
-				return "errors/user-not-found";
+	public String findOneUser(@PathVariable String username, Model model) throws Exception {
+			try {
+				User userFind = userServiceImpl.findUserByUsername(username);
+				if(userFind  == null) {
+					return "errors/user-not-found";
+				}
+				model.addAttribute("userFind", userFind);
+		    return "user/view-user-profile";
+			} catch (Exception e) {
+				throw new Exception(e.getMessage());
 			}
-			model.addAttribute("userFind", userFind);
-	    return "user/view-user-profile";
 	}
 	
 

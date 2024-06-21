@@ -31,84 +31,108 @@ public class GroupeServiceImpl implements GroupeService {
 
 	@Override
 	public String addNewGroupe(GroupDTO groupDTO, String name) {
-	    Groupe newGroup = new Groupe();
-	    newGroup.setName(groupDTO.getName());
-	    newGroup.setDescription(groupDTO.getDescription());
-	    newGroup.setCreatedAt(LocalDateTime.now());
-	    newGroup.setGroupRoles(newGroup.getGroupRoles());
-	    List<String> selectedRoles = groupDTO.getIds();
-	    List<Groupe> existingGroups = groupeRepository.findAll();		 
-	    for (Groupe existingGroup : existingGroups) {
-	        if (existingGroup.getName().equals(newGroup.getName())) {
-	            return "error";
-	        }
-	    }
-	    groupeRepository.save(newGroup);
+	   try {
+		   Groupe newGroup = new Groupe();
+		    newGroup.setName(groupDTO.getName());
+		    newGroup.setDescription(groupDTO.getDescription());
+		    newGroup.setCreatedAt(LocalDateTime.now());
+		    newGroup.setGroupRoles(newGroup.getGroupRoles());
+		    List<String> selectedRoles = groupDTO.getIds();
+		    List<Groupe> existingGroups = groupeRepository.findAll();		 
+		    for (Groupe existingGroup : existingGroups) {
+		        if (existingGroup.getName().equals(newGroup.getName())) {
+		            return "error";
+		        }
+		    }
+		    groupeRepository.save(newGroup);
 
-	    for (String roleName : selectedRoles) {
-	        Role role = roleRepository.findByName(roleName);
-	        GroupeRole groupeRole = new GroupeRole();
-	        groupeRole.setGroupe(newGroup);
-	        groupeRole.setRole(role);
-	        groupRoleRepository.save(groupeRole);
-	    }
-	    return "sucess";
+		    for (String roleName : selectedRoles) {
+		        Role role = roleRepository.findByName(roleName);
+		        GroupeRole groupeRole = new GroupeRole();
+		        groupeRole.setGroupe(newGroup);
+		        groupeRole.setRole(role);
+		        groupRoleRepository.save(groupeRole);
+		    }
+		    return "sucess";
+	} catch (Exception e) {
+		throw e;
+	}
 	}
 	
 
 	@Override
 	public List<Groupe> getAllGroupe() {
-		return groupeRepository.findAll();
+		try {
+			return groupeRepository.findAll();
+		} catch (Exception e) {
+			throw e;
+		}
 	}
 	
 	@Override
 	public Page<Groupe> findPaginatedGroup(int pageNo, int pageSize) {
-		Pageable pageable = PageRequest.of(pageNo - 1, pageSize);
-		return groupeRepository.findAll(pageable);
+		try {
+			Pageable pageable = PageRequest.of(pageNo - 1, pageSize);
+			return groupeRepository.findAll(pageable);
+		} catch (Exception e) {
+			throw e;
+		}
 	}
 
 	@Override
 	public Groupe groupDetails(String name) {	 
-		 return groupeRepository.findByName(name);
+		 try {
+			 return groupeRepository.findByName(name);
+		} catch (Exception e) {
+			throw e;
+		}
 	}
 
 
 	@Override
 	public String updateGroupe(GroupDTO groupDTO, String name) {
-		Groupe existinGroup = groupeRepository.findByName(name);
-		if(existinGroup == null) {
-			return "error";
-		}
-		existinGroup.setName(groupDTO.getName());
-		existinGroup.setDescription(groupDTO.getDescription());
-		existinGroup.setCreatedAt(LocalDateTime.now());
-		    List<String> selectedRoles = groupDTO.getIds();
-		    
-		    groupeRepository.save(existinGroup);
-		    
-		    List<GroupeRole> existingRoles = groupRoleRepository.findByGroupe(existinGroup);
-	        for( GroupeRole existingRoleName : existingRoles) {
-	        	if(existingRoleName != null) {
-	        		groupRoleRepository.delete(existingRoleName);
-	        	}
-	        }
+		try {
+			Groupe existinGroup = groupeRepository.findByName(name);
+			if(existinGroup == null) {
+				return "error";
+			}
+			existinGroup.setName(groupDTO.getName());
+			existinGroup.setDescription(groupDTO.getDescription());
+			existinGroup.setCreatedAt(LocalDateTime.now());
+			    List<String> selectedRoles = groupDTO.getIds();
+			    
+			    groupeRepository.save(existinGroup);
+			    
+			    List<GroupeRole> existingRoles = groupRoleRepository.findByGroupe(existinGroup);
+		        for( GroupeRole existingRoleName : existingRoles) {
+		        	if(existingRoleName != null) {
+		        		groupRoleRepository.delete(existingRoleName);
+		        	}
+		        }
 
-		    for (String roleName : selectedRoles) {
-		        Role role = roleRepository.findByName(roleName);
-		        GroupeRole groupeRole = new GroupeRole();
-		        groupeRole.setGroupe(existinGroup);
-		        groupeRole.setRole(role);
-		        groupRoleRepository.save(groupeRole);
-		    }
-		return null;
+			    for (String roleName : selectedRoles) {
+			        Role role = roleRepository.findByName(roleName);
+			        GroupeRole groupeRole = new GroupeRole();
+			        groupeRole.setGroupe(existinGroup);
+			        groupeRole.setRole(role);
+			        groupRoleRepository.save(groupeRole);
+			    }
+			return null;
+		} catch (Exception e) {
+			throw e;
+		}
 	}
 
 
 	@Override
 	public Groupe disableGroup(Long id) {
-		Groupe optionalGroup = groupeRepository.findById(id).get();
-      groupeRepository.delete(optionalGroup);
-		return optionalGroup;
+		try {
+			Groupe optionalGroup = groupeRepository.findById(id).get();
+		      groupeRepository.delete(optionalGroup);
+				return optionalGroup;
+		} catch (Exception e) {
+			throw e;
+		}
 	}
 
 }

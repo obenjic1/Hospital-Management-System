@@ -17,13 +17,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
-@RequestMapping("/file")
+@RequestMapping("file")
 @CrossOrigin(origins="*")
 public class DownloadController {
 	@Value("${folder.controlSheet}")
 	private String controlSheetFolder;
 	@Value("${folder.estimate}")
 	private String estimateFolder;
+	@Value("${folder.user.images}")
+	private String imageFolder;
 	
 	@Autowired
 	private ServletContext context;
@@ -37,6 +39,9 @@ public class DownloadController {
 			break;
 		case "folder.estimate":
 			dir= estimateFolder;
+			break;
+		case "folder.user.images":
+			dir= imageFolder;
 			break;
 
 		default:

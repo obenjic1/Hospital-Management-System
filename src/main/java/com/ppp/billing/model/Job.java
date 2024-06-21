@@ -121,7 +121,7 @@ public class Job {
 	@Column(name = "other_fee_description")
 	private String otherFeeDescription;
 	
-	@OneToMany(cascade = CascadeType.PERSIST)
+	@OneToMany(mappedBy = "job", cascade = CascadeType.PERSIST)
     private List<JobEstimate>  jobEstimates;
 	
 }

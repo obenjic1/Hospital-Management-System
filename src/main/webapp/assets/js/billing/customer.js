@@ -21,7 +21,7 @@ function savecutomer() {
 		formData.append('address', address);
 		formData.append('thumbnail', thumbnail);
 			
-		fetch('/customer/save', {
+		fetch('customer/save', {
 			method: 'POST',
 			body: formData ,
 		})
@@ -58,7 +58,7 @@ function update(id) {
 	};	
 	var jsonUpdatedData = JSON.stringify(updateData);
 	
-	fetch(`/customer/updatecustomer/${id}`, {
+	fetch(`customer/updatecustomer/${id}`, {
 		method: 'post',
 		headers: {
 			'Content-Type': 'application/json'

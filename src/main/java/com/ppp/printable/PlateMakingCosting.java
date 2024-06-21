@@ -70,7 +70,7 @@ public class PlateMakingCosting {
 		
 		if(printingMachine.getAbbreviation().equals("GTO"))
 			return this.plates*3800;
-		else if(printingMachine.getAbbreviation().equals("SPM5UNITS"))
+		else if(printingMachine.getAbbreviation().equals("SPM5"))
 			return this.plates*9000;
 		else
 			return this.plates*5000;

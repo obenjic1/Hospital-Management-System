@@ -269,7 +269,7 @@ let job = { };
 	 }
 	  
 	 job.jobPapers = jobPapers;
-	 fetch('/job/save', {
+	 fetch('job/save', {
 			method: 'POST',
 			body: JSON.stringify(job) ,
 			 headers: {
@@ -401,7 +401,6 @@ let job = { };
 					// PAPER OPTIONS SECTION
 
 
-			console.log(document.getElementById("xPerforated").value);
 			document.getElementById("x-perforated").innerHTML=document.getElementById("xPerforated").value;
 			document.getElementById("x-numbered").innerHTML=document.getElementById("xNumbered").value;
 			document.getElementById("x-wired").innerHTML=document.getElementById("xWire-stitched").value;
@@ -608,7 +607,7 @@ function confirmEstimate(urlConfirm, urlPrintEstimate){
         })
         .catch(error => {
             console.log("internal server error :", error);
-        })
+        });
 
 
 }

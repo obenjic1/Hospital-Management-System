@@ -22,18 +22,30 @@ public class RoleServiceImpl implements RoleService {
 	
 		@Override
 	public List<Role> getAllRoles() {
-		return roleRepository.findAll();
+		try {
+			return roleRepository.findAll();
+		} catch (Exception e) {
+			throw e;
+		}
 	}
 
 	@Override
 	public Page<Role> findPaginated(int pageNo, int pageSize) {
-		 Pageable pageable = PageRequest.of(pageNo - 1, pageSize);		 
-		 return roleRepository.findAll(pageable);
+		try {
+			 Pageable pageable = PageRequest.of(pageNo - 1, pageSize);		 
+			 return roleRepository.findAll(pageable);
+		} catch (Exception e) {
+			throw e;
+		}
 		
 	}
 	
 	@Override
 	public Role viewRoleDetails(String name) {
-		return roleRepository.findByName(name);
+		try {
+			return roleRepository.findByName(name);
+		} catch (Exception e) {
+			throw e;
+		}
 	}
 }

@@ -25,7 +25,6 @@
               </ul>
               <div class="tab-content pt-2">
               	
-              <h1> hello my job view baby</h1>
                 <div class="tab-pane fade show active profile-overview" id="profile-overview" style="margin-left: 10%">             
                   <h5 class="card-title">Machine Details</h5>
                   <div class="row">
