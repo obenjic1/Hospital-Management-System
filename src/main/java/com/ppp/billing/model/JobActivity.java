@@ -26,10 +26,6 @@ public class JobActivity {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 	
-	@Column(name = "glueing_option")
-	private String glueOption;
-	
-	
 	@Column(name = "x_perforated")
 	private int xPerforated;
 	

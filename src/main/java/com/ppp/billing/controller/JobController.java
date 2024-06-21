@@ -217,15 +217,18 @@ public class JobController {
 			float yx = 297-188;
 			printer.print(document, job.getJobActivity().getXPerforated()+ "", 34, yx-8);
 			printer.print(document, job.getJobActivity().getXNumbered()+"", 69, yx-8);
-			if(job.getJobActivity().getGlueOption().toLowerCase().equals("Head".toLowerCase()))
+			//use binding type instead
+			if(job.getJobActivity().getBindingType()!=null) {
+				if (job.getJobActivity().getBindingType().getName().equals("Glue-Head"))				
 			printer.print(document, "X",  111, yx-8.5f);
 			
-			if(job.getJobActivity().getGlueOption().toLowerCase().equals("Left side".toLowerCase()))
+			if (job.getJobActivity().getBindingType().getName().equals("Glue-Left"))	
 				printer.print(document, "X",  128, yx-8.5f);
 			
-			if(job.getJobActivity().getGlueOption().toLowerCase().equals("Glue-bound".toLowerCase()))
+			if (job.getJobActivity().getBindingType().getName().equals("Glue-Bound"))	
 				printer.print(document, "X",  181.5f, yx-17);
-			
+			}
+			//end using binding type
 			if(job.getJobActivity().isSelloptaped())
 				printer.print(document, "X",  183, yx-8.5f);
 			
@@ -241,10 +244,11 @@ public class JobController {
 			printer.print(document, "" +job.getJobActivity().getXCreased(),  100, 297-204);
 			printer.print(document, "" +job.getJobActivity().getXWiredStiched(),  131, 297-204);
 			
-			printer.print(document, "Cover : "+ job.getJobPapers().get(0).getPaperType().getName()+"   "+job.getJobPapers().get(0).getGrammage()+"g", 34, 297-235);
+			printer.print(document, "Cover : "+ jobPaper.getPaperType().getName()+"   "+jobPaper.getGrammage()+"g", 34, 297-235);
 			List<JobPaper> jobPapers_ =job.getJobPapers();
 			 message = "Content : ";
-			for(int i=1; i<jobPapers_.size(); i++) {
+			for(int i=0; i<jobPapers_.size(); i++) {
+				if(jobPapers_.get(i).getContentType().getId()==2)
 					message +=jobPapers_.get(i).getPaperType().getName()+"   "+jobPapers_.get(i).getGrammage()+"g, ";
 			}
 			printer.print(document, message,  34, 297-243);
@@ -440,7 +444,9 @@ public class JobController {
 			canvas2.addImage(data, PageSize.A4, false);
 			float translation = -5;
 			String paperFormat = "";
-			for(int i3=1; i3<jobPapers.size(); i3++) {
+			for(int i3=0; i3<jobPapers.size(); i3++) {
+				if(jobPapers.get(i3).getContentType().getId()==2)
+				{
 				translation +=5;
 				JobPaper jobPeper = jobPapers.get(i3);
 				JobColorCombination jobColorCombination = jobPeper.getJobColorCombinations().get(0);
@@ -458,7 +464,7 @@ public class JobController {
 				variablePrice+=printinElementCost.getFinishingRunVaribleCost();
 				printer.printMoney(document, printinElementCost.getFinishingRunFixCost() , 83, 297-26-translation);
 
-				
+			}
 				
 			}
 
@@ -529,7 +535,8 @@ public class JobController {
 				variablePrice+=totalContentOfSignature*1000;
 			}
 			
-			if(job.getJobActivity().getGlueOption()!=null&&job.getJobActivity().getGlueOption().toLowerCase().equals("glue-bound")) {
+			//use binding type instead jobactivty glue option
+			if (job.getJobActivity().getBindingType()!=null && job.getJobActivity().getBindingType().getName().equals("Glue-Bound"))	 {
 				printer.printMoney(document, 10000, 130, 297-79.5f);
 				//fixePrice
 				fixePrice+=10000;
@@ -738,7 +745,12 @@ public class JobController {
 			
 			//Get and Structure printing 
 			List<JobPaper> jobPapers = job.getJobPapers();
-			JobPaper coverJobPaper = jobPapers.remove(0);
+			List<JobPaper> jobPapersResult= new ArrayList<JobPaper>();
+			
+			JobPaper coverJobPaper = new JobPaper();
+			for(JobPaper jj : jobPapers) {
+				if(jj.getContentType().getId()==1) coverJobPaper=jj;
+				else jobPapersResult.add(jj);			}
 			
 			//Get Finishing structure
 			String finishingActivities = "";
@@ -753,7 +765,7 @@ public class JobController {
 			if(jobActivity.isSelloptaped()) finishingActivities += "sellotaped, " ;
 			if(jobActivity.isTrimmed()) finishingActivities += "trimmed, " ;
 			if(jobActivity.getXPerforated()>0) finishingActivities += "Job perforated " + jobActivity.getXPerforated()+ " times, " ;
-			if(!(jobActivity.getGlueOption().isEmpty())) finishingActivities += "Glue option is" + jobActivity.getGlueOption()+ ", " ;
+			//if(!(jobActivity.getGlueOption().isEmpty())) finishingActivities += "Glue option is" + jobActivity.getGlueOption()+ ", " ;
 			if(jobActivity.getBindingType()!=null) finishingActivities += "final binding: " + jobActivity.getBindingType().getName()+ " " ;
 			
 			
@@ -778,7 +790,7 @@ public class JobController {
 			model.addAttribute("typeSettingActivities", typsettingActivities);
 			model.addAttribute("finishingActivities", finishingActivities);
 			model.addAttribute("coverJobPaper", coverJobPaper);			
-			model.addAttribute("contentJobPapers", jobPapers);
+			model.addAttribute("contentJobPapers", jobPapersResult);
 			return "/billing/estimate/generated-estimate-result";
 		}
 
@@ -915,7 +927,7 @@ public class JobController {
 			if(jobActivity.isSewn()) jobActivities =	jobActivities + " Sewn,";
 			if(jobActivity.isTrimmed()) jobActivities =	jobActivities + " trimmed, ";
 			if(jobActivity.isStitching()) jobActivities =	jobActivities + " Stitched, ";
-			if(!jobActivity.getGlueOption().isEmpty()) jobActivities =	jobActivities + jobActivity.getGlueOption()+ ", ";
+			//if(!jobActivity.getGlueOption().isEmpty()) jobActivities =	jobActivities + jobActivity.getGlueOption()+ ", ";
 			if(jobActivity.getXWiredStiched()>0) jobActivities =	jobActivities + jobActivity.getXWiredStiched()+ " x Stiched, ";
 			if(jobActivity.getXCreased()>0) jobActivities =	jobActivities + " Cover "+ jobActivity.getXCreased()+ " x creased, ";
 			if(jobActivity.getXCross()>0) jobActivities =	jobActivities + jobActivity.getXCross()+ " x folded,";

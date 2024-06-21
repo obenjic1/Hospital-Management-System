@@ -193,7 +193,7 @@ let job = { };
 	 jobActivity.xCreased = document.getElementById("creased").value;
 	 jobActivity.xWiredStiched = document.getElementById("xWire-stitched").value;
 	 jobActivity.xCross = document.getElementById("xcross").value;
-	 jobActivity.glueOption = document.getElementById("glueingOption").value;
+	// jobActivity.glueOption = document.getElementById("glueingOption").value;
 	 jobActivity.bindingType = document.getElementById("bindingType").value;
 	 jobActivity.handgather = document.getElementById("handgather").checked;
 	 jobActivity.stitching = document.getElementById("stitching").checked;
@@ -412,11 +412,11 @@ let job = { };
 				document.getElementById("laminated-sides").innerHTML=document.getElementById("lamination").selectedOptions[0].innerHTML;
 			}
 			
-			if(document.getElementById("glueingOption").selectedOptions[0].value==0){
-				document.getElementById("glue-bound").innerHTML="No";
-			}else{
-				document.getElementById("glue-bound").innerHTML=document.getElementById("glueingOption").selectedOptions[0].innerHTML;
-			}
+//			if(document.getElementById("glueingOption").selectedOptions[0].value==0){
+//				document.getElementById("glue-bound").innerHTML="No";
+//			}else{
+//				document.getElementById("glue-bound").innerHTML=document.getElementById("glueingOption").selectedOptions[0].innerHTML;
+//			}
 			if(document.getElementById("bindingType").selectedOptions[0].value==0){
 				document.getElementById("binding-type").innerHTML="No";
 			}else{

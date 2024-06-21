@@ -195,7 +195,7 @@
                     </div>
                     <div class="col-sm-4">
                         <div> Lamination Sides : <span id="laminated-sides"></span> ${job.getJobActivity().getLamination()} </div>
-                        <div> Glueing Bound: <span id="glue-bound"></span>${job.getJobActivity().getGlueOption()}</div>
+<%--                         <div> Glueing Bound: <span id="glue-bound"></span>${job.getJobActivity().getGlueOption()}</div> --%>
                         <div> Binding Type : <span id="binding-type"></span> ${job.getJobActivity().getBindingType().getName()}</div>
                         <div> Sewn :<span class=" ${job.getJobActivity().isSewn() ? 'true' : 'false'}"> ${job.getJobActivity().isSewn() ? 'yes' : 'no'}</span>
                         </div>
