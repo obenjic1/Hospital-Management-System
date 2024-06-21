@@ -1,3 +1,6 @@
+INSERT INTO `binding_type`(`name`) VALUES ("Glue-Bound");
+INSERT INTO `binding_type`(`name`) VALUES ("Glue-Left");
+INSERT INTO `binding_type`(`name`) VALUES ("Glue-Head");
 INSERT INTO `binding_type`(`name`) VALUES ("Perfect Binding");
 INSERT INTO `binding_type`(`name`) VALUES ("Saddle Stitching");
 INSERT INTO `binding_type`(`name`) VALUES ("Spiral Binding");

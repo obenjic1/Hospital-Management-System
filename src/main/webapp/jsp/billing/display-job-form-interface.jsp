@@ -552,7 +552,7 @@
                     <div class ="col-lg-3 px8" style="position: relative; left:10px;">
 			   <label for="" class="form-label"><fmt:message key="lamination"/></label> 
 			      <select id="lamination" name="name" class="form-select">
-			        <option value="0" selected>Choose...</option>
+			        <option value="0" selected>0</option>
 					<option value="1">1</option>
 					<option value="2">2</option>
 					<option value="3">3</option>
@@ -575,15 +575,15 @@
                   </div>
 				</div>	
 				 <div class="row py-4">
-				<div class ="col-lg-3 px8" >
-				  <label for="" class="form-label"><fmt:message key="glued.option"/></label> 
-				  <select id="glueingOption" name="name" class="form-select">
-				    <option value="0" selected>Choose...</option>
-				    <option value="left"><fmt:message key="left.side"/></option>
-				   <option value="head"><fmt:message key="head"/></option>
-				   <option value="glue-bound"><fmt:message key="glue.bound"/></option>
-		         </select>
-			   </div>
+<!-- 				<div class ="col-lg-3 px8" > -->
+<%-- 				  <label for="" class="form-label"><fmt:message key="glued.option"/></label>  --%>
+<!-- 				  <select id="glueingOption" name="name" class="form-select"> -->
+<!-- 				    <option value="0" selected>Choose...</option> -->
+<%-- 				    <option value="left"><fmt:message key="left.side"/></option> --%>
+<%-- 				   <option value="head"><fmt:message key="head"/></option> --%>
+<%-- 				   <option value="glue-bound"><fmt:message key="glue.bound"/></option> --%>
+<!-- 		         </select> -->
+<!-- 			   </div> -->
 			     <div class ="col-lg-3 px8" style="position: relative; left:10px;">
 			   <label for="" class="form-label"><fmt:message key="binding.type"/></label> 
 			      <select id="bindingType" name="name" class="form-select">
@@ -810,7 +810,7 @@
 					    </div>
 					   <div class="col-sm-4">
 					    	<div> Lamination Sides : <span id="laminated-sides"></span> </div>
-					    	<div> Glueing Bound: <span id="glue-bound"></span> </div>
+<!-- 					    	<div> Glueing Bound: <span id="glue-bound"></span> </div> -->
 					    	<div> Binding Type : <span id="binding-type"></span> </div>
 					    	<div> Sewn : <span id="sown"></span> </div>
 					    
