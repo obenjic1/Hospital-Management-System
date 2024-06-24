@@ -85,7 +85,7 @@ public class UserServiceImpl implements UserService {
 	    
 	    if (userDTO.getImageFile() != null && !userDTO.getImageFile().isEmpty()) {
             try {
-                String imagePath = fileStorageService.storeFile(userDTO.getImageFile());
+                String imagePath = fileStorageService.storeUserFile(userDTO.getImageFile());
                 newUser.setImagePath(imagePath);
             } catch (IOException e) {
                 e.printStackTrace();

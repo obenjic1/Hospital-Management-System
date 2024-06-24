@@ -39,18 +39,19 @@
 						    <tr>
 						       <th scope="col"><fmt:message key="number"/></th>
 						       <th scope="col"><fmt:message key="name"/></th>
-						        <th scope="col"><fmt:message key="jobs"/></th>
+
 						       <th scope="col"><fmt:message key="actions"/></th>
 							</tr>
 						  </thead>
 						  <tbody>
 						  
-						  <c:forEach var="binding" items="${allBinding}" varStatus="loop">
-							   <td>${binding.name}</td>
-							   <td>${binding.jobs}</td>
-							   ${allBinding}
-							   
-							   <td>
+						<c:forEach var="binding" items="${bindingTypes}" varStatus="loop">
+						    <tr class="${loop.index % 2 == 0 ? 'even-row' : 'odd-row'}">
+							   <c:set var="index" value="${loop.index}" />
+                                <%    int index = (Integer) pageContext.getAttribute("index");  %>
+                                <td>  <%= index + 1 %></td>
+							    <td>${binding.name}</td>
+							    <td>
 							     <a>
 								   <button data-bs-toggle="modal" data-bs-target="#ExtralargeModal" data-bs-toggle="modal" class="button-see" onclick="fillContentModal('papertype/paper/${paperType.id}')">
 								    <i class="ri-eye-line"></i>

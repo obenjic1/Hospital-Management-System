@@ -18,6 +18,7 @@ public interface PrintingMachineService {
 	PrintingMachine save (PrintingMachineDTO machineDto);
 	List<PrintingMachine> listMachines();
 	void delete(long id);
+	List<PrintingMachine> findByActive(boolean status);
 
 
 	

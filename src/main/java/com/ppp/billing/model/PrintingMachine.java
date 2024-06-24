@@ -35,7 +35,7 @@ public class PrintingMachine {
 	private int plateWidth; 
 	
 	@Column(columnDefinition="boolean default true")
-	private boolean isActive ;
+	private boolean active ;
 	
 	@Column
 	private String thumbnail;

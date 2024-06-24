@@ -55,7 +55,7 @@
 							   <th><img src="/download/${machine.thumbnail}" class="rounded-circle"></th>
 							   <td><a>${machine.name}</a></td>
 							   <td><a>${machine.abbreviation}</a></td>
-							   <td><a class="${user.is_active ? 'Blocked' : 'Active' }">${user.deleted ? 'Blocked' : 'Active'}</a></td>
+							   <td><a class="${machine.active ? 'Active' : 'Blocked' }">${machine.active ? 'Active' : 'Blocked'}</a></td>
 							     <td><a>${machine.plateLength}</a></td>
 							     <td><a>${machine.plateWidth}</a></td>
 							     

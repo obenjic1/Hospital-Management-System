@@ -14,10 +14,23 @@ public class FileStorageService {
     @Value("${folder.storage.path}")
     private String fileStoragePath;
 
+    @Value("${folder.user.images}")
+    private String userImagePath;
+
 //<--- Store the image in the fileStorage folder, which contains the variable access path declared in application.properties --->
     public String storeFile(MultipartFile file) throws IOException {
         String fileName = UUID.randomUUID().toString() + "_" + file.getOriginalFilename();
         String filePath = fileStoragePath + "/" + fileName;
+
+        File destFile = new File(filePath);
+        file.transferTo(destFile);
+
+        return fileName;
+    }
+
+    public String storeUserFile(MultipartFile file) throws IOException {
+        String fileName = UUID.randomUUID().toString() + "_" + file.getOriginalFilename();
+        String filePath = userImagePath + "/" + fileName;
 
         File destFile = new File(filePath);
         file.transferTo(destFile);

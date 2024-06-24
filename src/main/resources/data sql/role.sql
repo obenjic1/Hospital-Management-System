@@ -18,6 +18,6 @@ INSERT INTO `role`(`description`, `name`) VALUES ("Remove customer means that yo
 INSERT INTO `role`(`description`, `name`) VALUES ("Updating customer in the system refers to modifying or changing the attributes and settings associated with existing customer","ROLE_UPDATE_CUSTOMER");
 INSERT INTO `role`(`description`, `name`) VALUES ("Manage setings means that you have the rigth access to add, view, delete and update everything have rapport with setings","ROLE_MANAGE_SETINGS");
 INSERT INTO `role`(`description`, `name`) VALUES ("View setting means that you can only view and select the settings element you cannot do the others operations.","ROLE_VIEW_SETINGS");
-
+INSERT INTO `role`(`description`, `name`) VALUES ("Default role to manage users","ROLE_MANAGE_USERS");
 
 

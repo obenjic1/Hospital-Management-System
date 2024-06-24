@@ -47,7 +47,9 @@
 						  <tbody>
 						  <c:forEach var="user" items="${users}" varStatus="loop">
 						    <tr class="${loop.index % 2 == 0 ? 'even-row' : 'odd-row'}">
-							   <th><img src="/download/${user.imagePath}" class="rounded-circle"></th>
+							   <th>
+							   <img src="${pageContext.request.contextPath}/file/download?file=${user.imagePath}&dir=folder.user.images" class="rounded-circle">
+							   <img  id="image_previews_summary" style="height:100px; width:100px;"  src="${pageContext.request.contextPath}/file/download?file=${user.imagePath}&dir=folder.storage.path" ></th>
 							   <td><a>${user.username}</a><i class="bi bi-record2 <?php echo $isConnected ? 'text-success' : 'text-warning'; ?>"></i></td>
 							   <td><a>${user.groupe.name}</a></td>
 							   <td><a class="${user.deleted ? 'Blocked' : 'Active' }">${user.deleted ? 'Blocked' : 'Active'}</a></td>

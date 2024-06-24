@@ -1,5 +1,6 @@
 package com.ppp.billing.repository;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -13,4 +14,6 @@ public interface PrintingMachineRepository extends JpaRepository<PrintingMachine
 	Optional<PrintingMachine> findByAbbreviation(String abbreviation);
 	Optional<PrintingMachine> findById(long id);
 	PrintingMachine save(PrintingMachineDTO newMachine);
+
+    List<PrintingMachine> findByActive(boolean status);
 }
