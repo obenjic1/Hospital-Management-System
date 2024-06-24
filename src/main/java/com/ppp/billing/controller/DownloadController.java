@@ -22,10 +22,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class DownloadController {
 	@Value("${folder.controlSheet}")
 	private String controlSheetFolder;
+
 	@Value("${folder.estimate}")
 	private String estimateFolder;
+
 	@Value("${folder.user.images}")
-	private String imageFolder;
+	private String userImageFolder;
+
+	@Value("${folder.customer.images}")
+	private String customerImageFolder;
 	
 	@Autowired
 	private ServletContext context;
@@ -43,8 +48,11 @@ public class DownloadController {
 			dir= estimateFolder;
 			break;
 		case "folder.user.images":
-			dir= imageFolder;
+			dir= userImageFolder;
 			break;
+		case "folder.customer.images":
+				dir= customerImageFolder;
+				break;
 
 		default:
 			throw new NotFoundException("File not found");

@@ -46,22 +46,30 @@
 							</tr>
 						  </thead>
 						  <tbody>
-						  <c:forEach var="customers" items="${allCustomers}" varStatus="loop">
+						  <c:forEach var="customer" items="${allCustomers}" varStatus="loop">
 						    <tr class="${loop.index % 2 == 0 ? 'even-row' : 'odd-row'}">
-							   <th><img src="customer/image/${customer.thumbnail}" class="rounded-circle"></th>
-							   <td><a>${customers.name}</a></td>
-							   <td><a>${customers.telephone}</a></td>
-							   <td><a>${customers.address}</a></td> 
+							   <th>
+                                   <c:if test="${not empty customer.thumbnail}">
+                                        <img src="${pageContext.request.contextPath}/file/download?file=${customer.thumbnail}&dir=folder.customer.images" class="rounded-circle">
+                                   </c:if>
+                                   <c:if test="${empty customer.thumbnail}">
+                                       <img src="assets/img/default.png" class="rounded-circle">
+                                   </c:if>
+
+							   </th>
+							   <td><a>${customer.name}</a></td>
+							   <td><a>${customer.telephone}</a></td>
+							   <td><a>${customer.address}</a></td>
 							   <td>
 							     <a>
-								   <button class="button-see" data-bs-toggle="modal" data-bs-target="#ExtralargeModal" onclick="loadPageModalForm('customer/find/${customers.email}')">
-								     <i class="fas fa-eye"></i>
+								   <button class="button-see" data-bs-toggle="modal" data-bs-target="#ExtralargeModal" onclick="loadPageModalForm('customer/find/${customer.email}')">
+								     <i class="ri-eye-line"></i>
 								   </button>
-								   <button class="button-edite" data-bs-toggle="modal" data-bs-target="#ExtralargeModal" onclick="loadPageModalForm('customer/update/${customers.email}')">
-								     <i class="fas fa-pencil-alt"></i>
+								   <button class="button-edite" data-bs-toggle="modal" data-bs-target="#ExtralargeModal" onclick="loadPageModalForm('customer/update/${customer.email}')">
+								     <i class="ri-pencil-line"></i>
 								   </button>
-								   <button class="button-delete" data-bs-toggle="modal" onclick="confirmDelete('${customers.id}')" data-bs-target="#areyouSureYouWantToDetele" id="startDeleting">
-								     <i class="fas fa-trash-alt"></i>
+								   <button class="button-delete" data-bs-toggle="modal" onclick="confirmDelete('${customer.id}')" data-bs-target="#areyouSureYouWantToDetele" id="startDeleting">
+								     <i class="ri-delete-bin-3-line"></i>
 								   </button>
 								 </a>
 							   </td>

@@ -29,7 +29,7 @@ function savecutomer() {
 
    			 if (response.status === 200) {
        			sendMessage('Succes/Success', 1);
-								
+				return loadPage("customer/list");
    			 } else if (response.status !== 200) {
 				sendMessage('Failed / Echec', 2);
   			 }

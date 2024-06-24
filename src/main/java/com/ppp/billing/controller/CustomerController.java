@@ -68,6 +68,8 @@ public class CustomerController {
 	@PostMapping("/save")
 	@ResponseBody
 	public String save(CustomerDTO customerDTO) {
+		System.out.println(customerDTO.getThumbnail());
+		System.out.println(customerDTO);
 		
 		try {
 			Customer customer = customerServiceImpl.save(customerDTO);		

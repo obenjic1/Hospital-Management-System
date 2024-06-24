@@ -48,8 +48,13 @@
 						  <c:forEach var="user" items="${users}" varStatus="loop">
 						    <tr class="${loop.index % 2 == 0 ? 'even-row' : 'odd-row'}">
 							   <th>
-							   <img src="${pageContext.request.contextPath}/file/download?file=${user.imagePath}&dir=folder.user.images" class="rounded-circle">
-							   <img  id="image_previews_summary" style="height:100px; width:100px;"  src="${pageContext.request.contextPath}/file/download?file=${user.imagePath}&dir=folder.storage.path" ></th>
+							        <c:if test="${not empty user.imagePath}">
+                                        <img src="${pageContext.request.contextPath}/file/download?file=${user.imagePath}&dir=folder.user.images" class="rounded-circle">
+                                    </c:if>
+                                    <c:if test="${empty user.imagePath}">
+                                        <img src="assets/img/default.png" class="rounded-circle">
+                                    </c:if>
+
 							   <td><a>${user.username}</a><i class="bi bi-record2 <?php echo $isConnected ? 'text-success' : 'text-warning'; ?>"></i></td>
 							   <td><a>${user.groupe.name}</a></td>
 							   <td><a class="${user.deleted ? 'Blocked' : 'Active' }">${user.deleted ? 'Blocked' : 'Active'}</a></td>
@@ -61,7 +66,7 @@
 								   <button class="button-edite" data-bs-toggle="modal" data-bs-target="#ExtralargeModal" onclick=" loadPageModalForm('user/get-user/${user.username}')">
 								     <i class="ri-pencil-line"></i>
 								   </button>
-								   <button class="button-delete" data-bs-toggle="modal" onclick="confirmDelete('${user.id}')" data-bs-target="#areyouSureYouWantToDetele" id="startDeleting" data-bs-toggle="modal">
+								   <button class="button-delete" data-bs-toggle="modal" onclick="confirmDelete('${user.username}')" data-bs-target="#areyouSureYouWantToDetele" id="startDeleting" data-bs-toggle="modal">
 								     <i class="ri-delete-bin-3-line"></i>
 								   </button>
 								 </a>

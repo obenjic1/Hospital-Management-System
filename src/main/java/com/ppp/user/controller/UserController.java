@@ -71,7 +71,7 @@ public class UserController {
 				if(userFind  == null) {
 					return "errors/user-not-found";
 				}
-				model.addAttribute("userFind", userFind);
+				model.addAttribute("user", userFind);
 		    return "user/view-user-profile";
 			} catch (Exception e) {
 				throw new Exception(e.getMessage());
@@ -135,7 +135,7 @@ public class UserController {
 	    if (existingUser == null) {
 	      return ;
 	    }
-	    userRepository.delete(existingUser);
+	userServiceImpl.deleteUserById(id);
 	    return ;
 	  }
 }
