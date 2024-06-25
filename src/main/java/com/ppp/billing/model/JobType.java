@@ -27,6 +27,9 @@ public class JobType {
 	@Column(name = "name", nullable = false)
 	private String name;
 	
+	@Column(name = "category", columnDefinition = "int default 2 comment'0 for only cover job type, 1 for only content, 2 for both content type'")
+	private int category;
+	
 	@Column(name = "jobs")
 	@OneToMany(fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "jobType")
 	private List<Job> jobs;
