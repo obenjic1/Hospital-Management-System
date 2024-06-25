@@ -8,129 +8,133 @@
 
 <link href="assets/css/profile.css" rel="stylesheet">
 
-  <main id="users-list" class="main">
+<main id="users-list" class="main">
     <section class="section profile" id="modal-details">
-      <div class="row">
-        <div class="col-xl-8" style="width: 150%">
-          <div class="card">
-            <div class="card-body pt-3">
-              <ul class="nav nav-tabs nav-tabs-bordered" style="justify-content: center;">
-                <li class="nav-item">
-                  <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#profile-overview" > <fmt:message key="overview"/></button>
-                </li>
-                <li class="nav-item">
-                  <button class="nav-link"  data-bs-toggle="tab" data-bs-target="#profile-edit"><fmt:message key="edit.profile"/>${userFind.username}</button>
-                </li>
-                <li class="nav-item">
-                  <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-change-password"><fmt:message key="change.password"/></button>
-                </li>
-              </ul>
-              <div class="tab-content pt-2">
-                <div class="tab-pane fade show active profile-overview" id="profile-overview" style="margin-left: 10%">             
-                  <h5 class="card-title"><fmt:message key="profile.details"/></h5>
-                  <div class="row">
-                    <div class="col-lg-3 col-md-4 label "><fmt:message key="names"/></div>
-                    <div class="col-lg-9 col-md-8">${userFind.lastName} ${userFind.firstName}</div>
-                  </div>
-                   <div class="row">
-                    <div class="col-lg-3 col-md-4 label "> <fmt:message key="username"/></div>
-                    <div class="col-lg-9 col-md-8">${userFind.username}</div>
-                  </div>
-                  <div class="row">
-                    <div class="col-lg-3 col-md-4 label"><fmt:message key="list.groups"/></div>
-                    <div class="col-lg-9 col-md-8">${userFind.groupe.name}</div>
-                  </div>
-                  <div class="row">
-                    <div class="col-lg-3 col-md-4 label"><fmt:message key="address"/></div>
-                    <div class="col-lg-9 col-md-8">${userFind.address}</div>
-                  </div>
-                  <div class="row">
-                    <div class="col-lg-3 col-md-4 label"><fmt:message key="phone"/></div>
-                    <div class="col-lg-9 col-md-8">${userFind.mobile}</div>
-                  </div>
-                  <div class="row">
-                    <div class="col-lg-3 col-md-4 label"><fmt:message key="email"/></div>
-                    <div class="col-lg-9 col-md-8">${userFind.email}</div>
-                  </div>
-                  <div class="row">
-                    <div class="col-lg-3 col-md-4 label"><fmt:message key="created.date"/></div>
-                    <div class="col-lg-9 col-md-8">${userFind.createdAt}</div>
-                  </div>
-                </div>
-                <div class="tab-pane fade profile-edit pt-3" id="profile-edit">
-                <form style="margin-left: 5%">
-                  <div class="row mb-3">  </div>
-                    <div class="row mb-3">
-                      <label for="firstName" class="col-md-4 col-lg-3 col-form-label"><fmt:message key="first.name"/></label>
-                      <div class="col-md-8 col-lg-9">
-                        <input name="firstName" type="text" class="form-control" id="firstName" value="${userFind.firstName}">
-                      </div>
-                    </div>
-                    <div class="row mb-3">
-                      <label for="lastName" class="col-md-4 col-lg-3 col-form-label"><fmt:message key="last.name"/></label>
-                      <div class="col-md-8 col-lg-9">
-                        <input name="lastName" type="text" class="form-control" id="lastName" value="${userFind.lastName}">
-                      </div>
-                    </div>
-                    <div class="row mb-3">
-                      <label for="username" class="col-md-4 col-lg-3 col-form-label"><fmt:message key="username"/></label>
-                      <div class="col-md-8 col-lg-9">
-                        <input name="username" type="text" class="form-control" id="username" value="${userFind.username}">
-                      </div>
-                    </div>
-                     <div class="row mb-3">
-                      <label for="email" class="col-md-4 col-lg-3 col-form-label"><fmt:message key="phone"/></label>
-                      <div class="col-md-8 col-lg-9">
-                        <input name="email" type="email" class="form-control" id="email" value="${userFind.email}">
-                      </div>
-                    </div>
-                    <div class="row mb-3">
-                      <label for="address" class="col-md-4 col-lg-3 col-form-label"><fmt:message key="address"/></label>
-                      <div class="col-md-8 col-lg-9">
-                        <input name="address" type="text" class="form-control" id="address" value="${userFind.address}">
-                      </div>
-                    </div>
-                    <div class="row mb-3">
-                      <label for="mobile" class="col-md-4 col-lg-3 col-form-label"><fmt:message key="phone"/></label>
-                      <div class="col-md-8 col-lg-9">
-                        <input name="mobile" type="text" class="form-control" id="mobile" value="${userFind.mobile}">
-                      </div>
-                    </div>
-                    <div class="row mb-3">
-                      <label for="mobile" class="col-md-4 col-lg-3 col-form-label"><fmt:message key="created.date"/></label>
-                      <div class="col-md-8 col-lg-9">
-                        <input name="mobile" type="text" class="form-control" id="mobile" value="${userFind.createdAt}" readonly="readonly">
-                      </div>
-                    </div>
-                    <div class="text-center">
-                      <input data-bs-toggle="modal" data-bs-target="#creation" type="button"  onclick="updateUserById('${userFind.id}')" style="left: 42%; bottom: 2%" class="btn btn-primary" value="Save Changes"/>
-                    </div>
+        <div class="row">
+            <div class="col-xl-8" style="width: 150%">
+                <div class="card">
+                    <div class="card-body pt-3">
+                        <ul class="nav nav-tabs nav-tabs-bordered" style="justify-content: center;">
+                            <li class="nav-item">
+                                <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#profile-overview" > <fmt:message key="overview"/></button>
+                            </li>
+                            <li class="nav-item">
+                                <button class="nav-link"  data-bs-toggle="tab" data-bs-target="#profile-edit"><fmt:message key="edit.profile"/>${user.username}</button>
+                            </li>
+                            <li class="nav-item">
+                                <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-change-password"><fmt:message key="change.password"/></button>
+                            </li>
+                        </ul>
+                        <div class="tab-content pt-2">
+                            <div class="row tab-pane fade show active profile-overview" id="profile-overview">
+                                <div class="row" style="margin-left: 10%">
+                                    <div class="col-xl-8" >
+                                        <h5 class="card-title"><fmt:message key="profile.details"/></h5>
+                                        <div class="row">
+                                            <div class="col-lg-3 col-md-4 label "><fmt:message key="names"/></div>
+                                            <div class="col-lg-9 col-md-8">${user.firstName} ${user.lastName}</div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-lg-3 col-md-4 label "> <fmt:message key="username"/></div>
+                                            <div class="col-lg-9 col-md-8">${user.username}</div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-lg-3 col-md-4 label"><fmt:message key="list.groups"/></div>
+                                            <div class="col-lg-9 col-md-8">${user.groupe.name}</div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-lg-3 col-md-4 label"><fmt:message key="address"/></div>
+                                            <div class="col-lg-9 col-md-8">${user.address}</div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-lg-3 col-md-4 label"><fmt:message key="phone"/></div>
+                                            <div class="col-lg-9 col-md-8">${user.mobile}</div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-lg-3 col-md-4 label"><fmt:message key="email"/></div>
+                                            <div class="col-lg-9 col-md-8">${user.email}</div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-lg-3 col-md-4 label"><fmt:message key="created.date"/></div>
+                                            <div class="col-lg-9 col-md-8">${user.createdAt}</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-4">
+                                        <c:if test="${not empty user.imagePath}">
+                                            <img src="${pageContext.request.contextPath}/file/download?file=${user.imagePath}&dir=folder.user.images" style="height:300px">
+                                        </c:if>
+                                        <c:if test="${empty user.imagePath}">
+                                            <img src="assets/img/default.png" style="height:300px">
+                                        </c:if>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                            <div class="tab-pane fade profile-edit pt-3" id="profile-edit">
+                                <form style="margin-left: 5%">
+                                    <div class="row mb-3">  </div>
+                                    <div class="row mb-3">
+                                        <label for="firstName" class="col-md-4 col-lg-3 col-form-label"><fmt:message key="first.name"/></label>
+                                        <div class="col-md-8 col-lg-9">
+                                            <input name="firstName" type="text" class="form-control" id="firstName" value="${user.firstName}">
+                                        </div>
+                                    </div>
+                                    <div class="row mb-3">
+                                        <label for="lastName" class="col-md-4 col-lg-3 col-form-label"><fmt:message key="last.name"/></label>
+                                        <div class="col-md-8 col-lg-9">
+                                            <input name="lastName" type="text" class="form-control" id="lastName" value="${user.lastName}">
+                                        </div>
+                                    </div>
+                                    <div class="row mb-3">
+                                        <label for="username" class="col-md-4 col-lg-3 col-form-label"><fmt:message key="username"/></label>
+                                        <div class="col-md-8 col-lg-9">
+                                            <input name="username" type="text" class="form-control" id="username" value="${user.username}">
+                                        </div>
+                                    </div>
+                                    <div class="row mb-3">
+                                        <label for="email" class="col-md-4 col-lg-3 col-form-label"><fmt:message key="phone"/></label>
+                                        <div class="col-md-8 col-lg-9">
+                                            <input name="email" type="email" class="form-control" id="email" value="${user.email}">
+                                        </div>
+                                    </div>
+                                     <div class="row mb-3">
+                                         <label for="address" class="col-md-4 col-lg-3 col-form-label"><fmt:message key="address"/></label>
+                                         <div class="col-md-8 col-lg-9">
+                                             <input name="address" type="text" class="form-control" id="address" value="${user.address}">
+                                         </div>
+                                     </div>
+                                    <div class="text-center">
+                                           <input data-bs-toggle="modal" data-bs-target="#creation" type="button"  onclick="updateUserById('${user.id}')" style="left: 42%; bottom: 2%" class="btn btn-primary" value="Save Changes"/>
+                                    </div>
                  
-                  </form><!-- End Profile Edit Form -->
-                </div>				
+                                </form><!-- End Profile Edit Form -->
+                            </div>
                 <div class="tab-pane fade pt-3" id="profile-change-password">
-                  <!-- Change Password Form -->
-                  <form style="margin-left: 5%">
-                    <div class="row mb-3">
-                      <label for="currentPassword" class="col-md-4 col-lg-3 col-form-label"><fmt:message key="current.password"/></label>
-                      <div class="col-md-8 col-lg-9">
-                        <input name="password" type="password" class="form-control" id="currentPassword">
-                      </div>
-                    </div>
-                    <div class="row mb-3">
-                      <label for="newPassword" class="col-md-4 col-lg-3 col-form-label"><fmt:message key="new.password"/></label>
-                      <div class="col-md-8 col-lg-9">
-                        <input name="newpassword" type="password" class="form-control" id="newPassword">
-                      </div>
-                    </div>
-                    <div class="row mb-3">
-                      <label for="renewPassword" class="col-md-4 col-lg-3 col-form-label"><fmt:message key="confirm.password"/></label>
-                      <div class="col-md-8 col-lg-9">
-                        <input name="renewpassword" type="password" class="form-control" id="renewPassword">
-                      </div>
-                    </div>
-                    <div class="text-center">
-                      <button type="submit" class="btn btn-primary" style="left: 40%; bottom: 2%;"><fmt:message key="change.password"/> </button>
+                        <!-- Change Password Form -->
+                    <form style="margin-left: 5%">
+                        <div class="row mb-3">
+                                <label for="currentPassword" class="col-md-4 col-lg-3 col-form-label"><fmt:message key="current.password"/></label>
+                            <div class="col-md-8 col-lg-9">
+                                <input name="password" type="password" class="form-control" id="currentPassword">
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                                <label for="newPassword" class="col-md-4 col-lg-3 col-form-label"><fmt:message key="new.password"/></label>
+                             <div class="col-md-8 col-lg-9">
+                                <input name="newpassword" type="password" class="form-control" id="newPassword">
+                             </div>
+                        </div>
+                        <div class="row mb-3">
+                             <label for="renewPassword" class="col-md-4 col-lg-3 col-form-label"><fmt:message key="confirm.password"/></label>
+                        <div class="col-md-8 col-lg-9">
+                             <input name="renewpassword" type="password" class="form-control" id="renewPassword">
+                        </div>
+                        </div>
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-primary" style="left: 40%; bottom: 2%;"><fmt:message key="change.password"/> </button>
                     </div>
                   </form><!-- End Change Password Form -->
                 </div>
@@ -140,7 +144,7 @@
         </div>
       </div>
     </section>
-  </main><!-- End #main -->
+</main><!-- End #main -->
   
   
   

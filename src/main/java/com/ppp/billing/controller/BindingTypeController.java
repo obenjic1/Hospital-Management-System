@@ -27,7 +27,10 @@ public class BindingTypeController {
 //<------------------- List with pagination -------------------->		
 	@GetMapping("/list")
 	public String list(Model model) {
-		return pagination(1, model);
+		List<BindingType> bindingTypes = bindingTypeService.listAll();
+		model.addAttribute("bindingTypes", bindingTypes);
+
+		return "setting/list-bindingtype";
 	}
 
 //<------------------- Pagination -------------------->	

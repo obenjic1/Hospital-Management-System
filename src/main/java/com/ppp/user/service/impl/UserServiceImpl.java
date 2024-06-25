@@ -85,7 +85,7 @@ public class UserServiceImpl implements UserService {
 	    
 	    if (userDTO.getImageFile() != null && !userDTO.getImageFile().isEmpty()) {
             try {
-                String imagePath = fileStorageService.storeFile(userDTO.getImageFile());
+                String imagePath = fileStorageService.storeUserFile(userDTO.getImageFile());
                 newUser.setImagePath(imagePath);
             } catch (IOException e) {
                 e.printStackTrace();
@@ -114,13 +114,12 @@ public class UserServiceImpl implements UserService {
 //<--------------------- Delete User --------------------------> 
 	@Override
 	public void deleteUserByUsername(Long id) {
-		try {
 			userRepository.deleteById(id);
-		} catch (Exception e) {
-			throw e;
-		}
 	}
-
+	//<--------------------- Delete User By Id -------------------------->
+	public void deleteUserById(Long id) {
+		userRepository.deleteById(id);
+	}
 //<----------------- Get user by user name using DTO object ------------------->	
 	public UserDTO getUserByUsername(String username) {
         User user = userRepository.findByUsername(username);

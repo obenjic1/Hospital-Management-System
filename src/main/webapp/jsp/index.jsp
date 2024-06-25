@@ -78,9 +78,8 @@
 
 				<li class="nav-item dropdown pe-3">
 				  <sec:authentication property="name" var="username" /> 
-				  <c:set var="user" value="${userAuthenticated}" /> 
-				  <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown"> 
-				    <img src="<c:url value='download-profile-image/${imagePath}'/>" class="profile-image" /> 
+				  <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
+				    <img src="<c:url value='download-profile-image/${imagePath}'/>" class="profile-image" />
 					<span class="d-none d-md-block dropdown-toggle ps-2">${username}</span>
 				  </a> <!-- End Profile Iamge Icon -->
 				  
@@ -94,7 +93,7 @@
 						<li>
 						  <a class="dropdown-item d-flex align-items-center" onclick="loadPage('user/viewUser/${username}')" href="#"> 
 						    <i class="bi bi-person"></i>
-						    <span>MyProfile</span>
+						    <span>My Profile</span>
 						  </a>
 						</li>
 						<li> 
@@ -281,6 +280,7 @@
 		<!-- Left side columns -->
 			
 		  <div id="main-content" class="row">
+
 		  <jsp:include page="user/view-user-profile.jsp"></jsp:include>
 		   </div>
 		  		  

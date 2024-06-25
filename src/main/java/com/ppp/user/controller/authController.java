@@ -26,12 +26,20 @@ public class authController {
 	
 
 	@GetMapping("/")
-    public String getPage(HttpServletRequest request, Model model) {
+    public String getPage(HttpServletRequest request, Model model, Authentication authentication) {
         Locale locale = RequestContextUtils.getLocale(request);
         String content = messageSource.getMessage("greeting", null, locale);
         model.addAttribute("greeting", content);
-        
-        return "index";
+		Principal pr = request.getUserPrincipal();
+		if(pr == null) {
+			return "user_auth/login";
+		}else {
+			User user = userRepository.findByUsername(authentication.getName()) ;
+
+			model.addAttribute("user", user);
+			return "index";
+		}
+
     }
 
 	// Login controller
@@ -41,9 +49,9 @@ public class authController {
 			 if(pr == null) {
 				 return "user_auth/login";
 			 }else {
-//				 User user = userRepository.findByUsername(authentication.getName()) ;	
-//				 
-//				 model.addAttribute("userFind", user);
+				 User user = userRepository.findByUsername(authentication.getName()) ;
+
+				 model.addAttribute("user", user);
 				 return "/";
 			 }
 		}
@@ -51,7 +59,7 @@ public class authController {
 		// Logout controller
 		@GetMapping("/logout")
 		public void logout(HttpServletRequest request, Authentication authentication) {
-			User user = (User) authentication.getPrincipal();
+			User user = (User) authentication.getDetails();
 		//	user.setActive(false);
 			request.getSession().invalidate();
 			return;

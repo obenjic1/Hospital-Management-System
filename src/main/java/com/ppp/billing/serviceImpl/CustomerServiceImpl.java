@@ -1,9 +1,11 @@
 package com.ppp.billing.serviceImpl;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 
+import com.ppp.user.service.FileStorageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
@@ -22,6 +24,8 @@ public class CustomerServiceImpl implements CustomerService {
 
 	@Autowired
 	private CustomerRepository customerRepostory ;
+	@Autowired
+	private FileStorageService fileStorageService;
 
 //<---------------- Add customer ---------------------->
 	@Override
@@ -32,6 +36,15 @@ public class CustomerServiceImpl implements CustomerService {
 		customer.setAddress(customerDTO.getAddress());
 		customer.setTelephone(customerDTO.getTelephone());
 		customer.setCreationDate(new Date());
+
+		if (customerDTO.getThumbnail() != null && !customerDTO.getThumbnail().isEmpty()) {
+			try {
+				String imagePath = fileStorageService.storeCustomerFile(customerDTO.getThumbnail());
+				customer.setThumbnail(imagePath);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
 		return customerRepostory.save(customer);
 	}
 	
