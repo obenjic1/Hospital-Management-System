@@ -221,7 +221,7 @@
                                 <div class="card">
 
                                         <a class="nav-link" href="#">
-                                            <span>${jobEstimate}</span>
+                                            <span>${jobEstimate.reference}</span>
                                             <i class="bi bi-download"></i>
                                         </a>
                                 </div>
