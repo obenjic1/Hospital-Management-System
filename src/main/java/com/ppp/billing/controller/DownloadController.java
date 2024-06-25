@@ -38,8 +38,6 @@ public class DownloadController {
 	@GetMapping("/download")
 	public void downloadFile(@RequestParam("file") String file, @RequestParam("dir") String resourceDir, HttpServletResponse response) throws IOException {
 		String dir = "";
-		System.out.println(file);
-		System.out.println(resourceDir);
 		switch (resourceDir) {
 		case "folder.controlSheet":
 			dir= controlSheetFolder;
@@ -57,8 +55,6 @@ public class DownloadController {
 		default:
 			throw new NotFoundException("File not found");
 		}
-		System.out.println(file);
-		System.out.println(resourceDir);
 
 		File resource= new File(dir+file);
 		response.setHeader("Content-Type", context.getMimeType(file));
