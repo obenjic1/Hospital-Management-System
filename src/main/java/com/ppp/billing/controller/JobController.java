@@ -694,12 +694,12 @@ public class JobController {
 
 	@GetMapping("/viewJob/{id}")
 	public String viewJobDetails(@PathVariable long id, Model model) {
-		Job findJob = jobServiceImpl.findById(id).get();
-		List<JobPaper> jobPapers = findJob.getJobPapers();
+		Job job = jobServiceImpl.findById(id).get();
+		List<JobPaper> jobPapers = job.getJobPapers();
 		JobPaper cover = jobPapers.remove(0);
-		List<JobEstimate>  jobEstimates = findJob.getJobEstimates();
+		List<JobEstimate>  jobEstimates = job.getJobEstimates();
 
-		model.addAttribute("job",findJob);
+		model.addAttribute("job",job);
 		model.addAttribute("jobPapers",jobPapers);
 		model.addAttribute("coverjobPapers",cover);
 		model.addAttribute("jobEstimates",jobEstimates);

@@ -106,6 +106,7 @@ public class CustomerController {
 	public String findByEmail(@PathVariable String email, Model model) {
 		Customer customer = customerServiceImpl.findByEmail(email);
 		model.addAttribute("customer", customer);
+		model.addAttribute("jobs", customer.getJobs());
 		return "/billing/customer-details";
 	}
 	
