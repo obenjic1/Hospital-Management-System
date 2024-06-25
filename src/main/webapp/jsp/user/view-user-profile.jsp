@@ -26,9 +26,9 @@
                             </li>
                         </ul>
                         <div class="tab-content pt-2">
-                            <div class="row">
-                                <div class="col-xl-8">
-                                    <div class="tab-pane fade show active profile-overview" id="profile-overview" style="margin-left: 10%">
+                            <div class="row tab-pane fade show active profile-overview" id="profile-overview">
+                                <div class="row" style="margin-left: 10%">
+                                    <div class="col-xl-8" >
                                         <h5 class="card-title"><fmt:message key="profile.details"/></h5>
                                         <div class="row">
                                             <div class="col-lg-3 col-md-4 label "><fmt:message key="names"/></div>
@@ -59,17 +59,18 @@
                                             <div class="col-lg-9 col-md-8">${user.createdAt}</div>
                                         </div>
                                     </div>
+                                    <div class="col-xl-4">
+                                        <c:if test="${not empty user.imagePath}">
+                                            <img src="${pageContext.request.contextPath}/file/download?file=${user.imagePath}&dir=folder.user.images" style="height:300px">
+                                        </c:if>
+                                        <c:if test="${empty user.imagePath}">
+                                            <img src="assets/img/default.png" style="height:300px">
+                                        </c:if>
+
+                                    </div>
 
                                 </div>
-                                <div class="col-xl-4">
-                                    <c:if test="${not empty user.imagePath}">
-                                        <img src="${pageContext.request.contextPath}/file/download?file=${user.imagePath}&dir=folder.user.images" style="height:300px">
-                                    </c:if>
-                                    <c:if test="${empty user.imagePath}">
-                                        <img src="assets/img/default.png" style="height:300px">
-                                    </c:if>
 
-                                </div>
                             </div>
 
                             <div class="tab-pane fade profile-edit pt-3" id="profile-edit">
