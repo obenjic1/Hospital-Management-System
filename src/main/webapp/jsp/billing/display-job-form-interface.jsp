@@ -67,12 +67,31 @@
 			      </div>
 				  <div class ="col-lg-3 px8" style="position: relative; left: 10px;"> 
 					<label for="" class="form-label"><fmt:message key="job.type"/></label> 
-					<select id="jobType" name="jobType" class="form-select" >
+					<select onchange="jobTypeChoice(this.selectedOptions[0])"  id="jobType" name="jobType" class="form-select" >
 					  <option>Choose...</option>
+					  <optgroup  label="<fmt:message key="job.category.two"/>" data-content="2">
 					  <c:forEach items="${jobTypes}" var="jobType">
-                        <option value="${jobType.id}" >${jobType.name}</option>
+					  <c:if test="${jobType.category==2}">
+                        <option style="marging-left: %;" value="${jobType.id}" >${jobType.name}</option>
+                         </c:if>
                       </c:forEach>
+                      </optgroup>
+                       <optgroup label="<fmt:message key="job.category.zero"/>" data-content="0">
                      
+                       <c:forEach items="${jobTypes}" var="jobType">
+                        <c:if test="${jobType.category==0}">
+                        <option value="${jobType.id}" >${jobType.name}</option>
+                        </c:if>
+                      </c:forEach>
+                       </optgroup>
+                       <optgroup   label="<fmt:message key="job.category.one"/>" data-content="1">
+                      
+                       <c:forEach items="${jobTypes}" var="jobType">
+                       <c:if test="${jobType.category==1}">
+                        <option value="${jobType.id}" >${jobType.name}</option>
+                         </c:if>
+                      </c:forEach>
+                     </optgroup>
                     </select>
 				  </div>
 				  <div class ="col-lg-3 px8" style="position: relative; left: 10px;">
@@ -122,13 +141,13 @@
 		      </div>
 									
 			     <div class="row py-3">
-				  <div class ="col-lg-3 px8">
+				  <div id="volumeofCover" class ="col-lg-3 px8">
 				    <label for="coverVolume" class="form-label"><fmt:message key="volume.cover"/></label> 
 				     <div>
 					  <input id= "volumeOfCover" name="volumeOfCover" type="number" value=4>
 				    </div>
 				  </div>
-				  <div class ="col-lg-3 px8" style="position: relative; left: 10px;"> 
+				  <div id="volumeofContent" class ="col-lg-3 px8" style="position: relative; left: 10px;"> 
 				    <label for="volumeOfContent"   class="form-label"><fmt:message key="volume.content"/></label>
 				    <div>
 					  <input id= "volumeOfContent" name="volumeOfContent" type="number" onchange="totalContentVolumeChange()">
@@ -180,7 +199,7 @@
        <div class=" container tab-pane fade"  id="tab2" role="tabpanel" aria-labelledby="profile-tab">
          <div style="position: relative;bottom: -20px;" id="mainDiv" >	
          	
-		   <div class="row py-4">
+		   <div class="row py-4" id="coverInformations">
 			 <div class ="col-lg-3 px8" >
 			   <label for="" class="form-label"><fmt:message key="cover.paper.type"/></label> 
 			   <select id="coverPaperType" name="name" class="form-select">
@@ -301,7 +320,7 @@
 <!------------------------------- TAB 3 BIGINS --------------->
        <div class="tab-pane fade" id="tab3" role="tabpanel" aria-labelledby="contact-tab">
         <div class="container" >	
-          <div class="row py-3">
+          <div class="row py-3" id="cover-signature-div">
 		    <div class ="col-lg-3 px8" >
 			  <label for="" class="form-label"><fmt:message key="cover.printing.machine"/></label> 
 			  <select id="coverPrintingMachine" name="name" class="form-select">
@@ -682,10 +701,10 @@
 					    </div>
 					   
 					   	 <div class="row">
-					    <div class="col-sm-4">
+					    <div class="col-sm-4" id="cover-pages-info">
 					    	Number of Pages for Cover : <span id="cover-pages"> </span>
 					    </div>
-					    <div class="col-sm-4">
+					    <div class="col-sm-4"  id="content-pages-info">
 					    	Number of Pages for Content :  <span id="content-pages"> </span> 
 					    </div>
 					    <div class="col-sm-4">
@@ -720,6 +739,7 @@
 					   </div>
 					   
 					<!--            job decription ends     -->
+					<div id="cover-papers-options-info">
 					<br>
 					<h4 id="top">Cover Paper Option</h4>
 					<hr>
@@ -735,7 +755,11 @@
 					    	Volume : <span id="cover-volume">  </span> 
 					    </div>
 					   </div>
-					   </div><br>
+					   </div>
+					  </div> 
+					  
+					<div id="content-papers-options-info">
+					<br>
 					<h4 id="top"> Content Paper Option</h4>
 					<hr>
 					    <div class="row">
@@ -752,8 +776,9 @@
 					  </tbody>
 					</table>
 					   </div>
-					      <br>
-		  
+					 </div>
+					 <div id="cover-printing-options-info">  
+					 <br>
 					 <h4>Cover Printing Option</h4>
 					 <hr>
 						<div class="row">
@@ -772,8 +797,8 @@
 					    </div>
 					    </div>
 					  </div>
-					  
-					  
+					  </div>
+					  <div id="content-printing-options-info">
 					   <h4>Content Printing Option</h4>
 					 <hr>
 					  

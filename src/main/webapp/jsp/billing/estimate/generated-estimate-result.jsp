@@ -52,8 +52,13 @@
                                                         </tr>
                                                         <tr>
                                                             <td>Volume</td>
+                                                             <c:if test="${job.jobType.category==0||job.jobType.category==2}">
                                                             <td> Cover : <span>${job.coverVolume}</span>  <span>Pages</span><br>
+                                                            </c:if>
+                                                             
+                                                             <c:if test="${job.jobType.category==1||job.jobType.category==2}">
                                                                  Content : <span>${job.contentVolume}</span> <span>Pages</span>
+                                                             </c:if>
                                                             </td>
                                                             <td></td>
                                                         </tr>
@@ -71,6 +76,7 @@
                                                         <tr>
                                                             <td>Printing</td>
                                                             <td>
+                                                             <c:if test="${job.jobType.category==0||job.jobType.category==2}">
                                                                 <span>
                                                                     ${coverJobPaper.contentType.name } :
                                                                     <c:forEach var="jobColorCombination" items="${coverJobPaper.jobColorCombinations}" varStatus="loop">
@@ -81,7 +87,8 @@
                                                                     </c:forEach>
 
                                                                 </span>
-
+                                                                </c:if>
+																 <c:if test="${job.jobType.category==1||job.jobType.category==2}">
                                                                 <span>
                                                                 <c:set var="contentType" value="${contentJobPapers[0].contentType.name}"></c:set>
                                                                     <span>
@@ -106,6 +113,7 @@
 
 
                                                                 </span>
+                                                                </c:if>
                                                             </td>
                                                             <td></td>
                                                         </tr>
@@ -119,10 +127,12 @@
                                                         <tr>
                                                             <td>Paper </td>
                                                             <td>
+                                                             <c:if test="${job.jobType.category==0||job.jobType.category==2}">
                                                                 Cover :<span>${coverJobPaper.paperType.name}</span>
                                                                     <span style="float:right">${coverJobPaper.grammage} GSM</span>
-
+															</c:if>
                                                                 <br>
+                                                                 <c:if test="${job.jobType.category==1||job.jobType.category==2}">
                                                                     <span>
                                                                         <c:set var="contentType" value="${contentJobPapers[0].contentType.name}"></c:set>
                                                                         <span>
@@ -145,6 +155,7 @@
                                                                             </c:forEach>
                                                                         </ul>
                                                                     </span>
+                                                                    </c:if>
                                                                 </td>
                                                             <td>
 

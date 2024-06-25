@@ -193,27 +193,36 @@ public class JobController {
 			printer.print(document, job.getOpenLength()+"", 109, 297-88);
 			printer.print(document, job.getCloseWidth()+"", 157, 297-88);
 			printer.print(document, job.getCloseLength()+"", 182, 297-88);
-			printer.print(document, "Cover : "+job.getCoverVolume()+" Pages", 69, 297-99);
-			printer.print(document, "Content : "+job.getContentVolume()+" Pages", 69, 297-108);
+			
 			JobPaper jobPaper =new JobPaper();
 			for(JobPaper pp : job.getJobPapers()) {
-				if(pp.getContentType().getId()==1)
+				if(pp.getContentType().getId()==1) {
 					jobPaper =pp;
+					printer.print(document, "Cover : "+ jobPaper.getPaperType().getName()+"   "+jobPaper.getGrammage()+"g", 34, 297-235);
+					printer.print(document, "Cover : "+job.getCoverVolume()+" Pages", 69, 297-99);
+					printer.print(document, "Cover : "+ jobPaper.getJobColorCombinations().get(0).getFrontColorNumber()+"/"+jobPaper.getJobColorCombinations().get(0).getBackColorNumber()+" "+jobPaper.getJobColorCombinations().get(0).getPrintType().getName(), 35, 297-163.5f);
+				}
+					
 			}
 			
-			printer.print(document, "Cover : "+ jobPaper.getJobColorCombinations().get(0).getFrontColorNumber()+"/"+jobPaper.getJobColorCombinations().get(0).getBackColorNumber()+" "+jobPaper.getJobColorCombinations().get(0).getPrintType().getName(), 35, 297-163.5f);
 			
 			List<JobPaper> jobPapers = job.getJobPapers();
-			String messageCover = "Cover :";
 			String message = "Cotent :";
+			boolean isContent=false;
 			for(int i=0; i<jobPapers.size(); i++) {
-				if(jobPapers.get(i).getContentType().getId()==2)
+				if(jobPapers.get(i).getContentType().getId()==2) {
+					isContent=true;
 				for(int j=0; j<jobPapers.get(i).getJobColorCombinations().size(); j++) {
 				//	if(jobPapers.get(i).getContentType().getId()==1) messageCover+
 					message+=jobPapers.get(i).getJobColorCombinations().get(j).getFrontColorNumber()+"/" + jobPapers.get(i).getJobColorCombinations().get(j).getBackColorNumber()+ " "+jobPapers.get(i).getJobColorCombinations().get(j).getPrintType().getName()+", ";
 				}
+			}}
+			if(isContent)
+			{
+				printer.print(document, "Content : "+job.getContentVolume()+" Pages", 69, 297-108);
+				printer.print(document, message, 35, 297-173.5f);
 			}
-			printer.print(document, message, 35, 297-173.5f);
+			
 			float yx = 297-188;
 			printer.print(document, job.getJobActivity().getXPerforated()+ "", 34, yx-8);
 			printer.print(document, job.getJobActivity().getXNumbered()+"", 69, yx-8);
@@ -244,13 +253,13 @@ public class JobController {
 			printer.print(document, "" +job.getJobActivity().getXCreased(),  100, 297-204);
 			printer.print(document, "" +job.getJobActivity().getXWiredStiched(),  131, 297-204);
 			
-			printer.print(document, "Cover : "+ jobPaper.getPaperType().getName()+"   "+jobPaper.getGrammage()+"g", 34, 297-235);
 			List<JobPaper> jobPapers_ =job.getJobPapers();
 			 message = "Content : ";
 			for(int i=0; i<jobPapers_.size(); i++) {
 				if(jobPapers_.get(i).getContentType().getId()==2)
 					message +=jobPapers_.get(i).getPaperType().getName()+"   "+jobPapers_.get(i).getGrammage()+"g, ";
 			}
+			if(isContent)
 			printer.print(document, message,  34, 297-243);
 			
 			/**
@@ -443,7 +452,23 @@ public class JobController {
 			data = ImageDataFactory.create(backgroundFolder + "P4.jpg");
 			canvas2.addImage(data, PageSize.A4, false);
 			float translation = -5;
-			String paperFormat = "";
+			String paperFormat ="";
+			double closewidthFormat =job.getOpenWidth();
+			if(closewidthFormat<=74)
+				paperFormat = 8+"";
+			else if(closewidthFormat<=105)
+				paperFormat = 7+"";
+			else if(closewidthFormat<=145)
+				paperFormat = 6+"";
+			else if(closewidthFormat<=210)
+				paperFormat = 5+"";
+			else if(closewidthFormat<=297)
+				paperFormat = 4+"";
+			else if(closewidthFormat<=420)
+				paperFormat = 3+"";
+			else if(closewidthFormat>594)
+				paperFormat = 2+"";
+			
 			for(int i3=0; i3<jobPapers.size(); i3++) {
 				if(jobPapers.get(i3).getContentType().getId()==2)
 				{
@@ -456,7 +481,6 @@ public class JobController {
 				printer.printMoney(document, printinElementCost.getFoldedFixeCost(), 132, 297-20 );
 				//fixCost
 				fixePrice+=printinElementCost.getFoldedFixeCost();
-				paperFormat=printinElementCost.getPaperFormat();
 				printer.print(document, printinElementCost.getFinishingRun()+"", 45, 297-25.5f-translation);
 				printer.print(document, paperFormat, 70f, 297-25.5f-translation);
 				printer.printMoney(document, printinElementCost.getFinishingRunVaribleCost(), 173, 297-26-translation);
@@ -870,8 +894,15 @@ public class JobController {
 		JobPaper coverPaper = null;
 		for(JobPaper pp : jcc) {
 			if(pp.getContentType().getId()==1)
+			{
 				coverPaper=pp;
-		}
+				printer.print(document,"Cover: "+ job.getOpenLength()+" X "+job.getOpenWidth()+" mm", 73, 297-93);
+				printer.print(document, "Cover: " +job.getCoverVolume()+" Pages", 73, 297-110);
+				printer.print(document,"Cover: "+  coverPaper.getJobColorCombinations().get(0).getFrontColorNumber() + "/" +coverPaper.getJobColorCombinations().get(0).getBackColorNumber()+" " + coverPaper.getJobColorCombinations().get(0).getPrintType().getName(), 73, 297-136);
+				printer.printHeader(document,"Paper", 38, 297-182);
+			    printer.print(document, "Cover : "+ job.getJobPapers().get(0).getPaperType().getName(), 73, 297-182);
+				printer.print(document, job.getJobPapers().get(0).getGrammage()+" GSM", 168, 297-182);
+		}}
 		String jobActivities = "";
 		String typeSettings = "";
 		String reproduction = "";
@@ -902,24 +933,28 @@ public class JobController {
 			
 			printer.printHeader(document, "Printing", 38, 297-137);
 			
-			printer.print(document,"Cover: "+  coverPaper.getJobColorCombinations().get(0).getFrontColorNumber() + "/" +coverPaper.getJobColorCombinations().get(0).getBackColorNumber()+" " + coverPaper.getJobColorCombinations().get(0).getPrintType().getName(), 73, 297-136);
 			
-			printer.print(document, "Content", 73, 297-142);
 
 			
-				printer.print(document,"Cover: "+ job.getOpenLength()+" X "+job.getOpenWidth()+" mm", 73, 297-93);
-				printer.print(document,"Content: "+  job.getCloseLength()+" X "+ job.getCloseWidth()+ " mm", 73, 297-99);
-				printer.print(document, "Cover: " +job.getCoverVolume()+" Pages", 73, 297-110);
-				printer.print(document, "Content: " +job.getContentVolume()+" Pages", 73, 297-116);
+				
+
 				String message_ =" ";
+				boolean isContent =false;
 				for(JobPaper pp:jcc) {
-					if(pp.getContentType().getId()!=1)
-				for(int j=0; j<pp.getJobColorCombinations().size(); j++) {
+				if(pp.getContentType().getId()!=1)
+					{
+					isContent=true;
+					for(int j=0; j<pp.getJobColorCombinations().size(); j++) {
 					message_+=  pp.getJobColorCombinations().get(j).getFrontColorNumber()+"/"+ pp.getJobColorCombinations().get(j).getBackColorNumber()+" "+pp.getJobColorCombinations().get(j).getPrintType().getName()+"";
-				}
+				}}
 				
 			}
-			printer.print(document, message_, 90, 297-142);
+				if(isContent) {
+					printer.print(document, message_, 90, 297-142);
+					printer.print(document, "Content", 73, 297-142);
+					printer.print(document,"Content: "+  job.getCloseLength()+" X "+ job.getCloseWidth()+ " mm", 73, 297-99);
+					printer.print(document, "Content: " +job.getContentVolume()+" Pages", 73, 297-116);
+				}
 			
 			printer.printHeader(document, "Finishing", 38, 297-161);
 			if(jobActivity.isHandgather()) jobActivities =	jobActivities + "hand-gatherd, ";
@@ -937,10 +972,9 @@ public class JobController {
 
 		 printer.printParagraphe(document,jobActivities, 73, 297-170);
 		 
-		 printer.printHeader(document,"Paper", 38, 297-182);
-		 printer.print(document, "Cover : "+ job.getJobPapers().get(0).getPaperType().getName(), 73, 297-182);
-		 printer.print(document, job.getJobPapers().get(0).getGrammage()+" GSM", 168, 297-182);
-		 			
+		 
+		 
+		   if(isContent)			
 			printer.printParagraphe(document,"Content : ", 73, 297-187);
 			float vecto = -5;
 			for(JobPaper pp:jcc) {

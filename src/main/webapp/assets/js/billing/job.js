@@ -78,10 +78,9 @@ function removeContentNode(deleteBtn,input){
 }
 
 function paperF(paperFormat){
-		
 	let PaperFormatArray = paperFormat.split(",");
-	let length = PaperFormatArray[1]
-	let width = PaperFormatArray[2]
+	let length = PaperFormatArray[1];
+	let width = PaperFormatArray[2];
 	let halfWidth =Math.floor(parseInt(width)/2);
 	document.getElementById("openWidth").value =width;
 	document.getElementById("openLength").value =length;
@@ -170,12 +169,19 @@ function signatureCalculation(machineParams,node){
 
 }
 function submitForm(){
-let job = { };
+	 let opt=document.getElementById("jobType").selectedOptions[0];	
+	 let dataContentValue = opt.parentElement.getAttribute('data-content');
+ let job = { };
  job.customerId = document.getElementById("customer").value;
  job.jobTypeId = document.getElementById("jobType").value;
  job.title = document.getElementById("title").value;
- job.coverVolume = document.getElementById("volumeOfCover").value;
- job.contentVolume = document.getElementById("volumeOfContent").value;
+ 
+ if(dataContentValue==0||dataContentValue==2){
+	  job.coverVolume = document.getElementById("volumeOfCover").value;
+ }
+    if(dataContentValue==1||dataContentValue==2){
+	   job.contentVolume = document.getElementById("volumeOfContent").value;
+ } 
  job.ctpFees = document.getElementById("ctpFees").value;
  job.openWidth = document.getElementById("openWidth").value;
  job.openLength = document.getElementById("openLength").value;
@@ -204,8 +210,10 @@ let job = { };
   job.jobActivities = jobActivity;
  	
  	// Adding coverJobPaper and color combination  
+ 	
 	 let jobPapers = [ ];
-	 let coverJobPaper = { };
+	 if(dataContentValue==0||dataContentValue==2){
+		 let coverJobPaper = { };
 	  coverJobPaper.grammage = document.getElementById("coverGrammage").value;
 	  coverJobPaper.volume = document.getElementById("coverVolume").value;
 	  coverJobPaper.paperTypeId = document.getElementById("coverPaperType").value;
@@ -222,9 +230,13 @@ let job = { };
        coverColorCombinations.push(colorCombination);
        coverJobPaper.jobColorCombinations = coverColorCombinations;
        jobPapers.push(coverJobPaper);
+ 	}
+	 
     //End of Adding CoverJobPaper and color combination
     
     // Start adding contentJobPaper and color combination
+    if(dataContentValue==1||dataContentValue==2){
+		
      let contentPaperTypes = document.getElementById("contentDiv").children;
      let mainContentSignature = document.getElementById("mainContentSignature").children;
 
@@ -267,6 +279,7 @@ let job = { };
 		 contentJobPaper.jobColorCombinations = jobColorCombinations;
 		 jobPapers.push(contentJobPaper);
 	 }
+	 }
 	  
 	 job.jobPapers = jobPapers;
 	 fetch('job/save', {
@@ -297,12 +310,14 @@ let job = { };
     function summary(){
 		
 					//  JOB DESCRIPTION SECTION
-	
+		   let opt=document.getElementById("jobType").selectedOptions[0];	
+		   let dataContentValue = opt.parentElement.getAttribute('data-content');
+		   
 			document.getElementById("job-type").innerHTML= document.getElementById("jobType").selectedOptions[0].innerHTML;
 			document.getElementById("job-title").innerHTML= document.getElementById("title").value;
 			document.getElementById("job-customer").innerHTML= document.getElementById("customer").selectedOptions[0].innerHTML;
-			document.getElementById("cover-pages").innerHTML= document.getElementById("volumeOfCover").value;
-			document.getElementById("content-pages").innerHTML= document.getElementById("volumeOfContent").value;
+			
+			
 			document.getElementById("ctp").innerHTML= document.getElementById("ctpFees").value;
 			document.getElementById("paper-format").innerHTML= document.getElementById("paperFormat").selectedOptions[0].innerHTML;
 			document.getElementById("open-l").innerHTML= document.getElementById("openLength").value;
@@ -329,17 +344,44 @@ let job = { };
 			document.getElementById("type-setting").innerHTML=yes;
 			else document.getElementById("type-setting").innerHTML=no;
 			
-				// PAPER OPTIONS SECTION
-			
+			if(dataContentValue==0 || dataContentValue==2)
+				// job type is a cover or cover and content
+			{
+			document.getElementById("cover-pages").innerHTML= document.getElementById("volumeOfCover").value;
 			document.getElementById("cover-paper").innerHTML= document.getElementById("coverPaperType").selectedOptions[0].innerHTML;
 			document.getElementById("cover-volume").innerHTML= document.getElementById("coverVolume").value;
 			document.getElementById("cover-grammage").innerHTML= document.getElementById("coverGrammage").value;
-
-
+						
+			document.getElementById("cover-machine").innerHTML= document.getElementById("coverPrintingMachine").selectedOptions[0].innerHTML;
+			document.getElementById("cover-printtype").innerHTML= document.getElementById("coverPrintType").selectedOptions[0].innerHTML;
+			document.getElementById("cover-color-front").innerHTML= document.getElementById("coverFrontColorNumber").value;
+			document.getElementById("cover-color-back").innerHTML= document.getElementById("converBackColorNumber").value;
+			document.getElementById("cover-signature").innerHTML= document.getElementById("coverSignature").innerHTML;
+				
+			document.getElementById('cover-pages-info').style.display = "";
+			document.getElementById('cover-papers-options-info').style.display = "";
+			document.getElementById('cover-printing-options-info').style.display = "";
+			
+				document.getElementById('content-pages-info').style.display = "";
+				document.getElementById('content-papers-options-info').style.display = "";
+				document.getElementById('content-printing-options-info').style.display = "";	
+			if(dataContentValue==0){//do not display content divs infos
+			
+				document.getElementById('content-pages-info').style.display = "none";
+				document.getElementById('content-papers-options-info').style.display = "none";
+				document.getElementById('content-printing-options-info').style.display = "none";
+				}
+			}
+		if(dataContentValue==2 || dataContentValue==1)
+		{
+			/** job type is either have content and cover or only content
+		 */
 		let contentPaperTypes = document.getElementById("contentDiv").children;
 		let mainContentSignature = document.getElementById("mainContentSignature").children;
 		let signatureDive = document.getElementById("signatureDiv").children;
 		let coverTable = document.getElementById("cover-table");
+		document.getElementById("content-pages").innerHTML= document.getElementById("volumeOfContent").value;
+
 
 	for (let i = 1; i < contentPaperTypes.length; i++) {
 			
@@ -359,12 +401,7 @@ let job = { };
 }
 
 					// PAPER OPTIONS SECTION ( cover )
-					
-			document.getElementById("cover-machine").innerHTML= document.getElementById("coverPrintingMachine").selectedOptions[0].innerHTML;
-			document.getElementById("cover-printtype").innerHTML= document.getElementById("coverPrintType").selectedOptions[0].innerHTML;
-			document.getElementById("cover-color-front").innerHTML= document.getElementById("coverFrontColorNumber").value;
-			document.getElementById("cover-color-back").innerHTML= document.getElementById("converBackColorNumber").value;
-			document.getElementById("cover-signature").innerHTML= document.getElementById("coverSignature").innerHTML
+		
 
 					// PAPER OPTIONS SECTION ( content )
 
@@ -398,7 +435,20 @@ let job = { };
 		}
 		
 		}
-					// PAPER OPTIONS SECTION
+		
+		document.getElementById('content-pages-info').style.display = "";
+		document.getElementById('content-papers-options-info').style.display = "";
+	    document.getElementById('content-printing-options-info').style.display="";
+	    document.getElementById('cover-pages-info').style.display = "";
+		document.getElementById('cover-papers-options-info').style.display = "";
+		document.getElementById('cover-printing-options-info').style.display = "";
+		if(dataContentValue==1){//do not display cover divs infos
+				document.getElementById('cover-pages-info').style.display = "none";
+				document.getElementById('cover-papers-options-info').style.display = "none";
+				document.getElementById('cover-printing-options-info').style.display = "none";
+					
+		}
+		}				// PAPER OPTIONS SECTION
 
 
 			document.getElementById("x-perforated").innerHTML=document.getElementById("xPerforated").value;
@@ -443,6 +493,9 @@ let job = { };
 			if(document.getElementById("sewn").checked)
 			document.getElementById("sown").innerHTML=yes;
 			else document.getElementById("sown").innerHTML=no;
+			
+			
+			
      }
    
    
@@ -608,7 +661,34 @@ function confirmEstimate(urlConfirm, urlPrintEstimate){
         .catch(error => {
             console.log("internal server error :", error);
         });
-
-
 }
+
+function jobTypeChoice(opt){
+	let dataContentValue = opt.parentElement.getAttribute('data-content');
+	if(dataContentValue==0){
+		document.getElementById('volumeofContent').style.display = "none";
+		document.getElementById('volumeofCover').style.display = "";
+		document.getElementById('coverInformations').style.display = "";
+		document.getElementById('contentDiv').style.display = "none";
+		document.getElementById('cover-signature-div').style.display = "";
+		document.getElementById('mainContentSignature').style.display = "none";
+	}
+	else if(dataContentValue==1){
+		document.getElementById('volumeofCover').style.display = "none";
+		document.getElementById('volumeofContent').style.display = "";
+		document.getElementById('coverInformations').style.display = "none";
+		document.getElementById('contentDiv').style.display = "";
+		document.getElementById('cover-signature-div').style.display = "none";
+		document.getElementById('mainContentSignature').style.display = "";
+	}
+	else {
+		document.getElementById('volumeofContent').style.display = "";
+		document.getElementById('volumeofCover').style.display = "";
+		document.getElementById('coverInformations').style.display = "";
+		document.getElementById('contentDiv').style.display = "";
+		document.getElementById('cover-signature-div').style.display = "";
+		document.getElementById('mainContentSignature').style.display = "";
+	}
+
+	}
 
