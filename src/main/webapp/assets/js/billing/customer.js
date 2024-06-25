@@ -44,7 +44,7 @@ function savecutomer() {
 }
 
 // <--------------Update customer ------------------------->
-function update(id) {
+function updateCustomer(id) {
 	var name = document.getElementById('name').value;
 	var email = document.getElementById('email').value;
 	var telephone = document.getElementById('telephone').value;
@@ -68,7 +68,8 @@ function update(id) {
 	.then( response => {	
 
    	  if (response.status === 200) {
-       sendMessage('Succes/Success', 1);
+       sendMessage('Succes/Success', 1)
+       loadPage('customer/list');
 								
     } else if (response.status !== 200) {
 	  sendMessage('Failed / Echec', 2);
@@ -92,7 +93,9 @@ function deleteCust(id){
 	.then( response => {	
 
    			 if (response.status === 200) {
-       			sendMessage('Succes/Success', 1);
+				
+				return loadPage('customer/list');
+       			
 								
    			 } else if (response.status !== 200) {
 				sendMessage('Failed / Echec', 2);

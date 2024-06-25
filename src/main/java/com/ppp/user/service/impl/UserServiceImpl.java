@@ -114,7 +114,8 @@ public class UserServiceImpl implements UserService {
 //<--------------------- Delete User --------------------------> 
 	@Override
 	public void deleteUserByUsername(Long id) {
-			userRepository.deleteById(id);
+			userRepository.findById(id).get();
+			
 	}
 	//<--------------------- Delete User By Id -------------------------->
 	public void deleteUserById(Long id) {
@@ -141,24 +142,19 @@ public class UserServiceImpl implements UserService {
 
 //<---------------------- Update user ---------------------> 
 	@Override
-	public String updateUser(User updatedUser, Long id) {
-		try {
+	public User updateUser(User updatedUser, Long id) {
+		
 			User existingUser = userRepository.findById(id).get();
-			if(existingUser == null) {
-				return " error";		
-			}
+			
 			existingUser.setFirstName(updatedUser.getFirstName());
 			existingUser.setLastName(updatedUser.getLastName());
 			existingUser.setUsername(updatedUser.getUsername());
 			existingUser.setEmail(updatedUser.getEmail());
 			existingUser.setAddress(updatedUser.getAddress());
 			existingUser.setMobile(updatedUser.getMobile());
-			 userRepository.save(existingUser);
-
-			return " success";
-		} catch (Exception e) {
-			throw e;
-		}
+			userRepository.save(existingUser);
+		
+		return existingUser;
 	}
 
 	

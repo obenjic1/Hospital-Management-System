@@ -47,7 +47,7 @@
 						</div>
 
 						<div class="col-md-6">
-						  <input onclick="update('${update.id}')" type="button" class="btn btn-primary" value="Save Changes" style="left: 164%;bottom: -18%;"/>
+						  <button onclick="updateCustomer('${update.id}')" type="button" class="btn btn-primary" value="Save Changes" style="left: 164%;bottom: -18%;"/>Save Changes</button>
 						</div>
 					</form>
 				</div>
@@ -56,5 +56,5 @@
 	</div>
 </main>
 <!-- End #main -->
-<script src="assets/js/users.js"></script>
 <script src="assets/js/billing/customer.js"></script>
+<script src="assets/js/users.js"></script>

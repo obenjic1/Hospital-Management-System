@@ -66,4 +66,10 @@ public class PrintingMachineServiceImpl implements PrintingMachineService {
 	public List<PrintingMachine> findByActive(boolean status) {
 		return printinMachineRepository.findByActive(status);
 	}
+	
+	
+	public List<PrintingMachine> findByIsActive() {
+		return printinMachineRepository.findByActive(true);
+	}
+	
 }

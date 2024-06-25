@@ -49,7 +49,7 @@
                   </div>
                   <div class="row">
                     <div class="col-lg-3 col-md-4 label">Status</div>
-					Active
+					<div class="col-lg-9 col-md-8 ${machine.active ? 'Active' : 'Blocked' }">${findMachine.active ? 'Active' : 'Blocked'}</div>
                   </div>
                    </div>
                 <div class="tab-pane fade profile-edit pt-3" id="profile-edit">

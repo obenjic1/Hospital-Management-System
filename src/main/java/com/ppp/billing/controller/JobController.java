@@ -109,7 +109,7 @@ public class JobController {
 		List<PaperFormat> paperFormatResult = paperFormatServiceImpl.findAll();
 		List<JobPaper> jobPaperResult = jobPaperServiceImpl.findAll();
 		List<PaperType>  paperTypeResult = paperTypeServiceImpl.listAll();
-		List<PrintingMachine> printingMachineResult = printingMachineServiceImpl.listMachines();
+		List<PrintingMachine> printingMachineResult = printingMachineServiceImpl.findByIsActive();
 		List<PrintType> printTypeResult = printTypeServiceImpl.findAll();
 		List<JobColorCombination> jobColorCombinationResult = jobColorCombinationServiceImpl.findAll();
 		List<PaperGrammage> paperGrammageResult = paperGrammageServiceImpl.findAll();
@@ -639,7 +639,7 @@ public class JobController {
 					dcf.setRoundingMode(RoundingMode.CEILING);
 					printer.print(document, up+"", 56, 297-42-vct);
 					double variableC= totalOversh/(up*1000.0);
-					printer.printMoney(document, variableC, 80, 297-42-vct);
+					printer.print(document, variableC+"", 80, 297-42-vct);
 					printer.printMoney(document, paper.getUnitPrice(), 120, 297-42-vct);
 					//fixeCost
 					//fixePrice+=paper.getUnitPrice();

@@ -171,7 +171,7 @@ function updateUserById(id) {
 
 	var jsonUserUpdateData = JSON.stringify(userUpdatedData);
 
-	fetch(`user/update-user/${email}`, {
+	fetch(`user/update-user/${id}`, {
 		method: 'POST',
 		headers: {
 			'Content-Type': 'application/json'
