@@ -94,20 +94,33 @@
                                             <input name="username" type="text" class="form-control" id="username" value="${user.username}">
                                         </div>
                                     </div>
+                                     <div class="row mb-3">
+                                        <label for="mobile" class="col-md-4 col-lg-3 col-form-label"><fmt:message key="phone"/></label>
+                                        <div class="col-md-8 col-lg-9">
+                                            <input name="mobile" type="text" class="form-control" id="mobile" value="${user.mobile}">
+                                        </div>
+                                    </div>
                                     <div class="row mb-3">
-                                        <label for="email" class="col-md-4 col-lg-3 col-form-label"><fmt:message key="phone"/></label>
+                                        <label for="email" class="col-md-4 col-lg-3 col-form-label"><fmt:message key="email"/></label>
                                         <div class="col-md-8 col-lg-9">
                                             <input name="email" type="email" class="form-control" id="email" value="${user.email}">
                                         </div>
                                     </div>
+                                    
                                      <div class="row mb-3">
                                          <label for="address" class="col-md-4 col-lg-3 col-form-label"><fmt:message key="address"/></label>
                                          <div class="col-md-8 col-lg-9">
                                              <input name="address" type="text" class="form-control" id="address" value="${user.address}">
                                          </div>
                                      </div>
+                                     <div class="row mb-3">
+                                         <label for="ImageFile" class="col-md-4 col-lg-3 col-form-label"><fmt:message key="address"/></label>
+                                         <div class="col-md-8 col-lg-9">
+                                             <input name="imageFile" type="file" class="form-control" id="imageFile" accept="image/*" value="${user.address}">
+                                         </div>
+                                     </div>
                                     <div class="text-center">
-                                           <input data-bs-toggle="modal" data-bs-target="#creation" type="button"  onclick="updateUserById('${user.id}')" style="left: 42%; bottom: 2%" class="btn btn-primary" value="Save Changes"/>
+                                    	<input data-bs-toggle="modal" data-bs-target="#creation" type="button" onclick="updateUserById('${user.id}')" class="btn btn-primary" value="Save Changes" style="left: 42%;bottom: -18%;"/>
                                     </div>
                  
                                 </form><!-- End Profile Edit Form -->

@@ -7,7 +7,7 @@ import com.ppp.billing.model.JobPaper;
 import com.ppp.billing.model.PrintingMachine;
 
 public class PlateMakingCosting {
-	private int plates;
+	private double plates;
 	private int basic;
 	private double signatures;
 	private PrintingMachine printingMachine;
@@ -29,6 +29,9 @@ public class PlateMakingCosting {
 
 	}
 	
+	/*
+	 * Have to be update
+	 */
 	
 	public PlateMakingCosting(JobPaper jobPaper) {
 		this.jobPaper = jobPaper;
@@ -47,7 +50,7 @@ public class PlateMakingCosting {
 		}
 		plates=0;
 		jobPaper.getJobColorCombinations().forEach(colorCombination->{
-			int signature = (int) Math.ceil(colorCombination.getNumberOfSignature());
+			double signature = (colorCombination.getNumberOfSignature());
 			this.signatures+=colorCombination.getNumberOfSignature();
 			plates += signature*(colorCombination.getBackColorNumber()+colorCombination.getFrontColorNumber());
 		});
@@ -69,11 +72,11 @@ public class PlateMakingCosting {
 		
 		
 		if(printingMachine.getAbbreviation().equals("GTO"))
-			return this.plates*3800;
+			return (float) (this.plates*3800);
 		else if(printingMachine.getAbbreviation().equals("SPM5"))
-			return this.plates*9000;
+			return (float) (this.plates*9000);
 		else
-			return this.plates*5000;
+			return (float) (this.plates*5000);
 	}
 	
 	public static int getPlates(JobPaper jobPaper) {
@@ -96,7 +99,7 @@ public class PlateMakingCosting {
 	
 
 	
-	public int getPlates() {
+	public double getPlates() {
 		return plates;
 	}
 	public void setplateChangePlates(int plates) {

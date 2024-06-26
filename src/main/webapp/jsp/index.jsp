@@ -22,12 +22,14 @@
 <!-- Favicons -->
 <link href="assets/img/presprint.jpg" rel="icon">
 <script src="assets/vendor/jquery-3.5.1.min.js"></script>
+<script src="assets/vendor/dataTables.js"></script>
 
 
 
 
 <!-- Vendor CSS Files -->
-<link href="DataTables/dataTables.dataTables.css"  rel="stylesheet"  />
+<!-- <link href="DataTables/dataTables.dataTables.css"  rel="stylesheet"  /> -->
+<link href="assets/vendor/dataTables.dataTables.css" rel="stylesheet">
 <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
 <link href="assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
@@ -355,7 +357,7 @@
 	<script src="assets/vendor/tinymce/tinymce.min.js"></script>
 
 	<!-- Template Main JS File -->
-	<script src="DataTables/dataTables.js"></script>
+	<script src="assets/vendor/dataTables.js"></script>
 	<script src="assets/js/role.js"> </script>
 	<script src="assets/js/main.js"></script>
 	<script src="assets/js/app.js"></script>

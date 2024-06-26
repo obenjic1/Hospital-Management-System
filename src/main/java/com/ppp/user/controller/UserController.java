@@ -5,6 +5,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,7 +26,7 @@ import com.ppp.user.repository.UserRepository;
 import com.ppp.user.service.impl.UserServiceImpl;
 
 @Controller
-@RequestMapping("/user")
+@RequestMapping("user")
 
 public class UserController {
 
@@ -94,16 +96,20 @@ public class UserController {
 		    return "user/update-user";
 		}
 	
+	
 //<---------------------- Update user ------------------------->	
 	@PreAuthorize("hasRole('ROLE_UPDATE_USER')")
 	@PostMapping("/update-user/{id}")
-	public String updateUser(@RequestBody User updatedUser, @PathVariable Long id) throws Exception {
-	    String userUpdated = userServiceImpl.updateUser(updatedUser, id);
-	    if(userUpdated == "error") {
-	    	throw new Exception("something wher wrong");
-	    }
-	    return "/user/list-users";
+	public ResponseEntity<String> updateUser(@RequestBody User updatedUser, @PathVariable Long id) throws Exception {
+		try {
+	    User userUpdated = userServiceImpl.updateUser(updatedUser, id);
+	    
+	    return new ResponseEntity<String>("Success", HttpStatus.OK);
+	} catch (Exception e) {			
+		return new ResponseEntity<String>("Failed", HttpStatus.BAD_REQUEST);
 	}
+	}
+
 	
 //<---------------------- Get list of users ---------------------->
 	@PreAuthorize("hasRole('ROLE_LIST_USERS')")
@@ -138,4 +144,16 @@ public class UserController {
 	userServiceImpl.deleteUserById(id);
 	    return ;
 	  }
+
+//<----------------------Enable and Disable a User --------------------->
+@PostMapping("/enable/{id}")
+ public ResponseEntity<String> enable(@PathVariable long id) {
+	try {
+		userServiceImpl.enableUser(id);
+		return new ResponseEntity<String>("Success", HttpStatus.OK);
+			} catch (Exception e) {
+				return new ResponseEntity<String>("Failed", HttpStatus.BAD_REQUEST);
+			}
+	}
+
 }
