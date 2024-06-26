@@ -182,6 +182,8 @@ public class JobController {
 		double p2=0;
 		double p3=0;
 		double p4=0;
+		
+		
 			/**
 			 * Impression de la premiere page du controle sheet
 			 */
@@ -286,14 +288,14 @@ public class JobController {
 				
 				String machine = plateMakingCosting.getPrintingMachine().getAbbreviation();
 				
-				int exposior = plateMakingCosting.getPlates();
+				double exposior = plateMakingCosting.getPlates();
 				float exposiorCusting = plateMakingCosting.generateExposureCost();
 				//fix price
 				fixePrice+=exposiorCusting;
 				
 				String contentType = plateMakingCosting.getJobPaper().getContentType().getName();
 				double signature = plateMakingCosting.getSignatures();
-				int run = exposior;
+				double run = exposior;
 				
 				float y1 = 120.5f;
 				printer.print(document, machine, 27, y1-vecteur);
@@ -541,10 +543,10 @@ public class JobController {
 			    		}
 			    	}
 			    }
-			    printer.print(document, totalContentOfSignature+"", 50, 297-67);
-				printer.printMoney(document, totalContentOfSignature*2000 , 175, 297-67);
+			    printer.print(document, Math.ceil(totalContentOfSignature)+"", 50, 297-67);
+				printer.printMoney(document,  Math.ceil(totalContentOfSignature)*2000 , 175, 297-67);
 				//variableCost
-				variablePrice+=totalContentOfSignature*2000;
+				variablePrice+= Math.ceil(totalContentOfSignature)*2000;
 			}
 			
 			if(job.getJobActivity().isHandgather()) {
@@ -554,20 +556,30 @@ public class JobController {
 			    			totalContentOfSignature+=job.getJobPapers().get(i).getJobColorCombinations().get(j).getNumberOfSignature();
 			    	}
 			    }
-				printer.print(document, totalContentOfSignature+"", 50, 297-74);
-				printer.printMoney(document, totalContentOfSignature*1000, 175, 297-74);
+				printer.print(document, Math.ceil(totalContentOfSignature)+"", 50, 297-74);
+				printer.printMoney(document, Math.ceil(totalContentOfSignature)*1000, 175, 297-74);
 				//variablePrice
-				variablePrice+=totalContentOfSignature*1000;
+				variablePrice+=Math.ceil(totalContentOfSignature)*1000;
 			}
-			
+		
+			float totalNumberOfSignature = 0;
+			for(int f=0; f<job.getJobPapers().size(); f++) {
+				if(job.getJobPapers().get(f).getContentType().getId()==2) {
+					for(int fk=0; fk<job.getJobPapers().get(f).getJobColorCombinations().size(); fk++) {
+						totalNumberOfSignature+=job.getJobPapers().get(f).getJobColorCombinations().get(fk).getNumberOfSignature();
+					}
+				}
+			}
+			int totalNumberOfSignature_ = (int) Math.ceil(totalNumberOfSignature);
+			int glueBondPreparationFactor= (int) Math.ceil(totalNumberOfSignature_/10.0);
 			//use binding type instead jobactivty glue option
 			if (job.getJobActivity().getBindingType()!=null && job.getJobActivity().getBindingType().getName().equals("Glue-Bound"))	 {
 				printer.printMoney(document, 10000, 130, 297-79.5f);
 				//fixePrice
 				fixePrice+=10000;
-				printer.printMoney(document, 80000 , 175, 297-79.5f);
+				printer.printMoney(document, 80000*glueBondPreparationFactor , 175, 297-79.5f);
 				//variablePrice
-				variablePrice+=80000;
+				variablePrice+=80000*glueBondPreparationFactor;
 			}
 			if(job.getJobActivity().getLamination()>0) {
 				printer.print(document, paperFormat, 40, 297-91);
@@ -634,13 +646,13 @@ public class JobController {
 						lengthFoldedJob=Math.ceil(max*(horizontalLignes+1)/10)+2;
 					}
 					
-					up = (int) Math.floor(up/(lengthFoldedJob*widthFoldedJob)) ;
+					up = (int) Math.floor(up/(lengthFoldedJob*widthFoldedJob));
 					DecimalFormat dcf= new DecimalFormat("#.###");
 					dcf.setDecimalFormatSymbols(DecimalFormatSymbols.getInstance(Locale.ENGLISH));
 					dcf.setRoundingMode(RoundingMode.CEILING);
 					printer.print(document, up+"", 56, 297-42-vct);
 					double variableC= totalOversh/(up*1000.0);
-					printer.print(document, variableC+"", 80, 297-42-vct);
+					printer.print(document, Double.valueOf(dcf.format(variableC))+"", 80, 297-42-vct);
 					printer.printMoney(document, paper.getUnitPrice(), 120, 297-42-vct);
 					//fixeCost
 					//fixePrice+=paper.getUnitPrice();

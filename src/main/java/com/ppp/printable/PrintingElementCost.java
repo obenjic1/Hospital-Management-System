@@ -10,9 +10,9 @@ public class PrintingElementCost {
 	
 	private int basic;
 	private String preparation;
-	private int plateChange;
+	private double plateChange;
 	private int inckChange;
-	private int run;
+	private double run;
 	private int trimming;
 	private int numbering;
 	private int perforating;
@@ -88,7 +88,7 @@ public class PrintingElementCost {
 	public PrintingElementCost(JobColorCombination colorCombination) {
 		this.colorCombination = colorCombination;
 		this.basic = colorCombination.getJobPaper().getGrammage();
-		int signature =(int) Math.ceil(colorCombination.getNumberOfSignature());
+		double signature =colorCombination.getNumberOfSignature();
 		this.plateChange= signature*(colorCombination.getBackColorNumber()+colorCombination.getFrontColorNumber())-1;
 		this.inckChange = colorCombination.getBackColorNumber() > colorCombination.getFrontColorNumber() ? colorCombination.getBackColorNumber()-1 : colorCombination.getFrontColorNumber()-1;
 		this.run = this.plateChange+1;
@@ -112,7 +112,7 @@ public class PrintingElementCost {
 				this.finishinFolde = Math.max(this.finishinFolde, (int) (Math.log(plcM.getBasic())/Math.log(2)));
 		});
 		
-		this.finishingRun = signature;
+		this.finishingRun = (int) Math.ceil(signature);
 		
 		double closewidthFormat = colorCombination.getJobPaper().getJob().getOpenWidth();
 		if(closewidthFormat<=74)
@@ -320,7 +320,7 @@ public class PrintingElementCost {
 	}
 
 
-	public int getPlateChange() {
+	public double getPlateChange() {
 		return plateChange;
 	}
 
@@ -340,7 +340,7 @@ public class PrintingElementCost {
 	}
 
 
-	public int getRun() {
+	public double getRun() {
 		return run;
 	}
 
