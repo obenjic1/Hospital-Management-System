@@ -44,7 +44,8 @@ function savecutomer() {
 }
 
 // <--------------Update customer ------------------------->
-function updateCustomer(id) {
+
+function updatecustomer(id) {
 	var name = document.getElementById('name').value;
 	var email = document.getElementById('email').value;
 	var telephone = document.getElementById('telephone').value;
@@ -58,7 +59,7 @@ function updateCustomer(id) {
 	};	
 	var jsonUpdatedData = JSON.stringify(updateData);
 	
-	fetch(`customer/updatecustomer/${id}`, {
+	fetch(`customer/updateCustomer/${id}`, {
 		method: 'post',
 		headers: {
 			'Content-Type': 'application/json'
@@ -67,9 +68,11 @@ function updateCustomer(id) {
 	})
 	.then( response => {	
 
-   	  if (response.status === 200) {
-       sendMessage('Succes/Success', 1)
-       loadPage('customer/list');
+
+   	  if (response.ok) {
+		sendMessage('Succes/Success', 1);
+		return loadPage('customer/list');		
+
 								
     } else if (response.status !== 200) {
 	  sendMessage('Failed / Echec', 2);

@@ -38,9 +38,8 @@
 	                        <input name="thumbnail" type="file" class="form-control" id="thumbnail" value="${findMachine.thumbnail}" accept="image/*">
 	                      </div>
 	                      <div class="text-center">
-<!--                      	 <input data-bs-toggle="modal" type="button"   -->
-<!--                       	style="left: 42%; bottom: 2%" -->
-                      	<button  id="submitButton" style="left: 42%; bottom: 2%" class="btn btn-primary w-30" onclick="updateMachine('${findMachine.id}')" >Save Changes</button>
+<%-- 	                      <input type="button" data-bs-toggle="modal" data-bs-target="#creation" onclick="updatecustomer('${update.id}')" class="btn btn-primary" value="Save Changes" style="left: 164%;bottom: -18%;"/> --%>
+                      	<input type="button" data-bs-toggle="modal" data-bs-target="#creation" id="submitButton" style="left: 42%; bottom: 2%" value="Save Changes" class="btn btn-primary w-30" onclick="updateMachine('${findMachine.id}')" > 
                      </div>
 					</form>				
 									
@@ -50,5 +49,5 @@
 	</div>
 </main>
 <!-- End #main -->
-<script src="assets/js/users.js"></script>
 <script src="assets/js/billing/machine.js"></script> 
+<script src="assets/js/users.js"></script>

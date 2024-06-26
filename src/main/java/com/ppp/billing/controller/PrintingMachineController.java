@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import com.ppp.billing.model.PrintingMachine;
@@ -79,16 +80,26 @@ public class PrintingMachineController {
 		model.addAttribute("findMachine", findMachine);
 	    return "/billing/update-machine";
 	}
-		
+	
+	//Deactivate a machine
+	@PostMapping("/switchCase/{id}")
+	public ResponseEntity<String> switchCase(@PathVariable long id) {
+		try {
+	 printMachineServiceImp.switchState(id);
+	return new ResponseEntity<String>("Success", HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<String>("Failed", HttpStatus.BAD_REQUEST);
+		}
+	}
 	// to update a Machine
 	@PostMapping("/update/{id}")
-	public ResponseEntity<String> updateMachine(@PathVariable long id, @RequestParam PrintingMachine machine){
+	public ResponseEntity<String> updateMachine(@PathVariable long id, @RequestBody PrintingMachineDTO machine){
 		try {
 			printMachineServiceImp.update(machine, id);
 			return new ResponseEntity<String>("Success", HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<String>("Failed", HttpStatus.BAD_REQUEST);
-		}
+		} 
 	}
 	
 	

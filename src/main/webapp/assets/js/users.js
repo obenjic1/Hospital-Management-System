@@ -125,7 +125,7 @@ function confirmDelete(id) {
 	$('#areyouSureYouWantToDetele').modal('show');
 
 	$('#confirmDeleteBtn').click(function() {
-		removeUser(deleteId);
+		disable(id);
 	});
 }
 var modal = new bootstrap.Modal(document.getElementById('userDeleteSuccessfully'));
@@ -161,15 +161,29 @@ document.addEventListener('DOMContentLoaded', function() {
 
 //<------------------ Update user using DTO object -------------------->
 function updateUserById(id) {
-	var fields = ['firstName', 'lastName', 'username', 'email', 'mobile', 'address'];
-	var userUpdatedData = {};
+	
+	const firstName = document.getElementById('firstName').value;
+	const lastName = document.getElementById('lastName').value;
+	const email = document.getElementById("email").value;
+	const mobile = document.getElementById('mobile').value;
+	const address = document.getElementById('address').value;
+	const username = document.getElementById('username').value;
+//	const groupe = document.getElementById('groupe').value;
+	const imageFile = document.getElementById('imageFile').files[0];
 
-	fields.forEach(function(field) {
-		var value = document.getElementById(field).value;
-		userUpdatedData[field] = value;
-	});
-
-	var jsonUserUpdateData = JSON.stringify(userUpdatedData);
+var formData = {
+				
+				firstName:firstName,
+				lastName:lastName,
+				email:email,
+				mobile:mobile,
+				username:username,
+				address:address,
+//				groupe:groupe,
+				imageFile:imageFile
+}
+			
+	var jsonUserUpdateData = JSON.stringify(formData);
 
 	fetch(`user/update-user/${id}`, {
 		method: 'POST',
@@ -180,19 +194,49 @@ function updateUserById(id) {
 	})
 		.then(response => {
 			if (response.ok) {
-				var modal = new bootstrap.Modal(document.getElementById('userUdatedSuccessfully'));
+				sendMessage('Succes/Success', 1);
+				return loadPage('user/list-users');
+  			 } else if (response.status !== 200) {
+				sendMessage('Failed / Echec', 2);
+  			 }
+		})
+		 .then(function(data) {
+
+		 })
+			.catch(function(error) {
+			});
+}
+//<------------------ Disactivate and activate a user -------------------->
+
+function disable(id) {
+	fetch(`user/enable/${id}`, {
+		method: 'POST',
+		headers: {
+			'Content-type': 'application/json'
+		},
+	})
+		.then(respose => {
+			if (respose.ok) {
+				var modal = new bootstrap.Modal(document.getElementById('somthingwhenwrong'));
+				modal.show();
+			} else {
+				var modal = new bootstrap.Modal(document.getElementById('userDeleteSuccessfully'));
 				modal.show();
 
-			} else {
-				throw new Error(`Erreur lors de la mise à jour de l'utilisateur (status ${response.status}).`);
 			}
 		})
 		.catch(error => {
-			var modal = new bootstrap.Modal(document.getElementById('userNotDeleted'));
-			modal.show();
-			loadPage('user/list-users');
-		});
+			console.error("internal server error :", error);
+		})
 }
+document.addEventListener('DOMContentLoaded', function() {
+	var deleteBtn = document.getElementById('delete-btn');
+	deleteBtn.addEventListener('click', function() {
+
+	});
+});
+
+
 
 //<------------------ Get list users with pagination -------------------->
 function refreshUserTable(pageNo) {

@@ -26,7 +26,7 @@ import com.ppp.user.repository.UserRepository;
 import com.ppp.user.service.impl.UserServiceImpl;
 
 @Controller
-@RequestMapping("/user")
+@RequestMapping("user")
 
 public class UserController {
 
@@ -96,6 +96,7 @@ public class UserController {
 		    return "user/update-user";
 		}
 	
+	
 //<---------------------- Update user ------------------------->	
 	@PreAuthorize("hasRole('ROLE_UPDATE_USER')")
 	@PostMapping("/update-user/{id}")
@@ -143,4 +144,16 @@ public class UserController {
 	userServiceImpl.deleteUserById(id);
 	    return ;
 	  }
+
+//<----------------------Enable and Disable a User --------------------->
+@PostMapping("/enable/{id}")
+ public ResponseEntity<String> enable(@PathVariable long id) {
+	try {
+		userServiceImpl.enableUser(id);
+		return new ResponseEntity<String>("Success", HttpStatus.OK);
+			} catch (Exception e) {
+				return new ResponseEntity<String>("Failed", HttpStatus.BAD_REQUEST);
+			}
+	}
+
 }
