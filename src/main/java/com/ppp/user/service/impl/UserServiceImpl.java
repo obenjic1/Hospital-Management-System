@@ -186,7 +186,7 @@ public class UserServiceImpl implements UserService {
 	public void  enableUser(long id) {	
 		User user = userRepository.findById(id).get();
 		if(user.isDeleted()) {
-			user.setDeleted(false);;
+			user.setDeleted(false);
 			userRepository.save(user);
 		}
 		else {
