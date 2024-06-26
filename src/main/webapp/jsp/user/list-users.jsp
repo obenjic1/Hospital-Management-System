@@ -57,7 +57,7 @@
 
 							   <td><a>${user.username}</a><i class="bi bi-record2 <?php echo $isConnected ? 'text-success' : 'text-warning'; ?>"></i></td>
 							   <td><a>${user.groupe.name}</a></td>
-							   <td><a class="${user.deleted ? 'Blocked' : 'Active' }">${user.deleted ? 'Blocked' : 'Active'}</a></td>
+							   <td><a class="${user.deleted ? 'Blocked' : 'Active' }">${user.deleted ? 'Inactive' : 'Active'}</a></td>
 							   <td>
 							     <a>
 								   <button class="button-see" data-bs-toggle="modal" data-toggle="tooltip" data-placement="top" title="view user Details" data-bs-target="#ExtralargeModal" onclick="loadPageModalForm('user/viewUser/${user.username}')">
