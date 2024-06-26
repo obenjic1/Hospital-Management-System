@@ -146,6 +146,7 @@ public class JobController {
 	@GetMapping("/list-job")
 	public String listJob(Model model) {
 		List<Job> result = jobServiceImpl.listAllJob();
+		Collections.reverse(result);
 		model.addAttribute("jobs", result);
 		return "billing/list-job";
 	}
@@ -639,7 +640,7 @@ public class JobController {
 					dcf.setRoundingMode(RoundingMode.CEILING);
 					printer.print(document, up+"", 56, 297-42-vct);
 					double variableC= totalOversh/(up*1000.0);
-					printer.printMoney(document, variableC, 80, 297-42-vct);
+					printer.print(document, variableC+"", 80, 297-42-vct);
 					printer.printMoney(document, paper.getUnitPrice(), 120, 297-42-vct);
 					//fixeCost
 					//fixePrice+=paper.getUnitPrice();
@@ -986,8 +987,8 @@ public class JobController {
 
 			}
 			printer.printHeader(document, "Quantity",  38, 297-200);
-			printer.printHeader(document, "Unit",  132, 297-200);
-			printer.printHeader(document, "Total",  172, 297-200);
+			printer.printHeader(document, "Unit(XAF)",  132, 297-200);
+			printer.printHeader(document, "Total(XAF)",  172, 297-200);
 			
 			String messagesAdvancePayment="";
 			List<EstimatePricing> estimates =jobEstimate.getEstimatePricings();

@@ -27,7 +27,7 @@ public class PaperGrammageController {
 	
 	@GetMapping("/list")
 	public String list(Model model) {
-		return pagination(1, model);
+		return pagination(0, model);
 	}
 
 	@GetMapping("/page/{pageNo}")
