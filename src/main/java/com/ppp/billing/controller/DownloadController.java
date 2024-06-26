@@ -51,7 +51,6 @@ public class DownloadController {
 		case "folder.customer.images":
 				dir= customerImageFolder;
 				break;
-
 		default:
 			throw new NotFoundException("File not found");
 		}

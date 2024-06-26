@@ -236,9 +236,9 @@
                             <div class="col-sm-3">
                                 <div class="card">
 
-                                        <a class="nav-link" href="#">
+                                        <a class="nav-link" href="#" onclick="window.open('${pageContext.request.contextPath}/file/download?file=${jobEstimate.reference}.pdf&dir=folder.estimate')">
                                             <span>${jobEstimate.reference}</span>
-                                            <i class="bi bi-download"></i>
+                                            <i class="bi bi-download"> </i>
                                         </a>
                                 </div>
                             </div>
