@@ -30,7 +30,7 @@
 				<div class="card">
 					<div class="card-body">
 						<h5 class="card-title"> <fmt:message key="list.users"/></h5>
-						<button onclick="loadPageModalForm('user/add-user')" type="button" data-bs-toggle="modal" data-bs-target="#ExtralargeModal" class="btn btn-primary">
+						<button onclick="loadPageModalForm('user/add-user')" data-toggle="tooltip" data-placement="top" title="create new user" type="button" data-bs-toggle="modal" data-bs-target="#ExtralargeModal" class="btn btn-primary">
 						  <fmt:message key="add.group"/>
 						</button>
 						<!-- Table with stripped rows -->
@@ -60,13 +60,13 @@
 							   <td><a class="${user.deleted ? 'Blocked' : 'Active' }">${user.deleted ? 'Blocked' : 'Active'}</a></td>
 							   <td>
 							     <a>
-								   <button class="button-see" data-bs-toggle="modal" data-bs-target="#ExtralargeModal" onclick="loadPageModalForm('user/viewUser/${user.username}')">
+								   <button class="button-see" data-bs-toggle="modal" data-toggle="tooltip" data-placement="top" title="view user Details" data-bs-target="#ExtralargeModal" onclick="loadPageModalForm('user/viewUser/${user.username}')">
 								     <i class="ri-eye-line"></i>
 								   </button>
-								   <button class="button-edite" data-bs-toggle="modal" data-bs-target="#ExtralargeModal" onclick=" loadPageModalForm('user/get-user/${user.username}')">
+								   <button class="button-edite" data-bs-toggle="modal" data-bs-target="#ExtralargeModal" data-toggle="tooltip" data-placement="top" title="Edit user Details" onclick=" loadPageModalForm('user/get-user/${user.username}')">
 								     <i class="ri-pencil-line"></i>
 								   </button>
-								   <button class="button-delete" data-bs-toggle="modal" onclick="confirmDelete('${user.username}')" data-bs-target="#areyouSureYouWantToDetele" id="startDeleting" data-bs-toggle="modal">
+								   <button class="button-delete" data-bs-toggle="modal"  data-toggle="tooltip" data-placement="top" title="Deactivate/Reactivate User" onclick="disable('${user.id}')">
 								     <i class="ri-delete-bin-3-line"></i>
 								   </button>
 								 </a>

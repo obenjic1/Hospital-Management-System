@@ -32,7 +32,7 @@
 				<div class="card">
 					<div class="card-body">
 						<h5 class="card-title"> Machines</h5>
-						<button data-bs-target="#ExtralargeModal" data-bs-toggle="modal" onclick="loadPageModalForm('machine/add')" type="button" class="btn btn-primary">
+						<button data-bs-target="#ExtralargeModal" data-bs-toggle="modal" data-toggle="tooltip" data-placement="top" title="add new machine" onclick="loadPageModalForm('machine/add')" type="button" class="btn btn-primary">
 						  <fmt:message key="add.group"/>
 						</button>
 						
@@ -52,7 +52,7 @@
 						  <tbody>
 						  <c:forEach var="machine" items="${machines}" varStatus="loop">
 						    <tr class="${loop.index % 2 == 0 ? 'even-row' : 'odd-row'}">
-							   <th><img src="/download/${machine.thumbnail}" class="rounded-circle"></th>
+							   <th><img src="/download/${machine.thumbnail}" class="rounded-circle data-toggle="tooltip" data-placement="top" title="machine logo""></th>
 							   <td><a>${machine.name}</a></td>
 							   <td><a>${machine.abbreviation}</a></td>
 							   <td><a class="${machine.active ? 'Active' : 'Blocked' }">${machine.active ? 'Active' : 'Blocked'}</a></td>
@@ -61,13 +61,13 @@
 							     
 							  <td>
 							     <a>
-								   <button class="button-see" data-bs-toggle="modal" data-bs-target="#ExtralargeModal" onclick="loadPageModalForm('machine/viewMachine/${machine.id}')">
+								   <button class="button-see" data-bs-toggle="modal" data-bs-target="#ExtralargeModal" data-toggle="tooltip" data-placement="top" title="view machine details" onclick="loadPageModalForm('machine/viewMachine/${machine.id}')">
 								     <i class="ri-eye-line"></i>
 								   </button>
-								   <button class="button-edite" data-bs-toggle="modal" data-bs-target="#ExtralargeModal" onclick=" loadPageModalForm('machine/update-form/${machine.id}')">
+								   <button class="button-edite" data-bs-toggle="modal" data-bs-target="#ExtralargeModal" data-toggle="tooltip" data-placement="top" title="edit machine" onclick=" loadPageModalForm('machine/update-form/${machine.id}')">
 								    <i class="ri-pencil-line"></i>
 								   </button>
-								   <button class="button-delete" onclick="removeMachine(${machine.id})" id="startDeleting1" data-bs-toggle="modal">
+								   <button class="button-delete" data-toggle="tooltip" data-placement="top" title="activate or disactivate machine" onclick="removeMachine(${machine.id})" id="startDeleting1" data-bs-toggle="modal">
 								    <i class="ri-delete-bin-3-line"></i>
 								   </button>
 								 </a>

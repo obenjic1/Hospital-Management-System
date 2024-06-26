@@ -109,7 +109,7 @@ public class JobController {
 		List<PaperFormat> paperFormatResult = paperFormatServiceImpl.findAll();
 		List<JobPaper> jobPaperResult = jobPaperServiceImpl.findAll();
 		List<PaperType>  paperTypeResult = paperTypeServiceImpl.listAll();
-		List<PrintingMachine> printingMachineResult = printingMachineServiceImpl.listMachines();
+		List<PrintingMachine> printingMachineResult = printingMachineServiceImpl.findByIsActive();
 		List<PrintType> printTypeResult = printTypeServiceImpl.findAll();
 		List<JobColorCombination> jobColorCombinationResult = jobColorCombinationServiceImpl.findAll();
 		List<PaperGrammage> paperGrammageResult = paperGrammageServiceImpl.findAll();

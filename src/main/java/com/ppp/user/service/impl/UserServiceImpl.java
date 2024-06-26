@@ -3,10 +3,8 @@ package com.ppp.user.service.impl;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.List;
-
 import javax.persistence.EntityManager;
 import javax.security.auth.login.AccountNotFoundException;
-
 import org.hibernate.Filter;
 import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +14,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
 import com.ppp.user.model.Groupe;
 import com.ppp.user.model.User;
 import com.ppp.user.model.dto.UserDTO;
@@ -188,6 +185,19 @@ public class UserServiceImpl implements UserService {
         user.setResetPasswordToken(null);
         userRepository.save(user);
     }
+	
+	@Override
+	public void  enableUser(long id) {	
+		User user = userRepository.findById(id).get();
+		if(user.isDeleted()) {
+			user.setDeleted(false);;
+			userRepository.save(user);
+		}
+		else {
+			user.setDeleted(true);	
+			userRepository.save(user);
+			}
+		}
 		
 	}
 

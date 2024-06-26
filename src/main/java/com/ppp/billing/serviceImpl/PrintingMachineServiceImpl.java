@@ -21,7 +21,7 @@ public class PrintingMachineServiceImpl implements PrintingMachineService {
 	}
 	
 	@Override
-	public PrintingMachine update(PrintingMachine machine, long id) {
+	public PrintingMachine update(PrintingMachineDTO machine, long id) {
 		
 	    PrintingMachine machineOptional = printinMachineRepository.findById(id).get();	    
 	    	machineOptional.setName(machine.getName());
@@ -66,4 +66,20 @@ public class PrintingMachineServiceImpl implements PrintingMachineService {
 	public List<PrintingMachine> findByActive(boolean status) {
 		return printinMachineRepository.findByActive(status);
 	}
-}
+	@Override
+	public List<PrintingMachine> findByIsActive() {
+		return printinMachineRepository.findByActive(true);
+	}
+	
+	@Override
+	public void  switchState(long id) {	
+		PrintingMachine targetMarchine = printinMachineRepository.findById(id).get();
+		if(targetMarchine.isActive()) {
+			targetMarchine.setActive(false);
+			printinMachineRepository.save(targetMarchine);
+		}
+		else {
+			targetMarchine.setActive(true);	
+			printinMachineRepository.save(targetMarchine);
+		}
+}}
