@@ -27,8 +27,8 @@
                         </ul>
                         <div class="tab-content pt-2">
                             <div class="row tab-pane fade show active profile-overview" id="profile-overview">
-                                <div class="row" style="margin-left: 10%">
-                                    <div class="col-xl-8" >
+                                <div class="row" >
+                                    <div class="col-xl-8" style="padding-left: 30px;" >
                                         <h5 class="card-title"><fmt:message key="profile.details"/></h5>
                                         <div class="row">
                                             <div class="col-lg-3 col-md-4 label "><fmt:message key="names"/></div>
@@ -64,7 +64,7 @@
                                             <img src="${pageContext.request.contextPath}/file/download?file=${user.imagePath}&dir=folder.user.images" style="height:300px">
                                         </c:if>
                                         <c:if test="${empty user.imagePath}">
-                                            <img src="assets/img/default.png" style="height:300px">
+                                            <img class="img-responsive" src="assets/img/default.png" style=" min-height:250px; max-height:300px;">
                                         </c:if>
 
                                     </div>
