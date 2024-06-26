@@ -182,6 +182,8 @@ public class JobController {
 		double p2=0;
 		double p3=0;
 		double p4=0;
+		
+		
 			/**
 			 * Impression de la premiere page du controle sheet
 			 */
