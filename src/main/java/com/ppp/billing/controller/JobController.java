@@ -922,8 +922,10 @@ public class JobController {
 		
 	
 			
-			printer.printHeader(document, "Estimate".toUpperCase(), 73, 297-42);
-			printer.printHeader(document,job.getCustomer().getName().toUpperCase(), 123, 297-52);
+			printer.printHeader(document, "Estimate ".toUpperCase() , 73, 297-42);
+		 	printer.print(document, "("+jobEstimate.getReference().toUpperCase()+")", 97, 297-42);
+
+		 	printer.printHeader(document,job.getCustomer().getName().toUpperCase(), 123, 297-52);
 			printer.printHeader(document,job.getCustomer().getAddress().toUpperCase(), 123, 297-58);
 
 			printer.printHeader(document, "Description", 38, 297-83);
