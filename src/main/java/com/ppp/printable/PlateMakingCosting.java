@@ -29,6 +29,9 @@ public class PlateMakingCosting {
 
 	}
 	
+	/*
+	 * Have to be update
+	 */
 	
 	public PlateMakingCosting(JobPaper jobPaper) {
 		this.jobPaper = jobPaper;
