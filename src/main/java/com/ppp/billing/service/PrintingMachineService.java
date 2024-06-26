@@ -13,12 +13,14 @@ import com.ppp.billing.model.dto.PrintingMachineDTO;
 public interface PrintingMachineService {
 	
 	Optional<PrintingMachine> findByAbbreviation(String abbreviation);
-	PrintingMachine update (PrintingMachine updatePrintingmachineD, long id);
+	PrintingMachine update (PrintingMachineDTO updatePrintingmachineD, long id);
 	Optional<PrintingMachine> findById(long id);
 	PrintingMachine save (PrintingMachineDTO machineDto);
 	List<PrintingMachine> listMachines();
 	void delete(long id);
 	List<PrintingMachine> findByActive(boolean status);
+	List<PrintingMachine> findByIsActive();
+	void  switchState(long id);
 
 
 	

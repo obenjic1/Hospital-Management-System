@@ -7,8 +7,6 @@
 <%@ taglib prefix="sec"
 	uri="http://www.springframework.org/security/tags"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-
-
 <main id="update-customer">
 	<div class="container">
 		<section>
@@ -45,9 +43,9 @@
 						    <input type="text" id="address" name="address" class="form-control" value="${update.address}" />
 						  </div>
 						</div>
-
 						<div class="col-md-6">
-						  <input onclick="update('${update.id}')" type="button" class="btn btn-primary" value="Save Changes" style="left: 164%;bottom: -18%;"/>
+						  <input type="button" data-bs-toggle="modal" data-bs-target="#creation" onclick="updatecustomer('${update.id}')" 
+						  class="btn btn-primary" value="Save Changes" style="left: 164%;bottom: -18%;"/>
 						</div>
 					</form>
 				</div>
@@ -56,5 +54,5 @@
 	</div>
 </main>
 <!-- End #main -->
-<script src="assets/js/users.js"></script>
 <script src="assets/js/billing/customer.js"></script>
+<script src="assets/js/users.js"></script>

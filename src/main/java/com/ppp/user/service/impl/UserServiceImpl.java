@@ -3,10 +3,8 @@ package com.ppp.user.service.impl;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.List;
-
 import javax.persistence.EntityManager;
 import javax.security.auth.login.AccountNotFoundException;
-
 import org.hibernate.Filter;
 import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +14,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
 import com.ppp.user.model.Groupe;
 import com.ppp.user.model.User;
 import com.ppp.user.model.dto.UserDTO;
@@ -114,7 +111,8 @@ public class UserServiceImpl implements UserService {
 //<--------------------- Delete User --------------------------> 
 	@Override
 	public void deleteUserByUsername(Long id) {
-			userRepository.deleteById(id);
+			userRepository.findById(id).get();
+			
 	}
 	//<--------------------- Delete User By Id -------------------------->
 	public void deleteUserById(Long id) {
@@ -141,24 +139,19 @@ public class UserServiceImpl implements UserService {
 
 //<---------------------- Update user ---------------------> 
 	@Override
-	public String updateUser(User updatedUser, Long id) {
-		try {
+	public User updateUser(User updatedUser, Long id) {
+		
 			User existingUser = userRepository.findById(id).get();
-			if(existingUser == null) {
-				return " error";		
-			}
+			
 			existingUser.setFirstName(updatedUser.getFirstName());
 			existingUser.setLastName(updatedUser.getLastName());
 			existingUser.setUsername(updatedUser.getUsername());
 			existingUser.setEmail(updatedUser.getEmail());
 			existingUser.setAddress(updatedUser.getAddress());
 			existingUser.setMobile(updatedUser.getMobile());
-			 userRepository.save(existingUser);
-
-			return " success";
-		} catch (Exception e) {
-			throw e;
-		}
+			userRepository.save(existingUser);
+		
+		return existingUser;
 	}
 
 	
@@ -188,6 +181,19 @@ public class UserServiceImpl implements UserService {
         user.setResetPasswordToken(null);
         userRepository.save(user);
     }
+	
+	@Override
+	public void  enableUser(long id) {	
+		User user = userRepository.findById(id).get();
+		if(user.isDeleted()) {
+			user.setDeleted(false);
+			userRepository.save(user);
+		}
+		else {
+			user.setDeleted(true);	
+			userRepository.save(user);
+			}
+		}
 		
 	}
 

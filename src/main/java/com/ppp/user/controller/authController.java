@@ -58,11 +58,11 @@ public class authController {
 
 		// Logout controller
 		@GetMapping("/logout")
-		public void logout(HttpServletRequest request, Authentication authentication) {
+		public String logout(HttpServletRequest request, Authentication authentication) {
 			User user = (User) authentication.getDetails();
 		//	user.setActive(false);
 			request.getSession().invalidate();
-			return;
+			return "user_auth/login";
 		}
 		// reset password
 		@GetMapping("/password/forgotten")

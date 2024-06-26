@@ -32,7 +32,7 @@
 				<div class="card">
 					<div class="card-body">
 						<h5 class="card-title">Job</h5>
-						<button onclick="loadPage('job/displayform')" style="width: 120px;" type="button" class="btn btn-primary">
+						<button onclick="loadPage('job/displayform')"  data-toggle="tooltip" data-placement="top" title="create new job" style="width: 120px;" type="button" class="btn btn-primary">
 						  <fmt:message key="add.group"/>
 						</button>
 						<!-- Table with stripped rows -->
@@ -64,12 +64,11 @@
 							 <td>
 								  <select id="coverPaperType" name="name" class="form-select">
 								     <option >Action</option>
-								     <option data-bs-toggle="modal" data-bs-target="#ExtralargeModal" onclick="loadDynamicPageModal('job/viewJob/${job.id}');">View</option>
-								     <option onClick="loadPage('job/update-form/${job.id}');">Edit</option>
-								     <option onclick="deleteJob(${job.id})">Delete</option>
+								     <option data-bs-toggle="modal" data-bs-target="#ExtralargeModal" data-toggle="tooltip" data-placement="top" title="view job details" onclick="loadDynamicPageModal('job/viewJob/${job.id}');">View</option>
+								     <option data-toggle="tooltip" data-placement="top" title="edit job details" onClick="loadPage('job/update-form/${job.id}');">Edit</option>
+								     <option data-toggle="tooltip" data-placement="top" title="archive a job" onclick="deleteJob(${job.id})">Delete</option>
 								      <option data-bs-toggle="modal" data-bs-target="#ExtralargeModal" onclick="loadDynamicPageModal('job/estimate/${job.id}');">Generate Estimate</option>
 								     <option data-bs-toggle="modal" data-bs-target="#ExtralargeModalFile" onclick="loadPageModal('job/generate-pdf/${job.id}');">Control Sheet</option>
-								     
 					              </select>
 							  </td>
 							 

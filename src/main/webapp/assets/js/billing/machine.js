@@ -60,32 +60,26 @@ bouton.addEventListener("click", function(event) {
 // <------------ Delete User using soft delete --------------------->
 
 function removeMachine(id) {
-	
-
-	fetch(`machine/delete/${id}`, {
+	fetch(`machine/switchCase/${id}`, {
 		method: 'POST',
 		headers: {
 			'Content-type': 'application/json'
 		},
 	})
-		.then(respose => {
-			if (respose.ok) {
-			var modal = new bootstrap.Modal(document.getElementById('somthingwhenwrong'));
-			modal.show();
-			
-			} else {
-				
-				
-				var modal = new bootstrap.Modal(document.getElementById('machineModal'));
-				modal.show();
-				
-				loadPage('machine/list')
-			}
+		.then( response => {	
+
+   			 if (response.ok) {
+       			sendMessage('Succes/Success', 1);
+				return loadPage('machine/list'); 
+  			 } else if (response.status !== 200) {
+				sendMessage('Failed / Echec', 2);
+  			 }
 		})
-		.catch(error => {
-			console.error("internal server error :", error);
-		})
-		
+		 .then(function(data) {
+
+		 })
+			.catch(function(error) {
+			});
 }
 
 function updateMachine(id) {
@@ -93,35 +87,40 @@ function updateMachine(id) {
 	const abbreviation = document.getElementById('abbreviation').value;
 	const plateLength = document.getElementById("plateLength").value;
 	const plateWidth = document.getElementById("plateWidth").value;
-	const isActive = document.getElementById('isActive').value;
+//	const isActive = document.getElementById('isActive').value;
 	
-	var formData = new FormData();
-		formData.append('name', name),
-		formData.append('abbreviation', abbreviation),
-		formData.append('plateLength', plateLength),
-		formData.append('plateWidth', plateWidth),
-		formData.append('isActive', isActive),
-		
+	var formData = {
+		name:name,
+		abbreviation:abbreviation,
+		plateLength:plateLength,
+		plateWidth:plateWidth
+//		isActive:isActive
+	};
+		var jsonUpdatedData = JSON.stringify(formData);
+
 		fetch(`machine/update/${id}`, {
-			method: 'POST',
-			body: formData,
-		
+		method: 'post',
+		headers: {
+			'Content-Type': 'application/json'
+		},
+      	 body: jsonUpdatedData,
+	})
+			.then( response => {	
+
+   			 if (response.status === 200) {
+       			sendMessage('Succes/Success', 1);
+				return loadPage('machine/list'); 
+  			 } else if (response.status !== 200) {
+				sendMessage('Failed / Echec', 2);
+  			 }
 		})
-			.then(function(response) {
-				if (response.status === 200) {
-					var modal = new bootstrap.Modal(document.getElementById('verticalycentered'));
-					modal.show();
-					loadPage('machine/list');
-				} 
-			})
+		 .then(function(data) {
+
+		 })
 			.catch(function(error) {
-				console.log('Oups')
 			});
-			loadPage('machine/list');
-			
-			
-			};
-			
+}
+
 function showConfirmationModal(action, message, icon, callback) {
   const modal = document.getElementById('confirmation-modal');
   const modalMessage = document.getElementById('modal-message');

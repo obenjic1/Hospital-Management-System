@@ -65,6 +65,7 @@
 								   <button class="button-see" data-bs-toggle="modal" data-bs-target="#ExtralargeModal" onclick="loadPageModalForm('customer/find/${customer.email}')">
 								     <i class="ri-eye-line"></i>
 								   </button>
+								   
 								   <button class="button-edite" data-bs-toggle="modal" data-bs-target="#ExtralargeModal" onclick="loadPageModalForm('customer/update/${customer.email}')">
 								     <i class="ri-pencil-line"></i>
 								   </button>
