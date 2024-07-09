@@ -113,7 +113,8 @@ function deleteCust(id){
 }
 // <-------------- Confirm delete customer ------------------------->
 function confirmDelete(id) {
-	deleteId = id;
+	let deleteId = id;
+	$('#areyouSureYouWantToDetele').modal('show');
 	$('#confirmDeleteBtn').click(function() {
 		deleteCust(deleteId);
 	});

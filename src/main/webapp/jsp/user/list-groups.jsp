@@ -49,13 +49,13 @@
 							    <td><a data-bs-toggle="tooltip" data-bs-placement="top" title="${group.description}"> ${group.description}</a></td>
 							    <td>
 								  <button class="button-see" data-bs-toggle="modal" data-bs-target="#ExtralargeModal" onclick="loadPageModalForm('group/group-details/${group.name}')">
-								    <a data-toggle="tooltip" title="View"><i class='fas fa-eye'></i></a>												
+								    <i class="ri-eye-line"></i>											
 								  </button>
 							      <button class="button-icon" data-bs-toggle="modal" data-bs-target="#ExtralargeModal" onclick="loadPageModalForm('group/update-group/${group.name}')">
-							        <i class="fas fa-pencil-alt"></i>
+							        <i class="ri-pencil-line"></i>
 								  </button>
-							      <button class="button-delete ${group.enabled ? '' : 'disabled-button'}" data-bs-toggle="modal"> 
-							        <i class="bi bi-record2"></i>
+							      <button class="button-delete ${group.enabled ? '' : 'disabled-button'}" data-bs-toggle="modal" onclick="confirmDisableGroupe('${group.id}')"> 
+							        <i class="ri-delete-bin-3-line"></i>
 								  </button>
 							    </td>
 							  </tr>
@@ -82,4 +82,5 @@
 <!-- End #main -->
 
 <script src="/DataTables/datatables.js"></script>
+<script src="assets/js/groups.js"> </script>
 <link href="assets/css/list-group.css" rel="stylesheet">

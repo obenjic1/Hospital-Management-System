@@ -115,10 +115,9 @@ function refreshGroupTable(pageNo) {
 }
 
 // <------------ Delete an confirm delete section --------------------->
-var disableId;
 
 function confirmDisableGroupe(id) {
-	disableId = id;	
+	let disableId = id;	
 	$('#areyouSureYouWantToDisable').modal('show');
 	$('#confirmDisabledBtn').click(function() {	
 		disableGroup(disableId);

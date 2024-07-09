@@ -128,7 +128,8 @@ public class GroupeServiceImpl implements GroupeService {
 	public Groupe disableGroup(Long id) {
 		try {
 			Groupe optionalGroup = groupeRepository.findById(id).get();
-		      groupeRepository.delete(optionalGroup);
+			optionalGroup.setEnabled(false);
+		      groupeRepository.save(optionalGroup);
 				return optionalGroup;
 		} catch (Exception e) {
 			throw e;

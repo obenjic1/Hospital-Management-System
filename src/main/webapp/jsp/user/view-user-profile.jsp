@@ -21,9 +21,6 @@
                             <li class="nav-item">
                                 <button class="nav-link"  data-bs-toggle="tab" data-bs-target="#profile-edit"><fmt:message key="edit.profile"/>${user.username}</button>
                             </li>
-                            <li class="nav-item">
-                                <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-change-password"><fmt:message key="change.password"/></button>
-                            </li>
                         </ul>
                         <div class="tab-content pt-2">
                             <div class="row tab-pane fade show active profile-overview" id="profile-overview">
@@ -126,30 +123,6 @@
                                 </form><!-- End Profile Edit Form -->
                             </div>
                 <div class="tab-pane fade pt-3" id="profile-change-password">
-                        <!-- Change Password Form -->
-                    <form style="margin-left: 5%">
-                        <div class="row mb-3">
-                                <label for="currentPassword" class="col-md-4 col-lg-3 col-form-label"><fmt:message key="current.password"/></label>
-                            <div class="col-md-8 col-lg-9">
-                                <input name="password" type="password" class="form-control" id="currentPassword">
-                            </div>
-                        </div>
-                        <div class="row mb-3">
-                                <label for="newPassword" class="col-md-4 col-lg-3 col-form-label"><fmt:message key="new.password"/></label>
-                             <div class="col-md-8 col-lg-9">
-                                <input name="newpassword" type="password" class="form-control" id="newPassword">
-                             </div>
-                        </div>
-                        <div class="row mb-3">
-                             <label for="renewPassword" class="col-md-4 col-lg-3 col-form-label"><fmt:message key="confirm.password"/></label>
-                        <div class="col-md-8 col-lg-9">
-                             <input name="renewpassword" type="password" class="form-control" id="renewPassword">
-                        </div>
-                        </div>
-                        <div class="text-center">
-                            <button type="submit" class="btn btn-primary" style="left: 40%; bottom: 2%;"><fmt:message key="change.password"/> </button>
-                    </div>
-                  </form><!-- End Change Password Form -->
                 </div>
               </div><!-- End Bordered Tabs -->
             </div>

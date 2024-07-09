@@ -130,7 +130,6 @@ public class PrintingElementCost {
 		else if(closewidthFormat>594)
 			this.paperFormat = 2+"";
 		
-			
 	}
 
 	

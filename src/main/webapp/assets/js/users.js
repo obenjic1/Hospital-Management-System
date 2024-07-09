@@ -108,7 +108,7 @@ function addUser() {
 			});
 }
 
-var bouton = document.getElementById("create-btn");
+let bouton = document.getElementById("create-btn");
 
 bouton.removeAttribute("onclick");
 bouton.addEventListener("click", function(event) {
@@ -118,19 +118,20 @@ bouton.addEventListener("click", function(event) {
 });
 
 // <------------ Delete an confirm delete section --------------------->
-var deleteId;
 
-function confirmDelete(id) {
-	deleteId = id;
-	$('#areyouSureYouWantToDetele').modal('show');
-
-	$('#confirmDeleteBtn').click(function() {
-		disable(id);
-	});
-}
+//function confirmDelete(id) {
+//  let deleteId = id;
+//	console.log(deleteId);
+//	$('#areyouSureYouWantToDetele').modal('show');
+//
+//	$('#confirmDeleteBtn').click(function() {
+//		disable(id);
+//	});
+//}
 var modal = new bootstrap.Modal(document.getElementById('userDeleteSuccessfully'));
 				modal.show();
-// <------------ Delete User using soft delete --------------------->
+				
+// <------------ Desable  user--------------------->
 function removeUser(id) {
 	fetch(`user/remove-user/${id}`, {
 		method: 'POST',

@@ -125,7 +125,7 @@
 			  </li>
 			<!-- End Printing Press Nav -->
 			<li class="nav-item">
-			<sec:authorize access="hasRole('ROLE_ADD_USER')">					
+<%-- 			<sec:authorize access="hasRole('ROLE_ADD_USER')">					 --%>
 			  <ul id="user-management-nav" >
 				<sec:authorize access="hasRole('ROLE_LIST_USERS')">
 			      <li class="nav-item">
@@ -147,7 +147,7 @@
 				  </li>
 				</sec:authorize>
 			  </ul>
-			</sec:authorize>
+<%-- 			</sec:authorize> --%>
 			 <sec:authorize access="hasRole('ROLE_VIEW_SETINGS')">
 				<li class="nav-item">
 				  <li class="pp-module">
@@ -328,7 +328,7 @@
 			      <div class="modal-body">
 	                <p> <br><fmt:message key="are.you.sure.you.want.to.delete.this.user.this.action.will"/></p>
 			        <button class="delete-denied" type="button" id="cancelButton" data-bs-dismiss="modal"><fmt:message key="cancel"/></button>
-		          <button class="accept-delete" type="button" id="confirmDeleteBtn" data-bs-toggle="modal" data-bs-target="#creation" onclick="loadPage('customer/list')"><fmt:message key="delete"/></button>
+		          <button class="accept-delete" type="button" id="confirmDeleteBtn" data-bs-toggle="modal" data-bs-target="#creation"><fmt:message key="delete"/></button>
 			    </div>
 		      </div>
 		   </div>
@@ -359,6 +359,7 @@
 	<!-- Template Main JS File -->
 	<script src="assets/vendor/dataTables.js"></script>
 	<script src="assets/js/role.js"> </script>
+	<script src="assets/js/groups.js"> </script>
 	<script src="assets/js/main.js"></script>
 	<script src="assets/js/app.js"></script>
 	<script src="assets/js/users.js"></script>

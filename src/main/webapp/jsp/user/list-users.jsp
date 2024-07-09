@@ -66,7 +66,7 @@
 								   <button class="button-edite" data-bs-toggle="modal" data-bs-target="#ExtralargeModal" data-toggle="tooltip" data-placement="top" title="Edit user Details" onclick=" loadPageModalForm('user/get-user/${user.username}')">
 								     <i class="ri-pencil-line"></i>
 								   </button>
-								   <button class="button-delete" data-bs-toggle="modal"  data-toggle="tooltip" data-placement="top" title="Deactivate/Reactivate User" onclick="disable('${user.id}')">
+								   <button class="button-delete" data-bs-toggle="modal"  data-toggle="tooltip" data-placement="top" title="Deactivate/Reactivate User"onclick="confirmDelete(this.getAttribute('data-group-id'))" data-group-id="${user.id}">
 								     <i class="ri-delete-bin-3-line"></i>
 								   </button>
 								 </a>

@@ -42,7 +42,7 @@ public class UserController {
 	private UserServiceImpl userServiceImpl;
 
 //<------------------- Get add user form ---------------------->
- 	@PreAuthorize("hasAuthority('ROLE_ADD_USER')")
+ 	@PreAuthorize("hasAuthority('ROLE_LIST_USERS')")
 	@GetMapping("/add-user")
 	public String showRegistrationForm(Model model ,String name) {
 		List<Groupe> groups = groupeRepository.findAll();
@@ -53,7 +53,7 @@ public class UserController {
  	
 //<----------------------- persist user in to database ------------------>
 
- 	@PreAuthorize("hasAuthority('ROLE_ADD_USER')")
+ 	@PreAuthorize("hasAuthority('ROLE_LIST_USERS')")
  	@PostMapping("/add-user")
 	public String saveUser(UserDTO userDTO, @RequestParam("imageFile") MultipartFile getImageFile, String username, String email) throws Exception {
  		String registeredUser = userServiceImpl.createUser(userDTO);
@@ -98,7 +98,7 @@ public class UserController {
 	
 	
 //<---------------------- Update user ------------------------->	
-	@PreAuthorize("hasRole('ROLE_UPDATE_USER')")
+	@PreAuthorize("hasRole('ROLE_LIST_USERS')")
 	@PostMapping("/update-user/{id}")
 	public ResponseEntity<String> updateUser(@RequestBody User updatedUser, @PathVariable Long id) throws Exception {
 		try {
