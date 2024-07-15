@@ -69,9 +69,7 @@
                                         <th scope="col">Title</th>
                                         <th scope="col">Reference</th>
                                         <th scope="col">JobStatus</th>
-                                        <th scope="col">Creation date</th>
-                                        <th scope="col">Customer</th>
-                                        <th scope="col">Actions</th>
+                                        <th scope="col">Registration date</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -85,9 +83,7 @@
                                             <td><a>${job.referenceNumber}</a></td>
                                             <td><a>${job.status}</a></td>
                                             <td><a><fmt:formatDate type = "both" value = "${job.creationDate}" /></a></td>
-                                            <td><a>${job.customer.name}</a></td>
                                             <td>
-
                                             </td>
 
                                         </tr>

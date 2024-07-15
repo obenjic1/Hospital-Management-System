@@ -31,12 +31,12 @@
 			<div class="col-lg-12">
 				<div class="card">
 					<div class="card-body">
-						<h5 class="card-title">Job</h5>
-						<button onclick="loadPage('job/displayform')"  data-toggle="tooltip" data-placement="top" title="create new job" style="width: 120px;" type="button" class="btn btn-primary">
+						<h5 class="card-title"><fmt:message key="job.management"/></h5>
+						<button onclick="loadPage('job/displayform')"  data-toggle="tooltip" data-placement="top" title="create new job"  style="width: 120px;position: relative; left: 91.5%" type="button" class="btn btn-primary">
 						  <fmt:message key="add.group"/>
 						</button>
 						<!-- Table with stripped rows -->
-						<table class="table datatable">
+						<table id="myTable" class="table datatable">
 						  <thead style="background-color: #dddfe3;">
 						    <tr>
 						      <th scope="col">Number</th>
@@ -44,7 +44,7 @@
 						      <th scope="col">Title</th>
 							  <th scope="col">Reference</th>
 						      <th scope="col">JobStatus</th>
-						      <th scope="col">Creation date</th>
+						      <th scope="col">Registration date</th>
 						      <th scope="col">Customer</th>
 						      <th scope="col">Actions</th>
 							</tr>
@@ -65,7 +65,7 @@
 								  <select id="coverPaperType" name="name" class="form-select">
 								     <option >Action</option>
 								     <option data-bs-toggle="modal" data-bs-target="#ExtralargeModal" data-toggle="tooltip" data-placement="top" title="view job details" onclick="loadDynamicPageModal('job/viewJob/${job.id}');">View</option>
-								     <option data-toggle="tooltip" data-placement="top" title="edit job details" onClick="loadPage('job/update-form/${job.id}');">Edit</option>
+								     <option data-bs-toggle="modal" data-bs-target="#ExtralargeModal" data-toggle="tooltip" data-placement="top" title="edit job details" onClick="loadPageModalForm('job/update-form/${job.id}');">Edit</option>
 								     <option data-toggle="tooltip" data-placement="top" title="archive a job" onclick="deleteJob(${job.id})">Delete</option>
 								      <option data-bs-toggle="modal" data-bs-target="#ExtralargeModal" onclick="loadDynamicPageModal('job/estimate/${job.id}');">Generate Estimate</option>
 								     <option data-bs-toggle="modal" data-bs-target="#ExtralargeModalFile" onclick="loadPageModal('job/generate-pdf/${job.id}');">Control Sheet</option>

@@ -29,7 +29,7 @@
 			<div class="col-lg-12">
 				<div class="card">
 					<div class="card-body">
-						<h5 class="card-title"> <fmt:message key="paper.format"/></h5>
+						<h5 class="card-title"> <fmt:message key="binding.type"/></h5>
 						<button data-bs-target="#ExtralargeModal" data-bs-toggle="modal" onclick="fillContentModal('/papertype/displayform')" type="button" class="btn btn-primary" style=" position: relative; left: 94%; width: 77px;">
 						  <fmt:message key="add.group"/>
 						</button>
@@ -53,10 +53,10 @@
 							    <td>${binding.name}</td>
 							    <td>
 							     <a>
-								   <button data-bs-toggle="modal" data-bs-target="#ExtralargeModal" data-bs-toggle="modal" class="button-see" onclick="fillContentModal('papertype/paper/${paperType.id}')">
+								   <button data-bs-toggle="modal" data-bs-target="#ExtralargeModal" data-bs-toggle="modal" class="button-see" onclick="loadPageModalForm('bindingtype/find/${binding.id}')">
 								    <i class="ri-eye-line"></i>
 								   </button>
-								   <button class="button-edite" data-bs-target="#ExtralargeModal" data-bs-toggle="modal" class="button-see" onclick="fillContentModal('papertype/toUpdate/${paperType.id}')">
+								   <button class="button-edite" data-bs-target="#ExtralargeModal" data-bs-toggle="modal" class="button-see" onclick="loadPageModalForm('bindingtype/display/${binding.id}')">
 								       <i class="ri-pencil-line"></i>
 								   </button>
 								   <button class="button-delete" id="startDeleting" data-bs-toggle="modal" onclick="confirmDelete('${paperType.id}')" data-bs-target="#areyouSureYouWantToDetele">

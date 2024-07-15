@@ -22,14 +22,14 @@
 <!-- Favicons -->
 <link href="assets/img/presprint.jpg" rel="icon">
 <script src="assets/vendor/jquery-3.5.1.min.js"></script>
-<script src="assets/vendor/dataTables.js"></script>
+<script src="DataTables/dataTables.js"></script>
 
 
 
 
 <!-- Vendor CSS Files -->
 <!-- <link href="DataTables/dataTables.dataTables.css"  rel="stylesheet"  /> -->
-<link href="assets/vendor/dataTables.dataTables.css" rel="stylesheet">
+<link href="DataTables/dataTables.dataTables.css" rel="stylesheet">
 <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
 <link href="assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
@@ -81,7 +81,13 @@
 				<li class="nav-item dropdown pe-3">
 				  <sec:authentication property="name" var="username" /> 
 				  <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
-				    <img src="<c:url value='download-profile-image/${imagePath}'/>" class="profile-image" />
+				   <c:if test="${not empty user.imagePath}">
+                                        <img src="${pageContext.request.contextPath}/file/download?file=${user.imagePath}&dir=folder.user.images" class="rounded-circle">
+                                    </c:if>
+                                    <c:if test="${empty user.imagePath}">
+                                        <img src="assets/img/default.png" class="rounded-circle">
+                                    </c:if>
+<%-- 				    <img src="<c:url value='download-profile-image/${imagePath}'/>" class="profile-image" /> --%>
 					<span class="d-none d-md-block dropdown-toggle ps-2">${username}</span>
 				  </a> <!-- End Profile Iamge Icon -->
 				  
@@ -326,7 +332,7 @@
 			  <div class="modal-dialog modal-dialog-centered">
 			    <div class="modal-content">
 			      <div class="modal-body">
-	                <p> <br><fmt:message key="are.you.sure.you.want.to.delete.this.user.this.action.will"/></p>
+	                <p> <br><fmt:message key="desable.anable"/></p>
 			        <button class="delete-denied" type="button" id="cancelButton" data-bs-dismiss="modal"><fmt:message key="cancel"/></button>
 		          <button class="accept-delete" type="button" id="confirmDeleteBtn" data-bs-toggle="modal" data-bs-target="#creation"><fmt:message key="delete"/></button>
 			    </div>
@@ -351,25 +357,25 @@
 	<!-- End Footer -->
 
 
-	<script src="assets/js/role.js"></script>
 
-	<script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-	<script src="assets/vendor/tinymce/tinymce.min.js"></script>
+
 
 	<!-- Template Main JS File -->
-	<script src="assets/vendor/dataTables.js"></script>
+    <script src="assets/js/users.js"></script>
 	<script src="assets/js/role.js"> </script>
 	<script src="assets/js/groups.js"> </script>
 	<script src="assets/js/main.js"></script>
 	<script src="assets/js/app.js"></script>
-	<script src="assets/js/users.js"></script>
-	<script src="assets/js/billing/customer.js"></script>
-	<script src="assets/js/billing/machine.js"></script> 
 	<script src="assets/modal/modal.js"></script>
-	<script src="assets/js/billing/papertype.js"></script>
-    <script src="assets/js/billing/job.js"></script>
 	
+	<script src="assets/js/billing/job.js"></script>
+	<script src="assets/js/billing/machine.js"></script> 
+	<script src="assets/js/billing/customer.js"></script>
+	<script src="assets/js/billing/papertype.js"></script>
 
+	<script src="DataTables/dataTables.js"></script>
+	<script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+	<script src="assets/vendor/tinymce/tinymce.min.js"></script>
 </body>
 
 </html>

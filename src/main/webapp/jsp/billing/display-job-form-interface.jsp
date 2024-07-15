@@ -160,19 +160,19 @@
 		       </div>		
 	
 		      <div class="row py-3">
-			    <div class ="col-lg-3 px8">
-			      <div>
+			    <div class ="col-lg-3 px3">
                   <div class="form-check">
                     <label class="form-check-label" for="existingPlate"><a><fmt:message key="existing.plate"/></a> </label>
                       <input class="form-check-input" type="checkbox" name="existingPlate" id="existingPlate">
                   </div>
-                  <div class="form-check">                     
+			    </div>
+			    <div class ="col-lg-3 px3">
+			    <div class="form-check">                     
                     <label class="form-check-label" for="gridCheck1"> <a><fmt:message key="type.setting.by.us"/></a></label>
                     <input class="form-check-input" type="checkbox" name="name" id="typesettingByUs">
                   </div>
 			    </div>
-			    </div>
-			  <div class ="col-lg-3 px8" style="position: relative; left: 10px;"> 
+			  <div class ="col-lg-3 px3" style="position: relative; left: 10px;"> 
 			     <div>
 			      <div class="form-check">                      
                     <label class="form-check-label" for="gridCheck1"><a><fmt:message key="data.supplied.by.customer"/></a> </label>
@@ -181,7 +181,7 @@
                   
 			    </div>
 			  </div>
-			  <div class ="col-lg-3 px8" style="position: relative; left: 10px;">
+			  <div class ="col-lg-3 px3" style="position: relative; left: 10px;">
 			  <div class="form-check">
                     <label class="form-check-label" for="gridCheck1"><a><fmt:message key="layout.by.us"/></a> </label>
                     <input class="form-check-input" type="checkbox" id="layoutByUs">
@@ -620,8 +620,8 @@
 			 
 			   </div>
     
-                  <div class="row py-4">
-				   <div class ="col-lg-3 px8" >
+                  <div class="row py-3">
+				   <div class ="col-lg-2 px3" >
 				    <div>
                      <div class="form-check">
                       <label class="form-check-label" for="trimmed"><a><fmt:message key="trimmed"/></a></label>
@@ -629,26 +629,21 @@
                     </div>
 				  </div>
 			    </div>
-				<div class ="col-lg-3 px8" style="position: relative; left: 10px;">
+				<div class ="col-lg-2 px3" style="position: relative; left: 10px;">
 				  <div>
-
                      <div class="form-check">
                       <label class="form-check-label" for="sellotaped"><a><fmt:message key="sellotaped"/></a></label>
                        <input class="form-check-input" type="checkbox" id="sellotaped">
                     </div>
 				  </div>
                   </div>
-				  <div class ="col-lg-3 px8" style="position: relative; left: 10px;">
+				  <div class ="col-lg-2 px3" style="position: relative; left: 10px;">
                      <div class="form-check">
                       <label class="form-check-label" for="sewn"><a><fmt:message key="sewn"/></a></label>
                        <input class="form-check-input" type="checkbox" id="sewn">
                     </div>
 				  </div>
-                  </div>
-                  
-                  
-                   <div class="row py-4">
-				   <div class ="col-lg-3 px8" >
+				   <div class ="col-lg-2 px3" >
 				    <div>
                      <div class="form-check">
                       <label class="form-check-label" for="handgather"><a><fmt:message key="handgather"/></a></label>
@@ -656,7 +651,7 @@
                     </div>
 				  </div>
 			    </div>
-				<div class ="col-lg-3 px8" style="position: relative; left: 10px;">
+			    <div class ="col-lg-2 px3" style="position: relative; left: 10px;">
 				  <div>
                       <div class="form-check">
                       <label class="form-check-label" for="stitching"><a><fmt:message key="stitching"/></a></label>
@@ -665,6 +660,18 @@
 				  </div>
                   </div>
                   </div>
+     
+<!--                    <div class="row py-3"> -->
+<!-- 				   <div class ="col-lg-3 px3" > -->
+<!-- 				    <div> -->
+<!--                      <div class="form-check"> -->
+<%--                       <label class="form-check-label" for="handgather"><a><fmt:message key="handgather"/></a></label> --%>
+<!--                        <input class="form-check-input" type="checkbox" id="handgather"> -->
+<!--                     </div> -->
+<!-- 				  </div> -->
+<!-- 			    </div> -->
+				
+<!--                   </div> -->
                   
 				</div>	
 		           <div class ="row py-3 "style="margin-top:50px" >
@@ -750,7 +757,7 @@
 					   <table class="ta" id="cover-table">
 					  <thead>
 					    <tr>
-					      <th scope="col"><fmt:message key="num"/> </th>
+					      <th scope="col"><fmt:message key="number"/> </th>
 					      <th scope="col"><fmt:message key="print.type"/> </th>
 					      <th scope="col"> <fmt:message key="grammage"/> (GSM)</th>
 					      <th scope="col"> <fmt:message key="volume"/> (Pages)</th>
@@ -786,7 +793,7 @@
 						<table class="ta" id="content-table">
 					  <thead>
 					    <tr>
-					      <th scope="col"><fmt:message key="num"/></th>
+					      <th scope="col"><fmt:message key="number"/></th>
 					      <th scope="col"> <fmt:message key="print.type"/> </th>
 					      <th scope="col"><fmt:message key="machine"/></th>
 					      <th scope="col"> </th>

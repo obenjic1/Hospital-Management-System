@@ -25,16 +25,9 @@ public class BindingTypeserviceImpl implements BindingTypeService {
 		return Optional.empty();
 	}
 
-//	@Override
-//	public BindingType update(BindingTypeDTO bindingTypeDTO, long id) {
-//		// TODO Auto-generated method stub
-//		return null;
-//	}
 
-	@Override
-	public Optional<BindingType> findById(long id) {
-		// TODO Auto-generated method stub
-		return Optional.empty();
+	public BindingType findById(int id) {
+		return bindingTyperepository.findById(id).get();
 	}
 
 //<------------------- List with pagination -------------------->	
@@ -51,16 +44,22 @@ public class BindingTypeserviceImpl implements BindingTypeService {
 	}
 
 
-//	@Override
-//	public BindingType saveBindingType(BindingTypeDTO bindingTypeDTO) {
-//		// TODO Auto-generated method stub
-//		return null;
-//	}
 
 	@Override
 	public void delete(long id) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public BindingType update(BindingType bindingType, int id) {
+		try {
+			BindingType binding = bindingTyperepository.findById(id).get();
+			binding.setName(bindingType.getName());
+			return bindingTyperepository.save(binding);
+		} catch (Exception e) {
+			throw e;
+		}
 	}
 
 

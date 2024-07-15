@@ -9,11 +9,11 @@ import com.ppp.user.model.User;
 import com.ppp.user.model.dto.UserDTO;
 
 public interface UserService {
-	Iterable< User> getAllUser(boolean isDeleted);
+	Iterable< User> getAllUser();
 	void deleteUserByUsername(Long id);
 	User findUserByUsername(String username);
 	User updateUser(User updatedUser, Long id);
-	Page< User > findPaginatedUser(int pageNo, int pageSize, boolean isDeleted);
+	Page< User > findPaginatedUser(int pageNo, int pageSize);
 	String createUser(UserDTO userDTO);
 	void updateResetPasswordToken(String token, String email) throws AccountNotFoundException;
 	User getByResetPasswordToken(String token);

@@ -59,7 +59,7 @@ bouton.addEventListener("click", function(event) {
 				
 // <------------ Delete User using soft delete --------------------->
 
-function removeMachine(id) {
+function disableMachine(id) {
 	fetch(`machine/switchCase/${id}`, {
 		method: 'POST',
 		headers: {

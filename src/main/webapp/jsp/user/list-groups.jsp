@@ -37,6 +37,7 @@
 						    <tr>
 							  <th scope="col"><fmt:message key="number"/></th>
 							  <th scope="col"><fmt:message key="names"/></th>
+							  <th scope="col"><fmt:message key="status"/></th>
 							  <th scope="col"><fmt:message key="description"/> </th>
 							  <th scope="col"><fmt:message key="actions"></fmt:message> </th>
 							</tr>
@@ -46,6 +47,7 @@
 						      <tr class="${loop.index % 2 == 0 ? 'even-row' : 'odd-row'}">
 							    <th scope="row">${group.id}</th>
 							    <td><a>${group.name}</a></td>
+							    <td><a class="${group.enabled ? 'Active' : 'Blocked' }">${group.enabled ? 'Active': 'Inactive'}</a></td>
 							    <td><a data-bs-toggle="tooltip" data-bs-placement="top" title="${group.description}"> ${group.description}</a></td>
 							    <td>
 								  <button class="button-see" data-bs-toggle="modal" data-bs-target="#ExtralargeModal" onclick="loadPageModalForm('group/group-details/${group.name}')">
@@ -54,9 +56,9 @@
 							      <button class="button-icon" data-bs-toggle="modal" data-bs-target="#ExtralargeModal" onclick="loadPageModalForm('group/update-group/${group.name}')">
 							        <i class="ri-pencil-line"></i>
 								  </button>
-							      <button class="button-delete ${group.enabled ? '' : 'disabled-button'}" data-bs-toggle="modal" onclick="confirmDisableGroupe('${group.id}')"> 
-							        <i class="ri-delete-bin-3-line"></i>
-								  </button>
+								   <button class="button-delete" data-bs-toggle="modal"  data-toggle="tooltip" data-placement="top" title="Deactivate/Reactivate Group" onclick="confirmDisableGroupe('${group.id}')">
+								      ${group.enabled ? '<i class="bi-toggle2-on"></i>' :'<i class="bi-toggle2-off"></i>'}
+								   </button>
 							    </td>
 							  </tr>
 							</c:forEach>
@@ -81,6 +83,6 @@
 </main>
 <!-- End #main -->
 
-<script src="/DataTables/datatables.js"></script>
-<script src="assets/js/groups.js"> </script>
+<!-- <script src="/DataTables/datatables.js"></script> -->
+<!-- <script src="assets/js/groups.js"> </script> -->
 <link href="assets/css/list-group.css" rel="stylesheet">

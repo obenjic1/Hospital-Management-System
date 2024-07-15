@@ -14,17 +14,17 @@
 		<section>
 			<div class="card" style="width: 102%; left: -1%;">
 				<div class="card-body">
-				  <h5 class="card-title text-center pb-0 fs-4"><fmt:message key="update.user"/></h5>
-				  <p class="text-center small"><fmt:message key="enter.the.user.informations"/></p>
+				  <h5 class="card-title text-center pb-0 fs-4"><fmt:message key="binding.type"/></h5>
+				  <p class="text-center small"><fmt:message key="binding.type"/></p>
 					<form style="width: 55%;margin-left:30px">
 					  <div class="row mb-3" style="bottom: -7px;position: relative;">
 					    <label for="name" class="col-md-4 col-lg-3 col-form-label"><fmt:message key="name"/></label>
 						 <div class="col-md-8 col-lg-9">
-						   <input type="text" id="name" name="name" class="form-control" value="${update.name}" style="left: -102px;"/>
+						   <input type="text" id="name" name="name" class="form-control" value="${bindingUpdate.name}" style="left: -102px;"/>
 						 </div>
 					   </div>
 						<div class="col-md-6">
-						  <input onclick="update('${update.id}')" type="button" class="btn btn-primary" value="Save Changes" style="position: relative;left: 277%;bottom: -34%;"/>
+						  <input onclick="update('${bindingUpdate.id}')" type="button" class="btn btn-primary" value="Save Changes" style="position: relative;left: 277%;bottom: -34%;"/>
 						</div>
 					</form>
 				</div>

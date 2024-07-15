@@ -37,8 +37,6 @@ public class UserController {
 	@Autowired
 	private GroupeRepository groupeRepository;
 	@Autowired
-	private UserRepository userRepository;
-	@Autowired
 	private UserServiceImpl userServiceImpl;
 
 //<------------------- Get add user form ---------------------->
@@ -115,15 +113,15 @@ public class UserController {
 	@PreAuthorize("hasRole('ROLE_LIST_USERS')")
 	@GetMapping("/list-users")
 	public String listUsers(Model model) {
-		return findPaginatedUser(1, false, model);
+		return findPaginatedUser(1, model);
 	}
 
 //<---------------------- Get list of users with pagination ---------------------->
 	@GetMapping("/page/{pageNo}")
-	public String findPaginatedUser(@PathVariable(value = "pageNo") int pageNo, boolean isDeleted, Model model) {
+	public String findPaginatedUser(@PathVariable(value = "pageNo") int pageNo, Model model) {
 	    int pageSize = paginationRoleSize;
 
-	    Page < User > page = userServiceImpl.findPaginatedUser(pageNo, pageSize, isDeleted );
+	    Page < User > page = userServiceImpl.findPaginatedUser(pageNo, pageSize );
 	    List < User > listOfUser = page.getContent();
 
 	    model.addAttribute("currentPage", pageNo);
@@ -133,17 +131,17 @@ public class UserController {
 	    return "user/list-users";
 	}
 
-//<--------------------- Remove user Using soft delete ----------------->
-@PreAuthorize("hasRole('ROLE_REMOVE_USER')")
-	@PostMapping("remove-user/{id}")
-	public void removeUserByUsername(@PathVariable Long id) {
-	    User existingUser = userRepository.findById(id).get();
-	    if (existingUser == null) {
-	      return ;
-	    }
-	userServiceImpl.deleteUserById(id);
-	    return ;
-	  }
+////<--------------------- Remove user Using soft delete ----------------->
+//@PreAuthorize("hasRole('ROLE_REMOVE_USER')")
+//	@PostMapping("remove-user/{id}")
+//	public void removeUserByUsername(@PathVariable Long id) {
+//	    User existingUser = userRepository.findById(id).get();
+//	    if (existingUser == null) {
+//	      return ;
+//	    }
+//	userServiceImpl.deleteUserById(id);
+//	    return ;
+//	  }
 
 //<----------------------Enable and Disable a User --------------------->
 @PostMapping("/enable/{id}")

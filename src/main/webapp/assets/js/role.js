@@ -37,7 +37,5 @@ $(document).ready(function() {
 }
 
 $(document).ready( function () {
-    $('#myTable').DataTable({
-		"dom": "lfrti"
-	});
+$('#myTable').DataTable();
 } );

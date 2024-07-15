@@ -88,7 +88,7 @@
                                     <div class="row mb-3">
                                         <label for="username" class="col-md-4 col-lg-3 col-form-label"><fmt:message key="username"/></label>
                                         <div class="col-md-8 col-lg-9">
-                                            <input name="username" type="text" class="form-control" id="username" value="${user.username}">
+                                            <input name="username" type="text" class="form-control" id="username" value="${user.username}" readonly="readonly">
                                         </div>
                                     </div>
                                      <div class="row mb-3">
@@ -111,9 +111,9 @@
                                          </div>
                                      </div>
                                      <div class="row mb-3">
-                                         <label for="ImageFile" class="col-md-4 col-lg-3 col-form-label"><fmt:message key="address"/></label>
+                                         <label for="ImageFile" class="col-md-4 col-lg-3 col-form-label"><fmt:message key="photo"/></label>
                                          <div class="col-md-8 col-lg-9">
-                                             <input name="imageFile" type="file" class="form-control" id="imageFile" accept="image/*" value="${user.address}">
+                                             <input name="imageFile" type="file" class="form-control" id="imageFile" accept="image/*" value="${user.imagePath}">
                                          </div>
                                      </div>
                                     <div class="text-center">

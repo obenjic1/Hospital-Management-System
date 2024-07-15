@@ -13,9 +13,10 @@ import com.ppp.billing.model.BindingType;
 public interface BindingTypeService { 
 	
 	Optional<BindingType> findByName(String name);
-	Optional<BindingType>  findById(long id);
+	BindingType  findById(int id);
 	Page< BindingType > findPaginatedJobStatus(int pageNo, int pageSize);
 	List<BindingType> listAll();
+	BindingType update(BindingType bindingType, int id);
 	void delete(long id);
 
 }

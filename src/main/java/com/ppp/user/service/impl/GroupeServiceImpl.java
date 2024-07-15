@@ -2,7 +2,6 @@ package com.ppp.user.service.impl;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -40,10 +39,14 @@ public class GroupeServiceImpl implements GroupeService {
 		    List<String> selectedRoles = groupDTO.getIds();
 		    List<Groupe> existingGroups = groupeRepository.findAll();		 
 		    for (Groupe existingGroup : existingGroups) {
-		        if (existingGroup.getName().equals(newGroup.getName())) {
-		            return "error";
+		        if (existingGroup.getName().toLowerCase() .equals(newGroup.getName().toLowerCase())) {
+		            return "Group name already exist.";
 		        }
+		       
 		    }
+		    if (newGroup.getName().isEmpty()) {
+	            return "Group name cannot be Empty";
+	        }
 		    groupeRepository.save(newGroup);
 
 		    for (String roleName : selectedRoles) {
@@ -53,7 +56,7 @@ public class GroupeServiceImpl implements GroupeService {
 		        groupeRole.setRole(role);
 		        groupRoleRepository.save(groupeRole);
 		    }
-		    return "sucess";
+		    return "OK";
 	} catch (Exception e) {
 		throw e;
 	}
@@ -125,12 +128,16 @@ public class GroupeServiceImpl implements GroupeService {
 
 
 	@Override
-	public Groupe disableGroup(Long id) {
+	public void disableGroup(long id) {
 		try {
 			Groupe optionalGroup = groupeRepository.findById(id).get();
-			optionalGroup.setEnabled(false);
-		      groupeRepository.save(optionalGroup);
-				return optionalGroup;
+			if(optionalGroup.isEnabled()) {
+				optionalGroup.setEnabled(false);
+				 groupeRepository.save(optionalGroup);
+			}else {
+				optionalGroup.setEnabled(true);
+				 groupeRepository.save(optionalGroup);
+			}
 		} catch (Exception e) {
 			throw e;
 		}

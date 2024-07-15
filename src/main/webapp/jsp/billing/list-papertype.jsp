@@ -8,7 +8,8 @@
 <meta charset="utf-8">
 <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-<link rel="stylesheet" href="/DataTables/datatables.dataTables.css" />
+<script src="DataTables/datatables.js"></script>
+<link rel="stylesheet" href="DataTables/dataTables.dataTables.css" />
 <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 <link href="assets/css/list-role.css" rel="stylesheet">
 <link href="assets/css/list-users.css" rel="stylesheet">
@@ -34,7 +35,7 @@
 						  <fmt:message key="add.group"/>
 						</button>
 						<!-- Table with stripped rows -->
-						<table class="table datatable">
+						<table id="myTable1" class="table datatable">
 						  <thead style="background-color: #dddfe3;">
 						    <tr>
 						       <th scope="col"><fmt:message key="number"/></th>
@@ -66,45 +67,22 @@
 						  </c:forEach>
 						</tbody>
 					  </table>
-					  <div class="modal fade" id="ExtralargeModal" tabindex="-1">
-						  <div class="modal-dialog modal-xl">
-							<div class="modal-content"id="addUser" >
-							  <div class="modal-body">
-								<ul class="nav nav-tabs nav-tabs-bordered"> </ul>
-							  </div>
-							  <div class="modal-footer" >
-								<button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><fmt:message key="close"/></button>
-							  </div>
-							</div>
-						  </div>
-						</div>	
-					  <!-------------- Modal ------------->
-					    <div class="modal fade" id="areyouSureYouWantToDetele" tabindex="-1">
-						  <div class="modal-dialog modal-dialog-centered">
-					        <div class="modal-content">
-						    <div class="modal-body">
-							  <p> <br><fmt:message key="are.you.sure.you.want.to.delete.this.user.this.action.will"/></p>
-				 			  <button class="delete-denied" type="button" id="cancelButton" data-bs-dismiss="modal"><fmt:message key="cancel"/></button>
-							  <button class="accept-delete" type="button" id="confirmDeleteBtn" data-bs-toggle="modal"><fmt:message key="delete"/></button>
-						    </div>
-						  </div>
-					    </div>
 					  </div>					  					 		
-					 <nav aria-label="Page navigation example">
-					   <ul class="pagination nav-no-border">
-						 <li class="page-item">
-						   <input type="button" class="page-link" onclick="refreshTable(${currentPage - 1})" value="&laquo;" ${currentPage == 1 ? 'disabled' : ''}> 
-						 </li>
-						 <c:forEach var="i" begin="1" end="${totalPages}">
-						   <li class="page-item ${i == currentPage ? 'active' : ''}">
-							 <input type="button" class="page-link" onclick="refreshTable(${i})" value="${i}">
-						   </li>
-						   </c:forEach>
-						   <li class="page-item">
-						     <input type="button" class="page-link" onclick="refreshTable(${currentPage + 1})" value="&raquo;" ${currentPage == totalPages ? 'disabled' : ''}>
-						   </li>
-					    </ul>
-					</nav>
+<!-- 					 <nav aria-label="Page navigation example"> -->
+<!-- 					   <ul class="pagination nav-no-border"> -->
+<!-- 						 <li class="page-item"> -->
+<%-- 						   <input type="button" class="page-link" onclick="refreshTable(${currentPage - 1})" value="&laquo;" ${currentPage == 1 ? 'disabled' : ''}>  --%>
+<!-- 						 </li> -->
+<%-- 						 <c:forEach var="i" begin="1" end="${totalPages}"> --%>
+<%-- 						   <li class="page-item ${i == currentPage ? 'active' : ''}"> --%>
+<%-- 							 <input type="button" class="page-link" onclick="refreshTable(${i})" value="${i}"> --%>
+<!-- 						   </li> -->
+<%-- 						   </c:forEach> --%>
+<!-- 						   <li class="page-item"> -->
+<%-- 						     <input type="button" class="page-link" onclick="refreshTable(${currentPage + 1})" value="&raquo;" ${currentPage == totalPages ? 'disabled' : ''}> --%>
+<!-- 						   </li> -->
+<!-- 					    </ul> -->
+<!-- 					</nav> -->
 					</div>
 				</div>
 			</div>
@@ -112,7 +90,13 @@
 	</section>
 </main>
 <!-- End #main -->
-<script src="/DataTables/datatables.js"></script>
 <script src="assets/js/users.js"></script>
+
+<script>
+$(document).ready( function () {
+$('#myTable1').DataTable();
+} );
+</script>
+
 
 

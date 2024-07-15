@@ -23,8 +23,28 @@
 .button-delete{
 	border-style: none;
 	background-color: transparent;
-	color: limegreen;
 }
+
+.bi-toggle2-off{
+	border-style: none;
+	background-color: transparent;
+	color: red;
+}
+.bi-toggle2-on{
+	border-style: none;
+	background-color: transparent;
+	color: green;
+}
+
+.Blocked{
+
+	color: red;
+}
+.Active{
+
+	color: green;
+}
+
 
 .button-icon{
 	border-style: none;

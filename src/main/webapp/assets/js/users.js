@@ -117,48 +117,8 @@ bouton.addEventListener("click", function(event) {
   addUser();
 });
 
-// <------------ Delete an confirm delete section --------------------->
-
-//function confirmDelete(id) {
-//  let deleteId = id;
-//	console.log(deleteId);
-//	$('#areyouSureYouWantToDetele').modal('show');
-//
-//	$('#confirmDeleteBtn').click(function() {
-//		disable(id);
-//	});
-//}
 var modal = new bootstrap.Modal(document.getElementById('userDeleteSuccessfully'));
 				modal.show();
-				
-// <------------ Desable  user--------------------->
-function removeUser(id) {
-	fetch(`user/remove-user/${id}`, {
-		method: 'POST',
-		headers: {
-			'Content-type': 'application/json'
-		},
-	})
-		.then(respose => {
-			if (respose.ok) {
-				var modal = new bootstrap.Modal(document.getElementById('somthingwhenwrong'));
-				modal.show();
-			} else {
-				var modal = new bootstrap.Modal(document.getElementById('userDeleteSuccessfully'));
-				modal.show();
-
-			}
-		})
-		.catch(error => {
-			console.error("internal server error :", error);
-		})
-}
-document.addEventListener('DOMContentLoaded', function() {
-	var deleteBtn = document.getElementById('delete-btn');
-	deleteBtn.addEventListener('click', function() {
-
-	});
-});
 
 //<------------------ Update user using DTO object -------------------->
 function updateUserById(id) {
@@ -207,35 +167,45 @@ var formData = {
 			.catch(function(error) {
 			});
 }
+
+
 //<------------------ Disactivate and activate a user -------------------->
 
-function disable(id) {
+function confirmDisableUser(id) {
+  let deleteId = id;
+	$('#areyouSureYouWantToDetele').modal('show');
+	$('#confirmDeleteBtn').click(function() {
+		disableUser(deleteId);
+	});
+}
+
+function disableUser(id){
 	fetch(`user/enable/${id}`, {
 		method: 'POST',
-		headers: {
-			'Content-type': 'application/json'
-		},
 	})
-		.then(respose => {
-			if (respose.ok) {
-				var modal = new bootstrap.Modal(document.getElementById('somthingwhenwrong'));
-				modal.show();
-			} else {
-				var modal = new bootstrap.Modal(document.getElementById('userDeleteSuccessfully'));
-				modal.show();
+	.then( response => {	
 
-			}
+   			 if (response.status === 200) {
+       			sendMessage('Succes/Success', 1);
+			return loadPage("user/list-users");				
+   			 } else if (response.status !== 200) {
+				sendMessage('Failed / Echec', 2);
+  			 }
 		})
-		.catch(error => {
-			console.error("internal server error :", error);
-		})
+		 .then(function(data) {
+
+		 })
+			.catch(function(error) {
+
+			});
 }
-document.addEventListener('DOMContentLoaded', function() {
-	var deleteBtn = document.getElementById('delete-btn');
-	deleteBtn.addEventListener('click', function() {
 
-	});
-});
+//document.addEventListener('DOMContentLoaded', function() {
+//	var deleteBtn = document.getElementById('delete-btn');
+//	deleteBtn.addEventListener('click', function() {
+//
+//	});
+//});
 
 
 
@@ -251,11 +221,6 @@ function refreshUserTable(pageNo) {
 			alert('Une erreur s\'est produite lors du chargement de la page.');
 		}
 	});
-	
-	
-//<------------------ function to reset password  -------------------->
 
 }
-
-//<------------------ function to reset password  -------------------->
 

@@ -168,7 +168,7 @@ public class JobController {
 	private String createJobDataPdf(Long id) throws IOException {
 	
 		Job job = jobServiceImpl.findById(id).get();
-		 DecimalFormat formateur = new DecimalFormat("0.00");
+//		 DecimalFormat formateur = new DecimalFormat("0.00");
 		double fixePrice = 0;
 		double variablePrice = 0;
 		String pdf = controlSheetDir+job.getReferenceNumber()+".pdf";

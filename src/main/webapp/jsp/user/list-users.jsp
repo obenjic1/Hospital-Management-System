@@ -30,7 +30,7 @@
 				<div class="card">
 					<div class="card-body">
 						<h5 class="card-title"> <fmt:message key="list.users"/></h5>
-						<button onclick="loadPageModalForm('user/add-user')" data-toggle="tooltip" data-placement="top" title="create new user" type="button" data-bs-toggle="modal" data-bs-target="#ExtralargeModal" class="btn btn-primary">
+						<button onclick="loadPageModalForm('user/add-user')" data-toggle="tooltip" data-placement="top" title="create new user" type="button" data-bs-toggle="modal" data-bs-target="#ExtralargeModal" class="btn btn-primary" style="position: relative; width: 100px">
 						  <fmt:message key="add.group"/>
 						</button>
 						<!-- Table with stripped rows -->
@@ -57,17 +57,17 @@
 
 							   <td><a>${user.username}</a><i class="bi bi-record2 <?php echo $isConnected ? 'text-success' : 'text-warning'; ?>"></i></td>
 							   <td><a>${user.groupe.name}</a></td>
-							   <td><a class="${user.deleted ? 'Blocked' : 'Active' }">${user.deleted ? 'Inactive' : 'Active'}</a></td>
+							    <td><a class="${user.active ? 'Blocked' : 'Active' }">${user.active ? 'Inactive' : 'Active'}</a></td>
 							   <td>
-							     <a>
+							     <a style="font-size: 15px;">
 								   <button class="button-see" data-bs-toggle="modal" data-toggle="tooltip" data-placement="top" title="view user Details" data-bs-target="#ExtralargeModal" onclick="loadPageModalForm('user/viewUser/${user.username}')">
 								     <i class="ri-eye-line"></i>
 								   </button>
 								   <button class="button-edite" data-bs-toggle="modal" data-bs-target="#ExtralargeModal" data-toggle="tooltip" data-placement="top" title="Edit user Details" onclick=" loadPageModalForm('user/get-user/${user.username}')">
 								     <i class="ri-pencil-line"></i>
 								   </button>
-								   <button class="button-delete" data-bs-toggle="modal"  data-toggle="tooltip" data-placement="top" title="Deactivate/Reactivate User"onclick="confirmDelete(this.getAttribute('data-group-id'))" data-group-id="${user.id}">
-								     <i class="ri-delete-bin-3-line"></i>
+								   <button class="button-delete" data-bs-toggle="modal"  data-toggle="tooltip" data-placement="top" title="Deactivate/Reactivate User" onclick="confirmDisableUser(${user.id})">
+								      ${user.active ? '<i class="bi-toggle2-off"></i>' : '<i class="bi-toggle2-on"></i>'}
 								   </button>
 								 </a>
 							   </td>

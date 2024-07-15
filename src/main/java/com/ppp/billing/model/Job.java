@@ -97,6 +97,10 @@ public class Job {
 	@Column(name="creation_date")
 	private Date creationDate;
 	
+	
+	@Column(name = "other_fee_description")
+	private String otherFeeDescription;
+	
 	@OneToOne(fetch = FetchType.LAZY, orphanRemoval = true, cascade = CascadeType.PERSIST)
 	@JoinColumn(name = "job_activity_id", referencedColumnName = "id")
 	private JobActivity jobActivity;
@@ -104,9 +108,7 @@ public class Job {
 	@Column(name="job_papers")
 	@OneToMany(fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "job", cascade = CascadeType.PERSIST)
 	private List<JobPaper> jobPapers;
-	
-	
-	
+		
 	@ManyToOne
 	@JoinColumn(name = "job_type_id", referencedColumnName = "id")
 	private JobType jobType;
@@ -117,9 +119,7 @@ public class Job {
 	
 	@Column(name = "other_fee", nullable = true, columnDefinition = "float default 0")
 	private float otherFee;
-	
-	@Column(name = "other_fee_description")
-	private String otherFeeDescription;
+
 	
 	@OneToMany(mappedBy = "job", cascade = CascadeType.PERSIST)
     private List<JobEstimate>  jobEstimates;

@@ -48,7 +48,7 @@
 									  <td><a data-toggle="tooltip" title="${role.description}">${role.description}</a></td>
 									  <td>
 										<button class="button-see" data-bs-toggle="modal" data-bs-target="#ExtralargeModal" onclick="loadPageModalForm('role/view-role-details/${role.name}')">
-										  <i class="fas fa-eye"></i>
+										  <i class="ri-eye-line"></i>
 										</button>
 									  </td>
 									</tr>

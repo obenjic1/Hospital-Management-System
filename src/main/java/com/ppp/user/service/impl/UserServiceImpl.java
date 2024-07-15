@@ -5,7 +5,6 @@ import java.time.LocalDate;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.security.auth.login.AccountNotFoundException;
-import org.hibernate.Filter;
 import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -39,20 +38,15 @@ public class UserServiceImpl implements UserService {
 
 //<---------------- List user ---------------------->
 	@Override
-	public Iterable<User> getAllUser(boolean isDeleted) {
+	public Iterable<User> getAllUser() {
 	    
 	    return userRepository.findAll();
 	}
 	
 	@Override
-	public Page<User> findPaginatedUser(int pageNo, int pageSize, boolean isDeleted) {
+	public Page<User> findPaginatedUser(int pageNo, int pageSize) {
 		try {
 			Pageable pageable = PageRequest.of(pageNo - 1, pageSize);
-			Session session = entityManager.unwrap(Session.class);
-		    Filter filter = session.enableFilter("deletedUsertFilter");
-		    filter.setParameter("isDeleted", isDeleted);
-		    Iterable<User> users = userRepository.findAll();
-		    session.disableFilter("deletedUserFilter");
 			return userRepository.findAll(pageable);
 		} catch (Exception e) {
 			throw e;
@@ -185,12 +179,12 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public void  enableUser(long id) {	
 		User user = userRepository.findById(id).get();
-		if(user.isDeleted()) {
-			user.setDeleted(false);
+		if(user.isActive()) {
+			user.setActive(false);
 			userRepository.save(user);
 		}
 		else {
-			user.setDeleted(true);	
+			user.setActive(true);	
 			userRepository.save(user);
 			}
 		}

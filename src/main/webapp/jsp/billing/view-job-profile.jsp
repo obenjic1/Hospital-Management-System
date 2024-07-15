@@ -120,7 +120,7 @@
 					      <th scope="col">Volume (Pages)</th>
 					    </tr>
 					  </thead>
-					 				  <tbody>
+					  <tbody>
 			
 						  <c:forEach var="jobPaper" items="${jobPapers}" varStatus="loop">
 							    <c:set var="index" value="${loop.index}" />

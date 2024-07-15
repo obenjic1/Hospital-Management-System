@@ -30,8 +30,8 @@ public class UserDetailServices implements UserDetailsService {
            return null;
         }
         
-        if(user.isDeleted()) {
-        	throw new DisabledException("Votre compte a été supprimé");
+        if(user.isActive()) {
+        	throw new DisabledException("Votre compte a été disactive");
         }
 
         Groupe group = user.getGroupe();
