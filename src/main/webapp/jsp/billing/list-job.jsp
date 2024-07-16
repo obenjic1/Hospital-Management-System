@@ -8,9 +8,9 @@
 	uri="http://www.springframework.org/security/tags"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
-<link href="assets/css/list-users.css" rel="stylesheet">
+<link rel="stylesheet" href="DataTables/datatables.css" />
+
 <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
-<link href="assets/vendor/simple-datatables/style.css" rel="stylesheet">
 <link href="assets/vendor/bootstrap/css/bootstrap.min.css"
 	rel="stylesheet">
 
@@ -76,22 +76,29 @@
 						   </c:forEach>
 						 </tbody>
 					   </table>
-					<!-- Pagination with icons -->
-						<nav aria-label="Page navigation example">
-						  <ul class="pagination nav-no-border">
-							<li class="page-item"><input type="button" class="page-link" onclick="refreshUserTable(${currentPage - 1})" value="&laquo;" ${currentPage == 1 ? 'disabled' : ''}></li>
-							<c:forEach var="i" begin="1" end="${totalPages}">
-							  <li class="page-item ${i == currentPage ? 'active' : ''}"><input type="button" class="page-link" onclick="refreshUserTable(${i})" value="${i}"></li>
-							</c:forEach>
-							<li class="page-item"><input type="button" class="page-link" onclick="refreshUserTable(${currentPage + 1})" value="&raquo;" ${currentPage == totalPages ? 'disabled' : ''}></li>
-						  </ul>
-						</nav>
+<!-- 					Pagination with icons -->
+<!-- 						<nav aria-label="Page navigation example"> -->
+<!-- 						  <ul class="pagination nav-no-border"> -->
+<%-- 							<li class="page-item"><input type="button" class="page-link" onclick="refreshUserTable(${currentPage - 1})" value="&laquo;" ${currentPage == 1 ? 'disabled' : ''}></li> --%>
+<%-- 							<c:forEach var="i" begin="1" end="${totalPages}"> --%>
+<%-- 							  <li class="page-item ${i == currentPage ? 'active' : ''}"><input type="button" class="page-link" onclick="refreshUserTable(${i})" value="${i}"></li> --%>
+<%-- 							</c:forEach> --%>
+<%-- 							<li class="page-item"><input type="button" class="page-link" onclick="refreshUserTable(${currentPage + 1})" value="&raquo;" ${currentPage == totalPages ? 'disabled' : ''}></li> --%>
+<!-- 						  </ul> -->
+<!-- 						</nav> -->
 					</div>
 				</div>
 			</div>
 		</div>
-	</section>
-</main>
+		</section>
+	</main>
+ <script>
+		$(document).ready( function () {
+			alert("++++++++++++++++++++++++++++");
+			$('#myTable').DataTable();
+			});
+	</script>
+	<script src="DataTables/datatables.js"></script>
 	<script src="assets/js/main.js"></script>	
 	<script src="assets/js/job.js"></script> 
 

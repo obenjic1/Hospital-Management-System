@@ -8,12 +8,11 @@
 <meta charset="utf-8">
 <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-<link rel="stylesheet" href="/DataTables/datatables.dataTables.css" />
 <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 <link href="assets/css/list-role.css" rel="stylesheet">
 
 
-<main id="table-body" class="main">
+<main id="role-pagination" class="main">
 	<div class="pagetitle">
 		<nav>
 			<ol class="breadcrumb">
@@ -56,22 +55,6 @@
 								  </c:forEach>
 							    </tbody>
 							  </table>
-							  <!-- Pagination with icons -->
-							  <nav aria-label="Page navigation example">
-							    <ul class="pagination nav-no-border">
-						          <li class="page-item">
-						            <input type="button" class="page-link" onclick="refreshTable(${currentPage - 1})" value="&laquo;" ${currentPage == 1 ? 'disabled' : ''}> 
-						          </li>
-								  <c:forEach var="i" begin="1" end="${totalPages}">
-								    <li class="page-item ${i == currentPage ? 'active' : ''}">
-									  <input type="button" class="page-link" onclick="refreshTable(${i})" value="${i}">
-								    </li>
-								  </c:forEach>
-								  <li class="page-item">
-								    <input type="button" class="page-link" onclick="refreshTable(${currentPage + 1})" value="&raquo;" ${currentPage == totalPages ? 'disabled' : ''}>
-								  </li>
-							    </ul>
-						      </nav>
 							</div>
 						 </div>
 					   </div>
@@ -83,4 +66,9 @@
 <script src="/DataTables/datatables.js"></script>
 <script src="assets/js/role.js"> </script>
 
+	<script>
+	$(document).ready( function () {
+		$('#myTable').DataTable();
+		});
+	</script>
 

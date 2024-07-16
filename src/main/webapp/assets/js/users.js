@@ -180,7 +180,7 @@ function confirmDisableUser(id) {
 }
 
 function disableUser(id){
-	fetch(`user/enable/${id}`, {
+		fetch(`user/enable/${id}`, {
 		method: 'POST',
 	})
 	.then( response => {	
@@ -200,6 +200,9 @@ function disableUser(id){
 			});
 }
 
+
+
+
 //document.addEventListener('DOMContentLoaded', function() {
 //	var deleteBtn = document.getElementById('delete-btn');
 //	deleteBtn.addEventListener('click', function() {
@@ -210,17 +213,4 @@ function disableUser(id){
 
 
 //<------------------ Get list users with pagination -------------------->
-function refreshUserTable(pageNo) {
-	$.ajax({
-		url: 'user/page/' + pageNo,
-		type: 'GET',
-		success: function(data) {
-			$('#users-list').html(data);
-		},
-		error: function() {
-			alert('Une erreur s\'est produite lors du chargement de la page.');
-		}
-	});
-
-}
 

@@ -1031,4 +1031,20 @@ public class JobController {
 		}
 		
 	}
+	
+	
+	@PostMapping("/by/{referenceNumber}")
+	public String findJobByReferenceNumber( @RequestParam("referenceNumber") String referenceNumber, Model model) {
+		try {
+			Optional<Job> result = jobServiceImpl.findJobByReferenceNumber(referenceNumber);
+			if (result.isEmpty()) {
+				return "KO";
+			}
+			model.addAttribute("result", result);
+			return "OK";
+		} catch (Exception e) {
+			throw e;
+		}
+	}
+	
 }

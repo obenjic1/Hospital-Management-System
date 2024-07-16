@@ -175,4 +175,14 @@ public class JobServiceImpl implements JobService {
 		NumberFormat numberFormat = NumberFormat.getInstance(locale);
 		return numberFormat.format(amount);
 	}
+
+	
+	@Override
+	public Optional<Job> findJobByReferenceNumber(String referenceNumber) {
+		try {
+			return jobRepository.findByReferenceNumber(referenceNumber);
+		} catch (Exception e) {
+			throw e;
+		}
+	}
 }

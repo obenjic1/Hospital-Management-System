@@ -15,5 +15,5 @@ public interface JobRepository extends JpaRepository<Job, Long> {
 	Optional<Job>  findById(long id );
 	List<Job> findByCustomer(Customer customer);
 	Optional<Job>  deleteById(long id );
-
+	Optional<Job> findByReferenceNumber(String refrenceNumber);
 }

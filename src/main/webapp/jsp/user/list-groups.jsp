@@ -8,7 +8,8 @@
 <meta charset="utf-8">
 <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-<link rel="stylesheet" href="/DataTables/datatables.dataTables.css" />
+
+<script src="DataTables/datatables.js"></script>
 <link href="assets/vendor/bootstrap/css/bootstrap.min.css"
 	rel="stylesheet">
 
@@ -32,7 +33,7 @@
 						<button type="button" onclick="loadPageModalForm('group/add-group')" data-bs-toggle="modal" data-bs-target="#ExtralargeModal" class="btn btn-primary">Add Group</button>
 
 						<!-- Table with stripped rows -->
-						<table id="groupDataTable" class="table datatable">
+						<table id="myTable" class="table datatable">
 						  <thead style="background-color: #dddfe3;">
 						    <tr>
 							  <th scope="col"><fmt:message key="number"/></th>
@@ -62,19 +63,19 @@
 							    </td>
 							  </tr>
 							</c:forEach>
-							    </tbody>
-						      </table>
-						  <nav aria-label="Page navigation example">
-					        <ul class="pagination nav-no-border">
-						      <li class="page-item"><input type="button" class="page-link" onclick="refreshGroupTable(${currentPage - 1})" value="&laquo;" ${currentPage == 1 ? 'disabled' : ''}></li>
-							  <c:forEach var="i" begin="1" end="${totalPages}">
-							   <li class="page-item ${i == currentPage ? 'active' : ''}">
-							     <input type="button" class="page-link" onclick="refreshGroupTable(${i})" value="${i}">
-							   </li>
-							 </c:forEach>
-							 <li class="page-item"><input type="button" class="page-link" onclick="refreshGroupTable(${currentPage + 1})" value="&raquo;" ${currentPage == totalPages ? 'disabled' : ''}></li>
-						   </ul>
-						 </nav>
+							</tbody>
+						   </table>
+<!--  						  <nav aria-label="Page navigation example"> -->
+<!--  					        <ul class="pagination nav-no-border"> -->
+<%--  						      <li class="page-item"><input type="button" class="page-link" onclick="refreshGroupTable(${currentPage - 1})" value="&laquo;" ${currentPage == 1 ? 'disabled' : ''}></li>  --%>
+<%--  							  <c:forEach var="i" begin="1" end="${totalPages}">  --%>
+<%--  							   <li class="page-item ${i == currentPage ? 'active' : ''}">  --%>
+<%-- 							     <input type="button" class="page-link" onclick="refreshGroupTable(${i})" value="${i}">  --%>
+<!-- 							   </li> -->
+<%--  							 </c:forEach>  --%>
+<%--  							 <li class="page-item"><input type="button" class="page-link" onclick="refreshGroupTable(${currentPage + 1})" value="&raquo;" ${currentPage == totalPages ? 'disabled' : ''}></li>  --%>
+<!--  						   </ul>  -->
+<!--  						 </nav> -->
 					</div>
 				</div>
 			</div>
@@ -83,6 +84,11 @@
 </main>
 <!-- End #main -->
 
-<!-- <script src="/DataTables/datatables.js"></script> -->
-<!-- <script src="assets/js/groups.js"> </script> -->
+<script> 
+	$(document).ready( function () {
+	$('#myTable').DataTable();
+} );
+	
+	
+</script>
 <link href="assets/css/list-group.css" rel="stylesheet">

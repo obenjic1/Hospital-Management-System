@@ -20,16 +20,13 @@
 <meta content="" name="keywords">
 
 <!-- Favicons -->
+<link rel="stylesheet" href="DataTables/datatables.css" />
+<script src="DataTables/datatables.js"></script>
 <link href="assets/img/presprint.jpg" rel="icon">
 <script src="assets/vendor/jquery-3.5.1.min.js"></script>
-<script src="DataTables/dataTables.js"></script>
-
-
 
 
 <!-- Vendor CSS Files -->
-<!-- <link href="DataTables/dataTables.dataTables.css"  rel="stylesheet"  /> -->
-<link href="DataTables/dataTables.dataTables.css" rel="stylesheet">
 <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
 <link href="assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
@@ -58,8 +55,8 @@
 
 		<div class="search-bar">
 			<form class="search-form d-flex align-items-center" method="POST" action="#">
-			  <input type="text" name="query" placeholder="Search" title="Enter search keyword">
-			  <button type="submit" title="Search"> <i class="bi bi-search"></i> </button>
+			  <input type="text" name="query" placeholder="Search" title="Enter search keyword" id="query">
+			  <button type="button" title="Search"> <i class="bi bi-search"  onclick="searchByReference()"></i> </button>
 			</form>
 		</div>
 		<!-- End Search Bar -->
@@ -127,7 +124,7 @@
 			    <i class="bi bi-person-lines-fill"> </i> 
 			     <span>
 			      <span><fmt:message key="administration.managemant" /></span>
-			    </span>
+			    </span><script src="DataTables/datatables.js"></script>
 			  </li>
 			<!-- End Printing Press Nav -->
 			<li class="nav-item">
@@ -142,12 +139,12 @@
 				</sec:authorize>
 				<sec:authorize access="hasRole('ROLE_LIST_GROUPS')">
 				  <li class="nav-item">
-				    <a class="nav-link collapsed" onclick="loadPage('group/list-groups')" href="#">
+				    <a class="nav-link collapsed" onclick="loadPage('group/list-groups');refreshGroupTable(1)" href="#">
 				    <i class="bi bi-person">
 				  </i> <span><fmt:message key="list.groups" /></span></a></li>
 				</sec:authorize>
 				<sec:authorize access="hasRole('ROLE_LIST_ROLES')">
-				  <li class="nav-item"><a class="nav-link collapsed" onclick="loadPage('role/list-roles')" href="#">
+				  <li class="nav-item"><a class="nav-link collapsed" onclick="loadPage('role/list-roles');refreshRolePage(1)" href="#">
 				    <i class="bi bi-card-list"></i> 
 				    <span><fmt:message key="list.roles" /></span> </a>
 				  </li>
@@ -357,8 +354,12 @@
 	<!-- End Footer -->
 
 
-
-
+<script >
+$(document).ready(function() {
+    refreshRolePage(1);
+    refreshGroupTable(1);
+});
+</script>
 
 	<!-- Template Main JS File -->
     <script src="assets/js/users.js"></script>
@@ -373,7 +374,7 @@
 	<script src="assets/js/billing/customer.js"></script>
 	<script src="assets/js/billing/papertype.js"></script>
 
-	<script src="DataTables/dataTables.js"></script>
+	<script src="DataTables/datatables.js"></script>
 	<script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 	<script src="assets/vendor/tinymce/tinymce.min.js"></script>
 </body>

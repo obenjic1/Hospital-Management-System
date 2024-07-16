@@ -100,20 +100,6 @@ function updateGroupe(name) {
 			});
 }
 
-//<-------------------- List group with paginations --------------------->
-function refreshGroupTable(pageNo) {
-    $.ajax({
-        url: 'group/page/' + pageNo,
-        type: 'GET',
-        success: function(data) {
-            $('#pagination-list').html(data);
-        },
-        error: function() {
-            alert('Une erreur s\'est produite lors du chargement de la page.');
-        }
-    });
-}
-
 // <------------ Delete an confirm delete section --------------------->
 
 function confirmDisableGroupe(id) {
@@ -144,6 +130,20 @@ function disableGroup(id){
 
 			});
 }
+
+function refreshGroupTable(pageNo) {
+    $.ajax({
+        url: 'group/page/' + pageNo,
+        type: 'GET',
+        success: function(data) {
+            $('#pagination-list').html(data);
+        },
+        error: function() {
+            alert('Une erreur s\'est produite lors du chargement de la page.');
+        }
+    });
+}
+
 
 $(document).ready( function () {
     $('#groupDataTable').DataTable({});

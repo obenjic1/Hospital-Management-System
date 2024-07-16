@@ -721,4 +721,47 @@ function jobTypeChoice(opt){
 	}
 
 	}
+	
+	function searchByReference(ref){
+		var ref = document.getElementById('query').value;
+		let referenceNumber = ref;
+		alert(referenceNumber);
+		fetch(`job/by/${referenceNumber}`, {
+		method: 'POST',
+		headers: {
+			'Content-type': 'application/json'
+		},
+	})
+		.then(respose => {
+			if (respose.ok) {
+		return	loadPage ('billing/job-by-reference-number')
+		
+			
+			} else {
+		
+			}
+		})
+		.catch(error => {
+			console.error("internal server error :", error);
+		})
+		
+	}
+	
+	
+	function refreshJobPage(pageNo) {
+    return new Promise((resolve, reject) => {
+        $.ajax({
+            url: 'job/page/' + pageNo,
+            type: 'GET',
+            success: function(data) {
+                $('#job-pagination').html(data);
+                resolve(); // Resolve the promise on success
+            },
+            error: function() {
+                alert('Une erreur s\'est produite lors du chargement de la page.');
+                reject(); // Reject the promise on error
+            }
+        });
+    });
+}
 
