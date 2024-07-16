@@ -1037,7 +1037,7 @@ public class JobController {
 	public String findJobByReferenceNumber( @RequestParam("referenceNumber") String referenceNumber, Model model) {
 		try {
 			Optional<Job> result = jobServiceImpl.findJobByReferenceNumber(referenceNumber);
-			if (result.isEmpty()) {
+			if (result==null) {
 				return "KO";
 			}
 			model.addAttribute("result", result);
