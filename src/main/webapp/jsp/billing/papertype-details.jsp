@@ -19,7 +19,7 @@
               </ul>
               <div class="tab-content pt-2" style="margin-left: 5%">
                 <div class="tab-pane fade show active profile-overview" id="profile-overview">              
-                  <h5 class="card-title"><fmt:message k key="paper.type.details"/></h5>
+                  <h5 class="card-title"><fmt:message key="paper.type.details"/></h5>
                   <div class="row">
                     <div class="col-lg-3 col-md-4 label "><fmt:message key="name"/></div>
                     <div class="col-lg-9 col-md-8">${papertype.name}</div>

@@ -16,7 +16,7 @@
         <div class="col-lg-12">
           <div class="card">
             <div class="card-body" >
-            <strong><h5 class="card-title"><fmt:message key="update.job"/>:<b> <i>${job.referenceNumber}</i> </b>  </h5></strong>
+            <strong><h5 class="card-title" style="text-align:center"><fmt:message key="update.job"/> <i>${job.referenceNumber}</i></h5></strong>
               
               <!-- Default Tabs -->
               <ul style="background-color: #fbfbfb;"  class="nav nav-tabs d-flex" id="myTabjustified" role="tablist">

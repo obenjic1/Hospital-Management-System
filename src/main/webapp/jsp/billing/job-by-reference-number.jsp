@@ -47,29 +47,25 @@
 							</tr>
 						   </thead>
 						<tbody>
-						  <c:forEach var="job" items="${jobs}" varStatus="loop">
-						   <tr class="${loop.index % 2 == 0 ? 'even-row' : 'odd-row'}">
-							    <c:set var="index" value="${loop.index}" />
-							    <%    int index = (Integer) pageContext.getAttribute("index");  %>
-							 <td>  <%= index + 1 %></td>
-							   <td><a>${job.title}</a></td>
-							   <td><a>${job.jobType.name}</a></td>
-							   <td><a>${job.referenceNumber}</a></td>
-							   <td><a>${job.status}</a></td>
-							   <td><a><fmt:formatDate type = "both" value = "${job.creationDate}" /></a></td>
-							   <td><a>${job.customer.name}</a></td>
+						   <tr>
+							 <td>1</td>
+							   <td><a>${result.title}</a></td>
+							   <td><a>${result.jobType.name}</a></td>
+							   <td><a>${result.referenceNumber}</a></td>
+							   <td><a>${result.status}</a></td>
+							   <td><a><fmt:formatDate type = "both" value = "${result.creationDate}" /></a></td>
+							   <td><a>${result.customer.name}</a></td>
 							 <td>
 							  <select id="coverPaperType" name="name" class="form-select">
 							     <option >Action</option>
-							     <option data-bs-toggle="modal" data-bs-target="#ExtralargeModal" data-toggle="tooltip" data-placement="top" title="view job details" onclick="loadDynamicPageModal('job/viewJob/${job.id}');">View</option>
-							     <option data-bs-toggle="modal" data-bs-target="#ExtralargeModal" data-toggle="tooltip" data-placement="top" title="edit job details" onClick="loadPageModalForm('job/update-form/${job.id}');">Edit</option>
-							     <option data-toggle="tooltip" data-placement="top" title="archive a job" onclick="deleteJob(${job.id})">Delete</option>
-							      <option data-bs-toggle="modal" data-bs-target="#ExtralargeModal" onclick="loadDynamicPageModal('job/estimate/${job.id}');">Generate Estimate</option>
-							     <option data-bs-toggle="modal" data-bs-target="#ExtralargeModalFile" onclick="loadPageModal('job/generate-pdf/${job.id}');">Control Sheet</option>
+							     <option data-bs-toggle="modal" data-bs-target="#ExtralargeModal" data-toggle="tooltip" data-placement="top" title="view job details" onclick="loadDynamicPageModal('job/viewJob/${result.id}');">View</option>
+							     <option data-bs-toggle="modal" data-bs-target="#ExtralargeModal" data-toggle="tooltip" data-placement="top" title="edit job details" onClick="loadPageModalForm('job/update-form/${result.id}');">Edit</option>
+							     <option data-toggle="tooltip" data-placement="top" title="archive a job" onclick="deleteJob(${result.id})">Delete</option>
+							      <option data-bs-toggle="modal" data-bs-target="#ExtralargeModal" onclick="loadDynamicPageModal('job/estimate/${result.id}');">Generate Estimate</option>
+							     <option data-bs-toggle="modal" data-bs-target="#ExtralargeModalFile" onclick="loadPageModal('job/generate-pdf/${result.id}');">Control Sheet</option>
 				              </select>
 							  </td>
 							</tr>
-						   </c:forEach>
 						 </tbody>
 					   </table>
 					</div>

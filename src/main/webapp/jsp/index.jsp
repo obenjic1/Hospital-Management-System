@@ -54,9 +54,9 @@
 		<!-- End Logo -->
 
 		<div class="search-bar">
-			<form class="search-form d-flex align-items-center" method="POST" action="#">
-			  <input type="text" name="query" placeholder="Search" title="Enter search keyword" id="query">
-			  <button type="button" title="Search"> <i class="bi bi-search"  onclick="searchByReference()"></i> </button>
+			<form class="search-form d-flex align-items-center" method="GET" action="#">
+			  <input type="text" name="referenceNumber" placeholder="Search" title="Enter search keyword" id="search">
+			  <button type="button" title="Search" onclick="searchJobByReference()"> <i class="bi bi-search" ></i> </button>
 			</form>
 		</div>
 		<!-- End Search Bar -->
@@ -78,12 +78,12 @@
 				<li class="nav-item dropdown pe-3">
 				  <sec:authentication property="name" var="username" /> 
 				  <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
-				   <c:if test="${not empty user.imagePath}">
-                                        <img src="${pageContext.request.contextPath}/file/download?file=${user.imagePath}&dir=folder.user.images" class="rounded-circle">
-                                    </c:if>
-                                    <c:if test="${empty user.imagePath}">
-                                        <img src="assets/img/default.png" class="rounded-circle">
-                                    </c:if>
+				   	<c:if test="${not empty user.imagePath}">
+                      <img src="${pageContext.request.contextPath}/file/download?file=${user.imagePath}&dir=folder.user.images" class="rounded-circle">
+                    </c:if>
+                    <c:if test="${empty user.imagePath}">
+                    <img src="assets/img/default.png" class="rounded-circle">
+                  </c:if>
 <%-- 				    <img src="<c:url value='download-profile-image/${imagePath}'/>" class="profile-image" /> --%>
 					<span class="d-none d-md-block dropdown-toggle ps-2">${username}</span>
 				  </a> <!-- End Profile Iamge Icon -->
@@ -174,14 +174,6 @@
 					    <span><fmt:message key="paper.types"/></span>
 					  </a>
 					</li>
-					
-<!-- 					<li class="nav-item"> -->
-
-<!-- 					  <a class="nav-link collapsed" onclick="loadPage('activity-option/list')" href="#"> -->
-<!-- 					    <i class="ri-bit-coin-line"></i> -->
-<%-- 					   <span><fmt:message key="job.activities.options" /> </span></a> --%>
-
-<!-- 					</li> -->
 					<li class="nav-item">
 					  <a class="nav-link collapsed" onclick="loadPage('grammage/list')" href="#">
 					    <i class="ri-file-damage-line"></i>
@@ -194,12 +186,7 @@
 					    <span><fmt:message key="paper.format" /> </span>
 					  </a>
 					</li>
-<!-- 					<li class="nav-item"> -->
-<!-- 					  <a class="nav-link collapsed" onclick="loadPage('/jobtype/list-all')" href="#"> -->
-<!-- 					    <i class="ri-hammer-line"></i> -->
-<%-- 					    <span><fmt:message key="job.type" /> </span> --%>
-<!-- 					  </a> -->
-<!-- 					</li> -->
+
 					
 					<li class="nav-item">
 					  <a class="nav-link collapsed" onclick="loadPage('bindingtype/list')" href="#">
@@ -207,18 +194,6 @@
 					    <span><fmt:message key="binding.type" /> </span>
 					  </a>
 					</li>
-<!-- 					<li class="nav-item"> -->
-<!-- 					  <a class="nav-link collapsed" onclick="loadPage('/contenttype/list')" href="#"> -->
-<!-- 					    <i class="ri-stack-fill"></i> -->
-<%-- 					    <span><fmt:message key="content.type" /> </span> --%>
-<!-- 					  </a> -->
-<!-- 					</li>						 -->
-<!-- 					<li class="nav-item"> -->
-<!-- 					  <a class="nav-link collapsed" onclick="loadPage('/print-type/list')" href="#"> -->
-<!-- 					    <i class="ri-todo-line"></i> -->
-<%-- 					    <span><fmt:message key="print.type" /> </span> --%>
-<!-- 					  </a> -->
-<!-- 					</li> -->
 					
 				</ul> 
 			  </sec:authorize>  								
@@ -240,6 +215,12 @@
 					  <a class="nav-link collapsed" onclick="loadPage('job/list-job')" href="#">
 					    <i class="ri-steam-fill"></i>
 					    <span><fmt:message key="list.jobsheets" /></span>
+					  </a>
+					</li>
+					<li class="nav-item">
+					  <a class="nav-link collapsed" onclick="loadPage('invoice/list')" href="#">
+					    <i class=" ri-money-dollar-circle-line"></i>
+					    <span><fmt:message key="invoice.management" /></span>
 					  </a>
 					</li>
 				  <sec:authorize access="hasRole('ROLE_SAVE_CUSTOMER')">
@@ -314,6 +295,18 @@
 			        </div>
 			  </div>
 			</div>	
+			 <div class="modal fade" id="MainModal" tabindex="-1">
+			   <div class="modal-dialog modal-xl">
+				 <div class="modal-content" id="getPage">
+
+				        <div class="modal-body"  >
+				        </div>
+				        <div class="modal-footer" >
+				            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><fmt:message key="close"/></button>
+				        </div>
+			        </div>
+			  </div>
+			</div>	
 			
 			 <div class="modal fade" id="ExtralargeModalFile" tabindex="-1">
 			   <div class="modal-dialog modal-xl">
@@ -362,14 +355,15 @@ $(document).ready(function() {
 </script>
 
 	<!-- Template Main JS File -->
+	<script src="assets/js/billing/job.js"></script>
     <script src="assets/js/users.js"></script>
 	<script src="assets/js/role.js"> </script>
 	<script src="assets/js/groups.js"> </script>
 	<script src="assets/js/main.js"></script>
-	<script src="assets/js/app.js"></script>
+	<script src="assets/js/billing/invoice.js"></script>
 	<script src="assets/modal/modal.js"></script>
+		
 	
-	<script src="assets/js/billing/job.js"></script>
 	<script src="assets/js/billing/machine.js"></script> 
 	<script src="assets/js/billing/customer.js"></script>
 	<script src="assets/js/billing/papertype.js"></script>

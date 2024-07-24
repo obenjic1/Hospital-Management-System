@@ -28,13 +28,13 @@
                                     <div class="col-xl-8" style="padding-left: 30px;" >
                                         <h5 class="card-title"><fmt:message key="profile.details"/></h5>
                                         <div class="row">
+                                            <div class="col-lg-3 col-md-4 label "><fmt:message key="username"/></div>
+                                            <div class="col-lg-9 col-md-8">${user.username}</div>
+                                        </div> 
+                                        <div class="row">
                                             <div class="col-lg-3 col-md-4 label "><fmt:message key="names"/></div>
                                             <div class="col-lg-9 col-md-8">${user.firstName} ${user.lastName}</div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-lg-3 col-md-4 label "> <fmt:message key="username"/></div>
-                                            <div class="col-lg-9 col-md-8">${user.username}</div>
-                                        </div>
+                                        </div> 
                                         <div class="row">
                                             <div class="col-lg-3 col-md-4 label"><fmt:message key="list.groups"/></div>
                                             <div class="col-lg-9 col-md-8">${user.groupe.name}</div>
@@ -53,7 +53,7 @@
                                         </div>
                                         <div class="row">
                                             <div class="col-lg-3 col-md-4 label"><fmt:message key="created.date"/></div>
-                                            <div class="col-lg-9 col-md-8">${user.createdAt}</div>
+                                            <div class="col-lg-9 col-md-8"> <fmt:formatDate type = "both" value = "${user.createdAt}" /></div>
                                         </div>
                                     </div>
                                     <div class="col-xl-4">
@@ -83,12 +83,6 @@
                                         <label for="lastName" class="col-md-4 col-lg-3 col-form-label"><fmt:message key="last.name"/></label>
                                         <div class="col-md-8 col-lg-9">
                                             <input name="lastName" type="text" class="form-control" id="lastName" value="${user.lastName}">
-                                        </div>
-                                    </div>
-                                    <div class="row mb-3">
-                                        <label for="username" class="col-md-4 col-lg-3 col-form-label"><fmt:message key="username"/></label>
-                                        <div class="col-md-8 col-lg-9">
-                                            <input name="username" type="text" class="form-control" id="username" value="${user.username}" readonly="readonly">
                                         </div>
                                     </div>
                                      <div class="row mb-3">

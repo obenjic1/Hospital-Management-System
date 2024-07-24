@@ -97,7 +97,9 @@ function addUser() {
        			sendMessage('Succes/Success', 1);
 			return loadPage("user/add-user");				
    			 } else if (response.status !== 200) {
-				sendMessage('Failed / Echec', 2);
+				sendMessage('Failed / Echec : Email or Username already exist ',2);
+					return loadPage('user/list-users');			
+
   			 }
 		})
 		 .then(function(data) {

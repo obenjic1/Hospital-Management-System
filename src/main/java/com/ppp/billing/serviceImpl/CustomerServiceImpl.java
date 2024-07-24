@@ -31,7 +31,7 @@ public class CustomerServiceImpl implements CustomerService {
 	@Override
 	public Customer save(CustomerDTO customerDTO) {
 		Customer customer = new Customer();
-		customer.setName(customerDTO.getName());
+		customer.setName(customerDTO.getName().toUpperCase());
 		customer.setEmail(customerDTO.getEmail());
 		customer.setAddress(customerDTO.getAddress());
 		customer.setTelephone(customerDTO.getTelephone());

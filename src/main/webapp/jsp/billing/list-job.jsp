@@ -36,6 +36,12 @@
 						  <fmt:message key="add.group"/>
 						</button>
 						<!-- Table with stripped rows -->
+						<div class="search-bar" style="bottom: 30px;position: relative;">
+								<form class="search-form d-flex align-items-center" method="GET" action="#" style="justify-content: end;">
+								  <input type="text" name="referenceNumber" placeholder="Search" title="Enter search keyword" id="search">
+								  <button type="button" title="Search" onclick="searchJobByReference()"> <i class="bi bi-search" ></i> </button>
+								</form>
+							</div>
 						<table id="myTable" class="table datatable">
 						  <thead style="background-color: #dddfe3;">
 						    <tr>
@@ -64,7 +70,7 @@
 							 <td>
 								  <select id="coverPaperType" name="name" class="form-select">
 								     <option >Action</option>
-								     <option data-bs-toggle="modal" data-bs-target="#ExtralargeModal" data-toggle="tooltip" data-placement="top" title="view job details" onclick="loadDynamicPageModal('job/viewJob/${job.id}');">View</option>
+								     <option data-bs-toggle="modal" data-bs-target="#ExtralargeModal" data-toggle="tooltip" data-placement="top" title="view job details" onclick="loadPageModalForm('job/viewJob/${job.id}');">View</option>
 								     <option data-bs-toggle="modal" data-bs-target="#ExtralargeModal" data-toggle="tooltip" data-placement="top" title="edit job details" onClick="loadPageModalForm('job/update-form/${job.id}');">Edit</option>
 								     <option data-toggle="tooltip" data-placement="top" title="archive a job" onclick="deleteJob(${job.id})">Delete</option>
 								      <option data-bs-toggle="modal" data-bs-target="#ExtralargeModal" onclick="loadDynamicPageModal('job/estimate/${job.id}');">Generate Estimate</option>

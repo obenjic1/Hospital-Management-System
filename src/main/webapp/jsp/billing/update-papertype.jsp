@@ -14,8 +14,8 @@
 		<section>
 			<div class="card" style="width: 102%; left: -1%;">
 				<div class="card-body">
-				  <h5 class="card-title text-center pb-0 fs-4"><fmt:message key="update.user"/></h5>
-				  <p class="text-center small"><fmt:message key="enter.the.user.informations"/></p>
+				  <h5 class="card-title text-center pb-0 fs-4"><fmt:message key="update.paperType"/></h5>
+				  <p class="text-center small"><fmt:message key="enter.the.paperType.informations"/></p>
 					<form style="width: 55%;margin-left:30px">
 					  <div class="row mb-3" style="bottom: -7px;position: relative;">
 					    <label for="name" class="col-md-4 col-lg-3 col-form-label"><fmt:message key="name"/></label>

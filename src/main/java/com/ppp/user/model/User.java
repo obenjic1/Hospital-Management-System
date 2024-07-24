@@ -2,6 +2,7 @@ package com.ppp.user.model;
 
 import java.time.LocalDate;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -66,7 +67,7 @@ public class User implements UserDetails {
 	private boolean active = Boolean.TRUE;
 	
 	@Column(name = "created_at")
-	private LocalDate createdAt ;
+	private Date createdAt ;
 	
 	@Column(name = "reset_password_token")
 	private String resetPasswordToken;

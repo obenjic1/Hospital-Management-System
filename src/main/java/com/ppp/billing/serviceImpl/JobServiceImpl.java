@@ -178,11 +178,42 @@ public class JobServiceImpl implements JobService {
 
 	
 	@Override
-	public Optional<Job> findJobByReferenceNumber(String referenceNumber) {
+	public Optional <Job> findJobByReferenceNumber(String referenceNumber) {
 		try {
-			return jobRepository.findByReferenceNumber(referenceNumber);
+			Optional <Job> reference = jobRepository.findByReferenceNumber(referenceNumber);
+			if (reference.isPresent()) {
+				return reference;
+			}return null;
+			
 		} catch (Exception e) {
 			throw e;
 		}
+	}
+	
+	public String getFinishingActivities(Job job) {
+		JobActivity jobActivity = job.getJobActivity();
+		String finishingActivities = "";
+		if(jobActivity.getXCross()>0) finishingActivities += "Signatures " + jobActivity.getXCross()+ " x cross-folded, " ;
+		if(jobActivity.getXCreased()>0) finishingActivities += "Cover " + jobActivity.getXCreased()+ " x creased, " ;
+		if(jobActivity.getLamination()>0) finishingActivities += "Cover " + jobActivity.getLamination()+ " side laminated, " ;
+		if(jobActivity.getXWiredStiched()>0) finishingActivities += "Booklets " + jobActivity.getXWiredStiched()+ " x wire-stitched, " ;
+		if(jobActivity.isSewn()) finishingActivities += "Booklets sewn, " ;
+		if(jobActivity.isHandgather()) finishingActivities += "hand-gathered, " ;
+		if(jobActivity.isSelloptaped()) finishingActivities += "sellotaped, " ;
+		if(jobActivity.isTrimmed()) finishingActivities += "trimmed, " ;
+		if(jobActivity.getXPerforated()>0) finishingActivities += "Job perforated " + jobActivity.getXPerforated()+ " times, " ;
+		if(jobActivity.getBindingType()!=null) finishingActivities += "final binding: " + jobActivity.getBindingType().getName()+ " " ;
+		
+		return finishingActivities;
+	}
+	
+	public List<String> gettypsettingActivities(Job job){
+		List<String> typsettingActivities = new ArrayList<String>();
+		if(job.isTypesettingByUs()) typsettingActivities.add("Typesetting by us");
+		if(job.isDataSuppliedByCustomer()) typsettingActivities.add("Data Supplied by customer");
+		if(job.isLayOutByUs()) typsettingActivities.add("Layout by us");
+		if(job.isExistingPlate()) typsettingActivities.add("Has existing Plates");
+		
+		return typsettingActivities;
 	}
 }

@@ -48,7 +48,7 @@ function addGroupe() {
        			sendMessage('Succes/Success', 1);
 			return loadPage("group/list-groups");				
    			 } else if (response.status !== 200) {
-				sendMessage('Failed / Echec', 2);
+				sendMessage('Failed : email or user name already exist ', 2);
   			 }
 		})
 		 .then(function(data) {

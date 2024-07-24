@@ -7,6 +7,7 @@ import java.math.RoundingMode;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
+import java.time.LocalDate;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -34,6 +35,7 @@ import com.itextpdf.layout.element.AreaBreak;
 import com.ppp.billing.model.BindingType;
 import com.ppp.billing.model.Customer;
 import com.ppp.billing.model.EstimatePricing;
+import com.ppp.billing.model.Invoice;
 import com.ppp.billing.model.Job;
 import com.ppp.billing.model.JobActivity;
 import com.ppp.billing.model.JobColorCombination;
@@ -50,6 +52,8 @@ import com.ppp.billing.model.dto.JobDTO;
 import com.ppp.billing.repository.JobEstimateRepository;
 import com.ppp.billing.serviceImpl.BindingTypeserviceImpl;
 import com.ppp.billing.serviceImpl.CustomerServiceImpl;
+import com.ppp.billing.serviceImpl.EstimatePricingServiceImpl;
+import com.ppp.billing.serviceImpl.InvoiceServiceImpl;
 import com.ppp.billing.serviceImpl.JobColorCombinationServiceImpl;
 import com.ppp.billing.serviceImpl.JobPaperServiceImpl;
 import com.ppp.billing.serviceImpl.JobServiceImpl;
@@ -99,7 +103,12 @@ public class JobController {
 	private BindingTypeserviceImpl bindingTypeserviceImpl;
 	@Autowired
 	private JobEstimateRepository jobEstimateRepository; 
+	@Autowired
+	private InvoiceServiceImpl invoiceServiceImpl;  
 	
+	@Autowired
+	private EstimatePricingServiceImpl estimatePricingServiceImpl;
+//	
 	
 //<--------------------- Collect datas form @Vincent------------------------------>
 	@GetMapping("/displayform")
@@ -710,7 +719,16 @@ public class JobController {
 		List<JobPaper> jobPapers = job.getJobPapers();
 		JobPaper cover = jobPapers.remove(0);
 		List<JobEstimate>  jobEstimates = job.getJobEstimates();
-
+		List<Invoice> invoices = new ArrayList<Invoice>();
+		
+		for (JobEstimate jobEstimate: jobEstimates) {
+			for (EstimatePricing estimatePricing: jobEstimate.getEstimatePricings()) {
+				for (Invoice invoice: estimatePricing.getInvoices()) {
+					invoices.add(invoice);
+				}
+			}
+		}
+		model.addAttribute("invoices",invoices);
 		model.addAttribute("job",job);
 		model.addAttribute("jobPapers",jobPapers);
 		model.addAttribute("coverjobPapers",cover);
@@ -767,18 +785,16 @@ public class JobController {
 			return "/billing/estimate/job-estimate";
 		}
 		
-		@GetMapping("/generate/{id}")
-		public String generateEstimate(@PathVariable long id, @RequestParam("quantities") String quantities, 
-				@RequestParam("extraFee") int extraFee, @RequestParam("extraFeeDescription") String extraFeeDescription,
-				@RequestParam("advancePercentage") float advancePercentage, Model model) {
+
+		@GetMapping("/estimateRef/{ref}")
+		public String getEstimate (@PathVariable String ref, Model model) {
 			
-			Job job = jobServiceImpl.findById(id).get();
-			//Get and structure typesetting values
-			List<String> typsettingActivities = new ArrayList<String>();
-			if(job.isTypesettingByUs()) typsettingActivities.add("Typesetting by us");
-			if(job.isDataSuppliedByCustomer()) typsettingActivities.add("Data Supplied by customer");
-			if(job.isLayOutByUs()) typsettingActivities.add("Layout by us");
-			if(job.isExistingPlate()) typsettingActivities.add("Has existing Plates");
+			JobEstimate estimate = jobEstimateRepository.findByReference(ref).get();
+			Job job = estimate.getJob();
+			List<EstimatePricing> estimates = estimate.getEstimatePricings();
+			
+			List<String> typsettingActivities = jobServiceImpl.gettypsettingActivities(job);
+			
 			
 			//Get and Structure printing 
 			List<JobPaper> jobPapers = job.getJobPapers();
@@ -789,23 +805,43 @@ public class JobController {
 				if(jj.getContentType().getId()==1) coverJobPaper=jj;
 				else jobPapersResult.add(jj);			}
 			
+			
+			
+			String finishingActivities =jobServiceImpl.getFinishingActivities(job);
+
+			
+			model.addAttribute("typeSettingActivities", typsettingActivities);
+			model.addAttribute("finishingActivities", finishingActivities);
+			model.addAttribute("finishingActivities", finishingActivities);
+			model.addAttribute("coverJobPaper", coverJobPaper);			
+			model.addAttribute("contentJobPapers", jobPapersResult);
+
+			model.addAttribute("estimates", estimates);		
+			model.addAttribute("job", job);		
+			return "/billing/estimate/estimate-view";
+		}
+		
+		@GetMapping("/generate/{id}")
+		public String generateEstimate(@PathVariable long id, @RequestParam("quantities") String quantities, 
+				@RequestParam("extraFee") int extraFee, @RequestParam("extraFeeDescription") String extraFeeDescription,
+				@RequestParam("advancePercentage") float advancePercentage, Model model) {
+			
+			Job job = jobServiceImpl.findById(id).get();
+			//Get and structure typesetting values
+			List<String> typsettingActivities = jobServiceImpl.gettypsettingActivities(job);
+
+			//Get and Structure printing 
+			List<JobPaper> jobPapers = job.getJobPapers();
+			List<JobPaper> jobPapersResult= new ArrayList<JobPaper>();
+			
+			JobPaper coverJobPaper = new JobPaper();
+			for(JobPaper jj : jobPapers) {
+				if(jj.getContentType().getId()==1) coverJobPaper=jj;
+				else jobPapersResult.add(jj);			}
+			
 			//Get Finishing structure
-			String finishingActivities = "";
-			JobActivity jobActivity = job.getJobActivity();
-			
-			if(jobActivity.getXCross()>0) finishingActivities += "Signatures " + jobActivity.getXCross()+ " x cross-folded, " ;
-			if(jobActivity.getXCreased()>0) finishingActivities += "Cover " + jobActivity.getXCreased()+ " x creased, " ;
-			if(jobActivity.getLamination()>0) finishingActivities += "Cover " + jobActivity.getLamination()+ " side laminated, " ;
-			if(jobActivity.getXWiredStiched()>0) finishingActivities += "Booklets " + jobActivity.getXWiredStiched()+ " x wire-stitched, " ;
-			if(jobActivity.isSewn()) finishingActivities += "Booklets sewn, " ;
-			if(jobActivity.isHandgather()) finishingActivities += "hand-gathered, " ;
-			if(jobActivity.isSelloptaped()) finishingActivities += "sellotaped, " ;
-			if(jobActivity.isTrimmed()) finishingActivities += "trimmed, " ;
-			if(jobActivity.getXPerforated()>0) finishingActivities += "Job perforated " + jobActivity.getXPerforated()+ " times, " ;
-			//if(!(jobActivity.getGlueOption().isEmpty())) finishingActivities += "Glue option is" + jobActivity.getGlueOption()+ ", " ;
-			if(jobActivity.getBindingType()!=null) finishingActivities += "final binding: " + jobActivity.getBindingType().getName()+ " " ;
-			
-			
+			String finishingActivities =jobServiceImpl.getFinishingActivities(job);
+
 
 			String[] qty = quantities.split("@");
 			List<EstimateDTO> estimates = new ArrayList<EstimateDTO>();
@@ -837,7 +873,7 @@ public class JobController {
 								   @RequestParam("extraFee") int extraFee, @RequestParam("extraFeeDescription") String extraFeeDescription,
 								   @RequestParam("advancePercentage") float advancePercentage, Model model) {
 		try {
-		DecimalFormat formateur = new DecimalFormat("0.00");
+		DecimalFormat formateur = new DecimalFormat("0estimateDir.00");
 		Job job = jobServiceImpl.findById(id).get();
 		String[] qty = quantities.split("@");
 		String updateRef = job.getReferenceNumber();
@@ -847,7 +883,7 @@ public class JobController {
 		JobEstimate estimate = new JobEstimate();
 		estimate.setReference(reference);
 		estimate.setAdvancePercentage(advancePercentage);
-		estimate.setCreatedDate(new Date());
+		estimate.setCreatedDate(LocalDate.now());
 		List<EstimatePricing> estimatePricings = new ArrayList<EstimatePricing>();
 		for(int i=0; i<qty.length;i++) {
 			EstimatePricing estimatePricing =  new EstimatePricing();
@@ -869,16 +905,7 @@ public class JobController {
 			return "k0###";
 		}
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
 	@GetMapping("/estimate-pdf/{reference}")
 	@ResponseBody
 	public String generateEstimatePdf(@PathVariable String reference) throws IOException {
@@ -893,7 +920,6 @@ public class JobController {
 	 */
 	public String createEstimateDataPdf(String estimateName) throws IOException{
 	 try {
-		 DecimalFormat formateur = new DecimalFormat("0.00");
 		PdfWriter pdfWriter = new PdfWriter(estimateDir+estimateName+".pdf");
 		JobEstimate jobEstimate=jobEstimateRepository.findByReference(estimateName).get();
 		Job job=jobEstimate.getJob();
@@ -972,6 +998,7 @@ public class JobController {
 				}
 			
 			printer.printHeader(document, "Finishing", 38, 297-161);
+			
 			if(jobActivity.isHandgather()) jobActivities =	jobActivities + "hand-gatherd, ";
 			if(jobActivity.isSelloptaped()) jobActivities =	jobActivities + " Selloptaped, ";
 			if(jobActivity.isSewn()) jobActivities =	jobActivities + " Sewn,";
@@ -1033,18 +1060,57 @@ public class JobController {
 	}
 	
 	
-	@PostMapping("/by/{referenceNumber}")
-	public String findJobByReferenceNumber( @RequestParam("referenceNumber") String referenceNumber, Model model) {
+	@GetMapping("/search-by/{reference}")
+	public String findJobByReferenceNumber(@PathVariable String reference, Model model) {
 		try {
-			Optional<Job> result = jobServiceImpl.findJobByReferenceNumber(referenceNumber);
-			if (result==null) {
-				return "KO";
+		Optional<Job> results = jobServiceImpl.findJobByReferenceNumber(reference);
+			if (results.isPresent()) {	
+				Job result = results.get();
+				model.addAttribute("result", result);
+				return "billing/job-by-reference-number";
 			}
-			model.addAttribute("result", result);
-			return "OK";
+			return null;
 		} catch (Exception e) {
 			throw e;
 		}
+	}
+	
+	
+	/*
+	 * Invoices Methodes
+	 */
+	@GetMapping("/generate/invoice/{id}")
+	public String generateInvoice(@PathVariable long id, Invoice invoice, Model model) {
+		Invoice invoicefinded =	invoiceServiceImpl.saveInvoice(id);
+		EstimatePricing estimate = estimatePricingServiceImpl.findById(id).get();
+
+		
+		Job job = estimate.getJobEstimate().getJob();
+		
+		//Get and structure typesetting values
+		List<String> typsettingActivities = jobServiceImpl.gettypsettingActivities(job);
+		
+		//Get and Structure printing 
+		List<JobPaper> jobPapers = job.getJobPapers();
+		List<JobPaper> jobPapersResult= new ArrayList<JobPaper>();
+		
+		JobPaper coverJobPaper = new JobPaper();
+		for(JobPaper jj : jobPapers) {
+			if(jj.getContentType().getId()==1) coverJobPaper=jj;
+			else jobPapersResult.add(jj);			}
+		
+		//Get Finishing structure
+		String finishingActivities = jobServiceImpl.getFinishingActivities(job);
+
+		
+		model.addAttribute("typeSettingActivities", typsettingActivities);
+		model.addAttribute("finishingActivities", finishingActivities);
+		model.addAttribute("coverJobPaper", coverJobPaper);			
+		model.addAttribute("contentJobPapers", jobPapersResult);
+		
+		model.addAttribute("invoices", invoicefinded);
+		model.addAttribute("job", job);
+		return "billing/estimate/invoice-view";
 	}
 	
 }

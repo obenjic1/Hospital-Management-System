@@ -576,35 +576,6 @@ function submitForm(){
 	  }
 
 
-
-
-
-	function deleteJob(id) {
-	fetch(`job/delete/${id}`, {
-		method: 'POST',
-		headers: {
-			'Content-type': 'application/json'
-		},
-	})
-		.then(respose => {
-			if (respose.ok) {
-			var modal = new bootstrap.Modal(document.getElementById('somthingwhenwrong'));
-			modal.show();
-			
-			} else {
-				
-				
-				var modal = new bootstrap.Modal(document.getElementById('machineModal'));
-				modal.show();
-				
-				loadPage('machine/list')
-			}
-		})
-		.catch(error => {
-			console.error("internal server error :", error);
-		})
-		
-	}
 	
 function removeEstmateContentNode(deleteBtn){
 	let parentNode = deleteBtn.parentNode;
@@ -721,33 +692,7 @@ function jobTypeChoice(opt){
 	}
 
 	}
-	
-	function searchByReference(ref){
-		var ref = document.getElementById('query').value;
-		let referenceNumber = ref;
-		alert(referenceNumber);
-		fetch(`job/by/${referenceNumber}`, {
-		method: 'POST',
-		headers: {
-			'Content-type': 'application/json'
-		},
-	})
-		.then(respose => {
-			if (respose.ok) {
-		return	loadPage ('billing/job-by-reference-number')
-		
-			
-			} else {
-		
-			}
-		})
-		.catch(error => {
-			console.error("internal server error :", error);
-		})
-		
-	}
-	
-	
+
 	function refreshJobPage(pageNo) {
     return new Promise((resolve, reject) => {
         $.ajax({
@@ -765,3 +710,24 @@ function jobTypeChoice(opt){
     });
 }
 
+function searchJobByReference() {
+	let reference = document.getElementById("search").value
+	fetch(`job/search-by/${reference}`, {
+		method: 'Get',
+		headers: {
+			'Content-type': 'application/json'
+		},
+	})
+	loadPage(`job/search-by/${reference}`);
+//		.then(respose => {
+//			if (respose.ok) {
+//			
+//			} else {
+//
+//			}
+//		})
+//		.catch(error => {
+//			console.error("internal server error :", error);
+//		})
+		
+	}

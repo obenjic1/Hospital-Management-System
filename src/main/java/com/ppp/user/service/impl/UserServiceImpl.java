@@ -2,6 +2,7 @@ package com.ppp.user.service.impl;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.security.auth.login.AccountNotFoundException;
@@ -64,13 +65,13 @@ public class UserServiceImpl implements UserService {
 	    newUser.setEmail(userDTO.getEmail());
 	    newUser.setPassword(passwordEncoder.encode(userDTO.getPassword()));
 	    newUser.setMobile(userDTO.getMobile());
-	    newUser.setCreatedAt(LocalDate.now());
+	    newUser.setCreatedAt(new Date());
 	    String getGroup = userDTO.getGroupe();
 	    Groupe groupe = groupeRepository.findByName(getGroup);
 	    newUser.setGroupe(groupe);
 	    List< User > userToCompare = userRepository.findAll();
 	    for(User user : userToCompare) {
-	    	if(user.getUsername().equals(newUser.getUsername()) || user.getEmail().equals(newUser.getEmail()))
+	    	if(user.getUsername().toLowerCase().equals(newUser.getUsername().toLowerCase()) || user.getEmail().equals(newUser.getEmail()))
 	    		return "error";
 	    }
 	    
@@ -81,7 +82,7 @@ public class UserServiceImpl implements UserService {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        }
+        } 
 	   userRepository.save(newUser);
 	   return "sucess";
 	}

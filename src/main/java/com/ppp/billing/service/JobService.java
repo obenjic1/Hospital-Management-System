@@ -10,7 +10,8 @@ public interface JobService {
 
 	Job saveJob(JobDTO jobDTO);
 	List<Job> listAllJob();
-     Optional<Job> findJobByReferenceNumber(String referenceNumber);
+    Optional <Job> findJobByReferenceNumber(String referenceNumber);
+//    List<Job> findByCreatinDateBtween(Date startDate, Date endDate);
 
 
 }

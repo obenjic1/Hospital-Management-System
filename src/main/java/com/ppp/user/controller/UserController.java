@@ -55,7 +55,6 @@ public class UserController {
  	@PostMapping("/add-user")
 	public String saveUser(UserDTO userDTO, @RequestParam("imageFile") MultipartFile getImageFile, String username, String email) throws Exception {
  		String registeredUser = userServiceImpl.createUser(userDTO);
-
  		if(registeredUser.equals("error")) {
 			throw new Exception("Username or Email already exist");
 		}
