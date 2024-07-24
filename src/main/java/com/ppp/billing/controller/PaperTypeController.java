@@ -47,11 +47,10 @@ public class PaperTypeController {
 	@PostMapping("/save")
 	public ResponseEntity<String> save(@RequestBody PaperTypeDTO paperTypeDTO, Model model) {
 		try {
-			PaperType paperType = paperTypeServiceImpl.save(paperTypeDTO);
+			paperTypeServiceImpl.save(paperTypeDTO);
 			return new ResponseEntity<String>("Success", HttpStatus.CREATED);
 			
 		} catch (Exception e) {
-			PaperType paperType = paperTypeServiceImpl.save(paperTypeDTO);
 			return new ResponseEntity<String>("Failes", HttpStatus.BAD_REQUEST);
 		}
 	}
@@ -79,9 +78,9 @@ public class PaperTypeController {
 
 //<------------------- Find by name -------------------->
 	@PreAuthorize("hasAuthority('ROLE_VIEW_SETINGS')")
-	@GetMapping("/find/{name}")
-	public String findByName(@PathVariable String name, Model model){
-		Optional<PaperType> result = paperTypeServiceImpl.findByName(name);
+	@GetMapping("/find/{id}")
+	public String findByName(@PathVariable int id, Model model){
+		PaperType result = paperTypeServiceImpl.findById(id);
 		model.addAttribute("papertype", result);
 		
 		return "billing/update-paperty";

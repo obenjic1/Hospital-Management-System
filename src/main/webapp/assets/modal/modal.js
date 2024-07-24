@@ -45,11 +45,11 @@ function closeModal() {
 	 var successMessage = document.getElementById('successMesssage');
 	successMessage.innerText = msg;
 	if (n == 1) {
-		document.getElementById("messageImage").src = "assets/img/success_icon.png"; 
+		document.getElementById("messageImage").src = "billing/assets/img/success_icon.png"; 
 	} else if (n == 2){
-		document.getElementById("messageImage").src = "assets/img/delete.jpg"; 
+		document.getElementById("messageImage").src = "billing/assets/img/delete.jpg"; 
 	} else {
-		document.getElementById("messageImage").src = " "; 
+		document.getElementById("messageImage").src = "billing/assets/img/delete.jpg"; 
 	}
 	
 	function loadPdfToTheModal(modal){
@@ -63,7 +63,7 @@ function closeModal() {
      fetch(url)
          .then(response => response.text())
          .then(html => {
-             document.getElementById(idContainer).innerHTML = html;
+             document.getElementById('idContainer').innerHTML = html;
          })
          .catch(error => console.log(error));
  }
@@ -80,4 +80,32 @@ function closeModal() {
 function closeModalView(modalId) {
     var modal = document.getElementById(modalId);
     modal.style.display="none";
+ } 
+ 
+ 
+ 
+  function loadMainModalForm(page) {
+ 	fetch(page)
+ 		.then(response => response.text())
+ 		.then(html => {
+ 			document.getElementById('getPage').innerHTML = html;
+ 		})
+ 		.catch(error => console.log(error));
  }
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 

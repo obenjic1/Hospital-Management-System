@@ -1,11 +1,14 @@
 
 
 .btn {
-	position: relative;
+/*	position: relative;*/
 	left: 88%;
 	bottom: 40px;
 }
 
+#paper{
+	left:30px;
+}
 .rounded-circle{
 	width: 30px;
 	border-width: 0.1px;
@@ -17,8 +20,18 @@
 .button-delete{
 	border-style: none;
 	background-color: transparent;
-	color: orange;
 }
+.bi-toggle2-off{
+	border-style: none;
+	background-color: transparent;
+	color: red;
+}
+.bi-toggle2-on{
+	border-style: none;
+	background-color: transparent;
+	color: green;
+}
+
 .button-edite{
 	border-style: none;
 	background-color: transparent;

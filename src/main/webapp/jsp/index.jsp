@@ -20,16 +20,13 @@
 <meta content="" name="keywords">
 
 <!-- Favicons -->
+<link rel="stylesheet" href="DataTables/datatables.css" />
+<script src="DataTables/datatables.js"></script>
 <link href="assets/img/presprint.jpg" rel="icon">
 <script src="assets/vendor/jquery-3.5.1.min.js"></script>
-<script src="assets/vendor/dataTables.js"></script>
-
-
 
 
 <!-- Vendor CSS Files -->
-<!-- <link href="DataTables/dataTables.dataTables.css"  rel="stylesheet"  /> -->
-<link href="assets/vendor/dataTables.dataTables.css" rel="stylesheet">
 <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
 <link href="assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
@@ -57,9 +54,9 @@
 		<!-- End Logo -->
 
 		<div class="search-bar">
-			<form class="search-form d-flex align-items-center" method="POST" action="#">
-			  <input type="text" name="query" placeholder="Search" title="Enter search keyword">
-			  <button type="submit" title="Search"> <i class="bi bi-search"></i> </button>
+			<form class="search-form d-flex align-items-center" method="GET" action="#">
+			  <input type="text" name="referenceNumber" placeholder="Search" title="Enter search keyword" id="search">
+			  <button type="button" title="Search" onclick="searchJobByReference()"> <i class="bi bi-search" ></i> </button>
 			</form>
 		</div>
 		<!-- End Search Bar -->
@@ -81,7 +78,13 @@
 				<li class="nav-item dropdown pe-3">
 				  <sec:authentication property="name" var="username" /> 
 				  <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
-				    <img src="<c:url value='download-profile-image/${imagePath}'/>" class="profile-image" />
+				   	<c:if test="${not empty user.imagePath}">
+                      <img src="${pageContext.request.contextPath}/file/download?file=${user.imagePath}&dir=folder.user.images" class="rounded-circle">
+                    </c:if>
+                    <c:if test="${empty user.imagePath}">
+                    <img src="assets/img/default.png" class="rounded-circle">
+                  </c:if>
+<%-- 				    <img src="<c:url value='download-profile-image/${imagePath}'/>" class="profile-image" /> --%>
 					<span class="d-none d-md-block dropdown-toggle ps-2">${username}</span>
 				  </a> <!-- End Profile Iamge Icon -->
 				  
@@ -121,11 +124,11 @@
 			    <i class="bi bi-person-lines-fill"> </i> 
 			     <span>
 			      <span><fmt:message key="administration.managemant" /></span>
-			    </span>
+			    </span><script src="DataTables/datatables.js"></script>
 			  </li>
 			<!-- End Printing Press Nav -->
 			<li class="nav-item">
-			<sec:authorize access="hasRole('ROLE_ADD_USER')">					
+<%-- 			<sec:authorize access="hasRole('ROLE_ADD_USER')">					 --%>
 			  <ul id="user-management-nav" >
 				<sec:authorize access="hasRole('ROLE_LIST_USERS')">
 			      <li class="nav-item">
@@ -136,18 +139,18 @@
 				</sec:authorize>
 				<sec:authorize access="hasRole('ROLE_LIST_GROUPS')">
 				  <li class="nav-item">
-				    <a class="nav-link collapsed" onclick="loadPage('group/list-groups')" href="#">
+				    <a class="nav-link collapsed" onclick="loadPage('group/list-groups');refreshGroupTable(1)" href="#">
 				    <i class="bi bi-person">
 				  </i> <span><fmt:message key="list.groups" /></span></a></li>
 				</sec:authorize>
 				<sec:authorize access="hasRole('ROLE_LIST_ROLES')">
-				  <li class="nav-item"><a class="nav-link collapsed" onclick="loadPage('role/list-roles')" href="#">
+				  <li class="nav-item"><a class="nav-link collapsed" onclick="loadPage('role/list-roles');refreshRolePage(1)" href="#">
 				    <i class="bi bi-card-list"></i> 
 				    <span><fmt:message key="list.roles" /></span> </a>
 				  </li>
 				</sec:authorize>
 			  </ul>
-			</sec:authorize>
+<%-- 			</sec:authorize> --%>
 			 <sec:authorize access="hasRole('ROLE_VIEW_SETINGS')">
 				<li class="nav-item">
 				  <li class="pp-module">
@@ -171,14 +174,6 @@
 					    <span><fmt:message key="paper.types"/></span>
 					  </a>
 					</li>
-					
-<!-- 					<li class="nav-item"> -->
-
-<!-- 					  <a class="nav-link collapsed" onclick="loadPage('activity-option/list')" href="#"> -->
-<!-- 					    <i class="ri-bit-coin-line"></i> -->
-<%-- 					   <span><fmt:message key="job.activities.options" /> </span></a> --%>
-
-<!-- 					</li> -->
 					<li class="nav-item">
 					  <a class="nav-link collapsed" onclick="loadPage('grammage/list')" href="#">
 					    <i class="ri-file-damage-line"></i>
@@ -191,12 +186,7 @@
 					    <span><fmt:message key="paper.format" /> </span>
 					  </a>
 					</li>
-<!-- 					<li class="nav-item"> -->
-<!-- 					  <a class="nav-link collapsed" onclick="loadPage('/jobtype/list-all')" href="#"> -->
-<!-- 					    <i class="ri-hammer-line"></i> -->
-<%-- 					    <span><fmt:message key="job.type" /> </span> --%>
-<!-- 					  </a> -->
-<!-- 					</li> -->
+
 					
 					<li class="nav-item">
 					  <a class="nav-link collapsed" onclick="loadPage('bindingtype/list')" href="#">
@@ -204,18 +194,6 @@
 					    <span><fmt:message key="binding.type" /> </span>
 					  </a>
 					</li>
-<!-- 					<li class="nav-item"> -->
-<!-- 					  <a class="nav-link collapsed" onclick="loadPage('/contenttype/list')" href="#"> -->
-<!-- 					    <i class="ri-stack-fill"></i> -->
-<%-- 					    <span><fmt:message key="content.type" /> </span> --%>
-<!-- 					  </a> -->
-<!-- 					</li>						 -->
-<!-- 					<li class="nav-item"> -->
-<!-- 					  <a class="nav-link collapsed" onclick="loadPage('/print-type/list')" href="#"> -->
-<!-- 					    <i class="ri-todo-line"></i> -->
-<%-- 					    <span><fmt:message key="print.type" /> </span> --%>
-<!-- 					  </a> -->
-<!-- 					</li> -->
 					
 				</ul> 
 			  </sec:authorize>  								
@@ -237,6 +215,12 @@
 					  <a class="nav-link collapsed" onclick="loadPage('job/list-job')" href="#">
 					    <i class="ri-steam-fill"></i>
 					    <span><fmt:message key="list.jobsheets" /></span>
+					  </a>
+					</li>
+					<li class="nav-item">
+					  <a class="nav-link collapsed" onclick="loadPage('invoice/list')" href="#">
+					    <i class=" ri-money-dollar-circle-line"></i>
+					    <span><fmt:message key="invoice.management" /></span>
 					  </a>
 					</li>
 				  <sec:authorize access="hasRole('ROLE_SAVE_CUSTOMER')">
@@ -311,6 +295,18 @@
 			        </div>
 			  </div>
 			</div>	
+			 <div class="modal fade" id="MainModal" tabindex="-1">
+			   <div class="modal-dialog modal-xl">
+				 <div class="modal-content" id="getPage">
+
+				        <div class="modal-body"  >
+				        </div>
+				        <div class="modal-footer" >
+				            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><fmt:message key="close"/></button>
+				        </div>
+			        </div>
+			  </div>
+			</div>	
 			
 			 <div class="modal fade" id="ExtralargeModalFile" tabindex="-1">
 			   <div class="modal-dialog modal-xl">
@@ -326,9 +322,9 @@
 			  <div class="modal-dialog modal-dialog-centered">
 			    <div class="modal-content">
 			      <div class="modal-body">
-	                <p> <br><fmt:message key="are.you.sure.you.want.to.delete.this.user.this.action.will"/></p>
+	                <p> <br><fmt:message key="desable.anable"/></p>
 			        <button class="delete-denied" type="button" id="cancelButton" data-bs-dismiss="modal"><fmt:message key="cancel"/></button>
-		          <button class="accept-delete" type="button" id="confirmDeleteBtn" data-bs-toggle="modal" data-bs-target="#creation" onclick="loadPage('customer/list')"><fmt:message key="delete"/></button>
+		          <button class="accept-delete" type="button" id="confirmDeleteBtn" data-bs-toggle="modal" data-bs-target="#creation"><fmt:message key="delete"/></button>
 			    </div>
 		      </div>
 		   </div>
@@ -351,24 +347,30 @@
 	<!-- End Footer -->
 
 
-	<script src="assets/js/role.js"></script>
-
-	<script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-	<script src="assets/vendor/tinymce/tinymce.min.js"></script>
+<script >
+$(document).ready(function() {
+    refreshRolePage(1);
+    refreshGroupTable(1);
+});
+</script>
 
 	<!-- Template Main JS File -->
-	<script src="assets/vendor/dataTables.js"></script>
+	<script src="assets/js/billing/job.js"></script>
+    <script src="assets/js/users.js"></script>
 	<script src="assets/js/role.js"> </script>
+	<script src="assets/js/groups.js"> </script>
 	<script src="assets/js/main.js"></script>
-	<script src="assets/js/app.js"></script>
-	<script src="assets/js/users.js"></script>
-	<script src="assets/js/billing/customer.js"></script>
-	<script src="assets/js/billing/machine.js"></script> 
+	<script src="assets/js/billing/invoice.js"></script>
 	<script src="assets/modal/modal.js"></script>
-	<script src="assets/js/billing/papertype.js"></script>
-    <script src="assets/js/billing/job.js"></script>
+		
 	
+	<script src="assets/js/billing/machine.js"></script> 
+	<script src="assets/js/billing/customer.js"></script>
+	<script src="assets/js/billing/papertype.js"></script>
 
+	<script src="DataTables/datatables.js"></script>
+	<script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+	<script src="assets/vendor/tinymce/tinymce.min.js"></script>
 </body>
 
 </html>

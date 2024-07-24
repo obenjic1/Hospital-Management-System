@@ -37,12 +37,10 @@ public class UserController {
 	@Autowired
 	private GroupeRepository groupeRepository;
 	@Autowired
-	private UserRepository userRepository;
-	@Autowired
 	private UserServiceImpl userServiceImpl;
 
 //<------------------- Get add user form ---------------------->
- 	@PreAuthorize("hasAuthority('ROLE_ADD_USER')")
+ 	@PreAuthorize("hasAuthority('ROLE_LIST_USERS')")
 	@GetMapping("/add-user")
 	public String showRegistrationForm(Model model ,String name) {
 		List<Groupe> groups = groupeRepository.findAll();
@@ -53,11 +51,10 @@ public class UserController {
  	
 //<----------------------- persist user in to database ------------------>
 
- 	@PreAuthorize("hasAuthority('ROLE_ADD_USER')")
+ 	@PreAuthorize("hasAuthority('ROLE_LIST_USERS')")
  	@PostMapping("/add-user")
 	public String saveUser(UserDTO userDTO, @RequestParam("imageFile") MultipartFile getImageFile, String username, String email) throws Exception {
  		String registeredUser = userServiceImpl.createUser(userDTO);
-
  		if(registeredUser.equals("error")) {
 			throw new Exception("Username or Email already exist");
 		}
@@ -98,7 +95,7 @@ public class UserController {
 	
 	
 //<---------------------- Update user ------------------------->	
-	@PreAuthorize("hasRole('ROLE_UPDATE_USER')")
+	@PreAuthorize("hasRole('ROLE_LIST_USERS')")
 	@PostMapping("/update-user/{id}")
 	public ResponseEntity<String> updateUser(@RequestBody User updatedUser, @PathVariable Long id) throws Exception {
 		try {
@@ -115,15 +112,15 @@ public class UserController {
 	@PreAuthorize("hasRole('ROLE_LIST_USERS')")
 	@GetMapping("/list-users")
 	public String listUsers(Model model) {
-		return findPaginatedUser(1, false, model);
+		return findPaginatedUser(1, model);
 	}
 
 //<---------------------- Get list of users with pagination ---------------------->
 	@GetMapping("/page/{pageNo}")
-	public String findPaginatedUser(@PathVariable(value = "pageNo") int pageNo, boolean isDeleted, Model model) {
+	public String findPaginatedUser(@PathVariable(value = "pageNo") int pageNo, Model model) {
 	    int pageSize = paginationRoleSize;
 
-	    Page < User > page = userServiceImpl.findPaginatedUser(pageNo, pageSize, isDeleted );
+	    Page < User > page = userServiceImpl.findPaginatedUser(pageNo, pageSize );
 	    List < User > listOfUser = page.getContent();
 
 	    model.addAttribute("currentPage", pageNo);
@@ -133,17 +130,17 @@ public class UserController {
 	    return "user/list-users";
 	}
 
-//<--------------------- Remove user Using soft delete ----------------->
-@PreAuthorize("hasRole('ROLE_REMOVE_USER')")
-	@PostMapping("remove-user/{id}")
-	public void removeUserByUsername(@PathVariable Long id) {
-	    User existingUser = userRepository.findById(id).get();
-	    if (existingUser == null) {
-	      return ;
-	    }
-	userServiceImpl.deleteUserById(id);
-	    return ;
-	  }
+////<--------------------- Remove user Using soft delete ----------------->
+//@PreAuthorize("hasRole('ROLE_REMOVE_USER')")
+//	@PostMapping("remove-user/{id}")
+//	public void removeUserByUsername(@PathVariable Long id) {
+//	    User existingUser = userRepository.findById(id).get();
+//	    if (existingUser == null) {
+//	      return ;
+//	    }
+//	userServiceImpl.deleteUserById(id);
+//	    return ;
+//	  }
 
 //<----------------------Enable and Disable a User --------------------->
 @PostMapping("/enable/{id}")

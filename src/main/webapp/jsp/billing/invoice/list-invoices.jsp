@@ -20,7 +20,7 @@
 		<nav>
 			<ol class="breadcrumb">
 				<li class="breadcrumb-item"><a href="/">Home</a></li>
-				<li class="breadcrumb-item"><fmt:message key="paper.types"/></li>
+				<li class="breadcrumb-item"><fmt:message key="invoice"/></li>
 				<li class="breadcrumb-item active"> <fmt:message key="list"/></li>
 			</ol>
 		</nav>
@@ -30,37 +30,44 @@
 			<div class="col-lg-12">
 				<div class="card">
 					<div class="card-body">
-						<h5 class="card-title"> <fmt:message key="paper.types"/></h5>
-						<button data-bs-target="#ExtralargeModal" data-bs-toggle="modal" onclick="loadPageModalForm('papertype/displayform')" type="button" class="btn btn-primary" style=" position: relative; left: 94%; width: 77px;">
-						  <fmt:message key="add.group"/>
-						</button>
+						<h5 class="card-title"> <fmt:message key="invoice"/></h5>
 						<!-- Table with stripped rows -->
+							<div class="search-bar" style="bottom: 37px;position: relative;">
+								<form class="search-form d-flex align-items-center" method="GET" action="#" style="justify-content: end;">
+								  <input type="text" name="referenceNumber" placeholder="Search" title="Enter search keyword" id="search">
+								  <button type="button" title="Search" onclick="searchJobByReference()"> <i class="bi bi-search" ></i> </button>
+								</form>
+							</div>
 						<table id="myTable1" class="table datatable">
 						  <thead style="background-color: #dddfe3;">
 						    <tr>
 						       <th scope="col"><fmt:message key="number"/></th>
-						       <th scope="col"><fmt:message key="name"/></th>
+						       <th scope="col"><fmt:message key="job.title"/></th>
+						       <th scope="col"><fmt:message key="customer"/></th>
+						       <th scope="col"><fmt:message key="reference.number"/></th>
+						        <th scope="col"><fmt:message key="created.date"/></th>
 							   <th scope="col"><fmt:message key="actions"/></th>
 							</tr>
 						  </thead>
 						  <tbody>
-						  <c:forEach var="paperType" items="${allPaperTypes}" varStatus="loop">
+						  <c:forEach var="result" items="${results}" varStatus="loop">
 						    <tr class="${loop.index % 2 == 0 ? 'even-row' : 'odd-row'}">
 							    <c:set var="index" value="${loop.index}" />
 							    <%    int index = (Integer) pageContext.getAttribute("index");  %>
 							 <td>  <%= index + 1 %></td>
-							   <td>${paperType.name}</td>
+							 <td>${result.estimatePricingid.jobEstimate.job.title}</td>
+							 <td>${result.estimatePricingid.jobEstimate.job.customer.name}</td>
+							   <td>${result.referenceNumber}</td>
+							   <td><fmt:formatDate type = "both" value = "${result.creationDate}" /></td>
 							   <td>
 							     <a>
 								   <button data-bs-toggle="modal" data-bs-target="#ExtralargeModal" data-bs-toggle="modal" class="button-see" onclick="loadPageModalForm('papertype/paper/${paperType.id}')">
 								    <i class="ri-eye-line"></i>
 								   </button>
 								   <button class="button-edite" data-bs-target="#ExtralargeModal" data-bs-toggle="modal" class="button-see" onclick="loadPageModalForm('papertype/toUpdate/${paperType.id}')">
-								     <i class="ri-pencil-line"></i>
+								     <i class="ri-download-2-fill"></i>
 								   </button>
-								   <button class="button-delete" id="startDeleting" data-bs-toggle="modal" onclick="confirmDelete('${paperType.id}')" data-bs-target="#areyouSureYouWantToDetele">
-								    <i class="bi-toggle2-on"></i>
-								   </button>
+								 
 								 </a>
 							   </td>
 							 </tr>						
@@ -68,35 +75,10 @@
 						</tbody>
 					  </table>
 					  </div>					  					 		
-<!-- 					 <nav aria-label="Page navigation example"> -->
-<!-- 					   <ul class="pagination nav-no-border"> -->
-<!-- 						 <li class="page-item"> -->
-<%-- 						   <input type="button" class="page-link" onclick="refreshTable(${currentPage - 1})" value="&laquo;" ${currentPage == 1 ? 'disabled' : ''}>  --%>
-<!-- 						 </li> -->
-<%-- 						 <c:forEach var="i" begin="1" end="${totalPages}"> --%>
-<%-- 						   <li class="page-item ${i == currentPage ? 'active' : ''}"> --%>
-<%-- 							 <input type="button" class="page-link" onclick="refreshTable(${i})" value="${i}"> --%>
-<!-- 						   </li> -->
-<%-- 						   </c:forEach> --%>
-<!-- 						   <li class="page-item"> -->
-<%-- 						     <input type="button" class="page-link" onclick="refreshTable(${currentPage + 1})" value="&raquo;" ${currentPage == totalPages ? 'disabled' : ''}> --%>
-<!-- 						   </li> -->
-<!-- 					    </ul> -->
-<!-- 					</nav> -->
 					</div>
 				</div>
 			</div>
 		</div>
 	</section>
 </main>
-<!-- End #main -->
-<script src="assets/js/users.js"></script>
-
-<script>
-$(document).ready( function () {
-$('#myTable1').DataTable();
-} );
-</script>
-
-
 

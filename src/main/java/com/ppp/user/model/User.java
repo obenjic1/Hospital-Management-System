@@ -2,6 +2,7 @@ package com.ppp.user.model;
 
 import java.time.LocalDate;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -14,10 +15,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
-import org.hibernate.annotations.Filter;
-import org.hibernate.annotations.FilterDef;
-import org.hibernate.annotations.ParamDef;
-import org.hibernate.annotations.SQLDelete;
+
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -28,9 +26,6 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@SQLDelete(sql = "UPDATE user SET deleted = true WHERE id=?")
-@FilterDef(name = "deletedUsertFilter", parameters = @ParamDef(name = "isDeleted", type = "boolean"))
-@Filter(name = "deletedUsertFilter", condition = "deleted = :isDeleted")
 @Entity(name = "user")
 public class User implements UserDetails {
 
@@ -67,12 +62,12 @@ public class User implements UserDetails {
 	
 	@Column(name = "connected")
 	private boolean connected = Boolean.FALSE;
-	
-	@Column(name = "deleted")
-	private boolean deleted = Boolean.FALSE;
+
+	@Column(name = "active")
+	private boolean active = Boolean.TRUE;
 	
 	@Column(name = "created_at")
-	private LocalDate createdAt ;
+	private Date createdAt ;
 	
 	@Column(name = "reset_password_token")
 	private String resetPasswordToken;

@@ -32,7 +32,7 @@
 				<div class="card">
 					<div class="card-body">
 						<h5 class="card-title"> Machines</h5>
-						<button data-bs-target="#ExtralargeModal" data-bs-toggle="modal" data-toggle="tooltip" data-placement="top" title="add new machine" onclick="loadPageModalForm('machine/add')" type="button" class="btn btn-primary">
+						<button data-bs-target="#ExtralargeModal" data-bs-toggle="modal" data-toggle="tooltip" data-placement="top" title="add new machine" onclick="loadPageModalForm('machine/add')" type="button" class="btn btn-primary" style=" position: relative; left: 94%; width: 77px;">
 						  <fmt:message key="add.group"/>
 						</button>
 						
@@ -67,65 +67,16 @@
 								   <button class="button-edite" data-bs-toggle="modal" data-bs-target="#ExtralargeModal" data-toggle="tooltip" data-placement="top" title="edit machine" onclick=" loadPageModalForm('machine/update-form/${machine.id}')">
 								    <i class="ri-pencil-line"></i>
 								   </button>
-								   <button class="button-delete" data-toggle="tooltip" data-placement="top" title="activate or disactivate machine" onclick="removeMachine(${machine.id})" id="startDeleting1" data-bs-toggle="modal">
-								    <i class="ri-delete-bin-3-line"></i>
+								   <button class="button-delete" data-toggle="tooltip" data-placement="top" title="activate or disactivate machine" onclick="disableMachine(${machine.id})" id="startDeleting1" data-bs-toggle="modal">
+								     ${machine.active ? '<i class="bi-toggle2-on"></i>' : '<i class="bi-toggle2-off"></i>' }
 								   </button>
 								 </a>
 							   </td>
 							 </tr>
-							 <!--------------confirmation to delete Machine ------------->
-						     <div class="modal fade" id="areyouSureYouWantToDetele" tabindex="-1">
-						       <div class="modal-dialog modal-dialog-centered">
-							     <div class="modal-content">
-								   <div class="modal-body">
-									 <p> <br>Are you sure you want to delete this Machine, this Action cannot be changed </p>
-									 <button class="delete-denied" type="button" id="cancelButton" data-bs-dismiss="modal"><fmt:message key="cancel"/></button>
-									 <button class="accept-delete" type="button" id="confirmDeleteBtn" data-bs-toggle="modal"><fmt:message key="delete"/></button>
-								  </div>
-								</div>
-							  </div>
-							</div>
-							
-							<!--------------machine created successfully modal ------------->
-							  <div class="modal fade" id="machineModal" tabindex="-1">
-							    <div class="modal-dialog modal-dialog-centered">
-							      <div class="modal-content">
-								    <div class="modal-body">
-									  <button type="button" style="position: relative; left: 50%; bottom: 12px;"  class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-									  <img src="assets/img/success_icon.png" alt="">
-									  <p>Machine Deleted Successfully</p>
-									</div>
-								  </div>
-							    </div>
-							  </div>
+							 
 						  </c:forEach>
 						</tbody>
 					</table>
-						<!--------------MAchine updated successfully modal ------------->
-					  <div class="modal fade" id="userUdatedSuccessfully" tabindex="-1">
-					    <div class="modal-dialog modal-dialog-centered">
-					 	  <div class="modal-content">
-						    <div class="modal-body">
-							  <button onclick="loadPage('/machine/list')" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-							  <img src="assets/img/success_icon.png" alt="">
-							  <p>Machine Added Successfully</p>
-							</div>
-						  </div>
-					    </div>
-					  </div>
-						<!------------------Deleted error------------------------------>
-						<div class="modal fade" id="confirmationModal" tabindex="-1">
-						  <div class="modal-dialog modal-dialog-centered">
-							<div class="alert alert-danger alert-dismissible fade show" role="alert">
-							      <h2  class="modal title"id="confirmationTitle"></h2>
-							    <i class="bi bi-exclamation-octagon me-1"></i>
- 								<p id="confirmationMessage"></p>
- 								 <button class="btn-close" id="confirmButton">Confirm</button>
-     							 <button  class="btn-close" id="cancelButton">Cancel</button>
-<!--  							    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button> -->
-							  </div>
-							</div>
-						 </div>
 						<!-- Pagination with icons -->
 						<nav aria-label="Page navigation example">
 						  <ul class="pagination nav-no-border">
@@ -142,9 +93,5 @@
 		</div>
 	</section>
 </main>
-	<script src="assets/js/billing/job-activity-options.js"></script> 
-	<script src="assets/js/billing/machine.js"></script> 
-	<script src="assets/js/main.js"></script>	
-	<script src="assets/js/app.js"></script> 
 
 

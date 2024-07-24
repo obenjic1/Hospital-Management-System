@@ -6,6 +6,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,10 +20,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.ppp.user.model.Groupe;
 import com.ppp.user.model.Role;
 import com.ppp.user.model.dto.GroupDTO;
-import com.ppp.user.repository.GroupRoleRepository;
-import com.ppp.user.repository.GroupeRepository;
 import com.ppp.user.repository.RoleRepository;
 import com.ppp.user.service.GroupeService;
+import com.ppp.user.service.impl.GroupeServiceImpl;
 
 @Controller
 @RequestMapping("/group")
@@ -30,14 +31,14 @@ public class GroupeController {
 	@Value("${paginationSise}")
 	private int paginationGroupSize;
 
-//	@Autowired
-//	private GroupeServiceImpl groupeServiceImpl;
+
 	@Autowired
 	private GroupeService groupeService;
 	@Autowired
-	private RoleRepository roleRepository;
+	private GroupeServiceImpl groupeServiceImpl;
 	@Autowired
-	private GroupeRepository groupeRepository;
+	private RoleRepository roleRepository;
+
 
 //<------------------- Call a new group form -------------------->
 	@PreAuthorize("hasAuthority('ROLE_ADD_GROUP')")
@@ -52,11 +53,14 @@ public class GroupeController {
 //<------------------- Add a new group -------------------->
 	@PostMapping("/add-group")
 	public String saveGroupe(@RequestBody GroupDTO groupDTO, String name) throws Exception {
-			String newGroupe = groupeService.addNewGroupe(groupDTO, name);
-			if(newGroupe == "error") {
-				throw new Exception("Groupe name already exist");
-			}
-		return "user/list-groups";
+		try {
+			groupeService.addNewGroupe(groupDTO, name);
+			return "user/list-groups";
+		} catch (Exception e) {
+			throw e;
+		}
+
+
 	}
 
 //<------------------- List groups -------------------->
@@ -111,11 +115,14 @@ public class GroupeController {
 	}
 	
 	@PostMapping("/disable-group/{id}")
-	public void disableRole(@PathVariable Long id) {
-		Groupe groupeToDesable =  groupeRepository.findById(id).get();
-		groupeToDesable.setEnabled(false);
-		groupeRepository.save(groupeToDesable);
-    }
+ public ResponseEntity<String> enable(@PathVariable long id) {
+		try {
+			groupeServiceImpl.disableGroup(id);
+			return new ResponseEntity<String>("Success", HttpStatus.OK);
+				} catch (Exception e) {
+					return new ResponseEntity<String>("Failed", HttpStatus.BAD_REQUEST);
+				}
+		}
 
 //<------------------- Update group -------------------->
 	@PreAuthorize("hasAuthority('ROLE_UPDATE_GROUP')")

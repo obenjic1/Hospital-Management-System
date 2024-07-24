@@ -168,6 +168,37 @@ function signatureCalculation(machineParams,node){
 	};
 
 }
+
+
+     		// Calcul of Cover Signqture
+ function coverSignatureCalculation(machineParams){
+	
+	let coverSignature=document.getElementById("cover-signature-div");
+	let coverDivTab2 = document.getElementById("coverInformations");
+	
+	let inputCoverVolume = document.getElementById("coverVolume");
+	let inputCoverSignature = document.getElementById("coverSignature");
+	
+	let volume = inputCoverVolume.value;
+	
+	let coverMachineParamArray = machineParams.split(",");
+	let machinePlateLength = parseInt(coverMachineParamArray[1]);
+	let machinePlateWidth = parseInt(coverMachineParamArray[2]);
+	
+	let closeWidth =parseInt(document.getElementById("closeWidth").value);
+	let closeLength =parseInt(document.getElementById("closeLength").value);
+	
+	let logP = Math.log((machinePlateLength*machinePlateWidth)/(closeLength*closeWidth));
+		logP = logP/Math.log(2);
+		logP= Math.floor(logP)+1;
+	let pagesPerSignature = Math.pow(2,logP);
+	let floatingCoverSignature = (volume/pagesPerSignature);
+	let totalCoverSignature = Math.floor(floatingCoverSignature)<floatingCoverSignature&&floatingCoverSignature<Math.floor(floatingCoverSignature+0.5)&&(floatingCoverSignature+0.5 != Math.floor(floatingCoverSignature+0.5)) ?Math.ceil(floatingCoverSignature):Math.floor(floatingCoverSignature)<floatingCoverSignature?Math.floor(floatingCoverSignature)+0.5:Math.floor(floatingCoverSignature); 
+	inputCoverSignature.value = totalCoverSignature;
+	
+}
+
+
 function submitForm(){
 	 let opt=document.getElementById("jobType").selectedOptions[0];	
 	 let dataContentValue = opt.parentElement.getAttribute('data-content');
@@ -226,20 +257,19 @@ function submitForm(){
 	   colorCombination.backColorNumber = document.getElementById("converBackColorNumber").value;
 	   colorCombination.printTypeId = document.getElementById("coverPrintType").value;
 	   colorCombination.printingMachineId = document.getElementById("coverPrintingMachine").value;
-	   colorCombination.signatureNumber = document.getElementById("coverSignature").innerHTML;
+	   colorCombination.signatureNumber = document.getElementById("coverSignature").value;
        coverColorCombinations.push(colorCombination);
        coverJobPaper.jobColorCombinations = coverColorCombinations;
        jobPapers.push(coverJobPaper);
  	}
 	 
-    //End of Adding CoverJobPaper and color combination
-    
+    //End of Adding CoverJobPaper and color combination   
     // Start adding contentJobPaper and color combination
+    
     if(dataContentValue==1||dataContentValue==2){
 		
      let contentPaperTypes = document.getElementById("contentDiv").children;
      let mainContentSignature = document.getElementById("mainContentSignature").children;
-
   
      for(let i = 1;  i < contentPaperTypes.length; i ++){
 		 let contentJobPaper = { };
@@ -307,6 +337,7 @@ function submitForm(){
 	 	 
 	}
      
+     
     function summary(){
 		
 					//  JOB DESCRIPTION SECTION
@@ -356,7 +387,7 @@ function submitForm(){
 			document.getElementById("cover-printtype").innerHTML= document.getElementById("coverPrintType").selectedOptions[0].innerHTML;
 			document.getElementById("cover-color-front").innerHTML= document.getElementById("coverFrontColorNumber").value;
 			document.getElementById("cover-color-back").innerHTML= document.getElementById("converBackColorNumber").value;
-			document.getElementById("cover-signature").innerHTML= document.getElementById("coverSignature").innerHTML;
+			document.getElementById("cover-signature").innerHTML= document.getElementById("coverSignature").value;
 				
 			document.getElementById('cover-pages-info').style.display = "";
 			document.getElementById('cover-papers-options-info').style.display = "";
@@ -400,8 +431,7 @@ function submitForm(){
 
 }
 
-					// PAPER OPTIONS SECTION ( cover )
-		
+					// PAPER OPTIONS SECTION ( cover )		
 
 					// PAPER OPTIONS SECTION ( content )
 
@@ -546,35 +576,6 @@ function submitForm(){
 	  }
 
 
-
-
-
-	function deleteJob(id) {
-	fetch(`job/delete/${id}`, {
-		method: 'POST',
-		headers: {
-			'Content-type': 'application/json'
-		},
-	})
-		.then(respose => {
-			if (respose.ok) {
-			var modal = new bootstrap.Modal(document.getElementById('somthingwhenwrong'));
-			modal.show();
-			
-			} else {
-				
-				
-				var modal = new bootstrap.Modal(document.getElementById('machineModal'));
-				modal.show();
-				
-				loadPage('machine/list')
-			}
-		})
-		.catch(error => {
-			console.error("internal server error :", error);
-		})
-		
-	}
 	
 function removeEstmateContentNode(deleteBtn){
 	let parentNode = deleteBtn.parentNode;
@@ -692,3 +693,41 @@ function jobTypeChoice(opt){
 
 	}
 
+	function refreshJobPage(pageNo) {
+    return new Promise((resolve, reject) => {
+        $.ajax({
+            url: 'job/page/' + pageNo,
+            type: 'GET',
+            success: function(data) {
+                $('#job-pagination').html(data);
+                resolve(); // Resolve the promise on success
+            },
+            error: function() {
+                alert('Une erreur s\'est produite lors du chargement de la page.');
+                reject(); // Reject the promise on error
+            }
+        });
+    });
+}
+
+function searchJobByReference() {
+	let reference = document.getElementById("search").value
+	fetch(`job/search-by/${reference}`, {
+		method: 'Get',
+		headers: {
+			'Content-type': 'application/json'
+		},
+	})
+	loadPage(`job/search-by/${reference}`);
+//		.then(respose => {
+//			if (respose.ok) {
+//			
+//			} else {
+//
+//			}
+//		})
+//		.catch(error => {
+//			console.error("internal server error :", error);
+//		})
+		
+	}

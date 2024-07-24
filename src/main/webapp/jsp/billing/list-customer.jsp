@@ -70,7 +70,7 @@
 								     <i class="ri-pencil-line"></i>
 								   </button>
 								   <button class="button-delete" data-bs-toggle="modal" onclick="confirmDelete('${customer.id}')" data-bs-target="#areyouSureYouWantToDetele" id="startDeleting">
-								     <i class="ri-delete-bin-3-line"></i>
+<!-- 								     <i class="ri-delete-bin-3-line"></i> -->
 								   </button>
 								 </a>
 							   </td>

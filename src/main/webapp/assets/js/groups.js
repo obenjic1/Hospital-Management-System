@@ -48,7 +48,7 @@ function addGroupe() {
        			sendMessage('Succes/Success', 1);
 			return loadPage("group/list-groups");				
    			 } else if (response.status !== 200) {
-				sendMessage('Failed / Echec', 2);
+				sendMessage('Failed : email or user name already exist ', 2);
   			 }
 		})
 		 .then(function(data) {
@@ -100,28 +100,13 @@ function updateGroupe(name) {
 			});
 }
 
-//<-------------------- List group with paginations --------------------->
-function refreshGroupTable(pageNo) {
-    $.ajax({
-        url: 'group/page/' + pageNo,
-        type: 'GET',
-        success: function(data) {
-            $('#pagination-list').html(data);
-        },
-        error: function() {
-            alert('Une erreur s\'est produite lors du chargement de la page.');
-        }
-    });
-}
-
 // <------------ Delete an confirm delete section --------------------->
-var disableId;
 
 function confirmDisableGroupe(id) {
-	disableId = id;	
-	$('#areyouSureYouWantToDisable').modal('show');
-	$('#confirmDisabledBtn').click(function() {	
-		disableGroup(disableId);
+  let deleteId = id;
+	$('#areyouSureYouWantToDetele').modal('show');
+	$('#confirmDeleteBtn').click(function() {
+		disableGroup(deleteId);
 	});
 }
 
@@ -145,6 +130,20 @@ function disableGroup(id){
 
 			});
 }
+
+function refreshGroupTable(pageNo) {
+    $.ajax({
+        url: 'group/page/' + pageNo,
+        type: 'GET',
+        success: function(data) {
+            $('#pagination-list').html(data);
+        },
+        error: function() {
+            alert('Une erreur s\'est produite lors du chargement de la page.');
+        }
+    });
+}
+
 
 $(document).ready( function () {
     $('#groupDataTable').DataTable({});

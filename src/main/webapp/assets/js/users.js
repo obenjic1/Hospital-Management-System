@@ -97,7 +97,9 @@ function addUser() {
        			sendMessage('Succes/Success', 1);
 			return loadPage("user/add-user");				
    			 } else if (response.status !== 200) {
-				sendMessage('Failed / Echec', 2);
+				sendMessage('Failed / Echec : Email or Username already exist ',2);
+					return loadPage('user/list-users');			
+
   			 }
 		})
 		 .then(function(data) {
@@ -108,7 +110,7 @@ function addUser() {
 			});
 }
 
-var bouton = document.getElementById("create-btn");
+let bouton = document.getElementById("create-btn");
 
 bouton.removeAttribute("onclick");
 bouton.addEventListener("click", function(event) {
@@ -117,47 +119,8 @@ bouton.addEventListener("click", function(event) {
   addUser();
 });
 
-// <------------ Delete an confirm delete section --------------------->
-var deleteId;
-
-function confirmDelete(id) {
-	deleteId = id;
-	$('#areyouSureYouWantToDetele').modal('show');
-
-	$('#confirmDeleteBtn').click(function() {
-		disable(id);
-	});
-}
 var modal = new bootstrap.Modal(document.getElementById('userDeleteSuccessfully'));
 				modal.show();
-// <------------ Delete User using soft delete --------------------->
-function removeUser(id) {
-	fetch(`user/remove-user/${id}`, {
-		method: 'POST',
-		headers: {
-			'Content-type': 'application/json'
-		},
-	})
-		.then(respose => {
-			if (respose.ok) {
-				var modal = new bootstrap.Modal(document.getElementById('somthingwhenwrong'));
-				modal.show();
-			} else {
-				var modal = new bootstrap.Modal(document.getElementById('userDeleteSuccessfully'));
-				modal.show();
-
-			}
-		})
-		.catch(error => {
-			console.error("internal server error :", error);
-		})
-}
-document.addEventListener('DOMContentLoaded', function() {
-	var deleteBtn = document.getElementById('delete-btn');
-	deleteBtn.addEventListener('click', function() {
-
-	});
-});
 
 //<------------------ Update user using DTO object -------------------->
 function updateUserById(id) {
@@ -206,55 +169,50 @@ var formData = {
 			.catch(function(error) {
 			});
 }
+
+
 //<------------------ Disactivate and activate a user -------------------->
 
-function disable(id) {
-	fetch(`user/enable/${id}`, {
-		method: 'POST',
-		headers: {
-			'Content-type': 'application/json'
-		},
-	})
-		.then(respose => {
-			if (respose.ok) {
-				var modal = new bootstrap.Modal(document.getElementById('somthingwhenwrong'));
-				modal.show();
-			} else {
-				var modal = new bootstrap.Modal(document.getElementById('userDeleteSuccessfully'));
-				modal.show();
-
-			}
-		})
-		.catch(error => {
-			console.error("internal server error :", error);
-		})
-}
-document.addEventListener('DOMContentLoaded', function() {
-	var deleteBtn = document.getElementById('delete-btn');
-	deleteBtn.addEventListener('click', function() {
-
+function confirmDisableUser(id) {
+  let deleteId = id;
+	$('#areyouSureYouWantToDetele').modal('show');
+	$('#confirmDeleteBtn').click(function() {
+		disableUser(deleteId);
 	});
-});
+}
+
+function disableUser(id){
+		fetch(`user/enable/${id}`, {
+		method: 'POST',
+	})
+	.then( response => {	
+
+   			 if (response.status === 200) {
+       			sendMessage('Succes/Success', 1);
+			return loadPage("user/list-users");				
+   			 } else if (response.status !== 200) {
+				sendMessage('Failed / Echec', 2);
+  			 }
+		})
+		 .then(function(data) {
+
+		 })
+			.catch(function(error) {
+
+			});
+}
+
+
+
+
+//document.addEventListener('DOMContentLoaded', function() {
+//	var deleteBtn = document.getElementById('delete-btn');
+//	deleteBtn.addEventListener('click', function() {
+//
+//	});
+//});
 
 
 
 //<------------------ Get list users with pagination -------------------->
-function refreshUserTable(pageNo) {
-	$.ajax({
-		url: 'user/page/' + pageNo,
-		type: 'GET',
-		success: function(data) {
-			$('#users-list').html(data);
-		},
-		error: function() {
-			alert('Une erreur s\'est produite lors du chargement de la page.');
-		}
-	});
-	
-	
-//<------------------ function to reset password  -------------------->
-
-}
-
-//<------------------ function to reset password  -------------------->
 

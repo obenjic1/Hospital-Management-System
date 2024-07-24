@@ -1,7 +1,6 @@
 package com.ppp.user.service;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.data.domain.Page;
 
@@ -15,7 +14,7 @@ public interface GroupeService {
 	Groupe groupDetails( String name);
 	String updateGroupe(GroupDTO groupDTO, String name);
 	Page< Groupe > findPaginatedGroup(int pageNo, int pageSize);
-	Groupe disableGroup(Long id);
+	void disableGroup(long id);
 	String addNewGroupe(GroupDTO groupDTO, String name);
 
 }

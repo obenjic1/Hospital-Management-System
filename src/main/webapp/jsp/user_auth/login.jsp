@@ -56,7 +56,6 @@
 				               
 			                 <h4 class="card-title text-center pb-0 fs-2"><fmt:message key="login"/></h4>
 				              </div>
-									
 									</div>
 									<c:url value="/login" var="loginUrl" />
 									<form class="row g-3 needs-validation" action="<c:url value='/login'/>" method="post">										
@@ -113,7 +112,6 @@
 	<!-- End #main -->
 	<script src="assets/js/test.js"></script>
 	<script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-	
 	<script src="assets/js/users.js"></script>
 
 </body>

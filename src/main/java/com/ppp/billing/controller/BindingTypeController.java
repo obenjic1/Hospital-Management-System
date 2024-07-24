@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.ppp.billing.model.BindingType;
@@ -45,6 +46,38 @@ public class BindingTypeController {
 		 model.addAttribute("allBinding", result);
 		 
 		return "setting/list-bindingtype";
+	}
+	
+//<------------------- Pagination -------------------->	
+	@GetMapping("find/{id}")
+	public String findById(@PathVariable int id, Model model) {
+		try {
+			 model.addAttribute("bindingType",  bindingTypeService.findById(id));
+			 return "setting/binding-type-details";
+		} catch (Exception e) {
+			throw e;
+		}
+	}
+	
+	
+	
+	@GetMapping("display/{id}")
+	public String displayForm(@PathVariable int id,  Model model) {
+		try {
+			model.addAttribute("bindingUpdate", bindingTypeService.findById(id));
+			return "setting/binding-type-update";
+		} catch (Exception e) {
+			throw e;
+		}
+	}
+	
+	@PostMapping("update/{id}")
+	public BindingType update(@PathVariable int id, BindingType bindingType) {
+		try {
+			return  bindingTypeService.update(bindingType, id);
+		} catch (Exception e) {
+			throw e;
+		}
 	}
 
 }

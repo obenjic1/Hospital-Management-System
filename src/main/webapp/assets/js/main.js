@@ -313,6 +313,12 @@
       ]
     });
   })
+  
+ $(document).ready( function () {
+    $('#myTable').DataTable({
+		"dom": "lfrti"
+	});
+} );
 
   /**
    * Autoresize echart charts

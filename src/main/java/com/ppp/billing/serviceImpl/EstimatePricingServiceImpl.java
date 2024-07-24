@@ -1,6 +1,7 @@
 package com.ppp.billing.serviceImpl;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,10 +13,14 @@ import com.ppp.billing.service.EstimatePricingServiice;
 public class EstimatePricingServiceImpl implements EstimatePricingServiice {
 	@Autowired
 	private EstimatePricingRepository estimatePricingRepository;
+	
+	
+	
 	@Override
-	public EstimatePricing findById(long id) {
-		// TODO Auto-generated method stub
-		return null;
+	public Optional<EstimatePricing>  findById(long id) {
+		Optional<EstimatePricing> result = estimatePricingRepository.findById(id);
+		
+		return result;
 	}
 
 	@Override

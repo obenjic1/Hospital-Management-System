@@ -8,9 +8,9 @@
 	uri="http://www.springframework.org/security/tags"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
-<link href="assets/css/list-users.css" rel="stylesheet">
+<link rel="stylesheet" href="DataTables/datatables.css" />
+
 <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
-<link href="assets/vendor/simple-datatables/style.css" rel="stylesheet">
 <link href="assets/vendor/bootstrap/css/bootstrap.min.css"
 	rel="stylesheet">
 
@@ -31,12 +31,18 @@
 			<div class="col-lg-12">
 				<div class="card">
 					<div class="card-body">
-						<h5 class="card-title">Job</h5>
-						<button onclick="loadPage('job/displayform')"  data-toggle="tooltip" data-placement="top" title="create new job" style="width: 120px;" type="button" class="btn btn-primary">
+						<h5 class="card-title"><fmt:message key="job.management"/></h5>
+						<button onclick="loadPage('job/displayform')"  data-toggle="tooltip" data-placement="top" title="create new job"  style="width: 120px;position: relative; left: 91.5%" type="button" class="btn btn-primary">
 						  <fmt:message key="add.group"/>
 						</button>
 						<!-- Table with stripped rows -->
-						<table class="table datatable">
+						<div class="search-bar" style="bottom: 30px;position: relative;">
+								<form class="search-form d-flex align-items-center" method="GET" action="#" style="justify-content: end;">
+								  <input type="text" name="referenceNumber" placeholder="Search" title="Enter search keyword" id="search">
+								  <button type="button" title="Search" onclick="searchJobByReference()"> <i class="bi bi-search" ></i> </button>
+								</form>
+							</div>
+						<table id="myTable" class="table datatable">
 						  <thead style="background-color: #dddfe3;">
 						    <tr>
 						      <th scope="col">Number</th>
@@ -44,7 +50,7 @@
 						      <th scope="col">Title</th>
 							  <th scope="col">Reference</th>
 						      <th scope="col">JobStatus</th>
-						      <th scope="col">Creation date</th>
+						      <th scope="col">Registration date</th>
 						      <th scope="col">Customer</th>
 						      <th scope="col">Actions</th>
 							</tr>
@@ -64,8 +70,8 @@
 							 <td>
 								  <select id="coverPaperType" name="name" class="form-select">
 								     <option >Action</option>
-								     <option data-bs-toggle="modal" data-bs-target="#ExtralargeModal" data-toggle="tooltip" data-placement="top" title="view job details" onclick="loadDynamicPageModal('job/viewJob/${job.id}');">View</option>
-								     <option data-toggle="tooltip" data-placement="top" title="edit job details" onClick="loadPage('job/update-form/${job.id}');">Edit</option>
+								     <option data-bs-toggle="modal" data-bs-target="#ExtralargeModal" data-toggle="tooltip" data-placement="top" title="view job details" onclick="loadPageModalForm('job/viewJob/${job.id}');">View</option>
+								     <option data-bs-toggle="modal" data-bs-target="#ExtralargeModal" data-toggle="tooltip" data-placement="top" title="edit job details" onClick="loadPageModalForm('job/update-form/${job.id}');">Edit</option>
 								     <option data-toggle="tooltip" data-placement="top" title="archive a job" onclick="deleteJob(${job.id})">Delete</option>
 								      <option data-bs-toggle="modal" data-bs-target="#ExtralargeModal" onclick="loadDynamicPageModal('job/estimate/${job.id}');">Generate Estimate</option>
 								     <option data-bs-toggle="modal" data-bs-target="#ExtralargeModalFile" onclick="loadPageModal('job/generate-pdf/${job.id}');">Control Sheet</option>
@@ -76,22 +82,29 @@
 						   </c:forEach>
 						 </tbody>
 					   </table>
-					<!-- Pagination with icons -->
-						<nav aria-label="Page navigation example">
-						  <ul class="pagination nav-no-border">
-							<li class="page-item"><input type="button" class="page-link" onclick="refreshUserTable(${currentPage - 1})" value="&laquo;" ${currentPage == 1 ? 'disabled' : ''}></li>
-							<c:forEach var="i" begin="1" end="${totalPages}">
-							  <li class="page-item ${i == currentPage ? 'active' : ''}"><input type="button" class="page-link" onclick="refreshUserTable(${i})" value="${i}"></li>
-							</c:forEach>
-							<li class="page-item"><input type="button" class="page-link" onclick="refreshUserTable(${currentPage + 1})" value="&raquo;" ${currentPage == totalPages ? 'disabled' : ''}></li>
-						  </ul>
-						</nav>
+<!-- 					Pagination with icons -->
+<!-- 						<nav aria-label="Page navigation example"> -->
+<!-- 						  <ul class="pagination nav-no-border"> -->
+<%-- 							<li class="page-item"><input type="button" class="page-link" onclick="refreshUserTable(${currentPage - 1})" value="&laquo;" ${currentPage == 1 ? 'disabled' : ''}></li> --%>
+<%-- 							<c:forEach var="i" begin="1" end="${totalPages}"> --%>
+<%-- 							  <li class="page-item ${i == currentPage ? 'active' : ''}"><input type="button" class="page-link" onclick="refreshUserTable(${i})" value="${i}"></li> --%>
+<%-- 							</c:forEach> --%>
+<%-- 							<li class="page-item"><input type="button" class="page-link" onclick="refreshUserTable(${currentPage + 1})" value="&raquo;" ${currentPage == totalPages ? 'disabled' : ''}></li> --%>
+<!-- 						  </ul> -->
+<!-- 						</nav> -->
 					</div>
 				</div>
 			</div>
 		</div>
-	</section>
-</main>
+		</section>
+	</main>
+ <script>
+		$(document).ready( function () {
+			alert("++++++++++++++++++++++++++++");
+			$('#myTable').DataTable();
+			});
+	</script>
+	<script src="DataTables/datatables.js"></script>
 	<script src="assets/js/main.js"></script>	
 	<script src="assets/js/job.js"></script> 
 

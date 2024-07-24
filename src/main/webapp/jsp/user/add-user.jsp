@@ -18,69 +18,70 @@
 
 					<form class="row g-3 needs-validation" style=" margin-left: 5%;" onsubmit="event.preventDefault(); addUser()">
 					  <div class="col-md-6">
-						<label for="firstName" class="form-label"></label>
+						<label for="firstName" class="form-label"> <fmt:message key="first.name"/> </label>
 						  <div class="input-group has-validation">
 							<span class="input-group-text"><i class="fas fa-user"></i></span>
-							<input type="text" id="firstName" name="firstName" class="form-control" placeholder="First name" required="required" />
+							<input type="text" id="firstName" name="firstName" class="form-control"  required="required" />
 						  </div>
 						  <div id="emptyNameAlert" class="alert alert-danger alert-dismissible fade show" role="alert" style="display: none;"></div>
 						</div>
 						<div class="col-md-6">
-							<label for="Email" class="form-label"></label>
+							<label for="Email" class="form-label"><fmt:message key="email"/></label>
 							<div class="input-group has-validation">
 							  <span class="input-group-text"><i class="fas fa-envelope"></i></span>
-							  <input type="email" id="email" name="email" class="form-control" placeholder="Email" required="required" />
+							  <input type="email" id="email" name="email" class="form-control" required="required" />
 							</div>
 							<div id="emptyEmailAlert" class="alert alert-danger alert-dismissible fade show" role="alert" style="display: none;"></div>
 						</div>
 						<div class="col-md-6">
-							<label for="lastName" class="form-label"></label>
+							<label for="lastName" class="form-label"><fmt:message key="last.name"/></label>
 							<div class="input-group has-validation">
 							  <span class="input-group-text"><i class="fas fa-user"></i></span>
-							  <input type="text" id="lastName" name="lastName" class="form-control" placeholder="Last name" required="required" />
+							  <input type="text" id="lastName" name="lastName" class="form-control" required="required" />
 							</div>
 						  <div id="emptyLastNameAlert" class="alert alert-danger alert-dismissible fade show" role="alert" style="display: none;"></div>
 						</div>
 						<div class="col-md-6">
-							<label for="mobile" class="form-label"></label>
+						
+							<label for="mobile" class="form-label"><fmt:message key="phone"/></label>
 							<div class="input-group has-validation">
 							  <span class="input-group-text"><i class="fas fa-phone"></i></span>
-							  <input type="text" id="mobile" name="mobile" class="form-control" placeholder="Mobile" required="required" />
+							  <input type="text" id="mobile" name="mobile" class="form-control"  required="required" />
 						    </div>
 						  <div id="emptyNameAlert" class="alert alert-danger alert-dismissible fade show" role="alert" style="display: none;"></div>
 						</div>
 						<div class="col-md-6">
-						  <label for="username" class="form-label"></label>
+						  <label for="username" class="form-label"><fmt:message key="username"/></label>
 							<div class="input-group has-validation">
 							  <span class="input-group-text" id="inputGroupPrepend">@</span> 
-							  <input type="text" id="username" name="username" class="form-control" placeholder="User name" required="required" />
+							  <input type="text" id="username" name="username" class="form-control" value=" " required="required" />
 							</div>
 							<div id="emptyUserameAlert" class="alert alert-danger alert-dismissible fade show" role="alert" style="display: none;"></div>
 						</div>
 						<div class="col-md-6">
-						  <label for="address" class="form-label"></label>
+						  <label for="address" class="form-label"><fmt:message key="address"/></label>
 						  <div class="input-group has-validation">
 							<span class="input-group-text"> <i class="fas fa-map-marker-alt"></i></span> 
-							<input type="text" id="address" name="address" class="form-control" placeholder="Address" required="required" />
+							<input type="text" id="address" name="address" class="form-control" required="required" />
 						  </div>
 						  <div id="emptyAddressAlert" class="alert alert-danger alert-dismissible fade show" role="alert" style="display: none;"></div>
 						</div>
 						<div class="col-md-6">
-						  <label for="Password" class="form-label"></label>
+						  <label for="Password" class="form-label"><fmt:message key="password"/></label>
 						  <div class="input-group has-validation">
 							<span class="input-group-text"><i class="fas fa-lock"></i></span>
-							<input type="password" id="password" name="password" class="form-control" placeholder="Password" required="required" />
+							<input type="password" id="password" name="password" class="form-control" required="required" />
 						  </div>
 						  <div id="emptyPasswordAlert" class="alert alert-danger alert-dismissible fade show" role="alert" style="display: none;"></div>
 						</div>
 						<div class="col-md-6">
-						  <label for="ImageFile" class="form-label"></label>
+						  <label for="ImageFile" class="form-label"><fmt:message key="photo"/></label>
 						  <div class="input-group has-validation" style="width: 93%; left: 7%;">
 						    <input type="file" id="imageFile" name="imageFile" class="form-control" accept="image/*">
 						  </div>
 						</div>
 						<div class="col-md-6">
-						  <label for="groupe" id="groupeLabel" class="form-label"></label>
+						  <label for="groupe" id="groupeLabel" class="form-label"><fmt:message key="list.groups"/></label>
 						  <div class="input-group has-validation" style=" left: -8%;  width: 94%; ">
 							 <span class="input-group-text"> <i class="fas fa-users"></i> </span> 
 							 <select id="groupe" name="groupe" class="form-select">
