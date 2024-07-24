@@ -27,7 +27,7 @@ public class Invoice {
 	private long id;
 	
 	@Column(name = "reference_number")
-	private String ReferenceNumber;
+	private String referenceNumber;
 	
 	@Column(name = "ir_tax_value", columnDefinition = "float default 0")
 	private double irTaxValue;
