@@ -23,17 +23,28 @@ public class InvoiceController {
 	
 	@GetMapping("/list")
 	public String listinvoices(Model model) {
-		model.addAttribute("results", invoiceServiceImpl.listInvoice());
-		return "billing/invoice/list-invoices";
+		try {
+			List<Invoice> result = invoiceServiceImpl.listInvoice();
+			model.addAttribute("results", result);
+			return "billing/invoice/list-invoices";
+		} catch (Exception e) {
+			throw e;
+		}
+		
 	}
 	
 	@GetMapping("/job-invoice/{id}")
-	public String getInvoice(@PathVariable long id, Model model) {		
-		Invoice invoicefinded = invoiceServiceImpl.findById(id);
-		Job jobs = invoicefinded.getEstimatePricingid().getJobEstimate().getJob();
-		model.addAttribute("job", jobs);
-		model.addAttribute("invoices", invoicefinded);
-		return "billing/estimate/invoice-view";
+	public String getInvoice(@PathVariable long id, Model model) throws Exception {		
+		try {
+			Invoice invoicefinded = invoiceServiceImpl.findById(id);
+			Job jobs = invoicefinded.getEstimatePricingid().getJobEstimate().getJob();
+			model.addAttribute("job", jobs);
+			model.addAttribute("invoices", invoicefinded);
+			
+			return "billing/estimate/invoice-view";
+		} catch (Exception e) {
+			throw new Exception();
+		}
 	}
 	
 	@GetMapping("/find-by/{startDate}/{endDate}")

@@ -396,7 +396,6 @@ public class JobController {
 			fixePrice+=job.getCtpFees();
 			printer.print(document, "CTP", 107, 171);
 			p1=variablePrice;
-			//System.out.println(p1+"------------- Fixe Price   1-----------");
 			
 			/**
 			 * Print Printing Elements
@@ -463,7 +462,6 @@ public class JobController {
 				
 			}
 			p2=variablePrice-p1;
-			//System.out.println(p2+"------------- Fix Price  2-----------");
 			
 			/**
 			 * Print Finishing Elements
@@ -620,7 +618,6 @@ public class JobController {
 			 * Print  Paper Element
 			 */
 			p3=variablePrice-p1-p2;
-			//System.out.println(p3+"------------- Fix Price  3-----------");
 			document.add(new AreaBreak());
 			PdfCanvas canvas3= new PdfCanvas(pdfDocument.getLastPage());
 			data = ImageDataFactory.create(backgroundFolder + "P5.jpg");
@@ -705,7 +702,6 @@ public class JobController {
 				 }
 			 }
 			 p4=variablePrice-p1-p2-p3;
-				//System.out.println(p4+"------------- Fix Price  4-----------");
 			printer.printMoney(document, fixePrice , 135, 99);
 			printer.printMoney(document, variablePrice , 175, 99);
 			job.setFixCost((float) fixePrice);
