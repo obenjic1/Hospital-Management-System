@@ -27,15 +27,16 @@ public class InvoiceController {
 		return "billing/invoice/list-invoices";
 	}
 	
-	@GetMapping("/job-invoice/{id}")
-	public String getInvoice(@PathVariable long id, Model model) {		
-		Invoice invoicefinded = invoiceServiceImpl.findById(id);
-		Job job = invoiceServiceImpl.getJobEstimateInvoice(id);
-		model.addAttribute("job", job);
-		model.addAttribute("invoices", invoicefinded);
-		return "billing/estimate/invoice-view";
-	}
-	
+//	@GetMapping("/job-invoice/{id}")
+//	public String getInvoice(@PathVariable long id, Model model) {		
+//		Invoice invoicefinded = invoiceServiceImpl.findById(id);
+//		Job job = invoiceServiceImpl.getJobEstimateInvoice(id);
+//		model.addAttribute("job", job);
+//		model.addAttribute("invoices", invoicefinded);
+//		
+//		return "billing/estimate/invoice-view";
+//	}
+//	
 	@GetMapping("/find-by/{startDate}/{endDate}")
 	public String findByCreationDateBetwen(Date startDate, Date endDate, Model model) {
 		try {
