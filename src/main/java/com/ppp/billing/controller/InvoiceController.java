@@ -1,6 +1,5 @@
 package com.ppp.billing.controller;
 
-
 import java.util.Date;
 import java.util.List;
 
@@ -29,23 +28,23 @@ public class InvoiceController {
 	}
 	
 	@GetMapping("/job-invoice/{id}")
-	public String getInvoice(@PathVariable long id, Model model) {
-		
+	public String getInvoice(@PathVariable long id, Model model) {		
 		Invoice invoicefinded = invoiceServiceImpl.findById(id);
 		Job job = invoiceServiceImpl.getJobEstimateInvoice(id);
-	
 		model.addAttribute("job", job);
 		model.addAttribute("invoices", invoicefinded);
 		return "billing/estimate/invoice-view";
 	}
 	
-	public String findByCreationDateBetwen(Date startDate, Date endDate) {
+	@GetMapping("/find-by/{startDate}/{endDate}")
+	public String findByCreationDateBetwen(Date startDate, Date endDate, Model model) {
 		try {
 			List<Invoice> invoices = invoiceServiceImpl.findByCreationDateBetwen(startDate, endDate);
+			model.addAttribute("invoices", invoices);
+			return "ok";
 		} catch (Exception e) {
-			// TODO: handle exception
+			throw e;
 		}
-		return "";
 	}
 
 }
