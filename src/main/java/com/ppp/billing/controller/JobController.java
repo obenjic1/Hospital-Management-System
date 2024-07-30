@@ -7,16 +7,20 @@ import java.math.RoundingMode;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
-import java.time.LocalDate;
+import java.text.SimpleDateFormat;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.propertyeditors.CustomDateEditor;
+import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.http.MediaType;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -55,6 +59,7 @@ import com.ppp.billing.serviceImpl.CustomerServiceImpl;
 import com.ppp.billing.serviceImpl.EstimatePricingServiceImpl;
 import com.ppp.billing.serviceImpl.InvoiceServiceImpl;
 import com.ppp.billing.serviceImpl.JobColorCombinationServiceImpl;
+import com.ppp.billing.serviceImpl.JobEstimateServiceImpl;
 import com.ppp.billing.serviceImpl.JobPaperServiceImpl;
 import com.ppp.billing.serviceImpl.JobServiceImpl;
 import com.ppp.billing.serviceImpl.JobTypeServiceImpl;
@@ -108,6 +113,9 @@ public class JobController {
 	
 	@Autowired
 	private EstimatePricingServiceImpl estimatePricingServiceImpl;
+	
+	@Autowired
+	private JobEstimateServiceImpl jobEstimateServiceImpl;
 //	
 	
 //<--------------------- Collect datas form @Vincent------------------------------>
@@ -155,8 +163,10 @@ public class JobController {
 	@GetMapping("/list-job")
 	public String listJob(Model model) {
 		List<Job> result = jobServiceImpl.listAllJob();
+		List<Invoice> invoices = invoiceServiceImpl.listInvoice();
 		Collections.reverse(result);
 		model.addAttribute("jobs", result);
+		model.addAttribute("invoice", invoices);
 		return "billing/list-job";
 	}
 
@@ -873,7 +883,6 @@ public class JobController {
 								   @RequestParam("extraFee") int extraFee, @RequestParam("extraFeeDescription") String extraFeeDescription,
 								   @RequestParam("advancePercentage") float advancePercentage, Model model) {
 		try {
-		DecimalFormat formateur = new DecimalFormat("0estimateDir.00");
 		Job job = jobServiceImpl.findById(id).get();
 		String[] qty = quantities.split("@");
 		String updateRef = job.getReferenceNumber();
@@ -883,7 +892,7 @@ public class JobController {
 		JobEstimate estimate = new JobEstimate();
 		estimate.setReference(reference);
 		estimate.setAdvancePercentage(advancePercentage);
-		estimate.setCreatedDate(LocalDate.now());
+		estimate.setCreatedDate(new Date());
 		List<EstimatePricing> estimatePricings = new ArrayList<EstimatePricing>();
 		for(int i=0; i<qty.length;i++) {
 			EstimatePricing estimatePricing =  new EstimatePricing();
@@ -1069,7 +1078,7 @@ public class JobController {
 				model.addAttribute("result", result);
 				return "billing/job-by-reference-number";
 			}
-			return null;
+			return "billing/job-by-reference-number";
 		} catch (Exception e) {
 			throw e;
 		}
@@ -1082,8 +1091,8 @@ public class JobController {
 	@GetMapping("/generate/invoice/{id}")
 	public String generateInvoice(@PathVariable long id, Invoice invoice, Model model) {
 		Invoice invoicefinded =	invoiceServiceImpl.saveInvoice(id);
+		
 		EstimatePricing estimate = estimatePricingServiceImpl.findById(id).get();
-
 		
 		Job job = estimate.getJobEstimate().getJob();
 		
@@ -1111,6 +1120,75 @@ public class JobController {
 		model.addAttribute("invoices", invoicefinded);
 		model.addAttribute("job", job);
 		return "billing/estimate/invoice-view";
+	}
+/*
+ *     
+ */
+	@GetMapping("/get-estimate/{id}")
+	public String displayEstimates(@PathVariable long id,Model model) {
+		Job job = jobServiceImpl.findById(id).get();
+		List<Integer> jobEstimateList = new ArrayList<Integer>();
+		for (JobEstimate jobEstimate :job.getJobEstimates()) {
+			for(EstimatePricing estimatePricing : jobEstimate.getEstimatePricings()) {
+				jobEstimateList.add(estimatePricing.getInvoices().size());
+				
+				
+			}
+		}
+		model.addAttribute("jobEstimateList", jobEstimateList);
+		model.addAttribute("job", job);
+		return "billing/estimate/view-estimate";
+	}
+	
+	
+	
+	@GetMapping("/find-by/creationdate/{startDate}/{endDate}")
+	public String findeByCreationDate(@PathVariable Date startDate, @PathVariable  Date endDate, Model model) {
+		try {
+			List<Job> results = jobServiceImpl.findByCreationDateBetween(startDate, endDate);
+			model.addAttribute("results",results);
+			return "billing/job-by-creation-date";
+		} catch (Exception e) {
+			throw e;
+		}
+	}
+	
+	@InitBinder
+	public void customDateEditor(WebDataBinder binder) {
+		binder.registerCustomEditor(String.class, new StringTrimmerEditor(true));
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		simpleDateFormat.setLenient(false);
+		binder.registerCustomEditor(Date.class, new CustomDateEditor(simpleDateFormat, false));
+		
+	}
+	@GetMapping("/estimateRef/commission/{ref}")
+	public String getCommissionForm (@PathVariable String ref, Model model) {
+		
+		JobEstimate estimate = jobEstimateRepository.findByReference(ref).get();
+		Job job = estimate.getJob();
+		List<EstimatePricing> estimates = estimate.getEstimatePricings();
+
+		model.addAttribute("estimates", estimates);		
+		model.addAttribute("estimate", estimate);	
+		model.addAttribute("job", job);		
+		return "/billing/estimate/commission-view";
+	}
+	
+	@GetMapping("/estimate/commission/{id}/{commissionValue}/{discountValue}")
+	public String findeByCreationDate(@PathVariable long id,@PathVariable double commissionValue, @PathVariable  double discountValue, Model model) {
+		
+		try {
+			
+			List<EstimatePricing> estimateP = jobEstimateServiceImpl.generateCommissionEstimate(id, commissionValue, discountValue);
+			Job job = jobEstimateServiceImpl.findById(id).getJob();
+
+			model.addAttribute("estimateP",estimateP);
+			model.addAttribute("job",job);
+
+			return "/billing/estimate/commission-result-view";
+		} catch (Exception e) {
+			throw e;
+		}
 	}
 	
 }

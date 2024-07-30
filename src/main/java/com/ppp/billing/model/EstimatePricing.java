@@ -35,6 +35,9 @@ public class EstimatePricing {
 
 	    @Column(name = "total_price")
 	    private double totalPrice;
+	    
+	    @Column(name = "invoiced")
+	    private boolean invoiced = Boolean.FALSE;
 	   
 	    
 	    @ManyToOne

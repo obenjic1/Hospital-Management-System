@@ -32,20 +32,32 @@
 					<div class="card-body">
 						<h5 class="card-title"> <fmt:message key="invoice"/></h5>
 						<!-- Table with stripped rows -->
-							<div class="search-bar" style="bottom: 37px;position: relative;">
-								<form class="search-form d-flex align-items-center" method="GET" action="#" style="justify-content: end;">
-								  <input type="text" name="referenceNumber" placeholder="Search" title="Enter search keyword" id="search">
-								  <button type="button" title="Search" onclick="searchJobByReference()"> <i class="bi bi-search" ></i> </button>
-								</form>
-							</div>
+					 <div class="row" style="position: relative;bottom: 46px; left: 154px;">
+					    <div id="startPeriod" class="col-sm-3" style="display: block;">
+					         <label for="search_startDate" class="required">Start date</label>
+					        <input type="date" id="search_startDate"  required="required" class="date_picker hasDatepicker" style="width: 255px;">
+					    </div>
+	    
+					    <div id="endPeriod" class="col-sm-3" style="display: block;">
+					        <label for="search_endDate" class="required">End date</label>
+					        <input type="date" id="search_endDate"  required="required" class="date_picker hasDatepicker" style="width: 255px;">
+					        
+					    </div>
+					    
+					    <div id="endPeriod" class="col-sm-3" style="display: block;">
+					      <button type="button" title="Search" onclick="searchJobByReference()"> <i class="bi bi-search" ></i> </button>
+					        
+					 </div>
+						</div> 
 						<table id="myTable1" class="table datatable">
 						  <thead style="background-color: #dddfe3;">
 						    <tr>
 						       <th scope="col"><fmt:message key="number"/></th>
 						       <th scope="col"><fmt:message key="job.title"/></th>
-						       <th scope="col"><fmt:message key="customer"/></th>
 						       <th scope="col"><fmt:message key="reference.number"/></th>
+						       <th scope="col"><fmt:message key="customer"/></th>
 						        <th scope="col"><fmt:message key="created.date"/></th>
+						        <th scope="col"><fmt:message key="net.payable"/></th>
 							   <th scope="col"><fmt:message key="actions"/></th>
 							</tr>
 						  </thead>
@@ -56,12 +68,13 @@
 							    <%    int index = (Integer) pageContext.getAttribute("index");  %>
 							 <td>  <%= index + 1 %></td>
 							 <td>${result.estimatePricingid.jobEstimate.job.title}</td>
+							  <td>${result.referenceNumber}</td>
 							 <td>${result.estimatePricingid.jobEstimate.job.customer.name}</td>
-							   <td>${result.referenceNumber}</td>
 							   <td><fmt:formatDate type = "both" value = "${result.creationDate}" /></td>
+							    <td>${result.netPayable}</td>
 							   <td>
 							     <a>
-								   <button data-bs-toggle="modal" data-bs-target="#ExtralargeModal" data-bs-toggle="modal" class="button-see" onclick="loadPageModalForm('papertype/paper/${paperType.id}')">
+								   <button data-bs-toggle="modal" data-bs-target="#ExtralargeModal" data-bs-toggle="modal" class="button-see" onclick="loadPageModalForm('invoice/job-invoice/${result.id}')">
 								    <i class="ri-eye-line"></i>
 								   </button>
 								   <button class="button-edite" data-bs-target="#ExtralargeModal" data-bs-toggle="modal" class="button-see" onclick="loadPageModalForm('papertype/toUpdate/${paperType.id}')">

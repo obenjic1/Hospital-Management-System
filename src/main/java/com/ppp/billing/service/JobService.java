@@ -1,5 +1,6 @@
 package com.ppp.billing.service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -12,6 +13,7 @@ public interface JobService {
 	List<Job> listAllJob();
     Optional <Job> findJobByReferenceNumber(String referenceNumber);
 //    List<Job> findByCreatinDateBtween(Date startDate, Date endDate);
+    List<Job> findByCreationDateBetween(Date startDate, Date endDate);
 
 
 }

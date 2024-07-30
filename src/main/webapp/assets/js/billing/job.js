@@ -711,23 +711,14 @@ function jobTypeChoice(opt){
 }
 
 function searchJobByReference() {
-	let reference = document.getElementById("search").value
-	fetch(`job/search-by/${reference}`, {
-		method: 'Get',
-		headers: {
-			'Content-type': 'application/json'
-		},
-	})
+	let reference = document.getElementById("search").value;
 	loadPage(`job/search-by/${reference}`);
-//		.then(respose => {
-//			if (respose.ok) {
-//			
-//			} else {
-//
-//			}
-//		})
-//		.catch(error => {
-//			console.error("internal server error :", error);
-//		})
 		
 	}
+
+function findByDate() {
+	let startDateValue = document.getElementById("search_startDate").value;
+	let endDateValue = document.getElementById("search_endDate").value;
+	loadPage(`job/find-by/creationdate/${startDateValue}/${endDateValue}`);
+		
+	}	

@@ -75,7 +75,7 @@
                                                     <div>
                                                         <label>Description</label>
                                                         <div>
-                                                        <textarea id="extra-fee-description" name="" rows="5" ></textarea>
+                                                        <textarea id="extra-fee-description" name="" rows="5" value="" ></textarea>
                                                         </div>
                                                     </div>
                                             </div>
@@ -89,7 +89,7 @@
                             </div>
                         </div>
                         <div id="tab-2" style="display:none;">
-
+                       
                         </div>
                     </div>
                 </div>

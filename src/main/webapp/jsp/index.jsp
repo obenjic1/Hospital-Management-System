@@ -36,6 +36,8 @@
 <link href="assets/css/style.css" rel="stylesheet">
 <link href="assets/css/smartsheet.css" rel="stylesheet">
 <link href="assets/css/profile.css" rel="stylesheet">
+<link href="assets/css/user.css" rel="stylesheet">
+
 
 </head>
 
@@ -361,12 +363,12 @@ $(document).ready(function() {
 	<script src="assets/js/groups.js"> </script>
 	<script src="assets/js/main.js"></script>
 	<script src="assets/js/billing/invoice.js"></script>
-	<script src="assets/modal/modal.js"></script>
-		
+	<script src="assets/modal/modal.js"></script>	
 	
 	<script src="assets/js/billing/machine.js"></script> 
 	<script src="assets/js/billing/customer.js"></script>
 	<script src="assets/js/billing/papertype.js"></script>
+	<script src="assets/js/billing/app.js"></script>
 
 	<script src="DataTables/datatables.js"></script>
 	<script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>

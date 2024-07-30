@@ -1,5 +1,6 @@
 package com.ppp.billing.repository;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,4 +17,5 @@ public interface JobRepository extends JpaRepository<Job, Long> {
 	List<Job> findByCustomer(Customer customer);
 	Optional<Job>  deleteById(long id );
 	Optional<Job> findByReferenceNumber(String refrenceNumber);
+	List<Job> findByCreationDateBetween(Date startDate, Date endDate);
 }

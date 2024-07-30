@@ -37,23 +37,22 @@
 						</button>
 						<!-- Table with stripped rows -->
 						<div class="row" style="position: relative;bottom: 46px; left: 154px;">
-					    <div id="startPeriod" class="col-sm-3" style="display: block;">
+					    <div id="startDate" class="col-sm-3" style="display: block;">
 					         <label for="search_startDate" class="required">Start date</label>
 					        <input type="date" id="search_startDate"  required="required" class="date_picker hasDatepicker" style="width: 255px;">
 					    </div>
 	    
-					    <div id="endPeriod" class="col-sm-3" style="display: block;">
+					    <div id="endDate" class="col-sm-3" style="display: block;">
 					        <label for="search_endDate" class="required">End date</label>
 					        <input type="date" id="search_endDate"  required="required" class="date_picker hasDatepicker" style="width: 255px;">
 					        
 					    </div>
 					    
 					    <div id="endPeriod" class="col-sm-3" style="display: block;">
-					      <button type="button" title="Search"onclick="findByDate()" style="background: none;"> <i class="bi bi-search" ></i> </button>
+					      <button type="button" title="Search" onclick="searchJobByReference()"> <i class="bi bi-search" ></i> </button>
 					        
 					    </div>
 					    
-					   
 					</div> 
 			
 						<table id="myTable" class="table datatable">
@@ -70,7 +69,7 @@
 							</tr>
 						   </thead>
 						<tbody>
-						  <c:forEach var="job" items="${jobs}" varStatus="loop">
+						  <c:forEach var="job" items="${results}" varStatus="loop">
 						   <tr class="${loop.index % 2 == 0 ? 'even-row' : 'odd-row'}">
 							    <c:set var="index" value="${loop.index}" />
 							    <%    int index = (Integer) pageContext.getAttribute("index");  %>
@@ -88,8 +87,8 @@
 								     <option data-bs-toggle="modal" data-bs-target="#ExtralargeModal" data-toggle="tooltip" data-placement="top" title="edit job details" onClick="loadPageModalForm('job/update-form/${job.id}');">Edit</option>
 								     <option data-toggle="tooltip" data-placement="top" title="archive a job" onclick="deleteJob(${job.id})">Delete</option>
 								     <option data-bs-toggle="modal" data-bs-target="#ExtralargeModalFile" onclick="loadPageModal('job/generate-pdf/${job.id}');">Control Sheet</option>
-								     <option data-bs-toggle="modal" data-bs-target="#ExtralargeModal" onclick="loadDynamicPageModal('job/estimate/${job.id}');">Generate Estimate</option>
-								     <option data-bs-toggle="modal" onclick="loadPage('job/get-estimate/${job.id}');">View Estimate </option>
+								     <option data-bs-toggle="modal" data-bs-target="#ExtralargeModal" onclick="loadDynamicPageModal('job/estimate/${job.id}');">Estimate</option>
+								     <option data-bs-toggle="modal" onclick="loadPage('job/get-estimate/${job.id}');">Invoice</option>
 					              </select>
 							  </td>
 							 
@@ -97,16 +96,6 @@
 						   </c:forEach>
 						 </tbody>
 					   </table>
-<!-- 					Pagination with icons -->
-<!-- 						<nav aria-label="Page navigation example"> -->
-<!-- 						  <ul class="pagination nav-no-border"> -->
-<%-- 							<li class="page-item"><input type="button" class="page-link" onclick="refreshUserTable(${currentPage - 1})" value="&laquo;" ${currentPage == 1 ? 'disabled' : ''}></li> --%>
-<%-- 							<c:forEach var="i" begin="1" end="${totalPages}"> --%>
-<%-- 							  <li class="page-item ${i == currentPage ? 'active' : ''}"><input type="button" class="page-link" onclick="refreshUserTable(${i})" value="${i}"></li> --%>
-<%-- 							</c:forEach> --%>
-<%-- 							<li class="page-item"><input type="button" class="page-link" onclick="refreshUserTable(${currentPage + 1})" value="&raquo;" ${currentPage == totalPages ? 'disabled' : ''}></li> --%>
-<!-- 						  </ul> -->
-<!-- 						</nav> -->
 					</div>
 				</div>
 			</div>

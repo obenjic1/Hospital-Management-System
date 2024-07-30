@@ -9,7 +9,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
@@ -35,6 +34,9 @@ public class Invoice {
 	@Column(name = "tva_value", columnDefinition = "float default 0")
 	private double tvaValue;
 	
+	 @Column(name = "discount_percentage", columnDefinition = "float default 0")
+	 private double discountPercentage;
+
 	@Column(name = "creation_date")
 	@Temporal(TemporalType.DATE)
 	private Date creationDate;

@@ -6,7 +6,6 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
-import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -26,15 +25,24 @@ public class JobEstimate {
     @Column(name = "tva", columnDefinition = "int default 0")
     private  boolean tva = Boolean.FALSE;
     
+    @Column(name = "is_invoiced")
+    private  boolean invoiced = Boolean.FALSE;
+    
     @Column(name = "ir_tax")
     private float irTax;
 
-
+    @Column(name = "commission", columnDefinition = "float default 0")
+    private double commission;
+    
+    @Column(name = "discount_value", columnDefinition = "float default 0")
+	 private double discountValue;
+    
     @Column(name = "advance_percentage", columnDefinition = "float default 0")
     private float advancePercentage;
 
     @Column(name="expected_delivery_date")
-    private LocalDate createdDate;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date createdDate;
 
     @JoinColumn(name = "job_id", referencedColumnName = "id")
     @ManyToOne(fetch = FetchType.LAZY,  cascade = CascadeType.PERSIST)
