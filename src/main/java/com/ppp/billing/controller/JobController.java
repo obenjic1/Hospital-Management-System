@@ -954,8 +954,6 @@ public class JobController {
 		String jobActivities = "";
 		String typeSettings = "";
 		String reproduction = "";
-		
-	
 			
 			printer.printHeader(document, "Estimate ".toUpperCase() , 73, 297-42);
 		 	printer.print(document, "("+jobEstimate.getReference().toUpperCase()+")", 97, 297-42);
@@ -1068,7 +1066,6 @@ public class JobController {
 		
 	}
 	
-	
 	@GetMapping("/search-by/{reference}")
 	public String findJobByReferenceNumber(@PathVariable String reference, Model model) {
 		try {
@@ -1091,9 +1088,7 @@ public class JobController {
 	@GetMapping("/generate/invoice/{id}")
 	public String generateInvoice(@PathVariable long id, Invoice invoice, Model model) {
 		Invoice invoicefinded =	invoiceServiceImpl.saveInvoice(id);
-		
 		EstimatePricing estimate = estimatePricingServiceImpl.findById(id).get();
-		
 		Job job = estimate.getJobEstimate().getJob();
 		
 		//Get and structure typesetting values
@@ -1110,8 +1105,6 @@ public class JobController {
 		
 		//Get Finishing structure
 		String finishingActivities = jobServiceImpl.getFinishingActivities(job);
-
-		
 		model.addAttribute("typeSettingActivities", typsettingActivities);
 		model.addAttribute("finishingActivities", finishingActivities);
 		model.addAttribute("coverJobPaper", coverJobPaper);			
@@ -1121,8 +1114,9 @@ public class JobController {
 		model.addAttribute("job", job);
 		return "billing/estimate/invoice-view";
 	}
+	
 /*
- *     
+ *   Estimate function  
  */
 	@GetMapping("/get-estimate/{id}")
 	public String displayEstimates(@PathVariable long id,Model model) {
@@ -1132,16 +1126,13 @@ public class JobController {
 			for(EstimatePricing estimatePricing : jobEstimate.getEstimatePricings()) {
 				jobEstimateList.add(estimatePricing.getInvoices().size());
 				
-				
 			}
 		}
 		model.addAttribute("jobEstimateList", jobEstimateList);
 		model.addAttribute("job", job);
 		return "billing/estimate/view-estimate";
 	}
-	
-	
-	
+
 	@GetMapping("/find-by/creationdate/{startDate}/{endDate}")
 	public String findeByCreationDate(@PathVariable Date startDate, @PathVariable  Date endDate, Model model) {
 		try {
@@ -1159,8 +1150,8 @@ public class JobController {
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		simpleDateFormat.setLenient(false);
 		binder.registerCustomEditor(Date.class, new CustomDateEditor(simpleDateFormat, false));
-		
 	}
+	
 	@GetMapping("/estimateRef/commission/{ref}")
 	public String getCommissionForm (@PathVariable String ref, Model model) {
 		
@@ -1178,7 +1169,6 @@ public class JobController {
 	public String findeByCreationDate(@PathVariable long id,@PathVariable double commissionValue, @PathVariable  double discountValue, Model model) {
 		
 		try {
-			
 			List<EstimatePricing> estimateP = jobEstimateServiceImpl.generateCommissionEstimate(id, commissionValue, discountValue);
 			Job job = jobEstimateServiceImpl.findById(id).getJob();
 

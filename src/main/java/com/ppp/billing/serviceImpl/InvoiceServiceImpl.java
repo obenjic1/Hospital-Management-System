@@ -1,28 +1,20 @@
 package com.ppp.billing.serviceImpl;
 
-import java.text.DateFormat;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import com.itextpdf.kernel.geom.PageSize;
-import com.itextpdf.kernel.pdf.PdfDocument;
-import com.itextpdf.kernel.pdf.PdfWriter;
-import com.itextpdf.layout.Document;
+
 import com.ppp.billing.model.EstimatePricing;
 import com.ppp.billing.model.Invoice;
 import com.ppp.billing.model.Job;
-import com.ppp.billing.model.JobActivity;
 import com.ppp.billing.model.JobEstimate;
-import com.ppp.billing.model.JobPaper;
 import com.ppp.billing.repository.EstimatePricingRepository;
 import com.ppp.billing.repository.InvoiceRepository;
 import com.ppp.billing.service.InvoiceService;
-import com.ppp.printable.PrintableElement;
 
 @Service
 public class InvoiceServiceImpl implements InvoiceService{
@@ -40,7 +32,6 @@ public class InvoiceServiceImpl implements InvoiceService{
 		Invoice invoice = invoiceRepository.findById(id).get();
 		return  invoice;
 	}
-	
 	
 	public Invoice saveInvoice(long id) {
 		EstimatePricing estimate = estimatePricingRepository.findById(id).get();
@@ -74,11 +65,8 @@ public class InvoiceServiceImpl implements InvoiceService{
 		return invoiceRepository.save(invoiceToSave);
 	}
 
-
-
 	@Override
 	public List<Invoice> listInvoice() {
-		
 		return invoiceRepository.findAll();
 	}
 
@@ -223,7 +211,6 @@ public class InvoiceServiceImpl implements InvoiceService{
 //			}
 //			
 //		}
-
 
 	@Override
 	public Job getJobEstimateInvoice(long id) {

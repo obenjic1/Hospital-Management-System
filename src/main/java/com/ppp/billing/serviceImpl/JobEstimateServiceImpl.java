@@ -39,7 +39,6 @@ public class JobEstimateServiceImpl implements JobEstimateService {
 		return jobEstimateRepository.findById(id).get();
 	}
 
-
 	@Override
 	public List<EstimatePricing> generateCommissionEstimate(long id, double commission, double discount) {
 		JobEstimate estimate = jobEstimateRepository.findById(id).get();
