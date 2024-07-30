@@ -30,10 +30,9 @@ public class InvoiceController {
 	@GetMapping("/job-invoice/{id}")
 	public String getInvoice(@PathVariable long id, Model model) {		
 		Invoice invoicefinded = invoiceServiceImpl.findById(id);
-		Job job = invoiceServiceImpl.getJobEstimateInvoice(id);
-		model.addAttribute("job", job);
+		Job jobs = invoiceServiceImpl.getJobEstimateInvoice(id);
+		model.addAttribute("job", jobs);
 		model.addAttribute("invoices", invoicefinded);
-		
 		return "billing/estimate/invoice-view";
 	}
 	
