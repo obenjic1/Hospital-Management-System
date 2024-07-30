@@ -9,6 +9,7 @@
 <head>
 <link href="assets/css/profile.css" rel="stylesheet">
 <link href="assets/css/billing/job.css" rel="stylesheet">
+<link href="assets/css/list-users.css" rel="stylesheet">
 </head>
 <main id="users-list" class="main">
     <section class="section profile" id="modal-details">
@@ -19,17 +20,67 @@
 
               <ul class="nav nav-tabs" style="margin-left:10%; justify-content: center; background-color: #012970;">
                 <li class="nav-item">
-                  <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#profile-overview" style="height:35px;background:#012970; color:white;"><h5>Job </h5></button>
+                   <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#estimate-overview" style="height:35px;background:#012970; color:white;"><h5>Estimates </h5></button>
+                 </li>
+                <li class="nav-item">
+                  <button class="nav-link " data-bs-toggle="tab" data-bs-target="#profile-overview" style="height:35px;background:#012970; color:white;"><h5>Job </h5></button>
                 </li>
-<!--                  <li class="nav-item"> -->
-<!--                   <button class="nav-link " data-bs-toggle="tab" data-bs-target="#estimate-overview" style="height:35px;background:#012970; color:white;"><h5>Estimates </h5></button> -->
-<!--                 </li> -->
-<!--                  <li class="nav-item"> -->
-<!--                   <button class="nav-link " data-bs-toggle="tab" data-bs-target="#invoice-overview" style="height:35px;background:#012970; color:white;"><h5>invoices </h5></button> -->
-<!--                 </li> -->
+                
+
               </ul>
                 <div class="tab-content pt-2">
-                  <div class="tab-pane fade show active profile-overview" id="profile-overview" style="margin-left: 10%">    
+                
+                
+    <!-- ************************************************************************************************************* -->
+ 			<div  class="tab-pane fade show active estimate-overview" id="estimate-overview" style="margin-left: 10%"> 
+ 				 <div class="row" style="margin:25px;"> 
+ 					<table class="table " id="content-table"> 
+ 					    <thead style="background-color: #dddfe3;"> 
+ 					        <tr><th scope="col">Number</th>
+                                  <th scope="col">Reference Number</th>
+                                 <th scope="col">Generation Date </th>
+                                 <th scope="col">Invoiced</th>
+                                 <th scope="col">Action</th>
+                                
+ 					        </tr>
+ 					    </thead>
+ 					    <tbody>
+                              <c:forEach var="jobEstimate" items="${job.jobEstimates}" varStatus="loop">
+                                 <c:set var="index" value="${loop.index}" />
+                                     <%    int index = (Integer) pageContext.getAttribute("index");  %> 
+                                          <tr>   <td> <%= index + 1 %></td>	
+                                            <td>${jobEstimate.reference}</td> 
+                                            <td> <fmt:formatDate type = "both" value = "${jobEstimate.createdDate}" /></td> 
+                                            <td> 
+                                             
+ 					                          <a style="font-size: 15px;"> 
+ 												 <button class="button-see" data-bs-toggle="modal" data-toggle="tooltip" data-placement="top" title="view estimate Details" data-bs-target="#MainModal"> 
+ 												 ${jobEstimate.invoiced ? ' <i style="color: green;" class="bi bi-hand-thumbs-up data-toggle="tooltip" data-placement="top" title="Yes""></i>' : '<i style="color: red;" class="bi bi-hand-thumbs-down data-toggle="tooltip" data-placement="top" title="No""></i>' } 												   
+ 												  </button>
+ 											  </a>
+                                            </td>
+ 		                                   <td>                             
+ 		                                   
+			                              <a style="font-size: 15px;"> 
+											   <button class="button-see" data-bs-toggle="modal" data-toggle="tooltip" data-placement="top" title="view estimate Details" data-bs-target="#MainModal" onclick="loadMainModalForm('job/estimateRef/${jobEstimate.reference}')"> 
+											     <i class="ri-eye-line"></i>
+											   </button>
+											   <button class="button-see" data-bs-toggle="modal" data-toggle="tooltip" data-placement="top" title="apply comission" data-bs-target="#MainModal" onclick="loadMainModalForm('job/estimateRef/commission/${jobEstimate.reference}')"> 
+											     <i class="bi-cash-coin " style="color:green"></i>
+											   </button>
+											   
+										 </a>
+                                            </td>
+                                            
+                                          </tr>
+                                         </c:forEach> 
+                           
+		 					    </tbody> 
+		 					</table> 
+		 				</div>
+		 			</div>
+
+                  <div class="tab-pane fade  profile-overview" id="profile-overview" style="margin-left: 10%">    
 
       				<div class="container" style="position: relative;bottom: -20px;" >
        				<h4>Description</h4>
@@ -253,6 +304,8 @@
 			</div>
 			
 
+
+<!-- 			********************************************** Invoice ****************************************** -->
 			</div>
 			
             </div>

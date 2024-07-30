@@ -33,6 +33,24 @@
 					<div class="card-body">
 						<h5 class="card-title"><fmt:message key="job.management"/></h5>
 						<!-- Table with stripped rows -->
+						<div class="row" style="position: relative;bottom: 46px; left: 154px;">
+					    <div id="startPeriod" class="col-sm-3" style="display: block;">
+					         <label for="search_startDate" class="required">Start date</label>
+					        <input type="date" id="search_startDate"  required="required" class="date_picker hasDatepicker" style="width: 255px;">
+					    </div>
+	    
+					    <div id="endPeriod" class="col-sm-3" style="display: block;">
+					        <label for="search_endDate" class="required">End date</label>
+					        <input type="date" id="search_endDate"  required="required" class="date_picker hasDatepicker" style="width: 255px;">
+					        
+					    </div>
+					    
+					    <div id="endPeriod" class="col-sm-3" style="display: block;">
+					      <button type="button" title="Search"onclick="findByDate()" style="background: none;"> <i class="bi bi-search" ></i> </button>
+					        
+					    </div>
+					    
+					</div> 
 						<table id="myTable" class="table datatable">
 						  <thead style="background-color: #dddfe3;">
 						    <tr>
@@ -48,7 +66,7 @@
 						   </thead>
 						<tbody>
 						   <tr>
-							 <td>1</td>
+<!-- 							 <td>1</td> -->
 							   <td><a>${result.title}</a></td>
 							   <td><a>${result.jobType.name}</a></td>
 							   <td><a>${result.referenceNumber}</a></td>

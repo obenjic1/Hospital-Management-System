@@ -60,10 +60,11 @@ function closeModal() {
  }
 
  function loadDynamicPageContent(url, idContainer) {
+	 console.log()
      fetch(url)
          .then(response => response.text())
          .then(html => {
-             document.getElementById('idContainer').innerHTML = html;
+             document.getElementById(idContainer).innerHTML = html;
          })
          .catch(error => console.log(error));
  }

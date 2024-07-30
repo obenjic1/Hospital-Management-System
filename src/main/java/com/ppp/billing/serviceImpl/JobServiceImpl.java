@@ -181,9 +181,9 @@ public class JobServiceImpl implements JobService {
 	public Optional <Job> findJobByReferenceNumber(String referenceNumber) {
 		try {
 			Optional <Job> reference = jobRepository.findByReferenceNumber(referenceNumber);
-			if (reference.isPresent()) {
-				return reference;
-			}return null;
+//			if (reference.isPresent()) {
+			return reference;
+//			}return null;
 			
 		} catch (Exception e) {
 			throw e;
@@ -215,5 +215,14 @@ public class JobServiceImpl implements JobService {
 		if(job.isExistingPlate()) typsettingActivities.add("Has existing Plates");
 		
 		return typsettingActivities;
+	}
+
+	@Override
+	public List<Job> findByCreationDateBetween(Date startDate, Date endDate) {
+		try {
+			return jobRepository.findByCreationDateBetween(startDate, endDate);
+		} catch (Exception e) {
+			throw e;
+		}
 	}
 }

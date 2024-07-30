@@ -162,8 +162,22 @@
                                                         </tr>
                                                     </tbody>
                                                 </table>
-                                            </div>
-                                            <div class="row">
+			                                   </div>
+<!-- 				                         <div class="row" style="margin-bottom: -21px;bottom: 26px;position: relative;"> -->
+<!-- 				                          <div class ="col-lg-3 px3"> -->
+<!-- 										    <div class="form-check">                      -->
+<!-- 							                    <label class="form-check-label" for="gridCheck1"><a>Apply Commission </a></label> -->
+<!-- 							                    <input class="form-check-input" type="checkbox" name="name" id="applyCommision"  onclick="showCommisionInput()"> -->
+<!-- 							                  </div> -->
+<!-- 										    </div> -->
+<!-- 				                         <div class ="col-lg-3 px3" style="position: relative;bottom: -13px; display: none;" id="commisionDiv"> -->
+<!-- 										  <input id= "commision" name="title" type= "text" placeholder="Amount" style="width: 279px;height: 35px;"> -->
+<!-- 					                  </div> -->
+<!-- 											<div class ="col-lg-3 px3" style="position: relative;bottom: -13px;"> -->
+<!-- 										  <input type= "button" class="btn btn-secondary" value ="submit" style="padding-left:20px"> -->
+<!-- 					                  </div>		    -->
+<!-- 										</div>  -->
+			                              <div class="row">
                                                 <table class="table-responsive ta" id="cover-table">
                                                     <thead id="estimate-header">
                                                         <tr>
@@ -171,7 +185,7 @@
                                                             <th><span style="padding:10px">Quantity</span></th>
                                                             <th scope="col">Unit price(FCFA)</th>
                                                             <th scope="col">Total Price (FCFA)</th>
-                                                            <th scope="col">Invoice</th>
+                                                            <th scope="col">Actions</th>                                                            
                                                         </tr>
                                                     </thead>
                                                     <tbody>
@@ -184,9 +198,16 @@
                                                                      <td style="font-family: bold;"><a> <fmt:formatNumber value="${estimate.unitPrice}" type="currency"   pattern = "#,###,###"/> </a></td>                                  
                                                                       <td style="font-family: bold;"><a> <fmt:formatNumber value="${estimate.totalPrice}" type="currency"   pattern = "#,###,###"/> </a></td>  
                                                                       <td>
-                                                                        <button type="button" class="btn btn-success" onclick="getInvoiceQuantity(${estimate.id})" data-toggle="tooltip" data-placement="top" title="view job details"><i class="bi bi-check-circle"></i></button>
-<%--                                                                       	<button class="btn btn-secondary"style="width: 95px;" data-bs-toggle="modal" data-bs-target="#ExtralargeModalFile" onclick="confirmEstimate('job/estimate/confirm/${job.id}','job/estimate-pdf/');"><fmt:message key="generate"/></button> --%>
-
+                                                                     
+<%--                                                                       <c:if test="${estimate.invoiced}">  --%>
+                                                                       <button type="button" class="btn " onclick="loadPageModalForm(getInvoiceQuantity(${estimate.id}))" data-toggle="tooltip" data-placement="top" title="Generate Invoice">
+                                                                         <i class="ri-eye-line" ></i>
+                                                                        </button>
+<%--                                                                       </c:if> --%>
+<!--                                                                         <button type="button" class="btn "  data-toggle="tooltip" data-placement="top" title="Generate Invoice"> -->
+<%--                                                                          ${estimate.invoiced ? ' <i class="ri-eye-line" onclick="loadPageModalForm(invoice/job-invoice/${estimate.id})"></i> ': '<i class="bi bi-download" onclick="getInvoiceQuantity(${estimate.id})"></i>'} 												    --%>
+<!--                                                                         </button> -->
+                                                                        
                                                                       </td>                                
                                                                 </tr> 
                                                                 <c:set var = "i"  value = "${i+1}"/>
