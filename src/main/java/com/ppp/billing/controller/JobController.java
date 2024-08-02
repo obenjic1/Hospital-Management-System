@@ -1183,7 +1183,6 @@ public class JobController {
 			Optional<JobEstimate> estimate = jobEstimateServiceImpl.findByReferenceNumber(reference);	
 			if(estimate.isPresent()) {
 				JobEstimate jobEstimate = estimate.get();
-				System.out.println(jobEstimate.getReference());
 				Job job = jobEstimate.getJob();
 				model.addAttribute("jobEstimates", jobEstimate);
 				model.addAttribute("job", job);
