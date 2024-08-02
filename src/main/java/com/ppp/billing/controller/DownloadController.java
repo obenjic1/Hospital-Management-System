@@ -44,7 +44,10 @@ public class DownloadController {
 			break;
 		case "folder.estimate":
 			dir= estimateFolder;
-			break;
+			break;  
+		case "folder.invoice":
+			dir= "invoiceFolder";
+			break;  
 		case "folder.user.images":
 			dir= userImageFolder;
 			break;
