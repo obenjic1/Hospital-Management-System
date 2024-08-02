@@ -149,11 +149,13 @@ public class InvoiceServiceImpl implements InvoiceService{
 	@Override
 	public Optional<Invoice> findByReferencenumber(String referenceNumber) {
 		try {
-			
+			Optional<Invoice> invoice = invoiceRepository.findByReferenceNumber(referenceNumber);
+			if(invoice.isPresent())
+				invoice.get();
+			return invoice;
 		} catch (Exception e) {
-			// TODO: handle exception
+			throw e;
 		}
-		return Optional.empty();
 	}
 	
 }
