@@ -2,6 +2,7 @@ package com.ppp.billing.serviceImpl;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -35,11 +36,12 @@ public class InvoiceServiceImpl implements InvoiceService{
 	
 	public Invoice saveInvoice(long id) {
 		EstimatePricing estimate = estimatePricingRepository.findById(id).get();
+		JobEstimate jobEstimate=estimate.getJobEstimate();
 		Invoice invoiceToSave = new Invoice();
 		estimate.setInvoiced(true);
-		invoiceToSave.setEstimatePricingid(estimate);
 		invoiceToSave.setCreationDate(new Date());
-		estimate.getJobEstimate().setInvoiced(true);
+		
+		
 		
 		/*
 		 * Create Reference for Invoice
@@ -47,22 +49,29 @@ public class InvoiceServiceImpl implements InvoiceService{
 		String updateRef = estimate.getJobEstimate().getReference();
 		String reference = updateRef.replace('E', 'I');	
 		String invoiceRefence = reference.substring(0, reference.length()-1);
-		invoiceRefence = invoiceRefence +""+(estimate.getInvoices().size()+1);
+		invoiceRefence = invoiceRefence  + ""+(estimate.getInvoices().size()+1);
 		invoiceToSave.setReferenceNumber(invoiceRefence);
 		/*
 		 * Calculate Net Payable
 		 */
-		double irTaxValue = (estimate.getJobEstimate().getIrTax()*estimate.getTotalPrice())/100;
+		double irTaxValue = 0.0;
+		//(estimate.getJobEstimate().getIrTax()*estimate.getTotalPrice())/100;
 		invoiceToSave.setIrTaxValue(irTaxValue);
 		double tva = 0.0;
-		if(estimate.getJobEstimate().isTva()) 	{
-			 tva = 19.5;
-		}
+		
 		double	tvaValue = (tva*estimate.getTotalPrice())/100;
-		invoiceToSave.setTvaValue(tvaValue);
+		invoiceToSave.setVatValue(tvaValue);
 		invoiceToSave.setNetPayable(estimate.getTotalPrice()-tvaValue);
 		
-		return invoiceRepository.save(invoiceToSave);
+		estimate.getJobEstimate().setInvoiced(true);
+		invoiceToSave.setEstimatePricing(estimate);
+		
+		jobEstimate.setEstimatePricings(jobEstimate.getEstimatePricings());
+		invoiceRepository.save(invoiceToSave);
+		estimate.setInvoices(estimate.getInvoices());
+		estimate.setJobEstimate(jobEstimate);
+		
+		return invoiceToSave;
 	}
 
 	@Override
@@ -73,7 +82,7 @@ public class InvoiceServiceImpl implements InvoiceService{
 	@Override
 	public Job getJobEstimateInvoice(long id) {
 		Invoice invoice = invoiceRepository.findById(id).get();
-		EstimatePricing estimatePricing = invoice.getEstimatePricingid();
+		EstimatePricing estimatePricing = invoice.getEstimatePricing();
 		JobEstimate estimate = estimatePricing.getJobEstimate();
 		Job job = estimate.getJob();
 		return job;
@@ -91,5 +100,60 @@ public class InvoiceServiceImpl implements InvoiceService{
 		}
 	}
 	
+	@Override
+	public Invoice setIrtaxAndVatTax(long id, double irTax, double vatTax) {
+		try {
+			Invoice invoice = invoiceRepository.findById(id).get();
+			invoice.setIrTaxPercentage(irTax);
+			invoice.setVatPercentage(vatTax);
+			invoice.setVatValue((vatTax/100)*invoice.getEstimatePricing().getTotalPrice());
+			invoice.setIrTaxValue((irTax/100)*invoice.getEstimatePricing().getTotalPrice());
+			invoice.setNetPayable((vatTax/100)*invoice.getEstimatePricing().getTotalPrice()+(irTax/100)*invoice.getEstimatePricing().getTotalPrice()+invoice.getNetPayable());
+			invoiceRepository.save(invoice);
+			return invoice;
+		} catch (Exception e) {
+			throw e;
+		}
+	}
+	
+	@Override
+	public Invoice applyDiscount(long id, double discount) {
+		try {
+			Invoice invoice = invoiceRepository.findById(id).get();
+			invoice.setDiscountPercentage(discount);
+			invoice.setNetPayable((invoice.getEstimatePricing().getTotalPrice())-((discount/100)*(invoice.getEstimatePricing().getTotalPrice())));
+			return invoiceRepository.save(invoice);
+		} catch (Exception e) {
+			throw e;
+		}
+	}
+
+	@Override
+	public Invoice displayIrtaxAndVatTax(long id, double irTax, double vatTax) {
+		try {
+		Invoice invoice = invoiceRepository.findById(id).get();
+		invoice.setIrTaxPercentage(irTax);
+		invoice.setVatPercentage(vatTax);
+		invoice.setVatValue((vatTax/100)*invoice.getEstimatePricing().getTotalPrice());
+		invoice.setIrTaxValue((irTax/100)*invoice.getEstimatePricing().getTotalPrice());
+		//invoice.setNetPayable(0);
+	//	double totalPrice = invoice.getNetPayable();
+	//	invoice.setNetPayable(totalPrice);
+		invoiceRepository.save(invoice);
+		return invoice;
+	} catch (Exception e) {
+		throw e;
+	}
+	}
+
+	@Override
+	public Optional<Invoice> findByReferencenumber(String referenceNumber) {
+		try {
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		return Optional.empty();
+	}
 	
 }

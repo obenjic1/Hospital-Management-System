@@ -180,7 +180,7 @@ public class JobServiceImpl implements JobService {
 	@Override
 	public Optional <Job> findJobByReferenceNumber(String referenceNumber) {
 		try {
-			Optional <Job> reference = jobRepository.findByReferenceNumber(referenceNumber);
+			Optional <Job> reference = jobRepository.findByReferenceNumber(referenceNumber.toUpperCase());
 //			if (reference.isPresent()) {
 			return reference;
 //			}return null;

@@ -8,6 +8,8 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %> 
 <link href="assets/css/profile.css" rel="stylesheet">
 <link href="assets/css/billing/job.css" rel="stylesheet">
+<link href="assets/css/list-users.css" rel="stylesheet">
+
 
 <main id="users-list" class="main">
     <section class="section profile" id="modal-details">
@@ -163,20 +165,7 @@
                                                     </tbody>
                                                 </table>
 			                                   </div>
-<!-- 				                         <div class="row" style="margin-bottom: -21px;bottom: 26px;position: relative;"> -->
-<!-- 				                          <div class ="col-lg-3 px3"> -->
-<!-- 										    <div class="form-check">                      -->
-<!-- 							                    <label class="form-check-label" for="gridCheck1"><a>Apply Commission </a></label> -->
-<!-- 							                    <input class="form-check-input" type="checkbox" name="name" id="applyCommision"  onclick="showCommisionInput()"> -->
-<!-- 							                  </div> -->
-<!-- 										    </div> -->
-<!-- 				                         <div class ="col-lg-3 px3" style="position: relative;bottom: -13px; display: none;" id="commisionDiv"> -->
-<!-- 										  <input id= "commision" name="title" type= "text" placeholder="Amount" style="width: 279px;height: 35px;"> -->
-<!-- 					                  </div> -->
-<!-- 											<div class ="col-lg-3 px3" style="position: relative;bottom: -13px;"> -->
-<!-- 										  <input type= "button" class="btn btn-secondary" value ="submit" style="padding-left:20px"> -->
-<!-- 					                  </div>		    -->
-<!-- 										</div>  -->
+
 			                              <div class="row">
                                                 <table class="table-responsive ta" id="cover-table">
                                                     <thead id="estimate-header">
@@ -190,25 +179,26 @@
                                                     </thead>
                                                     <tbody>
                                                         <tr>
-                                                             <c:set var = "i"  value = "1"/> 
-                                                             <c:forEach var="estimate" items="${estimates}" varStatus="loop"> 
-                                                                <tr> 
-                                                                    <td><c:out value = "${i}"/></td> 
-                                                                       <td style="font-family: bold;"><a> <fmt:formatNumber value="${estimate.quantity}" type="currency"   pattern = "#,###,###"/> </a></td>                                 
-                                                                     <td style="font-family: bold;"><a> <fmt:formatNumber value="${estimate.unitPrice}" type="currency"   pattern = "#,###,###"/> </a></td>                                  
-                                                                      <td style="font-family: bold;"><a> <fmt:formatNumber value="${estimate.totalPrice}" type="currency"   pattern = "#,###,###"/> </a></td>  
-                                                                      <td>
-                                                                     
-<%--                                                                       <c:if test="${estimate.invoiced}">  --%>
-                                                                       <button type="button" class="btn " onclick="loadPageModalForm(getInvoiceQuantity(${estimate.id}))" data-toggle="tooltip" data-placement="top" title="Generate Invoice">
-                                                                         <i class="ri-eye-line" ></i>
-                                                                        </button>
-<%--                                                                       </c:if> --%>
-<!--                                                                         <button type="button" class="btn "  data-toggle="tooltip" data-placement="top" title="Generate Invoice"> -->
-<%--                                                                          ${estimate.invoiced ? ' <i class="ri-eye-line" onclick="loadPageModalForm(invoice/job-invoice/${estimate.id})"></i> ': '<i class="bi bi-download" onclick="getInvoiceQuantity(${estimate.id})"></i>'} 												    --%>
-<!--                                                                         </button> -->
-                                                                        
-                                                                      </td>                                
+                                                        <c:set var = "i"  value = "1"/> 
+                                                        <c:forEach var="estimate" items="${estimates}" varStatus="loop"> 
+                                                           <tr> 
+                                                               <td><c:out value = "${i}"/></td> 
+                                                                  <td style="font-family: bold;"><a> <fmt:formatNumber value="${estimate.quantity}" type="currency"   pattern = "#,###,###"/> </a></td>                                 
+                                                                <td style="font-family: bold;"><a> <fmt:formatNumber value="${estimate.unitPrice}" type="currency"   pattern = "#,###,###"/> </a></td>                                  
+                                                                 <td style="font-family: bold;"><a> <fmt:formatNumber value="${estimate.totalPrice}" type="currency"   pattern = "#,###,###"/> </a></td>  
+                                                                 <td>
+                                                                 <c:if test="${estimate.invoiced}"> 
+                                                                  <button type="button" class="btn " onclick="loadMainModalForm('invoice/job-invoice/from-pricing/${estimate.id}')" data-toggle="tooltip" data-placement="top" title="View Invoices">
+                                                                    <i class="ri-eye-line" style="color: #0d6efd"></i>
+                                                                   </button>
+                                                                 </c:if>
+                                                                  <c:if test="${!estimate.invoiced}"> 
+                                                                  <button type="button" class="btn " onclick="loadPageModalForm(getInvoiceQuantity(${estimate.id}))" data-toggle="tooltip" data-placement="top" title="Generate Invoice">
+                                                                   <i class="bi bi-download" style="color: green"></i>
+                                                                   </button>
+                                                                 </c:if>
+                                                                 
+                                                    		  </td>                                
                                                                 </tr> 
                                                                 <c:set var = "i"  value = "${i+1}"/>
                                                            </c:forEach> 
@@ -225,6 +215,3 @@
                     </div>
             </section>
         </main><!-- End #main -->
-  
-  
-  

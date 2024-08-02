@@ -58,7 +58,7 @@
 		<div class="search-bar">
 			<form class="search-form d-flex align-items-center" method="GET" action="#">
 			  <input type="text" name="referenceNumber" placeholder="Search" title="Enter search keyword" id="search">
-			  <button type="button" title="Search" onclick="searchJobByReference()"> <i class="bi bi-search" ></i> </button>
+			  <button type="button" title="Search" onclick="searchByReference()"> <i class="bi bi-search" ></i> </button>
 			</form>
 		</div>
 		<!-- End Search Bar -->

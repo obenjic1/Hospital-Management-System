@@ -27,13 +27,19 @@ public class Invoice {
 	
 	@Column(name = "reference_number")
 	private String referenceNumber;
+
+	@Column(name = "vat_value", columnDefinition = "float default 0")
+	private double vatValue;
 	
+	@Column(name = "vat_percentage", columnDefinition = "float default 0")
+	private double vatPercentage;
+
 	@Column(name = "ir_tax_value", columnDefinition = "float default 0")
 	private double irTaxValue;
 	
-	@Column(name = "tva_value", columnDefinition = "float default 0")
-	private double tvaValue;
-	
+	@Column(name = "ir_tax_percentage", columnDefinition = "float default 0")
+	private double irTaxPercentage;
+
 	 @Column(name = "discount_percentage", columnDefinition = "float default 0")
 	 private double discountPercentage;
 
@@ -46,6 +52,6 @@ public class Invoice {
 	
 	@ManyToOne
 	@JoinColumn(name = "estimate_pricing_id", referencedColumnName = "id")
-	private EstimatePricing estimatePricingid;
+	private EstimatePricing estimatePricing;
 
 }

@@ -45,7 +45,7 @@
 					    </div>
 					    
 					    <div id="endPeriod" class="col-sm-3" style="display: block;">
-					      <button type="button" title="Search" onclick="searchJobByReference()"> <i class="bi bi-search" ></i> </button>
+					      <button type="button" title="Search" onclick="findBycreationDate()"> <i class="bi bi-search" ></i> </button>
 					        
 					 </div>
 						</div> 
@@ -53,40 +53,50 @@
 						  <thead style="background-color: #dddfe3;">
 						    <tr>
 						       <th scope="col"><fmt:message key="number"/></th>
-						       <th scope="col"><fmt:message key="job.title"/></th>
 						       <th scope="col"><fmt:message key="reference.number"/></th>
+						       <th scope="col"><fmt:message key="job.title"/></th>
 						       <th scope="col"><fmt:message key="customer"/></th>
 						        <th scope="col"><fmt:message key="created.date"/></th>
 						        <th scope="col"><fmt:message key="net.payable"/></th>
 							   <th scope="col"><fmt:message key="actions"/></th>
 							</tr>
 						  </thead>
-						  <tbody>
-						  <c:forEach var="result" items="${results}" varStatus="loop">
-						    <tr class="${loop.index % 2 == 0 ? 'even-row' : 'odd-row'}">
-							    <c:set var="index" value="${loop.index}" />
-							    <%    int index = (Integer) pageContext.getAttribute("index");  %>
-							 <td>  <%= index + 1 %></td>
-							 <td>${result.estimatePricingid.jobEstimate.job.title}</td>
-							  <td>${result.referenceNumber}</td>
-							 <td>${result.estimatePricingid.jobEstimate.job.customer.name}</td>
-							   <td><fmt:formatDate type = "both" value = "${result.creationDate}" /></td>
-							    <td>${result.netPayable}</td>
-							   <td>
-							     <a>
-								   <button data-bs-toggle="modal" data-bs-target="#ExtralargeModal" data-bs-toggle="modal" class="button-see" onclick="loadPageModalForm('invoice/job-invoice/${result.id}')">
-								    <i class="ri-eye-line"></i>
-								   </button>
-								   <button class="button-edite" data-bs-target="#ExtralargeModal" data-bs-toggle="modal" class="button-see" onclick="loadPageModalForm('papertype/toUpdate/${paperType.id}')">
-								     <i class="ri-download-2-fill"></i>
-								   </button>
+						  <tbody id ="table-content">
+						
+							  <c:forEach var="result" items="${results}" varStatus="loop">
+							    <tr class="${loop.index % 2 == 0 ? 'even-row' : 'odd-row'}">
+								    <c:set var="index" value="${loop.index}" />
+								    <%    int index = (Integer) pageContext.getAttribute("index");  %>
+								 <td>  <%= index + 1 %></td>
+								 <td>${result.referenceNumber}</td>
+								 <td>${result.estimatePricing.jobEstimate.job.title}</td>
+								 <td>${result.estimatePricing.jobEstimate.job.customer.name}</td>
+								   <td><fmt:formatDate type = "both" value = "${result.creationDate}" /></td>
+								    <td> <fmt:formatNumber value="${result.netPayable}" type="currency"   pattern = "#,###,###"/></td>
+								   <td>
+								     <a>
+								     <select id="coverPaperType" name="name" class="form-select">
+								     <option >Action</option>
+								      <option data-bs-toggle="modal" data-bs-target="#ExtralargeModal" data-toggle="tooltip" data-placement="top" title="view job details" onclick="loadPageModalForm('invoice/job-invoice/${result.id}');">View</option>
+								     <option data-bs-toggle="modal" data-bs-target="#ExtralargeModal" data-toggle="tooltip" data-placement="top" title="edit job details" onClick="loadPageModalForm('invoice/invoice-discount/${result.id}');">Apply Discount</option>
+								     <option data-bs-toggle="modal" data-bs-target="#ExtralargeModal" data-toggle="tooltip" data-placement="top" title="view job details" onclick="loadPageModalForm('invoice/job-tax-form/${result.id}');">Apply Taxes</option>
+					              </select>								 
+									 </a>
+								   </td>
 								 
-								 </a>
-							   </td>
-							 </tr>						
-						  </c:forEach>
+							  </c:forEach>
+						  <tr style="font-family: bold; ">
+						  <td  style="color: #012970; ">Total Payable : </td>
+						   <td> </td>
+						    <td> </td>
+						   	<td> </td>
+						   	<td> </td>
+						   	<td> </td>
+						   <td style="color:red;"><fmt:formatNumber value="${netPayable}" type="currency"   pattern = "#,###,###"/> XAF</td>
+						 </tr>
 						</tbody>
 					  </table>
+					 
 					  </div>					  					 		
 					</div>
 				</div>

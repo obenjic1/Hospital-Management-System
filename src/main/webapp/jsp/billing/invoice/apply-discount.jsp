@@ -45,6 +45,29 @@
                                                     </tbody>
                                                 </table>
                                             </div>
+                                            <div class="row" style="margin-bottom: -8px;">
+				                       			 <div class="col-lg-9">
+				                       			 	<div class="row" style="position: relative;">
+							                          <div class ="col-lg-5 px3">
+													    <div class="form-check" style="display: contents;">                     
+										                    <label class="form-check-label" for="gridCheck1" style="position: relative;bottom: -6px; left: 35px;"><a>Apply Discount</a></label>
+										                    <input class="form-check-input" type="checkbox" name="name" id="applyDiscount" style="position: relative;left: 35px; bottom: -7px"  onclick="showDiscountImput()">
+										                  </div>
+													   </div> 
+						                         	  <div class ="col-lg-4 px3" id="discountDiv" style="display: none;">
+														<input id= "discountValue" name="title" type= "number" placeholder="" style="width: 278px;height: 35px;margin-left: -141px;bottom: -2px;position: relative; value=0">
+											          </div>
+													
+													</div>
+				                       			 </div>
+
+				                       			 <div class="col-lg-2"  id="apply-btn-tax">
+				                       			    <div class ="col px3" style="position: relative;" >
+													  <input type= "button" class="btn btn-primary btn-sm" value ="Apply" style="margin-left: 100px;" onclick="applyDiscount(${invoices.id})">
+					                 				</div>	
+							                      </div>
+														
+				                       			 </div>
                                             <div class="row">
                                                 <table class="table-responsive ta" id="cover-table">
                                                     <thead id="estimate-header">
@@ -55,7 +78,7 @@
                                                             <th scope="col">Total Price (FCFA)</th>                                                            
                                                         </tr>
                                                     </thead>
-                                                    <tbody id="load-taxs-applyed">
+                                                    <tbody id="load-discount-applyed">
                                                         <tr>
                                                              <c:set var = "i"  value = "1"/> 
                                                                 <tr> 
@@ -65,41 +88,20 @@
                                                                       <td style="font-family: bold;"><a> <fmt:formatNumber value="${invoices.estimatePricing.totalPrice}" type="currency"   pattern = "#,###,###"/> </a></td>  
                                                                                                    
                                                                 </tr> 
-                                                                  <tr>
-<%--                                                                    <c:if test="${invoices.vatPercentage} >0"> --%>
-                                                                  
-                                                                  	<td style="font-family: bold;">VAT <span>${invoices.vatPercentage}</span> % </td>                                 
-                                                                     <td> </td>                                  
-                                                                      <td> </td>  
-                                                                      <td><a> <fmt:formatNumber value="${invoices.vatValue}" type="currency"   pattern = "#,###,###"/> </a></td> 
-<%--                                                                   </c:if> --%>
-                                                                                                     
+                                                                  <tr> 
+                                                                 
+                                                                       <td style="font-family: bold;"> <span>${invoices.discountPercentage}</span>% DISCOUNT</a></td>                                 
+                                                                     <td><a> </td>                                  
+                                                                      <td><a> </td>  
+                                                                      <td><a> <fmt:formatNumber value="${discount}" type="currency"   pattern = "#,###,###"/> </a></td>                               
                                                                 </tr> 
                                                                  <tr> 
-<%--                                                               <c:if test="${invoices.irTaxPercentage}>0.01"> --%>
-                                                                 	 <td style="font-family: bold;">Tax IR ${invoices.irTaxPercentage} % </td>                                 
-                                                                     <td> </td>                                  
-                                                                      <td> </td>  
-                                                                      <td style="font-family: bold;"><a> <fmt:formatNumber value="${invoices.irTaxValue}" type="currency"   pattern = "#,###,###"/> </a></td> 
-<%--                                                                 </c:if> --%>
-                                                                 
-                                                                                                    
-                                                                </tr>
-                                                                   <tr> 
-                   
-												                         <td style="font-family: bold;"><span>${invoices.discountPercentage} </span>%  Discount</a></td>                                 
-												                       <td><a> </td>                                  
-												                        <td><a> </td>  
-												                        <td><a> <fmt:formatNumber value="${discount}" type="currency"   pattern = "#,###,###"/> </a></td>                               
-												                  </tr> 
-                                                                 <tr> 
-                                                                 
-                                                                       <td style="font-family: bold; font-weight: bold"><a>Net Payable </a></td>                                 
-                                                                     <td><a> </a> </td>                                  
-                                                                      <td><a> </a></td>  
-                                                                      <td style="font-family: bold; font-weight: bold;"><a> <fmt:formatNumber value="${invoices.netPayable}" type="currency"   pattern = "#,###,###"/> </a></td>                               
-                                                                </tr>
-                                                        </tr>
+                                                                 <td style="font-family: bold; font-weight: bold"><a>Net Payable </a></td>                                 
+                                                                 <td><a> </a> </td>                                  
+                                                                  <td><a> </a></td>  
+                                                                  <td style="font-family: bold; font-weight: bold;"><a> <fmt:formatNumber value="${invoices.netPayable}" type="currency"   pattern = "#,###,###"/> </a></td>                               
+                                                               </tr>
+                                                        	</tr>
                                                     </tbody>
                                                 </table>
                                             </div>
