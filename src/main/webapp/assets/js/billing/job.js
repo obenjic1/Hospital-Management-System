@@ -28,7 +28,6 @@ function totalContentVolumeChange(){
 		});
 }
 
-	
 function addContentPaperChild(){
 	let contentDiv = document.getElementById("contentDiv");
 	let ContentFirstChild = contentDiv.children[0];
@@ -171,7 +170,7 @@ function signatureCalculation(machineParams,node){
 
 
      		// Calcul of Cover Signqture
- function coverSignatureCalculation(machineParams){
+ function coverSignatureCalculation(machineParams,node){
 	
 	let coverSignature=document.getElementById("cover-signature-div");
 	let coverDivTab2 = document.getElementById("coverInformations");
@@ -207,17 +206,24 @@ function submitForm(){
  job.jobTypeId = document.getElementById("jobType").value;
  job.title = document.getElementById("title").value;
  
- if(dataContentValue==0||dataContentValue==2){
+ if(dataContentValue==2){
 	  job.coverVolume = document.getElementById("volumeOfCover").value;
  }
-    if(dataContentValue==1||dataContentValue==2){
+    if(dataContentValue==0||dataContentValue==2){
 	   job.contentVolume = document.getElementById("volumeOfContent").value;
  } 
  job.ctpFees = document.getElementById("ctpFees").value;
  job.openWidth = document.getElementById("openWidth").value;
  job.openLength = document.getElementById("openLength").value;
- job.closeWidth = document.getElementById("closeWidth").value;
- job.closeLength = document.getElementById("closeLength").value;
+ if(dataContentValue==1 || dataContentValue==2){
+	  job.closeWidth = document.getElementById("closeWidth").value;
+ 	  job.closeLength = document.getElementById("closeLength").value;
+ }else{
+	  job.closeWidth = document.getElementById("openWidth").value;
+ 	  job.closeLength = document.getElementById("openLength").value;
+	 
+ }
+
  job.existingPlate = document.getElementById("existingPlate").checked; 
  job.dataSuppliedByCustomer = document.getElementById("dataSuppliedByCustomer").checked; 
  job.layOutByUs = document.getElementById("layoutByUs").checked;
@@ -243,7 +249,7 @@ function submitForm(){
  	// Adding coverJobPaper and color combination  
  	
 	 let jobPapers = [ ];
-	 if(dataContentValue==0||dataContentValue==2){
+	 if(dataContentValue==2){
 		 let coverJobPaper = { };
 	  coverJobPaper.grammage = document.getElementById("coverGrammage").value;
 	  coverJobPaper.volume = document.getElementById("coverVolume").value;
@@ -266,7 +272,7 @@ function submitForm(){
     //End of Adding CoverJobPaper and color combination   
     // Start adding contentJobPaper and color combination
     
-    if(dataContentValue==1||dataContentValue==2){
+    if(dataContentValue==1||dataContentValue==2 || dataContentValue==0){
 		
      let contentPaperTypes = document.getElementById("contentDiv").children;
      let mainContentSignature = document.getElementById("mainContentSignature").children;
@@ -353,8 +359,14 @@ function submitForm(){
 			document.getElementById("paper-format").innerHTML= document.getElementById("paperFormat").selectedOptions[0].innerHTML;
 			document.getElementById("open-l").innerHTML= document.getElementById("openLength").value;
 			document.getElementById("open-w").innerHTML= document.getElementById("openWidth").value;
-			document.getElementById("fold-l").innerHTML=document.getElementById("closeLength").value;
-			document.getElementById("fold-w").innerHTML= document.getElementById("closeWidth").value;
+			if(dataContentValue==2 || dataContentValue==1){
+				document.getElementById("fold-l").innerHTML=document.getElementById("closeLength").value;
+			    document.getElementById("fold-w").innerHTML= document.getElementById("closeWidth").value;
+			}else {
+				document.getElementById("fold-l").innerHTML=document.getElementById("openLength").value;
+			document.getElementById("fold-w").innerHTML= document.getElementById("openWidth").value;
+			}
+			
 			
 			let yes = "Yes";
 			let no ="No";
@@ -375,7 +387,7 @@ function submitForm(){
 			document.getElementById("type-setting").innerHTML=yes;
 			else document.getElementById("type-setting").innerHTML=no;
 			
-			if(dataContentValue==0 || dataContentValue==2)
+			if(dataContentValue==2)
 				// job type is a cover or cover and content
 			{
 			document.getElementById("cover-pages").innerHTML= document.getElementById("volumeOfCover").value;
@@ -396,16 +408,11 @@ function submitForm(){
 				document.getElementById('content-pages-info').style.display = "";
 				document.getElementById('content-papers-options-info').style.display = "";
 				document.getElementById('content-printing-options-info').style.display = "";	
-			if(dataContentValue==0){//do not display content divs infos
-			
-				document.getElementById('content-pages-info').style.display = "none";
-				document.getElementById('content-papers-options-info').style.display = "none";
-				document.getElementById('content-printing-options-info').style.display = "none";
-				}
+		
 			}
-		if(dataContentValue==2 || dataContentValue==1)
+		if(dataContentValue==2 || dataContentValue==1 || dataContentValue==0)
 		{
-			/** job type is either have content and cover or only content
+			/** job type is either have content and cov|| dataContentValue==1er or only content
 		 */
 		let contentPaperTypes = document.getElementById("contentDiv").children;
 		let mainContentSignature = document.getElementById("mainContentSignature").children;
@@ -472,7 +479,7 @@ function submitForm(){
 	    document.getElementById('cover-pages-info').style.display = "";
 		document.getElementById('cover-papers-options-info').style.display = "";
 		document.getElementById('cover-printing-options-info').style.display = "";
-		if(dataContentValue==1){//do not display cover divs infos
+		if(dataContentValue==1 || dataContentValue==0){//do not display cover divs infos
 				document.getElementById('cover-pages-info').style.display = "none";
 				document.getElementById('cover-papers-options-info').style.display = "none";
 				document.getElementById('cover-printing-options-info').style.display = "none";
@@ -667,12 +674,16 @@ function confirmEstimate(urlConfirm, urlPrintEstimate){
 function jobTypeChoice(opt){
 	let dataContentValue = opt.parentElement.getAttribute('data-content');
 	if(dataContentValue==0){
-		document.getElementById('volumeofContent').style.display = "none";
-		document.getElementById('volumeofCover').style.display = "";
-		document.getElementById('coverInformations').style.display = "";
-		document.getElementById('contentDiv').style.display = "none";
-		document.getElementById('cover-signature-div').style.display = "";
-		document.getElementById('mainContentSignature').style.display = "none";
+		document.getElementById('volumeofContent').style.display = "";
+		document.getElementById('volumeofCover').style.display = "none";
+		document.getElementById('coverInformations').style.display = "none";
+		document.getElementById('contentDiv').style.display = "";
+		document.getElementById('cover-signature-div').style.display = "none";
+		document.getElementById('mainContentSignature').style.display = "";  
+		document.getElementById('closeDimensionDiv').style.display = "none";
+		document.getElementById('volumeOfContent').value=1;
+		document.getElementById('volumeOfContent').readOnly = true;
+	
 	}
 	else if(dataContentValue==1){
 		document.getElementById('volumeofCover').style.display = "none";
@@ -681,6 +692,9 @@ function jobTypeChoice(opt){
 		document.getElementById('contentDiv').style.display = "";
 		document.getElementById('cover-signature-div').style.display = "none";
 		document.getElementById('mainContentSignature').style.display = "";
+		document.getElementById('closeDimensionDiv').style.display = "";
+		document.getElementById('volumeOfContent').value="";
+		document.getElementById('volumeOfContent').readOnly = false;
 	}
 	else {
 		document.getElementById('volumeofContent').style.display = "";
@@ -689,6 +703,9 @@ function jobTypeChoice(opt){
 		document.getElementById('contentDiv').style.display = "";
 		document.getElementById('cover-signature-div').style.display = "";
 		document.getElementById('mainContentSignature').style.display = "";
+		document.getElementById('closeDimensionDiv').style.display = "";
+		document.getElementById('volumeOfContent').value="";
+		document.getElementById('volumeOfContent').readOnly = false;
 	}
 
 	}
