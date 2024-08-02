@@ -48,11 +48,11 @@
 					      </div>
 					   	 <div class="row">
 					       <div class="col-sm-4">
-					       <c:if test="${job.jobType.category==0||job.jobType.category==2}">
+					       <c:if test="${job.jobType.category==2}">
 					     	  Number of Pages for Cover : <span id="cover-pages">${job.coverVolume} </span>
 					       </c:if>
 					      </div>
-					      <c:if test="${job.jobType.category==1||job.jobType.category==2}">
+					      <c:if test="${job.jobType.category==1||job.jobType.category==2 || job.jobType.category==0}">
 					      <div class="col-sm-4">
 					    	Number of Pages for Content :  <span id="content-pages"> ${job.contentVolume}</span> 
 					      </div>
@@ -94,7 +94,7 @@
 					   </div>
 					<!--            job decription ends     -->
 					
-					<c:if test="${job.jobType.category==0||job.jobType.category==2}">
+					<c:if test="${job.jobType.category==2}">
 							<h4 id="top2">Cover Paper Option</h4>
 							<hr>
 					   <div class="row">
@@ -113,7 +113,7 @@
 					   
 					   </c:if>
 					   
-					   <c:if test="${job.jobType.category==1||job.jobType.category==2}">
+					   <c:if test="${job.jobType.category==1||job.jobType.category==2 || job.jobType.category==0}">
 						<h4 id="top2"> Content Paper Option</h4>
 						<hr>
 					    <div class="row">
@@ -143,7 +143,7 @@
 					  	</c:if>
 					      <br>
 		  
-		 		 <c:if test="${job.jobType.category==0||job.jobType.category==2}">
+		 		 <c:if test="${job.jobType.category==2}">
 					 <h4>Cover Printing Option</h4>
 
 					 <hr>
@@ -165,7 +165,7 @@
 					  </div>
 					  
 					  </c:if>
-					  <c:if test="${job.jobType.category==1||job.jobType.category==2}">
+					  <c:if test="${job.jobType.category==1||job.jobType.category==2 || job.jobType.category==0}">
 					   <h4>Content Printing Option</h4>
 
 					 <hr>

@@ -69,25 +69,25 @@
 					<label for="" class="form-label"><a> <fmt:message key="job.type"/></a></label> 
 					<select onchange="jobTypeChoice(this.selectedOptions[0])"  id="jobType" name="jobType" class="form-select" >
 					  <option>Choose...</option>
-					  <optgroup label="<fmt:message key="job.category.two"/>" data-content="2">
+					  <optgroup label="<fmt:message key="job.category.folded.two"/>" data-content="2">
 					  <c:forEach items="${jobTypes}" var="jobType">
 					  <c:if test="${jobType.category==2}">
                         <option style="marging-left: %;" value="${jobType.id}" >${jobType.name}</option>
                          </c:if>
                       </c:forEach>
                       </optgroup>
-                       <optgroup label="<fmt:message key="job.category.zero"/>" data-content="0">
+                       <optgroup label="<fmt:message key="job.category.folded.one"/>" data-content="1">
                      
                        <c:forEach items="${jobTypes}" var="jobType">
-                        <c:if test="${jobType.category==0}">
+                        <c:if test="${jobType.category==1}">
                         <option value="${jobType.id}" >${jobType.name}</option>
                         </c:if>
                       </c:forEach>
                        </optgroup>
-                       <optgroup   label="<fmt:message key="job.category.one"/>" data-content="1">
+                       <optgroup   label="<fmt:message key="job.category.opened"/>" data-content="0">
                       
                        <c:forEach items="${jobTypes}" var="jobType">
-                       <c:if test="${jobType.category==1}">
+                       <c:if test="${jobType.category==0}">
                         <option value="${jobType.id}" >${jobType.name}</option>
                          </c:if>
                       </c:forEach>
@@ -124,7 +124,7 @@
                    </div>
 				 </div>
 			  </div>
-			  <div class ="col-lg-3 px8" style="position: relative; left: 10px;"> 
+			  <div class ="col-lg-3 px8" id="closeDimensionDiv" style="position: relative; left: 10px;"> 
 			   <label for="" class="form-label"> <a><fmt:message key="close.format"/></a> </label>
 			     <div class="row">
 				   <div class="col-6 volume-cover-l">
@@ -323,7 +323,7 @@
           <div class="row py-3" id="cover-signature-div">
 		    <div class ="col-lg-3 px8" >
 			  <label for="" class="form-label"><a><fmt:message key="cover.printing.machine"/></a></label> 
-			  <select id="coverPrintingMachine" name="name" class="form-select" onchange="coverSignatureCalculation(this.value)">
+			  <select id="coverPrintingMachine" name="name" class="form-select" onchange="coverSignatureCalculation(this.value , this.parentNode)">
 			    <option selected>Choose...</option>
 			    <c:forEach items="${printingMachines}" var="printingMachine">
                   <option value="${printingMachine.id},${printingMachine.plateLength},${printingMachine.plateWidth}">${printingMachine.name}</option>

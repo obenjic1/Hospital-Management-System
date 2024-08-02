@@ -326,11 +326,13 @@ public class JobController {
 				//**********************//
 				float y4 = 115;
 				printer.print(document, exposior+"", 75, y4-vecteur);
+				/**
+				 * to review after bug fix
 				printer.print(document, plateMakingCosting.foilPreparation()+"", 98, y4-vecteur);
 				printer.printMoney(document, exposior*plateMakingCosting.foilPreparation(), 128, y4-vecteur);
 				//fix price
 				fixePrice+=exposior*plateMakingCosting.foilPreparation();
-					
+					*/
 
 				float yex = 113;
 				//printer.print(document, exposior+"", 55, yex-vecteurex);
@@ -473,7 +475,7 @@ public class JobController {
 			canvas2.addImage(data, PageSize.A4, false);
 			float translation = -5;
 			String paperFormat ="";
-			double closewidthFormat =job.getOpenWidth();
+			double closewidthFormat =Math.max(job.getOpenWidth(), job.getOpenLength()) ;
 			if(closewidthFormat<=74)
 				paperFormat = 8+"";
 			else if(closewidthFormat<=105)
@@ -723,7 +725,13 @@ public class JobController {
 	public String viewJobDetails(@PathVariable long id, Model model) {
 		Job job = jobServiceImpl.findById(id).get();
 		List<JobPaper> jobPapers = job.getJobPapers();
-		JobPaper cover = jobPapers.remove(0);
+		JobPaper cover = null;
+		for(JobPaper jp : jobPapers) {
+			if(jp.getContentType().getId()==1) {
+				cover=jp;
+				jobPapers.remove(jp);
+			}
+		}
 		List<JobEstimate>  jobEstimates = job.getJobEstimates();
 		List<Invoice> invoices = new ArrayList<Invoice>();
 		
@@ -829,7 +837,7 @@ public class JobController {
 		
 		@GetMapping("/generate/{id}")
 		public String generateEstimate(@PathVariable long id, @RequestParam("quantities") String quantities, 
-				@RequestParam("extraFee") int extraFee, @RequestParam("extraFeeDescription") String extraFeeDescription,
+				@RequestParam("extraFee") int extraFee, @RequestParam("extraFeeDescription") Optional<String> extraFeeDescription,
 				@RequestParam("advancePercentage") float advancePercentage, Model model) {
 			
 			Job job = jobServiceImpl.findById(id).get();
@@ -876,7 +884,7 @@ public class JobController {
 	@PostMapping("/estimate/confirm/{id}")
 	@ResponseBody
 	public String confirmEstimate(@PathVariable Long id,@RequestParam("quantities") String quantities,
-								   @RequestParam("extraFee") int extraFee, @RequestParam("extraFeeDescription") String extraFeeDescription,
+								   @RequestParam("extraFee") int extraFee, @RequestParam("extraFeeDescription")  Optional<String>  extraFeeDescription,
 								   @RequestParam("advancePercentage") float advancePercentage, Model model) {
 		try {
 		Job job = jobServiceImpl.findById(id).get();
