@@ -45,9 +45,7 @@ public class PlateMakingCosting {
 		logP= Math.floor(logP)+1;
 		double pagesPerSignature = Math.pow(2,logP);
 		this.basic = (int) (pagesPerSignature/2);
-		if(jobPaper.getContentType().getName().equals("Cover")) {
-			this.basic=2;
-		}
+		
 		plates=0;
 		jobPaper.getJobColorCombinations().forEach(colorCombination->{
 			double signature = (colorCombination.getNumberOfSignature());
