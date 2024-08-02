@@ -1177,4 +1177,25 @@ public class JobController {
 		}
 	}
 	
+	@GetMapping("/search-estimate-by/{reference}")
+	public String displayEstimates(@PathVariable String reference,Model model) {
+		try {
+			Optional<JobEstimate> estimate = jobEstimateServiceImpl.findByReferenceNumber(reference);	
+			if(estimate.isPresent()) {
+				JobEstimate jobEstimate = estimate.get();
+				Job job = jobEstimate.getJob();
+				model.addAttribute("jobEstimates", jobEstimate);
+				model.addAttribute("job", job);
+				return "billing/estimate/view-estimate-search-result";
+			}
+			else 
+			//	model.addAttribute("job", job);
+				return "billing/estimate/view-estimate-search-result";
+			
+		} catch (Exception e) {
+			throw e;
+		}
+			
+		}
+	
 }

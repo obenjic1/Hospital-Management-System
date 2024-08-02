@@ -7,6 +7,7 @@ import com.ppp.billing.service.JobEstimateService;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -55,5 +56,12 @@ public class JobEstimateServiceImpl implements JobEstimateService {
 		}
 		
 		return estimateP;
+	}
+
+
+	@Override
+	public Optional<JobEstimate> findByReferenceNumber(String referenceNumber) {
+		Optional<JobEstimate> estimate = jobEstimateRepository.findByReference(referenceNumber.toUpperCase());
+		return estimate ;
 	}
 }

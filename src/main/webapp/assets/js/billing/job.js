@@ -710,11 +710,21 @@ function jobTypeChoice(opt){
     });
 }
 
-function searchJobByReference() {
+function searchByReference() {
 	let reference = document.getElementById("search").value;
-	loadPage(`job/search-by/${reference}`);
+	let test = reference[0];
+	if(test=='J'||test=='j'){
+		loadPage(`job/search-by/${reference}`);
+	}
+	
+	else if (test=='E'||test=='e'){
+		loadPage(`job/search-estimate-by/${reference}`);
+	}
+	
 		
 	}
+	
+	
 
 function findByDate() {
 	let startDateValue = document.getElementById("search_startDate").value;

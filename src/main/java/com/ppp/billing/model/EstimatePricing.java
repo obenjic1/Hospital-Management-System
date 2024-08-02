@@ -44,7 +44,7 @@ public class EstimatePricing {
 		@JoinColumn(name = "job_estimate_id", referencedColumnName = "id")
 		private JobEstimate jobEstimate;
 	    
-	    @OneToMany(mappedBy = "estimatePricingid", cascade = CascadeType.PERSIST)
+	    @OneToMany(mappedBy = "estimatePricing", cascade = CascadeType.PERSIST)
 	    private List<Invoice> invoices;
 
 	

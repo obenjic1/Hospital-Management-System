@@ -42,21 +42,21 @@
 										                  </div>
 													   </div> 
 						                         		<div class ="col-lg-2 px3" style="position: relative;bottom: -13px; display: none;" id="commisionDiv">
-															<input id= "commision" name="title" type= "number" placeholder="Amount" style="width: 200px;height: 35px;margin-left: 20px; value="0">
+															<input id= "commision" name="title" type= "number" placeholder="XAF" style="width: 200px;height: 35px;margin-left: 20px;">
 											       </div>
 													
 													</div>
 				                       			 </div>
-				                       			 <div class="col-lg-5">
+				                       			 <div class="col-lg-5" style="position: relative; bottom: 10px">
 				                       			 	 <div class="row" style="position: relative;">
 							                          <div class ="col-lg-3 px3">
 													    <div class="form-check">                     
-										                    <label class="form-check-label" for="gridCheck1"><a>Discount </a></label>
-										                    <input class="form-check-input" style="/*! margin-bottom: 25px; */position: relative;bottom: 21px;" type="checkbox" name="name" id="applyDiscount"  onclick="showDiscountInput()">
+										                    <label class="form-check-label" for="gridCheck1"><a>Commission as Discount </a></label>
+										                    <input class="form-check-input" style="position: relative;bottom: 32px;" type="checkbox" name="name" id="applyDiscount"  onclick="showDiscountInput()">
 										                  </div>
 													   </div> 
 						                         		<div class ="col-lg-2 px3" style="position: relative;bottom: -13px; display: none;" id="discountDiv">
-														<input id= "discount" name="title" type= "number" placeholder="Amount" style="width: 200px;height: 35px;margin-left: 20px; value="0">
+														<input id= "discount" name="title" type= "number" placeholder="XAF" style=" margin-bottom: 25px; width: 200px;height: 35px;margin-left: 20px;margin-top: 16px;">
 											       </div>
 													
 													</div>
