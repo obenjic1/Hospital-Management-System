@@ -670,6 +670,13 @@ function confirmEstimate(urlConfirm, urlPrintEstimate){
             console.log("internal server error :", error);
         });
 }
+function confirmEstimateCommission(ref){
+	
+	loadPage(`job/search-by/${reference}`);
+				
+			
+}
+
 
 function jobTypeChoice(opt){
 	let dataContentValue = opt.parentElement.getAttribute('data-content');

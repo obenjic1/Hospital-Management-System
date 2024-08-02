@@ -1,10 +1,14 @@
 package com.ppp.billing.controller;
 
+import java.io.IOException;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.stereotype.Controller;
@@ -14,16 +18,29 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.itextpdf.kernel.geom.PageSize;
+import com.itextpdf.kernel.pdf.PdfDocument;
+import com.itextpdf.kernel.pdf.PdfWriter;
+import com.itextpdf.layout.Document;
 import com.ppp.billing.model.EstimatePricing;
 import com.ppp.billing.model.Invoice;
 import com.ppp.billing.model.Job;
+import com.ppp.billing.model.JobActivity;
+import com.ppp.billing.model.JobEstimate;
+import com.ppp.billing.model.JobPaper;
 import com.ppp.billing.serviceImpl.EstimatePricingServiceImpl;
 import com.ppp.billing.serviceImpl.InvoiceServiceImpl;
+import com.ppp.printable.PrintableElement;
 
 @Controller
 @RequestMapping("invoice")
 public class InvoiceController {
+	
+	@Value("${folder.invoice}")
+	private String invoiceDir;
+	
 	
 	@Autowired
 	private InvoiceServiceImpl invoiceServiceImpl;
@@ -179,5 +196,161 @@ public class InvoiceController {
 			throw e;
 		}
 	}
+	/*
+	 * creating and printing invoice pdf
+	 */
 	
+	@GetMapping("/invoice-pdf/{reference}")
+	@ResponseBody
+	public String generateInvoicePdf(@PathVariable long id) throws IOException {
+		try {			
+			String file=createInvoiceDataPdf(id);
+			return "file="+file+"&dir=folder.invoice";
+			
+		}catch (Exception e) {
+			e.printStackTrace();
+			return "file=error.pdf&dir=folder.invoice";
+		}
+	
+	}	
+	
+
+	public String createInvoiceDataPdf(@PathVariable long id) throws IOException{
+	 try {
+
+		Invoice invoice=invoiceServiceImpl.findById(id);
+
+		PdfWriter pdfWriter = new PdfWriter(invoiceDir+invoice.getReferenceNumber()+ ".pdf");
+		JobEstimate jobEstimate = invoice.getEstimatePricing().getJobEstimate();
+		Job job=jobEstimate.getJob();
+		PdfDocument pdfDocument = new PdfDocument(pdfWriter);
+		Document document = new Document(pdfDocument, PageSize.A4);
+//		 document.setMargins(25, 25, 297-156, 50);
+
+		PrintableElement printer = new PrintableElement();	
+		JobActivity jobActivity = job.getJobActivity();
+		List<JobPaper> jcc = job.getJobPapers();
+		JobPaper coverPaper = null;
+		for(JobPaper pp : jcc) {
+			if(pp.getContentType().getId()==1)
+			{
+				coverPaper=pp;
+				printer.print(document,"Cover: "+ job.getOpenLength()+" X "+job.getOpenWidth()+" mm", 73, 297-93);
+				printer.print(document, "Cover: " +job.getCoverVolume()+" Pages", 73, 297-110);
+				printer.print(document,"Cover: "+  coverPaper.getJobColorCombinations().get(0).getFrontColorNumber() + "/" +coverPaper.getJobColorCombinations().get(0).getBackColorNumber()+" " + coverPaper.getJobColorCombinations().get(0).getPrintType().getName(), 73, 297-136);
+				printer.printHeader(document,"Paper", 38, 297-182);
+			    printer.print(document, "Cover : "+ job.getJobPapers().get(0).getPaperType().getName(), 73, 297-182);
+				printer.print(document, job.getJobPapers().get(0).getGrammage()+" GSM", 168, 297-182);
+		}}
+		String jobActivities = "";
+		String typeSettings = "";
+		String reproduction = "";
+			
+			printer.printHeader(document, "Invoice ".toUpperCase() , 73, 297-42);
+		 	printer.print(document, "("+invoice.getReferenceNumber().toUpperCase()+")", 97, 297-42);
+
+		 	printer.printHeader(document,job.getCustomer().getName().toUpperCase(), 123, 297-52);
+			printer.printHeader(document,job.getCustomer().getAddress().toUpperCase(), 123, 297-58);
+
+			printer.printHeader(document, "Description", 38, 297-83);
+			printer.print(document, job.getJobType().getName(), 73, 297-83);
+
+			if(job.isTypesettingByUs()||job.isLayOutByUs()) typeSettings =	typeSettings + "By us,";
+			if(job.isExistingPlate()) {
+				reproduction = reproduction +  "Existing Plate";
+				
+			}else reproduction = reproduction +  "Data supplied By Customer";
+
+			printer.printHeader(document, "Typesetting ", 38, 297-123);
+			printer.print(document, typeSettings, 73, 297-123);
+			
+			printer.printHeader(document, " Reproduction", 38, 297-128 );
+			printer.print(document, reproduction, 73, 297-128);
+
+			printer.printHeader(document, "Format", 38, 297-93);
+			printer.printHeader(document, "Volume", 38, 297-110);
+			
+			printer.printHeader(document, "Printing", 38, 297-137);
+
+
+				String message_ =" ";
+				boolean isContent =false;
+				for(JobPaper pp:jcc) {
+				if(pp.getContentType().getId()!=1)
+					{
+					isContent=true;
+					for(int j=0; j<pp.getJobColorCombinations().size(); j++) {
+					message_+=  pp.getJobColorCombinations().get(j).getFrontColorNumber()+"/"+ pp.getJobColorCombinations().get(j).getBackColorNumber()+" "+pp.getJobColorCombinations().get(j).getPrintType().getName()+"";
+				}}
+				
+			}
+				if(isContent) {
+					printer.print(document, message_, 90, 297-142);
+					printer.print(document, "Content", 73, 297-142);
+					printer.print(document,"Content: "+  job.getCloseLength()+" X "+ job.getCloseWidth()+ " mm", 73, 297-99);
+					printer.print(document, "Content: " +job.getContentVolume()+" Pages", 73, 297-116);
+				}
+			
+			printer.printHeader(document, "Finishing", 38, 297-161);
+			
+			if(jobActivity.isHandgather()) jobActivities =	jobActivities + "hand-gatherd, ";
+			if(jobActivity.isSelloptaped()) jobActivities =	jobActivities + " Selloptaped, ";
+			if(jobActivity.isSewn()) jobActivities =	jobActivities + " Sewn,";
+			if(jobActivity.isTrimmed()) jobActivities =	jobActivities + " trimmed, ";
+			if(jobActivity.isStitching()) jobActivities =	jobActivities + " Stitched, ";
+			//if(!jobActivity.getGlueOption().isEmpty()) jobActivities =	jobActivities + jobActivity.getGlueOption()+ ", ";
+			if(jobActivity.getXWiredStiched()>0) jobActivities =	jobActivities + jobActivity.getXWiredStiched()+ " x Stiched, ";
+			if(jobActivity.getXCreased()>0) jobActivities =	jobActivities + " Cover "+ jobActivity.getXCreased()+ " x creased, ";
+			if(jobActivity.getXCross()>0) jobActivities =	jobActivities + jobActivity.getXCross()+ " x folded,";
+			if(jobActivity.getXNumbered()>0) jobActivities =	jobActivities + jobActivity.getXNumbered()+ " x Numbered, ";
+			if(jobActivity.getBindingType()!=null) jobActivities =	jobActivities + jobActivity.getBindingType().getName()+" ";
+			if(jobActivity.getLamination()>0) jobActivities =	jobActivities +" Cover " + jobActivity.getLamination() + " side(s) laminated, ";
+
+		 printer.printParagraphe(document,jobActivities, 73, 297-170);
+		 
+		 
+		 
+		   if(isContent)			
+			printer.printParagraphe(document,"Content : ", 73, 297-187);
+			float vecto = -5;
+			for(JobPaper pp:jcc) {
+				if(pp.getContentType().getId()!=1) {
+					vecto+=5;
+					printer.print(document, pp.getPaperType().getName(),  90, 297-187-vecto);
+					printer.print(document, pp.getGrammage()+" GSM",  168, 297-187-vecto);
+				}
+
+			}
+			printer.printHeader(document, "Quantity",  38, 297-200);
+			printer.printHeader(document, "Unit(XAF)",  132, 297-200);
+			printer.printHeader(document, "Total(XAF)",  172, 297-200);
+			
+			String messagesAdvancePayment="";
+			EstimatePricing estimates =invoice.getEstimatePricing();
+			float vect = -5;
+			DateFormat date =  DateFormat.getDateInstance(DateFormat.DEFAULT,Locale.ENGLISH);
+			printer.printHeader(document,date.format(new Date())+"", 38, 297-73);
+			
+				vect+=5;
+				printer.printMoney(document,estimates.getQuantity(), 82, 297-207-vect);
+				printer.printMoney(document,estimates.getUnitPrice(), 132, 297-207-vect);
+				printer.printMoney(document,estimates.getTotalPrice() , 171, 297-207-vect);
+				
+		
+			if(jobEstimate.getAdvancePercentage()> 0)
+				messagesAdvancePayment =" Terms of Payment : "+ jobEstimate.getAdvancePercentage()  + "%" + " in advance, "+(100-jobEstimate.getAdvancePercentage())+ ""+"% on delivery.";
+		printer.printHeader(document,messagesAdvancePayment, 38,297-227-vect);
+			
+			document.close();
+			String	file = invoice.getReferenceNumber()+".pdf";
+		 return "file="+file+"&dir=folder.invoice";
+		} 
+		
+		catch (Exception e) {
+			e.printStackTrace();
+			return "file=error.pdf&dir=folder.invoice";
+		}
+		
+	
+	}
 }

@@ -55,6 +55,7 @@ public class JobEstimateServiceImpl implements JobEstimateService {
 			estimateP.add(estimateCommision);
 		}
 		
+		jobEstimateRepository.save(estimate);
 		return estimateP;
 	}
 

@@ -34,7 +34,7 @@
                                                 </div>
                                             </div>
                                             <div class="row table-responsive">
-												<div style="font-family: bold; font-weight: bold;" class="col-sm-6"><fmt:formatDate type = "both" value = "${estimate.creationDate}" /></div>
+												<div style="font-family: bold; font-weight: bold;" class="col-sm-6"><fmt:formatDate type = "both" value = "${JobEstimateP.createdDate}" /></div>
                                                 <table class="ta" id="cover-table">
                                                     <tbody>
                                                         <tr>
@@ -206,6 +206,9 @@
                                                     </tbody>
                                                 </table>
                                             </div>
+                                             <div class="" style="margin-top:50px;">
+                                            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#ExtralargeModalFile" onclick="loadPageModal('job/estimate-pdf/${JobEstimateP.reference}')">Print</button>
+                                        </div>
                                         </div>
                                         <hr><br>
                                     </div>
