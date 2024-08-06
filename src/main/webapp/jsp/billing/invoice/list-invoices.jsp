@@ -44,8 +44,8 @@
 					        
 					    </div>
 					    
-					    <div id="endPeriod" class="col-sm-3" style="display: block;">
-					      <button type="button" title="Search" onclick="findBycreationDate()"> <i class="bi bi-search" ></i> </button>
+					    <div id="endPeriod" class="col-sm-3" >
+					      <button type="button" title="Search"  onclick="findBycreationDate()"> <i class="bi bi-search" ></i> </button>
 					        
 					 </div>
 						</div> 

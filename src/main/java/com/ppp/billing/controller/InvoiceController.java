@@ -202,29 +202,22 @@ public class InvoiceController {
 	
 	@GetMapping("/invoice-pdf/{reference}")
 	@ResponseBody
-	public String generateInvoicePdf(@PathVariable long id) throws IOException {
-		try {			
-			String file=createInvoiceDataPdf(id);
-			return "file="+file+"&dir=folder.invoice";
-			
-		}catch (Exception e) {
-			e.printStackTrace();
-			return "file=error.pdf&dir=folder.invoice";
-		}
-	
+	public String generateInvoicePdf(@PathVariable String reference) throws IOException {
+				
+			return createInvoiceDataPdf(reference);
+
 	}	
 	
 
-	public String createInvoiceDataPdf(@PathVariable long id) throws IOException{
+	public String createInvoiceDataPdf( String reference) throws IOException{
 	 try {
-
-		Invoice invoice=invoiceServiceImpl.findById(id);
-
-		PdfWriter pdfWriter = new PdfWriter(invoiceDir+invoice.getReferenceNumber()+ ".pdf");
+		PdfWriter pdfWriter = new PdfWriter(invoiceDir+reference+ ".pdf");
+		Invoice invoice=invoiceServiceImpl.findByReferencenumber(reference).get();
 		JobEstimate jobEstimate = invoice.getEstimatePricing().getJobEstimate();
 		Job job=jobEstimate.getJob();
 		PdfDocument pdfDocument = new PdfDocument(pdfWriter);
 		Document document = new Document(pdfDocument, PageSize.A4);
+	
 //		 document.setMargins(25, 25, 297-156, 50);
 
 		PrintableElement printer = new PrintableElement();	
@@ -306,10 +299,8 @@ public class InvoiceController {
 			if(jobActivity.getBindingType()!=null) jobActivities =	jobActivities + jobActivity.getBindingType().getName()+" ";
 			if(jobActivity.getLamination()>0) jobActivities =	jobActivities +" Cover " + jobActivity.getLamination() + " side(s) laminated, ";
 
-		 printer.printParagraphe(document,jobActivities, 73, 297-170);
-		 
-		 
-		 
+		    printer.printParagraphe(document,jobActivities, 73, 297-170);
+
 		   if(isContent)			
 			printer.printParagraphe(document,"Content : ", 73, 297-187);
 			float vecto = -5;
@@ -325,7 +316,6 @@ public class InvoiceController {
 			printer.printHeader(document, "Unit(XAF)",  132, 297-200);
 			printer.printHeader(document, "Total(XAF)",  172, 297-200);
 			
-			String messagesAdvancePayment="";
 			EstimatePricing estimates =invoice.getEstimatePricing();
 			float vect = -5;
 			DateFormat date =  DateFormat.getDateInstance(DateFormat.DEFAULT,Locale.ENGLISH);
@@ -336,13 +326,39 @@ public class InvoiceController {
 				printer.printMoney(document,estimates.getUnitPrice(), 132, 297-207-vect);
 				printer.printMoney(document,estimates.getTotalPrice() , 171, 297-207-vect);
 				
-		
-			if(jobEstimate.getAdvancePercentage()> 0)
-				messagesAdvancePayment =" Terms of Payment : "+ jobEstimate.getAdvancePercentage()  + "%" + " in advance, "+(100-jobEstimate.getAdvancePercentage())+ ""+"% on delivery.";
-		printer.printHeader(document,messagesAdvancePayment, 38,297-227-vect);
+
+			double discountAmount = 0;
+			if(invoice.getDiscountPercentage()> 0) {
+				printer.printHeader(document, invoice.getDiscountPercentage()+" % Discount",  38, 270-200-vect);
+				discountAmount += (invoice.getDiscountPercentage()/100) * invoice.getEstimatePricing().getTotalPrice();
+				printer.printMoney(document,discountAmount,   171, 270-200-vect);
+			}
+
+			printer.print(document,"Cover: "+ job.getOpenLength()+" X "+job.getOpenWidth()+" mm", 73, 297-93);
 			
+			
+			if(invoice.getVatPercentage()> 0) {
+				printer.printHeader(document, invoice.getVatPercentage()+" % TVA",  38, 280-200-vect);
+				printer.printMoney(document,invoice.getVatValue() , 171, 280-200-vect);
+			}
+			
+			
+			if(invoice.getIrTaxPercentage()> 0)
+			{
+				printer.printHeader(document, invoice.getIrTaxPercentage()+" % IR Tax",  38, 275-200-vect);
+				printer.printMoney(document,invoice.getIrTaxValue() , 171, 275-200-vect);
+			}
+			
+			printer.print(document, " --------------------",  171, 267-200-vect);
+			
+			printer.printHeader(document, " NetPayable",  38, 264-200-vect);
+			printer.printMoney(document, invoice.getNetPayable(),  171, 264-200-vect);
+
+			printer.print(document, " --------------------",  171, 261-200-vect);
+			printer.print(document, " --------------------",  171, 260-200-vect);
+
 			document.close();
-			String	file = invoice.getReferenceNumber()+".pdf";
+				String	file = invoice.getReferenceNumber()+".pdf";
 		 return "file="+file+"&dir=folder.invoice";
 		} 
 		

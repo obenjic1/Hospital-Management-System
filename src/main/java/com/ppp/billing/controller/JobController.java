@@ -83,6 +83,10 @@ public class JobController {
 	private String controlSheetDir;
 	@Value("${folder.estimate}")
 	private String estimateDir;
+	
+	@Value("${folder.invoice}")
+	private String invoiceDir;
+	
 	@Autowired
 	private JobServiceImpl jobServiceImpl;
 	
@@ -116,6 +120,8 @@ public class JobController {
 	
 	@Autowired
 	private JobEstimateServiceImpl jobEstimateServiceImpl;
+	
+	
 //	
 	
 //<--------------------- Collect datas form @Vincent------------------------------>
@@ -924,14 +930,7 @@ public class JobController {
 			
 	}	
 	
-	@GetMapping("/estimate-pdf-commission/{reference}")
-	@ResponseBody
-	public String generateEstimatePdfWithCommission(@PathVariable String reference) throws IOException {
-	
-			
-			return createEstimateDataPdfWithCommision(reference);
-			
-	}	
+		
 	/*
 	 * Print the estimate pdf
 	 */
@@ -1077,6 +1076,15 @@ public class JobController {
 	/*
 	 * print Estimate with commission
 	 */
+	
+	@GetMapping("/estimate-pdf-commission/{reference}")
+	@ResponseBody
+	public String generateEstimatePdfWithCommission(@PathVariable String reference) throws IOException {
+	
+			
+			return createEstimateDataPdfWithCommision(reference);
+			
+	}
 	
 	public String createEstimateDataPdfWithCommision(String estimateName) throws IOException{
 		 try {
@@ -1357,5 +1365,6 @@ public class JobController {
 		}
 			
 		}
+
 	
 }
