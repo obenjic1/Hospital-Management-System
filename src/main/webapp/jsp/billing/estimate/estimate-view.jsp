@@ -207,7 +207,7 @@
                                                 </table>
                                             </div>
                                              <div class="" style="margin-top:50px;">
-                                            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#ExtralargeModalFile" onclick="loadPageModal('job/estimate-pdf/${JobEstimateP.reference}')">Print</button>
+                                            <button class="btn btn-primary" style="left: 87%;position: relative;width: 117px;" data-bs-toggle="modal" data-bs-target="#ExtralargeModalFile" onclick="loadPageModal('job/estimate-pdf/${JobEstimateP.reference}')">Print</button>
                                         </div>
                                         </div>
                                         <hr><br>

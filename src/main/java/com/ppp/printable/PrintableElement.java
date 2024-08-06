@@ -11,6 +11,9 @@ import com.itextpdf.kernel.font.PdfFontFactory;
 import com.itextpdf.layout.Document;
 import com.itextpdf.layout.element.Paragraph;
 import com.itextpdf.layout.element.Table;
+import com.itextpdf.layout.property.TextAlignment;
+
+import net.sf.saxon.ma.arrays.ArrayFunctionSet.ArrayFoldRight;
 
 public class PrintableElement {
 	private final float mmToPoint = 2.83465f;
@@ -112,6 +115,7 @@ public class PrintableElement {
 		document.setFont(font);
 		Paragraph  paragraph = new Paragraph(numberFormat.format(this.money)).setFixedPosition(this.xAxis, this.yAxis, 595);
 		paragraph.setPaddingRight(250);
+		//paragraph.setTextAlignment();
 		document.add(paragraph);
 	
 	}

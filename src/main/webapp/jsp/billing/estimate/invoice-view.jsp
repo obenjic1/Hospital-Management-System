@@ -107,7 +107,7 @@
                                          <span style="font-family: bold;left: 88%;position: relative; bottom: -1.5%">${invoices.referenceNumber}</span> 
                                         <hr><br>
                                         <div class="" style="margin-top:50px;">
-                                           <button class="btn btn-primary"style="left: 87%;position: relative;width: 117px;" data-bs-toggle="modal" data-bs-target="#ExtralargeModalFile" onclick="loadPageModal('invoice/invoice-pdf/${invoices.id}');"><fmt:message key="print"/></button>
+                                           <button class="btn btn-primary"style="left: 87%;position: relative;width: 117px;" data-bs-toggle="modal" data-bs-target="#ExtralargeModalFile" onclick="loadPageModal('invoice/invoice-pdf/${invoices.referenceNumber}');"><fmt:message key="print"/></button>
 
                                         </div>
 

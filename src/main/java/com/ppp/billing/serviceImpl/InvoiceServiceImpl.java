@@ -67,10 +67,10 @@ public class InvoiceServiceImpl implements InvoiceService{
 		invoiceToSave.setEstimatePricing(estimate);
 		
 		jobEstimate.setEstimatePricings(jobEstimate.getEstimatePricings());
-		invoiceRepository.save(invoiceToSave);
+		invoiceRepository.saveAndFlush(invoiceToSave);
 		estimate.setInvoices(estimate.getInvoices());
 		estimate.setJobEstimate(jobEstimate);
-		
+		generateSerialNumber(invoiceToSave);
 		return invoiceToSave;
 	}
 
@@ -116,6 +116,18 @@ public class InvoiceServiceImpl implements InvoiceService{
 		}
 	}
 	
+	
+	
+
+	public void generateSerialNumber(Invoice invoice) {
+		int currentCount = (int) (invoice.getId()%9999); 
+		String countString = String.format("%06d", currentCount);
+		String serialNuber = "I" + countString;
+		invoice.setReferenceNumber(serialNuber);
+		invoiceRepository.save(invoice);
+	}
+	
+	
 	@Override
 	public Invoice applyDiscount(long id, double discount) {
 		try {
@@ -128,6 +140,10 @@ public class InvoiceServiceImpl implements InvoiceService{
 		}
 	}
 
+	
+	
+	
+	
 	@Override
 	public Invoice displayIrtaxAndVatTax(long id, double irTax, double vatTax) {
 		try {

@@ -25,6 +25,9 @@ public class DownloadController {
 
 	@Value("${folder.estimate}")
 	private String estimateFolder;
+	
+	@Value("${folder.invoice}")
+	private String invoice;
 
 	@Value("${folder.user.images}")
 	private String userImageFolder;
@@ -39,15 +42,17 @@ public class DownloadController {
 	public void downloadFile(@RequestParam("file") String file, @RequestParam("dir") String resourceDir, HttpServletResponse response) throws IOException {
 		String dir = "";
 		switch (resourceDir) {
+		
+		case "folder.invoice":
+			dir= invoice;
+			break;  
 		case "folder.controlSheet":
 			dir= controlSheetFolder;
 			break;
 		case "folder.estimate":
 			dir= estimateFolder;
 			break;  
-		case "folder.invoice":
-			dir= "invoiceFolder";
-			break;  
+		
 		case "folder.user.images":
 			dir= userImageFolder;
 			break;
