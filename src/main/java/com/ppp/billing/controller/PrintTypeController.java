@@ -36,10 +36,12 @@ public class PrintTypeController {
 		int pageSize = printTypeSize;
 		Page<PrintType> printType = printTypeServiceImpl.paginatedList(pageNo, pageSize);
 		List<PrintType> result = printType.getContent();
+		int totalElement = result.size();
 		 model.addAttribute("currentPage", pageNo);
 		 model.addAttribute("totalPages", printType.getTotalPages());
 		 model.addAttribute("totalItems", printType.getTotalElements());
 		 model.addAttribute("allPrintType", result);
+		 model.addAttribute("totalElement", totalElement);
 		 
 		return "setting/list-print-type";
 	}

@@ -33,6 +33,10 @@
 						<button data-bs-target="#ExtralargeModal" data-bs-toggle="modal" onclick="fillContentModal('/papertype/displayform')" type="button" class="btn btn-primary" style=" position: relative; left: 94%; width: 77px;">
 						  <fmt:message key="add.group"/>
 						</button>
+						<div style="position: relative;bottom: 30px;"> 
+						    <label style="left: 72%;position: relative; font-family: bold;color: #012970;">Total Binding Type </label>
+						    <span style="left: 75%;position: relative; color: red; font-family: bold;">${totalElement}</span>
+					    </div>
 						<!-- Table with stripped rows -->
 						<table class="table datatable">
 						  <thead style="background-color: #dddfe3;">

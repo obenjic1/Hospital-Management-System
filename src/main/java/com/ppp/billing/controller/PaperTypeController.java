@@ -99,7 +99,9 @@ public class PaperTypeController {
 		int pageSize = paginationSize;
 		Page<PaperType> papertype = paperTypeServiceImpl.paginatedList(pageNo, pageSize);
 		List<PaperType> allPaperType = papertype.getContent();
+		int totalElement = allPaperType.size();
 		 model.addAttribute("currentPage", pageNo);
+		 model.addAttribute("totalElement", totalElement);
 		 model.addAttribute("totalPages", papertype.getTotalPages());
 		 model.addAttribute("totalItems", papertype.getTotalElements());
 		 model.addAttribute("allPaperTypes", allPaperType);

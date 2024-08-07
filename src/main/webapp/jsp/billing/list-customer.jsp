@@ -34,6 +34,10 @@
 						  <fmt:message key="add.group"/>
 <!-- 						   data-bs-toggle="modal" data-bs-target="#saveCustomerModal1" -->
 						</button>
+						<div style="position: relative; bottom: 44px;"> 
+						    <label style="left: 71%;position: relative; font-family: bold;color: #012970;">Total Customers </label>
+						    <span style="left: 75%;position: relative; color: red; font-family: bold;">${totalElement}</span>
+					    </div>
 						<!-- Table with stripped rows -->
 						<table class="table datatable">
 						  <thead style="background-color: #dddfe3;">

@@ -39,10 +39,12 @@ public class JobPaperController {
 		int pageSize = jobPaperPaginationSize;
 		Page<JobPaper> jobPaper = jobPaperServiceImpl.findPaginatedJobPaper(pageNo, pageSize);
 		List<JobPaper> result = jobPaper.getContent();
+		int totalElement = result.size();
 		 model.addAttribute("currentPage", pageNo);
 		 model.addAttribute("totalPages", jobPaper.getTotalPages());
 		 model.addAttribute("totalItems", jobPaper.getTotalElements());
 		 model.addAttribute("allJobPaper", result);
+		 model.addAttribute("totalElement", totalElement);
 		 
 		return "setting/list-jobpaper";
 	}

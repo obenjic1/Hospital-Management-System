@@ -29,8 +29,9 @@ public class BindingTypeController {
 	@GetMapping("/list")
 	public String list(Model model) {
 		List<BindingType> bindingTypes = bindingTypeService.listAll();
+		int totalElement = bindingTypes.size();
 		model.addAttribute("bindingTypes", bindingTypes);
-
+		model.addAttribute("totalElement", totalElement);
 		return "setting/list-bindingtype";
 	}
 

@@ -92,10 +92,12 @@ public class CustomerController {
 		int pageSize = paginationSize;
 		Page <Customer> customer = customerServiceImpl.pagination(pageNo, pageSize);
 		 List < Customer > allCustomer = customer.getContent();
+		 int totalElement = allCustomer.size();
 		 model.addAttribute("currentPage", pageNo);
 		 model.addAttribute("totalPages", customer.getTotalPages());
 		 model.addAttribute("totalItems", customer.getTotalElements());
 		 model.addAttribute("allCustomers", allCustomer);
+		 model.addAttribute("totalElement", totalElement);
 		 
 		return "/billing/list-customer";
 	}
