@@ -35,10 +35,12 @@ public class PaperGrammageController {
 		int pageSize = paginationSize;
 		Page<PaperGrammage> paperGrammage = paperGrammageServiceImpl.findPaginatedJobType(pageNo, pageSize);
 		List<PaperGrammage> result = paperGrammage.getContent();
+		int totalElement = result.size();
 		 model.addAttribute("currentPage", pageNo);
 		 model.addAttribute("totalPages", paperGrammage.getTotalPages());
 		 model.addAttribute("totalItems", paperGrammage.getTotalElements());
 		 model.addAttribute("allgrammages", result);
+		 model.addAttribute("totalElement", totalElement);
 		 
 		return "setting/list-paper-grammage";
 	}

@@ -95,7 +95,7 @@ function addUser() {
 
    			 if (response.status === 200) {
        			sendMessage('Succes/Success', 1);
-			return loadPage("user/add-user");				
+			 return loadPage('user/list-users');					
    			 } else if (response.status !== 200) {
 				sendMessage('Failed / Echec : Email or Username already exist ',2);
 					return loadPage('user/list-users');			

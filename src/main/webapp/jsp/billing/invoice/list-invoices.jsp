@@ -48,6 +48,10 @@
 					      <button type="button" title="Search"  onclick="findBycreationDate()"> <i class="bi bi-search" ></i> </button>
 					        
 					 </div>
+					 <div > 
+						    <label style="left: 71%;position: relative; font-family: bold;color: #012970;">Total Invoices </label>
+						    <span style="left: 75%;position: relative; color: red; font-family: bold;">${totalElement}</span>
+					    </div>
 						</div> 
 						<table id="myTable1" class="table datatable">
 						  <thead style="background-color: #dddfe3;">

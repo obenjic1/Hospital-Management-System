@@ -65,7 +65,9 @@ public class InvoiceController {
 				
 				netPayable += invoice.getNetPayable();
 			}
+			int totalElement = result.size();
 			model.addAttribute("netPayable", netPayable);
+			model.addAttribute("totalElement", totalElement);
 			model.addAttribute("results", result);
 
 			return "billing/invoice/list-invoices";

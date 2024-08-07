@@ -37,11 +37,12 @@ public class PaperFormatController {
 		int pageSize = paginationSize;
 		Page<PaperFormat> paperFormat = paperFormatServiceImpl.findAllWithPagination(pageNo, pageSize);
 		List<PaperFormat> result = paperFormat.getContent();
+		int totalElement = result.size();
 		model.addAttribute("currentPage", pageNo);
 		model.addAttribute("totalPages", paperFormat.getTotalPages());
 		model.addAttribute("totalItems", paperFormat.getTotalElements());
 		model.addAttribute("allformats", result);
-		
+		model.addAttribute("totalElement", totalElement);
 		return "setting/list-paper-format";
 	}
 

@@ -170,8 +170,10 @@ public class JobController {
 	public String listJob(Model model) {
 		List<Job> result = jobServiceImpl.listAllJob();
 		List<Invoice> invoices = invoiceServiceImpl.listInvoice();
+		int totalElement = result.size();
 		Collections.reverse(result);
 		model.addAttribute("jobs", result);
+		model.addAttribute("totalElement", totalElement);
 		model.addAttribute("invoice", invoices);
 		return "billing/list-job";
 	}

@@ -52,7 +52,10 @@
 					      <button type="button" title="Search"onclick="findByDate()" style="background: none;"> <i class="bi bi-search" ></i> </button>
 					        
 					    </div>
-					    
+					    <div > 
+						    <label style="left: 71%;position: relative; font-family: bold;color: #012970;">Total Jobs </label>
+						    <span style="left: 75%;position: relative; color: red; font-family: bold;">${totalElement}</span>
+					    </div> 
 					   
 					</div> 
 			

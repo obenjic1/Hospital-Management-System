@@ -30,7 +30,9 @@ public class PrintingMachineController {
 	@GetMapping("/list")
     public String showListMachines(Model model ,String name) {
 		List<PrintingMachine> machines=printMachineServiceImp.listMachines();
+		int totalElement = machines.size();
 		model.addAttribute("machines", machines);
+		model.addAttribute("totalElement", totalElement);
 		return "/billing/list-machine";
 	}
 	

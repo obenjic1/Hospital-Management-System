@@ -37,11 +37,12 @@ public class JobTypeController {
 		int pageSize = paginationSize;
 		Page<JobType> jobType = jobTypeServiceImpl.findPaginatedJobType(pageNo, pageSize);		
 		List<JobType> result = jobType.getContent();
+		int totalElement = result.size();
 		 model.addAttribute("currentPage", pageNo);
 		 model.addAttribute("totalPages", jobType.getTotalPages());
 		 model.addAttribute("totalItems", jobType.getTotalElements());
 		 model.addAttribute("allJobtypes", result);
-		 
+		 model.addAttribute("totalElement", totalElement);
 		return "setting/list-job-type";
 	}
 }
