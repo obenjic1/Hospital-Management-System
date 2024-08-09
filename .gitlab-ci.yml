@@ -19,4 +19,13 @@ quality_testing:
     only:
         refs:
             - merge_requests
+deployment:
+    stage : deploy
+    script:
+        - mv billing-1.war billing.war
+    script:
+        - cp billing.war /opt/tomcat8085/webapps/
+    only:
+        refs:
+            - merge_requests
         
