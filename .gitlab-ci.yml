@@ -22,9 +22,9 @@ quality_testing:
 deployment:
     stage : deploy
     script:
-        - mv billing-1.war billing.war
+        - mv  target/billing-1.war target/billing.war
     script:
-        - cp billing.war /opt/tomcat8085/webapps/
+        - cp target/billing.war /opt/tomcat8085/webapps/
     only:
         refs:
             - merge_requests
