@@ -81,8 +81,8 @@ public class JobServiceImpl implements JobService {
 		Optional<JobType> jobType = jobTypeRepository.findById(jobDTO.getJobTypeId());
 		newJob.setJobType(jobType.get());
 		
-		//JobStatus status = jobStatusRepository.findById(2).get();
-		//newJob.setJ
+		JobStatus status = jobStatusRepository.findById(2).get();
+		newJob.setStatus(status);
 		
 		JobActivityOptionDTO jobdto = jobDTO.getJobActivities();
 		JobActivity activity = new JobActivity();

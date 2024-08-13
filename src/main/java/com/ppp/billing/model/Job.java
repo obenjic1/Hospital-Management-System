@@ -34,8 +34,8 @@ public class Job {
 	@Column(name = "title", nullable = false)
 	private String title;
 	
-	@Column(name = "status")
-	private String status;
+	//@Column(name = "status")
+	//private String status;
 	
 	@Column(name="reference_number")
 	private String referenceNumber;
@@ -123,5 +123,12 @@ public class Job {
 	
 	@OneToMany(mappedBy = "job", cascade = CascadeType.PERSIST)
     private List<JobEstimate>  jobEstimates;
+	
+
+	@ManyToOne
+	@JoinColumn(name="status_id", nullable=false)
+	private JobStatus status;
+
+
 	
 }

@@ -284,7 +284,21 @@
 	               </div>
 	             </div>
 	           </div>
-	         </div>	                 
+	         </div>	   
+	          <div class="modal fade" id="creation" tabindex="-1">
+	           <div class="modal-dialog modal-dialog-right">
+	             <div class="modal-content">
+	               <input type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" style=" left: 93%;  bottom: -7px; ">
+	               <div class="modal-body"> 
+	               		<div >
+							<div class="row"><button onclick="loadPage('job/displayform')"  data-toggle="tooltip" data-placement="top" title="create new job"  style="width: 250px;position: relative; left: 40.5%" type="button" class="btn btn-outline-primary"> Complete job</button>
+							</div>
+							<div class="row"><button onclick="loadPage('job/displayform')"  data-toggle="tooltip" data-placement="top" title="create new job"  style="width: 250px;position: relative; left: 40.5%" type="button" class="btn btn-outline-danger">Draft job</button>
+							</div>
+						</div>
+	             </div>
+	           </div>
+	         </div>	               
 			 <div class="modal fade" id="ExtralargeModal" tabindex="-1">
 			   <div class="modal-dialog modal-xl">
 				 <div class="modal-content" id="addForm">

@@ -153,6 +153,34 @@ public class JobController {
 		return "billing/display-job-form-interface";
 	}
 
+	@GetMapping("/displayform-draft")
+	public String displayDraftFormInterface(Model model) {
+		List<Customer> customerResult = customerServiceImpl.findAll();
+		List<JobType> jobTypeResult = jobTypeServiceImpl.findAll();
+		List<PaperFormat> paperFormatResult = paperFormatServiceImpl.findAll();
+		List<JobPaper> jobPaperResult = jobPaperServiceImpl.findAll();
+		List<PaperType>  paperTypeResult = paperTypeServiceImpl.listAll();
+		List<PrintingMachine> printingMachineResult = printingMachineServiceImpl.findByIsActive();
+		List<PrintType> printTypeResult = printTypeServiceImpl.findAll();
+		List<JobColorCombination> jobColorCombinationResult = jobColorCombinationServiceImpl.findAll();
+		List<PaperGrammage> paperGrammageResult = paperGrammageServiceImpl.findAll();
+		List<BindingType> bindingTypeResult = bindingTypeserviceImpl.listAll();
+
+		
+		model.addAttribute("customers", customerResult);
+		model.addAttribute("jobTypes", jobTypeResult);
+		model.addAttribute("paperFormats", paperFormatResult);
+		model.addAttribute("bindingTypes", bindingTypeResult);
+		model.addAttribute("jobPaperResults", jobPaperResult);
+		model.addAttribute("paperTypes", paperTypeResult);
+		model.addAttribute("printingMachines", printingMachineResult);
+		model.addAttribute("printTypes", printTypeResult);
+		model.addAttribute("jobColorCombinations", jobColorCombinationResult);
+		model.addAttribute("paperGrammages", paperGrammageResult);
+		
+		return "billing/display-daftjob-form-interface";
+	}
+
 //<--------------------- Save data collected to the data base @Vincent ------------------------------>
 	@PostMapping(value="/save", consumes=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
@@ -165,6 +193,19 @@ public class JobController {
 			return "KO";
 		}
 	}
+	
+	//<--------------------- Save DraftJob ------------------------------>
+		@PostMapping(value="/save-draft", consumes=MediaType.APPLICATION_JSON_VALUE)
+		@ResponseBody
+		public String saveDraft(@RequestBody JobDTO jobDTO,Model model){
+			try {
+				jobServiceImpl.saveJob(jobDTO);
+				return "OK";
+			} catch (Exception e) {
+				e.printStackTrace();
+				return "KO";
+			}
+		}
 
 	@GetMapping("/list-job")
 	public String listJob(Model model) {
