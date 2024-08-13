@@ -54,15 +54,9 @@ public class InvoiceServiceImpl implements InvoiceService{
 		/*
 		 * Calculate Net Payable
 		 */
-		double irTaxValue = 0.0;
-		//(estimate.getJobEstimate().getIrTax()*estimate.getTotalPrice())/100;
-		invoiceToSave.setIrTaxValue(irTaxValue);
-		double tva = 0.0;
-		
-		double	tvaValue = (tva*estimate.getTotalPrice())/100;
-		invoiceToSave.setVatValue(tvaValue);
-		invoiceToSave.setNetPayable(estimate.getTotalPrice()-tvaValue);
-		
+	
+
+		invoiceToSave.setNetPayable(estimate.getTotalPrice());
 		estimate.getJobEstimate().setInvoiced(true);
 		invoiceToSave.setEstimatePricing(estimate);
 		
@@ -106,9 +100,9 @@ public class InvoiceServiceImpl implements InvoiceService{
 			Invoice invoice = invoiceRepository.findById(id).get();
 			invoice.setIrTaxPercentage(irTax);
 			invoice.setVatPercentage(vatTax);
-			invoice.setVatValue((vatTax/100)*invoice.getEstimatePricing().getTotalPrice());
-			invoice.setIrTaxValue((irTax/100)*invoice.getEstimatePricing().getTotalPrice());
-			invoice.setNetPayable((vatTax/100)*invoice.getEstimatePricing().getTotalPrice()+(irTax/100)*invoice.getEstimatePricing().getTotalPrice()+invoice.getNetPayable());
+			double irTaxValue =(irTax/100)*invoice.getEstimatePricing().getTotalPrice();
+			double vatTaxValue =(vatTax/100)*invoice.getEstimatePricing().getTotalPrice();
+			invoice.setNetPayable(irTaxValue+vatTaxValue+invoice.getEstimatePricing().getTotalPrice());
 			invoiceRepository.save(invoice);
 			return invoice;
 		} catch (Exception e) {
@@ -150,11 +144,7 @@ public class InvoiceServiceImpl implements InvoiceService{
 		Invoice invoice = invoiceRepository.findById(id).get();
 		invoice.setIrTaxPercentage(irTax);
 		invoice.setVatPercentage(vatTax);
-		invoice.setVatValue((vatTax/100)*invoice.getEstimatePricing().getTotalPrice());
-		invoice.setIrTaxValue((irTax/100)*invoice.getEstimatePricing().getTotalPrice());
-		//invoice.setNetPayable(0);
-	//	double totalPrice = invoice.getNetPayable();
-	//	invoice.setNetPayable(totalPrice);
+	
 		invoiceRepository.save(invoice);
 		return invoice;
 	} catch (Exception e) {

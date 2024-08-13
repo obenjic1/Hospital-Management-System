@@ -17,6 +17,7 @@ import com.ppp.billing.model.Job;
 import com.ppp.billing.model.JobActivity;
 import com.ppp.billing.model.JobColorCombination;
 import com.ppp.billing.model.JobPaper;
+import com.ppp.billing.model.JobStatus;
 import com.ppp.billing.model.JobType;
 import com.ppp.billing.model.PaperType;
 import com.ppp.billing.model.PrintType;
@@ -27,6 +28,7 @@ import com.ppp.billing.repository.BindingTypeRepository;
 import com.ppp.billing.repository.ContentTypeRepository;
 import com.ppp.billing.repository.CustomerRepository;
 import com.ppp.billing.repository.JobRepository;
+import com.ppp.billing.repository.JobStatusRepository;
 import com.ppp.billing.repository.JobTypeRepository;
 import com.ppp.billing.repository.PaperTypeRepository;
 import com.ppp.billing.repository.PrintTypeRepository;
@@ -53,6 +55,9 @@ public class JobServiceImpl implements JobService {
     private PaperTypeRepository paperTypeRepository;
     @Autowired
     private PrintTypeRepository printTypeRepository;
+
+    @Autowired
+	public JobStatusRepository jobStatusRepository;
  
     
 	@Override
@@ -75,6 +80,9 @@ public class JobServiceImpl implements JobService {
 		newJob.setCustomer(customer.get());
 		Optional<JobType> jobType = jobTypeRepository.findById(jobDTO.getJobTypeId());
 		newJob.setJobType(jobType.get());
+		
+		//JobStatus status = jobStatusRepository.findById(2).get();
+		//newJob.setJ
 		
 		JobActivityOptionDTO jobdto = jobDTO.getJobActivities();
 		JobActivity activity = new JobActivity();

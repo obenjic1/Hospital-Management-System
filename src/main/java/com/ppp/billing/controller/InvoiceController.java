@@ -80,12 +80,16 @@ public class InvoiceController {
 	@GetMapping("/job-invoice/{id}")
 	public String getInvoice(@PathVariable long id, Model model) {		
 		try {
-			Invoice invoicefinded = invoiceServiceImpl.findById(id);
-			Job jobs = invoicefinded.getEstimatePricing().getJobEstimate().getJob();
-			double discount = (invoicefinded.getDiscountPercentage()/100)*(invoicefinded.getEstimatePricing().getTotalPrice());
+			Invoice invoice = invoiceServiceImpl.findById(id);
+			Job jobs = invoice.getEstimatePricing().getJobEstimate().getJob();
+			double discount = (invoice.getDiscountPercentage()/100)*(invoice.getEstimatePricing().getTotalPrice());
+			double irTaxValue= (invoice.getIrTaxPercentage()/100)*invoice.getEstimatePricing().getTotalPrice();
+			double vatValue= (invoice.getVatPercentage()/100)*invoice.getEstimatePricing().getTotalPrice();
+			model.addAttribute("irTaxValue", irTaxValue);
+			model.addAttribute("vatValue", vatValue);
 			model.addAttribute("discount", discount);
 			model.addAttribute("job", jobs);
-			model.addAttribute("invoices", invoicefinded);
+			model.addAttribute("invoices", invoice);
 			
 			return "billing/estimate/invoice-view";
 		} catch (Exception e) {
@@ -133,6 +137,10 @@ public class InvoiceController {
 		try {
 			Invoice invoice = invoiceServiceImpl.setIrtaxAndVatTax(id, irTax, vatTax);
 			Job jobs = invoice.getEstimatePricing().getJobEstimate().getJob();
+			double irTaxValue= (invoice.getIrTaxPercentage()/100)*invoice.getEstimatePricing().getTotalPrice();
+			double vatValue= (invoice.getVatPercentage()/100)*invoice.getEstimatePricing().getTotalPrice();
+			model.addAttribute("irTaxValue", irTaxValue);
+			model.addAttribute("vatValue", vatValue);
 			model.addAttribute("job", jobs);
 			model.addAttribute("invoices", invoice);
 			return "billing/invoice/invoice-tva-result";
@@ -174,10 +182,14 @@ public class InvoiceController {
 	@GetMapping("/job-tax-form/{id}")
 	public String getTaxForm(@PathVariable long id, Model model) {		
 		try {
-			Invoice invoicefinded = invoiceServiceImpl.findById(id);
-			Job jobs = invoicefinded.getEstimatePricing().getJobEstimate().getJob();
+			Invoice invoice = invoiceServiceImpl.findById(id);
+			Job jobs = invoice.getEstimatePricing().getJobEstimate().getJob();
+			double irTaxValue= (invoice.getIrTaxPercentage()/100)*invoice.getEstimatePricing().getTotalPrice();
+			double vatValue= (invoice.getVatPercentage()/100)*invoice.getEstimatePricing().getTotalPrice();
+			model.addAttribute("irTaxValue", irTaxValue);
+			model.addAttribute("vatValue", vatValue);
 			model.addAttribute("job", jobs);
-			model.addAttribute("invoices", invoicefinded);
+			model.addAttribute("invoices", invoice);
 			
 			return "billing/invoice/invoice-irtax-tva";
 		} catch (Exception e) {
@@ -191,6 +203,10 @@ public class InvoiceController {
 			
 			Invoice invoice = invoiceServiceImpl.displayIrtaxAndVatTax(id, irTax, vatTax);
 			Job jobs = invoice.getEstimatePricing().getJobEstimate().getJob();
+			double irTaxValue= (invoice.getIrTaxPercentage()/100)*invoice.getEstimatePricing().getTotalPrice();
+			double vatValue= (invoice.getVatPercentage()/100)*invoice.getEstimatePricing().getTotalPrice();
+			model.addAttribute("irTaxValue", irTaxValue);
+			model.addAttribute("vatValue", vatValue);
 			model.addAttribute("job", jobs);
 			model.addAttribute("invoices", invoice);
 			return "billing/invoice/invoice-tva-result";
@@ -332,23 +348,25 @@ public class InvoiceController {
 			double discountAmount = 0;
 			if(invoice.getDiscountPercentage()> 0) {
 				printer.printHeader(document, invoice.getDiscountPercentage()+" % Discount",  38, 270-200-vect);
-				discountAmount += (invoice.getDiscountPercentage()/100) * invoice.getEstimatePricing().getTotalPrice();
+				discountAmount = (invoice.getDiscountPercentage()/100) * invoice.getEstimatePricing().getTotalPrice();
 				printer.printMoney(document,discountAmount,   171, 270-200-vect);
 			}
 
 			printer.print(document,"Cover: "+ job.getOpenLength()+" X "+job.getOpenWidth()+" mm", 73, 297-93);
 			
-			
+			double vatValue = 0;
 			if(invoice.getVatPercentage()> 0) {
+				vatValue = (invoice.getVatPercentage()/100)*invoice.getEstimatePricing().getTotalPrice();
 				printer.printHeader(document, invoice.getVatPercentage()+" % TVA",  38, 280-200-vect);
-				printer.printMoney(document,invoice.getVatValue() , 171, 280-200-vect);
+				printer.printMoney(document,vatValue, 171, 280-200-vect);
 			}
 			
-			
+			double irTaxValue = 0;
 			if(invoice.getIrTaxPercentage()> 0)
 			{
+				irTaxValue = (invoice.getIrTaxPercentage()/100)*invoice.getEstimatePricing().getTotalPrice();
 				printer.printHeader(document, invoice.getIrTaxPercentage()+" % IR Tax",  38, 275-200-vect);
-				printer.printMoney(document,invoice.getIrTaxValue() , 171, 275-200-vect);
+				printer.printMoney(document,irTaxValue , 171, 275-200-vect);
 			}
 			
 			printer.print(document, " --------------------",  171, 267-200-vect);

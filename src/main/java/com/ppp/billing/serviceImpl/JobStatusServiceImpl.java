@@ -18,11 +18,10 @@ public class JobStatusServiceImpl implements JobStatusService {
 	@Autowired
 	public JobStatusRepository jobStatusRepository;
 
-//	@Override
-//	public JobStatus save(JobStatusDTO jobStatusDTO) {
-//		// TODO Auto-generated method stub
-//		return null;
-//	}
+	@Override
+	public JobStatus save(JobStatus jobStatus) {
+		return jobStatusRepository.save(jobStatus);
+	}
 
 	@Override
 	public Optional<JobStatus> findByName(String name) {
@@ -47,6 +46,11 @@ public class JobStatusServiceImpl implements JobStatusService {
 	public void delete(long id) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public JobStatus findById(long id) {
+		return jobStatusRepository.findById(id).get();
 	}
 
 }
