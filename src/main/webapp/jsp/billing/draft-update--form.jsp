@@ -47,11 +47,9 @@
 			     <div class="row py-4">
 				  <div class ="col-lg-4 px8" >					 
 				   <label for="" class="form-label"><fmt:message key="customer"/></label>
-				   <select id="customer"  class="form-select" >
+				   <select id="customer"  class="form-select" readonly>
 				   	<option selected>${job.customer.name}</option>
-	                 <c:forEach items="${customers}" var="customer">
-	                   <option value="${customer.id}">${customer.name}</option>
-	                 </c:forEach>
+
 	                 
 	                </select>
 			      </div>

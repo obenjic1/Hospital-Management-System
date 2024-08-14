@@ -280,8 +280,8 @@ public class JobServiceImpl implements JobService {
 		newJob.setDataSuppliedByCustomer(jobDTO.isDataSuppliedByCustomer());
 		newJob.setLayOutByUs(jobDTO.isLayOutByUs());
 		newJob.setTypesettingByUs(jobDTO.isTypesettingByUs());
-		Optional<Customer> customer = customerRepository.findById(jobDTO.getCustomerId());
-		newJob.setCustomer(customer.get());
+		//Optional<Customer> customer = customerRepository.findById(jobDTO.getCustomerId());
+		//newJob.setCustomer(customer.get());
 		Optional<JobType> jobType = jobTypeRepository.findById(jobDTO.getJobTypeId());
 		newJob.setJobType(jobType.get());
 		jobRepository.saveAndFlush(newJob);

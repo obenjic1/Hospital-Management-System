@@ -766,6 +766,7 @@ function findByDate() {
  	
 	}
 	
+	
 	function submitFormDraft(){
 	 let opt=document.getElementById("jobType").selectedOptions[0];	
 	 let dataContentValue = opt.parentElement.getAttribute('data-content');
@@ -825,7 +826,7 @@ function updateDraft(id){
  let opt=document.getElementById("jobType").selectedOptions[0];	
  let dataContentValue = opt.parentElement.getAttribute('data-content');
  let job = { };
- job.customerId = document.getElementById("customer").value;
+// job.customerId = document.getElementById("customer").value;
  job.jobTypeId = document.getElementById("jobType").value;
  job.title = document.getElementById("title").value;
  
@@ -850,7 +851,7 @@ function updateDraft(id){
  job.dataSuppliedByCustomer = document.getElementById("dataSuppliedByCustomer").checked; 
  job.layOutByUs = document.getElementById("layoutByUs").checked;
  job.typesettingByUs = document.getElementById("typesettingByUs").checked;
- 
+ console.log(job);
   //let jobId =id;
 	//var jsonUpdatedData = JSON.stringify(job);
  	console.log(fetch(`job/update-draft/${id}`));
@@ -865,12 +866,13 @@ function updateDraft(id){
 		})
 		.then( response => {	
 
-   			 if (response.status === 200) {		consolelog()
+   			 if (response.status === 200) {
 
        			sendMessage('Succes/Success', 1);
-			return loadPage("job/list-job");				
+			return	loadPage("job/list-job");				
    			 } else if (response.status !== 200) {
 				sendMessage('Failed / Echec', 2);
+			return	loadPage("job/list-job");
   			 }
 		})
 		 .then(function(data) {
