@@ -10,6 +10,8 @@ public interface JobStatusService {
 	
 	Optional<JobStatus> findByName(String name);
 	Page< JobStatus > findPaginatedJobStatus(int pageNo, int pageSize);
+	JobStatus findById(long id);
 	void delete(long id);
+	JobStatus save(JobStatus jobStatus);
 
 }

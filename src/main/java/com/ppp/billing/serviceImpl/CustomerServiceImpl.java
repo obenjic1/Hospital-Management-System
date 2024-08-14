@@ -101,5 +101,11 @@ public class CustomerServiceImpl implements CustomerService {
            }
        }
 
+	@Override
+	public Customer findByName(String name) {
+		// TODO Auto-generated method stub
+		return customerRepostory.findByName(name);
+	}
+
 
 }

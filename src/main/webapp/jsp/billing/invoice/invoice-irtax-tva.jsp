@@ -77,8 +77,8 @@
 				                       			 </div>
 				                       			 <div class="col-lg-2"  id="apply-btn-tax">
 				                       			    <div class ="col px3" style="position: relative;" >
-													  <input type= "button" class="btn btn-outline-primary" value ="Apply Taxes" style="margin-left: 0px;width: 101px;position: relative;bottom: -2px;left: -65px;text-align:center " onclick="applyTax(${invoices.id})">
-													  <input type= "button" class="btn btn-outline-danger"" value ="Display Taxes" style=" margin-left: -6px;position: relative;bottom: 35px;left: 46px; width: 107px; " onclick="displayTax(${invoices.id})">
+													  <input type= "button" class="btn btn-outline-danger" value ="Display Taxes " style="margin-left: 0px;width: 101px;position: relative;bottom: -2px;left: -65px;text-align:center " onclick="displayTax(${invoices.id})"" >
+													  <input type= "button" class="btn btn-outline-primary" value ="Apply Taxes" style=" margin-left: -6px;position: relative;bottom: 35px;left: 46px; width: 107px; " onclick="applyTax(${invoices.id})" ">
 													  
 					                 				</div>	
 							                      </div>
@@ -109,14 +109,14 @@
                                                                        <td style="font-family: bold;">VAT <span>${invoices.vatPercentage}</span> % </a></td>                                 
                                                                      <td><a> </td>                                  
                                                                       <td><a> </td>  
-                                                                      <td><a> <fmt:formatNumber value="${invoices.vatValue}" type="currency"   pattern = "#,###,###"/> </a></td>                               
+                                                                      <td><a> <fmt:formatNumber value="${vatValue}" type="currency"   pattern = "#,###,###"/> </a></td>                               
                                                                 </tr> 
                                                                  <tr> 
                                                                  
                                                                        <td style="font-family: bold;">Tax IR ${invoices.irTaxPercentage} % </a></td>                                 
                                                                      <td> </td>                                  
                                                                       <td> </td>  
-                                                                      <td style="font-family: bold;"><a> <fmt:formatNumber value="${invoices.irTaxValue}" type="currency"   pattern = "#,###,###"/> </a></td>                               
+                                                                      <td style="font-family: bold;"><a> <fmt:formatNumber value="${irTaxValue}" type="currency"   pattern = "#,###,###"/> </a></td>                               
                                                                 </tr>
                                                                  <tr> 
                                                                  

@@ -32,9 +32,16 @@
 				<div class="card">
 					<div class="card-body">
 						<h5 class="card-title"><fmt:message key="job.management"/></h5>
-						<button onclick="loadPage('job/displayform')"  data-toggle="tooltip" data-placement="top" title="create new job"  style="width: 120px;position: relative; left: 91.5%" type="button" class="btn btn-primary">
-						  <fmt:message key="add.group"/>
-						</button>
+<!-- 						<button onclick="loadPage('job/displayform')"  data-toggle="tooltip" data-placement="top" title="create new job"  style="width: 120px;position: relative; left: 91.5%" type="button" class="btn btn-primary"> -->
+<%-- 						  <fmt:message key="add.group"/> --%>
+<!-- 						</button> -->
+						<div class="row" style="position: relative; left:  42.5%;margin:13px">
+							<div class="col-sm-4"><button onclick="loadPage('job/displayform')"  data-toggle="tooltip" data-placement="top" title=" new job"  style="width: 100px;position: relative; margin-bottom:10px;left: 130.5%" type="button" class="btn btn-outline-primary"> New job</button>
+							</div>
+							<div class="col-sm-4"><button onclick="loadPage('job/displayform-draft')"  data-toggle="tooltip" data-placement="top" title="draft job"  style="width: 100px;position: relative; left:50.5%" type="button" class="btn btn-outline-danger">Draft job</button>
+							</div>
+						</div>
+						
 						<!-- Table with stripped rows -->
 						<div class="row" style="position: relative;bottom: 46px; left: 154px;">
 					    <div id="startPeriod" class="col-sm-3" style="display: block;">
@@ -81,18 +88,24 @@
 							   <td><a>${job.title}</a></td>
 							   <td><a>${job.jobType.name}</a></td>
 							   <td><a>${job.referenceNumber}</a></td>
-							   <td><a>${job.status}</a></td>
+							   <td><a>${job.status.name}</a></td>
 							   <td><a><fmt:formatDate type = "both" value = "${job.creationDate}" /></a></td>
 							   <td><a>${job.customer.name}</a></td>
 							 <td>
 								  <select id="coverPaperType" name="name" class="form-select">
 								     <option >Action</option>
 								     <option data-bs-toggle="modal" data-bs-target="#ExtralargeModal" data-toggle="tooltip" data-placement="top" title="view job details" onclick="loadPageModalForm('job/viewJob/${job.id}');">View</option>
+  									<c:if test="${job.status.id<2.0}">
+								     <option data-bs-toggle="modal" data-bs-target="#ExtralargeModal" data-toggle="tooltip" data-placement="top" title="edit Draft Job" onClick="loadPageModalForm('job/update-draft/${job.id}');">Edit Draft</option>
+								      </c:if>
+								     <c:if test="${job.status.id>1.0}">
+								     	 <option data-bs-toggle="modal" data-bs-target="#ExtralargeModalFile" onclick="loadPageModal('job/generate-pdf/${job.id}');">Control Sheet</option>
+									     <option data-bs-toggle="modal" data-bs-target="#ExtralargeModal" onclick="loadDynamicPageModal('job/estimate/${job.id}');">Generate Estimate</option>
+									     <option data-bs-toggle="modal" onclick="loadPage('job/get-estimate/${job.id}');">View Estimate </option>
+								     </c:if>
 								     <option data-bs-toggle="modal" data-bs-target="#ExtralargeModal" data-toggle="tooltip" data-placement="top" title="edit job details" onClick="loadPageModalForm('job/update-form/${job.id}');">Edit</option>
 								     <option data-toggle="tooltip" data-placement="top" title="archive a job" onclick="deleteJob(${job.id})">Delete</option>
-								     <option data-bs-toggle="modal" data-bs-target="#ExtralargeModalFile" onclick="loadPageModal('job/generate-pdf/${job.id}');">Control Sheet</option>
-								     <option data-bs-toggle="modal" data-bs-target="#ExtralargeModal" onclick="loadDynamicPageModal('job/estimate/${job.id}');">Generate Estimate</option>
-								     <option data-bs-toggle="modal" onclick="loadPage('job/get-estimate/${job.id}');">View Estimate </option>
+								    
 					              </select>
 							  </td>
 							 

@@ -28,15 +28,9 @@ public class Invoice {
 	@Column(name = "reference_number")
 	private String referenceNumber;
 
-	@Column(name = "vat_value", columnDefinition = "float default 0")
-	private double vatValue;
-	
 	@Column(name = "vat_percentage", columnDefinition = "float default 0")
 	private double vatPercentage;
 
-	@Column(name = "ir_tax_value", columnDefinition = "float default 0")
-	private double irTaxValue;
-	
 	@Column(name = "ir_tax_percentage", columnDefinition = "float default 0")
 	private double irTaxPercentage;
 

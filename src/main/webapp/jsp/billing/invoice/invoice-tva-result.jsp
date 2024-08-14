@@ -26,14 +26,14 @@
                           <td style="font-family: bold;">VAT <span>${invoices.vatPercentage}</span> % </td>                                 
                         <td> </td>                                  
                          <td> </td>  
-                         <td><a> <fmt:formatNumber value="${invoices.vatValue}" type="currency"   pattern = "#,###,###"/> </a></td>                               
+                         <td><a> <fmt:formatNumber value="${vatValue}" type="currency"   pattern = "#,###,###"/> </a></td>                               
                    </tr> 
                     <tr> 
                     
                           <td style="font-family: bold;">Tax IR ${invoices.irTaxPercentage} % </a></td>                                 
                         <td> </td>                                  
                          <td> </td>  
-                         <td style="font-family: bold;"><a> <fmt:formatNumber value="${invoices.irTaxValue}" type="currency"   pattern = "#,###,###"/> </a></td>                               
+                         <td style="font-family: bold;"><a> <fmt:formatNumber value="${irTaxValue}" type="currency"   pattern = "#,###,###"/> </a></td>                               
                    </tr>
                     <tr> 
                     
