@@ -1,8 +1,5 @@
 package com.ppp.user.model.dto;
 
-
-
-
 import org.springframework.web.multipart.MultipartFile;
 
 import lombok.AllArgsConstructor;
@@ -17,6 +14,7 @@ public class UserDTO {
 	private String lastName;
 	private String email;
 	private String password;
+	private String confirmPassword;
 	private String mobile;
 	private String address;
 	private String username;

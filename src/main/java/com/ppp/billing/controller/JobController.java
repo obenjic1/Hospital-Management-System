@@ -1039,11 +1039,6 @@ public class JobController {
 			printer.printHeader(document, "Volume", 38, 297-110);
 			
 			printer.printHeader(document, "Printing", 38, 297-137);
-			
-			
-
-			
-				
 
 				String message_ =" ";
 				boolean isContent =false;
@@ -1079,9 +1074,7 @@ public class JobController {
 			if(jobActivity.getLamination()>0) jobActivities =	jobActivities +" Cover " + jobActivity.getLamination() + " side(s) laminated, ";
 
 		 printer.printParagraphe(document,jobActivities, 73, 297-170);
-		 
-		 
-		 
+
 		   if(isContent)			
 			printer.printParagraphe(document,"Content : ", 73, 297-187);
 			float vecto = -5;
@@ -1133,7 +1126,6 @@ public class JobController {
 	@ResponseBody
 	public String generateEstimatePdfWithCommission(@PathVariable String reference) throws IOException {
 	
-			
 			return createEstimateDataPdfWithCommision(reference);
 			
 	}
@@ -1192,11 +1184,6 @@ public class JobController {
 				printer.printHeader(document, "Volume", 38, 297-110);
 				
 				printer.printHeader(document, "Printing", 38, 297-137);
-				
-				
-
-				
-					
 
 					String message_ =" ";
 					boolean isContent =false;
@@ -1232,8 +1219,6 @@ public class JobController {
 				if(jobActivity.getLamination()>0) jobActivities =	jobActivities +" Cover " + jobActivity.getLamination() + " side(s) laminated, ";
 
 			 printer.printParagraphe(document,jobActivities, 73, 297-170);
-			 
-			 
 			 
 			   if(isContent)			
 				printer.printParagraphe(document,"Content : ", 73, 297-187);
@@ -1278,7 +1263,6 @@ public class JobController {
 			}
 			
 		}
-		
 		
 	@GetMapping("/search-by/{reference}")
 	public String findJobByReferenceNumber(@PathVariable String reference, Model model) {
@@ -1417,7 +1401,7 @@ public class JobController {
 		}
 			
 		}
-	
+
 	//<--------------------- Save DraftJob ------------------------------>
 			@PostMapping(value="/save-draft", consumes=MediaType.APPLICATION_JSON_VALUE)
 			@ResponseBody

@@ -1,12 +1,9 @@
 package com.ppp.user.service.impl;
 
 import java.io.IOException;
-import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
-import javax.persistence.EntityManager;
 import javax.security.auth.login.AccountNotFoundException;
-import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -33,8 +30,6 @@ public class UserServiceImpl implements UserService {
 	@Autowired
 	private GroupeRepository groupeRepository;
 	@Autowired
-	private EntityManager entityManager;
-	@Autowired
 	private FileStorageService fileStorageService;
 
 //<---------------- List user ---------------------->
@@ -57,40 +52,48 @@ public class UserServiceImpl implements UserService {
 //<-------------------- Create user using userDTO ---------------------->
 	@Override
 	public String createUser(UserDTO userDTO) {
-		User newUser = new User();
-	    newUser.setUsername(userDTO.getUsername());
-	    newUser.setFirstName(userDTO.getFirstName());
-	    newUser.setLastName(userDTO.getLastName());
-	    newUser.setAddress(userDTO.getAddress());
-	    newUser.setEmail(userDTO.getEmail());
-	    newUser.setPassword(passwordEncoder.encode(userDTO.getPassword()));
-	    newUser.setMobile(userDTO.getMobile());
-	    newUser.setCreatedAt(new Date());
-	    String getGroup = userDTO.getGroupe();
-	    Groupe groupe = groupeRepository.findByName(getGroup);
-	    newUser.setGroupe(groupe);
-	    List< User > userToCompare = userRepository.findAll();
-	    for(User user : userToCompare) {
-	    	if(user.getUsername().toLowerCase().equals(newUser.getUsername().toLowerCase()) || user.getEmail().equals(newUser.getEmail()))
-	    		return "error";
-	    }
-	    
-	    if (userDTO.getImageFile() != null && !userDTO.getImageFile().isEmpty()) {
-            try {
-                String imagePath = fileStorageService.storeUserFile(userDTO.getImageFile());
-                newUser.setImagePath(imagePath);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        } 
-	   userRepository.save(newUser);
-	   return "sucess";
+		try {
+			User newUser = new User();
+		    newUser.setUsername(userDTO.getUsername());
+		    newUser.setFirstName(userDTO.getFirstName());
+		    newUser.setLastName(userDTO.getLastName());
+		    newUser.setAddress(userDTO.getAddress());
+		    newUser.setEmail(userDTO.getEmail());
+		    newUser.setPassword(passwordEncoder.encode(userDTO.getPassword()));
+		    newUser.setConfirmPassword(passwordEncoder.encode(userDTO.getConfirmPassword()));
+		    newUser.setMobile(userDTO.getMobile());
+		    newUser.setCreatedAt(new Date());
+		    String getGroup = userDTO.getGroupe();
+		    Groupe groupe = groupeRepository.findByName(getGroup);
+		    newUser.setGroupe(groupe);
+		    List< User > userToCompare = userRepository.findAll();
+		    for(User user : userToCompare) {
+		    	if(user.getUsername().toLowerCase().equals(newUser.getUsername().toLowerCase()) || user.getEmail().equals(newUser.getEmail()))
+		    		return "error";
+		    }
+		    if (userDTO.getImageFile() != null && !userDTO.getImageFile().isEmpty()) {
+		    	 try {
+		                String imagePath = fileStorageService.storeFile(userDTO.getImageFile());
+		                newUser.setImagePath(imagePath);
+		            } catch (IOException e) {
+		                e.printStackTrace();
+		            }
+	        } 
+		   userRepository.save(newUser);
+		   return "sucess";
+		} catch (Exception e) {
+			throw e;
+		}
 	}
 
 
 	@Override
 	public User findUserByUsername(String username) {
-		return userRepository.findByUsername(username);
+		try {
+			return userRepository.findByUsername(username);
+		} catch (Exception e) {
+			throw e;
+		}
 	}
 	
 	//<--------------------- find user by email ojong--------------------------> 
@@ -111,33 +114,40 @@ public class UserServiceImpl implements UserService {
 	}
 	//<--------------------- Delete User By Id -------------------------->
 	public void deleteUserById(Long id) {
-		userRepository.deleteById(id);
+		try {
+			userRepository.deleteById(id);
+		} catch (Exception e) {
+			throw e;
+		}
 	}
 //<----------------- Get user by user name using DTO object ------------------->	
 	public UserDTO getUserByUsername(String username) {
-        User user = userRepository.findByUsername(username);
-        if (user == null) {
-            return null;
-        }
-        UserDTO userDTO = new UserDTO();
-        userDTO.setFirstName(user.getFirstName());
-        userDTO.setLastName(user.getLastName());
-        userDTO.setAddress(user.getAddress());
-        userDTO.setMobile(user.getMobile());
-        userDTO.setMobile(user.getMobile());
-        userDTO.setPassword(user.getPassword());
-        userDTO.setUsername(user.getUsername());
-        userDTO.setEmail(user.getEmail());
+       try {
+    	   User user = userRepository.findByUsername(username);
+           if (user == null) {
+               return null;
+           }
+           UserDTO userDTO = new UserDTO();
+           userDTO.setFirstName(user.getFirstName());
+           userDTO.setLastName(user.getLastName());
+           userDTO.setAddress(user.getAddress());
+           userDTO.setMobile(user.getMobile());
+           userDTO.setMobile(user.getMobile());
+           userDTO.setPassword(user.getPassword());
+           userDTO.setUsername(user.getUsername());
+           userDTO.setEmail(user.getEmail());
 
-        return userDTO;
+           return userDTO;
+	} catch (Exception e) {
+		throw e;
+	}
     }
 
 //<---------------------- Update user ---------------------> 
 	@Override
 	public User updateUser(User updatedUser, Long id) {
-		
+		try {
 			User existingUser = userRepository.findById(id).get();
-			
 			existingUser.setFirstName(updatedUser.getFirstName());
 			existingUser.setLastName(updatedUser.getLastName());
 			existingUser.setUsername(updatedUser.getUsername());
@@ -145,20 +155,25 @@ public class UserServiceImpl implements UserService {
 			existingUser.setAddress(updatedUser.getAddress());
 			existingUser.setMobile(updatedUser.getMobile());
 			userRepository.save(existingUser);
-		
-		return existingUser;
+			return existingUser;
+		} catch (Exception e) {
+			throw e;
+		}
 	}
 
-	
-	
+
 	public void updateResetPasswordToken(String token, String email) throws AccountNotFoundException {
-		User user = userRepository.findByEmail(email);
-        if (user != null) {
-            user.setResetPasswordToken(token);
-            userRepository.save(user);
-        } else {
-            throw new AccountNotFoundException("Could not find any worker with the email " + email);
-        }
+		try {
+			User user = userRepository.findByEmail(email);
+	        if (user != null) {
+	            user.setResetPasswordToken(token);
+	            userRepository.save(user);
+	        } else {
+	            throw new AccountNotFoundException("Could not find any worker with the email " + email);
+	        }
+		} catch (Exception e) {
+			throw e;
+		}
     }
 
 	

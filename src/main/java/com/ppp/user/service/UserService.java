@@ -14,7 +14,7 @@ public interface UserService {
 	User findUserByUsername(String username);
 	User updateUser(User updatedUser, Long id);
 	Page< User > findPaginatedUser(int pageNo, int pageSize);
-	String createUser(UserDTO userDTO);
+	String createUser(UserDTO userDTO) throws Exception;
 	void updateResetPasswordToken(String token, String email) throws AccountNotFoundException;
 	User getByResetPasswordToken(String token);
 	void updatePassword(User user, String newPassword);
