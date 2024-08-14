@@ -20,6 +20,8 @@
 <meta content="" name="keywords">
 
 <!-- Favicons -->
+<link rel="stylesheet" href="assets/sweetalert/sweetalert2.min.css"" />
+
 <link rel="stylesheet" href="DataTables/datatables.css" />
 <script src="DataTables/datatables.js"></script>
 <link href="assets/img/presprint.jpg" rel="icon">
@@ -355,7 +357,7 @@ $(document).ready(function() {
     refreshGroupTable(1);
 });
 </script>
-
+	<script src="assets/sweetalert/sweetalert2.all.min.js"></script>
 	<!-- Template Main JS File -->
 	<script src="assets/js/billing/job.js"></script>
     <script src="assets/js/users.js"></script>

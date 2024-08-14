@@ -16,47 +16,44 @@
 					<h5 class="card-title text-center pb-0 fs-4"><fmt:message key="create.an.ccount"/></h5>
 					<p class="text-center small"><fmt:message key="enter.the.personal.details.to.create.the.user.account"/></p>
 
-					<form class="row g-3 needs-validation" style=" margin-left: 5%;" onsubmit="event.preventDefault(); addUser()">
+					<form class="row g-3 "  id="userForm" novalidate style=" margin-left: 5%;" >
 					  <div class="col-md-6">
 						<label for="firstName" class="form-label"> <fmt:message key="first.name"/> </label>
 						  <div class="input-group has-validation">
 							<span class="input-group-text"><i class="fas fa-user"></i></span>
-							<input type="text" id="firstName" name="firstName" class="form-control"  required="required" />
+							<input type="text" id="firstName" name="firstName" class="form-control"  required/>
+							<div class="invalid-feedback"> Please enter your name.  </div>  
 						  </div>
-						  <div id="emptyNameAlert" class="alert alert-danger alert-dismissible fade show" role="alert" style="display: none;"></div>
 						</div>
 						<div class="col-md-6">
 							<label for="Email" class="form-label"><fmt:message key="email"/></label>
 							<div class="input-group has-validation">
 							  <span class="input-group-text"><i class="fas fa-envelope"></i></span>
 							  <input type="email" id="email" name="email" class="form-control" required="required" />
+							  <span id = "emailMsg" style="color:red"> </span> <br><br>
 							</div>
-							<div id="emptyEmailAlert" class="alert alert-danger alert-dismissible fade show" role="alert" style="display: none;"></div>
 						</div>
 						<div class="col-md-6">
 							<label for="lastName" class="form-label"><fmt:message key="last.name"/></label>
 							<div class="input-group has-validation">
 							  <span class="input-group-text"><i class="fas fa-user"></i></span>
-							  <input type="text" id="lastName" name="lastName" class="form-control" required="required" />
+							  <input type="text" id="lastName" name="lastName" class="form-control"/>
 							</div>
-						  <div id="emptyLastNameAlert" class="alert alert-danger alert-dismissible fade show" role="alert" style="display: none;"></div>
 						</div>
 						<div class="col-md-6">
-						
 							<label for="mobile" class="form-label"><fmt:message key="phone"/></label>
 							<div class="input-group has-validation">
 							  <span class="input-group-text"><i class="fas fa-phone"></i></span>
 							  <input type="text" id="mobile" name="mobile" class="form-control"  required="required" />
 						    </div>
-						  <div id="emptyNameAlert" class="alert alert-danger alert-dismissible fade show" role="alert" style="display: none;"></div>
 						</div>
+						
 						<div class="col-md-6">
-						  <label for="username" class="form-label"><fmt:message key="username"/></label>
+							<label for="username" class="form-label"><fmt:message key="username"/></label>
 							<div class="input-group has-validation">
-							  <span class="input-group-text" id="inputGroupPrepend">@</span> 
-							  <input type="text" id="username" name="username" class="form-control" value=" " required="required" />
-							</div>
-							<div id="emptyUserameAlert" class="alert alert-danger alert-dismissible fade show" role="alert" style="display: none;"></div>
+							  <span class="input-group-text"><i class="fas fa-phone"></i></span>
+							  <input type="text" id="username" name="username" class="form-control"  required="required" />
+						    </div>
 						</div>
 						<div class="col-md-6">
 						  <label for="address" class="form-label"><fmt:message key="address"/></label>
@@ -64,7 +61,6 @@
 							<span class="input-group-text"> <i class="fas fa-map-marker-alt"></i></span> 
 							<input type="text" id="address" name="address" class="form-control" required="required" />
 						  </div>
-						  <div id="emptyAddressAlert" class="alert alert-danger alert-dismissible fade show" role="alert" style="display: none;"></div>
 						</div>
 						<div class="col-md-6">
 						  <label for="Password" class="form-label"><fmt:message key="password"/></label>
@@ -72,18 +68,23 @@
 							<span class="input-group-text"><i class="fas fa-lock"></i></span>
 							<input type="password" id="password" name="password" class="form-control" required="required" />
 						  </div>
-						  <div id="emptyPasswordAlert" class="alert alert-danger alert-dismissible fade show" role="alert" style="display: none;"></div>
 						</div>
 						<div class="col-md-6">
-						  <label for="ImageFile" class="form-label"><fmt:message key="photo"/></label>
+						  <label for="ConfirmPassword" class="form-label"><fmt:message key="confirm.password"/></label>
+						  <div class="input-group has-validation">
+							<span class="input-group-text"><i class="fas fa-lock"></i></span>
+							<input type="password" id="confirmPassword" name="confirmPassword" class="form-control" required="required" />
+						  </div>
+						</div>
+						<div class="col-md-6" style="position: relative;left: -18px;">
+						  <label for="imageFile" class="form-label"><fmt:message key="photo"/></label>
 						  <div class="input-group has-validation" style="width: 93%; left: 7%;">
 						    <input type="file" id="imageFile" name="imageFile" class="form-control" accept="image/*">
 						  </div>
 						</div>
-						<div class="col-md-6">
+						<div class="col-md-6" style="position: relative;left: -10px;bottom: -2px;">
 						  <label for="groupe" id="groupeLabel" class="form-label"><fmt:message key="list.groups"/></label>
 						  <div class="input-group has-validation" style=" left: -8%;  width: 94%; ">
-							 <span class="input-group-text"> <i class="fas fa-users"></i> </span> 
 							 <select id="groupe" name="groupe" class="form-select">
 							   <c:forEach items="${groups}" var="group">
 								 <option value="${group.name}">${group.name}</option>
@@ -91,10 +92,9 @@
 								</select>
 							</div>
 						</div>
-						<div class="col-md-3" style="  width: 13%; left: 21%; position: relative; ">
-							<input type="button" data-bs-toggle="modal" data-bs-target="#creation" id="create-btn" onclick="loadPage('/user/list-users'); addUser()" style=" bottom: -42%;" class="btn btn-primary w-100" value="Save" />
+						<div class="col-md-3" style="  width: 20%; left: 72%; position: relative;bottom: -10px; ">
+							<input type="button" id="createBtn"  onclick="addUser(); loadPage('user/list-users');"  style=" bottom: -42%;" class="btn btn-primary w-100" value="Save" >
 						</div>
-
 					</form>
 				</div>
 			</div>
@@ -102,3 +102,4 @@
 </main>
 <!-- End #main -->
 <script src="assets/js/users.js"></script>
+

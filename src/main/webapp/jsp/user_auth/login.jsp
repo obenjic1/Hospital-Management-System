@@ -102,7 +102,6 @@
 								</div>
 							</div>
 						</div>						
-						<form class="row g-3 needs-validation" action="<c:url value='/login'/>" method="post"> 
 					</div>
 				</div>
 				
