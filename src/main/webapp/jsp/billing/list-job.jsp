@@ -95,11 +95,17 @@
 								  <select id="coverPaperType" name="name" class="form-select">
 								     <option >Action</option>
 								     <option data-bs-toggle="modal" data-bs-target="#ExtralargeModal" data-toggle="tooltip" data-placement="top" title="view job details" onclick="loadPageModalForm('job/viewJob/${job.id}');">View</option>
+  									<c:if test="${job.status.id<2.0}">
+								     <option data-bs-toggle="modal" data-bs-target="#ExtralargeModal" data-toggle="tooltip" data-placement="top" title="edit Draft Job" onClick="loadPageModalForm('job/update-draft/${job.id}');">Edit Draft</option>
+								      </c:if>
+								     <c:if test="${job.status.id>1.0}">
+								     	 <option data-bs-toggle="modal" data-bs-target="#ExtralargeModalFile" onclick="loadPageModal('job/generate-pdf/${job.id}');">Control Sheet</option>
+									     <option data-bs-toggle="modal" data-bs-target="#ExtralargeModal" onclick="loadDynamicPageModal('job/estimate/${job.id}');">Generate Estimate</option>
+									     <option data-bs-toggle="modal" onclick="loadPage('job/get-estimate/${job.id}');">View Estimate </option>
+								     </c:if>
 								     <option data-bs-toggle="modal" data-bs-target="#ExtralargeModal" data-toggle="tooltip" data-placement="top" title="edit job details" onClick="loadPageModalForm('job/update-form/${job.id}');">Edit</option>
 								     <option data-toggle="tooltip" data-placement="top" title="archive a job" onclick="deleteJob(${job.id})">Delete</option>
-								     <option data-bs-toggle="modal" data-bs-target="#ExtralargeModalFile" onclick="loadPageModal('job/generate-pdf/${job.id}');">Control Sheet</option>
-								     <option data-bs-toggle="modal" data-bs-target="#ExtralargeModal" onclick="loadDynamicPageModal('job/estimate/${job.id}');">Generate Estimate</option>
-								     <option data-bs-toggle="modal" onclick="loadPage('job/get-estimate/${job.id}');">View Estimate </option>
+								    
 					              </select>
 							  </td>
 							 

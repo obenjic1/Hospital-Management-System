@@ -152,6 +152,10 @@ public class JobController {
 		
 		return "billing/display-job-form-interface";
 	}
+	
+	/*
+	 * Working with Draft Job
+	 * */
 
 	@GetMapping("/displayform-draft")
 	public String displayDraftFormInterface(Model model) {
@@ -159,10 +163,7 @@ public class JobController {
 		List<JobType> jobTypeResult = jobTypeServiceImpl.findAll();
 		List<PaperFormat> paperFormatResult = paperFormatServiceImpl.findAll();
 		List<JobPaper> jobPaperResult = jobPaperServiceImpl.findAll();
-		List<PaperType>  paperTypeResult = paperTypeServiceImpl.listAll();
-		List<PrintingMachine> printingMachineResult = printingMachineServiceImpl.findByIsActive();
 		List<PrintType> printTypeResult = printTypeServiceImpl.findAll();
-		List<JobColorCombination> jobColorCombinationResult = jobColorCombinationServiceImpl.findAll();
 		List<PaperGrammage> paperGrammageResult = paperGrammageServiceImpl.findAll();
 		List<BindingType> bindingTypeResult = bindingTypeserviceImpl.listAll();
 
@@ -172,10 +173,6 @@ public class JobController {
 		model.addAttribute("paperFormats", paperFormatResult);
 		model.addAttribute("bindingTypes", bindingTypeResult);
 		model.addAttribute("jobPaperResults", jobPaperResult);
-		model.addAttribute("paperTypes", paperTypeResult);
-		model.addAttribute("printingMachines", printingMachineResult);
-		model.addAttribute("printTypes", printTypeResult);
-		model.addAttribute("jobColorCombinations", jobColorCombinationResult);
 		model.addAttribute("paperGrammages", paperGrammageResult);
 		
 		return "billing/display-daftjob-form-interface";
@@ -194,18 +191,7 @@ public class JobController {
 		}
 	}
 	
-	//<--------------------- Save DraftJob ------------------------------>
-		@PostMapping(value="/save-draft", consumes=MediaType.APPLICATION_JSON_VALUE)
-		@ResponseBody
-		public String saveDraft(@RequestBody JobDTO jobDTO,Model model){
-			try {
-				jobServiceImpl.saveJob(jobDTO);
-				return "OK";
-			} catch (Exception e) {
-				e.printStackTrace();
-				return "KO";
-			}
-		}
+	
 
 	@GetMapping("/list-job")
 	public String listJob(Model model) {
@@ -838,7 +824,30 @@ public class JobController {
 			
 		    return "/billing/job-update-form";
 		}
-	
+		// to get the update page of job
+		
+			@GetMapping("/update-draft/{id}")
+			public String getUpdateDraftForm(@PathVariable Long id, Model model) {
+				List<Customer> customerResult = customerServiceImpl.findAll();
+				List<JobType> jobTypeResult = jobTypeServiceImpl.findAll();
+				List<PaperFormat> paperFormatResult = paperFormatServiceImpl.findAll();
+				List<JobPaper> jobPaperResult = jobPaperServiceImpl.findAll();
+				List<PaperType>  paperTypeResult = paperTypeServiceImpl.listAll();
+				
+				
+				Job existingJob = jobServiceImpl.findById(id).get();
+				model.addAttribute("job", existingJob);
+				model.addAttribute("customers", customerResult);
+				model.addAttribute("jobTypes", jobTypeResult);
+				model.addAttribute("paperFormats", paperFormatResult);
+				model.addAttribute("jobPaperResults", jobPaperResult);
+				model.addAttribute("paperTypes", paperTypeResult);
+				
+				
+			    return "/billing/draft-update--form";
+			}
+		
+		
 		@GetMapping("/estimate/{id}")
 		public String getEstimateForm (@PathVariable long id, Model model) {
 			Job findJob = jobServiceImpl.findById(id).get();
@@ -1408,6 +1417,32 @@ public class JobController {
 		}
 			
 		}
+	
+	//<--------------------- Save DraftJob ------------------------------>
+			@PostMapping(value="/save-draft", consumes=MediaType.APPLICATION_JSON_VALUE)
+			@ResponseBody
+			public String saveDraft(@RequestBody JobDTO jobDTO,Model model){
+				try {
+					jobServiceImpl.saveDraft(jobDTO);
+					return "OK";
+				} catch (Exception e) {
+					e.printStackTrace();
+					return "KO";
+				}
+			}
+			
+			//<--------------------- Update DraftJob ------------------------------>
+			@PostMapping(value="/update-draft/{id}", consumes=MediaType.APPLICATION_JSON_VALUE)
+			@ResponseBody
+			public String updateDraft(@PathVariable Long id,@RequestBody JobDTO jobDTO){
+				try {
+					jobServiceImpl.updateDraft(jobDTO,id);
+					return "OK";
+				} catch (Exception e) {
+					e.printStackTrace();
+					return "KO";
+				}
+			}
 
 	
 }

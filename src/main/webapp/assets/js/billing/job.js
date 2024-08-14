@@ -767,7 +767,6 @@ function findByDate() {
 	}
 	
 	function submitFormDraft(){
-	
 	 let opt=document.getElementById("jobType").selectedOptions[0];	
 	 let dataContentValue = opt.parentElement.getAttribute('data-content');
  let job = { };
@@ -820,5 +819,65 @@ function findByDate() {
 			.catch(function(error) {
 
 			});
+	}
 	
-}
+function updateDraft(id){
+ let opt=document.getElementById("jobType").selectedOptions[0];	
+ let dataContentValue = opt.parentElement.getAttribute('data-content');
+ let job = { };
+ job.customerId = document.getElementById("customer").value;
+ job.jobTypeId = document.getElementById("jobType").value;
+ job.title = document.getElementById("title").value;
+ 
+ if(dataContentValue==2){
+	  job.coverVolume = document.getElementById("volumeOfCover").value;
+ }
+    if(dataContentValue==0||dataContentValue==2){
+	   job.contentVolume = document.getElementById("volumeOfContent").value;
+ } 
+ job.ctpFees = document.getElementById("ctpFees").value;
+ job.openWidth = document.getElementById("openWidth").value;
+ job.openLength = document.getElementById("openLength").value;
+ if(dataContentValue==1 || dataContentValue==2){
+	  job.closeWidth = document.getElementById("closeWidth").value;
+ 	  job.closeLength = document.getElementById("closeLength").value;
+ }else{
+	  job.closeWidth = document.getElementById("openWidth").value;
+ 	  job.closeLength = document.getElementById("openLength").value;
+	 
+ }
+ job.existingPlate = document.getElementById("existingPlate").checked; 
+ job.dataSuppliedByCustomer = document.getElementById("dataSuppliedByCustomer").checked; 
+ job.layOutByUs = document.getElementById("layoutByUs").checked;
+ job.typesettingByUs = document.getElementById("typesettingByUs").checked;
+ 
+  //let jobId =id;
+	//var jsonUpdatedData = JSON.stringify(job);
+ 	console.log(fetch(`job/update-draft/${id}`));
+	 fetch(`job/update-draft/${id}`, {
+			method: 'POST',
+			body: JSON.stringify(job) ,
+			 headers: {
+           "Content-Type": "application/json",
+           },
+                 	// body: jsonUpdatedData,
+			
+		})
+		.then( response => {	
+
+   			 if (response.status === 200) {		consolelog()
+
+       			sendMessage('Succes/Success', 1);
+			return loadPage("job/list-job");				
+   			 } else if (response.status !== 200) {
+				sendMessage('Failed / Echec', 2);
+  			 }
+		})
+		 .then(function(data) {
+
+		 })
+			.catch(function(error) {
+
+			});
+			}
+
