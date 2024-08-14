@@ -36,46 +36,71 @@ function validateField(field, errorMessage) {
 
 	return true;
 }
+
+
+function customAlert(message){
+	Swal.fire({
+			  title: "<small>File error</small>!",
+			  text: message,
+			  html: false
+			});
+}
+
+function validateAddUserform(){
+	
+	
+}
 // <-------------- Save user ------------------------->
 function addUser() {
 	const firstName = document.getElementById('firstName').value;
 	const lastName = document.getElementById('lastName').value;
 	const email = document.getElementById("email").value;
 	const password = document.getElementById("password").value;
+	const confirmPassword = document.getElementById("confirmPassword").value;
 	const mobile = document.getElementById('mobile').value;
 	const address = document.getElementById('address').value;
 	const username = document.getElementById('username').value;
 	const groupe = document.getElementById('groupe').value;
 	const imageFile = document.getElementById('imageFile').files[0];
 
-	if (!validateField(firstName, 'emptyNameAlert')) {
-		return false;
+	if(firstName==""){
+		customAlert('Please, enter your First Name!');
+		return;
 	}
-
-	if (!validateField(lastName, 'emptyLastNameAlert')) {
+	 if(email==""){
+		customAlert('Please enter your Email!');
+		return;
+	}  
+	 if(mobile==""){
+		customAlert('Please enter your phone number!');
 		return false;
-	}
+	} 
+	
+	 if(username==""){
+	customAlert('Please enter your Username!');
+	return;
+	} 
+	
+	 if(address==""){
+		customAlert('Please enter your Address!');
+		return;
+	} 
+	
 
-	if (!validateField(email, 'emptyEmailAlert')) {
-		return false;
-	}
+	if(password==""){
+		customAlert('Please enter your Password!');
+		return;
+		} else if (confirmPassword =="") {
+			
+			customAlert('Please enter the confirm password!');
+		}
 
-	if (!validateField(address, 'emptyAddressAlert')) {
-		return false;
-	}
 
-	if (!validateField(username, 'emptyUserameAlert')) {
-		return false;
-	}
 
-	if (!validateField(mobile, 'emptyMobileAlert')) {
-		return false;
-	}
-
-	if (!validateField(password, 'emptyPasswordAlert')) {
-		return false;
-	}
-
+	 if(confirmPassword != password){
+		customAlert('The password fields should be the same');
+		return;
+	} 
 	var formData = new FormData();
 		formData.append('firstName', firstName),
 		formData.append('lastName', lastName),
@@ -83,6 +108,7 @@ function addUser() {
 		formData.append('mobile', mobile),
 		formData.append('username', username),
 		formData.append('password', password),
+		formData.append('confirmPassword', confirmPassword),
 		formData.append('address', address),
 		formData.append('groupe', groupe),
 		formData.append('imageFile', imageFile),
@@ -92,13 +118,13 @@ function addUser() {
 			body: formData,
 		})
 			.then( response => {	
-
    			 if (response.status === 200) {
-       			sendMessage('Succes/Success', 1);
-			 return loadPage('user/list-users');					
+//       			sendMessage('Succes/Success', 1);
+				Swal.fire("Succes/Success!", "You clicked the button!", "success")
+				return loadPage('user/list-users');
    			 } else if (response.status !== 200) {
 				sendMessage('Failed / Echec : Email or Username already exist ',2);
-					return loadPage('user/list-users');			
+				//	return loadPage('user/add-user');			
 
   			 }
 		})
@@ -108,19 +134,8 @@ function addUser() {
 			.catch(function(error) {
 
 			});
+	
 }
-
-let bouton = document.getElementById("create-btn");
-
-bouton.removeAttribute("onclick");
-bouton.addEventListener("click", function(event) {
-  event.preventDefault();
-
-  addUser();
-});
-
-var modal = new bootstrap.Modal(document.getElementById('userDeleteSuccessfully'));
-				modal.show();
 
 //<------------------ Update user using DTO object -------------------->
 function updateUserById(id) {
@@ -131,10 +146,10 @@ function updateUserById(id) {
 	const mobile = document.getElementById('mobile').value;
 	const address = document.getElementById('address').value;
 	const username = document.getElementById('username').value;
-//	const groupe = document.getElementById('groupe').value;
+	const groupe = document.getElementById('groupe').value;
 	const imageFile = document.getElementById('imageFile').files[0];
 
-var formData = {
+	var formData = {
 				
 				firstName:firstName,
 				lastName:lastName,
@@ -142,7 +157,7 @@ var formData = {
 				mobile:mobile,
 				username:username,
 				address:address,
-//				groupe:groupe,
+				groupe:groupe,
 				imageFile:imageFile
 }
 			
@@ -201,18 +216,6 @@ function disableUser(id){
 
 			});
 }
-
-
-
-
-//document.addEventListener('DOMContentLoaded', function() {
-//	var deleteBtn = document.getElementById('delete-btn');
-//	deleteBtn.addEventListener('click', function() {
-//
-//	});
-//});
-
-
 
 //<------------------ Get list users with pagination -------------------->
 

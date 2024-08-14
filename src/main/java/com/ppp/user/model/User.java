@@ -1,6 +1,5 @@
 package com.ppp.user.model;
 
-import java.time.LocalDate;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
@@ -45,6 +44,9 @@ public class User implements UserDetails {
 	@Column(name = "password", nullable = false)
 	private String password;
 	
+	@Column(name = "confirm_password", nullable = false)
+	private String confirmPassword;
+	
 	@Column(name = "mobile", nullable = false)
 	private String mobile;
 	
@@ -54,9 +56,6 @@ public class User implements UserDetails {
 	@Column(name = "username",nullable = false, unique = true)
 	private String username;
 	
-//	@Column(name = "function", nullable = false)
-//	private String function;
-	
 	@Column(name = "image_path")
 	private String imagePath;
 	
@@ -64,7 +63,7 @@ public class User implements UserDetails {
 	private boolean connected = Boolean.FALSE;
 
 	@Column(name = "active")
-	private boolean active = Boolean.TRUE;
+	private boolean active = Boolean.FALSE;
 	
 	@Column(name = "created_at")
 	private Date createdAt ;

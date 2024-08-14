@@ -40,9 +40,7 @@ public class InvoiceServiceImpl implements InvoiceService{
 		Invoice invoiceToSave = new Invoice();
 		estimate.setInvoiced(true);
 		invoiceToSave.setCreationDate(new Date());
-		
-		
-		
+
 		/*
 		 * Create Reference for Invoice
 		 */
