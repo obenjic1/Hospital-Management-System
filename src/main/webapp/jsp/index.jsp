@@ -286,7 +286,7 @@
 	               </div>
 	             </div>
 	           </div>
-	         </div>	                 
+	         </div>	   
 			 <div class="modal fade" id="ExtralargeModal" tabindex="-1">
 			   <div class="modal-dialog modal-xl">
 				 <div class="modal-content" id="addForm">

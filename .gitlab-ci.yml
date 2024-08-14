@@ -19,4 +19,13 @@ quality_testing:
     only:
         refs:
             - merge_requests
+deployment:
+    stage : deploy
+    script:
+        - mvn -Dmaven.test.skip=true  clean install 
+        - mv  target/billing-1.war target/billing.war
+        - cp target/billing.war /opt/tomcat8085/webapps/
+    only:
+        refs:
+            - merge_requests
         

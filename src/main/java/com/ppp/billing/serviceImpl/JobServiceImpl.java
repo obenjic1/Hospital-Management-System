@@ -17,6 +17,7 @@ import com.ppp.billing.model.Job;
 import com.ppp.billing.model.JobActivity;
 import com.ppp.billing.model.JobColorCombination;
 import com.ppp.billing.model.JobPaper;
+import com.ppp.billing.model.JobStatus;
 import com.ppp.billing.model.JobType;
 import com.ppp.billing.model.PaperType;
 import com.ppp.billing.model.PrintType;
@@ -27,6 +28,7 @@ import com.ppp.billing.repository.BindingTypeRepository;
 import com.ppp.billing.repository.ContentTypeRepository;
 import com.ppp.billing.repository.CustomerRepository;
 import com.ppp.billing.repository.JobRepository;
+import com.ppp.billing.repository.JobStatusRepository;
 import com.ppp.billing.repository.JobTypeRepository;
 import com.ppp.billing.repository.PaperTypeRepository;
 import com.ppp.billing.repository.PrintTypeRepository;
@@ -53,6 +55,9 @@ public class JobServiceImpl implements JobService {
     private PaperTypeRepository paperTypeRepository;
     @Autowired
     private PrintTypeRepository printTypeRepository;
+
+    @Autowired
+	public JobStatusRepository jobStatusRepository;
  
     
 	@Override
@@ -75,6 +80,9 @@ public class JobServiceImpl implements JobService {
 		newJob.setCustomer(customer.get());
 		Optional<JobType> jobType = jobTypeRepository.findById(jobDTO.getJobTypeId());
 		newJob.setJobType(jobType.get());
+		
+		JobStatus status = jobStatusRepository.findById(2).get();
+		newJob.setStatus(status);
 		
 		JobActivityOptionDTO jobdto = jobDTO.getJobActivities();
 		JobActivity activity = new JobActivity();
@@ -224,5 +232,59 @@ public class JobServiceImpl implements JobService {
 		} catch (Exception e) {
 			throw e;
 		}
+	}
+	
+	
+	/* working with Job Draft
+	 * **/
+	
+	@Override
+	public Job saveDraft(JobDTO jobDTO) {
+		Job newJob = new Job();
+		newJob.setTitle(jobDTO.getTitle());
+		newJob.setContentVolume(jobDTO.getContentVolume());
+		newJob.setCoverVolume(jobDTO.getCoverVolume());
+		newJob.setOpenLength(jobDTO.getOpenLength());
+		newJob.setCloseLength(jobDTO.getCloseLength());
+		newJob.setOpenWidth(jobDTO.getOpenWidth());
+		newJob.setCloseWidth(jobDTO.getCloseWidth());
+		newJob.setCtpFees(jobDTO.getCtpFees());
+		newJob.setExistingPlate(jobDTO.isExistingPlate());
+		newJob.setDataSuppliedByCustomer(jobDTO.isDataSuppliedByCustomer());
+		newJob.setLayOutByUs(jobDTO.isLayOutByUs());
+		newJob.setTypesettingByUs(jobDTO.isTypesettingByUs());
+		newJob.setCreationDate(new Date());
+		Optional<Customer> customer = customerRepository.findById(jobDTO.getCustomerId());
+		newJob.setCustomer(customer.get());
+		Optional<JobType> jobType = jobTypeRepository.findById(jobDTO.getJobTypeId());
+		newJob.setJobType(jobType.get());
+		
+		JobStatus status = jobStatusRepository.findById(1).get();
+		newJob.setStatus(status);
+		jobRepository.saveAndFlush(newJob);
+		generateSerialNumber(newJob);
+		return newJob;
+	}
+
+	public Job updateDraft(JobDTO jobDTO, long id) {
+		Job newJob =jobRepository.findById(id).get();
+		newJob.setTitle(jobDTO.getTitle());
+		newJob.setContentVolume(jobDTO.getContentVolume());
+		newJob.setCoverVolume(jobDTO.getCoverVolume());
+		newJob.setOpenLength(jobDTO.getOpenLength());
+		newJob.setCloseLength(jobDTO.getCloseLength());
+		newJob.setOpenWidth(jobDTO.getOpenWidth());
+		newJob.setCloseWidth(jobDTO.getCloseWidth());
+		newJob.setCtpFees(jobDTO.getCtpFees());
+		newJob.setExistingPlate(jobDTO.isExistingPlate());
+		newJob.setDataSuppliedByCustomer(jobDTO.isDataSuppliedByCustomer());
+		newJob.setLayOutByUs(jobDTO.isLayOutByUs());
+		newJob.setTypesettingByUs(jobDTO.isTypesettingByUs());
+		Optional<Customer> customer = customerRepository.findById(jobDTO.getCustomerId());
+		newJob.setCustomer(customer.get());
+		Optional<JobType> jobType = jobTypeRepository.findById(jobDTO.getJobTypeId());
+		newJob.setJobType(jobType.get());
+		jobRepository.saveAndFlush(newJob);
+		return newJob;
 	}
 }

@@ -60,7 +60,7 @@ public class User implements UserDetails {
 	private String imagePath;
 	
 	@Column(name = "connected")
-	private boolean connected = Boolean.FALSE;
+	private boolean connected = Boolean.TRUE;
 
 	@Column(name = "active")
 	private boolean active = Boolean.FALSE;

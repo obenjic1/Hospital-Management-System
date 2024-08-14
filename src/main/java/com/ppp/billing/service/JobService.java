@@ -14,6 +14,7 @@ public interface JobService {
     Optional <Job> findJobByReferenceNumber(String referenceNumber);
 //    List<Job> findByCreatinDateBtween(Date startDate, Date endDate);
     List<Job> findByCreationDateBetween(Date startDate, Date endDate);
+    Job saveDraft(JobDTO jobDTO);
 
 
 }

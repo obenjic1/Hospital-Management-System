@@ -165,7 +165,10 @@
                                                     </tbody>
                                                 </table>
 			                                   </div>
-
+         									<div class="row">
+         										<div class="col-sm-6" style="font-family: bold;"> Commission Applied :<span> <a> <fmt:formatNumber value="${JobEstimateP.commission } " type="currency"   pattern = "#,###,###"/> </a></span></div>
+         										<div class="col-sm-6" style="font-family: bold;"> Discount Applied : <span><a> <fmt:formatNumber value=" ${JobEstimateP.discountValue } " type="currency"   pattern = "#,###,###"/> </a></span></div>
+         									</div>
 			                              <div class="row">
                                                 <table class="table-responsive ta" id="cover-table">
                                                     <thead id="estimate-header">

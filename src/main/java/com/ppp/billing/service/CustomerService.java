@@ -19,6 +19,7 @@ public interface CustomerService {
 	Customer save(CustomerDTO cutomerDTO);
 	Page<Customer> pagination(int pageNo, int pageSize);
 	Customer findByEmail(String email);
+	Customer findByName(String name);
 	List<Customer> findAll();
 	Customer update(CustomerDTO customerDTO, int id);
 	File downloadFile(String fileName, String fileStoragePath);

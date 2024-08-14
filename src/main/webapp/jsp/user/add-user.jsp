@@ -95,7 +95,6 @@
 						<div class="col-md-3" style="  width: 20%; left: 72%; position: relative;bottom: -10px; ">
 							<input type="button" id="createBtn"  onclick="addUser(); loadPage('user/list-users');"  style=" bottom: -42%;" class="btn btn-primary w-100" value="Save" >
 						</div>
-<!-- 					 onclick="addUser();" 	data-bs-target="#creation"  data-bs-toggle="modal"-->
 					</form>
 				</div>
 			</div>
