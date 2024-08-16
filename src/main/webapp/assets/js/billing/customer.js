@@ -5,6 +5,16 @@
 	 
  }
  
+  function loadCustomerInputFromJobForm(page) {
+	fetch(page)
+		.then(response => response.text())
+		.then(html => {
+			document.getElementById("loadInputForCustomerNewlyCreated").innerHTML = html;
+		})
+		.catch(error => console.log(error));
+}
+
+ 
 // <--------------save customer using form data ------------------------->
 function savecutomer() {
 	
@@ -121,6 +131,41 @@ function confirmDelete(id) {
 	
 }
 
+
+function saveCustomerFromJobForm(){
+	var name = document.getElementById('name').value;
+	var email = document.getElementById('email').value;
+	var telephone = document.getElementById('telephone').value;
+	var address = document.getElementById('address').value;
+	var thumbnail = document.getElementById('thumbnail').files[0];
+
+	var formData = new FormData();
+		formData.append('name', name);
+		formData.append('email', email);
+		formData.append('telephone', telephone);
+		formData.append('address', address);
+		formData.append('thumbnail', thumbnail);
+			
+		fetch('customer/job/new-customer', {
+			method: 'POST',
+			body: formData ,
+		})
+		.then( response => {	
+
+   			 if (response.status === 200) {
+       			sendMessage('Succes/Success', 1);
+       			return loadCustomerInputFromJobForm("customer/get/new-customer");
+   			 } else if (response.status !== 200) {
+				sendMessage('Failed / Echec', 2);
+  			 }
+		})
+		 .then(function(data) {
+
+		 })
+			.catch(function(error) {
+
+			});
+}
 
 
 
