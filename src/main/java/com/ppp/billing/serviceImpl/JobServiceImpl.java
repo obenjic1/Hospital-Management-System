@@ -269,8 +269,8 @@ public class JobServiceImpl implements JobService {
 	public Job updateDraft(JobDTO jobDTO, long id) {
 		Job newJob =jobRepository.findById(id).get();
 		newJob.setTitle(jobDTO.getTitle());
-		newJob.setContentVolume(jobDTO.getContentVolume());
-		newJob.setCoverVolume(jobDTO.getCoverVolume());
+	 //   newJob.setContentVolume(jobDTO.getContentVolume());
+	//	newJob.setCoverVolume(jobDTO.getCoverVolume());
 		newJob.setOpenLength(jobDTO.getOpenLength());
 		newJob.setCloseLength(jobDTO.getCloseLength());
 		newJob.setOpenWidth(jobDTO.getOpenWidth());
@@ -280,10 +280,9 @@ public class JobServiceImpl implements JobService {
 		newJob.setDataSuppliedByCustomer(jobDTO.isDataSuppliedByCustomer());
 		newJob.setLayOutByUs(jobDTO.isLayOutByUs());
 		newJob.setTypesettingByUs(jobDTO.isTypesettingByUs());
-		//Optional<Customer> customer = customerRepository.findById(jobDTO.getCustomerId());
-		//newJob.setCustomer(customer.get());
-		Optional<JobType> jobType = jobTypeRepository.findById(jobDTO.getJobTypeId());
-		newJob.setJobType(jobType.get());
+		// Optional<JobType> jobType = jobTypeRepository.findById(jobDTO.getJobTypeId());
+		//newJob.setJobType(jobType.get());
+		
 		jobRepository.saveAndFlush(newJob);
 		return newJob;
 	}

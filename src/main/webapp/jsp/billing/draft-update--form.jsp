@@ -49,16 +49,14 @@
 				   <label for="" class="form-label"><fmt:message key="customer"/></label>
 				   <select id="customer"  class="form-select" readonly>
 				   	<option selected>${job.customer.name}</option>
-
-	                 
 	                </select>
 			      </div>
 				  <div class ="col-lg-4 px8" style="position: relative; left: 10px;"> 
 					<label for="" class="form-label"><fmt:message key="job.type"/></label> 
 					<select id="jobType" name="jobType" class="form-select" >
-					  <c:forEach items="${jobTypes}" var="jobType">
-                        <option value="${jobType.id}" >${job.jobType.name}</option>
-                      </c:forEach>
+					
+                        <option value="${jobType.id}">${job.jobType.name}</option>
+                     
                     </select>
 				  </div>
 				
@@ -72,13 +70,13 @@
 				</div>						
 			     <div class="row py-3">
 				  <div class ="col-lg-4 px8">
-				    <label for="coverVolume" class="form-label"><fmt:message key="volume.cover"/></label> 
+				    <label for="volumeofCover" class="form-label"><fmt:message key="volume.cover"/></label> 
 				     <div>
 					  <input id= "volumeOfCover" name="volumeOfCover" type="number" value=${job.coverVolume}>
 				    </div>
 				  </div>
 				  <div class ="col-lg-4 px8" style="position: relative; left: 10px;"> 
-				    <label for="volumeOfContent"   class="form-label" ><fmt:message key="volume.content"/></label>
+				    <label for="volumeofContent"   class="form-label" ><fmt:message key="volume.content"/></label>
 				    <div>
 					  <input id= "volumeOfContent" name="volumeOfContent" value=${job.contentVolume}  type="number" onchange="totalContentVolumeChange()">
 				    </div>
@@ -157,7 +155,7 @@
 		    </div>	
 		     <div class="row py-3">    
 			<button  style=" width: 94px;display:none" type="button"  class="btn btn-primary" onclick="tab1NextBtn(),summary()" id="next-btn-draft">Next</button>	
-			<button  style=" position:relative;width: 94px;left:90%" type="button"  class="btn btn-primary" onclick="tab1NextBtn(),summary()" id="next-btn-draft" >Next</button>	
+			<button  style=" position:relative;width: 94px;left:90%" type="button"  class="btn btn-primary" onclick="tab1NextBtn(),summaryDraftUpdate()" id="next-btn-draft" >Next</button>	
 			
 		   </div>  	
           </div>    

@@ -55,11 +55,37 @@
 			      </div>
 				  <div class ="col-lg-3 px8" style="position: relative; left: 10px;"> 
 					<label for="" class="form-label"><fmt:message key="job.type"/></label> 
-					<select id="jobType" name="jobType" class="form-select" >
-					  <c:forEach items="${jobTypes}" var="jobType">
-                        <option value="${jobType.id}" >${job.jobType.name}</option>
-                      </c:forEach>
+<!-- 					<select id="jobType" name="jobType" class="form-select" > -->
+<%-- 					  <c:forEach items="${jobTypes}" var="jobType"> --%>
+<%--                         <option value="${jobType.id}" >${job.jobType.name}</option> --%>
+<%--                       </c:forEach> --%>
                      
+<!--                     </select> -->
+                    
+                    <select onchange="jobTypeChoice(this.selectedOptions[0])"  id="jobType" name="jobType" class="form-select" >
+					  <optgroup label="<fmt:message key="job.category.folded.two"/>" data-content="2">
+					  <c:forEach items="${jobTypes}" var="jobType">
+					  <c:if test="${jobType.category==2}">
+                        <option style="marging-left: %;" value="${jobType.id}" >${jobType.name}</option>
+                         </c:if>
+                      </c:forEach>
+                      </optgroup>
+                       <optgroup label="<fmt:message key="job.category.folded.one"/>" data-content="1">
+                     
+                       <c:forEach items="${jobTypes}" var="jobType">
+                        <c:if test="${jobType.category==1}">
+                        <option value="${jobType.id}" >${jobType.name}</option>
+                        </c:if>
+                      </c:forEach>
+                       </optgroup>
+                       <optgroup   label="<fmt:message key="job.category.opened"/>" data-content="0">
+                      
+                       <c:forEach items="${jobTypes}" var="jobType">
+                       <c:if test="${jobType.category==0}">
+                        <option value="${jobType.id}" >${jobType.name}</option>
+                         </c:if>
+                      </c:forEach>
+                     </optgroup>
                     </select>
 				  </div>
 				  <div class ="col-lg-3 px8" style="position: relative; left: 10px;">
@@ -92,7 +118,7 @@
 				   <label for="" class="form-label"> <fmt:message key="format"/></label>
               	   <select id="paperFormat" onchange="paperF(this.value)" name="name" class="form-select">
               	      <option selected>${job.paperFormat}</option>
-<!--               	      <option onclick="">Custom Format...</option> -->
+              	      <option onclick="">Custom Format...</option>
 					  <c:forEach items="${paperFormats}" var="paperFormat">
                         <option value="${paperFormat.id},${paperFormat.length},${paperFormat.width}">${paperFormat.name}</option>
                       </c:forEach>
@@ -806,7 +832,7 @@
 				      <button type="button" style="float:left" class="btn btn-primary" onclick="navigate(5,4);removeRows()"> <fmt:message key="previews"/></button>	
 				     </div>
 			         <div class ="col-sm-6">
-			         <button type="button" style="width:125px;float:right"  class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#creation" id="next-btn1" onclick="navigate(4,5); submitForm()"><fmt:message key="submit"/></button>			
+			         <button type="button" style="width:125px;float:right"  class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#creation" id="next-btn1" onclick="navigate(4,5); submitUpfateForm(${job.id})"><fmt:message key="submit"/></button>			
 			        </div>
 			        </div>
                	</div>

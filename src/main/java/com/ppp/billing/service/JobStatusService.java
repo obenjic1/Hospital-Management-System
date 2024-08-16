@@ -13,5 +13,6 @@ public interface JobStatusService {
 	JobStatus findById(long id);
 	void delete(long id);
 	JobStatus save(JobStatus jobStatus);
+	JobStatus update(long idJob,long idStatus);
 
 }

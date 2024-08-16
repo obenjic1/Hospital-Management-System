@@ -348,6 +348,9 @@ function submitForm(){
     function summary(){
 		
 					//  JOB DESCRIPTION SECTION
+			alert(document.getElementById("coverPaperType").selectedOptions[0].innerHTML);
+			console.log(document.getElementById("coverPaperType").selectedOptions[0].innerHTML);
+
 		   let opt=document.getElementById("jobType").selectedOptions[0];	
 		   let dataContentValue = opt.parentElement.getAttribute('data-content');
 		   
@@ -392,6 +395,8 @@ function submitForm(){
 				// job type is a cover or cover and content
 			{
 			document.getElementById("cover-pages").innerHTML= document.getElementById("volumeOfCover").value;
+			document.getElementById("content-pages").innerHTML= document.getElementById("volumeOfContent").value;
+
 			document.getElementById("cover-paper").innerHTML= document.getElementById("coverPaperType").selectedOptions[0].innerHTML;
 			document.getElementById("cover-volume").innerHTML= document.getElementById("coverVolume").value;
 			document.getElementById("cover-grammage").innerHTML= document.getElementById("coverGrammage").value;
@@ -823,11 +828,10 @@ function findByDate() {
 	}
 	
 function updateDraft(id){
- let opt=document.getElementById("jobType").selectedOptions[0];	
- let dataContentValue = opt.parentElement.getAttribute('data-content');
+  let opt=document.getElementById("jobType").selectedOptions[0];	
+	 let dataContentValue = opt.parentElement.getAttribute('data-content');
  let job = { };
-// job.customerId = document.getElementById("customer").value;
- job.jobTypeId = document.getElementById("jobType").value;
+// job.jobTypeId = document.getElementById("jobType").value;
  job.title = document.getElementById("title").value;
  
  if(dataContentValue==2){
@@ -847,14 +851,12 @@ function updateDraft(id){
  	  job.closeLength = document.getElementById("openLength").value;
 	 
  }
+
  job.existingPlate = document.getElementById("existingPlate").checked; 
  job.dataSuppliedByCustomer = document.getElementById("dataSuppliedByCustomer").checked; 
  job.layOutByUs = document.getElementById("layoutByUs").checked;
  job.typesettingByUs = document.getElementById("typesettingByUs").checked;
- console.log(job);
-  //let jobId =id;
-	//var jsonUpdatedData = JSON.stringify(job);
- 	console.log(fetch(`job/update-draft/${id}`));
+ 
 	 fetch(`job/update-draft/${id}`, {
 			method: 'POST',
 			body: JSON.stringify(job) ,
@@ -882,4 +884,232 @@ function updateDraft(id){
 
 			});
 			}
+function summaryDraftUpdate(){
+
+	let opt=document.getElementById("jobType").selectedOptions[0];	
+		   let dataContentValue = opt.parentElement.getAttribute('data-content');
+		   
+			document.getElementById("job-type").innerHTML= document.getElementById("jobType").selectedOptions[0].innerHTML;
+			document.getElementById("job-title").innerHTML= document.getElementById("title").value;
+			document.getElementById("job-customer").innerHTML= document.getElementById("customer").selectedOptions[0].innerHTML;
+			
+			
+			document.getElementById("ctp").innerHTML= document.getElementById("ctpFees").value;
+			document.getElementById("paper-format").innerHTML= document.getElementById("paperFormat").selectedOptions[0].innerHTML;
+			document.getElementById("open-l").innerHTML= document.getElementById("openLength").value;
+			document.getElementById("open-w").innerHTML= document.getElementById("openWidth").value;
+			if(dataContentValue==2 || dataContentValue==1){
+				document.getElementById("fold-l").innerHTML=document.getElementById("closeLength").value;
+			    document.getElementById("fold-w").innerHTML= document.getElementById("closeWidth").value;
+			}else {
+				document.getElementById("fold-l").innerHTML=document.getElementById("openLength").value;
+			document.getElementById("fold-w").innerHTML= document.getElementById("openWidth").value;
+			}
+			
+			
+			let yes = "Yes";
+			let no ="No";
+			
+			if(document.getElementById("dataSuppliedByCustomer").checked)
+			document.getElementById("supply-data").innerHTML=yes;
+			else document.getElementById("supply-data").innerHTML=no;
+			
+			if(document.getElementById("existingPlate").checked)
+			document.getElementById("existing-plate").innerHTML=yes;
+			else document.getElementById("existing-plate").innerHTML=no;
+			
+			if(document.getElementById("dataSuppliedByCustomer").checked)
+			document.getElementById("data-layout").innerHTML=yes;
+			else document.getElementById("data-layout").innerHTML=no;
+			
+			if(document.getElementById("typesettingByUs").checked)
+			document.getElementById("type-setting").innerHTML=yes;
+			else document.getElementById("type-setting").innerHTML=no;
+			
+			if(dataContentValue==2)
+				// job type is a cover or cover and content
+			{
+			document.getElementById("cover-pages").innerHTML= document.getElementById("volumeOfCover").value;
+			document.getElementById("content-pages").innerHTML= document.getElementById("volumeOfContent").value;
+
+			document.getElementById("cover-paper").innerHTML= document.getElementById("coverPaperType").selectedOptions[0].innerHTML;
+			document.getElementById("cover-volume").innerHTML= document.getElementById("coverVolume").value;
+			document.getElementById("cover-grammage").innerHTML= document.getElementById("coverGrammage").value;
+						
+			document.getElementById("cover-machine").innerHTML= document.getElementById("coverPrintingMachine").selectedOptions[0].innerHTML;
+			document.getElementById("cover-printtype").innerHTML= document.getElementById("coverPrintType").selectedOptions[0].innerHTML;
+			document.getElementById("cover-color-front").innerHTML= document.getElementById("coverFrontColorNumber").value;
+			document.getElementById("cover-color-back").innerHTML= document.getElementById("converBackColorNumber").value;
+			document.getElementById("cover-signature").innerHTML= document.getElementById("coverSignature").value;
+				
+			document.getElementById('cover-pages-info').style.display = "";
+			document.getElementById('cover-papers-options-info').style.display = "";
+			document.getElementById('cover-printing-options-info').style.display = "";
+			
+				document.getElementById('content-pages-info').style.display = "";
+				document.getElementById('content-papers-options-info').style.display = "";
+				document.getElementById('content-printing-options-info').style.display = "";	
+		
+			}
+			document.getElementById("cover-pages").innerHTML= document.getElementById("volumeOfCover").value;
+			document.getElementById("content-pages").innerHTML= document.getElementById("volumeOfContent").value;
+		if(dataContentValue==2 || dataContentValue==1 || dataContentValue==0)
+		{
+			/** job type is either have content and cov|| dataContentValue==1er or only content
+		 */
+		let contentPaperTypes = document.getElementById("contentDiv").children;
+		let mainContentSignature = document.getElementById("mainContentSignature").children;
+		let signatureDive = document.getElementById("signatureDiv").children;
+		let coverTable = document.getElementById("cover-table");
+		document.getElementById("content-pages").innerHTML= document.getElementById("volumeOfContent").value;
+
+}
+}
+
+
+function submitUpfateForm(id){
+	 let opt=document.getElementById("jobType").selectedOptions[0];	
+	 let dataContentValue = opt.parentElement.getAttribute('data-content');
+	 alert(dataContentValue);
+ let job = {};
+ //job.customerId = document.getElementById("customer").value;
+ job.jobTypeId = document.getElementById("jobType").value;
+ job.title = document.getElementById("title").value;
+ 
+ if(dataContentValue==2){
+	  job.coverVolume = document.getElementById("volumeOfCover").value;
+ }
+    if(dataContentValue==0||dataContentValue==2){
+	   job.contentVolume = document.getElementById("volumeOfContent").value;
+ } 
+ job.ctpFees = document.getElementById("ctpFees").value;
+ job.openWidth = document.getElementById("openWidth").value;
+ job.openLength = document.getElementById("openLength").value;
+ if(dataContentValue==1 || dataContentValue==2){
+	  job.closeWidth = document.getElementById("closeWidth").value;
+ 	  job.closeLength = document.getElementById("closeLength").value;
+ }else{
+	  job.closeWidth = document.getElementById("openWidth").value;
+ 	  job.closeLength = document.getElementById("openLength").value;
+	 
+ }
+
+ job.existingPlate = document.getElementById("existingPlate").checked; 
+ job.dataSuppliedByCustomer = document.getElementById("dataSuppliedByCustomer").checked; 
+ job.layOutByUs = document.getElementById("layoutByUs").checked;
+ job.typesettingByUs = document.getElementById("typesettingByUs").checked;
+ 
+	let jobActivity = { };
+	 jobActivity.xPerforated = document.getElementById("xPerforated").value;
+	 jobActivity.xNumbered = document.getElementById("xNumbered").value;
+	 jobActivity.lamination = document.getElementById("lamination").value
+	 jobActivity.xCreased = document.getElementById("creased").value;
+	 jobActivity.xWiredStiched = document.getElementById("xWire-stitched").value;
+	 jobActivity.xCross = document.getElementById("xcross").value;
+	// jobActivity.glueOption = document.getElementById("glueingOption").value;
+	 jobActivity.bindingType = document.getElementById("bindingType").value;
+	 jobActivity.handgather = document.getElementById("handgather").checked;
+	 jobActivity.stitching = document.getElementById("stitching").checked;
+	 jobActivity.trimmed = document.getElementById("trimmed").checked;  
+	 jobActivity.selloptaped = document.getElementById("sellotaped").checked;
+	 jobActivity.sewn = document.getElementById("sewn").checked;
+	// jobActivity.handFoldCov = document.getElementById("handFoldCov").value;
+  job.jobActivities = jobActivity;
+ 	
+ 	// Adding coverJobPaper and color combination  
+ 	
+	 let jobPapers = [ ];
+	 if(dataContentValue==2){
+		 let coverJobPaper = { };
+	  coverJobPaper.grammage = document.getElementById("coverGrammage").value;
+	  coverJobPaper.volume = document.getElementById("coverVolume").value;
+	  coverJobPaper.paperTypeId = document.getElementById("coverPaperType").value;
+	  coverJobPaper.contentTypeId = 1;
+	  coverJobPaper.paperUnitPrice = document.getElementById("coverPaperUnitPrice").value;
+	  
+	  let coverColorCombinations = [];
+	  let colorCombination = {};
+	   colorCombination.frontColorNumber = document.getElementById("coverFrontColorNumber").value;
+	   colorCombination.backColorNumber = document.getElementById("converBackColorNumber").value;
+	   colorCombination.printTypeId = document.getElementById("coverPrintType").value;
+	   colorCombination.printingMachineId = document.getElementById("coverPrintingMachine").value;
+	   colorCombination.signatureNumber = document.getElementById("coverSignature").value;
+       coverColorCombinations.push(colorCombination);
+       coverJobPaper.jobColorCombinations = coverColorCombinations;
+       jobPapers.push(coverJobPaper);
+ 	}
+	 
+    //End of Adding CoverJobPaper and color combination   
+    // Start adding contentJobPaper and color combination
+    
+    if(dataContentValue==1||dataContentValue==2 || dataContentValue==0){
+		
+     let contentPaperTypes = document.getElementById("contentDiv").children;
+     let mainContentSignature = document.getElementById("mainContentSignature").children;
+  
+     for(let i = 1;  i < contentPaperTypes.length; i ++){
+		 let contentJobPaper = { };
+		 let currentRow = contentPaperTypes[i];
+		 let paperType=currentRow.querySelector("[contentPaperType]").value;
+		 let grammage = currentRow.querySelector("[contentGrammage]").value;
+		 let volume = currentRow.querySelector("[contentVolume]").value;
+		 let paperUnitPrice = currentRow.querySelector("[paperUnitPrice]").value;
+		 contentJobPaper.grammage = grammage;
+		 contentJobPaper.volume = volume;
+		 contentJobPaper.paperTypeId = paperType;
+		 contentJobPaper.paperUnitPrice=paperUnitPrice;
+		 
+		 let jobColorCombinations = [];
+		 let colorConbination = {}; 
+		 contentJobPaper.contentTypeId = 2;
+		 let currentContentSignature = mainContentSignature[i];
+		 colorConbination.signatureNumber = currentContentSignature.querySelector("[inputSignReadonly]").value; 
+		 colorConbination.printingMachineId = currentContentSignature.querySelectorAll("[contentPrintingMachine]")[1].value;
+		 colorConbination.printTypeId  = currentContentSignature.querySelectorAll("[contentPrintType]")[1].value;
+		 colorConbination.frontColorNumber = currentContentSignature.querySelectorAll("[contentFrontColorNumber]")[1].value;
+		 colorConbination.backColorNumber = currentContentSignature.querySelectorAll("[contentBackColorNumber]")[1].value;
+		 jobColorCombinations.push(colorConbination);
+		 
+		 let mainContentSignatureChildren = currentContentSignature.children;
+		 let k  = 2; if(i > 1) k = 3;
+		 for(let j = k; j < mainContentSignatureChildren.length; j ++){
+		 let colorConbination = {}; 
+		 let currentContentSignature = mainContentSignatureChildren[j];
+		 colorConbination.signatureNumber = currentContentSignature.querySelector("[delContentSign]").value;
+		 colorConbination.printingMachineId = currentContentSignature.querySelector("[contentPrintingMachine]").value;
+		 colorConbination.printTypeId  = currentContentSignature.querySelector("[contentPrintType]").value;
+		 colorConbination.frontColorNumber = currentContentSignature.querySelector("[contentFrontColorNumber]").value;
+		 colorConbination.backColorNumber = currentContentSignature.querySelector("[contentBackColorNumber]").value;
+		 jobColorCombinations.push(colorConbination);
+		 }
+		 contentJobPaper.jobColorCombinations = jobColorCombinations;
+		 jobPapers.push(contentJobPaper);
+	 }
+	 }
+	  
+	 job.jobPapers = jobPapers;
+	 fetch(`job/complete-draft/${id}`, {
+			method: 'POST',
+			body: JSON.stringify(job) ,
+			 headers: {
+           "Content-Type": "application/json",
+           },
+		})
+		.then( response => {	
+
+   			 if (response.status === 200) {
+       			sendMessage('Succes/Success', 1);
+			return loadPage("job/list-job");				
+   			 } else if (response.status !== 200) {
+				sendMessage('Failed / Echec', 2);
+  			 }
+		})
+		 .then(function(data) {
+
+		 })
+			.catch(function(error) {
+
+			});
+	 	 
+	}
 
