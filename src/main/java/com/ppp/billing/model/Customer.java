@@ -37,7 +37,7 @@ public class Customer {
 	@Column(nullable = false, length = 255)
 	private String address;
 	
-	@Column(name="thumbnail")
+	@Column(name="thumbnail", nullable = true)
 	private String thumbnail;
 	
 	@Column(name="creation_date")

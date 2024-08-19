@@ -16,7 +16,7 @@ import com.ppp.billing.model.dto.CustomerDTO;
 @Service
 public interface CustomerService {
 	
-	Customer saveCustomer(CustomerDTO cutomerDTO);
+	Customer saveCustomer(CustomerDTO cutomerDTO) throws IllegalStateException, IOException;
 	Page<Customer> pagination(int pageNo, int pageSize);
 	Customer findByEmail(String email);
 	Customer findByName(String name);

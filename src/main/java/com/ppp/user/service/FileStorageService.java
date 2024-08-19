@@ -41,10 +41,9 @@ public class FileStorageService {
         return fileName;
     }
 
-    public String storeCustomerFile(MultipartFile file) throws IOException {
+    public String storeCustomerFile(MultipartFile file) throws IllegalStateException, IOException{
         String fileName = UUID.randomUUID().toString() + "_" + file.getOriginalFilename();
         String filePath = customerImagePath + "/" + fileName;
-
         File destFile = new File(filePath);
         file.transferTo(destFile);
 

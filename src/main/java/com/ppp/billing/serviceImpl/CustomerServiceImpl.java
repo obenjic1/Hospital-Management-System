@@ -28,19 +28,18 @@ public class CustomerServiceImpl implements CustomerService {
 
 //<---------------- Add customer ---------------------->
 	@Override
-	public Customer saveCustomer(CustomerDTO customerDTO) {
+	public Customer saveCustomer(CustomerDTO customerDTO) throws IllegalStateException, IOException {
 		Customer customer = new Customer();
 		customer.setName(customerDTO.getName().toUpperCase());
 		customer.setEmail(customerDTO.getEmail());
 		customer.setAddress(customerDTO.getAddress());
 		customer.setTelephone(customerDTO.getTelephone());
 		customer.setCreationDate(new Date());
-		try {
-			String imagePath = fileStorageService.storeCustomerFile(customerDTO.getThumbnail());
-			customer.setThumbnail(imagePath);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+			if(customerDTO.getThumbnail()!=null && !customerDTO.getThumbnail().isEmpty()) {
+				String imagePath = fileStorageService.storeCustomerFile(customerDTO.getThumbnail());
+				customer.setThumbnail(imagePath);
+			}
+		
 		return customerRepostory.save(customer);
 	}
 	
@@ -99,7 +98,6 @@ public class CustomerServiceImpl implements CustomerService {
 
 	@Override
 	public Customer findByName(String name) {
-		// TODO Auto-generated method stub
 		return customerRepostory.findByName(name);
 	}
 

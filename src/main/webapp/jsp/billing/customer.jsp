@@ -47,16 +47,14 @@
 							<span class="input-group-text"> <i class="fas fa-map-marker-alt"></i></span> 
 							<input type="text" id="address" name="address" class="form-control" placeholder="Address" />
 						  </div>
-						  <div id="emptyAddressAlert" class="alert alert-danger alert-dismissible fade show" role="alert" style="display: none;"></div>
 						</div>
 						
 						<div class="col-md-6">
 						  <label for="Thumbnail" class="form-label"></label>
 						  <div class="input-group has-validation" style="width: 93%; left: 7%;">
-						    <input type="file" id="thumbnail" name="thumbnail" class="form-control" accept="image/*">
+						    <input type="file" id="thumbnail" name="thumbnail" class="form-control">
 						  </div>
 						</div>
-						
 						<div class="col-md-3" style="  width: 13%; left: 21%; position: relative; ">
 						  <input type="button" data-bs-toggle="modal" data-bs-target="#creation" id="create-btn" onclick="savecutomer()" style=" bottom: -42%;" class="btn btn-primary w-100" value="Save" />
 						</div>							

@@ -174,7 +174,7 @@ public class CustomerController {
 	
 	@PostMapping("/job/new-customer")
 	@ResponseBody
-	public Customer createCustomerAtTheJobForm(CustomerDTO customerDTO, Model model) {
+	public Customer createCustomerAtTheJobForm(CustomerDTO customerDTO, Model model) throws Exception {
 		try {
 			return customerServiceImpl.saveCustomer(customerDTO);
 		} catch (Exception e) {
