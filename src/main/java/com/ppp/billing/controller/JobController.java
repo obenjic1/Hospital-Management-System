@@ -785,7 +785,10 @@ public class JobController {
 			List<BindingType> bindingTypeResult = bindingTypeserviceImpl.listAll();
 			
 			Job existingJob = jobServiceImpl.findById(id).get();
+		//	JobPaper contentJobPaper = existingJob.getJobPapers().get(1);
 			JobPaper existingJobPaper = existingJob.getJobPapers().remove(0);
+			JobColorCombination covercolourCombination = existingJobPaper.getJobColorCombinations().get(0);
+			JobActivity jobActivity = existingJob.getJobActivity();
 			model.addAttribute("job", existingJob);
 			model.addAttribute("customers", customerResult);
 			model.addAttribute("jobTypes", jobTypeResult);
@@ -798,6 +801,11 @@ public class JobController {
 			model.addAttribute("printTypes", printTypeResult);
 			model.addAttribute("jobColorCombinations", jobColorCombinationResult);
 			model.addAttribute("paperGrammages", paperGrammageResult);
+			model.addAttribute("covercolourCombination", covercolourCombination);
+			model.addAttribute("jobActivity", jobActivity);
+
+
+
 			
 		    return "/billing/job-update-form";
 		}
@@ -1447,6 +1455,7 @@ public class JobController {
 					List<BindingType> bindingTypeResult = bindingTypeserviceImpl.listAll();
 
 					Job existingJob = jobServiceImpl.findById(id).get();
+			//		existingJob.getJobPapers().get(0).u
 					model.addAttribute("job", existingJob);
 					model.addAttribute("customers", customerResult);
 					model.addAttribute("jobTypes", jobTypeResult);
@@ -1459,7 +1468,7 @@ public class JobController {
 					model.addAttribute("bindingTypes", bindingTypeResult);
 
 
-				    return "/billing/update-draft-to-registered-form";
+				    return "/billing/job-update-form";
 				}
 				
 				
@@ -1468,8 +1477,7 @@ public class JobController {
 				@ResponseBody
 				public String completeDraft(@PathVariable Long id,@RequestBody JobDTO jobDTO){
 					try {
-						System.out.println(jobDTO.getTitle());
-						//jobServiceImpl.updateDraft(jobDTO,id);
+						
 						return "OK";
 					} catch (Exception e) {
 						e.printStackTrace();

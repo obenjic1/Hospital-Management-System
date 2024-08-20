@@ -166,9 +166,10 @@
                 </div>
 			  <div class ="col-lg-3 px3" style="position: relative; left: 10px;"> 
 			     <div>
-			      <div class="form-check">                      
+			      <div class="form-check">     
+			      	boolean isChecked = ${job.dataSuppliedByCustomer};            
                     <label class="form-check-label" for="gridCheck1"><fmt:message key="data.supplied.by.customer"/></label>
-                    <input class="form-check-input" type="checkbox" id="dataSuppliedByCustomer">
+                    <input class="form-check-input" type="checkbox" id="dataSuppliedByCustomer" value=" ${job.dataSuppliedByCustomer} ? "checked" : """>
                   </div>
                   
 			    </div>
@@ -195,21 +196,19 @@
 			 <div class ="col-lg-3 px8" >
 			   <label for="" class="form-label"><a> <fmt:message key="cover.paper.type"/></a></label> 
 			   <select id="coverPaperType" name="name" class="form-select">
-			     <option selected>Choose...</option>
 				 <c:forEach items="${paperTypes}" var="paperType">
                    <option value="${paperType.id}">${paperType.name}</option>
                  </c:forEach>
                </select>
 			 </div>
-
 			 <div class ="col-lg-3 px8" style="position: relative; left:10px;">
 			   <label for="" class="form-label"><a><fmt:message key="grammage"/></a> </label>
-			   <input style="postion-relative-left:2px;position: relative;left: 10px;" list="coverGrammage" id="coverGrammage" name="xx">
-					   <datalist id="coverGrammage">
-	                    <c:forEach items="${paperGrammages}" var="paperGrammage">
-                    <option value="${paperGrammage.value}"></option>
-                    </c:forEach>
-	                   </datalist>  
+			   <input style="postion-relative-left:2px;position: relative;left: 10px;" value="${coverJobPaper.grammage}" list="coverGrammage" id="coverGrammage" name="xx">
+<!-- 					   <datalist id="coverGrammage"> -->
+<%-- 	                    <c:forEach items="${paperGrammages}" var="paperGrammage"> --%>
+<%--                     <option value="${paperGrammage.value}"></option> --%>
+<%--                     </c:forEach> --%>
+<!-- 	                   </datalist>   -->
               </div>
 			  <div class ="col-lg-3 px8" style="position: relative; left: 10px;">
 			    <label for="" class="form-label"><a><fmt:message key="cover.volume"/></a></label>
@@ -218,7 +217,7 @@
               
               <div class ="col-lg-3 px8" style="position: relative;">
 			    <label for="" class="form-label"><a><fmt:message key="cover.paper.price"/></a></label>
-			     <input id="coverPaperUnitPrice" type="number"  name="coverPaperUnitPrice">
+			     <input id="coverPaperUnitPrice" type="number" value="${coverJobPaper.unitPrice}" name="coverPaperUnitPrice">
               </div>
 		    </div>	
 		    
@@ -228,7 +227,7 @@
 			  <div class="col-lg-3 px-8" >
 			    <label for="" class="form-label"><a> <fmt:message key="content.paper.type"/></a> </label>
 				<select contentPaperType name="name" class="form-select">
-				  <option >Choose...</option>
+				<option >Choose...</option>
 			  <c:forEach items="${paperTypes}" var="paperType">
                     <option value="${paperType.id}">${paperType.name}</option>
                   </c:forEach>
@@ -251,7 +250,7 @@
 			  
 			   <div class ="col-lg-3 px8" style="position: relative;">
 			    <label for="" class="form-label"><a><fmt:message key="content.paper.price"/></a> </label>
-			     <input paperUnitPrice type="number"  name="paperUnitPrice">
+			     <input paperUnitPrice type="number"  name="paperUnitPrice" value="">
 			     <button type="button" id="deleteButton"  onclick="removeContentNode(this,this.previousElementSibling)"><i class="ri-delete-bin-3-line"></i> </button>
               </div>
 			  
@@ -261,7 +260,6 @@
 			  <div class="col-lg-3 px-8">
 			    <label for="" class="form-label"><a><fmt:message key="content.paper.type"/> </a> </label>
 				<select contentPaperType name="name" class="form-select">
-				  <option >Choose...</option>
 			  <c:forEach items="${paperTypes}" var="paperType">
                     <option value="${paperType.id}">${paperType.name}</option>
                   </c:forEach>
@@ -270,7 +268,7 @@
 			  
 			  <div class="col-lg-3 px-8" style="position: relative; left: 10px;">
 			    <label for="" class="form-label"><a> <fmt:message key="grammage"/></a></label>
-			     <input contentGrammage type="text" list="contentGrammage">
+			     <input contentGrammage type="text" list="contentGrammage" value =>
 				  <datalist  id="contentGrammage">
 	               <c:forEach items="${paperGrammages}" var="paperGrammage">
                     <option value="${paperGrammage.value}"></option>
@@ -284,7 +282,7 @@
 
 				<div class ="col-lg-3 px8" style="position: relative;">
 			    <label for="" class="form-label"><a><fmt:message key="content.paper.price"/></a></label>
-			     <input paperUnitPrice type="number"  name="paperUnitPrice">
+			     <input paperUnitPrice type="number"  name="paperUnitPrice" value="${contentJobPaper.unitPrice}">
               </div>
 			   <div class="col-lg-3 px-8 " style="position: relative; left: 10px">
 			       <label for="" class="form-label" style=""><a><fmt:message key="add"/></a></label> 
@@ -316,7 +314,6 @@
 		    <div class ="col-lg-3 px8" >
 			  <label for="" class="form-label"><fmt:message key="cover.printing.machine"/></label> 
 			  <select id="coverPrintingMachine" name="name" class="form-select">
-			    <option selected>Choose...</option>
 			    <c:forEach items="${printingMachines}" var="printingMachine">
                   <option value="${printingMachine.id}">${printingMachine.name}</option>
                 </c:forEach>
@@ -325,7 +322,6 @@
 			<div class ="col-lg-3 px8" style="position: relative; left: 10px;">
 			  <label for="" class="form-label"><fmt:message key="cover.print.type"/></label>
 			  <select id="coverPrintType" name="name" class="form-select">
-			    <option selected>Choose...</option>
 			    <c:forEach items="${printTypes}" var="printType">
                   <option value="${printType.id}">${printType.name}</option>
                 </c:forEach>
@@ -335,11 +331,11 @@
 			  <label for="" class="form-label"><fmt:message key="cover.color.combination"/></label>
 				 <div class="row">
 				   <div class="col-6 volume-cover-l">
-                     <input id="coverFrontColorNumber" placeholder="<fmt:message key='front'/>" type="number" min="0" max="5" style="postion-relative-left:2px;position: relative;left: 4px;">
+                     <input id="coverFrontColorNumber" placeholder="<fmt:message key='front'/>" type="number" min="0" max="5" style="postion-relative-left:2px;position: relative;left: 4px;" value="${covercolourCombination.frontColorNumber}">
 					                    
 				     </div>
 				     <div  class="col-6 volume-cover-w">
-				       <input id="converBackColorNumber" placeholder="<fmt:message key='back'/>" type="number" min="0" max="5">
+				       <input id="converBackColorNumber" placeholder="<fmt:message key='back'/>" type="number" min="0" max="5" value="${covercolourCombination.frontColorNumber}">
 					   
                     </div>
 				  </div>
@@ -450,7 +446,6 @@
 			    <div class ="col-lg-3 px8">
 				  <label for="" class="form-label"><fmt:message key="printing.machine"/></label> 
 				  <select contentPrintingMachine name="name" class="form-select"  disabled="disabled" >
-				    <option selected>Choose...</option>
 				    <c:forEach items="${printingMachines}" var="printingMachine">
 		                <option value="${printingMachine.id},${printingMachine.plateLength},${printingMachine.plateWidth}">${printingMachine.name}</option>
 		            </c:forEach>
@@ -459,7 +454,6 @@
 			   <div class ="col-lg-3 px8" style="position: relative; left: 10px;">
 				 <label for="" class="form-label"><fmt:message key="content.print.type"/> </label>
 				 <select contentPrintType name="name" updateContentSignature class="form-select">
-				   <option selected>Choose...</option>
 				   <c:forEach items="${printTypes}" var="printType">
                      <option value="${printType.id}">${printType.name}</option>
                    </c:forEach>
@@ -490,7 +484,6 @@
 			   <div class ="col-lg-3 px8" >
 				  <label for="" class="form-label"><fmt:message key="printing.machine"/></label> 
 				  <select  contentPrintingMachine name="name" class="form-select"  onchange="signatureCalculation(this.value,this.parentNode.parentNode.parentNode)">
-				    <option selected>Choose...</option>
 				    <c:forEach items="${printingMachines}" var="printingMachine">
 		                <option value="${printingMachine.id},${printingMachine.plateLength},${printingMachine.plateWidth}">${printingMachine.name}</option>
 		            </c:forEach>
@@ -499,7 +492,6 @@
 			   <div class ="col-lg-3 px8" style="position: relative; left: 10px;">
 				 <label for="" class="form-label"><fmt:message key="content.print.type"/> </label>
 				 <select contentPrintType name="name" class="form-select">
-				   <option selected>Choose...</option>
 				   <c:forEach items="${printTypes}" var="printType">
                      <option value="${printType.id}">${printType.name}</option>
                    </c:forEach>
@@ -554,16 +546,16 @@
 				 
 				 <div class ="col-lg-3 px8">
 					<label for="" class="form-label"><fmt:message key="x.Perforated"/></label>
-					<input type="number" id="xPerforated">
+					<input type="number" id="xPerforated" value = "">
                   </div>
 				  <div class ="col-lg-3 px8" style="position: relative; left: 10px;">
 					<label for="" class="form-label"><fmt:message key="x.Numbered"/></label>
-					<input type="number" id="xNumbered">
+					<input type="number" id="xNumbered" value = "">
                   </div>
                     <div class ="col-lg-3 px8" style="position: relative; left:10px;">
 			   <label for="" class="form-label"><fmt:message key="lamination"/></label> 
 			      <select id="lamination" name="name" class="form-select">
-			        <option selected>Choose...</option>
+			        <option selected  value="${jobActivity.lamination}">${jobActivity.lamination}</option>
 					<option value="1">1</option>
 					<option value="2">2</option>
 					<option value="3">3</option>
@@ -589,7 +581,7 @@
 				<div class ="col-lg-3 px8" >
 				  <label for="" class="form-label"><fmt:message key="glued.option"/></label> 
 				  <select id="glueingOption" name="name" class="form-select">
-				    <option  selected>Choose...</option>
+<!-- 				    <option  selected>Choose...</option> -->
 				    <option value="leftSide"><fmt:message key="left.side"/></option>
 				   <option value="head"><fmt:message key="head"/></option>
 				   <option value="glueBound"><fmt:message key="glue.bound"/></option>
@@ -598,7 +590,7 @@
 			     <div class ="col-lg-3 px8" style="position: relative; left:10px;">
 			   <label for="" class="form-label"><fmt:message key="binding.type"/></label> 
 			      <select id="bindingType" name="name" class="form-select">
-			        <option selected>Choose...</option>
+<!-- 			        <option selected>Choose...</option> -->
 					<c:forEach items="${bindingTypes}" var="bindingTyp">
                       <option value="${bindingTyp.id}">${bindingTyp.name}</option>
                     </c:forEach>
