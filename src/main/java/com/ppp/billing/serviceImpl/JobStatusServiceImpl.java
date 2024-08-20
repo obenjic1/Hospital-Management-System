@@ -8,7 +8,9 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import com.ppp.billing.model.Job;
 import com.ppp.billing.model.JobStatus;
+import com.ppp.billing.repository.JobRepository;
 import com.ppp.billing.repository.JobStatusRepository;
 import com.ppp.billing.service.JobStatusService;
 
@@ -17,6 +19,11 @@ public class JobStatusServiceImpl implements JobStatusService {
 	
 	@Autowired
 	public JobStatusRepository jobStatusRepository;
+	
+
+	@Autowired
+	private JobRepository jobRepository;
+	
 
 	@Override
 	public JobStatus save(JobStatus jobStatus) {
@@ -36,11 +43,14 @@ public class JobStatusServiceImpl implements JobStatusService {
 		return jobStatusRepository.findAll(pageable);
 	}
 
-//	@Override
-//	public JobStatus update(JobTypeDTO jobTrackingDTO, long id) {
-//		// TODO Auto-generated method stub
-//		return null;
-//	}
+	@Override
+	public JobStatus update( long jobId, long statusId) {
+		Job job = jobRepository.findById(jobId).get();
+		JobStatus status = job.getStatus();
+		status.setId(statusId);
+		job.setStatus(status);
+		return status;
+	}
 
 	@Override
 	public void delete(long id) {
