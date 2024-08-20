@@ -20,5 +20,12 @@ INSERT INTO `role` (`id`, `created_at`, `description`, `name`) VALUES
 (17, NULL, 'Manage setings means that you have the rigth access to add, view, delete and update everything have rapport with setings', 'ROLE_MANAGE_SETINGS'),
 (18, NULL, 'View setting means that you can only view and select the settings element you cannot do the others operations.', 'ROLE_VIEW_SETINGS'),
 (19, NULL, 'Default role to manage users', 'ROLE_ADD_USER');
+(20, NULL, 'Default role to manage jobs', 'ROLE_REGISTER_NEW_JOB');
+(21, NULL, 'Default role to manage draft jobs', 'ROLE_EDIT_DRAFT_JOB');
+(22, NULL, 'Default role to manage switch jobs to different departement', 'ROLE_MOVE_JOB_TO_DEPARTEMENT');
+(23, NULL, 'Default role to accept or abort jobs', 'ROLE_ABORT_DRAFT_OR_JOB');
+(24, NULL, 'Default role to confirm jobs', 'ROLE_CONFIRM_JOB');
+(25, NULL, 'Default role to approve jobs by the marketing manager', 'ROLE_APPROVE_JOB');
+(26, NULL, 'Default role to ad forecast delivery date to the jobs by the marketing manager', 'ROLE_SET_FORECAST_DELIVERY_DATE');
 
 

@@ -54,7 +54,7 @@
 					  </div>
 					</div>					
                     <div class="col-md-3">
-                      <input type="button" data-bs-toggle="modal" data-bs-target="#creation" id="create-btn" onclick="updateGroupe('${groupeFinded.name}')" style=" left: 314%; bottom: 2%;" class="btn btn-primary w-100"  value="Save Changes"/>
+                      <input type="button" id="create-btn" onclick="updateGroupe('${groupeFinded.name}');loadPage('group/list-groups');" style=" left: 314%; bottom: 2%;" class="btn btn-primary w-100"  value="Save Changes"/>
                     </div>
                    </form>
                  </div>

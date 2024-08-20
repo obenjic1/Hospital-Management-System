@@ -155,6 +155,45 @@
 				</sec:authorize>
 			  </ul>
 <%-- 			</sec:authorize> --%>
+			 <!-- start of job sheet management Nav -->	
+			 <sec:authorize  access="hasRole('ROLE_REGISTER_NEW_JOB')"> 
+				<li class="nav-item">
+				  <li class="pp-module">
+				    <i class="ri-database-2-fill"> </i> 
+				  <span>
+				    <span><fmt:message key="production.management" /></span>
+				  </span>
+				</li>
+				<ul id="jobsheet-management-nav">
+					<li class="nav-item">
+                      <a class="nav-link collapsed" onclick="loadPage('job/displayform')" href="#">
+						<i class="ri-file-list-3-line"></i>
+						<span><fmt:message key="new.controlsheets" /></span>
+					  </a>
+					<li class="nav-item">
+					  <a class="nav-link collapsed" onclick="loadPage('job/list-job')" href="#">
+					    <i class="ri-steam-fill"></i>
+					    <span><fmt:message key="list.jobsheets" /></span>
+					  </a>
+					</li>
+					<li class="nav-item">
+					  <a class="nav-link collapsed" onclick="loadPage('invoice/list')" href="#">
+					    <i class=" ri-money-dollar-circle-line"></i>
+					    <span><fmt:message key="invoice.management" /></span>
+					  </a>
+					</li>
+				  <sec:authorize access="hasRole('ROLE_SAVE_CUSTOMER')">
+					<li class="nav-item">
+					  <a class="nav-link collapsed" onclick="loadPage('customer/list')" href="#">
+					    <i class="ri-team-line"></i>
+					    <span><fmt:message key="customer.management" /></span>
+					  </a>
+					</li>
+				  </sec:authorize> 
+				</ul> 
+			 </sec:authorize> 
+				<!-- End of job sheet management Nav --> 
+
 			 <sec:authorize access="hasRole('ROLE_VIEW_SETINGS')">
 				<li class="nav-item">
 				  <li class="pp-module">
@@ -201,42 +240,11 @@
 					
 				</ul> 
 			  </sec:authorize>  								
-				<!-- End of user management Nav --> <!-- start of job sheet management Nav -->			
-				<li class="nav-item">
-				  <li class="pp-module">
-				    <i class="ri-database-2-fill"> </i> 
-				  <span>
-				    <span><fmt:message key="production.management" /></span>
-				  </span>
-				</li>
-				<ul id="jobsheet-management-nav">
-					<li class="nav-item">
-                      <a class="nav-link collapsed" onclick="loadPage('job/displayform')" href="#">
-						<i class="ri-file-list-3-line"></i>
-						<span><fmt:message key="new.controlsheets" /></span>
-					  </a>
-					<li class="nav-item">
-					  <a class="nav-link collapsed" onclick="loadPage('job/list-job')" href="#">
-					    <i class="ri-steam-fill"></i>
-					    <span><fmt:message key="list.jobsheets" /></span>
-					  </a>
-					</li>
-					<li class="nav-item">
-					  <a class="nav-link collapsed" onclick="loadPage('invoice/list')" href="#">
-					    <i class=" ri-money-dollar-circle-line"></i>
-					    <span><fmt:message key="invoice.management" /></span>
-					  </a>
-					</li>
-				  <sec:authorize access="hasRole('ROLE_SAVE_CUSTOMER')">
-					<li class="nav-item">
-					  <a class="nav-link collapsed" onclick="loadPage('customer/list')" href="#">
-					    <i class="ri-team-line"></i>
-					    <span><fmt:message key="customer.management" /></span>
-					  </a>
-					</li>
-				  </sec:authorize> 
-				</ul> 
-				<!-- End of job sheet management Nav --> <!-- start of bill management Nav -->	
+				<!-- End of user management Nav -->
+				
+				
+				
+				<!-- start of bill management Nav -->	
 			 
 				
 				<!-- End of job sheet management Nav --> <!-- start of bill management Nav -->

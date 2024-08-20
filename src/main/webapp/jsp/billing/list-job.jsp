@@ -93,7 +93,7 @@
 							   <td><a>${job.customer.name}</a></td>
 							 <td>
 								  <select id="coverPaperType" name="name" class="form-select">
-								     <option >Action</option>
+								     <option >Actions</option>
 								     <option data-bs-toggle="modal" data-bs-target="#ExtralargeModal" data-toggle="tooltip" data-placement="top" title="view job details" onclick="loadPageModalForm('job/viewJob/${job.id}');">View</option>
   									<c:if test="${job.status.id<2}">
 								     <option data-bs-toggle="modal" data-bs-target="#ExtralargeModal" data-toggle="tooltip" data-placement="top" title="edit Draft Job" onClick="loadPageModalForm('job/update-draft/${job.id}');">Edit Draft</option>
