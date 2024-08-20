@@ -8,6 +8,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URLConnection;
+import java.util.Collections;
 import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
@@ -21,7 +22,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.FileCopyUtils;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -70,7 +70,7 @@ public class CustomerController {
 	public String save(CustomerDTO customerDTO) {
 		
 		try {
-			Customer customer = customerServiceImpl.save(customerDTO);		
+			Customer customer = customerServiceImpl.saveCustomer(customerDTO);		
 			return "SUCCESS";	
 			
 		} catch (Exception e) {
@@ -161,5 +161,43 @@ public class CustomerController {
 		FileCopyUtils.copy(inputStream, response.getOutputStream());
 		inputStream.close();
 	}
+	
+	
+	/*
+	 * Process to create customer at the level of Job form
+	 */
+	@GetMapping("/customerForm")
+	public String displayCustomerForm(Model model) {
+		model.addAttribute("CustomerDTO", new CustomerDTO());
+		return "billing/customer-job-form";
+	}
+	
+	@PostMapping("/job/new-customer")
+	@ResponseBody
+	public Customer createCustomerAtTheJobForm(CustomerDTO customerDTO, Model model) throws Exception {
+		try {
+			return customerServiceImpl.saveCustomer(customerDTO);
+		} catch (Exception e) {
+			throw e;
+		}
+	}
+	
+	@GetMapping("/get/new-customer")
+	public String listCustomerToJobForm(Model model) {
+		try {
+			List<Customer> customerResult = customerServiceImpl.findAll();
+			Collections.reverse(customerResult);
+			Customer customerSelected = customerResult.get(0);
+			model.addAttribute("customerSelected", customerSelected);
+			model.addAttribute("customers", customerResult);
+			return "billing/create-customer-to-job-view";
+		} catch (Exception e) {
+			throw e;
+		}
+		
+	}
+	/*
+	 * 
+	 */
 	
 }

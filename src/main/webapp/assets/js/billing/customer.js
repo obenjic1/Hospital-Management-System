@@ -5,6 +5,16 @@
 	 
  }
  
+  function loadCustomerInputFromJobForm(page) {
+	fetch(page)
+		.then(response => response.text())
+		.then(html => {
+			document.getElementById("loadInputForCustomerNewlyCreated").innerHTML = html;
+		})
+		.catch(error => console.log(error));
+}
+
+ 
 // <--------------save customer using form data ------------------------->
 function savecutomer() {
 	
@@ -12,14 +22,19 @@ function savecutomer() {
 	var email = document.getElementById('email').value;
 	var telephone = document.getElementById('telephone').value;
 	var address = document.getElementById('address').value;
-	var thumbnail = document.getElementById('thumbnail').files[0];
+	var thumbnailInput = document.getElementById('thumbnail');
+	var thumbnailFile = thumbnailInput.files.length > 0 ? thumbnailInput.files[0] : null;
+
 
 	var formData = new FormData();
 		formData.append('name', name);
 		formData.append('email', email);
 		formData.append('telephone', telephone);
 		formData.append('address', address);
-		formData.append('thumbnail', thumbnail);
+		if (thumbnailFile) {
+		    formData.append('thumbnail', thumbnailFile);
+		}
+//		formData.append('thumbnail', thumbnail);
 			
 		fetch('customer/save', {
 			method: 'POST',
@@ -85,6 +100,7 @@ function updatecustomer(id) {
 	});
 }
 
+
 // <-------------- Delete customer ------------------------->
 function deleteCust(id){
 	fetch(`customer/delete/${id}`, {
@@ -121,6 +137,45 @@ function confirmDelete(id) {
 	
 }
 
+
+/**
+ *  Create customer since job form
+ */
+function saveCustomerFromJobForm(){
+	var name = document.getElementById('name').value;
+	var email = document.getElementById('email').value;
+	var telephone = document.getElementById('telephone').value;
+	var address = document.getElementById('address').value;
+	var thumbnail = document.getElementById('thumbnail').files[0];
+	
+
+	var formData = new FormData();
+		formData.append('name', name);
+		formData.append('email', email);
+		formData.append('telephone', telephone);
+		formData.append('address', address);
+		formData.append('thumbnail', thumbnail);
+			
+		fetch('customer/job/new-customer', {
+			method: 'POST',
+			body: formData ,
+		})
+		.then( response => {	
+
+   			 if (response.status === 200) {
+       			sendMessage('Succes/Success', 1);
+       			return loadCustomerInputFromJobForm("customer/get/new-customer");
+   			 } else if (response.status !== 200) {
+				sendMessage('Failed / Echec', 2);
+  			 }
+		})
+		 .then(function(data) {
+
+		 })
+			.catch(function(error) {
+
+			});
+}
 
 
 
