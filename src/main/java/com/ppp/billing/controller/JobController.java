@@ -14,7 +14,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.http.MediaType;
-
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.WebDataBinder;
@@ -125,6 +125,7 @@ public class JobController {
 //	
 	
 //<--------------------- Collect datas form @Vincent------------------------------>
+	@PreAuthorize("hasAuthority('ROLE_REGISTER_NEW_JOB')")
 	@GetMapping("/displayform")
 	public String displayFormInterface(Model model) {
 		List<Customer> customerResult = customerServiceImpl.findAll();
@@ -156,7 +157,7 @@ public class JobController {
 	/*
 	 * Working with Draft Job
 	 * */
-
+	@PreAuthorize("hasAuthority('ROLE_REGISTER_NEW_JOB')")
 	@GetMapping("/displayform-draft")
 	public String displayDraftFormInterface(Model model) {
 		List<Customer> customerResult = customerServiceImpl.findAll();
@@ -192,7 +193,7 @@ public class JobController {
 	}
 	
 	
-
+	@PreAuthorize("hasAuthority('ROLE_REGISTER_NEW_JOB')")
 	@GetMapping("/list-job")
 	public String listJob(Model model) {
 		List<Job> result = jobServiceImpl.listAllJob();
@@ -206,6 +207,7 @@ public class JobController {
 	}
 
 ////<--------------------- Generate a job pdf @Vincent ------------------------------>
+	@PreAuthorize("hasAuthority('ROLE_REGISTER_NEW_JOB')")
 	@GetMapping("/generate-pdf/{id}")
 	@ResponseBody
 	public String generatePdf(@PathVariable long id) throws IOException {
@@ -743,6 +745,7 @@ public class JobController {
 			printer.printMoney(document, variablePrice , 175, 99);
 			job.setFixCost((float) fixePrice);
 			job.setVariableCost((float) variablePrice);
+			job.setControlSheetGenerated(true);
 			jobServiceImpl.save(job);
 			document.close();
 			return job.getReferenceNumber()+".pdf";
@@ -826,26 +829,25 @@ public class JobController {
 		}
 		// to get the update page of job
 		
-			@GetMapping("/update-draft/{id}")
-			public String getUpdateDraftForm(@PathVariable Long id, Model model) {
-				List<Customer> customerResult = customerServiceImpl.findAll();
-				List<JobType> jobTypeResult = jobTypeServiceImpl.findAll();
-				List<PaperFormat> paperFormatResult = paperFormatServiceImpl.findAll();
-				List<JobPaper> jobPaperResult = jobPaperServiceImpl.findAll();
-				List<PaperType>  paperTypeResult = paperTypeServiceImpl.listAll();
-				
-				
-				Job existingJob = jobServiceImpl.findById(id).get();
-				model.addAttribute("job", existingJob);
-				model.addAttribute("customers", customerResult);
-				model.addAttribute("jobTypes", jobTypeResult);
-				model.addAttribute("paperFormats", paperFormatResult);
-				model.addAttribute("jobPaperResults", jobPaperResult);
-				model.addAttribute("paperTypes", paperTypeResult);
-				
-				
-			    return "/billing/draft-update--form";
-			}
+		@PreAuthorize("hasAuthority('ROLE_REGISTER_NEW_JOB')")
+		@GetMapping("/update-draft/{id}")
+		public String getUpdateDraftForm(@PathVariable Long id, Model model) {
+			List<Customer> customerResult = customerServiceImpl.findAll();
+			List<JobType> jobTypeResult = jobTypeServiceImpl.findAll();
+			List<PaperFormat> paperFormatResult = paperFormatServiceImpl.findAll();
+			List<JobPaper> jobPaperResult = jobPaperServiceImpl.findAll();
+			List<PaperType>  paperTypeResult = paperTypeServiceImpl.listAll();
+			
+			Job existingJob = jobServiceImpl.findById(id).get();
+			model.addAttribute("job", existingJob);
+			model.addAttribute("customers", customerResult);
+			model.addAttribute("jobTypes", jobTypeResult);
+			model.addAttribute("paperFormats", paperFormatResult);
+			model.addAttribute("jobPaperResults", jobPaperResult);
+			model.addAttribute("paperTypes", paperTypeResult);
+			
+		    return "/billing/draft-update--form";
+		}
 		
 		
 		@GetMapping("/estimate/{id}")
@@ -976,9 +978,13 @@ public class JobController {
 	@GetMapping("/estimate-pdf/{reference}")
 	@ResponseBody
 	public String generateEstimatePdf(@PathVariable String reference) throws IOException {
-	
-			
+		JobEstimate jobEstimate=jobEstimateRepository.findByReference(reference).get();
+		if(jobEstimate.getJob().isControlSheetGenerated()) {
 			return createEstimateDataPdf(reference);
+		}
+		else {
+			return "The controlsheet must be Generated before";
+		}	
 			
 	}	
 	

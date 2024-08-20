@@ -97,6 +97,8 @@ public class Job {
 	@Column(name="creation_date")
 	private Date creationDate;
 	
+	@Column(name = "control_sheet_senerated")
+	private boolean controlSheetGenerated = Boolean.FALSE;
 	
 	@Column(name = "other_fee_description")
 	private String otherFeeDescription;

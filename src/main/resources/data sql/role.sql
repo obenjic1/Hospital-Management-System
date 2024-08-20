@@ -26,6 +26,8 @@ INSERT INTO `role` (`id`, `created_at`, `description`, `name`) VALUES
 (23, NULL, 'Default role to accept or abort jobs', 'ROLE_ABORT_DRAFT_OR_JOB');
 (24, NULL, 'Default role to confirm jobs', 'ROLE_CONFIRM_JOB');
 (25, NULL, 'Default role to approve jobs by the marketing manager', 'ROLE_APPROVE_JOB');
-(26, NULL, 'Default role to ad forecast delivery date to the jobs by the marketing manager', 'ROLE_SET_FORECAST_DELIVERY_DATE');
+(26, NULL, 'Default role to add forecast delivery date to the jobs by the marketing manager', 'ROLE_SET_FORECAST_DELIVERY_DATE'),
+(27, NULL, 'Default role to apply discount to the estimate by the marketing manager', 'ROLE_APPLY_DISCOUNT'),
+(28, NULL, 'Default role to generate an invoice by the marketing manager', 'ROLE_GENERATE_INVOICE');
 
 
