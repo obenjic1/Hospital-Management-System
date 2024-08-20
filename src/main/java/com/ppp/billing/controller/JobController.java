@@ -811,7 +811,10 @@ public class JobController {
 			List<BindingType> bindingTypeResult = bindingTypeserviceImpl.listAll();
 			
 			Job existingJob = jobServiceImpl.findById(id).get();
+		//	JobPaper contentJobPaper = existingJob.getJobPapers().get(1);
 			JobPaper existingJobPaper = existingJob.getJobPapers().remove(0);
+			JobColorCombination covercolourCombination = existingJobPaper.getJobColorCombinations().get(0);
+			JobActivity jobActivity = existingJob.getJobActivity();
 			model.addAttribute("job", existingJob);
 			model.addAttribute("customers", customerResult);
 			model.addAttribute("jobTypes", jobTypeResult);
@@ -824,6 +827,11 @@ public class JobController {
 			model.addAttribute("printTypes", printTypeResult);
 			model.addAttribute("jobColorCombinations", jobColorCombinationResult);
 			model.addAttribute("paperGrammages", paperGrammageResult);
+			model.addAttribute("covercolourCombination", covercolourCombination);
+			model.addAttribute("jobActivity", jobActivity);
+
+
+
 			
 		    return "/billing/job-update-form";
 		}
@@ -848,7 +856,7 @@ public class JobController {
 			
 		    return "/billing/draft-update--form";
 		}
-		
+
 		
 		@GetMapping("/estimate/{id}")
 		public String getEstimateForm (@PathVariable long id, Model model) {
@@ -1408,6 +1416,7 @@ public class JobController {
 			
 		}
 
+
 	//<--------------------- Save DraftJob ------------------------------>
 			@PostMapping(value="/save-draft", consumes=MediaType.APPLICATION_JSON_VALUE)
 			@ResponseBody
@@ -1434,5 +1443,52 @@ public class JobController {
 				}
 			}
 
-	
+
+			//<--------------------- Edit a draft job to complete job ( get the form) ------------------------------>
+			
+			
+			
+				@GetMapping("/get-complete-draft-form/{id}")
+				public String completeDraftToJob(@PathVariable Long id, Model model) {
+					List<Customer> customerResult = customerServiceImpl.findAll();
+					List<JobType> jobTypeResult = jobTypeServiceImpl.findAll();
+					List<PaperFormat> paperFormatResult = paperFormatServiceImpl.findAll();
+					List<JobPaper> jobPaperResult = jobPaperServiceImpl.findAll();
+					List<PaperType>  paperTypeResult = paperTypeServiceImpl.listAll();
+					List<PaperGrammage> paperGrammageResult = paperGrammageServiceImpl.findAll();
+					List<PrintingMachine> printingMachineResult = printingMachineServiceImpl.listMachines();
+					List<PrintType> printTypeResult = printTypeServiceImpl.findAll();
+					List<BindingType> bindingTypeResult = bindingTypeserviceImpl.listAll();
+
+					Job existingJob = jobServiceImpl.findById(id).get();
+			//		existingJob.getJobPapers().get(0).u
+					model.addAttribute("job", existingJob);
+					model.addAttribute("customers", customerResult);
+					model.addAttribute("jobTypes", jobTypeResult);
+					model.addAttribute("paperFormats", paperFormatResult);
+					model.addAttribute("jobPaperResults", jobPaperResult);
+					model.addAttribute("paperTypes", paperTypeResult);
+					model.addAttribute("paperGrammages", paperGrammageResult);
+					model.addAttribute("printingMachines", printingMachineResult);
+					model.addAttribute("printTypes", printTypeResult);
+					model.addAttribute("bindingTypes", bindingTypeResult);
+
+
+				    return "/billing/job-update-form";
+				}
+				
+				
+				//<--------------------- Complete a  DraftJob ------------------------------>
+				@PostMapping(value="/complete-draft/{id}", consumes=MediaType.APPLICATION_JSON_VALUE)
+				@ResponseBody
+				public String completeDraft(@PathVariable Long id,@RequestBody JobDTO jobDTO){
+					try {
+						
+						return "OK";
+					} catch (Exception e) {
+						e.printStackTrace();
+						return "KO";
+					}
+				}
+
 }
