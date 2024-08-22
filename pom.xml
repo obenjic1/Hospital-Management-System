@@ -53,6 +53,11 @@
 			<artifactId>lombok</artifactId>
 			<optional>true</optional>
 		</dependency>
+<!--		    <dependency>-->
+<!--		        <groupId>org.projectlombok</groupId>-->
+<!--		        <artifactId>lombok</artifactId>-->
+<!--		        <scope>provided</scope>-->
+<!--		    </dependency>-->
 
 		<!-- Dépendances Tomcat et JSP -->
 		<dependency>
@@ -137,6 +142,8 @@
 			<version>7.0.0</version>
 			<scope>compile</scope>
 		</dependency>
+		
+		
 <!--		<dependency>-->
 <!--			<groupId>org.slf4j</groupId>-->
 <!--			<artifactId>slf4j-log4j12</artifactId>-->
