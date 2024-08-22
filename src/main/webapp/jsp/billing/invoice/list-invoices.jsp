@@ -4,6 +4,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 
 <meta charset="utf-8">
 <meta content="width=device-width, initial-scale=1.0" name="viewport">
@@ -79,15 +80,16 @@
 								    <td> <fmt:formatNumber value="${result.netPayable}" type="currency"   pattern = "#,###,###"/></td>
 								   <td>
 								     <a>
-								     <select id="coverPaperType" name="name" class="form-select">
+								   <select id="coverPaperType" name="name" class="form-select">
 								     <option >Action</option>
 								      <option data-bs-toggle="modal" data-bs-target="#ExtralargeModal" data-toggle="tooltip" data-placement="top" title="view job details" onclick="loadPageModalForm('invoice/job-invoice/${result.id}');">View</option>
-								     <option data-bs-toggle="modal" data-bs-target="#ExtralargeModal" data-toggle="tooltip" data-placement="top" title="edit job details" onClick="loadPageModalForm('invoice/invoice-discount/${result.id}');">Apply Discount</option>
+								      <sec:authorize  access="hasRole('ROLE_APPLY_DISCOUNT')"> 
+								       <option data-bs-toggle="modal" data-bs-target="#ExtralargeModal" data-toggle="tooltip" data-placement="top" title="edit job details" onClick="loadPageModalForm('invoice/invoice-discount/${result.id}');">Apply Discount</option>
+								   	 </sec:authorize> 
 								     <option data-bs-toggle="modal" data-bs-target="#ExtralargeModal" data-toggle="tooltip" data-placement="top" title="view job details" onclick="loadPageModalForm('invoice/job-tax-form/${result.id}');">Apply Taxes</option>
-					              </select>								 
+					               </select>								 
 									 </a>
 								   </td>
-								 
 							  </c:forEach>
 						  <tr style="font-family: bold; ">
 						  <td  style="color: #012970; ">Total Payable : </td>

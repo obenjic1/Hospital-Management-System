@@ -3,6 +3,7 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@page import="java.time.LocalDate"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %> 
@@ -177,7 +178,9 @@
                                                             <th><span style="padding:10px">Quantity</span></th>
                                                             <th scope="col">Unit price(FCFA)</th>
                                                             <th scope="col">Total Price (FCFA)</th>
-                                                            <th scope="col">Actions</th>                                                            
+                                                             <sec:authorize  access="hasRole('ROLE_GENERATE_INVOICE')">
+                                                            <th scope="col">Actions</th>    
+                                                             </sec:authorize>                                                            
                                                         </tr>
                                                     </thead>
                                                     <tbody>
@@ -189,19 +192,22 @@
                                                                   <td style="font-family: bold;"><a> <fmt:formatNumber value="${estimate.quantity}" type="currency"   pattern = "#,###,###"/> </a></td>                                 
                                                                 <td style="font-family: bold;"><a> <fmt:formatNumber value="${estimate.unitPrice}" type="currency"   pattern = "#,###,###"/> </a></td>                                  
                                                                  <td style="font-family: bold;"><a> <fmt:formatNumber value="${estimate.totalPrice}" type="currency"   pattern = "#,###,###"/> </a></td>  
+                                                                
+                                                                <sec:authorize  access="hasRole('ROLE_GENERATE_INVOICE')">
                                                                  <td>
                                                                  <c:if test="${estimate.invoiced}"> 
                                                                   <button type="button" class="btn " onclick="loadMainModalForm('invoice/job-invoice/from-pricing/${estimate.id}')" data-toggle="tooltip" data-placement="top" title="View Invoices">
                                                                     <i class="ri-eye-line" style="color: #0d6efd"></i>
                                                                    </button>
                                                                  </c:if>
-                                                                  <c:if test="${!estimate.invoiced}"> 
-                                                                  <button type="button" class="btn " onclick="loadPageModalForm(getInvoiceQuantity(${estimate.id}))" data-toggle="tooltip" data-placement="top" title="Generate Invoice">
-                                                                   <i class="bi bi-download" style="color: green"></i>
-                                                                   </button>
-                                                                 </c:if>
                                                                  
-                                                    		  </td>                                
+                                                                   <c:if test="${!estimate.invoiced}"> 
+                                                                     <button type="button" class="btn " onclick="loadPageModalForm(getInvoiceQuantity(${estimate.id}))" data-toggle="tooltip" data-placement="top" title="Generate Invoice">
+                                                                       <i class="bi bi-download" style="color: green"></i>
+                                                                     </button>
+                                                                   </c:if>
+                                                    		    </td>
+                                                    		  </sec:authorize>                                
                                                                 </tr> 
                                                                 <c:set var = "i"  value = "${i+1}"/>
                                                            </c:forEach> 

@@ -61,7 +61,9 @@ function addUser() {
 	const address = document.getElementById('address').value;
 	const username = document.getElementById('username').value;
 	const groupe = document.getElementById('groupe').value;
-	const imageFile = document.getElementById('imageFile').files[0];
+	//const imageFile = document.getElementById('imageFile').files[0];
+	var thumbnailInput = document.getElementById('imageFile');
+	var thumbnailFile = thumbnailInput.files.length > 0 ? thumbnailInput.files[0] : null;
 
 	if(firstName==""){
 		customAlert('Please, enter your First Name!');
@@ -111,7 +113,9 @@ function addUser() {
 		formData.append('confirmPassword', confirmPassword),
 		formData.append('address', address),
 		formData.append('groupe', groupe),
-		formData.append('imageFile', imageFile),
+		if (thumbnailFile) {
+		    formData.append('imageFile', thumbnailFile);
+		}
 
 		fetch('user/add-user', {
 			method: 'POST',

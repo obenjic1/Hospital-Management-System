@@ -8,7 +8,7 @@
 				   <label for="" class="form-label"><a> <fmt:message key="customer"/> </a></label>
 				   <select id="customer"  class="form-select" >
 				   <option>Choose...</option>
-				    <option selected="${customerSelected.id}">${customerSelected.name}</option>
+				    <option selected="${customerSelected.id}" value="${customerSelected.id}">${customerSelected.name}</option>
 				    <option  data-bs-toggle="modal" data-bs-target="#ExtralargeModal" onclick="loadPageModalForm('customer/customerForm')"><fmt:message key="new.customer"/></option>
 	                 <c:forEach items="${customers}" var="customer">
 	                   <option value="${customer.id}">${customer.name}</option>

@@ -348,7 +348,7 @@ function submitForm(){
     function summary(){
 		
 					//  JOB DESCRIPTION SECTION
-			alert(document.getElementById("coverPaperType").selectedOptions[0].innerHTML);
+			//alert(document.getElementById("coverPaperType").selectedOptions[0].innerHTML);
 			console.log(document.getElementById("coverPaperType").selectedOptions[0].innerHTML);
 
 		   let opt=document.getElementById("jobType").selectedOptions[0];	
