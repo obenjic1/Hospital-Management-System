@@ -81,9 +81,7 @@
                                                                      <td> </td>                                  
                                                                       <td> </td>  
                                                                       <td style="font-family: bold;"><a> <fmt:formatNumber value="${irTaxValue}" type="currency"   pattern = "#,###,###"/> </a></td> 
-<%--                                                                 </c:if> --%>
-                                                                 
-                                                                                                    
+<%--                                                                 </c:if> --%>                    
                                                                 </tr>
                                                                    <tr> 
                    
@@ -108,7 +106,6 @@
                                         <hr><br>
                                         <div class="" style="margin-top:50px;">
                                            <button class="btn btn-primary"style="left: 87%;position: relative;width: 117px;" data-bs-toggle="modal" data-bs-target="#ExtralargeModalFile" onclick="loadPageModal('invoice/invoice-pdf/${invoices.referenceNumber}');"><fmt:message key="print"/></button>
-
                                         </div>
 
                                     </div>

@@ -80,7 +80,6 @@ public class JobServiceImpl implements JobService {
 		newJob.setCustomer(customer.get());
 		Optional<JobType> jobType = jobTypeRepository.findById(jobDTO.getJobTypeId());
 		newJob.setJobType(jobType.get());
-		
 		JobStatus status = jobStatusRepository.findById(2).get();
 		newJob.setStatus(status);
 		

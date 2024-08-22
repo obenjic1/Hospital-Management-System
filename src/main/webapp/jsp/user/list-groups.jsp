@@ -10,8 +10,7 @@
 
 
 <script src="DataTables/datatables.js"></script>
-<link href="assets/vendor/bootstrap/css/bootstrap.min.css"
-	rel="stylesheet">
+<link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
 <main class="main" id="pagination-list">
 	<div class="pagetitle">
@@ -30,7 +29,7 @@
 				<div class="card">
 					<div class="card-body">
 						<h5 class="card-title">List groups</h5>
-						<button type="button" onclick="loadPageModalForm('group/add-group')" data-bs-toggle="modal" data-bs-target="#ExtralargeModal" class="btn btn-primary">Add Group</button>
+						<button type="button" onclick="loadPageModalForm('group/add-group')" data-bs-toggle="modal" data-bs-target="#ExtralargeModal" class="btn btn-primary" style="left: 90%;width: 142px;">Add Group</button>
 
 						<!-- Table with stripped rows -->
 						<table id="myTable" class="table datatable">

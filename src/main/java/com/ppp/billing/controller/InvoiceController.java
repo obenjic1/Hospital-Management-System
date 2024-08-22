@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.WebDataBinder;
@@ -149,6 +150,7 @@ public class InvoiceController {
 		}
 	}
 	
+	@PreAuthorize("hasAuthority('ROLE_APPLY_DISCOUNT')")
 	@GetMapping("/invoice-discount/{id}")
 	public String displayDiscountapplicationForm(@PathVariable long id, Model model) {
 		try {
@@ -218,14 +220,12 @@ public class InvoiceController {
 	 * creating and printing invoice pdf
 	 */
 	
+	@PreAuthorize("hasAuthority('ROLE_APPLY_DISCOUNT')")
 	@GetMapping("/invoice-pdf/{reference}")
 	@ResponseBody
 	public String generateInvoicePdf(@PathVariable String reference) throws IOException {
-				
-			return createInvoiceDataPdf(reference);
-
+	    return createInvoiceDataPdf(reference);
 	}	
-	
 
 	public String createInvoiceDataPdf( String reference) throws IOException{
 	 try {
