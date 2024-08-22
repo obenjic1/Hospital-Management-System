@@ -211,10 +211,13 @@ public class JobController {
 	@GetMapping("/generate-pdf/{id}")
 	@ResponseBody
 	public String generatePdf(@PathVariable long id) throws IOException {
-		try {			
-			String file=createJobDataPdf(id);
-			return "file="+file+"&dir=folder.controlSheet";
-			
+		try {	
+			Job jobStatus = jobServiceImpl.findById(id).get();
+			if(jobStatus.getStatus().getName().equals("Registered")||jobStatus.getStatus().getName().equals("Confrimed")||jobStatus.getStatus().getName().equals("Approved")) {
+				String file=createJobDataPdf(id);
+				return "file="+file+"&dir=folder.controlSheet";
+			}
+			return "Job is not on the rigth status";
 		}catch (Exception e) {
 			e.printStackTrace();
 			return "file=error.pdf&dir=folder.controlSheet";
@@ -238,7 +241,6 @@ public class JobController {
 		double p2=0;
 		double p3=0;
 		double p4=0;
-		
 		
 			/**
 			 * Impression de la premiere page du controle sheet
