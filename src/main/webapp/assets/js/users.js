@@ -112,7 +112,7 @@ function addUser() {
 		formData.append('password', password),
 		formData.append('confirmPassword', confirmPassword),
 		formData.append('address', address),
-		formData.append('groupe', groupe),
+		formData.append('groupe', groupe);
 		if (thumbnailFile) {
 		    formData.append('imageFile', thumbnailFile);
 		}
