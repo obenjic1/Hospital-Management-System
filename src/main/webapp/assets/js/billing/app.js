@@ -12,7 +12,6 @@ function loadTables(url, idContainer) {
          .catch(error => console.log(error));
  }
 
-
  function showCommisionInput(){
 	 let checkbox = document.getElementById("applyCommision");
 	 if(checkbox.checked) {
@@ -60,7 +59,22 @@ function loadTables(url, idContainer) {
 	   else{
 		   document.getElementById("irDiv").style.display = "none";
 	   }
+
  }
  
+<<<<<<< HEAD
  
+=======
+ function proofreadByTheCustomer(id){
+	 fetch(`job/proofread/${id}`, {
+		method: 'POST',
+	})
+	.then( response => {	
+			 loadPage("job/list-job");
+		})
+			.catch(function(error) {
+>>>>>>> f683e9535ebcb4ce0eb53cd2bb264c3785f5d1f7
 
+			});
+ }
+ 

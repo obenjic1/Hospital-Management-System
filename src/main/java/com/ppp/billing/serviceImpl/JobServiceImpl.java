@@ -290,6 +290,7 @@ public class JobServiceImpl implements JobService {
 		jobRepository.saveAndFlush(newJob);
 		return newJob;
 	}
+
 	
 	
 	public Job updateJob(JobDTO jobDTO, long id) {
@@ -371,7 +372,7 @@ public class JobServiceImpl implements JobService {
         return newJob;
 	}
 
-	// aborting a job
+			// aborting a job
 	
 	@Override
 	@Transactional()
@@ -380,6 +381,18 @@ public class JobServiceImpl implements JobService {
 		JobStatus status = jobStatusRepository.findById(5).get();
 		job.setStatus(status);
 		jobRepository.saveAndFlush(job);
+	}
+				// Mark Job has been proofreaded 
+	@Override
+	public void proofreadByTheCustomer(long id) {
+		try {
+			Job job =jobRepository.findById(id).get();
+			if(job.getStatus().getName().equals("Registered")||job.getStatus().getName().equals("Confrimed")||job.getStatus().getName().equals("Approved"))
+				job.setProofread(true);
+			jobRepository.save(job);
+		} catch (Exception e) {
+			throw e;
+		}
 		
 	}
 }

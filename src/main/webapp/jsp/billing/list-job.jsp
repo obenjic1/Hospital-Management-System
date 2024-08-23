@@ -109,10 +109,11 @@
 								    <c:if test="${job.controlSheetGenerated==true||job.status.name=='Approved'}">
 									  <option data-bs-toggle="modal" data-bs-target="#ExtralargeModal" onclick="loadDynamicPageModal('job/estimate/${job.id}');">Generate Estimate</option>
  									  <option data-bs-toggle="modal" onclick="loadPage('job/get-estimate/${job.id}');">View Estimate </option>
-									  <option data-bs-toggle="modal" data-bs-target="#ExtralargeModal" data-toggle="tooltip" data-placement="top" title="edit job details" onClick="loadPageModalForm('job/update-form/${job.id}');">Edit</option>
 									</c:if>    
-								    <option data-toggle="tooltip" data-placement="top" title="archive a job" onclick="confirmAbort(${job.id})">Abort</option>
+								    <option data-bs-toggle="modal" data-bs-target="#ExtralargeModal" data-toggle="tooltip" data-placement="top" title="edit job details" onClick="loadPageModalForm('job/update-form/${job.id}');">Edit</option>
+								    <option data-toggle="tooltip" data-placement="top" title="archive a job" onclick="deleteJob(${job.id})">Abort</option>
 					              </select>
+					              
 							  </td>
 							</tr>
 						   </c:forEach>

@@ -1425,79 +1425,80 @@ public class JobController {
 
 
 	//<--------------------- Save DraftJob ------------------------------>
-			@PostMapping(value="/save-draft", consumes=MediaType.APPLICATION_JSON_VALUE)
-			@ResponseBody
-			public String saveDraft(@RequestBody JobDTO jobDTO,Model model){
-				try {
-					jobServiceImpl.saveDraft(jobDTO);
-					return "OK";
-				} catch (Exception e) {
-					e.printStackTrace();
-					return "KO";
-				}
+		@PostMapping(value="/save-draft", consumes=MediaType.APPLICATION_JSON_VALUE)
+		@ResponseBody
+		public String saveDraft(@RequestBody JobDTO jobDTO,Model model){
+			try {
+				jobServiceImpl.saveDraft(jobDTO);
+				return "OK";
+			} catch (Exception e) {
+				e.printStackTrace();
+				return "KO";
 			}
-			
-			//<--------------------- Update DraftJob ------------------------------>
-			@PostMapping(value="/update-draft/{id}", consumes=MediaType.APPLICATION_JSON_VALUE)
-			@ResponseBody
-			public String updateDraft(@PathVariable Long id,@RequestBody JobDTO jobDTO){
-				try {
-					jobServiceImpl.updateDraft(jobDTO,id);
-					return "OK";
-				} catch (Exception e) {
-					e.printStackTrace();
-					return "KO";
-				}
+		}
+		
+		//<--------------------- Update DraftJob ------------------------------>
+		@PostMapping(value="/update-draft/{id}", consumes=MediaType.APPLICATION_JSON_VALUE)
+		@ResponseBody
+		public String updateDraft(@PathVariable Long id,@RequestBody JobDTO jobDTO){
+			try {
+				jobServiceImpl.updateDraft(jobDTO,id);
+				return "OK";
+			} catch (Exception e) {
+				e.printStackTrace();
+				return "KO";
 			}
+		}
 
 
-			//<--------------------- Edit a draft job to complete job ( get the form) ------------------------------>
-			
-			
-			
-				@GetMapping("/get-complete-draft-form/{id}")
-				public String completeDraftToJob(@PathVariable Long id, Model model) {
-					List<Customer> customerResult = customerServiceImpl.findAll();
-					List<JobType> jobTypeResult = jobTypeServiceImpl.findAll();
-					List<PaperFormat> paperFormatResult = paperFormatServiceImpl.findAll();
-					List<JobPaper> jobPaperResult = jobPaperServiceImpl.findAll();
-					List<PaperType>  paperTypeResult = paperTypeServiceImpl.listAll();
-					List<PaperGrammage> paperGrammageResult = paperGrammageServiceImpl.findAll();
-					List<PrintingMachine> printingMachineResult = printingMachineServiceImpl.listMachines();
-					List<PrintType> printTypeResult = printTypeServiceImpl.findAll();
-					List<BindingType> bindingTypeResult = bindingTypeserviceImpl.listAll();
-
-					Job existingJob = jobServiceImpl.findById(id).get();
-			//		existingJob.getJobPapers().get(0).u
-					model.addAttribute("job", existingJob);
-					model.addAttribute("customers", customerResult);
-					model.addAttribute("jobTypes", jobTypeResult);
-					model.addAttribute("paperFormats", paperFormatResult);
-					model.addAttribute("jobPaperResults", jobPaperResult);
-					model.addAttribute("paperTypes", paperTypeResult);
-					model.addAttribute("paperGrammages", paperGrammageResult);
-					model.addAttribute("printingMachines", printingMachineResult);
-					model.addAttribute("printTypes", printTypeResult);
-					model.addAttribute("bindingTypes", bindingTypeResult);
-
-
-				    return "/billing/update-draft-to-registered-form";
-				}
+//<<<<<<< HEAD
+//			//<--------------------- Edit a draft job to complete job ( get the form) ------------------------------>
+//			
+//			
+//			
+//				@GetMapping("/get-complete-draft-form/{id}")
+//				public String completeDraftToJob(@PathVariable Long id, Model model) {
+//					List<Customer> customerResult = customerServiceImpl.findAll();
+//					List<JobType> jobTypeResult = jobTypeServiceImpl.findAll();
+//					List<PaperFormat> paperFormatResult = paperFormatServiceImpl.findAll();
+//					List<JobPaper> jobPaperResult = jobPaperServiceImpl.findAll();
+//					List<PaperType>  paperTypeResult = paperTypeServiceImpl.listAll();
+//					List<PaperGrammage> paperGrammageResult = paperGrammageServiceImpl.findAll();
+//					List<PrintingMachine> printingMachineResult = printingMachineServiceImpl.listMachines();
+//					List<PrintType> printTypeResult = printTypeServiceImpl.findAll();
+//					List<BindingType> bindingTypeResult = bindingTypeserviceImpl.listAll();
+//
+//					Job existingJob = jobServiceImpl.findById(id).get();
+//			//		existingJob.getJobPapers().get(0).u
+//					model.addAttribute("job", existingJob);
+//					model.addAttribute("customers", customerResult);
+//					model.addAttribute("jobTypes", jobTypeResult);
+//					model.addAttribute("paperFormats", paperFormatResult);
+//					model.addAttribute("jobPaperResults", jobPaperResult);
+//					model.addAttribute("paperTypes", paperTypeResult);
+//					model.addAttribute("paperGrammages", paperGrammageResult);
+//					model.addAttribute("printingMachines", printingMachineResult);
+//					model.addAttribute("printTypes", printTypeResult);
+//					model.addAttribute("bindingTypes", bindingTypeResult);
+//
+//
+//				    return "/billing/update-draft-to-registered-form";
+//				}
+//				
 				
-				
-				//<--------------------- Complete a  DraftJob ------------------------------>
-				@PostMapping(value="/complete-draft/{id}", consumes=MediaType.APPLICATION_JSON_VALUE)
-				@ResponseBody
-				public String completeDraft(@PathVariable Long id,@RequestBody JobDTO jobDTO){
-
-					try {
-						jobServiceImpl.updateJob(jobDTO, id);
-						return "OK";
-					} catch (Exception e) {
-						e.printStackTrace();
-						return "KO";
-					}
-				}
+//				//<--------------------- Complete a  DraftJob ------------------------------>
+//				@PostMapping(value="/complete-draft/{id}", consumes=MediaType.APPLICATION_JSON_VALUE)
+//				@ResponseBody
+//				public String completeDraft(@PathVariable Long id,@RequestBody JobDTO jobDTO){
+//
+//					try {
+//						jobServiceImpl.updateJob(jobDTO, id);
+//						return "OK";
+//					} catch (Exception e) {
+//						e.printStackTrace();
+//						return "KO";
+//					}
+//				}
 				
 				// Confirm a Job
 				
@@ -1514,5 +1515,61 @@ public class JobController {
 					}
 					return "KO";
 				}
+
+		//<--------------------- Edit a draft job to complete job ( get the form) ------------------------------>
+		
+		@GetMapping("/get-complete-draft-form/{id}")
+		public String completeDraftToJob(@PathVariable Long id, Model model) {
+			List<Customer> customerResult = customerServiceImpl.findAll();
+			List<JobType> jobTypeResult = jobTypeServiceImpl.findAll();
+			List<PaperFormat> paperFormatResult = paperFormatServiceImpl.findAll();
+			List<JobPaper> jobPaperResult = jobPaperServiceImpl.findAll();
+			List<PaperType>  paperTypeResult = paperTypeServiceImpl.listAll();
+			List<PaperGrammage> paperGrammageResult = paperGrammageServiceImpl.findAll();
+			List<PrintingMachine> printingMachineResult = printingMachineServiceImpl.listMachines();
+			List<PrintType> printTypeResult = printTypeServiceImpl.findAll();
+			List<BindingType> bindingTypeResult = bindingTypeserviceImpl.listAll();
+
+			Job existingJob = jobServiceImpl.findById(id).get();
+	//		existingJob.getJobPapers().get(0).u
+			model.addAttribute("job", existingJob);
+			model.addAttribute("customers", customerResult);
+			model.addAttribute("jobTypes", jobTypeResult);
+			model.addAttribute("paperFormats", paperFormatResult);
+			model.addAttribute("jobPaperResults", jobPaperResult);
+			model.addAttribute("paperTypes", paperTypeResult);
+			model.addAttribute("paperGrammages", paperGrammageResult);
+			model.addAttribute("printingMachines", printingMachineResult);
+			model.addAttribute("printTypes", printTypeResult);
+			model.addAttribute("bindingTypes", bindingTypeResult);
+
+
+		    return "/billing/job-update-form";
+		}
+		
+		//<--------------------- Complete a  DraftJob ------------------------------>
+		@PostMapping(value="/complete-draft/{id}", consumes=MediaType.APPLICATION_JSON_VALUE)
+		@ResponseBody
+		public String completeDraft(@PathVariable Long id,@RequestBody JobDTO jobDTO){
+			try {
+				
+				return "OK";
+			} catch (Exception e) {
+				e.printStackTrace();
+				return "KO";
+			}
+		}
+		
+	@PreAuthorize("hasAuthority('ROLE_REGISTER_NEW_JOB')")	
+	@PostMapping("/proofread/{id}")
+	public String proofreadByTheCustomer(@PathVariable long id) {
+		try {
+			 jobServiceImpl.proofreadByTheCustomer(id);
+			 return "billing/list-job";
+		} catch (Exception e) {
+			throw e;
+		}
+	}
+
 
 }

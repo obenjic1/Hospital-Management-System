@@ -21,12 +21,6 @@
                 <li class="nav-item">
                   <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#profile-overview" style="height:35px;background:#012970; color:white;"><h5>Job </h5></button>
                 </li>
-<!--                  <li class="nav-item"> -->
-<!--                   <button class="nav-link " data-bs-toggle="tab" data-bs-target="#estimate-overview" style="height:35px;background:#012970; color:white;"><h5>Estimates </h5></button> -->
-<!--                 </li> -->
-<!--                  <li class="nav-item"> -->
-<!--                   <button class="nav-link " data-bs-toggle="tab" data-bs-target="#invoice-overview" style="height:35px;background:#012970; color:white;"><h5>invoices </h5></button> -->
-<!--                 </li> -->
               </ul>
                 <div class="tab-content pt-2">
                   <div class="tab-pane fade show active profile-overview" id="profile-overview" style="margin-left: 10%">    
@@ -234,7 +228,21 @@
                     </div>
                 </div>
                 <br>
-                <h4>Estimates</h4>
+                <div class="row" style="position: relative;bottom: -19px;">
+                  <div class ="col-lg-6">
+                  	<h4>Estimates</h4>
+                  </div>
+                  <c:if test="${job.proofread=='true'}">
+                    <div class ="col-lg-6" id="proofreaded">
+                    <span style="position: relative;justify-content: end;bottom: 2px;left: 332px; font-family: bold; font-size: 16px; color: green">Proof Readed</span>
+                     </div>
+                   </c:if>
+                    <c:if test="${job.proofread=='false'&&job.status.name=='Registered'||job.status.name=='Confrimed'||job.status.name=='Approved'}">
+                    <div class ="col-lg-6">
+                  	   <button style="position: relative;justify-content: end;bottom: 2px;left: 332px;" onclick="proofreadByTheCustomer('${job.id}')"  data-toggle="tooltip" data-placement="top" title="Mark as Proofread" class="btn btn-outline-danger" data-bs-dismiss="modal">Proofread ?</button>
+                     </div>
+                   </c:if>
+                 </div> 
                 <hr>
                 <div class="row" >
 
