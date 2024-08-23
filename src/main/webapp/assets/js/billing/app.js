@@ -62,9 +62,7 @@ function loadTables(url, idContainer) {
 
  }
  
-<<<<<<< HEAD
- 
-=======
+
  function proofreadByTheCustomer(id){
 	 fetch(`job/proofread/${id}`, {
 		method: 'POST',
@@ -73,7 +71,6 @@ function loadTables(url, idContainer) {
 			 loadPage("job/list-job");
 		})
 			.catch(function(error) {
->>>>>>> f683e9535ebcb4ce0eb53cd2bb264c3785f5d1f7
 
 			});
  }
