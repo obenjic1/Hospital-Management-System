@@ -4,6 +4,7 @@ import java.util.Optional;
 
 import org.springframework.data.domain.Page;
 
+import com.ppp.billing.model.Job;
 import com.ppp.billing.model.JobStatus;
 
 public interface JobStatusService {
@@ -13,6 +14,7 @@ public interface JobStatusService {
 	JobStatus findById(long id);
 	void delete(long id);
 	JobStatus save(JobStatus jobStatus);
-	JobStatus update(long idJob,long idStatus);
+	JobStatus update(JobStatus jobStatus, long id);
+//	JobStatus update(JobStatus jobStatus, long id);
 
 }

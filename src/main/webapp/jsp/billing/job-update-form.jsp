@@ -91,7 +91,7 @@
 				  <div class ="col-lg-3 px8" style="position: relative; left: 10px;">
 				  <label for="title" class="form-label"><fmt:message key="title"/></label>
 					<div>
-					  <input id= "title" name="title" type= "text" value=${job.title}>
+					  <input id= "title" name="title" type= "text" value="${job.title}">
 					</div>
                   </div>
 				</div>						
@@ -155,21 +155,20 @@
 			    <div class ="col-lg-3 px3">
                   <div class="form-check">
                     <label class="form-check-label" for="existingPlate"><fmt:message key="existing.plate"/></label>
-                      <input class="form-check-input" type="checkbox" name="existingPlate" id="existingPlate">
+                      <input class="form-check-input" type="checkbox" name="existingPlate" id="existingPlate" ${job.existingPlate ? 'checked':''}>
                   </div>
 			    </div>
 			    <div class ="col-lg-3 px3">
 			      <div class="form-check">                     
                     <label class="form-check-label" for="gridCheck1"><fmt:message key="type.setting.by.us"/></label>
-                    <input class="form-check-input" type="checkbox" name="name" id="typesettingByUs">
+                    <input class="form-check-input" type="checkbox" name="name" id="typesettingByUs" ${job.typesettingByUs ? 'checked':''}>
                   </div>
                 </div>
 			  <div class ="col-lg-3 px3" style="position: relative; left: 10px;"> 
 			     <div>
 			      <div class="form-check">     
-			      	boolean isChecked = ${job.dataSuppliedByCustomer};            
                     <label class="form-check-label" for="gridCheck1"><fmt:message key="data.supplied.by.customer"/></label>
-                    <input class="form-check-input" type="checkbox" id="dataSuppliedByCustomer" value=" ${job.dataSuppliedByCustomer} ? "checked" : """>
+                    <input class="form-check-input" type="checkbox" id="dataSuppliedByCustomer" ${job.dataSuppliedByCustomer ? 'checked' : ''}>
                   </div>
                   
 			    </div>
@@ -177,7 +176,7 @@
 			  <div class ="col-lg-3 px3" style="position: relative; left: 10px;">
 			  <div class="form-check">
                     <label class="form-check-label" for="gridCheck1"><fmt:message key="layout.by.us"/></label>
-                    <input class="form-check-input" type="checkbox" id="layoutByUs">
+                    <input class="form-check-input" type="checkbox" id="layoutByUs" ${job.layOutByUs ? 'checked' : ''}>
                   </div>
 			  </div>
 		    </div>	
@@ -193,9 +192,9 @@
          <div style="position: relative;bottom: -20px;" id="mainDiv" >	
          	
 		   <div class="row py-4" id="coverInformations">
-			 <div class ="col-lg-3 px8" >
+			  <div class ="col-lg-3 px8" >
 			   <label for="" class="form-label"><a> <fmt:message key="cover.paper.type"/></a></label> 
-			   <select id="coverPaperType" name="name" class="form-select">
+			   <select coverPaperType name="name" class="form-select">
 				 <c:forEach items="${paperTypes}" var="paperType">
                    <option value="${paperType.id}">${paperType.name}</option>
                  </c:forEach>
@@ -204,11 +203,11 @@
 			 <div class ="col-lg-3 px8" style="position: relative; left:10px;">
 			   <label for="" class="form-label"><a><fmt:message key="grammage"/></a> </label>
 			   <input style="postion-relative-left:2px;position: relative;left: 10px;" value="${coverJobPaper.grammage}" list="coverGrammage" id="coverGrammage" name="xx">
-<!-- 					   <datalist id="coverGrammage"> -->
-<%-- 	                    <c:forEach items="${paperGrammages}" var="paperGrammage"> --%>
-<%--                     <option value="${paperGrammage.value}"></option> --%>
-<%--                     </c:forEach> --%>
-<!-- 	                   </datalist>   -->
+					   <datalist id="coverGrammage">
+	                    <c:forEach items="${paperGrammages}" var="paperGrammage"> 
+                     <option value="${paperGrammage.value}"></option> 
+                    </c:forEach> 
+	                   </datalist>  
               </div>
 			  <div class ="col-lg-3 px8" style="position: relative; left: 10px;">
 			    <label for="" class="form-label"><a><fmt:message key="cover.volume"/></a></label>
@@ -221,80 +220,81 @@
               </div>
 		    </div>	
 		    
-		   <div id="contentDiv">   		
-			<div class="row py-3"  style="display:none">
+<!-- 		   <div id="contentDiv">   		 -->
+<!-- 			<div class="row py-3"  style="display:none"> -->
 			
-			  <div class="col-lg-3 px-8" >
-			    <label for="" class="form-label"><a> <fmt:message key="content.paper.type"/></a> </label>
-				<select contentPaperType name="name" class="form-select">
-				<option >Choose...</option>
-			  <c:forEach items="${paperTypes}" var="paperType">
-                    <option value="${paperType.id}">${paperType.name}</option>
-                  </c:forEach>
-                </select>
-			  </div>
-			  <div class="col-lg-3 px-8" style="position: relative; left: 10px;">
-			    <label for="" class="form-label"><a><fmt:message key="grammage"/></a> </label>
-			     <input contentGrammage type="text"  list="contentGrammage" >
-				  <datalist  id="contentGrammage">
-	               <c:forEach items="${paperGrammages}" var="paperGrammage">
-                    <option value="${paperGrammage.value}"></option>
-                    </c:forEach>
-	            </datalist>   
-			  </div>
+<!-- 			  <div class="col-lg-3 px-8" > -->
+<%-- 			    <label for="" class="form-label"><a> <fmt:message key="content.paper.type"/></a> </label> --%>
+<!-- 				<select contentPaperType name="name" class="form-select"> -->
+<!-- 				<option >Choose...</option> -->
+<%-- 			  <c:forEach items="${paperTypes}" var="paperType"> --%>
+<%--                     <option value="${paperType.id}">${paperType.name}</option> --%>
+<%--                   </c:forEach> --%>
+<!--                 </select> -->
+<!-- 			  </div> -->
+<!-- 			  <div class="col-lg-3 px-8" style="position: relative; left: 10px;"> -->
+<%-- 			    <label for="" class="form-label"><a><fmt:message key="grammage"/></a> </label> --%>
+<!-- 			     <input contentGrammage type="text"  list="contentGrammage" > -->
+<!-- 				  <datalist  id="contentGrammage"> -->
+<%-- 	               <c:forEach items="${paperGrammages}" var="paperGrammage"> --%>
+<%--                     <option value="${paperGrammage.value}"></option> --%>
+<%--                     </c:forEach> --%>
+<!-- 	            </datalist>    -->
+<!-- 			  </div> -->
 			 
-			  <div class="col-lg-3 px-8 coverDup" style="position: relative; left: 10px;float:left">
-			    <label for="" class="form-label"><a> <fmt:message key="content.volume"/> </a></label> 
-				<input type="number" contentVolume  name="contentVolume" oldValue="" onclick="this.oldValue=this.value" onchange="updateTotalContentvolume(this.value,this.oldValue)"  >
-			  </div>
+<!-- 			  <div class="col-lg-3 px-8 coverDup" style="position: relative; left: 10px;float:left"> -->
+<%-- 			    <label for="" class="form-label"><a> <fmt:message key="content.volume"/> </a></label>  --%>
+<!-- 				<input type="number" contentVolume  name="contentVolume" oldValue="" onclick="this.oldValue=this.value" onchange="updateTotalContentvolume(this.value,this.oldValue)"  > -->
+<!-- 			  </div> -->
 			  
-			   <div class ="col-lg-3 px8" style="position: relative;">
-			    <label for="" class="form-label"><a><fmt:message key="content.paper.price"/></a> </label>
-			     <input paperUnitPrice type="number"  name="paperUnitPrice" value="">
-			     <button type="button" id="deleteButton"  onclick="removeContentNode(this,this.previousElementSibling)"><i class="ri-delete-bin-3-line"></i> </button>
-              </div>
+<!-- 			   <div class ="col-lg-3 px8" style="position: relative;"> -->
+<%-- 			    <label for="" class="form-label"><a><fmt:message key="content.paper.price"/></a> </label> --%>
+<!-- 			     <input paperUnitPrice type="number"  name="paperUnitPrice" value=""> -->
+<!-- 			     <button type="button" id="deleteButton"  onclick="removeContentNode(this,this.previousElementSibling)"><i class="ri-delete-bin-3-line"></i> </button> -->
+<!--               </div> -->
 			  
-		   </div>
+<!-- 		   </div> -->
 		   
-		   <div class="row py-3"  >
-			  <div class="col-lg-3 px-8">
-			    <label for="" class="form-label"><a><fmt:message key="content.paper.type"/> </a> </label>
-				<select contentPaperType name="name" class="form-select">
-			  <c:forEach items="${paperTypes}" var="paperType">
-                    <option value="${paperType.id}">${paperType.name}</option>
-                  </c:forEach>
-                </select>
-			  </div>
+<!-- 		   <div class="row py-3"  > -->
+<!-- 			  <div class="col-lg-3 px-8"> -->
+<%-- 			    <label for="" class="form-label"><a><fmt:message key="content.paper.type"/> </a> </label> --%>
+<!-- 				<select contentPaperType name="name" class="form-select"> -->
+<!-- 					 <option >Choose...</option> -->
+<%-- 			  <c:forEach items="${paperTypes}" var="paperType"> --%>
+<%--                     <option value="${paperType.id}">${paperType.name}</option> --%>
+<%--                   </c:forEach> --%>
+<!--                 </select> -->
+<!-- 			  </div> -->
 			  
-			  <div class="col-lg-3 px-8" style="position: relative; left: 10px;">
-			    <label for="" class="form-label"><a> <fmt:message key="grammage"/></a></label>
-			     <input contentGrammage type="text" list="contentGrammage" value =>
-				  <datalist  id="contentGrammage">
-	               <c:forEach items="${paperGrammages}" var="paperGrammage">
-                    <option value="${paperGrammage.value}"></option>
-                    </c:forEach>
-	            </datalist>   
-			  </div>
-			  <div class="col-lg-3 px-8 " style="position: relative; left: 10px">
-			    <label for="" class="form-label"><a><fmt:message key="content.volume"/></a> </label> 
-				<input type="number" contentVolume name="contentVolume" readonly="readonly">
-			  </div>
+<!-- 			  <div class="col-lg-3 px-8" style="position: relative; left: 10px;"> -->
+<%-- 			    <label for="" class="form-label"><a> <fmt:message key="grammage"/></a></label> --%>
+<!-- 			     <input contentGrammage type="text" list="contentGrammage" value => -->
+<!-- 				  <datalist  id="contentGrammage"> -->
+<%-- 	               <c:forEach items="${paperGrammages}" var="paperGrammage"> --%>
+<%--                     <option value="${paperGrammage.value}"></option> --%>
+<%--                     </c:forEach> --%>
+<!-- 	            </datalist>    -->
+<!-- 			  </div> -->
+<!-- 			  <div class="col-lg-3 px-8 " style="position: relative; left: 10px"> -->
+<%-- 			    <label for="" class="form-label"><a><fmt:message key="content.volume"/></a> </label>  --%>
+<!-- 				<input type="number" contentVolume name="contentVolume" readonly="readonly"> -->
+<!-- 			  </div> -->
 
-				<div class ="col-lg-3 px8" style="position: relative;">
-			    <label for="" class="form-label"><a><fmt:message key="content.paper.price"/></a></label>
-			     <input paperUnitPrice type="number"  name="paperUnitPrice" value="${contentJobPaper.unitPrice}">
-              </div>
-			   <div class="col-lg-3 px-8 " style="position: relative; left: 10px">
-			       <label for="" class="form-label" style=""><a><fmt:message key="add"/></a></label> 
-			       <span>
-			       	<button type="button"  id="duplicateButton"  onclick="addContentPaperChild()" ><i class="ri-add-fill"></i>
-			       	</button>
+<!-- 				<div class ="col-lg-3 px8" style="position: relative;"> -->
+<%-- 			    <label for="" class="form-label"><a><fmt:message key="content.paper.price"/></a></label> --%>
+<%-- 			     <input paperUnitPrice type="number"  name="paperUnitPrice" value="${contentJobPaper.unitPrice}"> --%>
+<!--               </div> -->
+<!-- 			   <div class="col-lg-3 px-8 " style="position: relative; left: 10px"> -->
+<%-- 			       <label for="" class="form-label" style=""><a><fmt:message key="add"/></a></label>  --%>
+<!-- 			       <span> -->
+<!-- 			       	<button type="button"  id="duplicateButton"  onclick="addContentPaperChild()" ><i class="ri-add-fill"></i> -->
+<!-- 			       	</button> -->
 
-			       </span>
-			  </div>
-		   </div>
+<!-- 			       </span> -->
+<!-- 			  </div> -->
+<!-- 		   </div> -->
 		   
-		    </div>
+<!-- 		    </div> -->
 		  
 	     </div>	
 	     <div class ="row py-3 "style="margin-top:50px" >
@@ -446,6 +446,7 @@
 			    <div class ="col-lg-3 px8">
 				  <label for="" class="form-label"><fmt:message key="printing.machine"/></label> 
 				  <select contentPrintingMachine name="name" class="form-select"  disabled="disabled" >
+				   <option >Choose...</option>
 				    <c:forEach items="${printingMachines}" var="printingMachine">
 		                <option value="${printingMachine.id},${printingMachine.plateLength},${printingMachine.plateWidth}">${printingMachine.name}</option>
 		            </c:forEach>
@@ -454,6 +455,7 @@
 			   <div class ="col-lg-3 px8" style="position: relative; left: 10px;">
 				 <label for="" class="form-label"><fmt:message key="content.print.type"/> </label>
 				 <select contentPrintType name="name" updateContentSignature class="form-select">
+				  <option >Choose...</option>
 				   <c:forEach items="${printTypes}" var="printType">
                      <option value="${printType.id}">${printType.name}</option>
                    </c:forEach>
@@ -484,6 +486,7 @@
 			   <div class ="col-lg-3 px8" >
 				  <label for="" class="form-label"><fmt:message key="printing.machine"/></label> 
 				  <select  contentPrintingMachine name="name" class="form-select"  onchange="signatureCalculation(this.value,this.parentNode.parentNode.parentNode)">
+				   		<option >Choose...</option>
 				    <c:forEach items="${printingMachines}" var="printingMachine">
 		                <option value="${printingMachine.id},${printingMachine.plateLength},${printingMachine.plateWidth}">${printingMachine.name}</option>
 		            </c:forEach>
@@ -639,7 +642,7 @@
 				      <button type="button" style="float:left" class="btn btn-primary" onclick="navigate(4,3);"> <fmt:message key="previews"/></button>	
 				     </div>
 			         <div class ="col-sm-6">
-			         <button type="button" style="width:125px;float:right"  class="btn btn-primary" id="next-btn1" onclick="navigate(4,5),summary()"><fmt:message key="next"/></button>			
+			         <button type="button" style="width:125px;float:right"  class="btn btn-primary" id="next-btn1" onclick="navigate(4,5),summaryUpdate()"><fmt:message key="next"/></button>			
 			        </div>
 			        
 			        
@@ -715,7 +718,7 @@
 					    	Paper Type : <span id="cover-paper"> </span>
 					    </div>
 					    <div class="col-sm-4">
-					    	 Paper Grammage (GSM) : <span id="cover-grammage"> 1</span> 
+					    	 Paper Grammage (GSM) : <span id="cover-grammage"> </span> 
 					    </div>
 					    <div class="col-sm-4">
 					    	Volume : <span id="cover-volume">  </span> 
@@ -824,7 +827,7 @@
 				      <button type="button" style="float:left" class="btn btn-primary" onclick="navigate(5,4);removeRows()"> <fmt:message key="previews"/></button>	
 				     </div>
 			         <div class ="col-sm-6">
-			         <button type="button" style="width:125px;float:right"  class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#creation" id="next-btn1" onclick="navigate(4,5); submitUpfateForm(${job.id})"><fmt:message key="submit"/></button>			
+			         <button type="button" style="width:125px;float:right"  class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#creation" id="next-btn1" onclick="navigate(4,5); submitUpdateForm(${job.id})"><fmt:message key="submit"/></button>			
 			        </div>
 			        </div>
                	</div>

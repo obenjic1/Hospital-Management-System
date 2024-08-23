@@ -61,4 +61,6 @@ function loadTables(url, idContainer) {
 		   document.getElementById("irDiv").style.display = "none";
 	   }
  }
+ 
+ 
 
