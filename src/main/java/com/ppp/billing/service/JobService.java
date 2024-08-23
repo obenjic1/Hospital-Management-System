@@ -15,6 +15,7 @@ public interface JobService {
 //    List<Job> findByCreatinDateBtween(Date startDate, Date endDate);
     List<Job> findByCreationDateBetween(Date startDate, Date endDate);
     Job saveDraft(JobDTO jobDTO);
+    void proofreadByTheCustomer(long id);
 
 
 }

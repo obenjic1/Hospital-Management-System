@@ -123,12 +123,14 @@
 	<!-- ======= Sidebar ======= -->
 			<aside id="sidebar" class="sidebar" style="background: #dddfe3;">
 		     <ul class="sidebar-nav" id="sidebar-nav">
+		     <sec:authorize access="hasRole('ROLE_ADD_USER')">
 			  <li class="pp-module">
 			    <i class="bi bi-person-lines-fill"> </i> 
 			     <span>
 			      <span><fmt:message key="administration.managemant" /></span>
 			    </span><script src="DataTables/datatables.js"></script>
 			  </li>
+			  </sec:authorize>
 			<!-- End Printing Press Nav -->
 			<li class="nav-item">
 <%-- 			<sec:authorize access="hasRole('ROLE_ADD_USER')">					 --%>
@@ -241,10 +243,7 @@
 			  </sec:authorize>  								
 				<!-- End of user management Nav -->
 				
-				
-				
-				<!-- start of bill management Nav -->	
-			 
+				<!-- start of bill management Nav -->
 				
 				<!-- End of job sheet management Nav --> <!-- start of bill management Nav -->
 			<li class="nav-item">
