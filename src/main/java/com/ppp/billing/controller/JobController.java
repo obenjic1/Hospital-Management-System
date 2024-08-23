@@ -790,11 +790,20 @@ public class JobController {
     return "/billing/view-job-profile";
 	}
 	
-	@PostMapping(value="/delete/{id}")
-	public void delete(@PathVariable long id) {
-	  Optional<Job> job = jobServiceImpl.findById(id);
-	    if (job.isPresent()) 
-	    	jobServiceImpl.deleteById(id);
+	// Abort a Job
+	
+	@PostMapping("/abortJob/{id}")
+	public String delete(@PathVariable long id) {
+		try {
+			 Optional<Job> job = jobServiceImpl.findById(id);
+			    if (job.isPresent()) {
+			    	jobServiceImpl.abortJob(id);
+			    	return "KO";
+			    }
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return "KO";
 	}
 	
 	// to get the update page of job
@@ -813,7 +822,7 @@ public class JobController {
 			List<BindingType> bindingTypeResult = bindingTypeserviceImpl.listAll();
 			
 			Job existingJob = jobServiceImpl.findById(id).get();
-		//	JobPaper contentJobPaper = existingJob.getJobPapers().get(1);
+			JobPaper contentJobPaper = existingJob.getJobPapers().get(1);
 			JobPaper existingJobPaper = existingJob.getJobPapers().remove(0);
 			JobColorCombination covercolourCombination = existingJobPaper.getJobColorCombinations().get(0);
 			JobActivity jobActivity = existingJob.getJobActivity();
@@ -832,9 +841,6 @@ public class JobController {
 			model.addAttribute("covercolourCombination", covercolourCombination);
 			model.addAttribute("jobActivity", jobActivity);
 
-
-
-			
 		    return "/billing/job-update-form";
 		}
 		// to get the update page of job
@@ -855,8 +861,7 @@ public class JobController {
 			model.addAttribute("paperFormats", paperFormatResult);
 			model.addAttribute("jobPaperResults", jobPaperResult);
 			model.addAttribute("paperTypes", paperTypeResult);
-			
-		    return "/billing/draft-update--form";
+		    return "/billing/draft-update-form";
 		}
 
 		
@@ -1446,6 +1451,71 @@ public class JobController {
 		}
 
 
+//<<<<<<< HEAD
+//			//<--------------------- Edit a draft job to complete job ( get the form) ------------------------------>
+//			
+//			
+//			
+//				@GetMapping("/get-complete-draft-form/{id}")
+//				public String completeDraftToJob(@PathVariable Long id, Model model) {
+//					List<Customer> customerResult = customerServiceImpl.findAll();
+//					List<JobType> jobTypeResult = jobTypeServiceImpl.findAll();
+//					List<PaperFormat> paperFormatResult = paperFormatServiceImpl.findAll();
+//					List<JobPaper> jobPaperResult = jobPaperServiceImpl.findAll();
+//					List<PaperType>  paperTypeResult = paperTypeServiceImpl.listAll();
+//					List<PaperGrammage> paperGrammageResult = paperGrammageServiceImpl.findAll();
+//					List<PrintingMachine> printingMachineResult = printingMachineServiceImpl.listMachines();
+//					List<PrintType> printTypeResult = printTypeServiceImpl.findAll();
+//					List<BindingType> bindingTypeResult = bindingTypeserviceImpl.listAll();
+//
+//					Job existingJob = jobServiceImpl.findById(id).get();
+//			//		existingJob.getJobPapers().get(0).u
+//					model.addAttribute("job", existingJob);
+//					model.addAttribute("customers", customerResult);
+//					model.addAttribute("jobTypes", jobTypeResult);
+//					model.addAttribute("paperFormats", paperFormatResult);
+//					model.addAttribute("jobPaperResults", jobPaperResult);
+//					model.addAttribute("paperTypes", paperTypeResult);
+//					model.addAttribute("paperGrammages", paperGrammageResult);
+//					model.addAttribute("printingMachines", printingMachineResult);
+//					model.addAttribute("printTypes", printTypeResult);
+//					model.addAttribute("bindingTypes", bindingTypeResult);
+//
+//
+//				    return "/billing/update-draft-to-registered-form";
+//				}
+//				
+				
+//				//<--------------------- Complete a  DraftJob ------------------------------>
+//				@PostMapping(value="/complete-draft/{id}", consumes=MediaType.APPLICATION_JSON_VALUE)
+//				@ResponseBody
+//				public String completeDraft(@PathVariable Long id,@RequestBody JobDTO jobDTO){
+//
+//					try {
+//						jobServiceImpl.updateJob(jobDTO, id);
+//						return "OK";
+//					} catch (Exception e) {
+//						e.printStackTrace();
+//						return "KO";
+//					}
+//				}
+				
+				// Confirm a Job
+				
+				@PostMapping("/confirm/{id}")
+				public String confirmJob (@PathVariable long id) {
+					try {
+						 Optional<Job> job = jobServiceImpl.findById(id);
+						    if (job.isPresent()) {
+						    	//jobServiceImpl.confirmJob(id);
+						    	return "KO";
+						    }
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+					return "KO";
+				}
+
 		//<--------------------- Edit a draft job to complete job ( get the form) ------------------------------>
 		
 		@GetMapping("/get-complete-draft-form/{id}")
@@ -1500,5 +1570,6 @@ public class JobController {
 			throw e;
 		}
 	}
+
 
 }
