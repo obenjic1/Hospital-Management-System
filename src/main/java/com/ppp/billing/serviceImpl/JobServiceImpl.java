@@ -80,7 +80,6 @@ public class JobServiceImpl implements JobService {
 		newJob.setCustomer(customer.get());
 		Optional<JobType> jobType = jobTypeRepository.findById(jobDTO.getJobTypeId());
 		newJob.setJobType(jobType.get());
-		
 		JobStatus status = jobStatusRepository.findById(2).get();
 		newJob.setStatus(status);
 		
@@ -285,5 +284,19 @@ public class JobServiceImpl implements JobService {
 		
 		jobRepository.saveAndFlush(newJob);
 		return newJob;
+	}
+
+				// Mark Job has been proofreaded 
+	@Override
+	public void proofreadByTheCustomer(long id) {
+		try {
+			Job job =jobRepository.findById(id).get();
+			if(job.getStatus().getName().equals("Registered")||job.getStatus().getName().equals("Confrimed")||job.getStatus().getName().equals("Approved"))
+				job.setProofread(true);
+			jobRepository.save(job);
+		} catch (Exception e) {
+			throw e;
+		}
+		
 	}
 }

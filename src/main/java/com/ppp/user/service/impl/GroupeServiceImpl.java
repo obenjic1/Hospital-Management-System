@@ -32,7 +32,7 @@ public class GroupeServiceImpl implements GroupeService {
 	public String addNewGroupe(GroupDTO groupDTO, String name) {
 	   try {
 		   Groupe newGroup = new Groupe();
-		    newGroup.setName(groupDTO.getName());
+		    newGroup.setName(groupDTO.getName().toUpperCase());
 		    newGroup.setDescription(groupDTO.getDescription());
 		    newGroup.setCreatedAt(LocalDateTime.now());
 		    newGroup.setGroupRoles(newGroup.getGroupRoles());

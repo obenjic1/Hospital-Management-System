@@ -90,7 +90,7 @@
                       </div>
                     </div>                          
                     <div class="text-center">
-                      <input type="button" onclick="updateGroupe('${existingGroupe.name}')" data-bs-toggle="modal" data-bs-target="#creation" class="btn btn-primary" value="Save Changes"                       
+                      <input type="button" onclick="updateGroupe('${existingGroupe.name}'); loadPage('group/list-groups');" class="btn btn-primary" value="Save Changes"                       
    						style=" position: relative; left: 42%; bottom: -3px;">
                     </div>                    
               

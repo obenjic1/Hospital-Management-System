@@ -54,7 +54,7 @@ public class UserServiceImpl implements UserService {
 	public String createUser(UserDTO userDTO) {
 		try {
 			User newUser = new User();
-		    newUser.setUsername(userDTO.getUsername());
+		    newUser.setUsername(userDTO.getUsername().toUpperCase());
 		    newUser.setFirstName(userDTO.getFirstName());
 		    newUser.setLastName(userDTO.getLastName());
 		    newUser.setAddress(userDTO.getAddress());

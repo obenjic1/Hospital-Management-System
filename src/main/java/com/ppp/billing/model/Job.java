@@ -82,6 +82,9 @@ public class Job {
 	@Column(name="layout_by_us", columnDefinition="boolean default true")
 	private boolean layOutByUs;
 	
+	@Column(name = "proofread")
+	private boolean proofread = Boolean.FALSE;
+	
 	@Column(name="ready_to_print_date")
 	@Temporal(TemporalType.DATE)
 	private Date readytoPrintDate;
@@ -97,6 +100,8 @@ public class Job {
 	@Column(name="creation_date")
 	private Date creationDate;
 	
+	@Column(name = "control_sheet_senerated")
+	private boolean controlSheetGenerated = Boolean.FALSE;
 	
 	@Column(name = "other_fee_description")
 	private String otherFeeDescription;

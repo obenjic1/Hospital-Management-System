@@ -64,7 +64,7 @@
 					  </div>
 					</div>
                     <div class="col-md-3">
-                      <input type="button" style=" left: 832px;  bottom: 2px;" data-bs-toggle="modal" data-bs-target="#creation" id="create-btn" onclick="addGroupe()" class="btn btn-primary w-100"  value="Save"/>
+                      <input type="button" style=" left: 832px;  bottom: 2px;" id="create-btn" onclick="addGroupe(); loadPage('group/list-groups');" class="btn btn-primary w-100"  value="Save"/>
                      </div>	              
                   </form>
                 </div>

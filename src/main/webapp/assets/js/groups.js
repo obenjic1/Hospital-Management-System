@@ -45,8 +45,9 @@ function addGroupe() {
         .then( response => {	
 
    			 if (response.status === 200) {
-       			sendMessage('Succes/Success', 1);
-			return loadPage("group/list-groups");				
+					Swal.fire("Succes/Success!", "You clicked the button!", "success")
+       			//sendMessage('Succes/Success', 1);
+			//return loadPage("group/list-groups");				
    			 } else if (response.status !== 200) {
 				sendMessage('Failed : email or user name already exist ', 2);
   			 }
@@ -86,8 +87,10 @@ function updateGroupe(name) {
       .then( response => {	
 
    			 if (response.status === 200) {
-       			sendMessage('Succes/Success', 1);
-			return loadPage("group/list-groups");				
+					Swal.fire("Succes/Success!", "You clicked the button!", "success")
+				return loadPage('group/list-groups');
+       		//	sendMessage('Succes/Success', 1);
+		//	return ;				
    			 } else if (response.status !== 200) {
 				sendMessage('Failed / Echec', 2);
   			 }
