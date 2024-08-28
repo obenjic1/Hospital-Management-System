@@ -15,9 +15,11 @@ import org.springframework.stereotype.Service;
 import com.ppp.billing.model.BindingType;
 import com.ppp.billing.model.ContentType;
 import com.ppp.billing.model.Customer;
+import com.ppp.billing.model.Department;
 import com.ppp.billing.model.Job;
 import com.ppp.billing.model.JobActivity;
 import com.ppp.billing.model.JobColorCombination;
+import com.ppp.billing.model.JobMovement;
 import com.ppp.billing.model.JobPaper;
 import com.ppp.billing.model.JobStatus;
 import com.ppp.billing.model.JobType;
@@ -29,6 +31,7 @@ import com.ppp.billing.model.dto.JobDTO;
 import com.ppp.billing.repository.BindingTypeRepository;
 import com.ppp.billing.repository.ContentTypeRepository;
 import com.ppp.billing.repository.CustomerRepository;
+import com.ppp.billing.repository.DepartmentRepository;
 import com.ppp.billing.repository.JobRepository;
 import com.ppp.billing.repository.JobStatusRepository;
 import com.ppp.billing.repository.JobTypeRepository;
@@ -62,6 +65,9 @@ public class JobServiceImpl implements JobService {
     
     @Autowired
    	public JobStatusServiceImpl jobStatusServiceImpl;
+    
+    @Autowired
+	DepartmentRepository departmentRepository;
  
     
 	@Override
@@ -140,11 +146,22 @@ public class JobServiceImpl implements JobService {
 			jobPapers.add(jobPaper);
 			
 		});
+		List<JobMovement> movements = new ArrayList<JobMovement>();
+		JobMovement moveJob = new JobMovement();
+		moveJob.setCreationDate(new Date());
+		moveJob.setDescription("Registered Job");
+		Department	department = departmentRepository.findById(1);
+		moveJob.setDepartment(department);
+		movements.add(moveJob);
+		moveJob.setJob(newJob);
+		newJob.setJobMovements(movements);
+
 		newJob.setJobPapers(jobPapers);		
+		
 		jobRepository.saveAndFlush(newJob);
         generateSerialNumber(newJob);
 		
-        return newJob;
+        return newJob; 
 	}
 	
 	public void generateSerialNumber(Job job) {
@@ -262,6 +279,18 @@ public class JobServiceImpl implements JobService {
 		newJob.setCustomer(customer.get());
 		Optional<JobType> jobType = jobTypeRepository.findById(jobDTO.getJobTypeId());
 		newJob.setJobType(jobType.get());
+		
+		List<JobMovement> movements = new ArrayList<JobMovement>();
+		JobMovement moveJob = new JobMovement();
+		moveJob.setCreationDate(new Date());
+		moveJob.setDescription("Registered Job");
+		Department	department = departmentRepository.findById(1);
+		moveJob.setDepartment(department);
+		movements.add(moveJob);
+		moveJob.setJob(newJob);
+		newJob.setJobMovements(movements);
+		
+		
 		
 		JobStatus status = jobStatusRepository.findById(1).get();
 		newJob.setStatus(status);
@@ -395,4 +424,29 @@ public class JobServiceImpl implements JobService {
 		}
 		
 	}
+	
+	// Mark a Job as Confirm 
+	@Override
+	public void confirmJob(long id) {
+		Job job =jobRepository.findById(id).get();
+		if(job.getStatus().getName().equals("Registered")){
+			JobStatus status = jobStatusRepository.findById(3).get();
+			job.setStatus(status);
+			jobRepository.saveAndFlush(job);
+		}
+		
+	}
+	
+	// Mark a Job  as Approve 
+	@Override
+	public void approve(long id) {
+		Job job =jobRepository.findById(id).get();
+		if(job.getStatus().getName().equals("Confrimed")){
+			JobStatus status = jobStatusRepository.findById(4).get();
+			job.setStatus(status);
+			jobRepository.saveAndFlush(job);
+		}
+		
+	}
+	
 }

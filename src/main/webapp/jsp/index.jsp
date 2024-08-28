@@ -351,6 +351,29 @@
 		      </div>
 		   </div>
 	     </div>	 
+	     <!-------------- Modal ------------->
+			<div class="modal fade" id="areyouSureYouWantToConfirm" tabindex="-1">
+			  <div class="modal-dialog modal-dialog-centered">
+			    <div class="modal-content">
+			      <div class="modal-body">
+	                <p> <br><fmt:message key="confirm.message"/></p>
+			        <button class="delete-denied" type="button" id="cancelButton" data-bs-dismiss="modal"><fmt:message key="cancel"/></button>
+		          <button class="accept-delete" type="button" id="approveConfirmBtn" data-bs-toggle="modal" data-bs-target="#creation"><fmt:message key="confirm"/></button>
+			    </div>
+		      </div>
+		   </div>
+	     </div>	 
+	     	<div class="modal fade" id="areyouSureYouWantToApprove" tabindex="-1">
+			  <div class="modal-dialog modal-dialog-centered">
+			    <div class="modal-content">
+			      <div class="modal-body">
+	                <p> <br><fmt:message key="approve.message"/></p>
+			        <button class="delete-denied" type="button" id="cancelButton" data-bs-dismiss="modal"><fmt:message key="cancel"/></button>
+		          <button class="accept-delete" type="button" id="approveBtn" data-bs-toggle="modal" data-bs-target="#creation"><fmt:message key="aprove"/></button>
+			    </div>
+		      </div>
+		   </div>
+	     </div>	
 		 </div>
 		</div>
 	  </section>

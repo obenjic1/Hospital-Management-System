@@ -32,8 +32,7 @@ function addMachine() {
 			})
 			.catch(function(error) {
 				
-			});console.log(isActive);
-			console.log(formData);
+			});
 				loadPage('machine/list');
 }
 
