@@ -1656,8 +1656,6 @@ public class JobController {
 	@PostMapping(value="/move-job/{id}")
 	public String moveJob(@PathVariable long id, @RequestBody JobMovement jobMovement) {
 		
-		System.out.println(jobServiceImpl.findById(id).get().getTitle());
-	//	System.out.println(jobMovement.getDepartment().getName());
 		try {
 			//Job job = jobServiceImpl.findById(id).get();
 
