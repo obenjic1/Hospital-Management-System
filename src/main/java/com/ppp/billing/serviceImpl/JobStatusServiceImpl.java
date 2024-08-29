@@ -1,14 +1,10 @@
 package com.ppp.billing.serviceImpl;
-
 import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
-import com.ppp.billing.model.Job;
 import com.ppp.billing.model.JobStatus;
 import com.ppp.billing.repository.JobRepository;
 import com.ppp.billing.repository.JobStatusRepository;
@@ -43,13 +39,10 @@ public class JobStatusServiceImpl implements JobStatusService {
 		return jobStatusRepository.findAll(pageable);
 	}
 
+
 	@Override
-	public JobStatus update( long jobId, long statusId) {
-		Job job = jobRepository.findById(jobId).get();
-		JobStatus status = job.getStatus();
-		status.setId(statusId);
-		job.setStatus(status);
-		return status;
+	public JobStatus findById(long id) {
+		return jobStatusRepository.findById(id).get();
 	}
 
 	@Override
@@ -59,8 +52,10 @@ public class JobStatusServiceImpl implements JobStatusService {
 	}
 
 	@Override
-	public JobStatus findById(long id) {
-		return jobStatusRepository.findById(id).get();
+	public JobStatus update(JobStatus jobStatus, long id) {
+		jobStatus.setId(id);
+		return jobStatus;
+
 	}
 
 }

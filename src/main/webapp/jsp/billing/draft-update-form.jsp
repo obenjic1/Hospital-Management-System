@@ -64,7 +64,7 @@
 				  <label for="title" class="form-label"><fmt:message key="title"/> </label>
 				  
 					<div>
-					  <input id= "title" name="title" type= "text" value=${job.title}>
+					  <input id= "title"  type="text" name="title" type= "text" value="${job.title}">
 					</div>
                   </div>
 				</div>						
@@ -72,7 +72,7 @@
 				  <div class ="col-lg-4 px8">
 				    <label for="volumeofCover" class="form-label"><fmt:message key="volume.cover"/></label> 
 				     <div>
-					  <input id= "volumeOfCover" name="volumeOfCover" type="number" value=${job.coverVolume}>
+					  <input id= "volumeOfCover" name="volumeOfCover" type="number" value=${job.coverVolume} >
 				    </div>
 				  </div>
 				  <div class ="col-lg-4 px8" style="position: relative; left: 10px;"> 
@@ -128,20 +128,20 @@
 			    <div class ="col-lg-3 px3">
                   <div class="form-check">
                     <label class="form-check-label" for="existingPlate"><fmt:message key="existing.plate"/></label>
-                      <input class="form-check-input" type="checkbox" name="existingPlate" id="existingPlate" value="${job.existingPlate}">
+                      <input class="form-check-input" type="checkbox" name="existingPlate" id="existingPlate" ${job.existingPlate ? 'checked':''}>
                   </div>
 			    </div>
 			    <div class ="col-lg-3 px3">
 			      <div class="form-check">                     
                     <label class="form-check-label" for="gridCheck1"><fmt:message key="type.setting.by.us"/></label>
-                    <input class="form-check-input" type="checkbox" name="name" id="typesettingByUs" value="${job.typesettingByUs}">
+                    <input class="form-check-input" type="checkbox" name="name" id="typesettingByUs" ${job.typesettingByUs ? 'checked':''}>
                   </div>
                 </div>
 			  <div class ="col-lg-3 px3" style="position: relative; left: 10px;"> 
 			     <div>
 			      <div class="form-check">                      
                     <label class="form-check-label" for="gridCheck1"><fmt:message key="data.supplied.by.customer"/></label>
-                    <input class="form-check-input" type="checkbox" id="dataSuppliedByCustomer" ${job.dataSuppliedByCustomer}>
+                    <input class="form-check-input" type="checkbox" id="dataSuppliedByCustomer" ${job.dataSuppliedByCustomer ? 'checked':''}>
                   </div>
                   
 			    </div>
@@ -149,7 +149,7 @@
 			  <div class ="col-lg-3 px3" style="position: relative; left: 10px;">
 			  <div class="form-check">
                     <label class="form-check-label" for="gridCheck1"><fmt:message key="layout.by.us"/></label>
-                    <input class="form-check-input" type="checkbox" id="layoutByUs" ${job.layOutByUs}>
+                    <input class="form-check-input" type="checkbox" name ="layOutByUs" id="layoutByUs" ${job.layOutByUs ? 'checked' : ''}>
                   </div>
 			  </div>
 		    </div>	

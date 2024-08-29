@@ -82,6 +82,9 @@ public class Job {
 	@Column(name="layout_by_us", columnDefinition="boolean default true")
 	private boolean layOutByUs;
 	
+	@Column(name = "proofread")
+	private boolean proofread = Boolean.FALSE;
+	
 	@Column(name="ready_to_print_date")
 	@Temporal(TemporalType.DATE)
 	private Date readytoPrintDate;
