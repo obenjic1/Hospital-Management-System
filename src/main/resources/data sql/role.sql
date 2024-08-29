@@ -19,7 +19,7 @@ INSERT INTO `role` (`id`, `created_at`, `description`, `name`) VALUES
 (16, NULL, 'Updating customer in the system refers to modifying or changing the attributes and settings associated with existing customer', 'ROLE_UPDATE_CUSTOMER'),
 (17, NULL, 'Manage setings means that you have the rigth access to add, view, delete and update everything have rapport with setings', 'ROLE_MANAGE_SETINGS'),
 (18, NULL, 'View setting means that you can only view and select the settings element you cannot do the others operations.', 'ROLE_VIEW_SETINGS'),
-(19, NULL, 'Default role to manage users', 'ROLE_ADD_USER');
+(19, NULL, 'Default role to manage users', 'ROLE_ADD_USER'),
 (20, NULL, 'Default role to manage jobs', 'ROLE_REGISTER_NEW_JOB'),
 (21, NULL, 'Default role to manage draft jobs', 'ROLE_EDIT_DRAFT_JOB'),
 (22, NULL, 'Default role to manage switch jobs to different departement', 'ROLE_MOVE_JOB_TO_DEPARTEMENT'),
