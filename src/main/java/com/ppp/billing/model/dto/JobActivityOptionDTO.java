@@ -16,6 +16,8 @@ public class JobActivityOptionDTO {
 	private boolean selloptaped;
 	private boolean sewn;
 	private int handFoldCov;
+	
+	
 	public int getxPerforated() {
 		return xPerforated;
 	}

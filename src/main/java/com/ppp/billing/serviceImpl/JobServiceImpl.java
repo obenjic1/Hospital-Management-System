@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -55,9 +57,11 @@ public class JobServiceImpl implements JobService {
     private PaperTypeRepository paperTypeRepository;
     @Autowired
     private PrintTypeRepository printTypeRepository;
-
     @Autowired
 	public JobStatusRepository jobStatusRepository;
+    
+    @Autowired
+   	public JobStatusServiceImpl jobStatusServiceImpl;
  
     
 	@Override
@@ -160,6 +164,7 @@ public class JobServiceImpl implements JobService {
 	public Optional<Job> findById(long id) {
 		return jobRepository.findById(id);
 	}
+	
 	public void deleteById(long id) {
 		jobRepository.deleteById(id);
 	}
@@ -268,8 +273,8 @@ public class JobServiceImpl implements JobService {
 	public Job updateDraft(JobDTO jobDTO, long id) {
 		Job newJob =jobRepository.findById(id).get();
 		newJob.setTitle(jobDTO.getTitle());
-	 //   newJob.setContentVolume(jobDTO.getContentVolume());
-	//	newJob.setCoverVolume(jobDTO.getCoverVolume());
+		newJob.setContentVolume(jobDTO.getContentVolume());
+		newJob.setCoverVolume(jobDTO.getCoverVolume());
 		newJob.setOpenLength(jobDTO.getOpenLength());
 		newJob.setCloseLength(jobDTO.getCloseLength());
 		newJob.setOpenWidth(jobDTO.getOpenWidth());
@@ -286,6 +291,101 @@ public class JobServiceImpl implements JobService {
 		return newJob;
 	}
 
+	
+	/*
+	 * Function That is Use to update Job And Draft
+	 */
+	public Job updateJob(Job job, long id) {
+		Job newJob =jobRepository.findById(id).get();
+		System.out.println(job.getJobPapers().get(1).getVolume()+"---------------------------------Title");
+		newJob.setTitle(job.getTitle());
+		newJob.setContentVolume(job.getContentVolume());
+		newJob.setCoverVolume(job.getCoverVolume());
+		newJob.setOpenLength(job.getOpenLength());
+		newJob.setCloseLength(job.getCloseLength());
+		newJob.setOpenWidth(job.getOpenWidth());
+		newJob.setCloseWidth(job.getCloseWidth());
+		newJob.setCtpFees(job.getCtpFees());
+		newJob.setExistingPlate(job.isExistingPlate());
+		newJob.setDataSuppliedByCustomer(job.isDataSuppliedByCustomer());
+		newJob.setLayOutByUs(job.isLayOutByUs());
+		newJob.setTypesettingByUs(job .isTypesettingByUs());
+		
+//		JobStatus status = newJob.getStatus();
+//		if(status.getId()==1) {
+//			JobStatus newStatus = jobStatusRepository.statusUpdate(newJob.getId(), 2);
+//			newJob.setStatus(newStatus);
+//		}
+		JobActivity jobdto = job.getJobActivity();
+		JobActivity activity = newJob.getJobActivity();
+		System.out.println(activity.getXCreased()+"------------------------------------------");
+		activity.setXPerforated(jobdto.getXPerforated());
+		activity.setXNumbered(jobdto.getXNumbered());
+		activity.setLamination(jobdto.getLamination());
+		activity.setXCreased(jobdto.getXCreased());
+		activity.setXWiredStiched(jobdto.getXWiredStiched());
+		activity.setXCross(jobdto.getXCreased());
+		//activity.setGlueOption(jobdto.getGlueOption());
+		activity.setHandgather(jobdto.isHandgather());
+		activity.setStitching(jobdto.isStitching());
+		activity.setTrimmed(jobdto.isTrimmed());
+		activity.setSewn(jobdto.isSewn());
+		activity.setHandFoldingCov(jobdto.getHandFoldingCov());
+		activity.setSelloptaped(jobdto.isSelloptaped());
+		if(jobdto.getBindingType()!=null) {
+			Optional<BindingType> bindingtp = bindingTypeRepository.findById(jobdto.getBindingType().getId());
+			activity.setBindingType(bindingtp.get());
+		}
+		activity.setJob(newJob);
+		newJob.setJobActivity(activity);
+				
+		List<JobPaper> jobPapers = newJob.getJobPapers();
+		job.getJobPapers().forEach(row-> {
+			JobPaper jobPaper = new JobPaper();
+			jobPaper.setGrammage(row.getGrammage());
+			jobPaper.setVolume(row.getVolume());
+			jobPaper.setUnitPrice(row.getUnitPrice());
+			Optional<PaperType> paperType = paperTypeRepository.findById(row.getPaperType().getId());
+			jobPaper.setPaperType(paperType.get());
+			Optional<ContentType> contentType = contentTypeRepository.findById(row.getContentType().getId());
+			jobPaper.setContentType(contentType.get());
+
+			List<JobColorCombination> colorCombinations = new ArrayList<JobColorCombination>();
+			row.getJobColorCombinations().forEach(colors->{
+				JobColorCombination jobColorCombination = new JobColorCombination();
+				jobColorCombination.setBackColorNumber(colors.getBackColorNumber());
+				jobColorCombination.setFrontColorNumber(colors.getFrontColorNumber());
+				jobColorCombination.setNumberOfSignature(colors.getNumberOfSignature());
+				int machineId =  (int) (colors.getPrintingMachine().getId());
+				Optional<PrintingMachine> printingMachine =  printingMachineRepository.findById(machineId);
+				jobColorCombination.setPrintingMachine(printingMachine.get());
+				Optional<PrintType> printType =  printTypeRepository.findById(colors.getPrintType().getId());
+				jobColorCombination.setPrintType(printType.get());
+				jobColorCombination.setJobPaper(jobPaper);
+				colorCombinations.add(jobColorCombination);
+			
+			});
+			jobPaper.setJobColorCombinations(colorCombinations);
+			jobPaper.setJob(newJob);
+			jobPapers.add(jobPaper);
+			
+		});
+		newJob.setJobPapers(jobPapers);		
+		jobRepository.saveAndFlush(newJob);
+		
+        return newJob;
+	}
+
+			// aborting a job
+	
+	@Override
+	@Transactional()
+	public void abortJob(long id) {
+		Job job = jobRepository.findById(id).get();
+		JobStatus status = jobStatusRepository.findById(5).get();
+		job.setStatus(status);
+		jobRepository.saveAndFlush(job);
+	}
 				// Mark Job has been proofreaded 
 	@Override
 	public void proofreadByTheCustomer(long id) {

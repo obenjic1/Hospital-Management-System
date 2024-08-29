@@ -12,10 +12,8 @@ public interface JobService {
 	Job saveJob(JobDTO jobDTO);
 	List<Job> listAllJob();
     Optional <Job> findJobByReferenceNumber(String referenceNumber);
-//    List<Job> findByCreatinDateBtween(Date startDate, Date endDate);
     List<Job> findByCreationDateBetween(Date startDate, Date endDate);
     Job saveDraft(JobDTO jobDTO);
+    void abortJob(long id);
     void proofreadByTheCustomer(long id);
-
-
 }

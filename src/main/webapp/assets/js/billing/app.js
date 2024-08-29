@@ -62,6 +62,7 @@ function loadTables(url, idContainer) {
 
  }
  
+
  function proofreadByTheCustomer(id){
 	 fetch(`job/proofread/${id}`, {
 		method: 'POST',
