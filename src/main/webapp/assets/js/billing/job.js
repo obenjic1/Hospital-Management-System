@@ -1323,14 +1323,17 @@ function submitUpdateForm(id){
      }
      
      
+
      
      function confirmAbort(id) {
 	$('#areyouSureYouWantToAbort').modal('show');
 	$('#confirmAbortBtn').click(function() {
-		deleteJob(id);
+		abortJob(id);
 	});
-}
-     function deleteJob(id){
+	}
+
+
+     function abortJob(id){
 		  fetch(`job/abortJob/${id}`, {
 			method: 'POST',
 		headers: {
@@ -1355,3 +1358,76 @@ function submitUpdateForm(id){
 
 			});
 	 }
+	 
+	 
+		  function confirmJob(id) {
+		$('#areyouSureYouWantToConfirm').modal('show');
+		$('#approveConfirmBtn').click(function() {
+		  confirm(id);
+		});
+		}
+		
+			 
+	 
+	  function confirm(id){
+		  fetch(`job/confirm/${id}`, {
+			method: 'POST',
+		headers: {
+			'Content-type': 'application/json'
+		},
+	})
+		.then( response => {	
+
+   			  if (response.ok) {
+       			sendMessage('Succes/Success', 1);
+				return loadPage("job/list-job"); 
+  			 } else if (response.status !== 200) {
+				sendMessage('Failed/Echec', 2);
+				return loadPage("job/list-job");
+
+  			 }
+		})
+		 .then(function(data) {
+
+		 })
+			.catch(function(error) {
+
+			});
+	 }
+	 
+	 
+	 
+	 
+	 function confirmApprove(id) {
+	$('#areyouSureYouWantToApprove').modal('show');
+	$('#approveBtn').click(function() {
+		approveJob(id);
+	});
+	}
+
+	 	  function approveJob(id){
+		  fetch(`job/approve/${id}`, {
+			method: 'POST',
+		headers: {
+			'Content-type': 'application/json'
+		},
+	})
+		.then( response => {	
+
+   			 if (response.ok) {
+       			sendMessage('Succes/Success', 1);
+				return loadPage("job/list-job"); 
+  			 } else if (response.status !== 200) {
+				sendMessage('Failed/Echec', 2);
+				return loadPage("job/list-job");
+
+  			 }
+		})
+		 .then(function(data) {
+
+		 })
+			.catch(function(error) {
+
+			});
+	 }
+	 

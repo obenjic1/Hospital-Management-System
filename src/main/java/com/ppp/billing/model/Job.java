@@ -133,7 +133,15 @@ public class Job {
 	@ManyToOne
 	@JoinColumn(name="status_id", nullable=false)
 	private JobStatus status;
+	
 
+	@OneToMany(mappedBy = "job", cascade = CascadeType.PERSIST)
+	private List<JobMovement> jobMovements;
+//	@OneToOne(fetch = FetchType.LAZY, orphanRemoval = true, cascade = CascadeType.PERSIST)
+//	@JoinColumn(name = "jobMovement_id", referencedColumnName = "id")
+//	private JobMovement jobMovement;
 
+	
+	
 	
 }

@@ -13,7 +13,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -38,12 +40,14 @@ import com.itextpdf.layout.Document;
 import com.itextpdf.layout.element.AreaBreak;
 import com.ppp.billing.model.BindingType;
 import com.ppp.billing.model.Customer;
+import com.ppp.billing.model.Department;
 import com.ppp.billing.model.EstimatePricing;
 import com.ppp.billing.model.Invoice;
 import com.ppp.billing.model.Job;
 import com.ppp.billing.model.JobActivity;
 import com.ppp.billing.model.JobColorCombination;
 import com.ppp.billing.model.JobEstimate;
+import com.ppp.billing.model.JobMovement;
 import com.ppp.billing.model.JobPaper;
 import com.ppp.billing.model.JobType;
 import com.ppp.billing.model.PaperFormat;
@@ -53,9 +57,12 @@ import com.ppp.billing.model.PrintType;
 import com.ppp.billing.model.PrintingMachine;
 import com.ppp.billing.model.dto.EstimateDTO;
 import com.ppp.billing.model.dto.JobDTO;
+import com.ppp.billing.model.dto.JobMovementDTO;
+import com.ppp.billing.repository.DepartmentRepository;
 import com.ppp.billing.repository.JobEstimateRepository;
 import com.ppp.billing.serviceImpl.BindingTypeserviceImpl;
 import com.ppp.billing.serviceImpl.CustomerServiceImpl;
+import com.ppp.billing.serviceImpl.DepartmentServiceImpl;
 import com.ppp.billing.serviceImpl.EstimatePricingServiceImpl;
 import com.ppp.billing.serviceImpl.InvoiceServiceImpl;
 import com.ppp.billing.serviceImpl.JobColorCombinationServiceImpl;
@@ -120,6 +127,10 @@ public class JobController {
 	
 	@Autowired
 	private JobEstimateServiceImpl jobEstimateServiceImpl;
+	
+    @Autowired
+	DepartmentServiceImpl departmentServiceImpl;
+ 
 	
 	
 //	
@@ -791,7 +802,7 @@ public class JobController {
 	}
 	
 	// Abort a Job
-	
+	@PreAuthorize("hasAuthority('ROLE_ABORT_DRAFT_OR_JOB')")
 	@PostMapping("/abortJob/{id}")
 	public String delete(@PathVariable long id) {
 		try {
@@ -1425,6 +1436,7 @@ public class JobController {
 
 
 	//<--------------------- Save DraftJob ------------------------------>
+	@PreAuthorize("hasAuthority('ROLE_REGISTER_NEW_JOB')")
 		@PostMapping(value="/save-draft", consumes=MediaType.APPLICATION_JSON_VALUE)
 		@ResponseBody
 		public String saveDraft(@RequestBody JobDTO jobDTO,Model model){
@@ -1438,6 +1450,7 @@ public class JobController {
 		}
 		
 		//<--------------------- Update DraftJob ------------------------------>
+		@PreAuthorize("hasAuthority('ROLE_EDIT_DRAFT_JOB')")
 		@PostMapping(value="/update-draft/{id}", consumes=MediaType.APPLICATION_JSON_VALUE)
 		@ResponseBody
 		public String updateDraft(@PathVariable Long id,@RequestBody JobDTO jobDTO){
@@ -1500,20 +1513,69 @@ public class JobController {
 //					}
 //				}
 				
-				// Confirm a Job
-				
+		
+		
+		@GetMapping("/confimJob/{id}")
+		public String confimDetails(@PathVariable long id, Model model) {
+			Job job = jobServiceImpl.findById(id).get();
+			List<JobPaper> jobPapers = job.getJobPapers();
+			JobPaper cover = null;
+			for(JobPaper jp : jobPapers) {
+				if(jp.getContentType().getId()==1) {
+					cover=jp;
+					jobPapers.remove(jp);
+				}
+			}
+			List<JobEstimate>  jobEstimates = job.getJobEstimates();
+			List<Invoice> invoices = new ArrayList<Invoice>();
+			
+			for (JobEstimate jobEstimate: jobEstimates) {
+				for (EstimatePricing estimatePricing: jobEstimate.getEstimatePricings()) {
+					for (Invoice invoice: estimatePricing.getInvoices()) {
+						invoices.add(invoice);
+					}
+				}
+			}
+			model.addAttribute("invoices",invoices);
+			model.addAttribute("job",job);
+			model.addAttribute("jobPapers",jobPapers);
+			model.addAttribute("coverjobPapers",cover);
+			model.addAttribute("jobEstimates",jobEstimates);
+
+	    return "/billing/confirm-job";
+		}
+		
+				// Confirm a Job 
+				@PreAuthorize("hasAuthority('ROLE_CONFIRM_JOB')")
 				@PostMapping("/confirm/{id}")
-				public String confirmJob (@PathVariable long id) {
+				public ResponseEntity<String> confirmJob (@PathVariable long id) {
 					try {
 						 Optional<Job> job = jobServiceImpl.findById(id);
 						    if (job.isPresent()) {
-						    	//jobServiceImpl.confirmJob(id);
-						    	return "KO";
+						    	jobServiceImpl.confirmJob(id);
+						    	return new ResponseEntity<String>("OK", HttpStatus.OK);
 						    }
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
-					return "KO";
+					return  new ResponseEntity<String>("KO", HttpStatus.BAD_REQUEST);
+				}
+				
+						// Approve a Job 
+				@PreAuthorize("hasAuthority('ROLE_APPROVE_JOB')")
+				@PostMapping("/approve/{id}")
+				public ResponseEntity<String> approveJob (@PathVariable long id) {
+					
+					try {
+						 Optional<Job> job = jobServiceImpl.findById(id);
+						    if (job.isPresent()) {
+						    	jobServiceImpl.approve(id);
+						    	return new ResponseEntity<String>("OK", HttpStatus.OK);
+						    }
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+					return new ResponseEntity<String>("KO", HttpStatus.BAD_REQUEST);
 				}
 
 		//<--------------------- Edit a draft job to complete job ( get the form) ------------------------------>
@@ -1552,7 +1614,7 @@ public class JobController {
 		@ResponseBody
 		public String completeDraft(@PathVariable Long id,@RequestBody JobDTO jobDTO){
 			try {
-				
+				jobServiceImpl.updateJob(jobDTO, id);
 				return "OK";
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -1570,6 +1632,40 @@ public class JobController {
 			throw e;
 		}
 	}
+	
+	//<--------------------- Get Move Job Form ------------------------------>
+	@GetMapping("/move/{id}")
+	public String moveDetails(@PathVariable long id, Model model) {
+		Job job = jobServiceImpl.findById(id).get();
+		List<JobMovement> movements = job.getJobMovements();
+		int index = movements.size()-1;
+		Department department = movements.get(index).getDepartment();
+		List<Department> departments = departmentServiceImpl.findAll();
+		JobMovement movement = movements.get(index);
+		
+		model.addAttribute("job",job);
+		model.addAttribute("departments",departments);
+		model.addAttribute("department",department);
+		model.addAttribute("movement",movement);
 
 
+    return "/billing/move-job";
+	}
+
+	//<--------------------- Move a Job Job ------------------------------>
+	@PostMapping(value="/move-job/{id}")
+	public String moveJob(@PathVariable long id, @RequestBody JobMovement jobMovement) {
+		
+		try {
+			//Job job = jobServiceImpl.findById(id).get();
+
+			
+			return "OK";
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+	
+		return "KO";
+
+	}
 }
