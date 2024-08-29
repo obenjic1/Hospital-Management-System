@@ -32,9 +32,7 @@
 				<div class="card">
 					<div class="card-body">
 						<h5 class="card-title"><fmt:message key="job.management"/></h5>
-<!-- 						<button onclick="loadPage('job/displayform')"  data-toggle="tooltip" data-placement="top" title="create new job"  style="width: 120px;position: relative; left: 91.5%" type="button" class="btn btn-primary"> -->
-<%-- 						  <fmt:message key="add.group"/> --%>
-<!-- 						</button> -->
+
 						<div class="row" style="position: relative; left:  42.5%;margin:13px">
 							<div class="col-sm-4"><button onclick="loadPage('job/displayform')"  data-toggle="tooltip" data-placement="top" title=" new job"  style="width: 100px;position: relative; margin-bottom:10px;left: 130.5%" type="button" class="btn btn-outline-primary"> New job</button>
 							</div>
