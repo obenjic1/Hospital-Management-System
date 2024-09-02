@@ -446,14 +446,7 @@ public class JobServiceImpl implements JobService {
 		Job job = jobRepository.findById(id).get();
 		JobStatus status = jobStatusRepository.findById(5).get();
 		job.setStatus(status);
-		
-		List<JobTracking> jobTrackings =job.getJobTrackings() ;
-		JobTracking tracking = new JobTracking();
-		tracking.setCreationDate(new Date());
-		tracking.setOperation("Aborted Job");
-		jobTrackings.add(tracking);
-		tracking.setJob(job);
-		job.setJobTrackings(jobTrackings);
+
 		jobRepository.saveAndFlush(job);
 	}
 				// Mark Job has been proofreaded 
@@ -463,13 +456,6 @@ public class JobServiceImpl implements JobService {
 			Job job =jobRepository.findById(id).get();
 			if(job.getStatus().getName().equals("Registered")||job.getStatus().getName().equals("Confrimed")||job.getStatus().getName().equals("Approved"))
 				job.setProofread(true);
-			List<JobTracking> jobTrackings =job.getJobTrackings() ;
-			JobTracking tracking = new JobTracking();
-			tracking.setCreationDate(new Date());
-			tracking.setOperation("Proof read Job");
-			jobTrackings.add(tracking);
-			tracking.setJob(job);
-			job.setJobTrackings(jobTrackings);
 			jobRepository.save(job);
 		} catch (Exception e) {
 			throw e;
@@ -498,7 +484,7 @@ public class JobServiceImpl implements JobService {
 			job.setStatus(status);
 			jobRepository.saveAndFlush(job);
 		}
-		
+	
 	}
 	
 }

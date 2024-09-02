@@ -68,6 +68,7 @@ import com.ppp.billing.serviceImpl.EstimatePricingServiceImpl;
 import com.ppp.billing.serviceImpl.InvoiceServiceImpl;
 import com.ppp.billing.serviceImpl.JobColorCombinationServiceImpl;
 import com.ppp.billing.serviceImpl.JobEstimateServiceImpl;
+import com.ppp.billing.serviceImpl.JobMovermentServiceImpl;
 import com.ppp.billing.serviceImpl.JobPaperServiceImpl;
 import com.ppp.billing.serviceImpl.JobServiceImpl;
 import com.ppp.billing.serviceImpl.JobTypeServiceImpl;
@@ -131,6 +132,9 @@ public class JobController {
 	
     @Autowired
 	DepartmentServiceImpl departmentServiceImpl;
+    
+    @Autowired
+    JobMovermentServiceImpl jobMovermentServiceImpl;
  
 	
 	
@@ -1655,17 +1659,16 @@ public class JobController {
 
 	//<--------------------- Move a Job Job ------------------------------>
 	@PostMapping(value="/move-job/{id}")
-	public String moveJob(@PathVariable long id, @RequestBody JobMovement jobMovement) {
+	public ResponseEntity<String> moveJob(@PathVariable long id, @RequestBody JobMovementDTO jobMovementDTO) {
 		
 		try {
-
-			
-			return "OK";
+			jobMovermentServiceImpl.movejob(id, jobMovementDTO);
+			return new ResponseEntity<String>("OK", HttpStatus.OK);
 		} catch (Exception e) {
-			// TODO: handle exception
+			e.printStackTrace();
 		}
 	
-		return "KO";
+		return new ResponseEntity<String>("KO", HttpStatus.BAD_REQUEST);
 
 	}
 	
@@ -1675,6 +1678,11 @@ public class JobController {
 			Job job = jobServiceImpl.findById(id).get();
 			List<JobTracking> jobTrackings = job.getJobTrackings();
 
+			for (JobTracking tracking : jobTrackings) {
+				
+				System.out.println(tracking.getOperation());
+			}
+			
 			model.addAttribute("job",job);
 			model.addAttribute("jobTrackings",jobTrackings);
 

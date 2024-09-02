@@ -26,9 +26,11 @@
 						</thead>
 								<tbody>
 								 <c:forEach var="jobTracking" items="${jobTrackings}" varStatus="loop">
-									<td>${jobTracking.creationDate}</td>
+								 <tr>
+								  <td><a><fmt:formatDate type = "both" value = "${jobTracking.creationDate}" /></a></td>
 								    <td>${jobTracking.user.username}</td>
 								    <td>${jobTracking.operation}</td>
+								  </tr>
 								 </c:forEach>
 								</tbody>
 				</table>

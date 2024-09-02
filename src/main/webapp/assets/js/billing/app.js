@@ -78,9 +78,11 @@ function loadTables(url, idContainer) {
  function moveJob(id){
 	 var department = document.getElementById('department').value;
 	 var description = document.getElementById('description').value;
+	 
 	var job = {
-		department :department,
+		
 		description: description,
+		department :department,
 		}
 		
 		fetch(`job/move-job/${id}`, {
