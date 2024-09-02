@@ -291,7 +291,6 @@ public class JobServiceImpl implements JobService {
 		newJob.setJobMovements(movements);
 		
 		
-		
 		JobStatus status = jobStatusRepository.findById(1).get();
 		newJob.setStatus(status);
 		jobRepository.saveAndFlush(newJob);

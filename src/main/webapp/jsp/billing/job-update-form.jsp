@@ -642,7 +642,7 @@
                	</div>
                	
                	<!-- <--------------------TAB 5 BEGINS HERE----------------------------------------------------------------------->  
-                          <div class="tab-pane fade" id="tab5" role="tabpanel" aria-labelledby="contact-tab">
+              <div class="tab-pane fade" id="tab5" role="tabpanel" aria-labelledby="contact-tab">
                 <div class="container" style="position: relative;bottom: -20px;" >
        				<h4><fmt:message key="job.description"/></h4>
        				<hr>
@@ -792,14 +792,15 @@
 				      <button type="button" style="float:left" class="btn btn-primary" onclick="navigate(5,4);removeRows()"> <fmt:message key="previews"/></button>	
 				     </div>
 			         <div class ="col-sm-6">
-			         <button   type="button" style="width:125px;float:right"  class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#creation" id="next-btn1" onclick="navigate(4,5); submitForm()"><fmt:message key="submit"/></button>			
+			         <button   type="button" style="width:125px;float:right"  class="btn btn-primary" id="next-btn1" onclick="navigate(4,5); submitUpdateForm('${job.id}')"><fmt:message key="submit"/></button>			
 			        </div>
 			        </div>
                	</div>
                	<!-- <--------------------tab 5 ends ----------------------------------------------------------------------->  
                	</div>
                	</div>
-               </form>  
+               	
+             </form>  
             </div>
          </div>
       </div>

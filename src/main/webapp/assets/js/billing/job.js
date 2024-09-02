@@ -1036,8 +1036,8 @@ function submitUpdateForm(id){
 		 let coverJobPaper = { };
 	  coverJobPaper.grammage = document.getElementById("coverGrammage").value;
 	  coverJobPaper.volume = document.getElementById("coverVolume").value;
-	//  coverJobPaper.paperTypeId = document.getElementById("coverPaperType").value;
-	  coverJobPaper.contentTypeId = 1;
+	  coverJobPaper.paperTypeId = document.getElementById("coverPaperType").value;
+	 // coverJobPaper.contentTypeId = 1;
 	  coverJobPaper.paperUnitPrice = document.getElementById("coverPaperUnitPrice").value;
 	  
 	  let coverColorCombinations = [];
@@ -1231,7 +1231,6 @@ function submitUpdateForm(id){
 			{
 			document.getElementById("cover-pages").innerHTML= document.getElementById("volumeOfCover").value;
 			document.getElementById("content-pages").innerHTML= document.getElementById("volumeOfContent").value;
-
 			//document.getElementById("cover-paper-to-update").innerHTML=document.getElementById("coverPaperType").selectedOptions[0].innerHTML;
 			
 
