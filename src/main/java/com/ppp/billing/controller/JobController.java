@@ -49,6 +49,7 @@ import com.ppp.billing.model.JobColorCombination;
 import com.ppp.billing.model.JobEstimate;
 import com.ppp.billing.model.JobMovement;
 import com.ppp.billing.model.JobPaper;
+import com.ppp.billing.model.JobTracking;
 import com.ppp.billing.model.JobType;
 import com.ppp.billing.model.PaperFormat;
 import com.ppp.billing.model.PaperGrammage;
@@ -1638,10 +1639,10 @@ public class JobController {
 	public String moveDetails(@PathVariable long id, Model model) {
 		Job job = jobServiceImpl.findById(id).get();
 		List<JobMovement> movements = job.getJobMovements();
-		int index = movements.size()-1;
-		Department department = movements.get(index).getDepartment();
+//		int index = movements.size()-1;
+		Department department = movements.get(movements.size()-1).getDepartment();
 		List<Department> departments = departmentServiceImpl.findAll();
-		JobMovement movement = movements.get(index);
+		JobMovement movement = movements.get(movements.size()-1);
 		
 		model.addAttribute("job",job);
 		model.addAttribute("departments",departments);
@@ -1656,10 +1657,7 @@ public class JobController {
 	@PostMapping(value="/move-job/{id}")
 	public String moveJob(@PathVariable long id, @RequestBody JobMovement jobMovement) {
 		
-		System.out.println(jobServiceImpl.findById(id).get().getTitle());
-	//	System.out.println(jobMovement.getDepartment().getName());
 		try {
-			//Job job = jobServiceImpl.findById(id).get();
 
 			
 			return "OK";
@@ -1670,4 +1668,16 @@ public class JobController {
 		return "KO";
 
 	}
+	
+	//<--------------------- Get Move Job Form ------------------------------>
+		@GetMapping("/history/{id}")
+		public String historyDetails(@PathVariable long id, Model model) {
+			Job job = jobServiceImpl.findById(id).get();
+			List<JobTracking> jobTrackings = job.getJobTrackings();
+
+			model.addAttribute("job",job);
+			model.addAttribute("jobTrackings",jobTrackings);
+
+	    return "/billing/history";
+		}
 }

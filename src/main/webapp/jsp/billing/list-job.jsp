@@ -129,6 +129,9 @@
 									<c:if test="${job.status.id<5}">
 								    <option data-toggle="tooltip" data-placement="top" title="archive a job" onclick="confirmAbort(${job.id})">Abort</option>
 								    </c:if>  
+								     <option data-bs-toggle="modal" data-bs-target="#ExtralargeModal" onclick="loadDynamicPageModal('job/history/${job.id}');">History</option>
+								    
+								    
 					              </select>
 					              
 							  </td>

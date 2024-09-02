@@ -1,5 +1,6 @@
 package com.ppp.billing.model;
 
+
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -27,7 +28,7 @@ public class JobTracking {
 	private long id;
 	
 	@Column(name = "operation")
-	private Date operation;
+	private String operation;
 	
 	@Column(name="creation_date")
 	private Date creationDate;
@@ -37,4 +38,8 @@ public class JobTracking {
 	@JoinColumn(name = "user_id", referencedColumnName = "id")
 	private User user;
 
+	
+	@ManyToOne
+	@JoinColumn(name = "job_id", referencedColumnName = "id")
+	private Job  job;
 }
