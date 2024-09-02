@@ -817,43 +817,7 @@ public class JobController {
 		return "KO";
 	}
 	
-	// to get the update page of job
 	
-		@GetMapping("/update-form/{id}")
-		public String getUpdateForm(@PathVariable Long id, Model model) {
-			List<Customer> customerResult = customerServiceImpl.findAll();
-			List<JobType> jobTypeResult = jobTypeServiceImpl.findAll();
-			List<PaperFormat> paperFormatResult = paperFormatServiceImpl.findAll();
-			List<JobPaper> jobPaperResult = jobPaperServiceImpl.findAll();
-			List<PaperType>  paperTypeResult = paperTypeServiceImpl.listAll();
-			List<PrintingMachine> printingMachineResult = printingMachineServiceImpl.listMachines();
-			List<PrintType> printTypeResult = printTypeServiceImpl.findAll();
-			List<JobColorCombination> jobColorCombinationResult = jobColorCombinationServiceImpl.findAll();
-			List<PaperGrammage> paperGrammageResult = paperGrammageServiceImpl.findAll();
-			List<BindingType> bindingTypeResult = bindingTypeserviceImpl.listAll();
-			
-			Job existingJob = jobServiceImpl.findById(id).get();
-			JobPaper contentJobPaper = existingJob.getJobPapers().get(1);
-			JobPaper existingJobPaper = existingJob.getJobPapers().remove(0);
-			JobColorCombination covercolourCombination = existingJobPaper.getJobColorCombinations().get(0);
-			JobActivity jobActivity = existingJob.getJobActivity();
-			model.addAttribute("job", existingJob);
-			model.addAttribute("customers", customerResult);
-			model.addAttribute("jobTypes", jobTypeResult);
-			model.addAttribute("paperFormats", paperFormatResult);
-			model.addAttribute("bindingTypes", bindingTypeResult);
-			model.addAttribute("coverJobPaper", existingJobPaper);
-			model.addAttribute("jobPaperResults", jobPaperResult);
-			model.addAttribute("paperTypes", paperTypeResult);
-			model.addAttribute("printingMachines", printingMachineResult);
-			model.addAttribute("printTypes", printTypeResult);
-			model.addAttribute("jobColorCombinations", jobColorCombinationResult);
-			model.addAttribute("paperGrammages", paperGrammageResult);
-			model.addAttribute("covercolourCombination", covercolourCombination);
-			model.addAttribute("jobActivity", jobActivity);
-
-		    return "/billing/job-update-form";
-		}
 		// to get the update page of job
 		
 		@PreAuthorize("hasAuthority('ROLE_REGISTER_NEW_JOB')")
@@ -872,6 +836,7 @@ public class JobController {
 			model.addAttribute("paperFormats", paperFormatResult);
 			model.addAttribute("jobPaperResults", jobPaperResult);
 			model.addAttribute("paperTypes", paperTypeResult);
+			
 		    return "/billing/draft-update-form";
 		}
 
@@ -1464,7 +1429,6 @@ public class JobController {
 		}
 
 
-//<<<<<<< HEAD
 //			//<--------------------- Edit a draft job to complete job ( get the form) ------------------------------>
 //			
 //			
@@ -1577,9 +1541,13 @@ public class JobController {
 					}
 					return new ResponseEntity<String>("KO", HttpStatus.BAD_REQUEST);
 				}
-
+				
+				
+			/*
+			 * Function Update Draft	
+			 */
+				
 		//<--------------------- Edit a draft job to complete job ( get the form) ------------------------------>
-		
 		@GetMapping("/get-complete-draft-form/{id}")
 		public String completeDraftToJob(@PathVariable Long id, Model model) {
 			List<Customer> customerResult = customerServiceImpl.findAll();
@@ -1604,8 +1572,7 @@ public class JobController {
 			model.addAttribute("printingMachines", printingMachineResult);
 			model.addAttribute("printTypes", printTypeResult);
 			model.addAttribute("bindingTypes", bindingTypeResult);
-
-
+			
 		    return "/billing/job-update-form";
 		}
 		
@@ -1622,17 +1589,95 @@ public class JobController {
 			}
 		}
 		
+		
+		/*
+		 * Mark Job as Proofread
+		 */
+	
 	@PreAuthorize("hasAuthority('ROLE_REGISTER_NEW_JOB')")	
 	@PostMapping("/proofread/{id}")
 	public String proofreadByTheCustomer(@PathVariable long id) {
 		try {
 			 jobServiceImpl.proofreadByTheCustomer(id);
-			 return "billing/list-job";
+			 return "OK";
 		} catch (Exception e) {
-			throw e;
+			 e.printStackTrace();
+			 return "KO";
 		}
 	}
 	
+
+	// to get the update page of job
+	
+			@GetMapping("/update-form/{id}")
+			public String getUpdateForm(@PathVariable Long id, Model model) {
+				List<Customer> customerResult = customerServiceImpl.findAll();
+				List<JobType> jobTypeResult = jobTypeServiceImpl.findAll();
+				List<PaperFormat> paperFormatResult = paperFormatServiceImpl.findAll();
+				List<JobPaper> jobPaperResult = jobPaperServiceImpl.findAll();
+				List<PaperType>  paperTypeResult = paperTypeServiceImpl.listAll();
+				List<PrintingMachine> printingMachineResult = printingMachineServiceImpl.listMachines();
+				List<PrintType> printTypeResult = printTypeServiceImpl.findAll();
+				List<JobColorCombination> jobColorCombinationResult = jobColorCombinationServiceImpl.findAll();
+				List<PaperGrammage> paperGrammageResult = paperGrammageServiceImpl.findAll();
+				List<BindingType> bindingTypeResult = bindingTypeserviceImpl.listAll();
+				
+				Job existingJob = jobServiceImpl.findById(id).get();			
+				for(int i =1; i< existingJob.getJobPapers().size(); i++) {
+					JobPaper contentJobPaper = existingJob.getJobPapers().get(i);
+					for(int j= 0; j< existingJob.getJobPapers().get(i).getJobColorCombinations().size(); j++) {
+						PrintingMachine contentPrintingMachine = existingJob.getJobPapers().get(i).getJobColorCombinations().get(j).getPrintingMachine();
+						JobColorCombination colorCombin = existingJob.getJobPapers().get(i).getJobColorCombinations().get(j);
+						model.addAttribute("contentPrintingMachine", contentPrintingMachine);
+						model.addAttribute("colorCombin", colorCombin);
+					}
+					PaperType contentPaperType = existingJob.getJobPapers().get(i).getPaperType();
+					model.addAttribute("contentPaperType", contentPaperType);
+					model.addAttribute("contentJobPaper", contentJobPaper);
+				}
+				
+				JobPaper existingJobPaper = existingJob.getJobPapers().remove(0);
+				JobColorCombination covercolourCombination = existingJobPaper.getJobColorCombinations().get(0);
+				JobActivity jobActivity = existingJob.getJobActivity();
+				int jobActivit = existingJob.getJobActivity().getXPerforated();
+				int numbered = existingJob.getJobActivity().getXNumbered();
+				int creased = existingJob.getJobActivity().getXCreased();
+				int wireStiched = existingJob.getJobActivity().getXWiredStiched();
+				int cross = existingJob.getJobActivity().getXCross();
+				int handFoldCov = existingJob.getJobActivity().getHandFoldingCov();
+				model.addAttribute("job", existingJob);
+				model.addAttribute("customers", customerResult);
+				model.addAttribute("jobTypes", jobTypeResult);
+				model.addAttribute("paperFormats", paperFormatResult);
+				model.addAttribute("bindingTypes", bindingTypeResult);
+				model.addAttribute("coverJobPaper", existingJobPaper);
+				model.addAttribute("jobPaperResults", jobPaperResult);
+				model.addAttribute("paperTypes", paperTypeResult);
+				model.addAttribute("printingMachines", printingMachineResult);
+				model.addAttribute("printTypes", printTypeResult);
+				model.addAttribute("jobColorCombinations", jobColorCombinationResult); 
+				model.addAttribute("paperGrammages", paperGrammageResult);
+				model.addAttribute("covercolourCombination", covercolourCombination);
+				model.addAttribute("jobActivity", jobActivity);
+				model.addAttribute("numbered", numbered);
+				model.addAttribute("creased", creased);
+				model.addAttribute("wireStiched", wireStiched);
+				model.addAttribute("cross", cross);
+				model.addAttribute("jobActivit", jobActivit);
+				model.addAttribute("handFoldCov", handFoldCov);
+				
+			    return "/billing/job-update-form";
+			}
+
+			@PostMapping(value = "/update-job/{id}")
+			public String updateJobForm(@PathVariable long id, @RequestBody JobDTO jobDTO) {
+				try {
+					jobServiceImpl.updateJob(jobDTO, id);
+					return "/billing/list-job"; 
+				} catch (Exception e) {
+					throw e;
+				}
+			}
 	//<--------------------- Get Move Job Form ------------------------------>
 	@GetMapping("/move/{id}")
 	public String moveDetails(@PathVariable long id, Model model) {
@@ -1651,7 +1696,7 @@ public class JobController {
 
     return "/billing/move-job";
 	}
-
+	
 	//<--------------------- Move a Job Job ------------------------------>
 	@PostMapping(value="/move-job/{id}")
 	public String moveJob(@PathVariable long id, @RequestBody JobMovement jobMovement) {
