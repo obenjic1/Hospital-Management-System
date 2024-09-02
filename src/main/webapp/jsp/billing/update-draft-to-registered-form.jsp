@@ -571,15 +571,6 @@
                   </div>
 				</div>	
 				 <div class="row py-4">
-<!-- 				<div class ="col-lg-3 px8" > -->
-<%-- 				  <label for="" class="form-label"><fmt:message key="glued.option"/></label>  --%>
-<!-- 				  <select id="glueingOption" name="name" class="form-select"> -->
-<!-- 				    <option value="0" selected>Choose...</option> -->
-<%-- 				    <option value="left"><fmt:message key="left.side"/></option> --%>
-<%-- 				   <option value="head"><fmt:message key="head"/></option> --%>
-<%-- 				   <option value="glue-bound"><fmt:message key="glue.bound"/></option> --%>
-<!-- 		         </select> -->
-<!-- 			   </div> -->
 			     <div class ="col-lg-3 px8" style="position: relative; left:10px;">
 			   <label for="" class="form-label"><a><fmt:message key="binding.type"/></a></label> 
 			      <select id="bindingType" name="name" class="form-select">

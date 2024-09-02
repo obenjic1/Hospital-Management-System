@@ -360,10 +360,12 @@ public class JobServiceImpl implements JobService {
 	}
 
 	
-	
+	/*
+	 * Function That is Use to update Job And Draft
+	 */
 	public Job updateJob(JobDTO jobDTO, long id) {
 		Job newJob =jobRepository.findById(id).get();
-		newJob.setTitle(jobDTO.getTitle());
+		newJob.setTitle(jobDTO.getTitle().toUpperCase());
 		newJob.setContentVolume(jobDTO.getContentVolume());
 		newJob.setCoverVolume(jobDTO.getCoverVolume());
 		newJob.setOpenLength(jobDTO.getOpenLength());
@@ -375,10 +377,17 @@ public class JobServiceImpl implements JobService {
 		newJob.setDataSuppliedByCustomer(jobDTO.isDataSuppliedByCustomer());
 		newJob.setLayOutByUs(jobDTO.isLayOutByUs());
 		newJob.setTypesettingByUs(jobDTO.isTypesettingByUs());
-		
+		newJob.setCreationDate(new Date());
+		Optional<Customer> customer = customerRepository.findById(jobDTO.getCustomerId());
+		if(customer.isPresent())
+		newJob.setCustomer(customer.get());
+		JobType jobType = jobTypeRepository.findById(jobDTO.getJobTypeId()).get();
+		newJob.setJobType(jobType);
 		JobStatus status = jobStatusRepository.findById(2).get();
 		newJob.setStatus(status);
 		
+
+
 		JobActivityOptionDTO jobdto = jobDTO.getJobActivities();
 		JobActivity activity = newJob.getJobActivity();
 		activity.setXPerforated(jobdto.getxPerforated());
