@@ -259,17 +259,25 @@
                 </div>
              <c:if test="${job.proofread=='true'}">
              <div class ="row py-3 "style="margin-top:50px" >
-	        	<div class ="col-sm-12">
-	       		   <c:if test="${job.proofread=='true'&&job.status.name=='Confrimed'}">
-	       		 	<span   style ="width:125px;float:right;font-family: bold; font-size: 16px;"  class="" id=""> Job Confirmed</span>	
-	       		 	 </c:if>
-	       		 	 <c:if test="${job.proofread=='true'&&job.status.name=='Approved'}">
-	       		 	<span   style ="width:155px;float:right;font-family: bold; font-size: 16px;" class="outline-primary" id=""> Job Approved</span>	
-	       		 	 </c:if>
-	        	</div>
+		     	<div class ="col-sm-6">
+		     		 <button type="button" style ="width:125px;float:left" class="btn btn-outline-danger" onClick="loadPageModalForm('job/update-form/${job.id}');"><fmt:message key="edit"/></button>	
+		    	</div>
+		    	
+	        	<div class ="col-sm-6">
+		        	 <c:if test="${job.proofread=='true'&&job.status.name=='Registered'}">
+		       		 	<button type="button"  style ="width:125px;float:right" onclick="confirmJob(${job.id})"  class="btn btn-outline-primary" id=""><fmt:message key="confirm"/></button>	
+		       		 </c:if>
+		       		 <c:if test="${job.proofread=='true'&&job.status.name=='Confrimed'}">
+		       		 	<button type="button"  style ="width:125px;float:right" onclick="confirmApprove(${job.id})"  class="btn btn-outline-primary" id=""><fmt:message key="approve"/></button>	
+		       		 </c:if>
+	       		 </div>
 	     	</div>
-	     	</c:if> 
+	     	</c:if>
+	
+                
 			</div>
+			
+
 			</div>
 			
             </div>

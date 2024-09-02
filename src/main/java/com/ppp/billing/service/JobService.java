@@ -16,4 +16,7 @@ public interface JobService {
     Job saveDraft(JobDTO jobDTO);
     void abortJob(long id);
     void proofreadByTheCustomer(long id);
+    void confirmJob(long id);
+    void approve(long id);
+    
 }

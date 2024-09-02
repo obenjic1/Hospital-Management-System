@@ -327,12 +327,11 @@ function submitForm(){
            },
 		})
 		.then( response => {	
-
    			 if (response.status === 200) {
-       			sendMessage('Succes/Success', 1);
+       			Swal.fire("Succes/Success!", "You clicked the button!", "success")
 			return loadPage("job/list-job");				
    			 } else if (response.status !== 200) {
-				sendMessage('Failed / Echec', 2);
+				Swal.fire({  icon: "error", title: "Oops...", text: "Something went wrong!"});
   			 }
 		})
 		 .then(function(data) {
@@ -341,7 +340,6 @@ function submitForm(){
 			.catch(function(error) {
 
 			});
-	 	 
 	}
      
      
@@ -890,6 +888,13 @@ function updateDraft(id){
 
 			});
 			}
+
+
+
+	/*
+	*  Summary To update Draft
+	*/
+
 function summaryDraftUpdate(){
 
 	let opt=document.getElementById("jobType").selectedOptions[0];	
@@ -938,7 +943,8 @@ function summaryDraftUpdate(){
 			document.getElementById("cover-pages").innerHTML= document.getElementById("volumeOfCover").value;
 			document.getElementById("content-pages").innerHTML= document.getElementById("volumeOfContent").value;
 
-			document.getElementById("cover-paper").innerHTML= document.getElementById("coverPaperType").selectedOptions[0].innerHTML;
+			document.getElementById("cover-paper").innerHTML= document.getElementById("coverPaperType").value;
+//			   selectedOptions[0].innerHTML;
 			document.getElementById("cover-volume").innerHTML= document.getElementById("coverVolume").value;
 			document.getElementById("cover-grammage").innerHTML= document.getElementById("coverGrammage").value;
 						
@@ -972,7 +978,9 @@ function summaryDraftUpdate(){
 }
 }
 
-
+	/*
+	*
+	*/
 function submitUpdateForm(id){
 	 let opt=document.getElementById("jobType").selectedOptions[0];	
 	 let dataContentValue = opt.parentElement.getAttribute('data-content');
@@ -1101,12 +1109,10 @@ function submitUpdateForm(id){
            },
 		})
 		.then( response => {	
-
    			 if (response.status === 200) {
-       			sendMessage('Succes/Success', 1);
-			return loadPage("job/list-job");				
-   			 } else if (response.status !== 200) {
-				sendMessage('Failed / Echec', 2);
+       			Swal.fire("Succes/Success!", "Job Updated / Job mis a jour", "success")
+   			 } else if (response.status) {
+				Swal.fire({  icon: "error", title: "Oops...", text: "Something went wrong!"});
   			 }
 		})
 		 .then(function(data) {
@@ -1117,6 +1123,15 @@ function submitUpdateForm(id){
 			});
 	 	 
 	}
+	
+	
+	
+	
+	
+	
+	/*
+	** Update Job function
+	*/
 	
  function summaryUpdate(){
 		
@@ -1217,11 +1232,11 @@ function submitUpdateForm(id){
 			document.getElementById("cover-pages").innerHTML= document.getElementById("volumeOfCover").value;
 			document.getElementById("content-pages").innerHTML= document.getElementById("volumeOfContent").value;
 
-			document.getElementById("cover-paper").innerHTML=document.getElementById("coverPaperType").selectedOptions[0].innerHTML;
+			//document.getElementById("cover-paper-to-update").innerHTML=document.getElementById("coverPaperType").selectedOptions[0].innerHTML;
 			
 
 			//selectedOptions[0].innerHTML;;
-		//	document.getElementById("coverPaperType").selectedOptions[0].innerHTML;
+			//document.getElementById("coverPaperType").selectedOptions[0].innerHTML;
 			document.getElementById("cover-volume").innerHTML= document.getElementById("coverVolume").value;
 			document.getElementById("cover-grammage").innerHTML= document.getElementById("coverGrammage").value;
 						
@@ -1323,14 +1338,17 @@ function submitUpdateForm(id){
      }
      
      
+
      
      function confirmAbort(id) {
 	$('#areyouSureYouWantToAbort').modal('show');
 	$('#confirmAbortBtn').click(function() {
-		deleteJob(id);
+		abortJob(id);
 	});
-}
-     function deleteJob(id){
+	}
+
+
+     function abortJob(id){
 		  fetch(`job/abortJob/${id}`, {
 			method: 'POST',
 		headers: {
@@ -1355,3 +1373,76 @@ function submitUpdateForm(id){
 
 			});
 	 }
+	 
+	 
+		  function confirmJob(id) {
+		$('#areyouSureYouWantToConfirm').modal('show');
+		$('#approveConfirmBtn').click(function() {
+		  confirm(id);
+		});
+		}
+		
+			 
+	 
+	  function confirm(id){
+		  fetch(`job/confirm/${id}`, {
+			method: 'POST',
+		headers: {
+			'Content-type': 'application/json'
+		},
+	})
+		.then( response => {	
+
+   			  if (response.ok) {
+       			sendMessage('Succes/Success', 1);
+				return loadPage("job/list-job"); 
+  			 } else if (response.status !== 200) {
+				sendMessage('Failed/Echec', 2);
+				return loadPage("job/list-job");
+
+  			 }
+		})
+		 .then(function(data) {
+
+		 })
+			.catch(function(error) {
+
+			});
+	 }
+	 
+	 
+	 
+	 
+	 function confirmApprove(id) {
+	$('#areyouSureYouWantToApprove').modal('show');
+	$('#approveBtn').click(function() {
+		approveJob(id);
+	});
+	}
+
+	 	  function approveJob(id){
+		  fetch(`job/approve/${id}`, {
+			method: 'POST',
+		headers: {
+			'Content-type': 'application/json'
+		},
+	})
+		.then( response => {	
+
+   			 if (response.ok) {
+       			sendMessage('Succes/Success', 1);
+				return loadPage("job/list-job"); 
+  			 } else if (response.status !== 200) {
+				sendMessage('Failed/Echec', 2);
+				return loadPage("job/list-job");
+
+  			 }
+		})
+		 .then(function(data) {
+
+		 })
+			.catch(function(error) {
+
+			});
+	 }
+	 

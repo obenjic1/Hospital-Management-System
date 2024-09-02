@@ -46,7 +46,7 @@
 				  <div id="loadInputForCustomerNewlyCreated" class ="col-lg-3 px8">					 
 				   <label for="" class="form-label"><a> <fmt:message key="customer"/> </a></label>
 				   <select id="customer"  class="form-select" >
-				   	<option selected>${job.customer.name}</option>
+				   	<option value="${job.customer.id}" selected>${job.customer.name}</option>
 	                 <c:forEach items="${customers}" var="customer">
 	                   <option value="${customer.id}">${customer.name}</option>
 	                 </c:forEach>
@@ -57,7 +57,7 @@
 					<select onchange="jobTypeChoice(this.selectedOptions[0])"  id="jobType" name="jobType" class="form-select" >
 					  <option>Choose...</option>
 					  <optgroup label="<fmt:message key="job.category.folded.two"/>" data-content="2">
-					  <option selected>${job.jobType.name}</option>
+					  <option value="${job.jobType.id}" selected >${job.jobType.name}</option>
 					  <c:forEach items="${jobTypes}" var="jobType">
 					   <option value="${jobType.id}" >${job.jobType.name}</option>
 					  <c:if test="${jobType.category==2}">
@@ -189,19 +189,19 @@
 			  <div class ="col-lg-3 px8" >
 			   <label for="" class="form-label"><a> <fmt:message key="cover.paper.type"/></a></label> 
 			   <select coverPaperType name="name" class="form-select">
-				 <c:forEach items="${paperTypes}" var="paperType">
-                   <option value="${paperType.id}">${paperType.name}</option>
+				 <c:forEach items="${paperTypes}" var="paperTypeToUpdate">
+                   <option value="${paperTypeToUpdate.id}">${paperTypeToUpdate.name}</option>
                  </c:forEach>
                </select>
 			 </div>
 			 <div class ="col-lg-3 px8" style="position: relative; left:10px;">
 			   <label for="" class="form-label"><a><fmt:message key="grammage"/></a> </label>
 			   <input style="postion-relative-left:2px;position: relative;left: 10px;" value="${coverJobPaper.grammage}" list="coverGrammage" id="coverGrammage" name="xx">
-					   <datalist id="coverGrammage">
-	                    <c:forEach items="${paperGrammages}" var="paperGrammage"> 
-                     <option value="${paperGrammage.value}"></option> 
-                    </c:forEach> 
-	                   </datalist>  
+			   <datalist id="coverGrammage">
+                   <c:forEach items="${paperGrammages}" var="paperGrammage"> 
+                   <option value="${paperGrammage.value}"></option> 
+                  </c:forEach> 
+                </datalist>  
               </div>
 			  <div class ="col-lg-3 px8" style="position: relative; left: 10px;">
 			    <label for="" class="form-label"><a><fmt:message key="cover.volume"/></a></label>
@@ -254,7 +254,7 @@
 			    <label for="" class="form-label"><a><fmt:message key="content.paper.type"/> </a> </label>
 				<select contentPaperType name="name" class="form-select">
 					 <option >Choose...</option>
-					 <option selected>${contentPaperType.name}</option>
+					 <option value="${contentPaperType.id}" selected>${contentPaperType.name}</option>
 			  <c:forEach items="${paperTypes}" var="paperType">
                     <option value="${paperType.id}">${paperType.name}</option>
                   </c:forEach>
@@ -482,7 +482,7 @@
 				  <label for="" class="form-label"><fmt:message key="printing.machine"/></label> 
 				  <select  contentPrintingMachine name="name" class="form-select"  onchange="signatureCalculation(this.value,this.parentNode.parentNode.parentNode)">
 				   		<option >Choose...</option>
-				   		 <option selected>${contentPrintingMachine.name}</option>
+				   		 <option value="${contentPrintingMachine.id}" selected>${contentPrintingMachine.name}</option>
 				    <c:forEach items="${printingMachines}" var="printingMachine">
 		                <option value="${printingMachine.id},${printingMachine.plateLength},${printingMachine.plateWidth}">${printingMachine.name}</option>
 		            </c:forEach>
@@ -580,7 +580,7 @@
 			     <div class ="col-lg-3 px8" style="position: relative; left:10px;">
 			   <label for="" class="form-label"><a><fmt:message key="binding.type"/></a></label> 
 			      <select id="bindingType" name="name" class="form-select">
-			        <option selected>${jobActivity.bindingType.name}</option>
+			        <option value="${jobActivity.bindingType.id}" selected>${jobActivity.bindingType.name}</option>
 					<c:forEach items="${bindingTypes}" var="bindingTyp">
                       <option value="${bindingTyp.id}">${bindingTyp.name}</option>
                     </c:forEach>
@@ -634,9 +634,7 @@
 				     </div>
 			         <div class ="col-sm-6">
 			         <button type="button" style="width:125px;float:right"  class="btn btn-primary" id="next-btn1" onclick="navigate(4,5),summaryUpdate()"><fmt:message key="next"/></button>			
-			        </div>
-			        
-			        
+			        </div>			        
 <!-- 			         <div class ="col-sm-6">  -->
 <%-- 				      <button type="button" style="float:left" class="btn btn-primary" onclick="navigate(4,3);"> <fmt:message key="previews"/></button>	 --%>
 <!-- 				     </div> -->
@@ -644,139 +642,115 @@
                	</div>
                	
                	<!-- <--------------------TAB 5 BEGINS HERE----------------------------------------------------------------------->  
-             <div class="tab-pane fade" id="tab5" role="tabpanel" aria-labelledby="contact-tab">
+                          <div class="tab-pane fade" id="tab5" role="tabpanel" aria-labelledby="contact-tab">
                 <div class="container" style="position: relative;bottom: -20px;" >
-       				<h4>Job Description</h4>
+       				<h4><fmt:message key="job.description"/></h4>
        				<hr>
 					  <div class="row">
 					 	 <div class="row">
-					      <div class="col-sm-4">
-					    	The Type of Job : <span id="job-type"> </span>
+					      <div class="col-sm-4"><fmt:message key="the.type.of.job"/>  : <span id="job-type"> </span>
 					      </div>
-					      <div class="col-sm-4">
-					    	 Title of Job : <span id="job-title"> </span> 
+					      <div class="col-sm-4"><fmt:message key="title.of.job"/> : <span id="job-title"> </span> 
 					      </div>
-					      <div class="col-sm-4">
-					    	 Name of Customer : <span id="job-customer">  </span> 
+					      <div class="col-sm-4"><fmt:message key="name.of.customer"/>  : <span id="job-customer">  </span> 
 					      </div>
 					    </div>
 					   
 					   	 <div class="row">
-					    <div class="col-sm-4">
-					    	Number of Pages for Cover : <span id="cover-pages"> </span>
+					    <div class="col-sm-4" id="cover-pages-info"><fmt:message key="number.of.pages.for.cover"/> : <span id="cover-pages"> </span>
 					    </div>
-					    <div class="col-sm-4">
-					    	Number of Pages for Content :  <span id="content-pages"> </span> 
+					    <div class="col-sm-4"  id="content-pages-info"><fmt:message key="number.of.pages.for.content"/> :  <span id="content-pages"> </span> 
 					    </div>
-					    <div class="col-sm-4">
-					    	 CTP Fees : <span id="ctp">  </span> 
+					    <div class="col-sm-4"><fmt:message key="ctp.fees"/> : <span id="ctp">  </span>
 					    </div>
 					   </div>
 					   
 					     <div class="row">
-					    <div class="col-sm-4">
-					    	Paper Format : <span id="paper-format"> </span>
+					    <div class="col-sm-4"><fmt:message key="paper.format"/> : <span id="paper-format"> </span>
 					    </div>
-					    <div class="col-sm-4">
-					    	Open :<span id="open-l"></span> | <span id="open-w"></span></div> 
-					    	<div class="col-sm-4">
-					    	Fold :<span id="fold-l"></span> | <span id="fold-w"></span>
+					    <div class="col-sm-4"><fmt:message key="open"/> :<span id="open-l"></span> | <span id="open-w"></span></div> 
+					    	<div class="col-sm-4"><fmt:message key="fold"/>  :<span id="fold-l"></span> | <span id="fold-w"></span>
 					    </div>
 					    </div>
 					    <div class="row">
-					    <div class="col-sm-4">
-					    	Existing Plate : <span id="existing-plate"></span>
+					    <div class="col-sm-4"><fmt:message key="existing.plate"/> : <span id="existing-plate"></span>
 					    </div>
-					    <div class="col-sm-4">
-					    	Data Supply By Us : <span id="supply-data"></span>
+					    <div class="col-sm-4"><fmt:message key="data.suply.by.us"/>  : <span id="supply-data"></span>
 					    </div>
-					    <div class="col-sm-4">
-					    	Lay Out by Us : <span id="data-layout"></span>
+					    <div class="col-sm-4"><fmt:message key="lay.out.by.us"/>  : <span id="data-layout"></span>
 					    </div> 
-					    <div class="col-sm-4" id="">
-					    	Type Setting By Us : <span id="type-setting"></span> 
+					    <div class="col-sm-4" id=""><fmt:message key="type.setting.by.us"/> : <span id="type-setting"></span> 
 					    </div>
 					    </div>
 					   </div>
 					   
 					<!--            job decription ends     -->
+					<div id="cover-papers-options-info">
 					<br>
-					<h4 id="top">Cover Paper Option</h4>
+					<h4 id="top"><fmt:message key="cover.paper.option"/></h4>
 					<hr>
 					   <div class="row">
 					    <div class="row">
-					    <div class="col-sm-4">
-					    	Paper Type : <span id="cover-paper"> </span>
+					    <div class="col-sm-4"><fmt:message key="paper.types"/> : <span id="cover-paper"> </span>
 					    </div>
-					    <div class="col-sm-4">
-					    	 Paper Grammage (GSM) : <span id="cover-grammage"> </span> 
+					    <div class="col-sm-4"><fmt:message key="paper.grammage"/> (GSM) : <span id="cover-grammage"> 1</span> 
 					    </div>
-					    <div class="col-sm-4">
-					    	Volume : <span id="cover-volume">  </span> 
+					    <div class="col-sm-4"><fmt:message key="volume"/> : <span id="cover-volume">  </span> 
 					    </div>
 					   </div>
-	
 					   </div>
-					   
-					   <br>
-					<h4 id="top"> Content Paper Option</h4>
+					  </div> 
+					  
+					<div id="content-papers-options-info">
+					<br>
+					<h4 id="top"><fmt:message key="content.paper.option"/></h4>
 					<hr>
-
 					    <div class="row">
 					   <table class="ta" id="cover-table">
 					  <thead>
 					    <tr>
-					      <th scope="col">Num</th>
-					      <th scope="col">Print Type</th>
-					      <th scope="col">Gramage (GSM)</th>
-					      <th scope="col">Volume (Pages)</th>
+					      <th scope="col"><fmt:message key="number"/> </th>
+					      <th scope="col"><fmt:message key="print.type"/> </th>
+					      <th scope="col"> <fmt:message key="grammage"/> (GSM)</th>
+					      <th scope="col"> <fmt:message key="volume"/> (Pages)</th>
 					    </tr>
 					  </thead>
 					  <tbody>
-<!-- 					    <tr> -->
-<!-- 					      <th scope="row">1</th> -->
-<!-- 					      <td>glows</td> -->
-<!-- 					      <td>250</td> -->
-<!-- 					      <td>2000</td> -->
-<!-- 					    </tr> -->
 					  </tbody>
 					</table>
 					   </div>
-					      <br>
-		  
-					 <h4>Cover Printing Option</h4>
+					 </div>
+					 <div id="cover-printing-options-info">  
+					 <br>
+					 <h4> <fmt:message key="cover.printing.option"/></h4>
 					 <hr>
 						<div class="row">
 					    <div class="row">
-					     <div class="col-sm-3">
-					    	 Machine   <span id="cover-machine"> </span>
+					     <div class="col-sm-3"><fmt:message key="machine"/> :  <span id="cover-machine"> </span>
 					    </div>
-					    <div class="col-sm-3">
-					    	Print Type : <span id="cover-printtype"> </span> 
+					    <div class="col-sm-3"><fmt:message key="print.type"/> : <span id="cover-printtype"> </span> 
 					    </div>
-					    <div class="col-sm-3">
-					    	Color Combination : <span id=cover-color-front></span> / <span id=cover-color-back></span> 
+					    <div class="col-sm-3"><fmt:message key="color.combination"/> : <span id=cover-color-front></span> / <span id=cover-color-back></span> 
 					    </div>
-					     <div class="col-sm-3">
-					    	Signature : <span id=cover-signature></span> 
+					     <div class="col-sm-3"><fmt:message key="signature"/> : <span id=cover-signature></span> 
 					    </div>
 					    </div>
 					  </div>
-					  
-					  
-					   <h4>Content Printing Option</h4>
+					  </div>
+					  <div id="content-printing-options-info">
+					   <h4><fmt:message key="content.printing.option"/></h4>
 					 <hr>
 					  
 					  <div class="row">
 						<table class="ta" id="content-table">
 					  <thead>
 					    <tr>
-					      <th scope="col">Num</th>
-					      <th scope="col">Paper Type</th>
-					      <th scope="col">Machine</th>
-					      <th scope="col"> Print Type</th>
-					      <th scope="col">Color Combination</th>
-					      <th scope="col">Signature</th>
+					      <th scope="col"><fmt:message key="number"/></th>
+					      <th scope="col"> <fmt:message key="print.type"/> </th>
+					      <th scope="col"><fmt:message key="machine"/></th>
+					      <th scope="col"> </th>
+					      <th scope="col"><fmt:message key="color.combination"/> </th>
+					      <th scope="col"><fmt:message key="signature"/></th>
 					    </tr>
 					  </thead>
 					  <tbody id="table-body">
@@ -787,27 +761,30 @@
 					  </div>
 					  
 						<br>
-						 <h4>Finishing option</h4>
+						 <h4><fmt:message key="finishing.option"/> </h4>
 						 <hr>
 						 <div class="row ">
 					    <div class="col-sm-4">
-					    	<div> X Perforated : <span id="x-perforated"></span> </div>
-					    	<div> X Numbered : <span id="x-numbered"></span> </div>
-					    	<div> X Crossed : <span id="x-crossed"></span></div>
-					    	<div> X Wired-stitched : <span id="x-wired"></span> </div>
-					    	<div> Creased : <span id="crease"></span> </div>
+					    	<div> <fmt:message key="x.perforated" /> : <span id="x-perforated"></span> </div>
+					    	<div> <fmt:message key="x.numbered" />: <span id="x-numbered"></span> </div>
+					    	<div> <fmt:message key="x.crossed"/> : <span id="x-crossed"></span></div>
+					    	<div><fmt:message key="x.Wired.stitched"/> : <span id="x-wired"></span> </div>
+					    	<div> <fmt:message key="creased"/> : <span id="crease"></span> </div>
+					    	
 					    </div>
 					   <div class="col-sm-4">
-					    	<div> Lamination Sides : <span id="laminated-sides"></span> </div>
-					    	<div> Glueing Bound: <span id="glue-bound"></span> </div>
-					    	<div> Binding Type : <span id="binding-type"></span> </div>
-					    	<div> Sewn : <span id="sown"></span> </div>
+					    	<div> <fmt:message key="lamination"/>: <span id="laminated-sides"></span> </div>
+<!-- 					    	<div> Glueing Bound: <span id="glue-bound"></span> </div> -->
+					    	<div> <fmt:message key="binding.type"/> : <span id="binding-type"></span> </div>
+					    	<div> <fmt:message key="sewn" /> : <span id="sown"></span> </div>
+					    
 					    </div>
+					    
 					    <div class="col-sm-4">
-					    	<div> Handgather : <span id="hand-gather"></span> </div>
-					    	<div> Stitching : <span id="stitch"></span> </div>
-					    	<div> Trimmed : <span id="trim"></span> </div>
-					    	<div> Sellotaped : <span id="sello-tape"></span> </div>
+					    	<div><fmt:message key="handgather"/> : <span id="hand-gather"></span> </div>
+					    	<div> <fmt:message key="stitching"/> : <span id="stitch"></span> </div>
+					    	<div> <fmt:message key="trimmed"/> : <span id="trim"></span> </div>
+					    	<div> <fmt:message key="sellotaped"/> : <span id="sello-tape"></span> </div>
 					    </div>
 					 </div>
 		           <div class ="row py-3 "style="margin-top:50px" >
@@ -815,11 +792,12 @@
 				      <button type="button" style="float:left" class="btn btn-primary" onclick="navigate(5,4);removeRows()"> <fmt:message key="previews"/></button>	
 				     </div>
 			         <div class ="col-sm-6">
-			         <button type="button" style="width:125px;float:right"  class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#creation" id="next-btn1" onclick="navigate(4,5); submitUpdateForm(${job.id})"><fmt:message key="submit"/></button>			
+			         <button   type="button" style="width:125px;float:right"  class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#creation" id="next-btn1" onclick="navigate(4,5); submitForm()"><fmt:message key="submit"/></button>			
 			        </div>
 			        </div>
                	</div>
                	<!-- <--------------------tab 5 ends ----------------------------------------------------------------------->  
+               	</div>
                	</div>
                </form>  
             </div>
