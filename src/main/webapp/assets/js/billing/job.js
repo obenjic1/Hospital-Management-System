@@ -319,6 +319,7 @@ function submitForm(){
 	 }
 	  
 	 job.jobPapers = jobPapers;
+	 
 	 fetch('job/save', {
 			method: 'POST',
 			body: JSON.stringify(job) ,
@@ -1413,12 +1414,12 @@ function submitUpdateForm(id){
 	 
 	 
 	 
-	 function confirmApprove(id) {
-	$('#areyouSureYouWantToApprove').modal('show');
-	$('#approveBtn').click(function() {
-		approveJob(id);
-	});
-	}
+//	 function confirmApprove(id) {
+//	$('#areyouSureYouWantToApprove').modal('show');
+//	$('#approveBtn').click(function() {
+//		approveJob(id);
+//	});
+//	}
 
 	 	  function approveJob(id){
 		  fetch(`job/approve/${id}`, {
@@ -1446,3 +1447,4 @@ function submitUpdateForm(id){
 			});
 	 }
 	 
+	

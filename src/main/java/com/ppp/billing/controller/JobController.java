@@ -49,6 +49,7 @@ import com.ppp.billing.model.JobColorCombination;
 import com.ppp.billing.model.JobEstimate;
 import com.ppp.billing.model.JobMovement;
 import com.ppp.billing.model.JobPaper;
+import com.ppp.billing.model.JobTracking;
 import com.ppp.billing.model.JobType;
 import com.ppp.billing.model.PaperFormat;
 import com.ppp.billing.model.PaperGrammage;
@@ -67,6 +68,7 @@ import com.ppp.billing.serviceImpl.EstimatePricingServiceImpl;
 import com.ppp.billing.serviceImpl.InvoiceServiceImpl;
 import com.ppp.billing.serviceImpl.JobColorCombinationServiceImpl;
 import com.ppp.billing.serviceImpl.JobEstimateServiceImpl;
+import com.ppp.billing.serviceImpl.JobMovermentServiceImpl;
 import com.ppp.billing.serviceImpl.JobPaperServiceImpl;
 import com.ppp.billing.serviceImpl.JobServiceImpl;
 import com.ppp.billing.serviceImpl.JobTypeServiceImpl;
@@ -130,6 +132,9 @@ public class JobController {
 	
     @Autowired
 	DepartmentServiceImpl departmentServiceImpl;
+    
+    @Autowired
+    JobMovermentServiceImpl jobMovermentServiceImpl;
  
 	
 	
@@ -1683,10 +1688,10 @@ public class JobController {
 	public String moveDetails(@PathVariable long id, Model model) {
 		Job job = jobServiceImpl.findById(id).get();
 		List<JobMovement> movements = job.getJobMovements();
-		int index = movements.size()-1;
-		Department department = movements.get(index).getDepartment();
+//		int index = movements.size()-1;
+		Department department = movements.get(movements.size()-1).getDepartment();
 		List<Department> departments = departmentServiceImpl.findAll();
-		JobMovement movement = movements.get(index);
+		JobMovement movement = movements.get(movements.size()-1);
 		
 		model.addAttribute("job",job);
 		model.addAttribute("departments",departments);
@@ -1699,18 +1704,28 @@ public class JobController {
 	
 	//<--------------------- Move a Job Job ------------------------------>
 	@PostMapping(value="/move-job/{id}")
-	public String moveJob(@PathVariable long id, @RequestBody JobMovement jobMovement) {
+	public ResponseEntity<String> moveJob(@PathVariable long id, @RequestBody JobMovementDTO jobMovementDTO) {
 		
 		try {
-			//Job job = jobServiceImpl.findById(id).get();
-
-			
-			return "OK";
+			jobMovermentServiceImpl.movejob(id, jobMovementDTO);
+			return new ResponseEntity<String>("OK", HttpStatus.OK);
 		} catch (Exception e) {
-			// TODO: handle exception
+			e.printStackTrace();
 		}
 	
-		return "KO";
+		return new ResponseEntity<String>("KO", HttpStatus.BAD_REQUEST);
 
 	}
+	
+	//<--------------------- Get Move Job Form ------------------------------>
+		@GetMapping("/history/{id}")
+		public String historyDetails(@PathVariable long id, Model model) {
+			Job job = jobServiceImpl.findById(id).get();
+			List<JobTracking> jobTrackings = job.getJobTrackings();
+
+			model.addAttribute("job",job);
+			model.addAttribute("jobTrackings",jobTrackings);
+
+	    return "/billing/history";
+		}
 }
