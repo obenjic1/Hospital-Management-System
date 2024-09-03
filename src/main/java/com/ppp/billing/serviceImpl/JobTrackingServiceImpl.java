@@ -83,7 +83,6 @@ public class JobTrackingServiceImpl implements JobTrackingService {
 		tracking.setJob(jobRepository.findById(id).get());
 		String name = SecurityContextHolder.getContext().getAuthentication().getName();
 		User user = userRepository.findByUsername(name);
-		System.out.println(user.getEmail());
 		tracking.setUser(user);
 		jobTrackings.add(tracking);
 		return jobTrackingRepository.saveAll(jobTrackings);
