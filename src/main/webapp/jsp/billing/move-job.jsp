@@ -50,7 +50,7 @@
                                                    
 							</div>
 							  <div class="row py-1">  
-									<button  style=" width: 94px;margin-left: 71%;" type="button"  class="btn btn-primary" onclick="moveJob('${job.id}')" id="next-btn" >Next</button>	
+									<button  style=" width: 94px;margin-left: 71%;" type="button"  class="btn btn-primary"data-bs-dismiss="modal" onclick="moveJob('${job.id}')" id="next-btn" >Send </button>	
 							  </div> 
 						</div>
 					

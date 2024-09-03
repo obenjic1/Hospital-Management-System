@@ -12,4 +12,5 @@ public interface JobMovementService {
 	
 	List<JobMovement> findAll();
 	String movejob (long id,JobMovementDTO jobMovementDTO);
+	JobMovement saveMovement (JobMovementDTO jobMovementDTO);
 }

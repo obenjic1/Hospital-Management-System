@@ -75,40 +75,7 @@ function loadTables(url, idContainer) {
 			});
  }
  
- function moveJob(id){
-	 var department = document.getElementById('department').value;
-	 var description = document.getElementById('description').value;
-	 
-	var job = {
-		
-		description: description,
-		department :department,
-		}
-		
-		fetch(`job/move-job/${id}`, {
-			method: 'POST',
-			body: JSON.stringify(job) ,
-			 headers: {
-           "Content-Type": "application/json",
-           },
-		})
-		.then( response => {	
 
-   			 if (response.status === 200) {
-       			sendMessage('Succes/Success', 1);
-			return loadPage("job/list-job");				
-   			 } else if (response.status !== 200) {
-				sendMessage('Failed / Echec', 2);
-  			 }
-		})
-		 .then(function(data) {
-
-		 })
-			.catch(function(error) {
-
-			});
-
- }
  
  
   function confirmApprove(id) {
