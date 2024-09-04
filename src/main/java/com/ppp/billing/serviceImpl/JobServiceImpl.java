@@ -11,6 +11,7 @@ import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 
@@ -37,12 +38,14 @@ import com.ppp.billing.repository.CustomerRepository;
 import com.ppp.billing.repository.DepartmentRepository;
 import com.ppp.billing.repository.JobRepository;
 import com.ppp.billing.repository.JobStatusRepository;
+import com.ppp.billing.repository.JobTrackingRepository;
 import com.ppp.billing.repository.JobTypeRepository;
 import com.ppp.billing.repository.PaperTypeRepository;
 import com.ppp.billing.repository.PrintTypeRepository;
 import com.ppp.billing.repository.PrintingMachineRepository;
 import com.ppp.billing.service.JobService;
 import com.ppp.user.model.User;
+import com.ppp.user.repository.UserRepository;
 import com.ppp.user.service.impl.UserServiceImpl;
 
 
@@ -72,15 +75,15 @@ public class JobServiceImpl implements JobService {
    	public JobStatusServiceImpl jobStatusServiceImpl;
     
     @Autowired
-	private UserDetailsService userService;
-    
-    @Autowired
 	DepartmentRepository departmentRepository;
     
     @Autowired
 	UserServiceImpl userServiceImpl;
- 
- 
+    
+    @Autowired
+    JobTrackingRepository jobTrackingRepository;
+	@Autowired
+	private UserRepository userRepository;
     
 	@Override
 	public Job saveJob(JobDTO jobDTO) {
@@ -171,9 +174,11 @@ public class JobServiceImpl implements JobService {
 		List<JobTracking> jobTrackings = new ArrayList<JobTracking>();
 		JobTracking tracking = new JobTracking();
 		tracking.setCreationDate(new Date());
+		String name = SecurityContextHolder.getContext().getAuthentication().getName();
+		User user = userRepository.findByUsername(name);
+		tracking.setUser(user);
 		tracking.setOperation("Registered Job");
-		
-		
+
 //		User user = userServiceImpl.getLogedUser(null);
 			//	(User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 //		tracking.setUser(user);
@@ -305,6 +310,9 @@ public class JobServiceImpl implements JobService {
 		
 		List<JobTracking> jobTrackings = new ArrayList<JobTracking>();
 		JobTracking tracking = new JobTracking();
+		String name = SecurityContextHolder.getContext().getAuthentication().getName();
+		User user = userRepository.findByUsername(name);
+		tracking.setUser(user);
 		tracking.setCreationDate(new Date());
 		tracking.setOperation("Registered Daft");
 
@@ -346,14 +354,17 @@ public class JobServiceImpl implements JobService {
 		// Optional<JobType> jobType = jobTypeRepository.findById(jobDTO.getJobTypeId());
 		//newJob.setJobType(jobType.get());
 		
-		List<JobTracking> jobTrackings =newJob.getJobTrackings() ;
+		List<JobTracking> jobTrackings = newJob.getJobTrackings() ;
 		JobTracking tracking = new JobTracking();
 		tracking.setCreationDate(new Date());
+		String name = SecurityContextHolder.getContext().getAuthentication().getName();
+		User user = userRepository.findByUsername(name);
+		tracking.setUser(user);
 		tracking.setOperation("Edit Daft");
-		jobTrackings.add(tracking);
 		tracking.setJob(newJob);
+		jobTrackings.add(tracking);
+		jobTrackingRepository.saveAll(jobTrackings);
 		newJob.setJobTrackings(jobTrackings);
-
 		jobRepository.saveAndFlush(newJob);
 		return newJob;
 	}
@@ -439,8 +450,20 @@ public class JobServiceImpl implements JobService {
 			jobPaper.setJobColorCombinations(colorCombinations);
 			jobPaper.setJob(newJob);
 			jobPapers.add(jobPaper);
-			
+
 		});
+		
+		List<JobTracking> jobTrackings = newJob.getJobTrackings() ;
+		JobTracking tracking = new JobTracking();
+		String name = SecurityContextHolder.getContext().getAuthentication().getName();
+		User user = userRepository.findByUsername(name);
+		tracking.setUser(user);
+		tracking.setCreationDate(new Date());
+		tracking.setOperation("proof read");
+		tracking.setJob(newJob);
+		jobTrackings.add(tracking);
+		jobTrackingRepository.saveAll(jobTrackings);
+		newJob.setJobTrackings(jobTrackings);
 		newJob.setJobPapers(jobPapers);		
 		jobRepository.saveAndFlush(newJob);
 		
@@ -455,7 +478,16 @@ public class JobServiceImpl implements JobService {
 		Job job = jobRepository.findById(id).get();
 		JobStatus status = jobStatusRepository.findById(5).get();
 		job.setStatus(status);
-
+		List<JobTracking> jobTrackings = job.getJobTrackings() ;
+		JobTracking tracking = new JobTracking();
+		tracking.setCreationDate(new Date());
+		tracking.setOperation("Aborted Job");
+//		UserDetails user = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+//		tracking.setUser(user);
+		tracking.setJob(job);
+		jobTrackings.add(tracking);
+		jobTrackingRepository.saveAll(jobTrackings);
+		job.setJobTrackings(jobTrackings);
 		jobRepository.saveAndFlush(job);
 	}
 				// Mark Job has been proofreaded 
@@ -465,6 +497,17 @@ public class JobServiceImpl implements JobService {
 			Job job =jobRepository.findById(id).get();
 			if(job.getStatus().getName().equals("Registered")||job.getStatus().getName().equals("Confrimed")||job.getStatus().getName().equals("Approved"))
 				job.setProofread(true);
+			List<JobTracking> jobTrackings = job.getJobTrackings() ;
+			JobTracking tracking = new JobTracking();
+			tracking.setCreationDate(new Date());
+			tracking.setOperation("proof read Job");
+//			UserDetails user = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+//			tracking.setUser(user);
+			tracking.setJob(job);
+			jobTrackings.add(tracking);
+			jobTrackingRepository.saveAll(jobTrackings);
+			job.setJobTrackings(jobTrackings);
+			
 			jobRepository.save(job);
 		} catch (Exception e) {
 			throw e;
@@ -478,6 +521,16 @@ public class JobServiceImpl implements JobService {
 		Job job =jobRepository.findById(id).get();
 		if(job.getStatus().getName().equals("Registered")){
 			JobStatus status = jobStatusRepository.findById(3).get();
+			List<JobTracking> jobTrackings = job.getJobTrackings() ;
+			JobTracking tracking = new JobTracking();
+			tracking.setCreationDate(new Date());
+			tracking.setOperation("Confirmed Job");
+//			UserDetails user = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+//			tracking.setUser(user);
+			tracking.setJob(job);
+			jobTrackings.add(tracking);
+			jobTrackingRepository.saveAll(jobTrackings);
+			job.setJobTrackings(jobTrackings);
 			job.setStatus(status);
 			jobRepository.saveAndFlush(job);
 		}
@@ -490,6 +543,16 @@ public class JobServiceImpl implements JobService {
 		Job job =jobRepository.findById(id).get();
 		if(job.getStatus().getName().equals("Confrimed")){
 			JobStatus status = jobStatusRepository.findById(4).get();
+			List<JobTracking> jobTrackings = job.getJobTrackings() ;
+			JobTracking tracking = new JobTracking();
+			tracking.setCreationDate(new Date());
+			tracking.setOperation("Approved Job");
+//			UserDetails user = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+//			tracking.setUser(user);
+			tracking.setJob(job);
+			jobTrackings.add(tracking);
+			jobTrackingRepository.saveAll(jobTrackings);
+			job.setJobTrackings(jobTrackings);
 			job.setStatus(status);
 			jobRepository.saveAndFlush(job);
 		}
