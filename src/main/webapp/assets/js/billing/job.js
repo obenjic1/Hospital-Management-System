@@ -1008,11 +1008,11 @@ function summaryDraftUpdate(){
 		.then( response => {	
 
    			 if (response.ok) {
-       			sendMessage('Failed/Echec', 2);
+       			Swal.fire({  icon: "error", title: "Oops...", text: "Something went wrong!"});
 				return loadPage("job/list-job"); 
   			 } else if (response.status !== 200) {
-				sendMessage('Succes/Success', 1);
-				return loadPage("job/list-job");; 
+				Swal.fire("Succes/Success!", "Job Aborted / Job Annule", "success");
+				return loadPage("job/list-job");;
 
   			 }
 		})
@@ -1044,10 +1044,10 @@ function summaryDraftUpdate(){
 		.then( response => {	
 
    			  if (response.ok) {
-       			sendMessage('Succes/Success', 1);
+       			Swal.fire("Succes/Success!", "Job Confirmed / Job Confirme", "success")
 				return loadPage("job/list-job"); 
   			 } else if (response.status !== 200) {
-				sendMessage('Failed/Echec', 2);
+				Swal.fire({  icon: "error", title: "Oops...", text: "Something went wrong!"});
 				return loadPage("job/list-job");
 
   			 }
@@ -1072,12 +1072,11 @@ function summaryDraftUpdate(){
 		.then( response => {	
 
    			 if (response.ok) {
-       			sendMessage('Succes/Success', 1);
+       			Swal.fire("Succes/Success!", "Job Approved / Job Approve", "success");
 				return loadPage("job/list-job"); 
   			 } else if (response.status !== 200) {
-				sendMessage('Failed/Echec', 2);
+				Swal.fire({  icon: "error", title: "Oops...", text: "Something went wrong!"});
 				return loadPage("job/list-job");
-
   			 }
 		})
 		 .then(function(data) {
@@ -1108,10 +1107,10 @@ function summaryDraftUpdate(){
 		.then( response => {	
 
    			 if (response.status === 200) {
-       			sendMessage('Succes/Success', 1);
+       			Swal.fire("Succes/Success!", "Job Moved / Job Transfere", "success");
 			return loadPage("job/list-job");				
    			 } else if (response.status !== 200) {
-				sendMessage('Failed / Echec', 2);
+				Swal.fire({  icon: "error", title: "Oops...", text: "Something went wrong!"});
   			 }
 		})
 		 .then(function(data) {
