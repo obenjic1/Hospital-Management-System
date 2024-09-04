@@ -75,23 +75,15 @@ function loadTables(url, idContainer) {
 			});
  }
  
- function moveJob(id){
-	 var department = document.getElementById('department').value;
-	 var description = document.getElementById('description').value;
-	var data = {
-		department :department,
-		description: description,
-		}
-		fetch(`job/move-job/${id}`, {
-			method: 'POST',
-			body: JSON.stringify(data) ,
-			headers: {
-			'Content-type': 'application/json'
-		},
-		
-	})
-	 
-	 
-	
- }
+
+ 
+ 
+  function confirmApprove(id) {
+	$('#areyouSureYouWantToApprove').modal('show');
+	$('#approveBtn').click(function() {
+		approveJob(id);
+	});
+	}
+ 
+
  

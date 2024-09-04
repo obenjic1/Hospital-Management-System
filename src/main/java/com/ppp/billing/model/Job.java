@@ -141,7 +141,9 @@ public class Job {
 //	@JoinColumn(name = "jobMovement_id", referencedColumnName = "id")
 //	private JobMovement jobMovement;
 
-	
+	@Column(name="job")
+	@OneToMany(fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "job", cascade = CascadeType.PERSIST)
+	private List<JobTracking> jobTrackings;
 	
 	
 }

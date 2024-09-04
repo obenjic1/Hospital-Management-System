@@ -1,5 +1,6 @@
 package com.ppp.billing.model;
 
+
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -9,6 +10,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+
+import org.springframework.security.core.userdetails.UserDetails;
 
 import com.ppp.user.model.User;
 
@@ -27,7 +30,7 @@ public class JobTracking {
 	private long id;
 	
 	@Column(name = "operation")
-	private Date operation;
+	private String operation;
 	
 	@Column(name="creation_date")
 	private Date creationDate;
@@ -37,4 +40,8 @@ public class JobTracking {
 	@JoinColumn(name = "user_id", referencedColumnName = "id")
 	private User user;
 
+	
+	@ManyToOne
+	@JoinColumn(name = "job_id", referencedColumnName = "id")
+	private Job  job;
 }
