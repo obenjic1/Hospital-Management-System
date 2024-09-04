@@ -1618,7 +1618,7 @@ public class JobController {
 	// to get the update page of job
 	
 			@GetMapping("/update-form/{id}")
-			public String getUpdateForm(@PathVariable Long id, Model model) {
+			public String getUpdateForm(@PathVariable long id, Model model) {
 				List<Customer> customerResult = customerServiceImpl.findAll();
 				List<JobType> jobTypeResult = jobTypeServiceImpl.findAll();
 				List<PaperFormat> paperFormatResult = paperFormatServiceImpl.findAll();
@@ -1636,7 +1636,9 @@ public class JobController {
 					for(int j= 0; j< existingJob.getJobPapers().get(i).getJobColorCombinations().size(); j++) {
 						PrintingMachine contentPrintingMachine = existingJob.getJobPapers().get(i).getJobColorCombinations().get(j).getPrintingMachine();
 						JobColorCombination colorCombin = existingJob.getJobPapers().get(i).getJobColorCombinations().get(j);
+						double contentSignature = existingJob.getJobPapers().get(i).getJobColorCombinations().get(j).getNumberOfSignature();
 						model.addAttribute("contentPrintingMachine", contentPrintingMachine);
+						model.addAttribute("contentSignature", contentSignature);
 						model.addAttribute("colorCombin", colorCombin);
 					}
 					PaperType contentPaperType = existingJob.getJobPapers().get(i).getPaperType();
@@ -1646,6 +1648,7 @@ public class JobController {
 				
 				JobPaper existingJobPaper = existingJob.getJobPapers().remove(0);
 				JobColorCombination covercolourCombination = existingJobPaper.getJobColorCombinations().get(0);
+				double coversignature = existingJobPaper.getJobColorCombinations().get(0).getNumberOfSignature();
 				JobActivity jobActivity = existingJob.getJobActivity();
 				int jobActivit = existingJob.getJobActivity().getXPerforated();
 				int numbered = existingJob.getJobActivity().getXNumbered();
@@ -1654,6 +1657,7 @@ public class JobController {
 				int cross = existingJob.getJobActivity().getXCross();
 				int handFoldCov = existingJob.getJobActivity().getHandFoldingCov();
 				model.addAttribute("job", existingJob);
+				model.addAttribute("coversignature", coversignature);
 				model.addAttribute("customers", customerResult);
 				model.addAttribute("jobTypes", jobTypeResult);
 				model.addAttribute("paperFormats", paperFormatResult);

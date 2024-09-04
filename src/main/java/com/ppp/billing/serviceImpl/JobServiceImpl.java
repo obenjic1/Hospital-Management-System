@@ -330,7 +330,6 @@ public class JobServiceImpl implements JobService {
 		movements.add(moveJob);
 		moveJob.setJob(newJob);
 		newJob.setJobMovements(movements);
-
 		JobStatus status = jobStatusRepository.findById(1).get();
 		newJob.setStatus(status);
 		jobRepository.saveAndFlush(newJob);
@@ -427,8 +426,9 @@ public class JobServiceImpl implements JobService {
 			jobPaper.setGrammage(row.getGrammage());
 			jobPaper.setVolume(row.getVolume());
 			jobPaper.setUnitPrice(row.getPaperUnitPrice());
-			//Optional<PaperType> paperType = paperTypeRepository.findById(row.getPaperTypeId());
-			//jobPaper.setPaperType(paperType.get());
+			Optional<PaperType> paperType = paperTypeRepository.findById(row.getPaperTypeId());
+			if(paperType.isPresent())
+			jobPaper.setPaperType(paperType.get());
 			Optional<ContentType> contentType = contentTypeRepository.findById(row.getContentTypeId());
 			jobPaper.setContentType(contentType.get());
 
