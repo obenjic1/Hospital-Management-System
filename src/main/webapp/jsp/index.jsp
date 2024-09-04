@@ -343,8 +343,10 @@
 			<div class="modal fade" id="areyouSureYouWantToAbort" tabindex="-1">
 			  <div class="modal-dialog modal-dialog-centered">
 			    <div class="modal-content">
-			      <div class="modal-body">
-	                <p> <br><fmt:message key="abort"/></p>
+			      <div class="modal-body" id ="main-body">
+	                <p id="content-message"> 
+	                <br><fmt:message key="abort"/>
+	                </p>
 			        <button class="delete-denied" type="button" id="cancelButton" data-bs-dismiss="modal"><fmt:message key="cancel"/></button>
 		          <button class="accept-delete" type="button" id="confirmAbortBtn" data-bs-toggle="modal" data-bs-target="#creation"><fmt:message key="abort.button"/></button>
 			    </div>
@@ -408,6 +410,7 @@ $(document).ready(function() {
 	<script src="assets/js/billing/invoice.js"></script>
 	<script src="assets/modal/modal.js"></script>	
 	
+	<script src="assets/js/billing/update-job.js"></script> 
 	<script src="assets/js/billing/machine.js"></script> 
 	<script src="assets/js/billing/customer.js"></script>
 	<script src="assets/js/billing/papertype.js"></script>

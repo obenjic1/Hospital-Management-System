@@ -49,6 +49,7 @@ import com.ppp.billing.model.JobColorCombination;
 import com.ppp.billing.model.JobEstimate;
 import com.ppp.billing.model.JobMovement;
 import com.ppp.billing.model.JobPaper;
+import com.ppp.billing.model.JobTracking;
 import com.ppp.billing.model.JobType;
 import com.ppp.billing.model.PaperFormat;
 import com.ppp.billing.model.PaperGrammage;
@@ -67,6 +68,7 @@ import com.ppp.billing.serviceImpl.EstimatePricingServiceImpl;
 import com.ppp.billing.serviceImpl.InvoiceServiceImpl;
 import com.ppp.billing.serviceImpl.JobColorCombinationServiceImpl;
 import com.ppp.billing.serviceImpl.JobEstimateServiceImpl;
+import com.ppp.billing.serviceImpl.JobMovermentServiceImpl;
 import com.ppp.billing.serviceImpl.JobPaperServiceImpl;
 import com.ppp.billing.serviceImpl.JobServiceImpl;
 import com.ppp.billing.serviceImpl.JobTypeServiceImpl;
@@ -130,6 +132,9 @@ public class JobController {
 	
     @Autowired
 	DepartmentServiceImpl departmentServiceImpl;
+    
+    @Autowired
+    JobMovermentServiceImpl jobMovermentServiceImpl;
  
 	
 	
@@ -1610,7 +1615,7 @@ public class JobController {
 	// to get the update page of job
 	
 			@GetMapping("/update-form/{id}")
-			public String getUpdateForm(@PathVariable Long id, Model model) {
+			public String getUpdateForm(@PathVariable long id, Model model) {
 				List<Customer> customerResult = customerServiceImpl.findAll();
 				List<JobType> jobTypeResult = jobTypeServiceImpl.findAll();
 				List<PaperFormat> paperFormatResult = paperFormatServiceImpl.findAll();
@@ -1628,7 +1633,9 @@ public class JobController {
 					for(int j= 0; j< existingJob.getJobPapers().get(i).getJobColorCombinations().size(); j++) {
 						PrintingMachine contentPrintingMachine = existingJob.getJobPapers().get(i).getJobColorCombinations().get(j).getPrintingMachine();
 						JobColorCombination colorCombin = existingJob.getJobPapers().get(i).getJobColorCombinations().get(j);
+						double contentSignature = existingJob.getJobPapers().get(i).getJobColorCombinations().get(j).getNumberOfSignature();
 						model.addAttribute("contentPrintingMachine", contentPrintingMachine);
+						model.addAttribute("contentSignature", contentSignature);
 						model.addAttribute("colorCombin", colorCombin);
 					}
 					PaperType contentPaperType = existingJob.getJobPapers().get(i).getPaperType();
@@ -1638,6 +1645,7 @@ public class JobController {
 				
 				JobPaper existingJobPaper = existingJob.getJobPapers().remove(0);
 				JobColorCombination covercolourCombination = existingJobPaper.getJobColorCombinations().get(0);
+				double coversignature = existingJobPaper.getJobColorCombinations().get(0).getNumberOfSignature();
 				JobActivity jobActivity = existingJob.getJobActivity();
 				int jobActivit = existingJob.getJobActivity().getXPerforated();
 				int numbered = existingJob.getJobActivity().getXNumbered();
@@ -1646,6 +1654,7 @@ public class JobController {
 				int cross = existingJob.getJobActivity().getXCross();
 				int handFoldCov = existingJob.getJobActivity().getHandFoldingCov();
 				model.addAttribute("job", existingJob);
+				model.addAttribute("coversignature", coversignature);
 				model.addAttribute("customers", customerResult);
 				model.addAttribute("jobTypes", jobTypeResult);
 				model.addAttribute("paperFormats", paperFormatResult);
@@ -1683,10 +1692,10 @@ public class JobController {
 	public String moveDetails(@PathVariable long id, Model model) {
 		Job job = jobServiceImpl.findById(id).get();
 		List<JobMovement> movements = job.getJobMovements();
-		int index = movements.size()-1;
-		Department department = movements.get(index).getDepartment();
+//		int index = movements.size()-1;
+		Department department = movements.get(movements.size()-1).getDepartment();
 		List<Department> departments = departmentServiceImpl.findAll();
-		JobMovement movement = movements.get(index);
+		JobMovement movement = movements.get(movements.size()-1);
 		
 		model.addAttribute("job",job);
 		model.addAttribute("departments",departments);
@@ -1699,18 +1708,28 @@ public class JobController {
 	
 	//<--------------------- Move a Job Job ------------------------------>
 	@PostMapping(value="/move-job/{id}")
-	public String moveJob(@PathVariable long id, @RequestBody JobMovement jobMovement) {
+	public ResponseEntity<String> moveJob(@PathVariable long id, @RequestBody JobMovementDTO jobMovementDTO) {
 		
 		try {
-			//Job job = jobServiceImpl.findById(id).get();
-
-			
-			return "OK";
+			jobMovermentServiceImpl.movejob(id, jobMovementDTO);
+			return new ResponseEntity<String>("OK", HttpStatus.OK);
 		} catch (Exception e) {
-			// TODO: handle exception
+			e.printStackTrace();
 		}
 	
-		return "KO";
+		return new ResponseEntity<String>("KO", HttpStatus.BAD_REQUEST);
 
 	}
+	
+	//<--------------------- Get Move Job Form ------------------------------>
+		@GetMapping("/history/{id}")
+		public String historyDetails(@PathVariable long id, Model model) {
+			Job job = jobServiceImpl.findById(id).get();
+			List<JobTracking> jobTrackings = job.getJobTrackings();
+
+			model.addAttribute("job",job);
+			model.addAttribute("jobTrackings",jobTrackings);
+
+	    return "/billing/history";
+		}
 }
