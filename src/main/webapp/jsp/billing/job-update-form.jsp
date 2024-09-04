@@ -95,7 +95,7 @@
               	   <select id="paperFormat" onchange="paperF(this.value)" name="name" class="form-select">
               	      <option selected>Choose...</option>
               	      <option onclick="">Custom Format...</option>
-              	      <option selected>${job.paperFormat}</option>
+              	      <option value="${paperFormat.id},${paperFormat.length},${paperFormat.width}" selected>${job.paperFormat}</option>
 					  <c:forEach items="${paperFormats}" var="paperFormat">
                         <option value="${paperFormat.id},${paperFormat.length},${paperFormat.width}">${paperFormat.name}</option>
                       </c:forEach>
@@ -188,7 +188,7 @@
 		   <div class="row py-4" id="coverInformations">
 			  <div class ="col-lg-3 px8" >
 			   <label for="" class="form-label"><a> <fmt:message key="cover.paper.type"/></a></label> 
-			   <select coverPaperType name="name" class="form-select">
+			   <select id="coverPaperType-to-update" name="name" class="form-select">
 				 <c:forEach items="${paperTypes}" var="paperTypeToUpdate">
                    <option value="${paperTypeToUpdate.id}">${paperTypeToUpdate.name}</option>
                  </c:forEach>
@@ -337,7 +337,7 @@
               </div>
               <div class ="col-lg-3 px8" style="position: relative; left:10px;">
 			  <label for="" class="form-label"> <fmt:message key="signature"/></label>
-			  <div> <span class="coverSpace" id="coverSignature">1</span>
+			  <div> <span class="coverSpace" id="coverSignature">${coversignature}</span>
 			 </div> 
             </div>
 			</div>	
@@ -642,17 +642,17 @@
                	</div>
                	
                	<!-- <--------------------TAB 5 BEGINS HERE----------------------------------------------------------------------->  
-                          <div class="tab-pane fade" id="tab5" role="tabpanel" aria-labelledby="contact-tab">
+              <div class="tab-pane fade" id="tab5" role="tabpanel" aria-labelledby="contact-tab">
                 <div class="container" style="position: relative;bottom: -20px;" >
        				<h4><fmt:message key="job.description"/></h4>
        				<hr>
 					  <div class="row">
 					 	 <div class="row">
-					      <div class="col-sm-4"><fmt:message key="the.type.of.job"/>  : <span id="job-type"> </span>
+					      <div class="col-sm-4"><fmt:message key="the.type.of.job"/>  : <span id="job-type-updated"> </span>
 					      </div>
-					      <div class="col-sm-4"><fmt:message key="title.of.job"/> : <span id="job-title"> </span> 
+					      <div class="col-sm-4"><fmt:message key="title.of.job"/> : <span id="job-title-updated"> </span> 
 					      </div>
-					      <div class="col-sm-4"><fmt:message key="name.of.customer"/>  : <span id="job-customer">  </span> 
+					      <div class="col-sm-4"><fmt:message key="name.of.customer"/>  : <span id="job-customer-updated">  </span> 
 					      </div>
 					    </div>
 					   
@@ -691,7 +691,7 @@
 					<hr>
 					   <div class="row">
 					    <div class="row">
-					    <div class="col-sm-4"><fmt:message key="paper.types"/> : <span id="cover-paper"> </span>
+					    <div class="col-sm-4"><fmt:message key="paper.types"/> : <span id="cover-paper-to-update"> </span>
 					    </div>
 					    <div class="col-sm-4"><fmt:message key="paper.grammage"/> (GSM) : <span id="cover-grammage"> 1</span> 
 					    </div>
@@ -711,7 +711,7 @@
 					    <tr>
 					      <th scope="col"><fmt:message key="number"/> </th>
 					      <th scope="col"><fmt:message key="print.type"/> </th>
-					      <th scope="col"> <fmt:message key="grammage"/> (GSM)</th>
+					      <th scope="col"> <fmt:message key="grammag"/> (GSM)</th>
 					      <th scope="col"> <fmt:message key="volume"/> (Pages)</th>
 					    </tr>
 					  </thead>
@@ -754,6 +754,22 @@
 					    </tr>
 					  </thead>
 					  <tbody id="table-body">
+<%-- 					    <c:forEach var="jobPaper" items="${jobPapers}" varStatus="loop"> --%>
+<%--                                 <c:set var="index" value="${loop.index}" /> --%>
+<%--                                     <%    int index = (Integer) pageContext.getAttribute("index");  %> --%>
+<!--                                     <tr> -->
+<%--                                         <td rowSpan="${fn:length(jobPaper.jobColorCombinations)+1}">  <%= index + 1 %></td> --%>
+<!--                                     </tr> -->
+<%--                                     <c:forEach var="color" items="${jobPaper.jobColorCombinations}" varStatus="loop"> --%>
+<!--                                          <tr> -->
+<%--                                            <td>${jobPaper.paperType.name}</td> --%>
+<%--                                            <td>${color.printingMachine.name}</td> --%>
+<%--                                            <td>${color.printType.name}</td> --%>
+<%--                                            <td> ${color.frontColorNumber} / ${color.backColorNumber}</td> --%>
+<%--                                            <td>${color.numberOfSignature}</td> --%>
+<!--                                          </tr> -->
+<%--                                     </c:forEach> --%>
+<%--                             </c:forEach> --%>
 					
 					  </tbody>
 					</table>
@@ -792,14 +808,15 @@
 				      <button type="button" style="float:left" class="btn btn-primary" onclick="navigate(5,4);removeRows()"> <fmt:message key="previews"/></button>	
 				     </div>
 			         <div class ="col-sm-6">
-			         <button   type="button" style="width:125px;float:right"  class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#creation" id="next-btn1" onclick="navigate(4,5); submitForm()"><fmt:message key="submit"/></button>			
+			         <button   type="button" style="width:125px;float:right"  class="btn btn-primary" id="next-btn1" onclick="navigate(4,5); submitUpdateForm('${job.id}')"><fmt:message key="submit"/></button>			
 			        </div>
 			        </div>
                	</div>
                	<!-- <--------------------tab 5 ends ----------------------------------------------------------------------->  
                	</div>
                	</div>
-               </form>  
+               	
+             </form>  
             </div>
          </div>
       </div>
@@ -808,3 +825,7 @@
       </div>
     </section>  
 <script src="assets/js/billing/job.js"></script> 
+
+
+
+

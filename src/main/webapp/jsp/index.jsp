@@ -410,6 +410,7 @@ $(document).ready(function() {
 	<script src="assets/js/billing/invoice.js"></script>
 	<script src="assets/modal/modal.js"></script>	
 	
+	<script src="assets/js/billing/update-job.js"></script> 
 	<script src="assets/js/billing/machine.js"></script> 
 	<script src="assets/js/billing/customer.js"></script>
 	<script src="assets/js/billing/papertype.js"></script>
