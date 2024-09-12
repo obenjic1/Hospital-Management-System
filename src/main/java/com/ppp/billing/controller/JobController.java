@@ -63,6 +63,7 @@ import com.ppp.billing.model.dto.JobDTO;
 import com.ppp.billing.model.dto.JobMovementDTO;
 import com.ppp.billing.repository.DepartmentRepository;
 import com.ppp.billing.repository.JobEstimateRepository;
+import com.ppp.billing.repository.JobTrackingRepository;
 import com.ppp.billing.serviceImpl.BindingTypeserviceImpl;
 import com.ppp.billing.serviceImpl.CustomerServiceImpl;
 import com.ppp.billing.serviceImpl.DepartmentServiceImpl;
@@ -83,6 +84,7 @@ import com.ppp.printable.PlateMakingCosting;
 import com.ppp.printable.PrintableElement;
 import com.ppp.printable.PrintingElementCost;
 import com.ppp.user.model.User;
+import com.ppp.user.repository.UserRepository;
 
 @Controller
 @RequestMapping("/job")
@@ -134,10 +136,16 @@ public class JobController {
 	private JobEstimateServiceImpl jobEstimateServiceImpl;
 	
     @Autowired
-	DepartmentServiceImpl departmentServiceImpl;
+	private DepartmentServiceImpl departmentServiceImpl;
     
     @Autowired
-    JobMovermentServiceImpl jobMovermentServiceImpl;
+    private  JobMovermentServiceImpl jobMovermentServiceImpl;
+    
+    @Autowired
+    private JobTrackingRepository jobTrackingRepository;
+    
+	@Autowired
+	private UserRepository userRepository;
  
 	
 	
@@ -232,6 +240,18 @@ public class JobController {
 	public String generatePdf(@PathVariable long id) throws IOException {
 		try {	
 			Job jobStatus = jobServiceImpl.findById(id).get();
+			
+			List<JobTracking> jobTrackings = jobStatus.getJobTrackings() ;
+			JobTracking tracking = new JobTracking();
+			tracking.setCreationDate(new Date());
+			tracking.setOperation("Generated Control Sheet ");
+			String name = SecurityContextHolder.getContext().getAuthentication().getName();
+			User user = userRepository.findByUsername(name);
+			tracking.setUser(user);
+			tracking.setJob(jobStatus);
+			jobTrackings.add(tracking);
+			jobTrackingRepository.saveAll(jobTrackings);
+			jobStatus.setJobTrackings(jobTrackings);
 			if(jobStatus.getStatus().getName().equals("Registered")||jobStatus.getStatus().getName().equals("Confrimed")||jobStatus.getStatus().getName().equals("Approved")) {
 				String file=createJobDataPdf(id);
 				return "file="+file+"&dir=folder.controlSheet";
@@ -964,6 +984,17 @@ public class JobController {
 		}
 		estimate.setEstimatePricings(estimatePricings);
 		estimate.setJob(job);
+		List<JobTracking> jobTrackings = job.getJobTrackings() ;
+		JobTracking tracking = new JobTracking();
+		tracking.setCreationDate(new Date());
+		tracking.setOperation("Generated Estimate");
+		String name = SecurityContextHolder.getContext().getAuthentication().getName();
+		User user = userRepository.findByUsername(name);
+		tracking.setUser(user);
+		tracking.setJob(job);
+		jobTrackings.add(tracking);
+		jobTrackingRepository.saveAll(jobTrackings);
+		job.setJobTrackings(jobTrackings);
 		jobEstimateRepository.save(estimate);
 		//jobEstimateServiceImpl.save(estimate); 
 

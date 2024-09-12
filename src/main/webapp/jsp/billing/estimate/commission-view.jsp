@@ -32,8 +32,9 @@
                                                     <div>${job.customer.address}</div>
                                                 </div>
                                             </div>
-                                            
+                                            <sec:authorize  access="hasRole('ROLE_APPLY_COMMISSION') or hasRole('ROLE_APPLY_COMMISION_AS_DISCOUNT') ">
                                              <div class="row" style="margin-bottom: -66px;bottom: 26px;position: relative;margin-top: 81px;">
+				                       			   <sec:authorize  access="hasRole('ROLE_APPLY_COMMISSION')">
 				                       			 <div class="col-lg-5">
 				                       			 	<div class="row" style="position: relative;">
 							                          <div class ="col-lg-3 px3">
@@ -42,12 +43,14 @@
 										                    <input class="form-check-input" style="/*! margin-bottom: 25px; */position: relative;bottom: 21px;" type="checkbox" name="name" id="applyCommision"  onclick="showCommisionInput()">
 										                  </div>
 													   </div> 
+													
 						                         		<div class ="col-lg-2 px3" style="position: relative;bottom: -13px; display: none;" id="commisionDiv">
 															<input id= "commision" name="title" type= "number" placeholder="XAF" style="width: 200px;height: 35px;margin-left: 20px;">
-											       </div>
-													
+											           </div>
 													</div>
 				                       			 </div>
+				                       			 </sec:authorize>
+				                       			<sec:authorize  access="hasRole('ROLE_APPLY_COMMISION_AS_DISCOUNT')">
 				                       			 <div class="col-lg-5" style="position: relative; bottom: 10px">
 				                       			 	 <div class="row" style="position: relative;">
 							                          <div class ="col-lg-3 px3">
@@ -62,6 +65,7 @@
 													
 													</div>
 				                       			 </div>
+				                       			  </sec:authorize>
 				                       			 <div class="col-lg-2">
 				                       			 			<div class ="col px3" style="position: relative;bottom: -13px;">
 													 			 <input type= "button" class="btn btn-primary btn-sm" value ="Apply" style="margin-left: 49px;" onclick="applyCommission(${estimate.id})">
@@ -69,6 +73,7 @@
 							                      </div>
 														
 				                       			 </div>
+				                       			 </sec:authorize>
 					                  	   
 											</div> 
 
@@ -80,9 +85,9 @@
                                                             <th><span style="padding:10px">Quantity</span></th>
                                                             <th scope="col">Unit price(FCFA)</th>
                                                             <th scope="col">Total Price (FCFA)</th>
-                                                             <sec:authorize  access="hasRole('ROLE_GENERATE_INVOICE')">
+<%--                                                              <sec:authorize  access="hasRole('ROLE_GENERATE_INVOICE')"> --%>
                                                             <th scope="col">Actions</th>    
-                                                             </sec:authorize>                                                            
+<%--                                                              </sec:authorize>                                                             --%>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
@@ -94,12 +99,12 @@
                                                                        <td style="font-family: bold;"><a> <fmt:formatNumber value="${estimate.quantity}" type="currency"   pattern = "#,###,###"/> </a></td>                                 
                                                                      <td style="font-family: bold;"><a> <fmt:formatNumber value="${estimate.unitPrice}" type="currency"   pattern = "#,###,###"/> </a></td>                                  
                                                                       <td style="font-family: bold;"><a> <fmt:formatNumber value="${estimate.totalPrice}" type="currency"   pattern = "#,###,###"/> </a></td>  
-                                                                     <sec:authorize  access="hasRole('ROLE_GENERATE_INVOICE')">
+<%--                                                                      <sec:authorize  access="hasRole('ROLE_GENERATE_INVOICE')"> --%>
                                                                        <td>
                                                                         <button type="button" class="btn " onclick="getInvoiceQuantity(${estimate.id})" data-toggle="tooltip" data-placement="top" title="generate invoice"><i class="bi bi-download"></i></button>
 <%--                                                                       	<button class="btn btn-secondary"style="width: 95px;" data-bs-toggle="modal" data-bs-target="#ExtralargeModalFile" onclick="confirmEstimate('job/estimate/confirm/${job.id}','job/estimate-pdf/');"><fmt:message key="generate"/></button> --%>
                                                                        </td>  
-                                                                     </sec:authorize>                              
+<%--                                                                      </sec:authorize>                               --%>
                                                                 </tr> 
                                                                 <c:set var = "i"  value = "${i+1}"/>
                                                            </c:forEach> 
