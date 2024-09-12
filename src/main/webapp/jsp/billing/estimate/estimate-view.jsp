@@ -178,9 +178,9 @@
                                                             <th><span style="padding:10px">Quantity</span></th>
                                                             <th scope="col">Unit price(FCFA)</th>
                                                             <th scope="col">Total Price (FCFA)</th>
-                                                             <sec:authorize  access="hasRole('ROLE_GENERATE_INVOICE')">
+<%--                                                              <sec:authorize  access="hasRole('ROLE_GENERATE_INVOICE')"> --%>
                                                             <th scope="col">Actions</th>    
-                                                             </sec:authorize>                                                            
+<%--                                                              </sec:authorize>                                                             --%>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
@@ -193,7 +193,7 @@
                                                                 <td style="font-family: bold;"><a> <fmt:formatNumber value="${estimate.unitPrice}" type="currency"   pattern = "#,###,###"/> </a></td>                                  
                                                                  <td style="font-family: bold;"><a> <fmt:formatNumber value="${estimate.totalPrice}" type="currency"   pattern = "#,###,###"/> </a></td>  
                                                                 
-                                                                <sec:authorize  access="hasRole('ROLE_GENERATE_INVOICE')">
+<%--                                                                 <sec:authorize  access="hasRole('ROLE_GENERATE_INVOICE')"> --%>
                                                                  <td>
                                                                  <c:if test="${estimate.invoiced}"> 
                                                                   <button type="button" class="btn " onclick="loadMainModalForm('invoice/job-invoice/from-pricing/${estimate.id}')" data-toggle="tooltip" data-placement="top" title="View Invoices">
@@ -207,7 +207,7 @@
                                                                      </button>
                                                                    </c:if>
                                                     		    </td>
-                                                    		  </sec:authorize>                                
+<%--                                                     		  </sec:authorize>                                 --%>
                                                                 </tr> 
                                                                 <c:set var = "i"  value = "${i+1}"/>
                                                            </c:forEach> 

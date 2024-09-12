@@ -390,8 +390,6 @@ public class JobServiceImpl implements JobService {
 		newJob.setJobType(jobType);
 		JobStatus status = jobStatusRepository.findById(2).get();
 		newJob.setStatus(status);
-		
-
 
 		JobActivityOptionDTO jobdto = jobDTO.getJobActivities();
 		JobActivity activity = newJob.getJobActivity();
@@ -521,6 +519,7 @@ public class JobServiceImpl implements JobService {
 			List<JobTracking> jobTrackings = job.getJobTrackings() ;
 			JobTracking tracking = new JobTracking();
 			tracking.setCreationDate(new Date());
+			tracking.setOperation("Confim Job");
 			String name = SecurityContextHolder.getContext().getAuthentication().getName();
 			User user = userRepository.findByUsername(name);
 			tracking.setUser(user);
@@ -556,5 +555,5 @@ public class JobServiceImpl implements JobService {
 		}
 	
 	}
-	
+
 }
