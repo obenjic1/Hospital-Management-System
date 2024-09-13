@@ -232,7 +232,7 @@
                   <div class ="col-lg-6">
                   	<h4>Estimates</h4>
                   </div>
-                  <c:if test="${job.proofread=='true'&&job.status.name=='Confrimed'||job.status.name=='Approved'}">
+                  <c:if test="${job.proofread=='true'}">
                     <div class ="col-lg-6" id="proofreaded">
                     <span style="position: relative;justify-content: end;bottom: 2px;left: 332px; font-family: bold; font-size: 16px; color: green">Proof Readed</span>
                      </div>

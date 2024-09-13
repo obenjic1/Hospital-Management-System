@@ -74,39 +74,39 @@
                                 <form style="margin-left: 5%">
                                     <div class="row mb-3">  </div>
                                     <div class="row mb-3">
-                                        <label for="firstName" class="col-md-4 col-lg-3 col-form-label"><fmt:message key="first.name"/></label>
-                                        <div class="col-md-8 col-lg-9">
+                                        <label for="firstName" class="col-sm-4 col-lg-3 col-form-label"><fmt:message key="first.name"/></label>
+                                        <div class="col-sm-8 col-lg-8">
                                             <input name="firstName" type="text" class="form-control" id="firstName" value="${user.firstName}">
                                         </div>
                                     </div>
                                     <div class="row mb-3">
-                                        <label for="lastName" class="col-md-4 col-lg-3 col-form-label"><fmt:message key="last.name"/></label>
-                                        <div class="col-md-8 col-lg-9">
+                                        <label for="lastName" class="col-sm-4 col-lg-3 col-form-label"><fmt:message key="last.name"/></label>
+                                        <div class="col-sm-8 col-lg-8">
                                             <input name="lastName" type="text" class="form-control" id="lastName" value="${user.lastName}">
                                         </div>
                                     </div>
                                      <div class="row mb-3">
-                                        <label for="mobile" class="col-md-4 col-lg-3 col-form-label"><fmt:message key="phone"/></label>
-                                        <div class="col-md-8 col-lg-9">
+                                        <label for="mobile" class="col-sm-4 col-lg-3 col-form-label"><fmt:message key="phone"/></label>
+                                        <div class="col-sm-8 col-lg-8">
                                             <input name="mobile" type="text" class="form-control" id="mobile" value="${user.mobile}">
                                         </div>
                                     </div>
                                     <div class="row mb-3">
-                                        <label for="email" class="col-md-4 col-lg-3 col-form-label"><fmt:message key="email"/></label>
-                                        <div class="col-md-8 col-lg-9">
+                                        <label for="email" class="col-sm-4 col-lg-3 col-form-label"><fmt:message key="email"/></label>
+                                        <div class="col-sm-8 col-lg-8">
                                             <input name="email" type="email" class="form-control" id="email" value="${user.email}">
                                         </div>
                                     </div>
                                     
                                      <div class="row mb-3">
-                                         <label for="address" class="col-md-4 col-lg-3 col-form-label"><fmt:message key="address"/></label>
-                                         <div class="col-md-8 col-lg-9">
+                                         <label for="address" class="col-sm-4 col-lg-3 col-form-label"><fmt:message key="address"/></label>
+                                         <div class="col-sm-8 col-lg-8">
                                              <input name="address" type="text" class="form-control" id="address" value="${user.address}">
                                          </div>
                                      </div>
                                      <div class="row mb-3">
-                                         <label for="ImageFile" class="col-md-4 col-lg-3 col-form-label"><fmt:message key="photo"/></label>
-                                         <div class="col-md-8 col-lg-9">
+                                         <label for="ImageFile" class="col-sm-4 col-lg-3 col-form-label"><fmt:message key="photo"/></label>
+                                         <div class="col-sm-8 col-lg-8">
                                              <input name="imageFile" type="file" class="form-control" id="imageFile" accept="image/*" value="${user.imagePath}">
                                          </div>
                                      </div>

@@ -304,7 +304,24 @@ public class JobController {
 				}
 					
 			}
-			
+			if(job.isTypesettingByUs()) {
+				printer.print(document, "X", 34, 297-116);
+				
+			}
+			if(job.isExistingPlate()) {
+				printer.print(document, "X", 176, 297-124);
+				
+			}
+			String dataSupplyOptions ="";
+			if(job.isDataSuppliedByCustomer()) {
+				dataSupplyOptions = "Data Supplied by Customer,";
+				
+			}
+			if(job.isLayOutByUs()) {
+				
+				dataSupplyOptions +=" Lay out by us ,";
+			}
+				printer.print(document, dataSupplyOptions , 25, 297-143);
 			
 			List<JobPaper> jobPapers = job.getJobPapers();
 			String message = "Cotent :";
@@ -1726,11 +1743,11 @@ public class JobController {
 	public String moveDetails(@PathVariable long id, Model model) {
 		Job job = jobServiceImpl.findById(id).get();
 		List<JobMovement> movements = job.getJobMovements();
-//		int index = movements.size()-1;
+	//	int index = movements.size()-1;
 		Department department = movements.get(movements.size()-1).getDepartment();
 		List<Department> departments = departmentServiceImpl.findAll();
-		JobMovement movement = movements.get(movements.size()-1);
-		
+		JobMovement movement = movements.get(movements.size());
+		departments.remove((int)departments.size());
 		model.addAttribute("job",job);
 		model.addAttribute("departments",departments);
 		model.addAttribute("department",department);
