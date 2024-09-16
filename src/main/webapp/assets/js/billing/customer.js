@@ -43,10 +43,12 @@ function savecutomer() {
 		.then( response => {	
 
    			 if (response.status === 200) {
-       			sendMessage('Succes/Success', 1);
-				return loadPage("customer/list");
+//       		sendMessage('Succes/Success', 1);
+//				return loadPage("customer/list");
+				Swal.fire("Succes/Success!", "Created Successfully!", "success");
    			 } else if (response.status !== 200) {
-				sendMessage('Failed / Echec', 2);
+				Swal.fire({icon: "error", title: "Oops...", text: "Something went wrong!"});	
+			//	sendMessage('Failed / Echec', 2);
   			 }
 		})
 		 .then(function(data) {
@@ -85,12 +87,12 @@ function updatecustomer(id) {
 
 
    	  if (response.ok) {
-		sendMessage('Succes/Success', 1);
-		return loadPage('customer/list');		
-
-								
+			 return loadPage('customer/list');	
+			 Swal.fire("Succes/Success!", "Updated Successfully!", "success");
+//		sendMessage('Succes/Success', 1);
     } else if (response.status !== 200) {
-	  sendMessage('Failed / Echec', 2);
+		Swal.fire({icon: "error", title: "Oops...", text: "Something went wrong!"});
+//	  sendMessage('Failed / Echec', 2);
   	 }
 		})
 		 .then(function(data) {

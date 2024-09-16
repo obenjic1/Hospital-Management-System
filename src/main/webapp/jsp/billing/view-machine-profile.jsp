@@ -25,29 +25,29 @@
 
               	<div class="tab-content pt-2">
                 	<div class="tab-pane fade show active profile-overview" id="profile-overview" style="margin-left: 10%">             
-                  		<h5 class="card-title">Machine Details</h5>
+                  		<h5 class="card-title"> <fmt:message key="machine.detail"/></h5>
                   		<div class="row">
-                   			<div class="col-lg-3 col-md-4 label ">Name :</div>
+                   			<div class="col-lg-3 col-md-4 label "><fmt:message key="name"/> :</div>
                     		<div class="col-lg-9 col-md-8">${findMachine.name}</div>
                  		 </div>
                    		<div class="row">
-                   			 <div class="col-lg-3 col-md-4 label "> Abbreviation :</div>
+                   			 <div class="col-lg-3 col-md-4 label "><fmt:message key="abbreviation"/> :</div>
                     		 <div class="col-lg-9 col-md-8">${findMachine.abbreviation}</div>
                   		</div>
                  		<div class="row">
-                    		<div class="col-lg-3 col-md-4 label">Plate Length :</div>
+                    		<div class="col-lg-3 col-md-4 label"><fmt:message key="plate.length"/> :</div>
                     		<div class="col-lg-9 col-md-8">${findMachine.plateLength}</div>
                   		</div>
                  		<div class="row">
-                    		 <div class="col-lg-3 col-md-4 label">Plate Width :</div>
+                    		 <div class="col-lg-3 col-md-4 label"><fmt:message key="plate.width"/>:</div>
                    			 <div class="col-lg-9 col-md-8">${findMachine.plateWidth}</div>
                 		</div>
                   		<div class="row">
-                  			  <div class="col-lg-3 col-md-4 label">Creation date :</div>
+                  			  <div class="col-lg-3 col-md-4 label"><fmt:message key="creation.date"/> :</div>
                    			  <div class="col-lg-9 col-md-8">${findMachine.creationDate}</div>
                 		</div>
                   		<div class="row">
-                    		<div class="col-lg-3 col-md-4 label">Status</div>
+                    		<div class="col-lg-3 col-md-4 label"><fmt:message key="status"/></div>
                     		<div class="col-lg-9 col-md-8 ${machine.active ? 'Active' : 'Blocked' }">
                     			<a class="${machine.active ? 'Blocked' : 'Active' }">${machine.active ? 'Blocked' : 'Active'}</a>
                     		</div>
@@ -57,61 +57,39 @@
                 <form style="margin-left: 5%">
                   <div class="row mb-3">  </div>
                     <div class="row mb-3">
-                      <label for="firstName" class="col-md-4 col-lg-3 col-form-label">Name</label>
+                      <label for="firstName" class="col-md-4 col-lg-3 col-form-label"><fmt:message key="name"/></label>
                       <div class="col-md-6 col-lg-6">
                         <input name="Name" type="text" class="form-control" id="name" value="${findMachine.name}">
                       </div>
                     </div>
                     <div class="row mb-3">
-                      <label for="abbreviation" class="col-md-4 col-lg-3 col-form-label">abbreviation</label>
+                      <label for="abbreviation" class="col-md-4 col-lg-3 col-form-label"><fmt:message key="abbreviation"/></label>
                       <div class="col-md-8 col-lg-6">
                         <input name="abbreviation" type="text" class="form-control" id="abbreviation" value="${findMachine.abbreviation}">
                       </div>
                     </div>
                     <div class="row mb-3">
-                      <label for="username" class="col-md-4 col-lg-3 col-form-label">PLate Length</label>
+                      <label for="username" class="col-md-4 col-lg-3 col-form-label"><fmt:message key="pLate.length"/></label>
                       <div class="col-md-8 col-lg-6">
                         <input name="plateLength" type="number" class="form-control" id="plateLength" value="${findMachine.plateLength}">
                       </div>
                     </div>
                     <div class="row mb-3">
-                      <label for="username" class="col-md-4 col-lg-3 col-form-label">PLate Width</label>
+                      <label for="username" class="col-md-4 col-lg-3 col-form-label"><fmt:message key="pLate.width"/></label>
                       <div class="col-md-8 col-lg-6">
                        <input name="plateWidth" type="number" class="form-control" id="plateWidth" value="${findMachine.plateWidth}">
                       </div>
                     </div>
                       <div class="row mb-3"> 
-                      <label for="thumbnail" class="col-md-4 col-lg-3 col-form-label">Logo</label> 
+                      <label for="thumbnail" class="col-md-4 col-lg-3 col-form-label"><fmt:message key="logo"/></label> 
                       <div class="col-md-8 col-lg-6">
                        <input name="thumbnail" type="file" class="form-control" id="thumbnail" value="${findMachine.thumbnail}"> 
                       </div> 
                      </div> 
                     
                     <div class="text-center">
-						 <input type="button" data-bs-toggle="modal" data-bs-target="#creation" id="submitButton" style="left: 42%; bottom: 2%" value="Save Changes" class="btn btn-primary w-30" onclick="updateMachine('${findMachine.id}')" > 
+						 <input type="button" id="submitButton" style="left: 42%; bottom: 2%" value="Save Changes" class="btn btn-primary w-30" onclick="updateMachine('${findMachine.id}')" > 
                     </div>
-
-                  <!--------------Machine updated successfully modal ------------->
-	              <div class="modal fade" id="userUdatedSuccessfully" tabindex="-1">
-		            <div class="modal-dialog modal-dialog-centered">
-		              <div class="modal-content">
-		                <button onclick="loadPage('/user/list-users')" type="button" class="btn-close"  data-bs-dismiss="modal" aria-label="Close"></button>
-		                <div class="modal-body">
-		                  <img src="assets/img/success_icon.png" alt="">
-		                  <p><fmt:message key="user.updated.successfully"/></p>
-		                </div>
-		              </div>
-		            </div>
-		          </div>
-		          <div class="modal fade" id="userNotDeleted" tabindex="-1">
-		            <div class="modal-dialog modal-dialog-centered">
-		              <div class="alert alert-danger alert-dismissible fade show" role="alert">
-				        <i class="bi bi-exclamation-octagon me-1"></i>
-				        <p> <fmt:message key="something.when.wrong"/></p>
-				        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-			          </div>
-		            </div>
-		          </div>
                   </form><!-- End Profile Edit Form -->
                 </div>				
             </div>

@@ -32,10 +32,10 @@
               <!-- Default Tabs -->
               <ul style="background-color: #fbfbfb;"  class="nav nav-tabs d-flex" id="myTabjustified" role="tablist">
                 <li class="nav-item flex-fill" role="presentation">
-                  <button style="color: blue;" disabled="disabled" class="nav-link w-100 active" id="home-tab" data-bs-toggle="tab" data-bs-target="#tab1" type="button" role="tab" aria-controls="home" aria-selected="true">JOB DESCRIPTION</button>
+                  <button style="color: blue;" disabled="disabled" class="nav-link w-100 active" id="home-tab" data-bs-toggle="tab" data-bs-target="#tab1" type="button" role="tab" aria-controls="home" aria-selected="true"><fmt:message key="job.description.title"/></button>
                 </li>
                 <li class="nav-item flex-fill" role="presentation">
-                  <button disabled="disabled" class="nav-link w-100"  data-bs-toggle="tab" data-bs-target="#tab2" type="button" role="tab" aria-controls="profile" aria-selected="false">SUMMARY</button>
+                  <button disabled="disabled" class="nav-link w-100"  data-bs-toggle="tab" data-bs-target="#tab2" type="button" role="tab" aria-controls="profile" aria-selected="false"><fmt:message key="summary"/></button>
                 </li>
               </ul>
            <form action="" method="post" id="myForm" style=" padding-left: 5%;">             

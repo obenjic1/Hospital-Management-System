@@ -1,12 +1,3 @@
-// Fonction pour charger une page via une requête fetch
-function loadPage(page) {
-    fetch(page)
-        .then(response => response.text())
-        .then(html => {
-            document.getElementById('main-content').innerHTML = html;
-        })
-        .catch(error => console.log(error));
-}
 
 function loadPageModal(page) {
 	fetch(page)
@@ -18,9 +9,19 @@ function loadPageModal(page) {
 		.catch(error => console.log(error));
 }
 
-//<---------------- Function to create a group ------------------------>
+	//               ---------------------
+			/*
+			
+				** Start Add group Section 
+				
+			*/
+
 function addGroupe() {
-    var name = document.getElementById('name').value;
+    var name = document.getElementById('name').v//  
+//	$('#areyouSureYouWantToDetele').modal('show');
+//	$('#confirmDeleteBtn').click(function() {
+//		
+//	});alue;
     var description = document.getElementById('description').value;
     var ids = Array.from(document.querySelectorAll('input[type="checkbox"]:checked'))
         .map(function(checkbox) {
@@ -49,7 +50,8 @@ function addGroupe() {
        			//sendMessage('Succes/Success', 1);
 			//return loadPage("group/list-groups");				
    			 } else if (response.status !== 200) {
-				sendMessage('Failed : email or user name already exist ', 2);
+					Swal.fire({icon: "error", title: "Oops...", text: "Something went wrong!"});
+	//			sendMessage('Failed : email or user name already exist ', 2);
   			 }
 		})
 		 .then(function(data) {
@@ -60,8 +62,20 @@ function addGroupe() {
 			});
 }
 
+			/*
+			
+				** End Add Groupe Section
+				 
+			*/
+			
+	//			------------------------------------
 
-//<-------------------- Update Group --------------------->
+			/*
+			
+				** Start Update group Section
+				
+			*/
+
 function updateGroupe(name) {
    var updatedName = document.getElementById('name').value;
    var description = document.getElementById('description').value;
@@ -92,7 +106,8 @@ function updateGroupe(name) {
        		//	sendMessage('Succes/Success', 1);
 		//	return ;				
    			 } else if (response.status !== 200) {
-				sendMessage('Failed / Echec', 2);
+				 Swal.fire({icon: "error", title: "Oops...", text: "Something went wrong!"});
+		//		sendMessage('Failed / Echec', 2);
   			 }
 		})
 		 .then(function(data) {
@@ -103,14 +118,38 @@ function updateGroupe(name) {
 			});
 }
 
-// <------------ Delete an confirm delete section --------------------->
+			/*
+			
+				** End Update Group Section
+				
+			*/
+			
+	//			--------------------------------
+
+			/*
+			
+				** Start Disable Group Section
+				
+			*/
 
 function confirmDisableGroupe(id) {
-  let deleteId = id;
-	$('#areyouSureYouWantToDetele').modal('show');
-	$('#confirmDeleteBtn').click(function() {
-		disableGroup(deleteId);
-	});
+	let deleteId = id;
+		Swal.fire({
+			  title: "Are you sure?",
+			  text: "You won't be able to revert this!",
+			  icon: "warning",
+			  showCancelButton: true,
+			  confirmButtonColor: "#3085d6",
+			  cancelButtonColor: "#d33",
+			  confirmButtonText: "Yes, delete it!"
+			}).then((result) => {
+			  if (result.isConfirmed) {
+				  disableGroup(deleteId);
+			  }else{
+				 Swal.fire("Cancelled!/Annulee!", "Operation cancelled", "info"); 
+			  }
+			});
+	
 }
 
 function disableGroup(id){
@@ -120,10 +159,11 @@ function disableGroup(id){
 	.then( response => {	
 
    			 if (response.status === 200) {
-       			sendMessage('Succes/Success', 1);
-			return loadPage("group/list-groups");				
+				Swal.fire({title: "Deleted!",text: "Your file has been deleted.", icon: "success" });
+//       			sendMessage('Succes/Success', 1);
+//			return loadPage("group/list-groups");				
    			 } else if (response.status !== 200) {
-				sendMessage('Failed / Echec', 2);
+				Swal.fire({  icon: "error", title: "Oops...", text: "Something went wrong!"});
   			 }
 		})
 		 .then(function(data) {
@@ -133,6 +173,21 @@ function disableGroup(id){
 
 			});
 }
+
+			
+			/*
+			
+				** End Disable Groupe Section 
+				
+			*/
+			
+	//			-------------------------------
+			
+			/*
+			
+				** Paginqtion Section
+				
+			*/
 
 function refreshGroupTable(pageNo) {
     $.ajax({

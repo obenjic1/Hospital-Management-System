@@ -33,19 +33,19 @@
               <!-- Default Tabs -->
               <ul style="background-color: #fbfbfb;"  class="nav nav-tabs d-flex" id="myTabjustified" role="tablist">
                 <li class="nav-item flex-fill" role="presentation">
-                  <button style="color: blue;" disabled="disabled" class="nav-link w-100 active" id="home-tab" data-bs-toggle="tab" data-bs-target="#tab1" type="button" role="tab" aria-controls="home" aria-selected="true">JOB DESCRIPTION</button>
+                  <button style="color: blue;" disabled="disabled" class="nav-link w-100 active" id="home-tab" data-bs-toggle="tab" data-bs-target="#tab1" type="button" role="tab" aria-controls="home" aria-selected="true"><fmt:message key="job.description.title"/></button>
                 </li>
                 <li class="nav-item flex-fill" role="presentation">
-                  <button disabled="disabled" class="nav-link w-100"  data-bs-toggle="tab" data-bs-target="#tab2" type="button" role="tab" aria-controls="profile" aria-selected="false">PAPER OPTIONS</button>
+                  <button disabled="disabled" class="nav-link w-100"  data-bs-toggle="tab" data-bs-target="#tab2" type="button" role="tab" aria-controls="profile" aria-selected="false"><fmt:message key="paper.option.title"/></button>
                 </li>
                 <li class="nav-item flex-fill" role="presentation">
-                  <button disabled="disabled" class="nav-link w-100" id="contact-tab" data-bs-toggle="tab" data-bs-target="#tab3" type="button" role="tab" aria-controls="contact" aria-selected="false">PRINTING OPTIONS</button>
+                  <button disabled="disabled" class="nav-link w-100" id="contact-tab" data-bs-toggle="tab" data-bs-target="#tab3" type="button" role="tab" aria-controls="contact" aria-selected="false"><fmt:message key="printing.option.title"/></button>
                 </li>
                 <li class="nav-item flex-fill" role="presentation">
-                  <button disabled="disabled" class="nav-link w-100" id="contact-tabm" data-bs-toggle="tab" data-bs-target="#tab4" type="button" role="tab" aria-controls="justified" aria-selected="false">FINISHING OPTIONS</button>
+                  <button disabled="disabled" class="nav-link w-100" id="contact-tabm" data-bs-toggle="tab" data-bs-target="#tab4" type="button" role="tab" aria-controls="justified" aria-selected="false"><fmt:message key="finishing.option.title"/></button>
                 </li>
                  <li class="nav-item flex-fill" role="presentation">
-                  <button disabled="disabled" class="nav-link w-100" id="contact-taob" data-bs-toggle="tab" data-bs-target="#tab5" type="button" role="tab" aria-controls="samary" aria-selected="false">SUMMARY</button>
+                  <button disabled="disabled" class="nav-link w-100" id="contact-taob" data-bs-toggle="tab" data-bs-target="#tab5" type="button" role="tab" aria-controls="samary" aria-selected="false"><fmt:message key="summary"/></button>
                 </li>
               </ul>
            <form action="" method="post" id="myForm" style=" padding-left: 5%;">             
@@ -840,7 +840,7 @@
 				      <button type="button" style="float:left" class="btn btn-primary" onclick="navigate(5,4);removeRows()"> <fmt:message key="previews"/></button>	
 				     </div>
 			         <div class ="col-sm-6">
-			         <button   type="button" style="width:125px;float:right"  class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#creation" id="next-btn1" onclick="navigate(4,5); submitForm()"><fmt:message key="submit"/></button>			
+			         <button   type="button" style="width:125px;float:right"  class="btn btn-primary" id="next-btn1" onclick="navigate(4,5); submitForm()"><fmt:message key="submit"/></button>			
 			        </div>
 			        </div>
                	</div>

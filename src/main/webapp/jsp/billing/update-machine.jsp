@@ -14,32 +14,32 @@
 		<section>
 			<div class="card" style="width: 102%; left: -1%;">
 				<div class="card-body">
-				  <h5 class="card-title text-center pb-0 fs-4">Update Machine</h5>
-				  <p class="text-center small">Update Machine Information</p>
+				  <h5 class="card-title text-center pb-0 fs-4"><fmt:message key="update.machine"/></h5>
+				  <p class="text-center small"> <fmt:message key="update.machine.information"/></p>
 					<form id="myForm" class="row g-3 needs-validation" style=" margin-left: 20%;">
-						<label for="name" class="col-md-4 col-lg-3 col-form-label">Name</label>
+						<label for="name" class="col-md-4 col-lg-3 col-form-label"><fmt:message key="name"/></label>
 	                      <div class="col-md-8 col-lg-9">
 	                        <input name="name" type="text" class="form-control" id="name" value="${findMachine.name}">
 	                      </div>
-	                      <label for="abbreviation" class="col-md-4 col-lg-3 col-form-label">abbreviation</label>
+	                      <label for="abbreviation" class="col-md-4 col-lg-3 col-form-label"><fmt:message key="abbreviation"/></label>
 	                      <div class="col-md-8 col-lg-9">
 	                        <input name="abbreviation" type="text" class="form-control" id="abbreviation" value="${findMachine.abbreviation}">
 	                      </div>
-	                      <label for="plateLength" class="col-md-4 col-lg-3 col-form-label">Plate Length</label>
+	                      <label for="plateLength" class="col-md-4 col-lg-3 col-form-label"><fmt:message key="plate.length"/></label>
 	                      <div class="col-md-8 col-lg-9">
 	                        <input name="plateLength" type="number" class="form-control" id="plateLength" value="${findMachine.plateLength}">
 	                      </div>
-	                       <label for="Plate Width" class="col-md-4 col-lg-3 col-form-label">Plate Width</label>
+	                       <label for="Plate Width" class="col-md-4 col-lg-3 col-form-label"><fmt:message key="plate.width"/></label>
 	                      <div class="col-md-8 col-lg-9">
 	                        <input name="plateWidth" type="number" class="form-control" id="plateWidth" value="${findMachine.plateWidth}">
 	                      </div>
-	                       <label for="thumbnail" class="col-md-4 col-lg-3 col-form-label">Logo</label>
+	                       <label for="thumbnail" class="col-md-4 col-lg-3 col-form-label"> <fmt:message key="logo"/></label>
 	                      <div class="col-md-8 col-lg-9">
 	                        <input name="thumbnail" type="file" class="form-control" id="thumbnail" value="${findMachine.thumbnail}" accept="image/*">
 	                      </div>
 	                      <div class="text-center">
 <%-- 	                      <input type="button" data-bs-toggle="modal" data-bs-target="#creation" onclick="updatecustomer('${update.id}')" class="btn btn-primary" value="Save Changes" style="left: 164%;bottom: -18%;"/> --%>
-                      	<input type="button" data-bs-toggle="modal" data-bs-target="#creation" id="submitButton" style="left: 42%; bottom: 2%" value="Save Changes" class="btn btn-primary w-30" onclick="updateMachine('${findMachine.id}')" > 
+                      	<input type="button" id="submitButton" style="left: 42%; bottom: 2%" value="Save Changes" class="btn btn-primary w-30" onclick="updateMachine('${findMachine.id}'); loadPage('machine/list');" > 
                      </div>
 					</form>				
 									
