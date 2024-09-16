@@ -132,10 +132,6 @@ public class InvoiceServiceImpl implements InvoiceService{
 		}
 	}
 
-	
-	
-	
-	
 	@Override
 	public Invoice displayIrtaxAndVatTax(long id, double irTax, double vatTax) {
 		try {
@@ -157,6 +153,18 @@ public class InvoiceServiceImpl implements InvoiceService{
 			if(invoice.isPresent())
 				invoice.get();
 			return invoice;
+		} catch (Exception e) {
+			throw e;
+		}
+	}
+
+	public Invoice applyDiscountAmount(long id, double discountAmount) {
+		try {
+			Invoice invoice = invoiceRepository.findById(id).get();
+			double discount = (discountAmount/invoice.getEstimatePricing().getTotalPrice())*100;
+			invoice.setDiscountPercentage(discount);
+			invoice.setNetPayable((invoice.getEstimatePricing().getTotalPrice())-((discount/100)*(invoice.getEstimatePricing().getTotalPrice())));
+			return invoiceRepository.save(invoice);
 		} catch (Exception e) {
 			throw e;
 		}

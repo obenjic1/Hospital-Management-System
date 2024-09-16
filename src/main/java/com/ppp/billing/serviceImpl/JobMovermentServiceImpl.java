@@ -58,16 +58,16 @@ public class JobMovermentServiceImpl implements JobMovementService{
 		job.setJobMovements(movements);
 		moveJob.setJob(job);
 		
-		List<JobTracking> jobTrackings = job.getJobTrackings() ;
-		JobTracking tracking = new JobTracking();
-		tracking.setCreationDate(new Date());
-		tracking.setOperation("send job to " + department.getName()+ " ( " + moveJob.getDescription() +" )" );
-		String name = SecurityContextHolder.getContext().getAuthentication().getName();
-		User user = userRepository.findByUsername(name);
-		tracking.setUser(user);
-		tracking.setJob(job);
-		jobTrackings.add(tracking);
-		jobTrackingRepository.saveAll(jobTrackings);
+//		List<JobTracking> jobTrackings = job.getJobTrackings() ;
+//		JobTracking tracking = new JobTracking();
+//		tracking.setCreationDate(new Date());
+//		tracking.setOperation("send job to " + department.getName()+ " ( " + moveJob.getDescription() +" )" );
+//		String name = SecurityContextHolder.getContext().getAuthentication().getName();
+//		User user = userRepository.findByUsername(name);
+//		tracking.setUser(user);
+//		tracking.setJob(job);
+//		jobTrackings.add(tracking);
+//		jobTrackingRepository.saveAll(jobTrackings);
 		jobMovementRepository.saveAll(movements);
 		return "OK";
 	}

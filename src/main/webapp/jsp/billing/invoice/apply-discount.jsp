@@ -46,16 +46,32 @@
                                                 </table>
                                             </div>
                                             <div class="row" style="margin-bottom: -8px;">
-				                       			 <div class="col-lg-9">
+				                       			 <div class="col-lg-9" style="margin-bottom: -42px;">
 				                       			 	<div class="row" style="position: relative;">
-							                          <div class ="col-lg-5 px3">
+							                          <div class ="col-lg-3 px3">
 													    <div class="form-check" style="display: contents;">                     
 										                    <label class="form-check-label" for="gridCheck1" style="position: relative;bottom: -6px; left: 35px;"><a>Apply Discount</a></label>
 										                    <input class="form-check-input" type="checkbox" name="name" id="applyDiscount" style="position: relative;left: 35px; bottom: -7px"  onclick="showDiscountImput()">
 										                  </div>
 													   </div> 
-						                         	  <div class ="col-lg-4 px3" id="discountDiv" style="display: none;">
-														<input id= "discountValue" name="title" type= "number" placeholder="" style="width: 278px;height: 35px;margin-left: -141px;bottom: -2px;position: relative; value=0">
+													   
+						                         	  <div class ="col-lg-8 px3" style ="margin-top: 5px;display:none;"id="discountDiv">
+							                         	  <div class ="col-lg-2 px3" style ="margin-top: 5px;"id="">
+								                         	  <select id="discountOption" onchange="showDiscountPercentageOrValueInput()">
+									                         	  <option value="1">%</option>
+									                         	  <option value="2">XAF</option>
+								                         	  </select>
+								                          </div>
+							                         	  <div class ="col-lg-8 px3" style ="left: 69px;position: relative;top: -28px;"id="">
+							                         	 
+							                         	  	<input id= "discountValue" name="title" type= "number" placeholder="%" style="width: 200px; height: 35px;" value=0;> 
+							                         	     <span id="discountMessage" style="color:red ;display:none">sorry percentage can't be more than 100</span>
+							                         	  </div>
+							                         	  <div class ="col-lg-4 px3" style ="left: 69px;position: relative;top: -28px;"id="">
+							                         	  	<input id= "discountAmount" name="title" type= "number" placeholder="XAF" style="width: 200px; height: 35px;display:none"> 
+							                         	    
+							                         	  </div>
+							                         	   <span id="discountMessage" style="color:red ;display:none">sorry percentage can't be more than 100</span>
 											          </div>
 													
 													</div>
@@ -89,10 +105,13 @@
                                                                                                    
                                                                 </tr> 
                                                                   <tr> 
-                                                                 
-                                                                       <td style="font-family: bold;"> <span>${invoices.discountPercentage}</span>% DISCOUNT</a></td>                                 
-                                                                     <td><a> </td>                                  
-                                                                      <td><a> </td>  
+                                                                 <c:if test="${discount}>0">
+                                                                 	<td style="font-family: bold;"><span> <fmt:formatNumber value="${invoices.discountPercentage}"    pattern = "#.00"/></span>%  Discount</td>                          
+                                                                 </c:if>
+                                                                 <c:if test="${discount}==0"></c:if>
+                                                                       <td style="font-family: bold;"><span> ${invoices.discountPercentage}</span>%  Discount</td>                          
+                                                                     <td> </td>                                  
+                                                                      <td> </td>  
                                                                       <td><a> <fmt:formatNumber value="${discount}" type="currency"   pattern = "#,###,###"/> </a></td>                               
                                                                 </tr> 
                                                                  <tr> 

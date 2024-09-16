@@ -87,10 +87,29 @@
  }
  
   function applyDiscount(id){
-	 document.getElementById("discountDiv").style.display = "none";
-	 let discount = document.getElementById("discountValue").value;
-	 discountApply(`invoice/invoice-discount/${id}/${discount}`);
-	
+	  let chosen = document.getElementById("discountOption").value;
+	 		
+	 		let discountMessage =  document.getElementById("discountMessage");
+	  let discount =0;
+	  if(chosen ==1){
+		  	 discount  = document.getElementById("discountValue").value;
+		  		if(discount>100){
+				 discountMessage.style.display = "block";
+				
+				 return;
+			  }
+			  else{	  
+					discountApply(`invoice/invoice-discount/${id}/${discount}`);
+					 document.getElementById("discountDiv").style.display = "none";
+		}
+		
+	  }
+	else{
+			discount = document.getElementById("discountAmount").value;
+			discountApply(`invoice/invoice-discount-amount/${id}/${discount}`);
+			document.getElementById("discountDiv").style.display = "none";
+	}
+
  }
  displayTax
  

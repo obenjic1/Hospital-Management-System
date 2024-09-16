@@ -524,6 +524,7 @@ public class JobServiceImpl implements JobService {
 			User user = userRepository.findByUsername(name);
 			tracking.setUser(user);
 			tracking.setJob(job);
+			tracking.setOperation("Confirmed Job");
 			jobTrackings.add(tracking);
 			jobTrackingRepository.saveAll(jobTrackings);
 			job.setJobTrackings(jobTrackings);

@@ -688,7 +688,9 @@ function confirmEstimateCommission(ref){
 
 
 function jobTypeChoice(opt){
+	
 	let dataContentValue = opt.parentElement.getAttribute('data-content');
+	
 	if(dataContentValue==0){
 		document.getElementById('volumeofContent').style.display = "";
 		document.getElementById('volumeofCover').style.display = "none";
@@ -977,11 +979,13 @@ function summaryDraftUpdate(){
 }
 }
 
+
 //	----------------------------------------------
 		/*
 			** Abort Job Sectio
 		*/
      
+
      function confirmAbort(id) {
 		  Swal.fire({
 		    title: 'Are you sure to abort?',

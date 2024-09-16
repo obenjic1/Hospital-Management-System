@@ -28,7 +28,7 @@
 	</div>
 	<section class="section">
 		<div class="row">
-			<div class="col-lg-12">
+			<div class="">
 				<div class="card">
 					<div class="card-body">
 						<h5 class="card-title"><fmt:message key="job.management"/></h5>
