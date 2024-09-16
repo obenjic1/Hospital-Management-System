@@ -65,67 +65,10 @@
 								 </a>
 							   </td>
 							 </tr>
-							 <!--------------confirmation to delete activity ------------->
-						     <div class="modal fade" id="jobActivityDelete" tabindex="-1">
-						       <div class="modal-dialog modal-dialog-centered">
-							     <div class="modal-content">
-								   <div class="modal-body">
-									 <p> <br>Are you sure you want to delete this Machine, this Action cannot be changed </p>
-									 <button class="delete-denied" type="button" id="cancelButton" data-bs-dismiss="modal"><fmt:message key="cancel"/></button>
-									 <button class="accept-delete" type="button" id="confirmDeleteBtn" data-bs-toggle="modal"><fmt:message key="delete"/></button>
-								  </div>
-								</div>
-							  </div>
-							</div>
+					
 						  </c:forEach>
 						</tbody>
 					  </table>
-						<!--------------machine created successfully modal ------------->
-					  <div class="modal fade" id="jobActivityDelete" tabindex="-1">
-					    <div class="modal-dialog modal-dialog-centered">
-					      <div class="modal-content">
-						    <div class="modal-body">
-							  <button type="button" style="position: relative; left: 50%; bottom: 12px;"  class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-							  <img src="assets/img/success_icon.png" alt="">
-							  <p>Machine Added Successfully</p>
-							</div>
-						  </div>
-					    </div>
-					  </div>
-						<!--------------MAchine updated successfully modal ------------->
-					  <div class="modal fade" id="userUdatedSuccessfully" tabindex="-1">
-					    <div class="modal-dialog modal-dialog-centered">
-					 	  <div class="modal-content">
-						    <div class="modal-body">
-							  <button onclick="loadPage('/machine/viewMachine/${machine.id}')" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-							  <img src="assets/img/success_icon.png" alt="">
-							  <p><fmt:message key="user.updated.successfully"/></p>
-							</div>
-						  </div>
-					    </div>
-					  </div>
-					  <!--------------User deleted successfully modal ------------->
-					  <div class="modal fade" id="activityDeleteSuccessfully" tabindex="-1">
-					    <div class="modal-dialog modal-dialog-centered">
-						  <div class="modal-content">
-							<div class="modal-body">
-							  <button type="button" class="btn-close" data-bs-dismiss="modal" style="position: relative; left: 50%; bottom: 12px;" onclick="loadPage('activity-option/list')" aria-label="Close"></button>
-							  <img src="assets/img/success_icon.png" alt="">
-							  <p>ACTIVITY DELETED SUCCESSFULLY</p>
-							</div>
-						  </div>
-						</div>
-					  </div>
-						<!------------------Deleted error------------------------------>
-						<div class="modal fade" id="somthingwhenwrong" tabindex="-1">
-						  <div class="modal-dialog modal-dialog-centered">
-							<div class="alert alert-danger alert-dismissible fade show" role="alert">
-							    <i class="bi bi-exclamation-octagon me-1"></i>
-							    <p><fmt:message key="something.when.wrong.user.did.not.deleted"/></p>
-							    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-							  </div>
-							</div>
-						 </div>
 						<!-- Pagination with icons -->
 						<nav aria-label="Page navigation example">
 						  <ul class="pagination nav-no-border">

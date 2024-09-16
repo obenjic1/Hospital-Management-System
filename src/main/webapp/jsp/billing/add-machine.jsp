@@ -10,8 +10,8 @@
 	<section>
 			<div class="card">
 				<div class="card-body">
-					<h5 class="card-title text-center pb-0 fs-4">Add a Machine</h5>
-					<p class="text-center small">Enter the details of the Machine</p>
+					<h5 class="card-title text-center pb-0 fs-4"> <fmt:message key="add.achine"/></h5>
+					<p class="text-center small"><fmt:message key="machine.details"/></p>
 					<form:form class="row g-3" id="machineForm" style=" margin-left: 5%;" method="POST"  modelAttribute="PrintingMachine" >
 					  <div class="col-md-4">
 						<label for="Name" class="form-label"></label>
@@ -31,9 +31,9 @@
 								<div class="col-md-3">
 		                  <label for="isActive" class="form-label"></label>
 		                  <select id="isActive" class="form-select">
-		                    <option selected>select the machine status</option>
-		                    <option value=1>true</option>
-		                    <option value=0>false</option>
+		                    <option selected> <fmt:message key="select.the.machine.status"/> </option>
+		                    <option value=1> <fmt:message key="true"/></option>
+		                    <option value=0> <fmt:message key="false"/></option>
 		                  </select>
 		                </div>
 						<div class="col-md-4">
@@ -65,33 +65,7 @@
 				  <input type="button" id="create-btn" onclick="addMachine()" style=" bottom: -42%;" class="btn btn-primary w-100" value="Save" />
 				</div>
 				</form:form>
-						<!-------------machine added successfully modal ------------->
-						<div class="modal fade" id="addMachine" tabindex="-1">
-							<div class="modal-dialog modal-dialog-centered">
-								<div class="modal-content">
-									<div class="modal-body">
-										<button type="button" onclick="loadPage('/machine/list')"
-											class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-										<img src="assets/img/success_icon.png" alt="">
-										<p>an Activity has been added successfully</p>
-									</div>
-								</div>
-							</div>
-						</div>
-						<!-------------- Something when wrong Modal ------------->
-						<div class="modal fade" id="somethingWhenWrong" tabindex="-1">
-							<div class="modal-dialog modal-dialog-centered">
-								<div class="modal-content">
-									<div class="modal-body">
-										<button type="button" class="btn-close"
-											data-bs-dismiss="modal" aria-label="Close"></button>
-										<img src="assets/img/success_icon.png" alt="">
-											<button type="button" onclick="loadPage('/machine/list')"></button>
-										<p><fmt:message key="something.when.wrong.with.the.server"/></p>
-									</div>
-								</div>
-							</div>
-						</div>
+
 					</div>
 				</div>
 		</section>

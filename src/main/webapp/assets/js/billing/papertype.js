@@ -1,13 +1,4 @@
 
-function loadPage(page) {
-	fetch(page)
-		.then(response => response.text())
-		.then(html => {
-			document.getElementById('main-content').innerHTML = html;
-		})
-		.catch(error => console.log(error));
-}
-
 //<---------------- Save paper type------------------------>
 function save(){
 	var name = document.getElementById('name').value;
@@ -24,13 +15,32 @@ function save(){
          },
         body: jsonData
 	})
-	.then(function(response){
+	.then(response => {
+		if (response.status === 200) {
+					Swal.fire("Success!/Success!", "Saved successfully!", "success");
+  			 } else if (response.status !== 200) {
+				   Swal.fire({icon: "error", title: "Oops...", text: "Something went wrong!"});
+  			 }
 		
 	})
 	.catch(function(response){
 		console.log('Erreur ahahaha')
 	})
 }
+
+			/*
+			
+				** End Save Paper Type Section
+				
+			*/
+			
+//			------------------------------------
+
+			/*
+			
+				** Start Update Paper Type Function 
+				
+			*/
 
 //<---------------- Update paper type ------------------------>
 function update(id){
@@ -49,14 +59,11 @@ function update(id){
 		body: jsonUpdateData
 	})
 	.then(response => {
-		if(response.ok){
-			return response.json();
-		} else if (response.status === 400){
-            throw new Error('Erreur : Données utilisateur invalides');
-            
-        } else {
-            throw new Error('Erreur inattendue');
-        }
+	if (response.status === 200) {
+			Swal.fire("Success!/Success!", "Updated successfully!", "success");
+		 } else if (response.status !== 200) {
+			Swal.fire({icon: "error", title: "Oops...", text: "Something went wrong!"});
+		 }
    })
    .then(data => {
       loadPage('papertype/list');

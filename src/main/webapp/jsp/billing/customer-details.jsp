@@ -26,7 +26,7 @@
                         <div  class="tab-pane fade show active profile-overview" id="profile-overview">
                             <div class="row">
                                 <div class="col-xl-8">
-                                    <h5 class="card-title">Customer Details</h5>
+                                    <h5 class="card-title"><fmt:message key="customer.details"/></h5>
                                     <div class="row">
                                         <div class="col-lg-3 col-md-4 label "><fmt:message key="name"/></div>
                                         <div class="col-lg-9 col-md-8">${customer.name}</div>
@@ -64,12 +64,12 @@
                             <table class="table datatable">
                                 <thead style="background-color: #dddfe3;">
                                     <tr>
-                                        <th scope="col">Number</th>
-                                        <th scope="col">Job type</th>
-                                        <th scope="col">Title</th>
-                                        <th scope="col">Reference</th>
-                                        <th scope="col">JobStatus</th>
-                                        <th scope="col">Registration date</th>
+                                        <th scope="col"> <fmt:message key="number"/></th>
+                                        <th scope="col"><fmt:message key="job.type"/></th>
+                                        <th scope="col"><fmt:message key="title"/></th>
+                                        <th scope="col"><fmt:message key="reference"/></th>
+                                        <th scope="col"><fmt:message key="job.status"/></th>
+                                        <th scope="col"><fmt:message key="registration.date"/></th>
                                     </tr>
                                 </thead>
                                 <tbody>

@@ -56,7 +56,7 @@
 							      <button class="button-icon" data-bs-toggle="modal" data-bs-target="#ExtralargeModal" onclick="loadPageModalForm('group/update-group/${group.name}')">
 							        <i class="ri-pencil-line"></i>
 								  </button>
-								   <button class="button-delete" data-bs-toggle="modal"  data-toggle="tooltip" data-placement="top" title="Deactivate/Reactivate Group" onclick="confirmDisableGroupe('${group.id}')">
+								   <button class="button-delete"  data-toggle="tooltip" data-placement="top" title="Deactivate/Reactivate Group" onclick="confirmDisableGroupe('${group.id}')">
 								      ${group.enabled ? '<i class="bi-toggle2-on"></i>' :'<i class="bi-toggle2-off"></i>'}
 								   </button>
 							    </td>

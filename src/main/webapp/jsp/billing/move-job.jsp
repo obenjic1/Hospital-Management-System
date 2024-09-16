@@ -10,8 +10,8 @@
 	<section>
 			<div class="card">
 				<div class="card-body">
-					<h5 class="card-title text-center pb-0 fs-4">Move Job</h5>
-					<p class="text-center small">Move this Job to a Different Department</p>
+					<h5 class="card-title text-center pb-0 fs-4"><fmt:message key="move.job"/></h5>
+					<p class="text-center small"><fmt:message key="move.this.job.to.a.different.department"/></p>
 					
 					<div class ="row " style=" padding-left: 8%;padding-right: 3%;">
 							<div class="col-md-5">
@@ -50,38 +50,11 @@
                                                    
 							</div>
 							  <div class="row py-1">  
-									<button  style=" width: 94px;margin-left: 71%;" type="button"  class="btn btn-primary"data-bs-dismiss="modal" onclick="moveJob('${job.id}')" id="next-btn" >Send </button>	
+									<button  style=" width: 94px;margin-left: 71%;" type="button"  class="btn btn-primary"data-bs-dismiss="modal" onclick="moveJob('${job.id}')" id="next-btn" > <fmt:message key="send"/> </button>	
 							  </div> 
 						</div>
 					
 					</div>
-						<!-------------machine added successfully modal ------------->
-						<div class="modal fade" id="addMachine" tabindex="-1">
-							<div class="modal-dialog modal-dialog-centered">
-								<div class="modal-content">
-									<div class="modal-body">
-										<button type="button" onclick="loadPage('/machine/list')"
-											class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-										<img src="assets/img/success_icon.png" alt="">
-										<p>an Activity has been added successfully</p>
-									</div>
-								</div>
-							</div>
-						</div>
-						<!-------------- Something when wrong Modal ------------->
-						<div class="modal fade" id="somethingWhenWrong" tabindex="-1">
-							<div class="modal-dialog modal-dialog-centered">
-								<div class="modal-content">
-									<div class="modal-body">
-										<button type="button" class="btn-close"
-											data-bs-dismiss="modal" aria-label="Close"></button>
-										<img src="assets/img/success_icon.png" alt="">
-											<button type="button" onclick="loadPage('/machine/list')"></button>
-										<p><fmt:message key="something.when.wrong.with.the.server"/></p>
-									</div>
-								</div>
-							</div>
-						</div>
 					</div>
 				</div>
 		</section>

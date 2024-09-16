@@ -35,7 +35,7 @@
 						  <fmt:message key="add.group"/>
 						</button>
 						<div style="position: relative;bottom: 30px;"> 
-						    <label style="left: 76%;position: relative; font-family: bold;color: #012970;">Total PaperTypes </label>
+						    <label style="left: 76%;position: relative; font-family: bold;color: #012970;"><fmt:message key="total.paperTypes"/>  </label>
 						    <span style="left: 80%;position: relative; color: red; font-family: bold;">${totalElement}</span>
 					    </div>
 						<!-- Table with stripped rows -->

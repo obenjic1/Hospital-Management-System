@@ -44,8 +44,7 @@
 						  </div>
 						</div>
 						<div class="col-md-6">
-						  <input type="button" data-bs-toggle="modal" data-bs-target="#creation" onclick="updatecustomer('${update.id}')" 
-						  class="btn btn-primary" value="Save Changes" style="left: 164%;bottom: -18%;"/>
+						  <input type="button" onclick="updatecustomer('${update.id}');" class="btn btn-primary" value="Save Changes" style="left: 164%;bottom: -18%;"/>
 						</div>
 					</form>
 				</div>

@@ -19,69 +19,69 @@
 
               <ul class="nav nav-tabs" style="margin-left:10%; justify-content: center; background-color: #012970;">
                 <li class="nav-item">
-                  <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#profile-overview" style="height:35px;background:#012970; color:white;"><h5>Job </h5></button>
+                  <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#profile-overview" style="height:35px;background:#012970; color:white;"><h5><fmt:message key="job"/></h5></button>
                 </li>
               </ul>
                 <div class="tab-content pt-2">
                   <div class="tab-pane fade show active profile-overview" id="profile-overview" style="margin-left: 10%">    
 
       				<div class="container" style="position: relative;bottom: -20px;" >
-       				<h4>Description</h4>
+       				<h4> <fmt:message key="description"/></h4>
        				<hr>
 					  <div class="row">
 					 	 <div class="row">
 					      <div class="col-sm-4">
-					    	The Type of Job : <span id="job-type">${job.jobType.name}</span>
+					    	 <fmt:message key="thet.ype.of.job"/> : <span id="job-type">${job.jobType.name}</span>
 					      </div>
 					      <div class="col-sm-4">
-					    	 Title of Job : <span id="job-title">${job.title} </span> 
+					    	<fmt:message key="title.of.job"/>  : <span id="job-title">${job.title} </span> 
 					      </div>
 					      <div class="col-sm-4">
-					    	 Name of Customer : <span id="job-customer"> ${job.customer.name} </span> 
+					    	<fmt:message key="name.of.customer"/> : <span id="job-customer"> ${job.customer.name} </span> 
 					      </div>
 					      </div>
 					   	 <div class="row">
 					       <div class="col-sm-4">
 					       <c:if test="${job.jobType.category==2}">
-					     	  Number of Pages for Cover : <span id="cover-pages">${job.coverVolume} </span>
+					     	 <fmt:message key="number.of.pages.for.cover"/> : <span id="cover-pages">${job.coverVolume} </span>
 					       </c:if>
 					      </div>
 					      <c:if test="${job.jobType.category==1||job.jobType.category==2 || job.jobType.category==0}">
 					      <div class="col-sm-4">
-					    	Number of Pages for Content :  <span id="content-pages"> ${job.contentVolume}</span> 
+					    	 <fmt:message key="number.of.pages.for.content"/> :  <span id="content-pages"> ${job.contentVolume}</span> 
 					      </div>
 					      </c:if>
 					      <div class="col-sm-4">
-					    	 CTP Fees : <span id="ctp">${job.ctpFees}</span> 
+					    	<fmt:message key="ctp.fees"/> : <span id="ctp">${job.ctpFees}</span> 
 					      </div>
 					   </div>
 					   
 					   <div class="row">
 					    <div class="col-sm-4">
-					    	Paper Format : <span id="paper-format"> ${job.paperFormat}</span>
+					    	<fmt:message key="paper.format"/> : <span id="paper-format"> ${job.paperFormat}</span>
 					    </div>
 					    <div class="col-sm-4">
-					    	Open :<span id="open-l">${job.openLength}</span> | <span id="open-w">${job.openWidth}</span></div> 
+					    	<fmt:message key="open"/> :<span id="open-l">${job.openLength}</span> | <span id="open-w">${job.openWidth}</span></div> 
 					    	<div class="col-sm-4">
-					    	Fold :<span id="fold-l">${job.closeLength}</span> | <span id="fold-w">${job.closeWidth}</span>
+					    	<fmt:message key="fold"/> :<span id="fold-l">${job.closeLength}</span> | <span id="fold-w">${job.closeWidth}</span>
 					    </div>
 					    </div>
 					    <div class="row">
 					    <div class="col-sm-4">
-					    	Existing Plate: <span class="${job.existingPlate ? 'true' : 'false'}">${job.existingPlate ? 'yes' : 'no'}</span>
+					    	<fmt:message key="existing.plate"/> : <span class="${job.existingPlate ? 'true' : 'false'}">${job.existingPlate ? 'yes' : 'no'}</span>
 					    </div>
 					    <div class="col-sm-4">
-					    	Data Supply By Us : <span class="${job.dataSuppliedByCustomer ? 'true' : 'false'}"> ${job.dataSuppliedByCustomer ? 'yes' : 'no'}</span>
+					    	<fmt:message key="data.supply.by.customer"/> : <span class="${job.dataSuppliedByCustomer ? 'true' : 'false'}"> ${job.dataSuppliedByCustomer ? 'yes' : 'no'}</span>
 					    </div>
 					    <div class="col-sm-4">
-					    	Lay Out by Us :   <span class="${job.layOutByUs ? 'true' : 'false'}">${job.layOutByUs ? 'yes' : 'no'}</span>
+					    	<fmt:message key="layout.by.us"/> :   <span class="${job.layOutByUs ? 'true' : 'false'}">${job.layOutByUs ? 'yes' : 'no'}</span>
 					    </div>
 					     
 					    <div class="col-sm-4" id="">
-					    	Type-Setting By Us : <span class="${job.typesettingByUs ? 'true' : 'false'}">${job.typesettingByUs ? 'yes' : 'no'}</span>
+					    	<fmt:message key="type.setting.by.us"/> : <span class="${job.typesettingByUs ? 'true' : 'false'}">${job.typesettingByUs ? 'yes' : 'no'}</span>
 					   </div>
 					   <div class="col-sm-4" id="">
-	    				Created Date : <fmt:formatDate type = "both" value = "${job.creationDate}" />
+	    				<fmt:message key="created.date"/> : <fmt:formatDate type = "both" value = "${job.creationDate}" />
 					    	
 					   </div>
 					    </div>
@@ -89,18 +89,18 @@
 					<!--            job decription ends     -->
 					
 					<c:if test="${job.jobType.category==2}">
-							<h4 id="top2">Cover Paper Option</h4>
+							<h4 id="top2"><fmt:message key="cover.paper.option"/></h4>
 							<hr>
 					   <div class="row">
 					    <div class="row">
 					    <div class="col-sm-4">
-					    	Paper Type : <span id="cover-paper"> ${coverjobPapers.paperType.name}</span>
+					    	<fmt:message key="paper.type"/> : <span id="cover-paper"> ${coverjobPapers.paperType.name}</span>
 					    </div>
 					    <div class="col-sm-4">
-					    	 Paper Grammage (GSM) :${coverjobPapers.grammage}<span id="cover-grammage"> </span> 
+					    	<fmt:message key="paper.grammage"/> (GSM) :${coverjobPapers.grammage}<span id="cover-grammage"> </span> 
 					    </div>
 					    <div class="col-sm-4">
-					    	Volume : <span id="cover-volume"> ${coverjobPapers.volume} </span> 
+					    	<fmt:message key="volume"/> : <span id="cover-volume"> ${coverjobPapers.volume} </span> 
 					    </div>
 					   </div>
 					   </div>
@@ -108,16 +108,16 @@
 					   </c:if>
 					   
 					   <c:if test="${job.jobType.category==1||job.jobType.category==2 || job.jobType.category==0}">
-						<h4 id="top2"> Content Paper Option</h4>
+						<h4 id="top2"><fmt:message key="content.paper.option"/> </h4>
 						<hr>
 					    <div class="row">
 					   <table class="ta" id="cover-table">
 					  <thead>
 					    <tr>
-					      <th scope="col">Num</th>
-					      <th scope="col">Print Type</th>
-					      <th scope="col">Gramage (GSM)</th>
-					      <th scope="col">Volume (Pages)</th>
+					      <th scope="col"><fmt:message key="num"/></th>
+					      <th scope="col"><fmt:message key="print.type"/></th>
+					      <th scope="col"><fmt:message key="gramage"/> (GSM)</th>
+					      <th scope="col"><fmt:message key="volume"/> (Pages)</th>
 					    </tr>
 					  </thead>
 					  <tbody>
@@ -138,22 +138,22 @@
 					      <br>
 		  
 		 		 <c:if test="${job.jobType.category==2}">
-					 <h4>Cover Printing Option</h4>
+					 <h4><fmt:message key="cover.printing.option"/></h4>
 
 					 <hr>
 						<div class="row">
 					    <div class="row">
 					     <div class="col-sm-3">
-					    	 Machine  : <span id="cover-machine">${coverjobPapers.jobColorCombinations[0].printingMachine.name} </span>
+					    	<fmt:message key="machine"/> : <span id="cover-machine">${coverjobPapers.jobColorCombinations[0].printingMachine.name} </span>
 					    </div>
 					    <div class="col-sm-3">
-					    	Print Type : <span id="cover-printtype">${coverjobPapers.jobColorCombinations[0].printType.name} </span> 
+					    	<fmt:message key="print.type"/> : <span id="cover-printtype">${coverjobPapers.jobColorCombinations[0].printType.name} </span> 
 					    </div>
 					    <div class="col-sm-3">
-					    	Color Combination : <span id=cover-color-front></span> ${coverjobPapers.jobColorCombinations[0].frontColorNumber} / <span id=cover-color-back>${coverjobPapers.jobColorCombinations[0].backColorNumber}</span> 
+					    	<fmt:message key="color.combination"/> : <span id=cover-color-front></span> ${coverjobPapers.jobColorCombinations[0].frontColorNumber} / <span id=cover-color-back>${coverjobPapers.jobColorCombinations[0].backColorNumber}</span> 
 					    </div>
 					     <div class="col-sm-3">
-					    	Signature : <span id=cover-signature>${coverjobPapers.jobColorCombinations[0].numberOfSignature}</span> 
+					    	<fmt:message key="signature"/> : <span id=cover-signature>${coverjobPapers.jobColorCombinations[0].numberOfSignature}</span> 
 					    </div>
 					    </div>
 					  </div>
@@ -167,12 +167,12 @@
 					<table class="ta" id="content-table">
 					    <thead>
 					        <tr>
-                                <th scope="col">Num</th>
-                                <th scope="col">Paper Type</th>
-                                <th scope="col">Machine</th>
-                                <th scope="col"> Print Type</th>
-                                <th scope="col">Color Combination</th>
-                                <th scope="col">Signature</th>
+                                <th scope="col"><fmt:message key="num"/></th>
+                                <th scope="col"><fmt:message key="pape.type"/></th>
+                                <th scope="col"><fmt:message key="machine"/></th>
+                                <th scope="col"><fmt:message key="print.type"/></th>
+                                <th scope="col"><fmt:message key="color.combination"/></th>
+                                <th scope="col"><fmt:message key="signature"/></th>
 					        </tr>
 					    </thead>
 					    <tbody>
@@ -199,47 +199,47 @@
 			</div>
 			
 			<br>
-			<h4>Finishing option</h4>
+			<h4><fmt:message key="finishing.option"/></h4>
 			<hr>
                 <div class="row ">
                     <div class="col-sm-4">
-                        <div> X Perforated : <span id="x-perforated"> </span>${job.getJobActivity().getXPerforated()}</div>
-                        <div> X Numbered : <span id="x-numbered"></span> ${job.getJobActivity().getXNumbered()}</div>
-                        <div> X Crossed : <span id="x-crossed"></span>${job.getJobActivity().getXCross()}</div>
-                        <div> X Wired-stitched : <span id="x-wired"></span>${job.getJobActivity().getXWiredStiched()}</div>
-                        <div> Creased : <span id="crease"></span>${job.getJobActivity().getXCreased()}</div>
+                        <div><fmt:message key="x.perforated"/> : <span id="x-perforated"> </span>${job.getJobActivity().getXPerforated()}</div>
+                        <div><fmt:message key="x.numbered"/> : <span id="x-numbered"></span> ${job.getJobActivity().getXNumbered()}</div>
+                        <div><fmt:message key="x.crossed"/> : <span id="x-crossed"></span>${job.getJobActivity().getXCross()}</div>
+                        <div><fmt:message key="x.wired.stitched"/> : <span id="x-wired"></span>${job.getJobActivity().getXWiredStiched()}</div>
+                        <div><fmt:message key="x.creased"/> : <span id="crease"></span>${job.getJobActivity().getXCreased()}</div>
                     </div>
                     <div class="col-sm-4">
-                        <div> Lamination Sides : <span id="laminated-sides"></span> ${job.getJobActivity().getLamination()} </div>
+                        <div><fmt:message key="lamination.sides"/> : <span id="laminated-sides"></span> ${job.getJobActivity().getLamination()} </div>
 <%--                         <div> Glueing Bound: <span id="glue-bound"></span>${job.getJobActivity().getGlueOption()}</div> --%>
-                        <div> Binding Type : <span id="binding-type"></span> ${job.getJobActivity().getBindingType().getName()}</div>
-                        <div> Sewn :<span class=" ${job.getJobActivity().isSewn() ? 'true' : 'false'}"> ${job.getJobActivity().isSewn() ? 'yes' : 'no'}</span>
+                        <div><fmt:message key="binding.type"/> : <span id="binding-type"></span> ${job.getJobActivity().getBindingType().getName()}</div>
+                        <div><fmt:message key="sewn"/> :<span class=" ${job.getJobActivity().isSewn() ? 'true' : 'false'}"> ${job.getJobActivity().isSewn() ? 'yes' : 'no'}</span>
                         </div>
                     </div>
                     <div class="col-sm-4">
-                        <div> Handgather :<span class=" ${job.getJobActivity().isHandgather() ? 'true' : 'false'}"> ${job.getJobActivity().isHandgather() ? 'yes' : 'no'}</span>
+                        <div><fmt:message key="handgather"/> :<span class=" ${job.getJobActivity().isHandgather() ? 'true' : 'false'}"> ${job.getJobActivity().isHandgather() ? 'yes' : 'no'}</span>
                         </div>
-                        <div> Stitching :  <span class=" ${job.getJobActivity().isStitching() ? 'true' : 'false'}"> ${job.getJobActivity().isStitching() ? 'yes' : 'no'}</span>
+                        <div><fmt:message key="stitching"/> :  <span class=" ${job.getJobActivity().isStitching() ? 'true' : 'false'}"> ${job.getJobActivity().isStitching() ? 'yes' : 'no'}</span>
                         </div>
-                        <div> Trimmed :<span class=" ${job.getJobActivity().isTrimmed() ? 'true' : 'false'}"> ${job.getJobActivity().isTrimmed() ? 'yes' : 'no'}</span>
+                        <div> <fmt:message key="trimmed"/> :<span class=" ${job.getJobActivity().isTrimmed() ? 'true' : 'false'}"> ${job.getJobActivity().isTrimmed() ? 'yes' : 'no'}</span>
                         </div>
-                        <div> Sellotaped :<span class=" ${job.getJobActivity().isSelloptaped() ? 'true' : 'false'}"> ${job.getJobActivity().isSelloptaped() ? 'yes' : 'no'}</span>
+                        <div><fmt:message key="sellotaped"/>  :<span class=" ${job.getJobActivity().isSelloptaped() ? 'true' : 'false'}"> ${job.getJobActivity().isSelloptaped() ? 'yes' : 'no'}</span>
                         </div>
                     </div>
                 </div>
                 <br>
                 <div class="row" style="position: relative;bottom: -19px;">
                   <div class ="col-lg-6">
-                  	<h4>Estimates</h4>
+                  	<h4><fmt:message key="estimates"/></h4>
                   </div>
                   <c:if test="${job.proofread=='true'&&job.status.name=='Confrimed'||job.status.name=='Approved'}">
                     <div class ="col-lg-6" id="proofreaded">
-                    <span style="position: relative;justify-content: end;bottom: 2px;left: 332px; font-family: bold; font-size: 16px; color: green">Proof Readed</span>
+                    <span style="position: relative;justify-content: end;bottom: 2px;left: 332px; font-family: bold; font-size: 16px; color: green"><fmt:message key="proof.readed"/></span>
                      </div>
                    </c:if>
                     <c:if test="${job.proofread=='false'&&job.status.name=='Registered'}">
                     <div class ="col-lg-6">
-                  	   <button style="position: relative;justify-content: end;bottom: 2px;left: 332px;" onclick="proofreadByTheCustomer('${job.id}')"  data-toggle="tooltip" data-placement="top" title="Mark as Proofread" class="btn btn-outline-danger" data-bs-dismiss="modal">Proofread ?</button>
+                  	   <button style="position: relative;justify-content: end;bottom: 2px;left: 332px;" onclick="proofreadByTheCustomer('${job.id}')"  data-toggle="tooltip" data-placement="top" title="Mark as Proofread" class="btn btn-outline-danger" data-bs-dismiss="modal"> <fmt:message key="proofread"/> ?</button>
                      </div>
                    </c:if>
                  </div> 
