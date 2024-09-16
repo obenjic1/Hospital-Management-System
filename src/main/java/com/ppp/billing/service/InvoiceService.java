@@ -22,6 +22,7 @@ public interface InvoiceService {
     Invoice setIrtaxAndVatTax(long id, double irTax, double vatTax);
     Invoice displayIrtaxAndVatTax(long id, double irTax, double vatTax);
 	Invoice applyDiscount(long id, double discount);
+	Invoice applyDiscountAmount(long id, double discount);
 
 //	Invoice save (long id);
 }

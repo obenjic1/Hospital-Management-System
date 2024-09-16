@@ -22,15 +22,6 @@ function loadTables(url, idContainer) {
 	   }
  }
  
-  function showDiscountInput(){
-	 let checkbox = document.getElementById("applyDiscount");
-	 if(checkbox.checked) {
-		document.getElementById("discountDiv").style.display = "block";
-	 }
-	   else{
-		   document.getElementById("discountDiv").style.display = "none";
-	   }
- }
  
  function applyCommission(id){
 	 let commissionValue = document.getElementById("commision").value;
@@ -84,6 +75,30 @@ function loadTables(url, idContainer) {
 		approveJob(id);
 	});
 	}
- 
+  function showDiscountInput(){
+	 let checkbox = document.getElementById("applyDiscount");
+	 if(checkbox.checked) {
+		document.getElementById("discountDiv").style.display = "block";
+	 }
+	   else{
+		   document.getElementById("discountDiv").style.display = "none";
+	   }
+ }
 
+ function showDiscountPercentageOrValueInput(){
+ 	var chosen = document.getElementById("discountOption").value;
+ 	var percentage_input = document.getElementById("discountValue");
+ 	var amount_input = document.getElementById("discountAmount");
+ 	if(chosen==1){
+		 percentage_input.style.display="block"
+		 amount_input.style.display="none";
+	 }
+ 	else{
+		 percentage_input.style.display="none"
+		 amount_input.style.display="block";
+		 percentage_input.style.display="none"
+
+	 }
+
+ }
  

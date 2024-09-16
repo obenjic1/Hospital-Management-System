@@ -1743,11 +1743,11 @@ public class JobController {
 	public String moveDetails(@PathVariable long id, Model model) {
 		Job job = jobServiceImpl.findById(id).get();
 		List<JobMovement> movements = job.getJobMovements();
-	//	int index = movements.size()-1;
 		Department department = movements.get(movements.size()-1).getDepartment();
 		List<Department> departments = departmentServiceImpl.findAll();
-		JobMovement movement = movements.get(movements.size());
-		departments.remove((int)departments.size());
+		int currentDept = (int)department.getId();
+		Department availableDepartment =  departments.remove(currentDept-1);
+		JobMovement movement = movements.get(movements.size()-1);
 		model.addAttribute("job",job);
 		model.addAttribute("departments",departments);
 		model.addAttribute("department",department);

@@ -21,9 +21,13 @@
                   </tr> 
                     <tr> 
                    
-                         <td style="font-family: bold;"><span>${invoices.discountPercentage} </span>%  Discount</a></td>                                 
-                       <td><a> </td>                                  
-                        <td><a> </td>  
+                         <c:if test="${discount}>0">
+                                                                 	<td style="font-family: bold;"><span> <fmt:formatNumber value="${invoices.discountPercentage}" pattern = "#.00"/></span>%  Discount</td>                          
+                                                                 </c:if>
+                                                                 <c:if test="${discount}==0"></c:if>
+                                                                       <td style="font-family: bold;"><span> ${invoices.discountPercentage}</span>%  Discount</td>                                        
+                       <td> </td>                                  
+                        <td></td>  
                         <td><a> <fmt:formatNumber value="${discount}" type="currency"   pattern = "#,###,###"/> </a></td>                               
                   </tr> 
                    <tr> 

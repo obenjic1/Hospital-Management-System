@@ -688,7 +688,9 @@ function confirmEstimateCommission(ref){
 
 
 function jobTypeChoice(opt){
+	
 	let dataContentValue = opt.parentElement.getAttribute('data-content');
+	
 	if(dataContentValue==0){
 		document.getElementById('volumeofContent').style.display = "";
 		document.getElementById('volumeofCover').style.display = "none";
@@ -982,14 +984,6 @@ function summaryDraftUpdate(){
 	/*
 	*
 	*/
-
-	
-	
-	
-	
-
-
-     
      function confirmAbort(id) {
 	$('#areyouSureYouWantToAbort').modal('show');
 	$('#confirmAbortBtn').click(function() {

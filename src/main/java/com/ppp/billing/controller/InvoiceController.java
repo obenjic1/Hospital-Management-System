@@ -150,7 +150,7 @@ public class InvoiceController {
 		}
 	}
 	
-	@PreAuthorize("hasAuthority('ROLE_APPLY_DISCOUNT')")
+	//@PreAuthorize("hasAuthority('ROLE_APPLY_DISCOUNT')")
 	@GetMapping("/invoice-discount/{id}")
 	public String displayDiscountapplicationForm(@PathVariable long id, Model model) {
 		try {
@@ -166,6 +166,7 @@ public class InvoiceController {
 		}
 	}
 	
+	// -------------- get discount by percentage-----------------
 	@GetMapping("/invoice-discount/{id}/{discount}")
 	public String applyDiscount(@PathVariable long id,@PathVariable  double discount, Model model) {
 		try {
@@ -179,6 +180,20 @@ public class InvoiceController {
 		
 		}
 	}
+	// -------------- get discount by Amount-----------------
+		@GetMapping("/invoice-discount-amount/{id}/{discount}")
+		public String applyDiscountAmount(@PathVariable long id,@PathVariable  double discount, Model model) {
+			try {
+				Invoice invoice = invoiceServiceImpl.applyDiscountAmount(id, discount);
+				double discountValue = (invoice.getDiscountPercentage()/100)*(invoice.getEstimatePricing().getTotalPrice());
+				model.addAttribute("invoices", invoice);
+				model.addAttribute("discount", discountValue);
+				return "billing/invoice/apply-discount-result";
+			} catch (Exception e) {
+				throw e;
+			
+			}
+		}
 
 	
 	@GetMapping("/job-tax-form/{id}")
