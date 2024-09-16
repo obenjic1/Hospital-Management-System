@@ -101,7 +101,7 @@ public class Job {
 	private Date creationDate;
 	
 	@Column(name = "control_sheet_senerated")
-	private boolean controlSheetGenerated = Boolean.FALSE;
+	private boolean controlSheetGenerated = false;
 	
 	@Column(name = "other_fee_description")
 	private String otherFeeDescription;

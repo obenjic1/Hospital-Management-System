@@ -57,7 +57,7 @@
 						  </div>
 						</div>
 						<div class="col-md-3" style="  width: 22%; left: 21%; bottom: -30px; position: relative; ">
-						  <input type="button" data-bs-toggle="modal" data-bs-target="#creation" id="create-btn" onclick="saveCustomerFromJobForm();" style=" bottom: -42%;" class="btn btn-primary w-100" value="Save" />
+						  <input type="button" id="create-btn" onclick="saveCustomerFromJobForm(); loadPage('customer/list');" style=" bottom: -42%;" class="btn btn-primary w-100" value="Save" />
 						</div>							
 					</form>					
 				</div>

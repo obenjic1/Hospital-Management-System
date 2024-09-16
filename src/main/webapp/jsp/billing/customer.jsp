@@ -56,7 +56,7 @@
 						  </div>
 						</div>
 						<div class="col-md-3" style="  width: 13%; left: 21%; position: relative; ">
-						  <input type="button" data-bs-toggle="modal" data-bs-target="#creation" id="create-btn" onclick="savecutomer()" style=" bottom: -42%;" class="btn btn-primary w-100" value="Save" />
+						  <input type="button"  id="create-btn" onclick="savecutomer();loadPage('customer/list')" style=" bottom: -42%;" class="btn btn-primary w-100" value="Save" />
 						</div>							
 					</form>					
 				</div>

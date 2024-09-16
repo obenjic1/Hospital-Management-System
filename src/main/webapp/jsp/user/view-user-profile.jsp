@@ -111,7 +111,7 @@
                                          </div>
                                      </div>
                                     <div class="text-center">
-                                    	<input data-bs-toggle="modal" data-bs-target="#creation" type="button" onclick="updateUserById('${user.id}')" class="btn btn-primary" value="Save Changes" style="left: 42%;bottom: -18%;"/>
+                                    	<input type="button" onclick="updateUserById('${user.id}')" class="btn btn-primary" value="Save Changes" style="left: 42%;bottom: -18%;"/>
                                     </div>
                  
                                 </form><!-- End Profile Edit Form -->

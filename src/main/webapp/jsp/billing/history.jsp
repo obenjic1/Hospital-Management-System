@@ -13,7 +13,7 @@
 	<section>
 			<div class="card">
 				<div class="card-body">
-					<h5 class="card-title text-center pb-0 fs-4">Job History</h5>
+					<h5 class="card-title text-center pb-0 fs-4"><fmt:message key="job.history"/></h5>
 					<p class="text-center small"></p>
 					<div class="row">
 				 	<table class="ta" id="cover-table" style="text-align:">

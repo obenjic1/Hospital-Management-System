@@ -23,8 +23,9 @@ function addMachine() {
 		})
 			.then(function(response) {
 				if (response.status === 200) {
-					var modal = new bootstrap.Modal(document.getElementById('userUdatedSuccessfully'));
-					modal.show();
+					Swal.fire("Success!/Success!", "Added successfully!", "success");
+				}else{
+					 Swal.fire({icon: "error", title: "Oops...", text: "Something went wrong!"});
 				} 
 			})
 			.then(function(data) {
@@ -35,6 +36,19 @@ function addMachine() {
 			});
 				loadPage('machine/list');
 }
+
+			/*
+			
+				** End Add Machine Section
+				
+			*/
+			
+//			----------------------------------------
+
+			/*
+				** Start Delete Machine Section
+			*/
+
 
 function deleteMachine(id) {
 	deleteId = id;
@@ -55,8 +69,38 @@ bouton.addEventListener("click", function(event) {
   event.preventDefault();
   addMachine();
 });
+		/*
+		
+			** End Delete Machine Section
+			
+		*/
+		
+//		--------------------------------------
 				
-// <------------ Delete User using soft delete --------------------->
+		/*
+		
+		 ** Start Disable machine section
+		 
+		*/
+
+function confirmDisable(id){
+	let disableId = id;
+	Swal.fire({
+			  title: "Are you sure?",
+			  text: "You're about to desable a Machine!",
+			  icon: "warning",
+			  showCancelButton: true,
+			  confirmButtonColor: "#3085d6",
+			  cancelButtonColor: "#d33",
+			  confirmButtonText: "Yes, disable it!"
+			}).then((result) => {
+			  if (result.isConfirmed) {
+				  disableMachine(disableId);
+			  }else{
+				 Swal.fire("Cancelled/Annulee!", "Operation cancelled", "info");
+			  }
+			});
+}
 
 function disableMachine(id) {
 	fetch(`machine/switchCase/${id}`, {
@@ -68,10 +112,12 @@ function disableMachine(id) {
 		.then( response => {	
 
    			 if (response.ok) {
-       			sendMessage('Succes/Success', 1);
-				return loadPage('machine/list'); 
+					Swal.fire("Success!/Success!", "Disabled successfully!", "success");
+//       			sendMessage('Succes/Success', 1);
+//				return loadPage('machine/list'); 
   			 } else if (response.status !== 200) {
-				sendMessage('Failed / Echec', 2);
+				   Swal.fire({icon: "error", title: "Oops...", text: "Something went wrong!"});
+//				sendMessage('Failed / Echec', 2);
   			 }
 		})
 		 .then(function(data) {
@@ -80,6 +126,18 @@ function disableMachine(id) {
 			.catch(function(error) {
 			});
 }
+
+		/*
+		
+			** End Disable Machine section
+		*/
+		
+//		-----------------------------------------
+
+		/*
+			** Start Update Machine Section
+		*/
+		
 
 function updateMachine(id) {
 	const name = document.getElementById('name').value;
@@ -107,10 +165,12 @@ function updateMachine(id) {
 			.then( response => {	
 
    			 if (response.status === 200) {
-       			sendMessage('Succes/Success', 1);
-				return loadPage('machine/list'); 
+					Swal.fire("Success!/Success!", "Updated successfully!", "success");
+//       			sendMessage('Succes/Success', 1);
+//				return loadPage('machine/list'); 
   			 } else if (response.status !== 200) {
-				sendMessage('Failed / Echec', 2);
+				   Swal.fire({icon: "error", title: "Oops...", text: "Something went wrong!"});
+//				sendMessage('Failed / Echec', 2);
   			 }
 		})
 		 .then(function(data) {
@@ -120,6 +180,12 @@ function updateMachine(id) {
 			});
 }
 
+			/*
+			
+				** End Update Machine Section 
+			
+			*/
+			
 function showConfirmationModal(action, message, icon, callback) {
   const modal = document.getElementById('confirmation-modal');
   const modalMessage = document.getElementById('modal-message');

@@ -329,7 +329,7 @@ function submitForm(){
 		})
 		.then( response => {	
    			 if (response.status === 200) {
-       			Swal.fire("Succes/Success!", "You clicked the button!", "success")
+       			Swal.fire("Succes/Success!", "Job saved successfully!", "success")
 			return loadPage("job/list-job");				
    			 } else if (response.status !== 200) {
 				Swal.fire({  icon: "error", title: "Oops...", text: "Something went wrong!"});
@@ -818,10 +818,11 @@ function findByDate() {
 		.then( response => {	
 
    			 if (response.status === 200) {
-       			sendMessage('Succes/Success', 1);
-			return loadPage("job/list-job");				
+					Swal.fire("Succes/Success!", "You clicked the button!", "success")
+//			return loadPage("job/list-job");				
    			 } else if (response.status !== 200) {
-				sendMessage('Failed / Echec', 2);
+					Swal.fire({icon: "error", title: "Oops...", text: "Something went wrong!"});
+//				sendMessage('Failed / Echec', 2);
   			 }
 		})
 		 .then(function(data) {
@@ -876,12 +877,9 @@ function updateDraft(id){
 		.then( response => {	
 
    			 if (response.status === 200) {
-
-       			sendMessage('Succes/Success', 1);
-			return	loadPage("job/list-job");				
+				Swal.fire("Succes/Success!", "You clicked the button!", "success")				
    			 } else if (response.status !== 200) {
-				sendMessage('Failed / Echec', 2);
-			return	loadPage("job/list-job");
+					Swal.fire({icon: "error", title: "Oops...", text: "Something went wrong!"});
   			 }
 		})
 		 .then(function(data) {
@@ -981,15 +979,31 @@ function summaryDraftUpdate(){
 }
 }
 
-	/*
-	*
-	*/
+
+//	----------------------------------------------
+		/*
+			** Abort Job Sectio
+		*/
+     
+
      function confirmAbort(id) {
-	$('#areyouSureYouWantToAbort').modal('show');
-	$('#confirmAbortBtn').click(function() {
-		abortJob(id);
-	});
-	}
+		  Swal.fire({
+		    title: 'Are you sure to abort?',
+		    text: "You won't be able to revert this!",
+		    icon: 'warning',
+		    showCancelButton: true,
+		    confirmButtonColor: '#3085d6',
+		    cancelButtonColor: '#d33',
+		    confirmButtonText: 'Yes, abort it!',
+		  }).then((result) => {
+		    if (result.isConfirmed) {
+		      abortJob(id);
+		      Swal.fire("Success!/Success!", "Your job has been aborted!", "success");
+		    } else {
+		      Swal.fire("Cancelled!/Annulee!", "Operation cancelled", "info");
+		    }
+		  });
+		}
 
 
      function abortJob(id){
@@ -1005,8 +1019,7 @@ function summaryDraftUpdate(){
        			Swal.fire({  icon: "error", title: "Oops...", text: "Something went wrong!"});
 				return loadPage("job/list-job"); 
   			 } else if (response.status !== 200) {
-				Swal.fire("Succes/Success!", "Job Aborted / Job Annule", "success");
-				return loadPage("job/list-job");;
+				return loadPage("job/list-job");
 
   			 }
 		})
@@ -1017,17 +1030,34 @@ function summaryDraftUpdate(){
 
 			});
 	 }
-	 
+		 
+		 /*
+		   **  End Abort Job Section
+		 */
+//	 ------------------------------------------
+		 /*
+		  ** Start Confirm Job Section
+		 */
 	 
 		  function confirmJob(id) {
-		$('#areyouSureYouWantToConfirm').modal('show');
-		$('#approveConfirmBtn').click(function() {
-		  confirm(id);
-		});
+			Swal.fire({
+			  title: 'Are you sure to Confirm?',
+		      text: "You won't be able to revert this!",
+		      icon: 'warning',
+		      showCancelButton: true,
+		      confirmButtonColor: '#3085d6',
+		      cancelButtonColor: '#d33',
+		      confirmButtonText: 'Yes, Confirm it!',
+			}).then((result) => {
+				if(result.isConfirmed){
+				    confirm(id);
+					Swal.fire("Success!/Success!", "Your job has been confirmed!", "success");
+				}else{
+					Swal.fire("Cancelled/Annulee!", "Operation cancelled", "info");
+				}
+			})  
 		}
-		
-			 
-	 
+
 	  function confirm(id){
 		  fetch(`job/confirm/${id}`, {
 			method: 'POST',
@@ -1038,12 +1068,10 @@ function summaryDraftUpdate(){
 		.then( response => {	
 
    			  if (response.ok) {
-       			Swal.fire("Succes/Success!", "Job Confirmed / Job Confirme", "success")
 				return loadPage("job/list-job"); 
   			 } else if (response.status !== 200) {
-				Swal.fire({  icon: "error", title: "Oops...", text: "Something went wrong!"});
+	//			Swal.fire({  icon: "error", title: "Oops...", text: "Something went wrong!"});
 				return loadPage("job/list-job");
-
   			 }
 		})
 		 .then(function(data) {
@@ -1054,11 +1082,39 @@ function summaryDraftUpdate(){
 			});
 	 }
 
-
-  
-	 	  function approveJob(id){
-		  fetch(`job/approve/${id}`, {
-			method: 'POST',
+		/*
+		 ** End Confirm Job
+		*/
+		
+//		-------------------------------------------
+		
+  		/*
+  		  ** Start Approv Job
+  		*/
+  		
+  function approveJob(id){
+	  swal({
+		  title: 'Are you sure?',
+		  text: "You're going to approve the job!",
+		  type: 'warning',
+		  showCancelButton: true,
+		  confirmButtonColor: '#3085d6',
+		  cancelButtonColor: '#d33',
+		  confirmButtonText: 'Yes, delete it!'
+		}).then((result) => {
+			if(result.isConfirmed){
+				confirmApproveJob(id);
+				Swal.fire("Success!/Success!", "Your job has been approved!", "success");
+			}else{
+				Swal.fire("Cancelled/Annulee!", "Operation cancelled", "info");
+			}
+		  
+		})
+  }
+  		
+ function confirmApproveJob(id){
+	 fetch(`job/approve/${id}`, {
+		 method: 'POST',
 		headers: {
 			'Content-type': 'application/json'
 		},
@@ -1066,10 +1122,10 @@ function summaryDraftUpdate(){
 		.then( response => {	
 
    			 if (response.ok) {
-       			Swal.fire("Succes/Success!", "Job Approved / Job Approve", "success");
+       		//	Swal.fire("Succes/Success!", "Job Approved / Job Approve", "success");
 				return loadPage("job/list-job"); 
   			 } else if (response.status !== 200) {
-				Swal.fire({  icon: "error", title: "Oops...", text: "Something went wrong!"});
+		   //   Swal.fire({  icon: "error", title: "Oops...", text: "Something went wrong!"});
 				return loadPage("job/list-job");
   			 }
 		})
@@ -1081,6 +1137,16 @@ function summaryDraftUpdate(){
 			});
 	 }
 	 
+	 /*
+	   * End Approof Job Section
+	*/
+	
+ //  ----------------------------------------------
+	
+	/*
+	 **  Start Move Job section
+	*/
+		 
 	  function moveJob(id){
 		   var department = document.getElementById('department').value;
 	 var description = document.getElementById('description').value;
@@ -1113,7 +1179,6 @@ function summaryDraftUpdate(){
 			.catch(function(error) {
 
 			});
-
 
 	  }
 	 

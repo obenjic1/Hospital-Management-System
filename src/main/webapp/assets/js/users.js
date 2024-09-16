@@ -19,8 +19,21 @@ function loadPageModal(page) {
 		.catch(error => console.log(error));
 }
 
+			/*
+			
+				** End Load Pages Sections 
+			
+			*/
+			
+	//			-------------------------
+			
+			/*
+			
+				** Start Add User Section
+				
+			*/
 
-// <-------------- Fieald validation  ------------------------->
+
 function validateField(field, errorMessage) {
 	if (field.trim() === '') {
 		var alertElement = document.getElementById(errorMessage);
@@ -50,7 +63,7 @@ function validateAddUserform(){
 	
 	
 }
-// <-------------- Save user ------------------------->
+
 function addUser() {
 	const firstName = document.getElementById('firstName').value;
 	const lastName = document.getElementById('lastName').value;
@@ -127,7 +140,9 @@ function addUser() {
 				Swal.fire("Succes/Success!", "You clicked the button!", "success")
 				return loadPage('user/list-users');
    			 } else if (response.status !== 200) {
-				sendMessage('Failed / Echec : Email or Username already exist ',2);
+					Swal.fire({icon: "error", title: "Oops...", text: "Something went wrong!"});
+//				sendMessage('Failed / Echec : Email or Username already exist ',2);
+				
 				//	return loadPage('user/add-user');			
 
   			 }
@@ -141,7 +156,20 @@ function addUser() {
 	
 }
 
-//<------------------ Update user using DTO object -------------------->
+			/*
+			
+				** End Add User Section
+				
+			*/
+			
+	//			---------------------------------
+	
+			/* 
+			
+				** Start Update User Section
+				
+			*/
+
 function updateUserById(id) {
 	
 	const firstName = document.getElementById('firstName').value;
@@ -176,10 +204,12 @@ function updateUserById(id) {
 	})
 		.then(response => {
 			if (response.ok) {
-				sendMessage('Succes/Success', 1);
-				return loadPage('user/list-users');
+				Swal.fire("Succes/Success!", "User updated successfully!", "success")	
+//				sendMessage('Succes/Success', 1);
+//				return loadPage('user/list-users');
   			 } else if (response.status !== 200) {
-				sendMessage('Failed / Echec', 2);
+				Swal.fire({icon: "error", title: "Oops...", text: "Something went wrong!"});
+			//	sendMessage('Failed / Echec', 2);
   			 }
 		})
 		 .then(function(data) {
@@ -189,15 +219,39 @@ function updateUserById(id) {
 			});
 }
 
+		/*
+		
+			** End Update user Section
+			
+		*/
 
-//<------------------ Disactivate and activate a user -------------------->
+ 	//		--------------------------------
+ 	
+		/*
+		
+		  ** Start Section Disable Uer
+		  
+		*/
 
 function confirmDisableUser(id) {
   let deleteId = id;
-	$('#areyouSureYouWantToDetele').modal('show');
-	$('#confirmDeleteBtn').click(function() {
-		disableUser(deleteId);
-	});
+		  Swal.fire({
+			  title: "Are you sure?",
+			  text: "You're about to desable a user!",
+			  icon: "warning",
+			  showCancelButton: true,
+			  confirmButtonColor: "#3085d6",
+			  cancelButtonColor: "#d33",
+			  confirmButtonText: "Yes, disable it!"
+			}).then((result) => {
+			  if (result.isConfirmed) {
+				  disableUser(deleteId);
+			    
+			  }else{
+				 Swal.fire("Cancelled/Annulee!", "Operation cancelled", "info");
+			  }
+			});
+
 }
 
 function disableUser(id){
@@ -207,10 +261,9 @@ function disableUser(id){
 	.then( response => {	
 
    			 if (response.status === 200) {
-       			sendMessage('Succes/Success', 1);
-			return loadPage("user/list-users");				
+			Swal.fire({title: "Deleted!", text: "Disabled successfully!", icon: "success" });
    			 } else if (response.status !== 200) {
-				sendMessage('Failed / Echec', 2);
+				Swal.fire({icon: "error", title: "Oops...", text: "Something went wrong!"});
   			 }
 		})
 		 .then(function(data) {
@@ -221,5 +274,9 @@ function disableUser(id){
 			});
 }
 
-//<------------------ Get list users with pagination -------------------->
+		/*
+		
+		  ** End  Disable Uer Section
+		  
+		*/
 

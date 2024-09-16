@@ -145,10 +145,20 @@ function submitUpdateForm(id){
 	}
 	
 	
-		
-	/*
-	** Update Job Summary
-	*/
+			/*
+			
+				** End Submit Update Job Function Section
+				
+			*/
+			
+	//			------------------------------------
+
+			/* 
+			
+				** Start Update Job Summary Section
+				
+			*/
+
 	
  function summaryUpdate(){
 

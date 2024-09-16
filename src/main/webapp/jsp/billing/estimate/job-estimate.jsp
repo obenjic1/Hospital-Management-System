@@ -82,7 +82,7 @@
                                         </form>
                                         <hr><br>
                                         <div class="" style="margin-top:50px;">
-                                            <button class="btn btn-primary" onclick="generateEstimate('job/generate/${job.id}', 'tab-1', 'tab-2');"><fmt:message key="generate"/></button>
+                                            <button style="left: 87%;position: relative;width: 117px;" class="btn btn-primary" onclick="generateEstimate('job/generate/${job.id}', 'tab-1', 'tab-2');"><fmt:message key="generate"/></button>
                                         </div>
                                     </div>
                                 </div>

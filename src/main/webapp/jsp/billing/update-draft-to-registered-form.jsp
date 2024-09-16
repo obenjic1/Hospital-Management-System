@@ -786,14 +786,12 @@
 					    	<div> <fmt:message key="x.crossed"/> : <span id="x-crossed"></span></div>
 					    	<div><fmt:message key="x.Wired.stitched"/> : <span id="x-wired"></span> </div>
 					    	<div> <fmt:message key="creased"/> : <span id="crease"></span> </div>
-					    	
 					    </div>
-					   <div class="col-sm-4">
+					    <div class="col-sm-4">
 					    	<div> <fmt:message key="lamination"/>: <span id="laminated-sides"></span> </div>
 <!-- 					    	<div> Glueing Bound: <span id="glue-bound"></span> </div> -->
 					    	<div> <fmt:message key="binding.type"/> : <span id="binding-type"></span> </div>
 					    	<div> <fmt:message key="sewn" /> : <span id="sown"></span> </div>
-					    
 					    </div>
 					    
 					    <div class="col-sm-4">
@@ -808,7 +806,7 @@
 				      <button type="button" style="float:left" class="btn btn-primary" onclick="navigate(5,4);removeRows()"> <fmt:message key="previews"/></button>	
 				     </div>
 			         <div class ="col-sm-6">
-			         <button   type="button" style="width:125px;float:right"  class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#creation" id="next-btn1" onclick="navigate(4,5); submitForm()"><fmt:message key="submit"/></button>			
+			         <button   type="button" style="width:125px;float:right"  class="btn btn-primary" id="next-btn1" onclick="navigate(4,5); submitForm(); loadPage('job/list-job')"><fmt:message key="submit"/></button>			
 			        </div>
 			        </div>
                	</div>

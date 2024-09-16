@@ -55,7 +55,7 @@
                            </div>
                        </div> 
                       <div class="text-center">
-                      	<input data-bs-toggle="modal" data-bs-target="#creation" type="button" onclick="updateUserById('${userFinded.id}')" class="btn btn-primary" value="Save Changes" style="left: 96%;bottom: -18%;"/>
+                      	<input type="button" onclick="updateUserById('${userFinded.id}'); loadPage('user/list-users')" class="btn btn-primary" value="Save Changes" style="left: 96%;bottom: -18%;"/>
                       </div>
    
                   </form>
