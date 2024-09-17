@@ -14,8 +14,20 @@
 		.catch(error => console.log(error));
 }
 
+				/*
+				
+					** Load Pages Functions
+					
+				*/
+				
+	//		------------------------------------
+	
+				/*
+				
+					** Start Save Customer Section
+					
+				*/
  
-// <--------------save customer using form data ------------------------->
 function savecutomer() {
 	
 	var name = document.getElementById('name').value;
@@ -59,8 +71,20 @@ function savecutomer() {
 			});
 		
 }
+				/*
+				
+					** End Save Customer Section
+					
+				*/
+				
+	//			----------------------------------
+				
+				/*
+				
+					** Start Update Customer Section
+					
+				*/
 
-// <--------------Update customer ------------------------->
 
 function updatecustomer(id) {
 	var name = document.getElementById('name').value;
@@ -102,8 +126,21 @@ function updatecustomer(id) {
 	});
 }
 
+			/*
+			
+				** End Update Custumer Section
+				
+			*/
 
-// <-------------- Delete customer ------------------------->
+	//		-----------------------------------
+
+			/*
+			
+			   ** Start Delete Customer Section
+			   
+			*/
+
+
 function deleteCust(id){
 	fetch(`customer/delete/${id}`, {
 		method: 'POST',
@@ -129,6 +166,7 @@ function deleteCust(id){
 
 			});
 }
+
 // <-------------- Confirm delete customer ------------------------->
 function confirmDelete(id) {
 	let deleteId = id;
@@ -138,11 +176,19 @@ function confirmDelete(id) {
 	});
 	
 }
+			/*
+			
+			 	** End Delete Customer Section
+			 	
+			 */
+			
+	//			-----------------------------------
 
-
-/**
- *  Create customer since job form
- */
+			/*
+			
+			 	**  Start Save Customer Sectionfrom a Job
+			 	
+			 */
 function saveCustomerFromJobForm(){
 	var name = document.getElementById('name').value;
 	var email = document.getElementById('email').value;

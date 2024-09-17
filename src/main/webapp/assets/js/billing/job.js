@@ -1,3 +1,10 @@
+				
+				/*
+				
+					** Start Navigate Section 
+					
+				*/
+
 function tab1NextBtnAction(){
 	let volumeOfCover = document.getElementById("volumeOfCover").value;
 	let volumeOfContent = document.getElementById("volumeOfContent").value;
@@ -19,7 +26,20 @@ function navigate(activeTab,tabToActivate){
 	$('.nav-tabs button[data-bs-target= "#tab'+tabToActivate+'"]').css("color", "black");
 }
 
-
+				/*
+				
+					** End  Navigate Section
+					
+				*/
+				
+	//     -------------------------------------------
+	
+				/*
+				
+					** Start Content Node Section 
+					
+				*/
+				
 function totalContentVolumeChange(){
 	document.getElementById("coverVolume").value=volumeOfCover;
 	let contentVolumes = document.querySelectorAll("[contentVolume]");  
@@ -76,19 +96,53 @@ function removeContentNode(deleteBtn,input){
 	
 }
 
+				/*
+				
+					** Remove Content Node Section
+					
+				*/
+				
+	//        ---------------------------------------
+	
+				/*
+				
+					** Start Paper Format Section
+					
+				*/
+
 function paperF(paperFormat){
+	 let opt=document.getElementById("jobType").selectedOptions[0];	
+	 let dataContentValue = opt.parentElement.getAttribute('data-content');
 	let PaperFormatArray = paperFormat.split(",");
 	let length = PaperFormatArray[1];
 	let width = PaperFormatArray[2];
 	let halfWidth =Math.floor(parseInt(width)/2);
 	document.getElementById("openWidth").value =width;
 	document.getElementById("openLength").value =length;
+	if(dataContentValue==3){
+		document.getElementById("closeWidth").value =width;
+		document.getElementById("closeLength").value =length;
+	}else{
+		document.getElementById("closeWidth").value =halfWidth;
+		document.getElementById("closeLength").value =length;
+	}
 	
-	document.getElementById("closeWidth").value =halfWidth;
-	document.getElementById("closeLength").value =length;
-
 }
 
+				/*
+				
+					**n Choose Paper Format Section 
+					
+				*/
+				
+	//				------------------------------
+				
+				/* 
+				
+					** Start Calcul Signatur Number Section 
+					
+				*/
+				
 function updateContentSignature(parent,index,node){
 	let child = parent.children[index];
 	let cloneChild =child.cloneNode(true);
@@ -196,8 +250,19 @@ function signatureCalculation(machineParams,node){
 	inputCoverSignature.value = totalCoverSignature;
 	
 }
-
-
+				/*
+				
+					** End Signature Calculation Section 
+					
+				*/
+				
+	//				--------------------------------------
+				
+				/*
+				
+					** Start Submit Job Section
+					
+				*/
 
 function submitForm(){
 	 let opt=document.getElementById("jobType").selectedOptions[0];	
@@ -210,13 +275,13 @@ function submitForm(){
  if(dataContentValue==2){
 	  job.coverVolume = document.getElementById("volumeOfCover").value;
  }
-    if(dataContentValue==0||dataContentValue==2){
+    if(dataContentValue==0||dataContentValue==2||dataContentValue==3){
 	   job.contentVolume = document.getElementById("volumeOfContent").value;
  } 
  job.ctpFees = document.getElementById("ctpFees").value;
  job.openWidth = document.getElementById("openWidth").value;
  job.openLength = document.getElementById("openLength").value;
- if(dataContentValue==1 || dataContentValue==2){
+ if(dataContentValue==1 || dataContentValue==2||dataContentValue==3){
 	  job.closeWidth = document.getElementById("closeWidth").value;
  	  job.closeLength = document.getElementById("closeLength").value;
  }else{
@@ -250,7 +315,7 @@ function submitForm(){
  	// Adding coverJobPaper and color combination  
  	
 	 let jobPapers = [ ];
-	 if(dataContentValue==2){
+	 if(dataContentValue==2||dataContentValue==3){
 		 let coverJobPaper = { };
 	  coverJobPaper.grammage = document.getElementById("coverGrammage").value;
 	  coverJobPaper.volume = document.getElementById("coverVolume").value;
@@ -273,7 +338,7 @@ function submitForm(){
     //End of Adding CoverJobPaper and color combination   
     // Start adding contentJobPaper and color combination
     
-    if(dataContentValue==1||dataContentValue==2 || dataContentValue==0){
+    if(dataContentValue==1||dataContentValue==2 || dataContentValue==0||dataContentValue==3){
 		
      let contentPaperTypes = document.getElementById("contentDiv").children;
      let mainContentSignature = document.getElementById("mainContentSignature").children;
@@ -343,7 +408,20 @@ function submitForm(){
 			});
 	}
      
-     
+     			/*
+     			
+     				** End Submit Job Section 
+     				
+     			*/
+     			
+	//     		--------------------------------------
+
+			     /*
+			     
+			    	 ** Start Summary Section
+			    	 
+			     */
+				
     function summary(){
 		
 					//  JOB DESCRIPTION SECTION
@@ -367,7 +445,7 @@ function submitForm(){
 			    document.getElementById("fold-w").innerHTML= document.getElementById("closeWidth").value;
 			}else {
 				document.getElementById("fold-l").innerHTML=document.getElementById("openLength").value;
-			document.getElementById("fold-w").innerHTML= document.getElementById("openWidth").value;
+				document.getElementById("fold-w").innerHTML= document.getElementById("openWidth").value;
 			}
 			
 			
@@ -390,7 +468,7 @@ function submitForm(){
 			document.getElementById("type-setting").innerHTML=yes;
 			else document.getElementById("type-setting").innerHTML=no;
 			
-			if(dataContentValue==2)
+			if(dataContentValue==2||dataContentValue==3)
 				// job type is a cover or cover and content cover-paper
 			{
 			document.getElementById("cover-pages").innerHTML= document.getElementById("volumeOfCover").value;
@@ -419,7 +497,7 @@ function submitForm(){
 				document.getElementById('content-printing-options-info').style.display = "";	
 		
 			}
-		if(dataContentValue==2 || dataContentValue==1 || dataContentValue==0)
+		if(dataContentValue==2 || dataContentValue==1 || dataContentValue==0 || dataContentValue==3)
 		{
 			/** job type is either have content and cov|| dataContentValue==1er or only content
 		 */
@@ -545,7 +623,19 @@ function submitForm(){
 			
      }
    
-   
+   				/*
+   				
+   					** End Summary Section 
+   					
+   				*/
+   				
+	//   	---------------------------------------
+	
+   				/*
+   				
+   					** Start Add and Remove Child Section
+   					
+   				*/
    
 		function removeRows() {
 		let contentPaperTypes = document.getElementById("contentDiv").children;
@@ -609,7 +699,18 @@ function addNextEstimateChild(){
 
 
 }
-
+				/*
+				
+					** End Add and Remove Child Section 
+					
+				*/
+				
+	//		----------------------------------------
+				/*
+				
+					** Start Generate Estimate Section
+					
+				*/
 		
 function generateEstimate(url, currentDiv, nextDiv){
 	let quantities = document.querySelectorAll("[estimate-quantity]");
@@ -622,11 +723,6 @@ function generateEstimate(url, currentDiv, nextDiv){
 	let extraFee = document.getElementById("extra-fee").value;
 	let description = document.getElementById("extra-fee-description").value;
 	let advancePercentage = document.getElementById("advancePercentage").value;
-	
-
-	
-	
-	
 
 	url+= "?quantities=" + estimateQuantities + "&extraFee=" +extraFee + "&extraFeeDescription=" + description +"&advancePercentage="+advancePercentage;
 	loadDynamicPageContent(url, nextDiv);
@@ -635,7 +731,20 @@ function generateEstimate(url, currentDiv, nextDiv){
 	
 	
 }
+
+				/*
+				
+					** End Generate Estimate Section
+					
+				*/
+				
+	//			-----------------------------------
 	
+				/*
+				
+					** Start Apply AdVance Percentage Section
+					
+				*/
 	
 	function advancePercentage(){
 			let advancePercentageCheckbox= document.getElementById("advancePercentageC");
@@ -645,8 +754,22 @@ function generateEstimate(url, currentDiv, nextDiv){
 	} else {
 		advancePercentageInput.style.display="none";
 	}
-	}
+ }
 	
+				/*
+				
+					**End Apply AdVance Percentage Section
+					
+				*/
+				
+	//				-------------------------------------
+				
+				/*
+				
+					**Start Confirm Estimate Section 
+					
+				*/
+				
 function confirmEstimate(urlConfirm, urlPrintEstimate){
 	let quantities = document.querySelectorAll("[estimate-quantity]");
 	let estimateQuantities = "";
@@ -680,13 +803,38 @@ function confirmEstimate(urlConfirm, urlPrintEstimate){
             console.log("internal server error :", error);
         });
 }
+
+			/*
+			
+				** End Confirm Estimate Section
+				
+			*/
+
+	//			----------------------------------------
+			
+			/*
+			
+				** Start Confirm Job Section
+				
+			*/
+
 function confirmEstimateCommission(ref){
 	
-	loadPage(`job/search-by/${reference}`);
-				
-			
+	loadPage(`job/search-by/${reference}`);		
 }
+				/**
+				 
+					 ** End Confirm Job Section 
+				 
+				 */
+				
+	//		-----------------------------------
 
+				/*
+				
+					** Start Behavior of For in function of Job Type Choosen
+					
+				*/
 
 function jobTypeChoice(opt){
 	
@@ -701,8 +849,7 @@ function jobTypeChoice(opt){
 		document.getElementById('mainContentSignature').style.display = "";  
 		document.getElementById('closeDimensionDiv').style.display = "none";
 		document.getElementById('volumeOfContent').value=1;
-		document.getElementById('volumeOfContent').readOnly = true;
-	
+		document.getElementById('volumeOfContent').readOnly = false;
 	}
 	else if(dataContentValue==1){
 		document.getElementById('volumeofCover').style.display = "none";
@@ -712,6 +859,17 @@ function jobTypeChoice(opt){
 		document.getElementById('cover-signature-div').style.display = "none";
 		document.getElementById('mainContentSignature').style.display = "";
 		document.getElementById('closeDimensionDiv').style.display = "";
+		document.getElementById('volumeOfContent').value="";
+		document.getElementById('volumeOfContent').readOnly = false;
+	}
+	else if(dataContentValue==3){
+		document.getElementById('closeDimensionDiv').style.display = "none";
+		document.getElementById('volumeofContent').style.display = "";
+		document.getElementById('volumeofCover').style.display = "";
+		document.getElementById('coverInformations').style.display = "";
+		document.getElementById('contentDiv').style.display = "";
+		document.getElementById('cover-signature-div').style.display = "";
+		document.getElementById('mainContentSignature').style.display = "";
 		document.getElementById('volumeOfContent').value="";
 		document.getElementById('volumeOfContent').readOnly = false;
 	}
@@ -727,7 +885,21 @@ function jobTypeChoice(opt){
 		document.getElementById('volumeOfContent').readOnly = false;
 	}
 
-	}
+}
+	
+			/*
+			
+				** End Choose Job Type Section
+				
+			*/
+			
+	//		--------------------------------
+			
+			/*
+			
+				** Start Pagination Section
+				
+			*/
 
 	function refreshJobPage(pageNo) {
     return new Promise((resolve, reject) => {
@@ -746,6 +918,20 @@ function jobTypeChoice(opt){
     });
 }
 
+				/**
+				
+					** End Pagination Section
+					
+				*/
+				
+	//				---------------------------------
+				
+				/** 
+				
+					** Start Search Job Section 
+				
+				*/
+
 function searchByReference() {
 	let reference = document.getElementById("search").value;
 	let test = reference[0];
@@ -759,8 +945,6 @@ function searchByReference() {
 	
 		
 	}
-	
-	
 
 function findByDate() {
 	let startDateValue = document.getElementById("search_startDate").value;
@@ -768,6 +952,14 @@ function findByDate() {
 	loadPage(`job/find-by/creationdate/${startDateValue}/${endDateValue}`);
 		
 	}	
+	
+				/** 
+				
+					** End Search Job Section
+					
+				*/
+				
+				
 	/**
 	 * Working with Draft
 	 * 
