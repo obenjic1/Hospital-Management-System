@@ -56,6 +56,7 @@
 					<label for="" class="form-label"><a> <fmt:message key="job.type"/></a></label> 
 					<select onchange="jobTypeChoice(this.selectedOptions[0])"  id="jobType" name="jobType" class="form-select" >
 					  <option>Choose...</option>
+					  
 					  <optgroup label="<fmt:message key="job.category.folded.two"/>" data-content="2">
 					  <option value="${job.jobType.id}" selected >${job.jobType.name}</option>
 					  <c:forEach items="${jobTypes}" var="jobType">
@@ -65,6 +66,7 @@
                          </c:if>
                       </c:forEach>
                       </optgroup>
+                      
                        <optgroup label="<fmt:message key="job.category.folded.one"/>" data-content="1">
                        <c:forEach items="${jobTypes}" var="jobType">
                         <c:if test="${jobType.category==1}">
@@ -72,14 +74,23 @@
                         </c:if>
                       </c:forEach>
                        </optgroup>
+                       
                        <optgroup   label="<fmt:message key="job.category.opened"/>" data-content="0">
-                      
                        <c:forEach items="${jobTypes}" var="jobType">
                        <c:if test="${jobType.category==0}">
                         <option value="${jobType.id}" >${jobType.name}</option>
                          </c:if>
                       </c:forEach>
                      </optgroup>
+                     
+                      <optgroup   label="<fmt:message key="job.category.opened"/>" data-content="3">
+                       <c:forEach items="${jobTypes}" var="jobType">
+                       <c:if test="${jobType.category==3}">
+                        <option value="${jobType.id}" >${jobType.name}</option>
+                         </c:if>
+                      </c:forEach>
+                     </optgroup>
+                     
                     </select>
 				  </div>
 				  <div class ="col-lg-3 px8" style="position: relative; left: 10px;">

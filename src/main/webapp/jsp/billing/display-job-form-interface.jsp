@@ -69,6 +69,7 @@
 					<label for="" class="form-label"><a> <fmt:message key="job.type"/></a></label> 
 					<select onchange="jobTypeChoice(this.selectedOptions[0])"  id="jobType" name="jobType" class="form-select" >
 					  <option>Choose...</option>
+					  
 					  <optgroup label="<fmt:message key="job.category.folded.two"/>" data-content="2">
 					  <c:forEach items="${jobTypes}" var="jobType">
 					  <c:if test="${jobType.category==2}">
@@ -76,22 +77,31 @@
                          </c:if>
                       </c:forEach>
                       </optgroup>
+                      
                        <optgroup label="<fmt:message key="job.category.folded.one"/>" data-content="1">
-                     
                        <c:forEach items="${jobTypes}" var="jobType">
                         <c:if test="${jobType.category==1}">
                         <option value="${jobType.id}" >${jobType.name}</option>
                         </c:if>
                       </c:forEach>
                        </optgroup>
+                       
                        <optgroup   label="<fmt:message key="job.category.opened"/>" data-content="0">
-                      
                        <c:forEach items="${jobTypes}" var="jobType">
                        <c:if test="${jobType.category==0}">
                         <option value="${jobType.id}" >${jobType.name}</option>
                          </c:if>
                       </c:forEach>
                      </optgroup>
+                     
+                     <optgroup   label="<fmt:message key="job.category.opened.with.cover"/>" data-content="3">
+                       <c:forEach items="${jobTypes}" var="jobType">
+                       <c:if test="${jobType.category==3}">
+                        <option value="${jobType.id}" >${jobType.name}</option>
+                         </c:if>
+                      </c:forEach>
+                     </optgroup>
+                     
                     </select>
 				  </div>
 				  <div class ="col-lg-3 px8" style="position: relative; left: 10px;">
@@ -101,7 +111,7 @@
 					</div>
                   </div>
 				</div>	
-							 <div class="row py-3">
+				<div class="row py-3">
 			  <div class ="col-lg-3 px8" >
 				   <label for="" class="form-label"> <a><fmt:message key="format"/></a> </label>
               	   <select id="paperFormat" onchange="paperF(this.value)" name="name" class="form-select">
@@ -716,9 +726,10 @@
 					     <div class="row">
 					    <div class="col-sm-4"><fmt:message key="paper.format"/> : <span id="paper-format"> </span>
 					    </div>
-					    <div class="col-sm-4"><fmt:message key="open"/> :<span id="open-l"></span> | <span id="open-w"></span></div> 
-					    	<div class="col-sm-4"><fmt:message key="fold"/>  :<span id="fold-l"></span> | <span id="fold-w"></span>
-					    </div>
+						    <div class="col-sm-4"><fmt:message key="open"/> :<span id="open-l"></span> | <span id="open-w"></span></div> 
+						    	<div class="col-sm-4"><fmt:message key="fold"/>  :<span id="fold-l"></span> | <span id="fold-w"></span>
+						    </div>
+					    
 					    </div>
 					    <div class="row">
 					    <div class="col-sm-4"><fmt:message key="existing.plate"/> : <span id="existing-plate"></span>
