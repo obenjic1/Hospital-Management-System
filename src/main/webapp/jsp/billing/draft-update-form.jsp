@@ -87,16 +87,17 @@
 			      </div>
 		       </div>		
 			 <div class="row py-3">
-			  <div class ="col-lg-4 px8" >
-				   <label for="" class="form-label"> <fmt:message key="format"/></label>
+			 <div class ="col-lg-3 px8" >
+				   <label for="" class="form-label"> <a><fmt:message key="format"/></a> </label>
               	   <select id="paperFormat" onchange="paperF(this.value)" name="name" class="form-select">
-              	      <option selected>${job.paperFormat}</option>
+              	      <option selected>Choose...</option>
               	      <option onclick="">Custom Format...</option>
+              	      <option value="${paperFormat.id},${paperFormat.length},${paperFormat.width}" selected>${job.paperFormat}</option>
 					  <c:forEach items="${paperFormats}" var="paperFormat">
-                        <option value="${paperFormat.id}">${paperFormat.name}</option>
+                        <option value="${paperFormat.id},${paperFormat.length},${paperFormat.width}">${paperFormat.name}</option>
                       </c:forEach>
                     </select>
-			      </div>
+			   </div>
 			   <div class ="col-lg-4 px8" style="position: relative; left: 10px;">
 			     <label for="" class="form-label"> <fmt:message key="open.format"/></label> 
 			       <div class="row">

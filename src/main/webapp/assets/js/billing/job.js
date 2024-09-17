@@ -305,7 +305,7 @@ function submitForm(){
 	// jobActivity.glueOption = document.getElementById("glueingOption").value;
 	 jobActivity.bindingType = document.getElementById("bindingType").value;
 	 jobActivity.handgather = document.getElementById("handgather").checked;
-	 jobActivity.stitching = document.getElementById("stitching").checked;
+	 jobActivity.stitching = document.getElementById("stitching").value;
 	 jobActivity.trimmed = document.getElementById("trimmed").checked;  
 	 jobActivity.selloptaped = document.getElementById("sellotaped").checked;
 	 jobActivity.sewn = document.getElementById("sewn").checked;
@@ -596,15 +596,16 @@ function submitForm(){
 			}else{
 				document.getElementById("binding-type").innerHTML=document.getElementById("bindingType").selectedOptions[0].innerHTML;
 			}
-		
+			document.getElementById("stitch").innerHTML = document.getElementById("stitching").value;
 			
 			if(document.getElementById("handgather").checked)
 			document.getElementById("hand-gather").innerHTML=yes;
 			else document.getElementById("hand-gather").innerHTML=no;
 			
-			if(document.getElementById("stitching").checked)
-			document.getElementById("stitch").innerHTML=yes;
-			else document.getElementById("stitch").innerHTML=no;
+			
+//			if(document.getElementById("stitching").checked)
+//			document.getElementById("stitch").innerHTML=;
+//			else document.getElementById("stitch").innerHTML=no;
 			
 			if(document.getElementById("trimmed").checked)
 			document.getElementById("trim").innerHTML=yes;
@@ -1011,9 +1012,10 @@ function findByDate() {
 
    			 if (response.status === 200) {
 					Swal.fire("Succes/Success!", "You clicked the button!", "success")
-//			return loadPage("job/list-job");				
+				return loadPage("job/list-job");				
    			 } else if (response.status !== 200) {
 					Swal.fire({icon: "error", title: "Oops...", text: "Something went wrong!"});
+				return loadPage("job/list-job");	
 //				sendMessage('Failed / Echec', 2);
   			 }
 		})
@@ -1317,7 +1319,7 @@ function summaryDraftUpdate(){
        		//	Swal.fire("Succes/Success!", "Job Approved / Job Approve", "success");
 				return loadPage("job/list-job"); 
   			 } else if (response.status !== 200) {
-		   //   Swal.fire({  icon: "error", title: "Oops...", text: "Something went wrong!"});
+		     // Swal.fire({  icon: "error", title: "Oops...", text: "Something went wrong!"});
 				return loadPage("job/list-job");
   			 }
 		})

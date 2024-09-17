@@ -295,10 +295,6 @@ public class PrintingElementCost {
 	
 	
 	
-
-	
-	
-	
 	public int getBasic() {
 		return basic;
 	}

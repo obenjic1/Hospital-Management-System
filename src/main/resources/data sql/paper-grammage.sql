@@ -1,5 +1,4 @@
 
-//----------------------you have to manually copy this code and run it on your data base----------------------------//
 INSERT INTO `paper_grammage`(`value`) VALUES ("45");
 INSERT INTO `paper_grammage`(`value`) VALUES ("48");
 INSERT INTO `paper_grammage`(`value`) VALUES ("50");

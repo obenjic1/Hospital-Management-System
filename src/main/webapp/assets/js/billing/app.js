@@ -99,6 +99,14 @@ function loadTables(url, idContainer) {
 		 percentage_input.style.display="none"
 
 	 }
-
  }
  
+function movementHistory(){
+			let history_checkbox= document.getElementById("history-ckeckbox");
+			let history_div =document.getElementById("history_div");
+				if(history_checkbox.checked){
+				history_div.style.display="block";
+	} else {
+		history_div.style.display="none";
+	}
+	}

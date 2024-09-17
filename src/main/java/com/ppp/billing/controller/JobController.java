@@ -86,6 +86,8 @@ import com.ppp.printable.PrintingElementCost;
 import com.ppp.user.model.User;
 import com.ppp.user.repository.UserRepository;
 
+import net.sf.saxon.expr.instruct.ForEach;
+
 @Controller
 @RequestMapping("/job")
 @CrossOrigin(origins="*")
@@ -195,7 +197,7 @@ public class JobController {
 		List<PaperGrammage> paperGrammageResult = paperGrammageServiceImpl.findAll();
 		List<BindingType> bindingTypeResult = bindingTypeserviceImpl.listAll();
 
-		
+	
 		model.addAttribute("customers", customerResult);
 		model.addAttribute("jobTypes", jobTypeResult);
 		model.addAttribute("paperFormats", paperFormatResult);
@@ -1117,7 +1119,7 @@ public class JobController {
 			if(jobActivity.isSelloptaped()) jobActivities =	jobActivities + " Selloptaped, ";
 			if(jobActivity.isSewn()) jobActivities =	jobActivities + " Sewn,";
 			if(jobActivity.isTrimmed()) jobActivities =	jobActivities + " trimmed, ";
-			if(jobActivity.isStitching()) jobActivities =	jobActivities + " Stitched, ";
+			if(jobActivity.getIsStitching()!=null) jobActivities =	jobActivity.getIsStitching() + ", ";
 			//if(!jobActivity.getGlueOption().isEmpty()) jobActivities =	jobActivities + jobActivity.getGlueOption()+ ", ";
 			if(jobActivity.getXWiredStiched()>0) jobActivities =	jobActivities + jobActivity.getXWiredStiched()+ " x Stiched, ";
 			if(jobActivity.getXCreased()>0) jobActivities =	jobActivities + " Cover "+ jobActivity.getXCreased()+ " x creased, ";
@@ -1262,7 +1264,7 @@ public class JobController {
 				if(jobActivity.isSelloptaped()) jobActivities =	jobActivities + " Selloptaped, ";
 				if(jobActivity.isSewn()) jobActivities =	jobActivities + " Sewn,";
 				if(jobActivity.isTrimmed()) jobActivities =	jobActivities + " trimmed, ";
-				if(jobActivity.isStitching()) jobActivities =	jobActivities + " Stitched, ";
+				if(jobActivity.getIsStitching()!=null) jobActivities =	jobActivity.getIsStitching() + ", ";
 				//if(!jobActivity.getGlueOption().isEmpty()) jobActivities =	jobActivities + jobActivity.getGlueOption()+ ", ";
 				if(jobActivity.getXWiredStiched()>0) jobActivities =	jobActivities + jobActivity.getXWiredStiched()+ " x Stiched, ";
 				if(jobActivity.getXCreased()>0) jobActivities =	jobActivities + " Cover "+ jobActivity.getXCreased()+ " x creased, ";
@@ -1752,11 +1754,11 @@ public class JobController {
 		model.addAttribute("departments",departments);
 		model.addAttribute("department",department);
 		model.addAttribute("movement",movement);
-
+		model.addAttribute("movements",movements);
 
     return "/billing/move-job";
 	}
-	
+
 	//<--------------------- Move a Job Job ------------------------------>
 	@PostMapping(value="/move-job/{id}")
 	public ResponseEntity<String> moveJob(@PathVariable long id, @RequestBody JobMovementDTO jobMovementDTO) {
