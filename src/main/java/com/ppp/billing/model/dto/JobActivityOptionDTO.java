@@ -11,7 +11,7 @@ public class JobActivityOptionDTO {
 	private String glueOption;
 	private int bindingType;
 	private boolean handgather;
-	private boolean stitching;
+	private String stitching;
 	private boolean trimmed;
 	private boolean selloptaped;
 	private boolean sewn;
@@ -67,10 +67,11 @@ public class JobActivityOptionDTO {
 	public void setHandgather(boolean handgather) {
 		this.handgather = handgather;
 	}
-	public boolean isStitching() {
+	
+	public String getStitching() {
 		return stitching;
 	}
-	public void setStitching(boolean stitching) {
+	public void setStitching(String stitching) {
 		this.stitching = stitching;
 	}
 	public boolean isTrimmed() {

@@ -228,14 +228,14 @@ function submitUpdateForm(id){
 				document.getElementById("binding-type").innerHTML=document.getElementById("bindingType").selectedOptions[0].innerHTML;
 			}
 		
-			
+			document.getElementById("stitch").innerHTML = document.getElementById("stitching").value;
 			if(document.getElementById("handgather").checked)
 			document.getElementById("hand-gather").innerHTML=yes;
 			else document.getElementById("hand-gather").innerHTML=no;
-			
-			if(document.getElementById("stitching").checked)
-			document.getElementById("stitch").innerHTML=yes;
-			else document.getElementById("stitch").innerHTML=no;
+//			
+//			if(document.getElementById("stitching").checked)
+//			document.getElementById("stitch").innerHTML=yes;
+//			else document.getElementById("stitch").innerHTML=no;
 			
 			if(document.getElementById("trimmed").checked)
 			document.getElementById("trim").innerHTML=yes;
@@ -336,9 +336,10 @@ function submitUpdateForm(id){
 		fc3.innerHTML=currentRow.querySelector("[contentPaperType]").selectedOptions[0].innerHTML;
 
 		fc4.innerHTML =currentContentSignature.querySelectorAll("[contentPrintingMachine]")[j].selectedOptions[0].innerHTML;
-		fc5.innerHTML =currentContentSignature.querySelectorAll("[contentPrintType]")[j].selectedOptions[0].innerHTML;
+//		fc5.innerHTML =currentContentSignature.querySelectorAll("[contentPrintType]")[j].selectedOptions[0].innerHTML;
 		fc6.innerHTML =currentContentSignature.querySelectorAll("[contentFrontColorNumber]")[j].value +" / "+ currentContentSignature.querySelectorAll("[contentBackColorNumber]")[j].value;
 		fc7.innerHTML =currentContentSignature.querySelectorAll("[allSignatures]")[j].value;
+		
 		}
 		
 		}

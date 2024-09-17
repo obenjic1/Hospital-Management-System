@@ -205,7 +205,7 @@
                 <div class="row ">
                     <div class="col-sm-4">
                         <div><fmt:message key="x.perforated"/> : <span id="x-perforated"> </span>${job.getJobActivity().getXPerforated()}</div>
-                        <div><fmt:message key="x.umbered "/> : <span id="x-numbered"></span> ${job.getJobActivity().getXNumbered()}</div>
+                        <div><fmt:message key="x.numbered"/> : <span id="x-numbered"></span> ${job.getJobActivity().getXNumbered()}</div>
                         <div><fmt:message key="x.crossed"/>  : <span id="x-crossed"></span>${job.getJobActivity().getXCross()}</div>
                         <div><fmt:message key="x.wired.stitched"/>  : <span id="x-wired"></span>${job.getJobActivity().getXWiredStiched()}</div>
                         <div><fmt:message key="creased"/> : <span id="crease"></span>${job.getJobActivity().getXCreased()}</div>
@@ -220,7 +220,7 @@
                     <div class="col-sm-4">
                         <div><fmt:message key="handgather"/> :<span class=" ${job.getJobActivity().isHandgather() ? 'true' : 'false'}"> ${job.getJobActivity().isHandgather() ? 'yes' : 'no'}</span>
                         </div>
-                        <div><fmt:message key="stitching"/> :  <span class=" ${job.getJobActivity().isStitching() ? 'true' : 'false'}"> ${job.getJobActivity().isStitching() ? 'yes' : 'no'}</span>
+                        <div><fmt:message key="stitching"/> : ${job.getJobActivity().getIsStitching()}
                         </div>
                         <div><fmt:message key="trimmed"/> :<span class=" ${job.getJobActivity().isTrimmed() ? 'true' : 'false'}"> ${job.getJobActivity().isTrimmed() ? 'yes' : 'no'}</span>
                         </div>

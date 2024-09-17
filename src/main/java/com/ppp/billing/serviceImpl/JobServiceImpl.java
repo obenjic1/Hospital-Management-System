@@ -11,8 +11,6 @@ import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 
 import com.ppp.billing.model.BindingType;
@@ -84,7 +82,7 @@ public class JobServiceImpl implements JobService {
     JobTrackingRepository jobTrackingRepository;
 	@Autowired
 	private UserRepository userRepository;
-    
+   
 	@Override
 	public Job saveJob(JobDTO jobDTO) {
 		Job newJob = new Job();
@@ -118,7 +116,7 @@ public class JobServiceImpl implements JobService {
 		activity.setXCross(jobdto.getxCross());
 		//activity.setGlueOption(jobdto.getGlueOption());
 		activity.setHandgather(jobdto.isHandgather());
-		activity.setStitching(jobdto.isStitching());
+		activity.setIsStitching(jobdto.getStitching());
 		activity.setTrimmed(jobdto.isTrimmed());
 		activity.setSewn(jobdto.isSewn());
 		activity.setHandFoldingCov(jobdto.getHandFoldCov());
@@ -164,7 +162,7 @@ public class JobServiceImpl implements JobService {
 		List<JobMovement> movements = new ArrayList<JobMovement>();
 		JobMovement moveJob = new JobMovement();
 		moveJob.setCreationDate(new Date());
-		moveJob.setDescription("Registered Job");
+		moveJob.setDescription("new Job");
 		Department	department = departmentRepository.findById(1);
 		moveJob.setDepartment(department);
 		String name = SecurityContextHolder.getContext().getAuthentication().getName();
@@ -278,8 +276,7 @@ public class JobServiceImpl implements JobService {
 			throw e;
 		}
 	}
-	
-	
+		
 	/* working with Job Draft
 	 * **/
 	
@@ -311,20 +308,9 @@ public class JobServiceImpl implements JobService {
 		tracking.setUser(user);
 		tracking.setCreationDate(new Date());
 		tracking.setOperation("Registered Daft");
-
 		jobTrackings.add(tracking);
 		tracking.setJob(newJob);
 		newJob.setJobTrackings(jobTrackings);
-
-		List<JobMovement> movements = new ArrayList<JobMovement>();
-		JobMovement moveJob = new JobMovement();
-		moveJob.setCreationDate(new Date());
-		moveJob.setDescription("Registered Job");
-		Department	department = departmentRepository.findById(1);
-		moveJob.setDepartment(department);
-		movements.add(moveJob);
-		moveJob.setJob(newJob);
-		newJob.setJobMovements(movements);
 		JobStatus status = jobStatusRepository.findById(1).get();
 		newJob.setStatus(status);
 		generateSerialNumber(newJob);
@@ -389,6 +375,7 @@ public class JobServiceImpl implements JobService {
 		JobStatus status = jobStatusRepository.findById(2).get();
 		newJob.setStatus(status);
 
+		
 		JobActivityOptionDTO jobdto = jobDTO.getJobActivities();
 		JobActivity activity = newJob.getJobActivity();
 		activity.setXPerforated(jobdto.getxPerforated());
@@ -399,7 +386,7 @@ public class JobServiceImpl implements JobService {
 		activity.setXCross(jobdto.getxCross());
 		//activity.setGlueOption(jobdto.getGlueOption());
 		activity.setHandgather(jobdto.isHandgather());
-		activity.setStitching(jobdto.isStitching());
+		activity.setIsStitching(jobdto.getStitching());
 		activity.setTrimmed(jobdto.isTrimmed());
 		activity.setSewn(jobdto.isSewn());
 		activity.setHandFoldingCov(jobdto.getHandFoldCov());
@@ -444,16 +431,16 @@ public class JobServiceImpl implements JobService {
 
 		});
 		
-		List<JobTracking> jobTrackings = newJob.getJobTrackings() ;
-		JobTracking tracking = new JobTracking();
-		String name = SecurityContextHolder.getContext().getAuthentication().getName();
-		User user = userRepository.findByUsername(name);
-		tracking.setUser(user);
-		tracking.setCreationDate(new Date());
-		tracking.setOperation("proof read");
-		tracking.setJob(newJob);
-		jobTrackings.add(tracking);
-		newJob.setJobTrackings(jobTrackings);
+//		List<JobTracking> jobTrackings = new ArrayList<JobTracking>();
+//		JobTracking tracking = new JobTracking();
+//		String name = SecurityContextHolder.getContext().getAuthentication().getName();
+//		User user = userRepository.findByUsername(name);
+//		tracking.setUser(user);
+//		tracking.setCreationDate(new Date());
+//		tracking.setOperation("Edit Job");
+//		jobTrackings.add(tracking);
+//		tracking.setJob(newJob);
+//		newJob.setJobTrackings(jobTrackings);
 		newJob.setJobPapers(jobPapers);		
 		jobRepository.saveAndFlush(newJob);
 		
