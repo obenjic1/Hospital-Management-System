@@ -1756,13 +1756,9 @@ public class JobController {
 		model.addAttribute("movement",movement);
 		model.addAttribute("movements",movements);
 
-			for (Department department2 : departments) {
-				
-			}
-
     return "/billing/move-job";
 	}
-	
+
 	//<--------------------- Move a Job Job ------------------------------>
 	@PostMapping(value="/move-job/{id}")
 	public ResponseEntity<String> moveJob(@PathVariable long id, @RequestBody JobMovementDTO jobMovementDTO) {
