@@ -8,6 +8,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+
+import com.ppp.user.model.User;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -26,15 +29,7 @@ public class JobMovement {
 	
 	@Column(name="creation_date")
 	private Date creationDate;
-//	
-//	@Column(name="source_department")
-//	private Department sourceDepartment;
-//	@OneToOne(fetch = FetchType.LAZY, orphanRemoval = true, cascade = CascadeType.PERSIST)
-//	@JoinColumn(name = "department_id", referencedColumnName = "id")
-	//@Column(name="department")
-//	private Department department;
 
-//
 	@ManyToOne
 	@JoinColumn(name="job_id", nullable=false)
 	private Job job;
@@ -44,6 +39,10 @@ public class JobMovement {
 //	private Job job;
 	
 //
+	@ManyToOne
+	@JoinColumn(name = "user_id", referencedColumnName = "id")
+	private User user;
+	
 	@ManyToOne
 	@JoinColumn(name="department_id", nullable=false)
 	private Department department;

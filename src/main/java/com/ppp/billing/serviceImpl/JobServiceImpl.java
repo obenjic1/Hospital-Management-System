@@ -167,6 +167,9 @@ public class JobServiceImpl implements JobService {
 		moveJob.setDescription("Registered Job");
 		Department	department = departmentRepository.findById(1);
 		moveJob.setDepartment(department);
+		String name = SecurityContextHolder.getContext().getAuthentication().getName();
+		User user = userRepository.findByUsername(name);
+		moveJob.setUser(user);
 		movements.add(moveJob);
 		moveJob.setJob(newJob);
 		newJob.setJobMovements(movements);
@@ -174,15 +177,12 @@ public class JobServiceImpl implements JobService {
 		List<JobTracking> jobTrackings = new ArrayList<JobTracking>();
 		JobTracking tracking = new JobTracking();
 		tracking.setCreationDate(new Date());
-		String name = SecurityContextHolder.getContext().getAuthentication().getName();
-		User user = userRepository.findByUsername(name);
 		tracking.setUser(user);
 		tracking.setOperation("Registered Job");
 		jobTrackings.add(tracking);
 		tracking.setJob(newJob);
 		newJob.setJobTrackings(jobTrackings);
 		newJob.setJobPapers(jobPapers);		
-		jobRepository.saveAndFlush(newJob);
         generateSerialNumber(newJob);
 		
         return newJob; 
@@ -327,7 +327,6 @@ public class JobServiceImpl implements JobService {
 		newJob.setJobMovements(movements);
 		JobStatus status = jobStatusRepository.findById(1).get();
 		newJob.setStatus(status);
-		jobRepository.saveAndFlush(newJob);
 		generateSerialNumber(newJob);
 		return newJob;
 	}
@@ -358,7 +357,6 @@ public class JobServiceImpl implements JobService {
 		tracking.setOperation("Edit Daft");
 		tracking.setJob(newJob);
 		jobTrackings.add(tracking);
-		jobTrackingRepository.saveAll(jobTrackings);
 		newJob.setJobTrackings(jobTrackings);
 		jobRepository.saveAndFlush(newJob);
 		return newJob;
@@ -455,7 +453,6 @@ public class JobServiceImpl implements JobService {
 		tracking.setOperation("proof read");
 		tracking.setJob(newJob);
 		jobTrackings.add(tracking);
-		jobTrackingRepository.saveAll(jobTrackings);
 		newJob.setJobTrackings(jobTrackings);
 		newJob.setJobPapers(jobPapers);		
 		jobRepository.saveAndFlush(newJob);
@@ -480,7 +477,6 @@ public class JobServiceImpl implements JobService {
 		tracking.setUser(user);
 		tracking.setJob(job);
 		jobTrackings.add(tracking);
-		jobTrackingRepository.saveAll(jobTrackings);
 		job.setJobTrackings(jobTrackings);
 		jobRepository.saveAndFlush(job);
 	}
@@ -500,7 +496,6 @@ public class JobServiceImpl implements JobService {
 			tracking.setUser(user);
 			tracking.setJob(job);
 			jobTrackings.add(tracking);
-			jobTrackingRepository.saveAll(jobTrackings);
 			job.setJobTrackings(jobTrackings);
 			
 			jobRepository.save(job);
@@ -526,7 +521,6 @@ public class JobServiceImpl implements JobService {
 			tracking.setJob(job);
 			tracking.setOperation("Confirmed Job");
 			jobTrackings.add(tracking);
-			jobTrackingRepository.saveAll(jobTrackings);
 			job.setJobTrackings(jobTrackings);
 			job.setStatus(status);
 			jobRepository.saveAndFlush(job);
@@ -549,7 +543,6 @@ public class JobServiceImpl implements JobService {
 			tracking.setUser(user);
 			tracking.setJob(job);
 			jobTrackings.add(tracking);
-			jobTrackingRepository.saveAll(jobTrackings);
 			job.setJobTrackings(jobTrackings);
 			job.setStatus(status);
 			jobRepository.saveAndFlush(job);

@@ -86,6 +86,8 @@ import com.ppp.printable.PrintingElementCost;
 import com.ppp.user.model.User;
 import com.ppp.user.repository.UserRepository;
 
+import net.sf.saxon.expr.instruct.ForEach;
+
 @Controller
 @RequestMapping("/job")
 @CrossOrigin(origins="*")
@@ -195,7 +197,7 @@ public class JobController {
 		List<PaperGrammage> paperGrammageResult = paperGrammageServiceImpl.findAll();
 		List<BindingType> bindingTypeResult = bindingTypeserviceImpl.listAll();
 
-		
+	
 		model.addAttribute("customers", customerResult);
 		model.addAttribute("jobTypes", jobTypeResult);
 		model.addAttribute("paperFormats", paperFormatResult);
@@ -1752,7 +1754,11 @@ public class JobController {
 		model.addAttribute("departments",departments);
 		model.addAttribute("department",department);
 		model.addAttribute("movement",movement);
+		model.addAttribute("movements",movements);
 
+			for (Department department2 : departments) {
+				
+			}
 
     return "/billing/move-job";
 	}

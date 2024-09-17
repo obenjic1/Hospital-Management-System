@@ -1125,7 +1125,7 @@ function summaryDraftUpdate(){
        		//	Swal.fire("Succes/Success!", "Job Approved / Job Approve", "success");
 				return loadPage("job/list-job"); 
   			 } else if (response.status !== 200) {
-		   //   Swal.fire({  icon: "error", title: "Oops...", text: "Something went wrong!"});
+		     // Swal.fire({  icon: "error", title: "Oops...", text: "Something went wrong!"});
 				return loadPage("job/list-job");
   			 }
 		})

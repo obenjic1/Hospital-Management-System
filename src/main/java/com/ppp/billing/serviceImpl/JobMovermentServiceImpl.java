@@ -51,12 +51,15 @@ public class JobMovermentServiceImpl implements JobMovementService{
 		List<JobMovement> movements = job.getJobMovements();
 		JobMovement moveJob = new JobMovement();
 		moveJob.setCreationDate(new Date());
-		moveJob.setDescription(jobMovementDTO.getDescription());
 		Department	department = departmentRepository.findById(jobMovementDTO.getDepartment());
 		moveJob.setDepartment(department);
+		moveJob.setDescription("send job to " + department.getName()+ " ( " + jobMovementDTO.getDescription() +" )");
 		movements.add(moveJob);
 		job.setJobMovements(movements);
 		moveJob.setJob(job);
+		String name = SecurityContextHolder.getContext().getAuthentication().getName();
+		User user = userRepository.findByUsername(name);
+		moveJob.setUser(user);
 		
 //		List<JobTracking> jobTrackings = job.getJobTrackings() ;
 //		JobTracking tracking = new JobTracking();
@@ -77,6 +80,9 @@ public class JobMovermentServiceImpl implements JobMovementService{
 	public JobMovement saveMovement(JobMovementDTO jobMovementDTO) {
 		JobMovement jobMovement = new JobMovement();
 		jobMovement.setCreationDate(new Date());
+		String name = SecurityContextHolder.getContext().getAuthentication().getName();
+		User user = userRepository.findByUsername(name);
+		jobMovement.setUser(user);
 		jobMovement.setDescription(jobMovementDTO.getDescription());
 		jobMovement.setDepartment(departmentRepository.findById(jobMovementDTO.getDepartment()));
 		

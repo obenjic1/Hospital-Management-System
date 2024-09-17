@@ -268,7 +268,7 @@
 		       		 	<button type="button"  style ="width:125px;float:right" onclick="confirmJob(${job.id})"  class="btn btn-outline-primary" id=""><fmt:message key="confirm"/></button>	
 		       		 </c:if>
 		       		 <c:if test="${job.proofread=='true'&&job.status.name=='Confrimed'}">
-		       		 	<button type="button"  style ="width:125px;float:right" onclick="confirmApprove(${job.id})"  class="btn btn-outline-primary" id=""><fmt:message key="approve"/></button>	
+		       		 	<button type="button"  style ="width:125px;float:right" onclick="confirmApproveJob(${job.id})"  class="btn btn-outline-primary"  id=""><fmt:message key="approve"/></button>	
 		       		 </c:if>
 	       		 </div>
 	     	</div>
