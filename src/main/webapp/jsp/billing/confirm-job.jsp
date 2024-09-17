@@ -42,11 +42,11 @@
 					      </div>
 					   	 <div class="row">
 					       <div class="col-sm-4">
-					       <c:if test="${job.jobType.category==2}">
+					       <c:if test="${job.jobType.category==2 || job.jobType.category==3}">
 					     	 <fmt:message key="number.of.pages.for.cover"/> : <span id="cover-pages">${job.coverVolume} </span>
 					       </c:if>
 					      </div>
-					      <c:if test="${job.jobType.category==1||job.jobType.category==2 || job.jobType.category==0}">
+					      <c:if test="${job.jobType.category==1||job.jobType.category==2 || job.jobType.category==0 || job.jobType.category==3}">
 					      <div class="col-sm-4">
 					    	 <fmt:message key="number.of.pages.for.content"/> :  <span id="content-pages"> ${job.contentVolume}</span> 
 					      </div>
@@ -88,7 +88,7 @@
 					   </div>
 					<!--            job decription ends     -->
 					
-					<c:if test="${job.jobType.category==2}">
+					<c:if test="${job.jobType.category==2 || job.jobType.category==3}">
 							<h4 id="top2"><fmt:message key="cover.paper.option"/></h4>
 							<hr>
 					   <div class="row">
@@ -107,7 +107,7 @@
 					   
 					   </c:if>
 					   
-					   <c:if test="${job.jobType.category==1||job.jobType.category==2 || job.jobType.category==0}">
+					   <c:if test="${job.jobType.category==1 || job.jobType.category==2 || job.jobType.category==0 || job.jobType.category==3}">
 						<h4 id="top2"><fmt:message key="content.paper.option"/> </h4>
 						<hr>
 					    <div class="row">
@@ -137,7 +137,7 @@
 					  	</c:if>
 					      <br>
 		  
-		 		 <c:if test="${job.jobType.category==2}">
+		 		 <c:if test="${job.jobType.category==2 || job.jobType.category==3}">
 					 <h4><fmt:message key="cover.printing.option"/></h4>
 
 					 <hr>
@@ -159,7 +159,7 @@
 					  </div>
 					  
 					  </c:if>
-					  <c:if test="${job.jobType.category==1||job.jobType.category==2 || job.jobType.category==0}">
+					  <c:if test="${job.jobType.category==1 || job.jobType.category==2 || job.jobType.category==0 || job.jobType.category==3}">
 					   <h4>Content Printing Option</h4>
 
 					 <hr>
