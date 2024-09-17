@@ -323,7 +323,7 @@ public class InvoiceController {
 			if(jobActivity.isSelloptaped()) jobActivities =	jobActivities + " Selloptaped, ";
 			if(jobActivity.isSewn()) jobActivities =	jobActivities + " Sewn,";
 			if(jobActivity.isTrimmed()) jobActivities =	jobActivities + " trimmed, ";
-			if(jobActivity.isStitching()) jobActivities =	jobActivities + " Stitched, ";
+			if(jobActivity.getIsStitching()!=null) jobActivities =	jobActivity.getIsStitching() + ", ";
 			//if(!jobActivity.getGlueOption().isEmpty()) jobActivities =	jobActivities + jobActivity.getGlueOption()+ ", ";
 			if(jobActivity.getXWiredStiched()>0) jobActivities =	jobActivities + jobActivity.getXWiredStiched()+ " x Stiched, ";
 			if(jobActivity.getXCreased()>0) jobActivities =	jobActivities + " Cover "+ jobActivity.getXCreased()+ " x creased, ";

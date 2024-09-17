@@ -276,7 +276,7 @@
                     <div class="col-sm-4">
                         <div> Handgather :<span class=" ${job.getJobActivity().isHandgather() ? 'true' : 'false'}"> ${job.getJobActivity().isHandgather() ? 'yes' : 'no'}</span>
                         </div>
-                        <div> Stitching :  <span class=" ${job.getJobActivity().isStitching() ? 'true' : 'false'}"> ${job.getJobActivity().isStitching() ? 'yes' : 'no'}</span>
+                        <div> Stitching :  <span>${job.getJobActivity().getIsStitching()}</span>
                         </div>
                         <div> Trimmed :<span class=" ${job.getJobActivity().isTrimmed() ? 'true' : 'false'}"> ${job.getJobActivity().isTrimmed() ? 'yes' : 'no'}</span>
                         </div>

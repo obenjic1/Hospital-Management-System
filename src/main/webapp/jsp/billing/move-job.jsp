@@ -4,7 +4,9 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-
+<head>
+  <link href="assets/css/billing/job.css" rel="stylesheet">
+</head>
 <main id="add-machine">
 <!-- 	action="machine/add-machine -->
 	<section>
@@ -49,11 +51,49 @@
                                  </div>
                                                    
 							</div>
-							  <div class="row py-1">  
-									<button  style=" width: 94px;margin-left: 71%;" type="button"  class="btn btn-primary"data-bs-dismiss="modal" onclick="moveJob('${job.id}')" id="next-btn" > <fmt:message key="send"/> </button>	
+							  <div class="row py-1" style="margin-bottom: -63px;">  
+									<button  style=" width: 94px;margin-left: -24%;margin-top: 18px;" type="button"  class="btn btn-primary"data-bs-dismiss="modal" onclick="moveJob('${job.id}')" id="next-btn" > <fmt:message key="send"/> </button>	
 							  </div> 
 						</div>
 					
+					</div>
+					<div>
+<%-- 									<button  style=" width: 94px;" type="button"  class="btn btn-primary"data-bs-dismiss="modal" onclick="moveJob('${job.id}')" id="next-btn" >history </button> --%>
+									<input class="form-check-input" type="checkbox" id="history-ckeckbox" onchange="movementHistory()">
+									<label class="form-ckheck-label" for="Movement">History</label>
+							  </div> 
+					<hr>
+					<div class="row " id="history_div" style="display:none"> 
+							  
+						
+							<table class="ta" id="cover-table" style="text-align:">
+									<thead style="text-align:">
+										<tr>
+											<th scope="col"><fmt:message key="date"/> </th>
+											<th scope="col"></th>
+											<th scope="col"></th>
+											<th scope="col"><fmt:message key="user"/> </th>
+											<th scope="col"></th>
+											<th scope="col"></th>
+											<th scope="col"> <fmt:message key="operation"/></th>
+										</tr>
+									</thead>
+									<tbody>
+										 <c:forEach var="movement" items="${movements}" varStatus="loop">
+											 <tr>
+												  	<td><a><fmt:formatDate type = "both" value = "${movement.creationDate}"/></a></td>
+												  	<td></td>
+												  	<td></td>
+												    <td>${movement.user.username}</td>
+												    <td></td>
+												  	<td></td>
+												    <td>${movement.description}</td>
+											  </tr>
+										 </c:forEach>
+									</tbody>
+					       </table>
+							  
+							 
 					</div>
 					</div>
 				</div>

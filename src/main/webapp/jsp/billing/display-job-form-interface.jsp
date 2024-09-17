@@ -613,21 +613,28 @@
 <%-- 				   <option value="glue-bound"><fmt:message key="glue.bound"/></option> --%>
 <!-- 		         </select> -->
 <!-- 			   </div> -->
-			     <div class ="col-lg-3 px8" style="position: relative; left:10px;">
-			   <label for="" class="form-label"><a><fmt:message key="binding.type"/></a></label> 
-			      <select id="bindingType" name="name" class="form-select">
-			        <option value="0" selected>Choose...</option>
-					<c:forEach items="${bindingTypes}" var="bindingTyp">
-                      <option value="${bindingTyp.id}">${bindingTyp.name}</option>
-                    </c:forEach>
-                  </select>
-			    </div>
-			    
+
+ 				<div class ="col-lg-3 px8" style="position: relative; left:10px;">
+				   <label for="" class="form-label"><a><fmt:message key="binding.type"/></a></label> 
+				      <select id="bindingType" name="name" class="form-select">
+				        <option value="0" selected>Choose...</option>
+						<c:forEach items="${bindingTypes}" var="bindingTyp">
+	                      <option value="${bindingTyp.id}">${bindingTyp.name}</option>
+	                    </c:forEach>
+	                  </select>
+				    </div>
 			    <div class ="col-lg-3 px8" style="position: relative; left:10px;">
 				  <label for="" class="form-label"><a><fmt:message key="handFoldCov"/></a></label>
 				  <input type="number" id="handFoldCov" value="0">
                 </div>
-			 
+				 <div class ="col-lg-3 px8" style="position: relative; left:10px;">
+			   		<label for="" class="form-label"><a>Stitching</a></label> 
+				      <select id="stitching" name="name" class="form-select">
+				        <option value="" selected>Choose...</option>
+	                    <option value="Left-Stitch">Head</option>
+	                    <option value="Head-Stitch">Left</option>
+	                  </select>
+			    </div>
 			   </div>
     
                   <div class="row py-3">

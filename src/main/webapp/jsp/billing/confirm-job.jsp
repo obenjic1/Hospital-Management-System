@@ -219,7 +219,7 @@
                     <div class="col-sm-4">
                         <div><fmt:message key="handgather"/> :<span class=" ${job.getJobActivity().isHandgather() ? 'true' : 'false'}"> ${job.getJobActivity().isHandgather() ? 'yes' : 'no'}</span>
                         </div>
-                        <div><fmt:message key="stitching"/> :  <span class=" ${job.getJobActivity().isStitching() ? 'true' : 'false'}"> ${job.getJobActivity().isStitching() ? 'yes' : 'no'}</span>
+                        <div><fmt:message key="stitching"/> :  <span > ${job.getJobActivity().getIsStitching()}</span>
                         </div>
                         <div> <fmt:message key="trimmed"/> :<span class=" ${job.getJobActivity().isTrimmed() ? 'true' : 'false'}"> ${job.getJobActivity().isTrimmed() ? 'yes' : 'no'}</span>
                         </div>
@@ -265,10 +265,10 @@
 		    	
 	        	<div class ="col-sm-6">
 		        	 <c:if test="${job.proofread=='true'&&job.status.name=='Registered'}">
-		       		 	<button type="button"  style ="width:125px;float:right" onclick="confirmJob(${job.id})"  class="btn btn-outline-primary" id=""><fmt:message key="confirm"/></button>	
+		       		 	<button type="button"  style ="width:125px;float:right" onclick="confirmJob(${job.id})"  class="btn btn-outline-primary" id="" data-bs-dismiss="modal"><fmt:message key="confirm"/></button>	
 		       		 </c:if>
 		       		 <c:if test="${job.proofread=='true'&&job.status.name=='Confrimed'}">
-		       		 	<button type="button"  style ="width:125px;float:right" onclick="confirmApprove(${job.id})"  class="btn btn-outline-primary" id=""><fmt:message key="approve"/></button>	
+		       		 	<button type="button"  style ="width:125px;float:right" onclick="confirmApproveJob(${job.id})"  class="btn btn-outline-primary"  id="" data-bs-dismiss="modal"><fmt:message key="approve"/></button>	
 		       		 </c:if>
 	       		 </div>
 	     	</div>

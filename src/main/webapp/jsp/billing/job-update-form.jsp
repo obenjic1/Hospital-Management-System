@@ -100,7 +100,7 @@
 					</div>
                   </div>
 				</div>	
-							 <div class="row py-3">
+			<div class="row py-3">
 			  <div class ="col-lg-3 px8" >
 				   <label for="" class="form-label"> <a><fmt:message key="format"/></a> </label>
               	   <select id="paperFormat" onchange="paperF(this.value)" name="name" class="form-select">
@@ -111,7 +111,7 @@
                         <option value="${paperFormat.id},${paperFormat.length},${paperFormat.width}">${paperFormat.name}</option>
                       </c:forEach>
                     </select>
-			      </div>
+			   </div>
 			   <div class ="col-lg-3 px8" style="position: relative; left: 10px;">
 			     <label for="" class="form-label"> <a><fmt:message key="open.format"/></a> </label> 
 			       <div class="row">
@@ -601,6 +601,14 @@
 				  <label for="" class="form-label"><a><fmt:message key="handFoldCov"/></a></label>
 				  <input type="number" id="handFoldCov" value="${handFoldCov}">
                 </div>
+                 <div class ="col-lg-3 px8" style="position: relative; left:10px;">
+			   		<label for="" class="form-label"><a>Stitching</a></label> 
+				      <select  id="stitching" name="name" class="form-select">
+				        <option selected value="${job.getJobActivity().getIsStitching()} "selected> ${job.getJobActivity().getIsStitching()} </option>
+	                    <option value="Left-Stitch">Head</option>
+	                    <option value="Head-Stitch">Left</option>
+	                  </select>
+			    </div>
 			   </div>
 				
                  <div class="row py-4">
@@ -631,12 +639,12 @@
                        <input class="form-check-input" type="checkbox" id="handgather" ${jobActivity.handgather ? 'checked':''}>
                     </div>
                     </div>
-                    <div class ="col-lg-2 px2">
-                    <div class="form-check">
-                      <label class="form-check-label" for="stitching"><fmt:message key="stitching"/></label>
-                       <input class="form-check-input" type="checkbox" id="stitching"  ${jobActivity.stitching ? 'checked':''}>
-                    </div>
-				  </div>
+<!--                     <div class ="col-lg-2 px2"> -->
+<!--                     <div class="form-check"> -->
+<%--                       <label class="form-check-label" for="stitching"><fmt:message key="stitching"/></label> --%>
+<%--                        <input class="form-check-input" type="checkbox" id="stitching"  ${jobActivity.stitching ? 'checked':''}> --%>
+<!--                     </div> -->
+<!-- 				  </div> -->
                   </div>
 				</div>	
 		           <div class ="row py-3 "style="margin-top:50px" >
@@ -819,7 +827,7 @@
 				      <button type="button" style="float:left" class="btn btn-primary" onclick="navigate(5,4);removeRows()"> <fmt:message key="previews"/></button>	
 				     </div>
 			         <div class ="col-sm-6">
-			         <button   type="button" style="width:125px;float:right"  class="btn btn-primary" id="next-btn1" onclick="navigate(4,5); submitUpdateForm('${job.id}')"><fmt:message key="submit"/></button>			
+			         <button   type="button" style="width:125px;float:right"  class="btn btn-primary" id="next-btn1" onclick="navigate(4,5); submitUpdateForm('${job.id}')" data-bs-dismiss="modal"><fmt:message key="submit"/></button>			
 			        </div>
 			        </div>
                	</div>

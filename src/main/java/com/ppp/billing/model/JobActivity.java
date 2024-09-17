@@ -13,7 +13,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import net.sf.saxon.functions.ConstantFunction.True;
 
 @Getter
 @Setter
@@ -57,7 +56,7 @@ public class JobActivity {
 	private boolean isHandgather = Boolean.FALSE;
 	
 	@Column(name = "is_stitching")
-	private boolean isStitching = Boolean.FALSE;
+	private String isStitching ;
 	
 	@Column(name = "is_trimmed")
 	private boolean isTrimmed = Boolean.FALSE;

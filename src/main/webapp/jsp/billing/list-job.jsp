@@ -132,7 +132,7 @@
 								    <c:if test="${job.status.name=='Approved'}">
 								      <option data-bs-toggle="modal" data-bs-target="#ExtralargeModal" data-toggle="tooltip" data-placement="top" title="view job details" onclick="loadPageModalForm('job/move/${job.id}');"><fmt:message key="move.job"/></option>
 								       <c:if test="${job.controlSheetGenerated=='true'}">
-								     	 <option data-bs-toggle="modal" data-bs-target="#ExtralargeModal" onclick="loadDynamicPageModal('job/estimate/${job.id}');"><fmt:message key="move.job"/></option>
+<%-- 								     	 <option data-bs-toggle="modal" data-bs-target="#ExtralargeModal" onclick="loadDynamicPageModal('job/estimate/${job.id}');"><fmt:message key="move.job"/></option> --%>
 								      </c:if>
 									  <option data-bs-toggle="modal" data-bs-target="#ExtralargeModal" onclick="loadDynamicPageModal('job/estimate/${job.id}');"><fmt:message key="generate.estimate"/></option>									  
  									  <c:if test="${job.controlSheetGenerated=='true'}">
