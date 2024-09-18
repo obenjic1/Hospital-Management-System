@@ -575,7 +575,7 @@
 					<input type="number" id="xPerforated" value="0">
                   </div>
 				  <div class ="col-lg-3 px8" style="position: relative; left: 10px;">
-					<label for="" class="form-label"><a><fmt:message key="x.Numbered"/></a></label>
+					<label for="" class="form-label"><a><fmt:message key="x.numbered"/></a></label>
 					<input type="number" id="xNumbered" value="0">
                   </div>
                     <div class ="col-lg-3 px8" style="position: relative; left:10px;">

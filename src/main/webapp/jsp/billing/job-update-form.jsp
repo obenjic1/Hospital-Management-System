@@ -104,7 +104,6 @@
 			  <div class ="col-lg-3 px8" >
 				   <label for="" class="form-label"> <a><fmt:message key="format"/></a> </label>
               	   <select id="paperFormat" onchange="paperF(this.value)" name="name" class="form-select">
-              	      <option selected>Choose...</option>
               	      <option onclick="">Custom Format...</option>
               	      <option value="${paperFormat.id},${paperFormat.length},${paperFormat.width}" selected>${job.paperFormat}</option>
 					  <c:forEach items="${paperFormats}" var="paperFormat">
@@ -491,7 +490,7 @@
 			  <div class="row py-3" id="test-me">
 			   <div class ="col-lg-3 px8" >
 				  <label for="" class="form-label"><fmt:message key="printing.machine"/></label> 
-				  <select  contentPrintingMachine name="name" class="form-select"  onchange="signatureCalculation(this.value,this.parentNode.parentNode.parentNode)">
+				  <select  contentPrintingMachine name="name50.0" class="form-select"  onchange="signatureCalculation(this.value,this.parentNode.parentNode.parentNode)">
 				   		<option >Choose...</option>
 				   		 <option value="${contentPrintingMachine.id}" selected>${contentPrintingMachine.name}</option>
 				    <c:forEach items="${printingMachines}" var="printingMachine">
@@ -522,7 +521,7 @@
                   </div>
                   <div class ="col-lg-3 px8" style="position: relative; left:10px;">
 				  <label for="" class="form-label"><fmt:message key="signature"/></label>
-				  <div> <input type="number" id="" step=".1" style="width:70px;color:red; text-align:center" readonly="readonly"  inputSignReadonly value="${colorCombin.numberOfSignature}">
+				  <div> <input type="number" id="kkk" step=".1" style="width:70px;color:red; text-align:center" readonly="readonly"  inputSignReadonly value="${colorCombin.numberOfSignature}">
 				  <span><button  type="button" style="display: inline;" id="duplicateButton" onclick="updateContentSignature(this.parentNode.parentNode.parentNode.parentNode.parentNode,0,this.parentNode.parentNode.parentNode.parentNode)" ><i class="ri-add-fill"></i></button> </span>
 				 </div> 
 	            </div>
@@ -559,7 +558,7 @@
 					<input type="number" id="xPerforated" value = "${jobActivit}">
                   </div>
 				  <div class ="col-lg-3 px8" style="position: relative; left: 10px;">
-					<label for="" class="form-label"><fmt:message key="x.Numbered"/></label>
+					<label for="" class="form-label"><fmt:message key="x.numbered"/></label>
 					<input type="number" id="xNumbered" value="${numbered}">
                   </div>
                   <div class ="col-lg-3 px8" style="position: relative; left:10px;">
@@ -761,35 +760,17 @@
 					 <hr>
 					  
 					  <div class="row">
-						<table class="ta" id="content-table">
+						<table class="ta" id="update-content-table">
 					  <thead>
 					    <tr>
 					      <th scope="col"><fmt:message key="number"/></th>
 					      <th scope="col"> <fmt:message key="print.type"/> </th>
 					      <th scope="col"><fmt:message key="machine"/></th>
-					      <th scope="col"> </th>
 					      <th scope="col"><fmt:message key="color.combination"/> </th>
 					      <th scope="col"><fmt:message key="signature"/></th>
 					    </tr>
 					  </thead>
 					  <tbody id="table-body">
-<%-- 					    <c:forEach var="jobPaper" items="${jobPapers}" varStatus="loop"> --%>
-<%--                                 <c:set var="index" value="${loop.index}" /> --%>
-<%--                                     <%    int index = (Integer) pageContext.getAttribute("index");  %> --%>
-<!--                                     <tr> -->
-<%--                                         <td rowSpan="${fn:length(jobPaper.jobColorCombinations)+1}">  <%= index + 1 %></td> --%>
-<!--                                     </tr> -->
-<%--                                     <c:forEach var="color" items="${jobPaper.jobColorCombinations}" varStatus="loop"> --%>
-<!--                                          <tr> -->
-<%--                                            <td>${jobPaper.paperType.name}</td> --%>
-<%--                                            <td>${color.printingMachine.name}</td> --%>
-<%--                                            <td>${color.printType.name}</td> --%>
-<%--                                            <td> ${color.frontColorNumber} / ${color.backColorNumber}</td> --%>
-<%--                                            <td>${color.numberOfSignature}</td> --%>
-<!--                                          </tr> -->
-<%--                                     </c:forEach> --%>
-<%--                             </c:forEach> --%>
-					
 					  </tbody>
 					</table>
 					   </div>
