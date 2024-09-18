@@ -53,11 +53,11 @@
                                                         <tr>
                                                             <td>Volume</td>
                                                             <td>
-                                                             <c:if test="${job.jobType.category==2}">
+                                                             <c:if test="${job.jobType.category==2||job.jobType.category==3}">
                                                              Cover : <span>${job.coverVolume}</span>  <span>Pages</span><br>
                                                             </c:if>
                                                              
-                                                             <c:if test="${job.jobType.category==0||job.jobType.category==1||job.jobType.category==2}">
+                                                             <c:if test="${job.jobType.category==0||job.jobType.category==1||job.jobType.category==2||job.jobType.category==3}">
                                                                  Content : <span>${job.contentVolume}</span> <span>Pages</span>
                                                              </c:if>
                                                             </td>
@@ -77,7 +77,7 @@
                                                         <tr>
                                                             <td>Printing</td>
                                                             <td>
-                                                             <c:if test="${job.jobType.category==2}">
+                                                             <c:if test="${job.jobType.category==2||job.jobType.category==3}">
                                                                 <span>
                                                                     ${coverJobPaper.contentType.name } :
                                                                     <c:forEach var="jobColorCombination" items="${coverJobPaper.jobColorCombinations}" varStatus="loop">
@@ -89,7 +89,7 @@
 
                                                                 </span>
                                                                 </c:if>
-																 <c:if test="${job.jobType.category==0||job.jobType.category==1||job.jobType.category==2}">
+																 <c:if test="${job.jobType.category==0||job.jobType.category==1||job.jobType.category==2||job.jobType.category==3}">
                                                                 <span>
                                                                 <c:set var="contentType" value="${contentJobPapers[0].contentType.name}"></c:set>
                                                                     <span>
@@ -128,12 +128,12 @@
                                                         <tr>
                                                             <td>Paper </td>
                                                             <td>
-                                                             <c:if test="${job.jobType.category==2}">
+                                                             <c:if test="${job.jobType.category==2||job.jobType.category==3}">
                                                                 Cover :<span>${coverJobPaper.paperType.name}</span>
                                                                     <span style="float:right">${coverJobPaper.grammage} GSM</span>
 															</c:if>
                                                                 <br>
-                                                                 <c:if test="${job.jobType.category==0||job.jobType.category==1||job.jobType.category==2}">
+                                                                 <c:if test="${job.jobType.category==0||job.jobType.category==1||job.jobType.category==2||job.jobType.category==3}">
                                                                     <span>
                                                                         <c:set var="contentType" value="${contentJobPapers[0].contentType.name}"></c:set>
                                                                         <span>
