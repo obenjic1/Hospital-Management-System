@@ -76,12 +76,14 @@ function submitUpdateForm(id){
     //End of Adding CoverJobPaper and color combination   
     // Start adding contentJobPaper and color combination
     
-    if(dataContentValue==1||dataContentValue==2 || dataContentValue==0){
+    if(dataContentValue==1||dataContentValue==2 || dataContentValue==0|| dataContentValue==3){
 		
      let contentPaperTypes = document.getElementById("contentDiv").children;
      let mainContentSignature = document.getElementById("mainContentSignature").children;
+     
   
      for(let i = 1;  i < contentPaperTypes.length; i ++){
+
 		 let contentJobPaper = { };
 		 let currentRow = contentPaperTypes[i];
 		 let paperType=currentRow.querySelector("[contentPaperType]").value;
@@ -216,12 +218,7 @@ function submitUpdateForm(id){
 			}else{
 				document.getElementById("laminated-sides").innerHTML=document.getElementById("lamination").selectedOptions[0].innerHTML;
 			}
-			
-//			if(document.getElementById("glueingOption").selectedOptions[0].value==0){
-//				document.getElementById("glue-bound").innerHTML="No";
-//			}else{
-//				document.getElementById("glue-bound").innerHTML=document.getElementById("glueingOption").selectedOptions[0].innerHTML;
-//			}
+
 			if(document.getElementById("bindingType").selectedOptions[0].value==0){
 				document.getElementById("binding-type").innerHTML="No";
 			}else{
@@ -280,13 +277,14 @@ function submitUpdateForm(id){
 			
 			
 			
-		if(dataContentValue==2 || dataContentValue==1 || dataContentValue==0)
+		if(dataContentValue==2 || dataContentValue==1 || dataContentValue==0|| dataContentValue==3)
 		{
 			/** job type is either have content and cov|| dataContentValue==1er or only content
 		 */
 		let contentPaperTypes = document.getElementById("contentDiv").children;
 		let mainContentSignature = document.getElementById("mainContentSignature").children;
 		let signatureDive = document.getElementById("signatureDiv").children;
+		
 		let coverTable = document.getElementById("cover-table");
 		document.getElementById("content-pages").innerHTML= document.getElementById("volumeOfContent").value;
 
@@ -312,7 +310,7 @@ function submitUpdateForm(id){
 
 					// PAPER OPTIONS SECTION ( content )
 
-		let contentTable = document.getElementById("content-table");
+		let contentTable = document.getElementById("update-content-table");
 	for (let i=1 ; i<contentPaperTypes.length;i++){
 		let currentContentSignature = mainContentSignature[i];
 		let lengthOfSignature = currentContentSignature.querySelectorAll("[contentPrintingMachine]").length;
@@ -323,22 +321,24 @@ function submitUpdateForm(id){
 		fc1.rowSpan=lengthOfSignature;
 		fc1.innerHTML= i;
 		
-		
 		for (let j=1 ; j<lengthOfSignature;j++){
 			let firstRow = contentTable.insertRow(-1);
 			let fc3 = firstRow.insertCell(0);
 			let fc4 = firstRow.insertCell(1);
-			let fc5 = firstRow.insertCell(2);
-			let fc6 = firstRow.insertCell(3);
-			let fc7 = firstRow.insertCell(4);
+			//let fc5 = firstRow.insertCell(2);
+			let fc6 = firstRow.insertCell(2);
+			let fc7 = firstRow.insertCell(3);
 
 //		console.log(" check here" + currentContentSignature.querySelectorAll("[contentPrintingMachine]").length);
 		fc3.innerHTML=currentRow.querySelector("[contentPaperType]").selectedOptions[0].innerHTML;
 
-		fc4.innerHTML =currentContentSignature.querySelectorAll("[contentPrintingMachine]")[j].selectedOptions[0].innerHTML;
-//		fc5.innerHTML =currentContentSignature.querySelectorAll("[contentPrintType]")[j].selectedOptions[0].innerHTML;
-		fc6.innerHTML =currentContentSignature.querySelectorAll("[contentFrontColorNumber]")[j].value +" / "+ currentContentSignature.querySelectorAll("[contentBackColorNumber]")[j].value;
-		fc7.innerHTML =currentContentSignature.querySelectorAll("[allSignatures]")[j].value;
+		fc4.innerHTML = currentContentSignature.querySelectorAll("[contentPrintingMachine]")[j].selectedOptions[0].innerHTML;
+		//fc5.innerHTML =currentContentSignature.querySelectorAll("[contentPrintType]")[j].selectedOptions[0].innerHTML;
+		fc6.innerHTML = currentContentSignature.querySelectorAll("[contentFrontColorNumber]")[j].value +" / "+ currentContentSignature.querySelectorAll("[contentBackColorNumber]")[j].value;
+		let allSignature = currentContentSignature.querySelectorAll("[inputSignReadonly]");
+			for(let a=0; a< allSignature.length; a++){
+				fc7.innerHTML = allSignature[a].value;
+			}
 		
 		}
 		

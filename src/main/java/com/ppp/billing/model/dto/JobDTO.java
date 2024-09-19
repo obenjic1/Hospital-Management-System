@@ -13,6 +13,7 @@ public class JobDTO {
 	private int customerId;
 	private int jobTypeId;
 	private String title;
+	private String paperFormat;
 	private int coverVolume;
 	private int contentVolume;
 	private int  ctpFees;
