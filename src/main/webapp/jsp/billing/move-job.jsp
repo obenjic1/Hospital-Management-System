@@ -22,11 +22,11 @@
 								    <div><span><strong>${movement.department.name}</strong></span> </div>
 								</div>
 								<div class ="row">
-								 <label for="" class="form-label"> <fmt:message key="description"/></label>
+								 <label for="" class="form-label"> <fmt:message key="description"/> :</label>
 								<div><span>${movement.description} </span> </div>
 								</div>
 								<div class ="row py-3">
-								  <div> <fmt:message key="date"/>   </div>
+								  <div> <fmt:message key="date"/> : </div>
 								    <div><span><a><strong><fmt:formatDate type = "both" value = "${movement.creationDate}" /></strong></a>
 								    </span> </div>
 								</div>
@@ -74,6 +74,7 @@
 											<th scope="col"></th>
 											<th scope="col"><fmt:message key="user"/> </th>
 											<th scope="col"></th>
+											<th scope="col"><fmt:message key="department"/></th>
 											<th scope="col"></th>
 											<th scope="col"> <fmt:message key="operation"/></th>
 										</tr>
@@ -86,6 +87,7 @@
 												  	<td></td>
 												    <td>${movement.user.username}</td>
 												    <td></td>
+												    <td>${movement.department.name}</td>
 												  	<td></td>
 												    <td>${movement.description}</td>
 											  </tr>
