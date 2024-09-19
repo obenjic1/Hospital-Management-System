@@ -1619,7 +1619,6 @@ public class JobController {
 			List<BindingType> bindingTypeResult = bindingTypeserviceImpl.listAll();
 
 			Job existingJob = jobServiceImpl.findById(id).get();
-	//		existingJob.getJobPapers().get(0).u
 			model.addAttribute("job", existingJob);
 			model.addAttribute("customers", customerResult);
 			model.addAttribute("jobTypes", jobTypeResult);
@@ -1680,7 +1679,7 @@ public class JobController {
 				List<PaperGrammage> paperGrammageResult = paperGrammageServiceImpl.findAll();
 				List<BindingType> bindingTypeResult = bindingTypeserviceImpl.listAll();
 				
-				Job existingJob = jobServiceImpl.findById(id).get();			
+				Job existingJob = jobServiceImpl.findById(id).get();	
 				for(int i =1; i< existingJob.getJobPapers().size(); i++) {
 					JobPaper contentJobPaper = existingJob.getJobPapers().get(i);
 					for(int j= 0; j< existingJob.getJobPapers().get(i).getJobColorCombinations().size(); j++) {
