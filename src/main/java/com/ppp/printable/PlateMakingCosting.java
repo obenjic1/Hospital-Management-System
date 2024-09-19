@@ -53,6 +53,7 @@ public class PlateMakingCosting {
 			plates += signature*(colorCombination.getBackColorNumber()+colorCombination.getFrontColorNumber());
 		});
 	}
+	
 	public float generateBasicCost() {
 		
 		if(printingMachine.getAbbreviation().equals("GTO")) {
@@ -67,7 +68,6 @@ public class PlateMakingCosting {
 	}
 	
 	public float generateExposureCost() {
-		
 		
 		if(printingMachine.getAbbreviation().equals("GTO"))
 			return (float) (this.plates*3800);

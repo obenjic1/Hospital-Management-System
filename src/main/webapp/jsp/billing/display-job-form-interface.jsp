@@ -363,10 +363,16 @@
 				  </div>
               </div>
               <div class ="col-lg-3 px8" style="position: relative; left:10px;">
-			  <label for="" class="form-label"> <a><fmt:message key="signature"/></a></label>
-			  <div style="width: 73px;"> <input class="coverSpace" type="number" step=".1" id="coverSignature" readonly="readonly">
+			  	<label for="" class="form-label"> <a><fmt:message key="signature"/></a></label>
+			  	<div style=" display: flex;">
+			  <div style="width: 73px;"> 
+			  	<input class="coverSpace" type="number" step=".1" id="coverSignature" readonly="readonly">
 			 </div> 
+				 <div>
+				 <span onclick="randUpCoverSignature()"><i style="color: green; font-size: 22px" class="bi bi-arrow-up"></i></span>
+				</div>
             </div>
+			</div>
 			</div>	
 			
 		<!-- 			main content signature div -->
@@ -416,6 +422,7 @@
 				  <div> 
 				  <input type="number" step=".1" delContentSign allSignatures style="width:70px;color:red; text-align:center" onclick="this.oldValue=this.value" onchange="signatureChange(this.value,this.parentNode.parentNode.parentNode.parentNode,oldValue)">
 				  <span> <button  type="button" onclick="deleteContentsignature(this.parentNode.parentNode.parentNode.parentNode,this.parentNode.parentNode.parentNode.parentNode.parentNode)" style="background:red"><i class="ri-delete-bin-3-line"></i></i></button> </span>
+<!-- 				<span onclick="randUpCoverSignature()"><i style="color: green; font-size: 22px" class="bi bi-arrow-up"></i></span> -->
 				 </div> 
 	            </div>
 	           
@@ -457,6 +464,7 @@
 				  <label for="" class="form-label"><a><fmt:message key="signature"/></a></label>
 				  <div> <input type="number" step=".1" id="" style="width:70px;color:red; text-align:center" allSignatures inputSignReadonly>
 				  <span> <button   type="button" id="duplicateButton" style="display: inline;" onclick="updateContentSignature(this.parentNode.parentNode.parentNode.parentNode.parentNode,1,this.parentNode.parentNode.parentNode.parentNode)"><i class="ri-add-fill"></i></button> </span>
+<!-- 				 	<span onclick="randUpCoverSignature()"><i style="color: green; font-size: 22px" class="bi bi-arrow-up"></i></span> -->
 				 </div> 
 	            </div>
 				</div>
@@ -499,6 +507,7 @@
 				  <div>
 				  <input type="number" step=".1" delContentSign allSignatures style="width:70px;color:red; text-align:center" onclick="this.oldValue=this.value" onchange="signatureChange(this.value,this.parentNode.parentNode.parentNode.parentNode, oldValue)">
 				  <span> <button style="background:transparent;border-style: none;color: orange; font-size: 20px;" type="button" onclick="deleteContentsignature(this.parentNode.parentNode.parentNode.parentNode,this.parentNode.parentNode.parentNode.parentNode.parentNode)" style="background:red"><i class="ri-delete-bin-3-line"></i></i></button> </span>
+<!-- 					<span onclick="randUpCoverSignature()"><i style="color: green; font-size: 22px" class="bi bi-arrow-up"></i></span> -->
 				 </div> 
 	            </div>
 	          		  
@@ -538,9 +547,11 @@
                   </div>
                   <div class ="col-lg-3 px8" style="position: relative; left:10px;">
 				  <label for="" class="form-label"><a><fmt:message key="signature"/></a></label>
-				  <div> <input type="number" id="" step=".1" style="width:70px;color:red; text-align:center" readonly="readonly" allSignatures inputSignReadonly>
-				  <span><button  type="button" style="display: inline;" id="duplicateButton" onclick="updateContentSignature(this.parentNode.parentNode.parentNode.parentNode.parentNode,0,this.parentNode.parentNode.parentNode.parentNode)" ><i class="ri-add-fill"></i></button> </span>
+				  <div> <input type="number" id="signature-content-to-randup" step=".1" style="width:70px;color:red; text-align:center" readonly="readonly" allSignatures inputSignReadonly>
+				  	<span><button  type="button" style="display: inline;" id="duplicateButton" onclick="updateContentSignature(this.parentNode.parentNode.parentNode.parentNode.parentNode,0,this.parentNode.parentNode.parentNode.parentNode)" ><i class="ri-add-fill"></i></button> </span>
+				  	<span onclick="randUpContentSignature()"><i style="color: green; font-size: 22px" class="bi bi-arrow-up"></i></span>
 				 </div> 
+				 
 	            </div>
 				</div>
 		
