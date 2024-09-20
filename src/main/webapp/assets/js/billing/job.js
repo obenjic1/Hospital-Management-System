@@ -256,6 +256,36 @@ function signatureCalculation(machineParams,node){
 					
 				*/
 				
+//		------------------------------------------		
+
+				/*
+				
+					** Start Rand Up Signature Section 
+					
+				*/
+
+
+function randUpCoverSignature(){
+	let valueToRandUp = document.getElementById("coverSignature").value;
+	let contentSignatureToRandUp = document.getElementById("coverSignature");
+	contentSignatureToRandUp.value = Math.ceil(valueToRandUp);
+}
+
+function randUpContentSignature(){
+	let contentValueToRandUp = document.getElementById("signature-content-to-randup").value;
+	let contentRandedUpValue = document.getElementById("signature-content-to-randup");
+	contentRandedUpValue.value = Math.ceil(contentValueToRandUp);
+	alert(contentRandedUpValue);
+
+}
+
+
+				/*
+				
+					** End Rand Up Signature Section
+					
+				*/
+				
 	//				--------------------------------------
 				
 				/*
