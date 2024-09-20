@@ -83,8 +83,8 @@
 							    <c:set var="index" value="${loop.index}" />
 							    <%    int index = (Integer) pageContext.getAttribute("index");  %>
 							 <td>  <%= index + 1 %></td>
-							   <td><a>${job.title}</a></td>
 							   <td><a>${job.jobType.name}</a></td>
+							   <td><a>${job.title}</a></td>
 							   <td><a>${job.referenceNumber}</a></td>
 							   <td><a>${job.status.name}</a></td>
 							   <td><a><fmt:formatDate type = "both" value = "${job.creationDate}" /></a></td>

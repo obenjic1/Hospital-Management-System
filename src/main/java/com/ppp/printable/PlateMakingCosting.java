@@ -50,7 +50,7 @@ public class PlateMakingCosting {
 		jobPaper.getJobColorCombinations().forEach(colorCombination->{
 			double signature = (colorCombination.getNumberOfSignature());
 			this.signatures+=colorCombination.getNumberOfSignature();
-			plates += signature*(colorCombination.getBackColorNumber()+colorCombination.getFrontColorNumber());
+			plates += Math.ceil(signature*(colorCombination.getBackColorNumber()+colorCombination.getFrontColorNumber()));
 		});
 	}
 	
