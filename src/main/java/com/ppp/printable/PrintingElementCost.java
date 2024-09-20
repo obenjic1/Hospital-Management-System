@@ -89,9 +89,15 @@ public class PrintingElementCost {
 		this.colorCombination = colorCombination;
 		this.basic = colorCombination.getJobPaper().getGrammage();
 		double signature =colorCombination.getNumberOfSignature();
-		this.plateChange= signature*(colorCombination.getBackColorNumber()+colorCombination.getFrontColorNumber())-1;
+		this.plateChange= Math.ceil(signature*(colorCombination.getBackColorNumber()+colorCombination.getFrontColorNumber()))-1;
 		this.inckChange = colorCombination.getBackColorNumber() > colorCombination.getFrontColorNumber() ? colorCombination.getBackColorNumber()-1 : colorCombination.getFrontColorNumber()-1;
-		this.run = this.plateChange+1;
+		
+		if(colorCombination.getPrintingMachine().getAbbreviation().equals("SPM5")) {
+			this.run = Math.ceil((this.plateChange+1)/4.0);
+		}else {
+			this.run = this.plateChange+1; 
+		}
+		run = Math.ceil(run);
 		this.preparation = colorCombination.getPrintType().getName();
 		this.numbering = colorCombination.getJobPaper().getJob().getJobActivity().getXNumbered();
 		this.perforating = colorCombination.getJobPaper().getJob().getJobActivity().getXPerforated();

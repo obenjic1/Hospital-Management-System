@@ -203,7 +203,7 @@
                                                                  
                                                                    <c:if test="${!estimate.invoiced}"> 
                                                                      <button type="button" class="btn " onclick="loadPageModalForm(getInvoiceQuantity(${estimate.id}))" data-toggle="tooltip" data-placement="top" title="Generate Invoice">
-                                                                       <i class="bi bi-download" style="color: green"></i>
+                                                                       <i class="ir ri-draft-line" style="color: green"></i>
                                                                      </button>
                                                                    </c:if>
                                                     		    </td>

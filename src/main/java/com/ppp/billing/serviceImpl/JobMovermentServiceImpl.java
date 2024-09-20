@@ -53,7 +53,7 @@ public class JobMovermentServiceImpl implements JobMovementService{
 		moveJob.setCreationDate(new Date());
 		Department	department = departmentRepository.findById(jobMovementDTO.getDepartment());
 		moveJob.setDepartment(department);
-		moveJob.setDescription("send job to " + department.getName()+ " ( " + jobMovementDTO.getDescription() +" )");
+		moveJob.setDescription( jobMovementDTO.getDescription());
 		movements.add(moveJob);
 		job.setJobMovements(movements);
 		moveJob.setJob(job);
