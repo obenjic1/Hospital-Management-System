@@ -1595,13 +1595,17 @@ public class JobController {
 		public String confimDetails(@PathVariable long id, Model model) {
 			Job job = jobServiceImpl.findById(id).get();
 			List<JobPaper> jobPapers = job.getJobPapers();
+			List<JobPaper> jobP = new ArrayList<JobPaper>();
 			JobPaper cover = null;
 			for(JobPaper jp : jobPapers) {
 				if(jp.getContentType().getId()==1) {
 					cover=jp;
-					jobPapers.remove(jp);
+				//	jobPapers.remove(jp);
+				}else {
+					jobP.add(jp);
 				}
 			}
+			
 			List<JobEstimate>  jobEstimates = job.getJobEstimates();
 			List<Invoice> invoices = new ArrayList<Invoice>();
 			
@@ -1614,7 +1618,7 @@ public class JobController {
 			}
 			model.addAttribute("invoices",invoices);
 			model.addAttribute("job",job);
-			model.addAttribute("jobPapers",jobPapers);
+			model.addAttribute("jobPapers",jobP);
 			model.addAttribute("coverjobPapers",cover);
 			model.addAttribute("jobEstimates",jobEstimates);
 
