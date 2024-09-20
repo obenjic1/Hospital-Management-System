@@ -18,7 +18,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.WebDataBinder;
@@ -61,7 +60,6 @@ import com.ppp.billing.model.PrintingMachine;
 import com.ppp.billing.model.dto.EstimateDTO;
 import com.ppp.billing.model.dto.JobDTO;
 import com.ppp.billing.model.dto.JobMovementDTO;
-import com.ppp.billing.repository.DepartmentRepository;
 import com.ppp.billing.repository.JobEstimateRepository;
 import com.ppp.billing.repository.JobTrackingRepository;
 import com.ppp.billing.serviceImpl.BindingTypeserviceImpl;
@@ -86,7 +84,6 @@ import com.ppp.printable.PrintingElementCost;
 import com.ppp.user.model.User;
 import com.ppp.user.repository.UserRepository;
 
-import net.sf.saxon.expr.instruct.ForEach;
 
 @Controller
 @RequestMapping("/job")
@@ -151,9 +148,12 @@ public class JobController {
  
 	
 	
-//	
+	/*
+		 * 
+		 * Start Save Job and Draft Section 
+		 * 
+	 */
 	
-//<--------------------- Collect datas form @Vincent------------------------------>
 	@PreAuthorize("hasAuthority('ROLE_REGISTER_NEW_JOB')")
 	@GetMapping("/displayform")
 	public String displayFormInterface(Model model) {
@@ -221,7 +221,20 @@ public class JobController {
 		}
 	}
 	
+	/*
+		 * 
+		 * End Save Job and Draft Section
+		 * 
+	 */
 	
+//	------------------------------------
+	
+	/*
+		 * 
+		 * Start List Job Section
+		 * 
+	 */
+		
 	@PreAuthorize("hasAuthority('ROLE_REGISTER_NEW_JOB')")
 	@GetMapping("/list-job")
 	public String listJob(Model model) {
@@ -235,7 +248,20 @@ public class JobController {
 		return "billing/list-job";
 	}
 
-////<--------------------- Generate a job pdf @Vincent ------------------------------>
+	/*
+		 * 
+		 * End List Job Section
+		 * 
+	 */
+	
+//	------------------------------------
+	
+	/*
+	 	* 
+	 	* Start print Control Sheet Section 
+	 	* 
+	 */
+	
 	@PreAuthorize("hasAuthority('ROLE_REGISTER_NEW_JOB')")
 	@GetMapping("/generate-pdf/{id}")
 	@ResponseBody
@@ -284,7 +310,7 @@ public class JobController {
 		double p4=0;
 		
 			/**
-			 * Impression de la premiere page du controle sheet
+			 	*  Debut d'Impression de la premiere page (Job Description)
 			 */
 			PrintableElement printer = new PrintableElement();	
 			printer.print(document, job.getCustomer().getName(), 9, 297-16);
@@ -382,7 +408,12 @@ public class JobController {
 			printer.print(document, message,  34, 297-243);
 			
 			/**
-			 * Printing Prepress 
+			 	* Fin de la premiere page (Job Description)
+			 */
+			
+			
+			/**
+			 	* Debut de la deuxieme page (Prepress)
 			 */
 			document.add(new AreaBreak());
 			PdfCanvas canvas_= new PdfCanvas(pdfDocument.getLastPage());
@@ -446,7 +477,7 @@ public class JobController {
 				printer.print(document, exposior+"",  180, 297-78-vecteur2);
 				printer.print(document, signature+"",  180, 297-85-vecteur2);
 				printer.print(document,run+"",  180, 297-91-vecteur2);
-			
+
 				 float mmToPoint = 2.83465f;
 				if(basic>0) {
 					int kx = (int) (Math.log(basic)/Math.log(2));
@@ -488,8 +519,6 @@ public class JobController {
 				}
 				printer.printMoney(document, job.getCtpFees(), 126, 171);
 				//fix price
-				
-				
 
 			}
 			fixePrice+=job.getCtpFees();
@@ -497,7 +526,12 @@ public class JobController {
 			p1=variablePrice;
 			
 			/**
-			 * Print Printing Elements
+			 	* Fin de la Deuxieme Page (Prepress) 
+			 */
+			
+			
+			/**
+			 	* Debut de la troisieme page (Printing)
 			 */
 			document.add(new AreaBreak());
 			PdfCanvas canvas1= new PdfCanvas(pdfDocument.getLastPage());
@@ -563,7 +597,12 @@ public class JobController {
 			p2=variablePrice-p1;
 			
 			/**
-			 * Print Finishing Elements
+			 	* Fin de la troisieme page (Printing)
+			 */
+			
+			
+			/**
+			 	* Debut de la quatrieme page (Finishing)
 			 */
 			
 			document.add(new AreaBreak());
@@ -712,9 +751,13 @@ public class JobController {
 				variablePrice+=job.getJobActivity().getLamination()*(laminationUnitePrice/1000.0)*1000_000;
 			
 			}
+			
+			/**
+			 	* Debut de la quatrieme page (Finishing)
+			 */
 
 			/**
-			 * Print  Paper Element
+			 	* Debut de la ciquieme page (Paper)
 			 */
 			p3=variablePrice-p1-p2;
 			document.add(new AreaBreak());
@@ -800,7 +843,12 @@ public class JobController {
 					
 				 }
 			 }
-			 p4=variablePrice-p1-p2-p3;
+			 
+			 /**
+			  	* Debut de la ciquieme page (Paper)
+			  */
+			 
+			p4=variablePrice-p1-p2-p3;
 			printer.printMoney(document, fixePrice , 135, 99);
 			printer.printMoney(document, variablePrice , 175, 99);
 			job.setFixCost((float) fixePrice);
@@ -811,6 +859,12 @@ public class JobController {
 			return job.getReferenceNumber()+".pdf";
 		
 	}
+	
+	/*
+		 * 
+		 * End print Control Sheet Section 
+		 * 
+	 */
 
 	@GetMapping("/error-pdf")
 	@ResponseBody
@@ -928,6 +982,9 @@ public class JobController {
 			model.addAttribute("job", job);		
 			return "/billing/estimate/estimate-view";
 		}
+		
+		
+		
 		
 		@GetMapping("/generate/{id}")
 		public String generateEstimate(@PathVariable long id, @RequestParam("quantities") String quantities, 
@@ -1541,13 +1598,17 @@ public class JobController {
 		public String confimDetails(@PathVariable long id, Model model) {
 			Job job = jobServiceImpl.findById(id).get();
 			List<JobPaper> jobPapers = job.getJobPapers();
+			List<JobPaper> jobP = new ArrayList<JobPaper>();
 			JobPaper cover = null;
 			for(JobPaper jp : jobPapers) {
 				if(jp.getContentType().getId()==1) {
 					cover=jp;
-					jobPapers.remove(jp);
+				//	jobPapers.remove(jp);
+				}else {
+					jobP.add(jp);
 				}
 			}
+			
 			List<JobEstimate>  jobEstimates = job.getJobEstimates();
 			List<Invoice> invoices = new ArrayList<Invoice>();
 			
@@ -1560,7 +1621,7 @@ public class JobController {
 			}
 			model.addAttribute("invoices",invoices);
 			model.addAttribute("job",job);
-			model.addAttribute("jobPapers",jobPapers);
+			model.addAttribute("jobPapers",jobP);
 			model.addAttribute("coverjobPapers",cover);
 			model.addAttribute("jobEstimates",jobEstimates);
 

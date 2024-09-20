@@ -181,9 +181,9 @@ public class JobServiceImpl implements JobService {
 		jobTrackings.add(tracking);
 		tracking.setJob(newJob);
 		newJob.setJobTrackings(jobTrackings);
-		newJob.setJobPapers(jobPapers);		
+		newJob.setJobPapers(jobPapers);	
+		jobRepository.saveAndFlush(newJob);
         generateSerialNumber(newJob);
-		
         return newJob; 
 	}
 	
