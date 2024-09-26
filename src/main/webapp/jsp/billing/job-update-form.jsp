@@ -54,39 +54,57 @@
 			      </div>
 				  <div class ="col-lg-3 px8" style="position: relative; left: 10px;"> 
 					<label for="" class="form-label"><a> <fmt:message key="job.type"/></a></label> 
-					<select onchange="jobTypeChoice(this.selectedOptions[0])"  id="jobType" name="jobType" class="form-select" >
+						<select onchange="jobTypeChoice(this.selectedOptions[0])"  id="jobType" name="jobType" class="form-select" >
 					  <option>Choose...</option>
 					  
 					  <optgroup label="<fmt:message key="job.category.folded.two"/>" data-content="2">
-					  <option value="${job.jobType.id}" selected >${job.jobType.name}</option>
 					  <c:forEach items="${jobTypes}" var="jobType">
-					   <option value="${jobType.id}" >${job.jobType.name}</option>
 					  <c:if test="${jobType.category==2}">
-                        <option style="marging-left: %;" value="${jobType.id}" >${jobType.name}</option>
+					  <c:if test="${jobType.id==job.jobType.id}">
+					  	 <option style="marging-left: %;" selected value="${jobType.id}" >${jobType.name}</option>
+					  </c:if>
+					    <c:if test="${jobType.id!=job.jobType.id}">
+					  	 <option style="marging-left: %;"  value="${jobType.id}" >${jobType.name}</option>
+					  </c:if>
                          </c:if>
                       </c:forEach>
                       </optgroup>
                       
                        <optgroup label="<fmt:message key="job.category.folded.one"/>" data-content="1">
-                       <c:forEach items="${jobTypes}" var="jobType">
-                        <c:if test="${jobType.category==1}">
-                        <option value="${jobType.id}" >${jobType.name}</option>
-                        </c:if>
+                        <c:forEach items="${jobTypes}" var="jobType">
+					  <c:if test="${jobType.category==1}">
+					  <c:if test="${jobType.id==job.jobType.id}">
+					  	 <option selected value="${jobType.id}" >${jobType.name}</option>
+					  </c:if>
+					    <c:if test="${jobType.id!=job.jobType.id}">
+					  	 <option  value="${jobType.id}" >${jobType.name}</option>
+					  </c:if>
+                         </c:if>
                       </c:forEach>
                        </optgroup>
                        
                        <optgroup   label="<fmt:message key="job.category.opened"/>" data-content="0">
-                       <c:forEach items="${jobTypes}" var="jobType">
-                       <c:if test="${jobType.category==0}">
-                        <option value="${jobType.id}" >${jobType.name}</option>
+                        <c:forEach items="${jobTypes}" var="jobType">
+					  <c:if test="${jobType.category==0}">
+					  <c:if test="${jobType.id==job.jobType.id}">
+					  	 <option selected value="${jobType.id}" >${jobType.name}</option>
+					  </c:if>
+					    <c:if test="${jobType.id!=job.jobType.id}">
+					  	 <option  value="${jobType.id}" >${jobType.name}</option>
+					  </c:if>
                          </c:if>
                       </c:forEach>
                      </optgroup>
                      
-                      <optgroup   label="<fmt:message key="job.category.opened"/>" data-content="3">
-                       <c:forEach items="${jobTypes}" var="jobType">
-                       <c:if test="${jobType.category==3}">
-                        <option value="${jobType.id}" >${jobType.name}</option>
+                      <optgroup   label="<fmt:message key="job.category.opened.with.cover"/>" data-content="3">
+                      <c:forEach items="${jobTypes}" var="jobType">
+					  <c:if test="${jobType.category==3}">
+					  <c:if test="${jobType.id==job.jobType.id}">
+					  	 <option style="marging-left: %;" selected value="${jobType.id}" >${jobType.name}</option>
+					  </c:if>
+					    <c:if test="${jobType.id!=job.jobType.id}">
+					  	 <option style="marging-left: %;"  value="${jobType.id}" >${jobType.name}</option>
+					  </c:if>
                          </c:if>
                       </c:forEach>
                      </optgroup>
@@ -190,6 +208,12 @@
           </div>             
         </div>
         
+        
+        
+        
+        
+        
+        
  <!-- <----------------------------------- Tab2 ------------------------------->   
  
       <div class=" container tab-pane fade"  id="tab2" role="tabpanel" aria-labelledby="profile-tab">
@@ -198,9 +222,14 @@
 		   <div class="row py-4" id="coverInformations">
 			  <div class ="col-lg-3 px8" >
 			   <label for="" class="form-label"><a> <fmt:message key="cover.paper.type"/></a></label> 
-			   <select id="coverPaperType-to-update" name="name" class="form-select">
+			   <select id="coverPaperType" name="name" class="form-select">
 				 <c:forEach items="${paperTypes}" var="paperTypeToUpdate">
-                   <option value="${paperTypeToUpdate.id}">${paperTypeToUpdate.name}</option>
+				 	<c:if test="${coverJobPaper.paperType.id==paperTypeToUpdate.id}">
+				 	<option selected value="${paperTypeToUpdate.id}">${paperTypeToUpdate.name}</option>
+				 	</c:if>
+				 	<c:if test="${coverPaperType.id!=paperTypeToUpdate.id}">
+				 		<option  value="${paperTypeToUpdate.id}">${paperTypeToUpdate.name}</option>
+				 	</c:if>
                  </c:forEach>
                </select>
 			 </div>
@@ -215,7 +244,7 @@
               </div>
 			  <div class ="col-lg-3 px8" style="position: relative; left: 10px;">
 			    <label for="" class="form-label"><a><fmt:message key="cover.volume"/></a></label>
-			     <input id="coverVolume" type="number"  name="fname" readonly="readonly">
+			     <input id="coverVolume" type="text"  name="fname" readonly="readonly">
               </div>
               
               <div class ="col-lg-3 px8" style="position: relative;">
@@ -226,19 +255,18 @@
 		    
 		   <div id="contentDiv">   		
 			<div class="row py-3"  style="display:none">
-			
 			  <div class="col-lg-3 px-8" >
 			    <label for="" class="form-label"><a> <fmt:message key="content.paper.type"/></a> </label>
 				<select contentPaperType name="name" class="form-select">
 				<option >Choose...</option>
-			  <c:forEach items="${paperTypes}" var="paperType">
+			  	<c:forEach items="${paperTypes}" var="paperType">
                     <option value="${paperType.id}">${paperType.name}</option>
                   </c:forEach>
                 </select>
 			  </div>
 			  <div class="col-lg-3 px-8" style="position: relative; left: 10px;">
 			    <label for="" class="form-label"><a><fmt:message key="grammage"/></a> </label>
-			     <input contentGrammage type="text"  list="contentGrammage" >
+			     <input contentGrammage  list="contentGrammage" >
 				  <datalist  id="contentGrammage">
 	               <c:forEach items="${paperGrammages}" var="paperGrammage">
                     <option value="${paperGrammage.value}"></option>
@@ -248,46 +276,59 @@
 			 
 			  <div class="col-lg-3 px-8 coverDup" style="position: relative; left: 10px;float:left">
 			    <label for="" class="form-label"><a> <fmt:message key="content.volume"/> </a></label> 
-				<input type="number" contentVolume name="contentVolume" oldValue="" onclick="this.oldValue=this.value" onchange="updateTotalContentvolume(this.value,this.oldValue)"  >
+				<input type="text" contentVolume name="contentVolume" oldValue="" onclick="this.oldValue=this.value" onchange="updateTotalContentvolume(this.value,this.oldValue)"  >
 			  </div>
 			  
 			   <div class ="col-lg-3 px8" style="position: relative;">
 			    <label for="" class="form-label"><a><fmt:message key="content.paper.price"/></a> </label>
 			     <input paperUnitPrice type="number"  name="paperUnitPrice" value="">
-			     <button type="button" id="deleteButton"  onclick="removeContentNode(this,this.previousElementSibling)"><i class="ri-delete-bin-3-line"></i> </button>
+			     <button type="button" id="deleteButton"  onclick="removeContentNode(this,this.parentNode.previousElementSibling)"><i class="ri-delete-bin-3-line"></i> </button>
               </div>
 			  
 		   </div>
-		   
+		   <c:set var="counter" value="1"/>
+		   <c:forEach items="${contentJobPaper}" var="contentJPaper">
+		   <c:if test="${counter==1}">
 		   <div class="row py-3"  >
 			  <div class="col-lg-3 px-8">
 			    <label for="" class="form-label"><a><fmt:message key="content.paper.type"/> </a> </label>
 				<select contentPaperType name="name" class="form-select">
 					 <option >Choose...</option>
-					 <option value="${contentPaperType.id}" selected>${contentPaperType.name}</option>
 			  <c:forEach items="${paperTypes}" var="paperType">
-                    <option value="${paperType.id}">${paperType.name}</option>
+			  <c:if test="${contentJPaper.paperType.id==paperType.id}">
+			  	<option selected value="${paperType.id}">${paperType.name}</option>
+			  </c:if>
+			  <c:if test="${contentJPaper.id!=paperType.id}">
+			  	<option  value="${paperType.id}">${paperType.name}</option>
+			  </c:if>
                   </c:forEach>
                 </select>
 			  </div>
 			  
 			  <div class="col-lg-3 px-8" style="position: relative; left: 10px;">
 			    <label for="" class="form-label"><a> <fmt:message key="grammage"/></a></label>
-			     <input contentGrammage type="text" list="contentGrammage" value="${contentJobPaper.grammage}">
+			     <input contentGrammage  list="contentGrammage" value="${contentJPaper.grammage}">
 				  <datalist  id="contentGrammage">
 	               <c:forEach items="${paperGrammages}" var="paperGrammage">
-                    <option value="${paperGrammage.value}"></option> 
+	               <c:if test="${contentJPaper.grammage==paperGrammage.value}"> 
+                    <option selected value="${paperGrammage.value}"></option> 
+                    </c:if>
+                    <c:if test="${contentJPaper.grammage!=paperGrammage.value}"> 
+                    <option  value="${paperGrammage.value}"></option> 
+                    </c:if>
                     </c:forEach>
 	            </datalist>   
 			  </div>
 			  <div class="col-lg-3 px-8 " style="position: relative; left: 10px">
 			    <label for="" class="form-label"><a><fmt:message key="content.volume"/></a> </label> 
-				<input type="number" contentVolume name="contentVolume" value="${job.contentVolume}" readonly="readonly">
+				<input  contentVolume name="contentVolume" value="${contentJPaper.volume}" readonly="readonly">
 			  </div>
 
-				<div class ="col-lg-3 px8" style="position: relative;">
-			    <label for="" class="form-label"><a><fmt:message key="content.paper.price"/></a></label>
-			     <input paperUnitPrice type="number"  name="paperUnitPrice" value="${contentJobPaper.unitPrice}">
+ 				 
+             
+              <div class ="col-lg-3 px8" style="position: relative;"> 			    
+ 				<label for="" class="form-label"><a><fmt:message key="content.paper.price"/></a></label> 
+ 			     <input paperUnitPrice type="number"  name="paperUnitPrice" value="${contentJPaper.unitPrice}"> 
               </div>
 			   <div class="col-lg-3 px-8 " style="position: relative; left: 10px">
 			       <label for="" class="form-label" style=""><a><fmt:message key="add"/></a></label> 
@@ -297,8 +338,64 @@
 
 			       </span>
 			  </div>
+			 
+<%-- 			  <c:if test="${counter!=1}"> --%>
+<!-- 			   <div class ="col-lg-3 px8" style="position: relative;"> -->
+<%-- 			    <label for="" class="form-label"><a><fmt:message key="content.paper.price"/></a> </label> --%>
+<%-- 			     <input paperUnitPrice type="number"  name="paperUnitPrice" value="${contentJPaper.unitPrice}"> --%>
+<!-- 			     <button type="button" id="deleteButton"  onclick="removeContentNode(this,this.previousElementSibling)"><i class="ri-delete-bin-3-line"></i> </button> -->
+<!--               </div> -->
+<%-- 			  </c:if> --%>
+			 
 		   </div>
-		   
+		    </c:if>
+		     <c:if test="${counter!=1}">
+		     <div class="row py-3">
+			  <div class="col-lg-3 px-8" >
+			    <label for="" class="form-label"><a> <fmt:message key="content.paper.type"/></a> </label>
+				<select contentPaperType name="name" class="form-select">
+				<option >Choose...</option>
+			  	 <c:forEach items="${paperTypes}" var="paperType">
+					  <c:if test="${contentJPaper.paperType.id==paperType.id}">
+					  	<option selected value="${paperType.id}">${paperType.name}</option>
+					  </c:if>
+					  <c:if test="${contentJPaper.id!=paperType.id}">
+					  	<option  value="${paperType.id}">${paperType.name}</option>
+					  </c:if>
+                  </c:forEach>
+                </select>
+			  </div>
+			  <div class="col-lg-3 px-8" style="position: relative; left: 10px;">
+			    <label for="" class="form-label"><a><fmt:message key="grammage"/></a> </label>
+			    <input contentGrammage  list="contentGrammage" value="${contentJPaper.grammage}">
+				  <datalist  id="contentGrammage">
+	               <c:forEach items="${paperGrammages}" var="paperGrammage">
+	               <c:if test="${contentJPaper.grammage==paperGrammage.value}"> 
+                    <option selected value="${paperGrammage.value}"></option> 
+                    </c:if>
+                    <c:if test="${contentJPaper.grammage!=paperGrammage.value}"> 
+                    <option  value="${paperGrammage.value}"></option> 
+                    </c:if>
+                    </c:forEach>
+	            </datalist>  
+			  </div>
+			 
+			  <div class="col-lg-3 px-8 coverDup" style="position: relative; left: 10px;float:left">
+			    <label for="" class="form-label"><a> <fmt:message key="content.volume"/> </a></label> 
+				<input type="text" value="${contentJPaper.volume}" contentVolume name="contentVolume" oldValue="" onclick="this.oldValue=this.value" onchange="updateTotalContentvolume(this.value,this.oldValue)"  >
+			  </div>
+			  
+			   <div class ="col-lg-3 px8" style="position: relative;">
+			    <label for="" class="form-label"><a><fmt:message key="content.paper.price"/></a> </label>
+			     <input paperUnitPrice type="number"  name="paperUnitPrice" value="${contentJPaper.unitPrice}">
+			     <button type="button" id="deleteButton"  onclick="removeContentNode(this,this.parentNode.previousElementSibling)"><i class="ri-delete-bin-3-line"></i> </button>
+              </div>
+			  
+		   </div>
+		      </c:if>
+		      <c:set var="counter" value="2"/>
+		      
+		   </c:forEach>
 		    </div>
 		  
 	     </div>	
@@ -308,27 +405,49 @@
 	        <div class ="col-sm-6">
 	        <button type="button"  style ="width:125px;float:right" onclick="navigate(2,3)"  class="btn btn-primary" id=""><fmt:message key="next"/></button>	
 	       </div>
-
 	     </div>
-				
-       </div>         
+       </div>     
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+           
 <!------------------------------- TAB 3 BIGINS --------------->
        <div class="tab-pane fade" id="tab3" role="tabpanel" aria-labelledby="contact-tab">
         <div class="container" >	
           <div class="row py-3">
-		    <div class ="col-lg-3 px8" >
-			  <label for="" class="form-label"><fmt:message key="cover.printing.machine"/></label> 
-			  <select id="coverPrintingMachine" name="name" class="form-select">
-			    <c:forEach items="${printingMachines}" var="printingMachine">
-                  <option value="${printingMachine.id}">${printingMachine.name}</option>
-                </c:forEach>
-              </select>
-			</div>
+		   <div class ="col-lg-3 px8" >
+				  <label for="" class="form-label"><a><fmt:message key="cover.printing.machine"/></a></label> 
+				  <select id="coverPrintingMachine" name="name" class="form-select" onchange="coverSignatureCalculation2(this.value , this.parentNode)">
+				    <c:forEach items="${printingMachines}" var="printingMachine">
+				    <c:if test="${covercolourCombination.printingMachine.id==printingMachine.id}">
+				    	 <option selected value="${printingMachine.id},${printingMachine.plateLength},${printingMachine.plateWidth}">${printingMachine.name}</option>
+				    </c:if>
+				    <c:if test="${covercolourCombination.printingMachine.id!=printingMachine.id}">
+				    	 <option  value="${printingMachine.id},${printingMachine.plateLength},${printingMachine.plateWidth}">${printingMachine.name}</option>
+				    </c:if>
+	                 
+	                </c:forEach>
+	              </select>
+				</div>
 			<div class ="col-lg-3 px8" style="position: relative; left: 10px;">
 			  <label for="" class="form-label"><fmt:message key="cover.print.type"/></label>
 			  <select id="coverPrintType" name="name" class="form-select">
 			    <c:forEach items="${printTypes}" var="printType">
-                  <option value="${printType.id}">${printType.name}</option>
+			    <c:if test="${covercolourCombination.printType.id==printType.id}">
+			    	 <option selected value="${printType.id}">${printType.name}</option>
+			    </c:if>
+			     <c:if test="${covercolourCombination.printType.id!=printType.id}">
+			    	 <option  value="${printType.id}">${printType.name}</option>
+			    </c:if>
+                 
                 </c:forEach>
               </select>
             </div>
@@ -345,11 +464,17 @@
                     </div>
 				  </div>
               </div>
-              <div class ="col-lg-3 px8" style="position: relative; left:10px;">
-			  <label for="" class="form-label"> <fmt:message key="signature"/></label>
-			  <div> <span class="coverSpace" id="coverSignature">${coversignature}</span>
+             <div class ="col-lg-3 px8" style="position: relative; left:10px;">
+			  	<label for="" class="form-label"> <a><fmt:message key="signature"/></a></label>
+			  	<div style=" display: flex;">
+			  <div style="width: 73px;"> 
+			  	<input class="coverSpace" type="number" step=".1" id="coverSignature" value="${covercolourCombination.numberOfSignature}" readonly="readonly">
 			 </div> 
+				 <div>
+				 <span onclick="randUpCoverSignature()"><i style="color: green; font-size: 22px" class="bi bi-arrow-up"></i></span>
+				</div>
             </div>
+			</div>
 			</div>	
 			
 		<!-- 			main content signature div -->
@@ -359,12 +484,13 @@
 		
 		<div id="mainContentSignature">
 		
-<!-- 		main duplicated div -->
-			 <div style="display:none" id="eachSignatureDiv"> 
+		<!-- 			start each signature bloc            -->
+		
+			<div style="display:none" id="eachSignatureDiv"> 
 			 <hr style="margin-top: 10px; ">	
 			  <div class="row py-3" style="display:none">
 			    <div class ="col-lg-3 px8" >
-				  <label for="" class="form-label"><fmt:message key="printing.machine"/></label> 
+				  <label for="" class="form-label"><a><fmt:message key="printing.machine"/></a></label> 
 				  <select contentPrintingMachine name="name" class="form-select" disabled="disabled">
 				    <option selected>Choose...</option>
 				    <c:forEach items="${printingMachines}" var="printingMachine">
@@ -373,7 +499,7 @@
 		         </select>
 			   </div>
 			   <div class ="col-lg-3 px8" style="position: relative; left: 10px;">
-				 <label for="" class="form-label"><fmt:message key="content.print.type"/> </label>
+				 <label for="" class="form-label"><a><fmt:message key="content.print.type"/></a> </label>
 				 <select contentPrintType name="name" class="form-select">
 				   <option selected>Choose...</option>
 				   <c:forEach items="${printTypes}" var="printType">
@@ -382,7 +508,7 @@
                  </select>
                </div>
 				  <div class ="col-lg-3 px8" style="position: relative; left: 10px;">
-					<label for="" class="form-label"><fmt:message key="content.color.combination"/></label>
+					<label for="" class="form-label"><a><fmt:message key="content.color.combination"/></a></label>
 					 <div class="row">
 				   <div class="col-6 content-cover-l">
                      <input contentFrontColorNumber placeholder="<fmt:message key='front'/>" type="number" min="0" max="5" style="postion-relative-left:2px;position: relative;left: 4px;">
@@ -395,9 +521,9 @@
 				  </div>
                   </div>
                   <div class ="col-lg-3 px8" style="position: relative; left:10px;">
-				  <label for="" class="form-label"><fmt:message key="signature"/></label>
+				  <label for="" class="form-label"><a><fmt:message key="signature"/></a></label>
 				  <div> 
-				  <input type="number" step=".1" delContentSign style="width:70px;color:red; text-align:center" onclick="this.oldValue=this.value" onchange="signatureChange(this.value,this.parentNode.parentNode.parentNode.parentNode,oldValue)">
+				  <input type="number" step=".1" delContentSign allSignatures style="width:70px;color:red; text-align:center" onclick="this.oldValue=this.value" onchange="signatureChange(this.value,this.parentNode.parentNode.parentNode.parentNode,oldValue)">
 				  <span> <button  type="button" onclick="deleteContentsignature(this.parentNode.parentNode.parentNode.parentNode,this.parentNode.parentNode.parentNode.parentNode.parentNode)" style="background:red"><i class="ri-delete-bin-3-line"></i></i></button> </span>
 				 </div> 
 	            </div>
@@ -406,7 +532,7 @@
 
 			  <div class="row py-3" >
 			    <div class ="col-lg-3 px8" >
-				  <label for="" class="form-label"><fmt:message key="printing.machine"/></label> 
+				  <label for="" class="form-label"><a><fmt:message key="printing.machine"/></a></label> 
 				  <select  contentPrintingMachine name="name" class="form-select" onchange="signatureCalculation(this.value,this.parentNode.parentNode.parentNode)">
 				    <option selected>Choose...</option>
 				    <c:forEach items="${printingMachines}" var="printingMachine">
@@ -415,7 +541,7 @@
 		         </select>
 			   </div>
 			   <div class ="col-lg-3 px8" style="position: relative; left: 10px;">
-				 <label for="" class="form-label"><fmt:message key="content.print.type"/> </label>
+				 <label for="" class="form-label"><a><fmt:message key="content.print.type"/> </a></label>
 				 <select contentPrintType name="name" class="form-select">
 				   <option selected>Choose...</option>
 				   <c:forEach items="${printTypes}" var="printType">
@@ -424,7 +550,7 @@
                  </select>
                </div>
 				  <div class ="col-lg-3 px8" style="position: relative; left: 10px;">
-					<label for="" class="form-label"><fmt:message key="content.color.combination"/></label>
+					<label for="" class="form-label"><a><fmt:message key="content.color.combination"/></a></label>
 					 <div class="row">
 				   <div class="col-6 volume-cover-l">
                      <input contentFrontColorNumber type="number" min="0" placeholder="<fmt:message key='front'/>" max="5" style="postion-relative-left:2px;position: relative;left: 4px;">
@@ -437,37 +563,49 @@
 				  </div>
                   </div>
                   <div class ="col-lg-3 px8" style="position: relative; left:10px;">
-				  <label for="" class="form-label"><fmt:message key="signature"/></label>
-				  <div> <input type="number" step=".1" id="" style="width:70px;color:red; text-align:center" inputSignReadonly>
+				  <label for="" class="form-label"><a><fmt:message key="signature"/></a></label>
+				  <div> <input type="number" step=".1" id="" style="width:70px;color:red; text-align:center" allSignatures inputSignReadonly readonly="readonly">
 				  <span> <button   type="button" id="duplicateButton" style="display: inline;" onclick="updateContentSignature(this.parentNode.parentNode.parentNode.parentNode.parentNode,1,this.parentNode.parentNode.parentNode.parentNode)"><i class="ri-add-fill"></i></button> </span>
 				 </div> 
 	            </div>
 				</div>
-			</div>	
+			</div>
 			
-			 <div  id="signatureDiv">
-			  <div class="row py-3" style="display:none">
-			 
+		<!-- 			End each signature bloc            -->	
+		
+		
+			
+			<c:set var="paperTypeCounter" value="1"/>
+			<c:forEach items="${contentJobPaper}" var="contentJPaper">
+				<c:set var="colorCounter" value="1"/>
+				
+				<c:forEach items="${contentJPaper.jobColorCombinations}" var="jobColorCombinaition">
+				<c:if test="${paperTypeCounter==1 and colorCounter==1 }">
+				
+				<!-- 	Start SignatureDiv bloc            	-->
+				
+				 <div  id="signatureDiv">
+			    <div class="row py-3" style="display:none">
 			    <div class ="col-lg-3 px8">
-				  <label for="" class="form-label"><fmt:message key="printing.machine"/></label> 
+				  <label for="" class="form-label"><a><fmt:message key="printing.machine"/></a></label> 
 				  <select contentPrintingMachine name="name" class="form-select"  disabled="disabled" >
-				   <option >Choose...</option>
+				    <option selected>Choose...</option>
 				    <c:forEach items="${printingMachines}" var="printingMachine">
 		                <option value="${printingMachine.id},${printingMachine.plateLength},${printingMachine.plateWidth}">${printingMachine.name}</option>
 		            </c:forEach>
 		         </select>
 			   </div>
 			   <div class ="col-lg-3 px8" style="position: relative; left: 10px;">
-				 <label for="" class="form-label"><fmt:message key="content.print.type"/> </label>
+				 <label for="" class="form-label"><a><fmt:message key="content.print.type"/> </a></label>
 				 <select contentPrintType name="name" updateContentSignature class="form-select">
-				  <option >Choose...</option>
+				   <option selected>Choose...</option>
 				   <c:forEach items="${printTypes}" var="printType">
                      <option value="${printType.id}">${printType.name}</option>
                    </c:forEach>
                  </select>
                </div>
 				  <div class ="col-lg-3 px8" style="position: relative; left: 10px;">
-					<label for="" class="form-label"><fmt:message key="content.color.combination"/></label>
+					<label for="" class="form-label"><a><fmt:message key="content.color.combination"/></a></label>
 				<div class="row">
 				   <div class="col-6 volume-cover-l">
                      <input contentFrontColorNumber type="number" min="0" placeholder="<fmt:message key='front'/>" max="5" style="postion-relative-left:2px;position: relative;left: 4px;">                 
@@ -478,9 +616,9 @@
 				  </div>
                   </div>
                   <div class ="col-lg-3 px8" style="position: relative; left:10px;">
-				  <label for="" class="form-label"><fmt:message key="signature"/></label>
+				  <label for="" class="form-label"><a><fmt:message key="signature"/></a></label>
 				  <div>
-				  <input type="number" step=".1" delContentSign style="width:70px;color:red; text-align:center" onclick="this.oldValue=this.value" onchange="signatureChange(this.value,this.parentNode.parentNode.parentNode.parentNode, oldValue)">
+				  <input type="number" step=".1" delContentSign allSignatures style="width:70px;color:red; text-align:center" onclick="this.oldValue=this.value" onchange="signatureChange(this.value,this.parentNode.parentNode.parentNode.parentNode, oldValue)">
 				  <span> <button style="background:transparent;border-style: none;color: orange; font-size: 20px;" type="button" onclick="deleteContentsignature(this.parentNode.parentNode.parentNode.parentNode,this.parentNode.parentNode.parentNode.parentNode.parentNode)" style="background:red"><i class="ri-delete-bin-3-line"></i></i></button> </span>
 				 </div> 
 	            </div>
@@ -489,48 +627,298 @@
 
 			  <div class="row py-3" id="test-me">
 			   <div class ="col-lg-3 px8" >
-				  <label for="" class="form-label"><fmt:message key="printing.machine"/></label> 
-				  <select  contentPrintingMachine name="name50.0" class="form-select"  onchange="signatureCalculation(this.value,this.parentNode.parentNode.parentNode)">
-				   		<option >Choose...</option>
-				   		 <option value="${contentPrintingMachine.id}" selected>${contentPrintingMachine.name}</option>
+				  <label for="" class="form-label"><a><fmt:message key="printing.machine"/></a></label> 
+				 <select  contentPrintingMachine name="name" class="form-select" onchange="signatureCalculation(this.value,this.parentNode.parentNode.parentNode)">
+			      <option >Choose...</option>
+				    <c:forEach items="${printingMachines}" var="printingMachine">
+				    <c:if test="${jobColorCombinaition.printingMachine.id==printingMachine.id}">
+				    	<option selected value="${printingMachine.id},${printingMachine.plateLength},${printingMachine.plateWidth}">${printingMachine.name}</option>
+				    </c:if>
+				     <c:if test="${jobColorCombinaition.printingMachine.id!=printingMachine.id}">
+				    	<option  value="${printingMachine.id},${printingMachine.plateLength},${printingMachine.plateWidth}">${printingMachine.name}</option>
+				    </c:if>
+		                
+		            </c:forEach>
+		         </select>
+			   </div>
+			   <div class ="col-lg-3 px8" style="position: relative; left: 10px;">
+				 <label for="" class="form-label"><a><fmt:message key="content.print.type"/></a> </label>
+				<select contentPrintType name="name" class="form-select">
+				   <option >Choose...</option>
+				  <c:forEach items="${printTypes}" var="printType">
+
+                     <c:if test="${jobColorCombinaition.printType.id==printType.id}">
+				    	<option selected value="${printType.id}">${printType.name}</option>
+				    </c:if>
+				    <c:if test="${jobColorCombinaition.printType.id!=printType.id}">
+				    	<option value="${printType.id}">${printType.name}</option>
+				    </c:if>
+
+                   </c:forEach>
+                 </select>
+
+               </div>
+				  <div class ="col-lg-3 px8" style="position: relative; left: 10px;">
+					<label for="" class="form-label"><a><fmt:message key="content.color.combination"/></a></label>
+					 <div class="row">
+				   <div class="col-6 volume-cover-l">
+                     <input  value="${jobColorCombinaition.frontColorNumber}"  contentFrontColorNumber type="number" min="0" max="5" placeholder="<fmt:message key='front'/>" style="postion-relative-left:2px;position: relative;left: 4px;" >
+					                  
+				     </div>
+				     <div class="col-6 volume-cover-w">
+				       <input  value="${jobColorCombinaition.backColorNumber}"  type="number" min="0" max="5" placeholder="<fmt:message key='back'/>"  contentBackColorNumber>
+					     
+                    </div>
+				  </div>
+                  </div>
+                  <div class ="col-lg-3 px8" style="position: relative; left:10px;">
+				  <label for="" class="form-label"><a><fmt:message key="signature"/></a></label>
+				  <div> <input  value="${jobColorCombinaition.numberOfSignature}"  type="number" id="signature-content-to-randup" step=".1" style="width:70px;color:red; text-align:center" readonly="readonly" allSignatures inputSignReadonly>
+				  	<span><button  type="button" style="display: inline;" id="duplicateButton" onclick="updateContentSignature(this.parentNode.parentNode.parentNode.parentNode.parentNode,0,this.parentNode.parentNode.parentNode.parentNode)" ><i class="ri-add-fill"></i></button> </span>
+<!-- 				  	<span onclick="randUpContentSignature()"><i style="color: green; font-size: 22px" class="bi bi-arrow-up"></i></span> -->
+				 </div> 
+				 
+	            </div>
+				</div>
+		
+				</div>
+				<!-- 	End SignatureDiv bloc -->
+				
+			<c:if test="${paperTypeCounter==1 and colorCounter!=1 }">
+				<!-- start	First ContententPaper childs -->	
+			  <div class="row py-3">
+			    <div class ="col-lg-3 px8">
+				  <label for="" class="form-label"><a><fmt:message key="printing.machine"/></a></label> 
+				  <select  contentPrintingMachine name="name" class="form-select" onchange="signatureCalculation(this.value,this.parentNode.parentNode.parentNode)">
+			      <option >Choose...</option>
+				    <c:forEach items="${printingMachines}" var="printingMachine">
+				    <c:if test="${jobColorCombinaition.printingMachine.id==printingMachine.id}">
+				    	<option selected value="${printingMachine.id},${printingMachine.plateLength},${printingMachine.plateWidth}">${printingMachine.name}</option>
+				    </c:if>
+				     <c:if test="${jobColorCombinaition.printingMachine.id!=printingMachine.id}">
+				    	<option  value="${printingMachine.id},${printingMachine.plateLength},${printingMachine.plateWidth}">${printingMachine.name}</option>
+				    </c:if>
+		                
+		            </c:forEach>
+		         </select>
+			   </div>
+			   <div class ="col-lg-3 px8" style="position: relative; left: 10px;">
+				 <label for="" class="form-label"><a><fmt:message key="content.print.type"/> </a></label>
+				 <select contentPrintType name="name" class="form-select">
+				   <option >Choose...</option>
+				  <c:forEach items="${printTypes}" var="printType">
+
+                     <c:if test="${jobColorCombinaition.printType.id==printType.id}">
+				    	<option selected value="${printType.id}">${printType.name}</option>
+				    </c:if>
+				    <c:if test="${jobColorCombinaition.printType.id!=printType.id}">
+				    	<option value="${printType.id}">${printType.name}</option>
+				    </c:if>
+
+                   </c:forEach>
+                 </select>
+
+               </div>
+				  <div class ="col-lg-3 px8" style="position: relative; left: 10px;">
+					<label for="" class="form-label"><a><fmt:message key="content.color.combination"/></a></label>
+				<div class="row">
+				   <div class="col-6 volume-cover-l">
+                     <input  value="${jobColorCombinaition.frontColorNumber}"  contentFrontColorNumber type="number" min="0" placeholder="<fmt:message key='front'/>" max="5" style="postion-relative-left:2px;position: relative;left: 4px;">                 
+				     </div>
+				     <div class="col-6 volume-cover-w">
+				       <input  value="${jobColorCombinaition.backColorNumber}"  type="number" min="0" max="5"  contentBackColorNumber placeholder="<fmt:message key='back'/>">  
+                    </div>
+				  </div>
+                  </div>
+                  <div class ="col-lg-3 px8" style="position: relative; left:10px;">
+				  <label for="" class="form-label"><a><fmt:message key="signature"/></a></label>
+				  <div>
+				  <input  value="${jobColorCombinaition.numberOfSignature}"  type="number" step=".1" delContentSign allSignatures style="width:70px;color:red; text-align:center" onclick="this.oldValue=this.value" onchange="signatureChange(this.value,this.parentNode.parentNode.parentNode.parentNode, oldValue)">
+				  <span> <button style="background:transparent;border-style: none;color: orange; font-size: 20px;" type="button" onclick="deleteContentsignature(this.parentNode.parentNode.parentNode.parentNode,this.parentNode.parentNode.parentNode.parentNode.parentNode)" style="background:red"><i class="ri-delete-bin-3-line"></i></i></button> </span>
+				 </div> 
+	            </div>
+	          		  
+				</div>
+				<!-- End	First ContententPaper childs -->
+				
+			   </c:if>
+				</c:if>
+				
+				<!-- Start	other ContententPaper -->
+				
+				<c:if test="${paperTypeCounter!=1 and colorCounter==1 }">
+			 <div  id="eachSignatureDiv"> 
+			 <hr style="margin-top: 10px; ">	
+			  <div class="row py-3" style="display:none">
+			    <div class ="col-lg-3 px8" >
+				  <label for="" class="form-label"><a><fmt:message key="printing.machine"/></a></label> 
+				  <select contentPrintingMachine name="name" class="form-select" disabled="disabled">
+				    <option selected>Choose...</option>
 				    <c:forEach items="${printingMachines}" var="printingMachine">
 		                <option value="${printingMachine.id},${printingMachine.plateLength},${printingMachine.plateWidth}">${printingMachine.name}</option>
 		            </c:forEach>
 		         </select>
 			   </div>
 			   <div class ="col-lg-3 px8" style="position: relative; left: 10px;">
-				 <label for="" class="form-label"><fmt:message key="content.print.type"/> </label>
+				 <label for="" class="form-label"><a><fmt:message key="content.print.type"/></a> </label>
 				 <select contentPrintType name="name" class="form-select">
+				   <option selected>Choose...</option>
 				   <c:forEach items="${printTypes}" var="printType">
                      <option value="${printType.id}">${printType.name}</option>
                    </c:forEach>
                  </select>
                </div>
 				  <div class ="col-lg-3 px8" style="position: relative; left: 10px;">
-					<label for="" class="form-label"><fmt:message key="content.color.combination"/></label>
+					<label for="" class="form-label"><a><fmt:message key="content.color.combination"/></a></label>
 					 <div class="row">
-				   <div class="col-6 volume-cover-l">
-                     <input contentFrontColorNumber value="${colorCombin.frontColorNumber}" type="number" min="0" max="5" placeholder="<fmt:message key='front'/>" style="postion-relative-left:2px;position: relative;left: 4px;" >
+				   <div class="col-6 content-cover-l">
+                     <input contentFrontColorNumber placeholder="<fmt:message key='front'/>" type="number" min="0" max="5" style="postion-relative-left:2px;position: relative;left: 4px;">
 					                  
 				     </div>
 				     <div class="col-6 volume-cover-w">
-				       <input type="number" min="0" max="5" placeholder="<fmt:message key='back'/>"  contentBackColorNumber value="${colorCombin.backColorNumber}">
+				       <input type="number" min="0" max="5" placeholder="<fmt:message key='back'/>" contentBackColorNumber>
 					     
                     </div>
 				  </div>
                   </div>
                   <div class ="col-lg-3 px8" style="position: relative; left:10px;">
-				  <label for="" class="form-label"><fmt:message key="signature"/></label>
-				  <div> <input type="number" id="kkk" step=".1" style="width:70px;color:red; text-align:center" readonly="readonly"  inputSignReadonly value="${colorCombin.numberOfSignature}">
-				  <span><button  type="button" style="display: inline;" id="duplicateButton" onclick="updateContentSignature(this.parentNode.parentNode.parentNode.parentNode.parentNode,0,this.parentNode.parentNode.parentNode.parentNode)" ><i class="ri-add-fill"></i></button> </span>
+				  <label for="" class="form-label"><a><fmt:message key="signature"/></a></label>
+				  <div> 
+				  <input type="number" step=".1" delContentSign allSignatures style="width:70px;color:red; text-align:center" onclick="this.oldValue=this.value" onchange="signatureChange(this.value,this.parentNode.parentNode.parentNode.parentNode,oldValue)">
+				  <span> <button  type="button" onclick="deleteContentsignature(this.parentNode.parentNode.parentNode.parentNode,this.parentNode.parentNode.parentNode.parentNode.parentNode)" style="background:red"><i class="ri-delete-bin-3-line"></i></i></button> </span>
+				 </div> 
+	            </div>
+	           
+				</div>
+
+			  <div class="row py-3" >
+			    <div class ="col-lg-3 px8" >
+				  <label for="" class="form-label"><a><fmt:message key="printing.machine"/></a></label> 
+				  <select  contentPrintingMachine name="name" class="form-select" onchange="signatureCalculation(this.value,this.parentNode.parentNode.parentNode)">
+			      <option >Choose...</option>
+				    <c:forEach items="${printingMachines}" var="printingMachine">
+				    <c:if test="${jobColorCombinaition.printingMachine.id==printingMachine.id}">
+				    	<option selected value="${printingMachine.id},${printingMachine.plateLength},${printingMachine.plateWidth}">${printingMachine.name}</option>
+				    </c:if>
+				     <c:if test="${jobColorCombinaition.printingMachine.id!=printingMachine.id}">
+				    	<option  value="${printingMachine.id},${printingMachine.plateLength},${printingMachine.plateWidth}">${printingMachine.name}</option>
+				    </c:if>
+		                
+		            </c:forEach>
+		         </select>
+			   </div>
+			   <div class ="col-lg-3 px8" style="position: relative; left: 10px;">
+				 <label for="" class="form-label"><a><fmt:message key="content.print.type"/> </a></label>
+				<select contentPrintType name="name" class="form-select">
+				   <option >Choose...</option>
+				  <c:forEach items="${printTypes}" var="printType">
+
+                     <c:if test="${jobColorCombinaition.printType.id==printType.id}">
+				    	<option selected value="${printType.id}">${printType.name}</option>
+				    </c:if>
+				    <c:if test="${jobColorCombinaition.printType.id!=printType.id}">
+				    	<option value="${printType.id}">${printType.name}</option>
+				    </c:if>
+
+                   </c:forEach>
+                 </select>
+
+               </div>
+				  <div class ="col-lg-3 px8" style="position: relative; left: 10px;">
+					<label for="" class="form-label"><a><fmt:message key="content.color.combination"/></a></label>
+					 <div class="row">
+				   <div class="col-6 volume-cover-l">
+                     <input  value="${jobColorCombinaition.frontColorNumber}"  contentFrontColorNumber type="number" min="0" placeholder="<fmt:message key='front'/>" max="5" style="postion-relative-left:2px;position: relative;left: 4px;">
+					                  
+				     </div>
+				     <div class="col-6 volume-cover-w">
+				       <input  value="${jobColorCombinaition.backColorNumber}"  type="number" min="0" max="5" placeholder="<fmt:message key='back'/>" contentBackColorNumber>
+					     
+                    </div>
+				  </div>
+                  </div>
+                  <div class ="col-lg-3 px8" style="position: relative; left:10px;">
+				  <label for="" class="form-label"><a><fmt:message key="signature"/></a></label>
+				  <div> <input  value="${jobColorCombinaition.numberOfSignature}"  type="number" step=".1" id="" style="width:70px;color:red; text-align:center" allSignatures inputSignReadonly readonly="readonly">
+				  <span> <button   type="button" id="duplicateButton" style="display: inline;" onclick="updateContentSignature(this.parentNode.parentNode.parentNode.parentNode.parentNode,1,this.parentNode.parentNode.parentNode.parentNode)"><i class="ri-add-fill"></i></button> </span>
 				 </div> 
 	            </div>
 				</div>
-		
+			</div>	
+			<!-- End	other ContententPaper  -->
+				</c:if>
+				
+				
+				
+				<!-- Start	other ContententPaper childs -->
+				<c:if test="${paperTypeCounter!=1 and colorCounter!=1 }">
+					 <div class="row py-3">
+			    <div class ="col-lg-3 px8" >
+				  <label for="" class="form-label"><a><fmt:message key="printing.machine"/></a></label> 
+				 <select  contentPrintingMachine name="name" class="form-select" onchange="signatureCalculation(this.value,this.parentNode.parentNode.parentNode)">
+			      <option >Choose...</option>
+				    <c:forEach items="${printingMachines}" var="printingMachine">
+				    <c:if test="${jobColorCombinaition.printingMachine.id==printingMachine.id}">
+				    	<option selected value="${printingMachine.id},${printingMachine.plateLength},${printingMachine.plateWidth}">${printingMachine.name}</option>
+				    </c:if>
+				     <c:if test="${jobColorCombinaition.printingMachine.id!=printingMachine.id}">
+				    	<option  value="${printingMachine.id},${printingMachine.plateLength},${printingMachine.plateWidth}">${printingMachine.name}</option>
+				    </c:if>
+		                
+		            </c:forEach>
+		         </select>
+			   </div>
+			   <div class ="col-lg-3 px8" style="position: relative; left: 10px;">
+				 <label for="" class="form-label"><a><fmt:message key="content.print.type"/></a> </label>
+				<select contentPrintType name="name" class="form-select">
+				   <option >Choose...</option>
+				  <c:forEach items="${printTypes}" var="printType">
+
+                     <c:if test="${jobColorCombinaition.printType.id==printType.id}">
+				    	<option selected value="${printType.id}">${printType.name}</option>
+				    </c:if>
+				    <c:if test="${jobColorCombinaition.printType.id!=printType.id}">
+				    	<option value="${printType.id}">${printType.name}</option>
+				    </c:if>
+
+                   </c:forEach>
+                 </select>
+
+               </div>
+				  <div class ="col-lg-3 px8" style="position: relative; left: 10px;">
+					<label for="" class="form-label"><a><fmt:message key="content.color.combination"/></a></label>
+					 <div class="row">
+				   <div class="col-6 content-cover-l">
+                     <input  value="${jobColorCombinaition.frontColorNumber}"  contentFrontColorNumber placeholder="<fmt:message key='front'/>" type="number" min="0" max="5" style="postion-relative-left:2px;position: relative;left: 4px;">
+					                  
+				     </div>
+				     <div class="col-6 volume-cover-w">
+				       <input  value="${jobColorCombinaition.backColorNumber}"  type="number" min="0" max="5" placeholder="<fmt:message key='back'/>" contentBackColorNumber>
+					     
+                    </div>
+				  </div>
+                  </div>
+                  <div class ="col-lg-3 px8" style="position: relative; left:10px;">
+				  <label for="" class="form-label"><a><fmt:message key="signature"/></a></label>
+				  <div> 
+				  <input type="number"  value="${jobColorCombinaition.numberOfSignature}"  step=".1" delContentSign allSignatures style="width:70px;color:red; text-align:center" onclick="this.oldValue=this.value" onchange="signatureChange(this.value,this.parentNode.parentNode.parentNode.parentNode,oldValue)">
+				  <span> <button  type="button" onclick="deleteContentsignature(this.parentNode.parentNode.parentNode.parentNode,this.parentNode.parentNode.parentNode.parentNode.parentNode)" style="background:red"><i class="ri-delete-bin-3-line"></i></i></button> </span>
+				 </div> 
+	            </div>
+	           
 				</div>
 					
-<!-- 							duplicated div ends 	-->
-				</div> 
+					<!-- End	other ContententPaper childs -->
+				</c:if>
+				
+				<c:set var="colorCounter" value="2"/>
+				</c:forEach>
+				<c:set var="paperTypeCounter" value="2"/>
+			</c:forEach>		
+			
+		</div> 
+		
+		
 	
 			<div class ="row py-3 "style="margin-top:50px" >
 		     <div class ="col-sm-6"> 
@@ -547,6 +935,22 @@
 			     	<!-- 			main content div -->
                </div>
              </div>  	<!-- 			main div ends -->
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
           
 <!-- <--------------------TAB 4 BEGINS HERE----------------------------------------------------------------------->  
              <div class="tab-pane fade" id="tab4" role="tabpanel" aria-labelledby="contact-tab">
@@ -590,9 +994,13 @@
 			     <div class ="col-lg-3 px8" style="position: relative; left:10px;">
 			   <label for="" class="form-label"><a><fmt:message key="binding.type"/></a></label> 
 			      <select id="bindingType" name="name" class="form-select">
-			        <option value="${jobActivity.bindingType.id}" selected>${jobActivity.bindingType.name}</option>
 					<c:forEach items="${bindingTypes}" var="bindingTyp">
-                      <option value="${bindingTyp.id}">${bindingTyp.name}</option>
+					<c:if test="${jobActivity.bindingType.id==bindingTyp.id}">
+                      <option selected value="${bindingTyp.id}">${bindingTyp.name}</option>
+                     </c:if>
+                     <c:if test="${jobActivity.bindingType.id!=bindingTyp.id}">
+                      <option  value="${bindingTyp.id}">${bindingTyp.name}</option>
+                     </c:if>
                     </c:forEach>
                   </select>
 			    </div>
@@ -651,7 +1059,7 @@
 				      <button type="button" style="float:left" class="btn btn-primary" onclick="navigate(4,3);"> <fmt:message key="previews"/></button>	
 				     </div>
 			         <div class ="col-sm-6">
-			         <button type="button" style="width:125px;float:right"  class="btn btn-primary" id="next-btn1" onclick="navigate(4,5),summaryUpdate()"><fmt:message key="next"/></button>			
+			         <button type="button" style="width:125px;float:right"  class="btn btn-primary" id="next-btn1" onclick="navigate(4,5);summary()"><fmt:message key="next"/></button>			
 			        </div>			        
 <!-- 			         <div class ="col-sm-6">  -->
 <%-- 				      <button type="button" style="float:left" class="btn btn-primary" onclick="navigate(4,3);"> <fmt:message key="previews"/></button>	 --%>
@@ -666,11 +1074,11 @@
        				<hr>
 					  <div class="row">
 					 	 <div class="row">
-					      <div class="col-sm-4"><fmt:message key="the.type.of.job"/>  : <span id="job-type-updated"> </span>
+					      <div class="col-sm-4"><fmt:message key="the.type.of.job"/>  : <span id="job-type"> </span>
 					      </div>
-					      <div class="col-sm-4"><fmt:message key="title.of.job"/> : <span id="job-title-updated"> </span> 
+					      <div class="col-sm-4"><fmt:message key="title.of.job"/> : <span id="job-title"> </span> 
 					      </div>
-					      <div class="col-sm-4"><fmt:message key="name.of.customer"/>  : <span id="job-customer-updated">  </span> 
+					      <div class="col-sm-4"><fmt:message key="name.of.customer"/>  : <span id="job-customer">  </span> 
 					      </div>
 					    </div>
 					   
@@ -686,9 +1094,10 @@
 					     <div class="row">
 					    <div class="col-sm-4"><fmt:message key="paper.format"/> : <span id="paper-format"> </span>
 					    </div>
-					    <div class="col-sm-4"><fmt:message key="open"/> :<span id="open-l"></span> | <span id="open-w"></span></div> 
-					    	<div class="col-sm-4"><fmt:message key="fold"/>  :<span id="fold-l"></span> | <span id="fold-w"></span>
-					    </div>
+						    <div class="col-sm-4"><fmt:message key="open"/> :<span id="open-l"></span> | <span id="open-w"></span></div> 
+						    	<div class="col-sm-4"><fmt:message key="fold"/>  :<span id="fold-l"></span> | <span id="fold-w"></span>
+						    </div>
+					    
 					    </div>
 					    <div class="row">
 					    <div class="col-sm-4"><fmt:message key="existing.plate"/> : <span id="existing-plate"></span>
@@ -709,7 +1118,7 @@
 					<hr>
 					   <div class="row">
 					    <div class="row">
-					    <div class="col-sm-4"><fmt:message key="paper.types"/> : <span id="cover-paper-to-update"> </span>
+					    <div class="col-sm-4"><fmt:message key="paper.types"/> : <span id="cover-paper"> </span>
 					    </div>
 					    <div class="col-sm-4"><fmt:message key="paper.grammage"/> (GSM) : <span id="cover-grammage"> 1</span> 
 					    </div>
@@ -728,8 +1137,8 @@
 					  <thead>
 					    <tr>
 					      <th scope="col"><fmt:message key="number"/> </th>
-					      <th scope="col"><fmt:message key="print.type"/> </th>
-					      <th scope="col"> <fmt:message key="grammag"/> (GSM)</th>
+					       <th scope="col"><fmt:message key="paper.type"/></th>
+					      <th scope="col"> <fmt:message key="grammage"/> (GSM)</th>
 					      <th scope="col"> <fmt:message key="volume"/> (Pages)</th>
 					    </tr>
 					  </thead>
@@ -760,55 +1169,60 @@
 					 <hr>
 					  
 					  <div class="row">
-						<table class="ta" id="update-content-table">
+						<table class="ta" id="content-table">
 					  <thead>
 					    <tr>
 					      <th scope="col"><fmt:message key="number"/></th>
-					      <th scope="col"> <fmt:message key="print.type"/> </th>
+					      <th scope="col"><fmt:message key="paper.type"/></th>
 					      <th scope="col"><fmt:message key="machine"/></th>
+					      <th scope="col"> <fmt:message key="print.type"/> </th>
 					      <th scope="col"><fmt:message key="color.combination"/> </th>
 					      <th scope="col"><fmt:message key="signature"/></th>
 					    </tr>
 					  </thead>
 					  <tbody id="table-body">
+					
 					  </tbody>
 					</table>
 					   </div>
 					  </div>
 					  
+					  
 						<br>
 						 <h4><fmt:message key="finishing.option"/> </h4>
 						 <hr>
 						 <div class="row ">
-					    <div class="col-sm-4">
-					    	<div> <fmt:message key="x.perforated" /> : <span id="x-perforated"></span> </div>
-					    	<div> <fmt:message key="x.numbered" />: <span id="x-numbered"></span> </div>
-					    	<div> <fmt:message key="x.crossed"/> : <span id="x-crossed"></span></div>
-					    	<div><fmt:message key="x.Wired.stitched"/> : <span id="x-wired"></span> </div>
-					    	<div> <fmt:message key="creased"/> : <span id="crease"></span> </div>
-					    	
-					    </div>
-					   <div class="col-sm-4">
-					    	<div> <fmt:message key="lamination"/>: <span id="laminated-sides"></span> </div>
-<!-- 					    	<div> Glueing Bound: <span id="glue-bound"></span> </div> -->
-					    	<div> <fmt:message key="binding.type"/> : <span id="binding-type"></span> </div>
-					    	<div> <fmt:message key="sewn" /> : <span id="sown"></span> </div>
-					    
-					    </div>
-					    
-					    <div class="col-sm-4">
-					    	<div><fmt:message key="handgather"/> : <span id="hand-gather"></span> </div>
-					    	<div> <fmt:message key="stitching"/> : <span id="stitch"></span> </div>
-					    	<div> <fmt:message key="trimmed"/> : <span id="trim"></span> </div>
-					    	<div> <fmt:message key="sellotaped"/> : <span id="sello-tape"></span> </div>
-					    </div>
-					 </div>
+	                    <div class="col-sm-4">
+	                        <div><fmt:message key="x.perforated"/> : <span id="x-perforated"> </span>${job.getJobActivity().getXPerforated()}</div>
+	                        <div><fmt:message key="x.numbered"/> : <span id="x-numbered"></span> ${job.getJobActivity().getXNumbered()}</div>
+	                        <div><fmt:message key="x.crossed"/>  : <span id="x-crossed"></span>${job.getJobActivity().getXCross()}</div>
+	                        <div><fmt:message key="x.wired.stitched"/>  : <span id="x-wired"></span>${job.getJobActivity().getXWiredStiched()}</div>
+	                        <div><fmt:message key="creased"/> : <span id="crease"></span>${job.getJobActivity().getXCreased()}</div>
+	                    </div>
+	                    <div class="col-sm-4">
+	                        <div><fmt:message key="lamination.sides"/> : <span id="laminated-sides"></span> ${job.getJobActivity().getLamination()} </div>
+	<%--                         <div> Glueing Bound: <span id="glue-bound"></span>${job.getJobActivity().getGlueOption()}</div> --%>
+	                        <div><fmt:message key="binding.type"/> : <span id="binding-type"></span> ${job.getJobActivity().getBindingType().getName()}</div>
+	                        <div><fmt:message key="sewn"/> :<span class=" ${job.getJobActivity().isSewn() ? 'true' : 'false'}"> ${job.getJobActivity().isSewn() ? 'yes' : 'no'}</span>
+	                        </div>
+	                    </div>
+                    <div class="col-sm-4">
+                        <div><fmt:message key="handgather"/> :<span class=" ${job.getJobActivity().isHandgather() ? 'true' : 'false'}"> ${job.getJobActivity().isHandgather() ? 'yes' : 'no'}</span>
+                        </div>
+                        <div><fmt:message key="stitching"/> : ${job.getJobActivity().getIsStitching()}
+                        </div>
+                        <div><fmt:message key="trimmed"/> :<span class=" ${job.getJobActivity().isTrimmed() ? 'true' : 'false'}"> ${job.getJobActivity().isTrimmed() ? 'yes' : 'no'}</span>
+                        </div>
+                        <div> <fmt:message key="sellotaped"/> :<span class=" ${job.getJobActivity().isSelloptaped() ? 'true' : 'false'}"> ${job.getJobActivity().isSelloptaped() ? 'yes' : 'no'}</span>
+                        </div>
+                    </div>
+                </div>
 		           <div class ="row py-3 "style="margin-top:50px" >
 				     <div class ="col-sm-6"> 
 				      <button type="button" style="float:left" class="btn btn-primary" onclick="navigate(5,4);removeRows()"> <fmt:message key="previews"/></button>	
 				     </div>
 			         <div class ="col-sm-6">
-			         <button   type="button" style="width:125px;float:right"  class="btn btn-primary" id="next-btn1" onclick="navigate(4,5); submitUpdateForm('${job.id}')" data-bs-dismiss="modal"><fmt:message key="submit"/></button>			
+			         <button   type="button" style="width:125px;float:right"  class="btn btn-primary" id="next-btn1" onclick="navigate(4,5); submitForm('${job.id}')"><fmt:message key="submit"/></button>			
 			        </div>
 			        </div>
                	</div>

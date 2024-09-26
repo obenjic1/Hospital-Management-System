@@ -80,17 +80,18 @@ function updateTotalContentvolume(value,oldValue){
 }
 
 
-function removeContentNode(deleteBtn,input){
+function removeContentNode(deleteBtn,inputParent){
+	console.log(inputParent);
 	let parentNode = deleteBtn.parentNode.parentNode.parentNode;
 	let removeindex =Array.from(parentNode.children).indexOf(deleteBtn.parentNode.parentNode);
+	var input= inputParent.querySelector("[contentVolume]");
 	let value =input.value;
 	let volumeOfContent = document.querySelectorAll("[contentVolume]")[1].value;
 	if(isNaN(parseInt(value))==false){
 		volumeOfContent=parseInt(volumeOfContent) +  parseInt(value);
 	}
 	document.querySelectorAll("[contentVolume]")[1].value = volumeOfContent;
-	deleteBtn.parentNode.parentNode.remove();
-	
+	deleteBtn.parentNode.parentNode.remove();	
 	let nodeRemove = document.getElementById("mainContentSignature");
 		nodeRemove.children[removeindex].remove();
 	
@@ -223,9 +224,11 @@ function signatureCalculation(machineParams,node){
 }
 
 
+
+
+
      		// Calcul of Cover Signqture
  function coverSignatureCalculation(machineParams,node){
-	
 	let coverSignature=document.getElementById("cover-signature-div");
 	let coverDivTab2 = document.getElementById("coverInformations");
 	
@@ -248,6 +251,7 @@ function signatureCalculation(machineParams,node){
 	let floatingCoverSignature = (volume/pagesPerSignature);
 	let totalCoverSignature = Math.floor(floatingCoverSignature)<floatingCoverSignature&&floatingCoverSignature<Math.floor(floatingCoverSignature+0.5)&&(floatingCoverSignature+0.5 != Math.floor(floatingCoverSignature+0.5)) ?Math.ceil(floatingCoverSignature):Math.floor(floatingCoverSignature)<floatingCoverSignature?Math.floor(floatingCoverSignature)+0.5:Math.floor(floatingCoverSignature); 
 	inputCoverSignature.value = totalCoverSignature;
+	 
 	
 }
 				/*
@@ -294,10 +298,11 @@ function randUpContentSignature(){
 					
 				*/
 
-function submitForm(){
+function submitForm(id){
 	 let opt=document.getElementById("jobType").selectedOptions[0];	
 	 let dataContentValue = opt.parentElement.getAttribute('data-content');
  let job = { };
+ job.id=id;
  job.customerId = document.getElementById("customer").value;
  job.jobTypeId = document.getElementById("jobType").value;
  job.title = document.getElementById("title").value;
@@ -585,7 +590,11 @@ function submitForm(){
 		fc4.innerHTML =currentContentSignature.querySelectorAll("[contentPrintingMachine]")[j].selectedOptions[0].innerHTML;
 		fc5.innerHTML =currentContentSignature.querySelectorAll("[contentPrintType]")[j].selectedOptions[0].innerHTML;
 		fc6.innerHTML =currentContentSignature.querySelectorAll("[contentFrontColorNumber]")[j].value +" / "+ currentContentSignature.querySelectorAll("[contentBackColorNumber]")[j].value;
-		fc7.innerHTML =currentContentSignature.querySelectorAll("[allSignatures]")[j].value;
+		fc7.innerHTML = currentContentSignature.querySelectorAll("[allSignatures]")[j].value;
+//		let allSignature = currentContentSignature.querySelectorAll("[inputSignReadonly]");
+//			for(let a=0; a< allSignature.length; a++){
+//				fc7.innerHTML = allSignature[a].value;
+//			}
 		}
 		
 		}

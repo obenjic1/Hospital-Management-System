@@ -58,20 +58,22 @@
 				  <div id="loadInputForCustomerNewlyCreated" class ="col-lg-3 px8">					 
 				   <label for="" class="form-label"><a> <fmt:message key="customer"/> </a></label>
 				   <select id="customer"  class="form-select" >
-				   <option>Choose...</option>
+				   <option >Choose...</option>
+<%-- 				    <option selected value="${job.customer.id}">${job.customer.name}</option> --%>
 				    <option id="loadInputForCustomerNewlyCreated" data-bs-toggle="modal" data-bs-target="#ExtralargeModal" onclick="loadPageModalForm('customer/customerForm')"><fmt:message key="new.customer"/></option>
 	                 <c:forEach items="${customers}" var="customer">
-	                   <option value="${customer.id}">${customer.name}</option>
+	                   <option selected value="${customer.id}">${customer.name}</option>
 	                 </c:forEach>
 	                </select>
 			      </div>
-				  <div class ="col-lg-3 px8" style="position: relative; left: 10px;"> 
-					<label for="" class="form-label"><a> <fmt:message key="job.type"/></a></label> 
-					<select onchange="jobTypeChoice(this.selectedOptions[0])"  id="jobType" name="jobType" class="form-select" >
-					  <option>Choose...</option>
-					  
-					  <optgroup label="<fmt:message key="job.category.folded.two"/>" data-content="2">
+				<div class ="col-lg-4 px8" style="position: relative; left: 10px;"> 
+					<label for="" class="form-label"><fmt:message key="job.type"/></label> 
+					<select id="jobType" name="jobType" class="form-select" >
+<%--                         <option selected value="${jobType.id}">${job.jobType.name}</option> --%>
+                   <optgroup label="<fmt:message key="job.category.folded.two"/>" data-content="2">
+					  <option value="${job.jobType.id}" selected >${job.jobType.name}</option>
 					  <c:forEach items="${jobTypes}" var="jobType">
+					   <option value="${jobType.id}" >${job.jobType.name}</option>
 					  <c:if test="${jobType.category==2}">
                         <option style="marging-left: %;" value="${jobType.id}" >${jobType.name}</option>
                          </c:if>
@@ -94,20 +96,20 @@
                       </c:forEach>
                      </optgroup>
                      
-                     <optgroup   label="<fmt:message key="job.category.opened.with.cover"/>" data-content="3">
+                      <optgroup   label="<fmt:message key="job.category.opened"/>" data-content="3">
                        <c:forEach items="${jobTypes}" var="jobType">
                        <c:if test="${jobType.category==3}">
                         <option value="${jobType.id}" >${jobType.name}</option>
                          </c:if>
                       </c:forEach>
                      </optgroup>
-                     
+                      
                     </select>
 				  </div>
 				  <div class ="col-lg-3 px8" style="position: relative; left: 10px;">
 				  <label for="title" class="form-label"><a><fmt:message key="title"/></a> </label>
 					<div>
-					  <input id= "title" name="title" type= "text">
+					  <input id= "title" name="title" type= "text" value="${job.title}">
 					</div>
                   </div>
 				</div>	
@@ -126,10 +128,10 @@
 			     <label for="" class="form-label"> <a><fmt:message key="open.format"/></a> </label> 
 			       <div class="row">
 				     <div class="col-6 volume-cover-l">
-                       <input id="openWidth" type="number" style="postion-relative-left:2px;position: relative;left: 4px;"  placeholder= "<fmt:message key='open.width'/> ">
+                       <input id="openWidth" type="number"   value=${job.openWidth} style="postion-relative-left:2px;position: relative;left: 4px;"  placeholder= "<fmt:message key='open.width'/> ">
 				      </div>
 				      <div  class="col-6 volume-cover-w">
-				      <input id="openLength" type="number" placeholder="<fmt:message key='open.legnth'/>">
+				      <input id="openLength"   value=${job.openLength} type="number" placeholder="<fmt:message key='open.legnth'/>">
 					  
                    </div>
 				 </div>
@@ -138,11 +140,11 @@
 			   <label for="" class="form-label"> <a><fmt:message key="close.format"/></a> </label>
 			     <div class="row">
 				   <div class="col-6 volume-cover-l">
-                     <input type="number" id="closeWidth" style="postion-relative-left:2px;position: relative;left: 4px;"  placeholder= "<fmt:message key="open.width"/> ">
+                     <input type="number" id="closeWidth" value=${job.closeWidth}  style="postion-relative-left:2px;position: relative;left: 4px;"  placeholder= "<fmt:message key="open.width"/> ">
 					                 
 				     </div>
 				     <div  class="col-6 volume-cover-w">
-				       <input id="closeLength" type="number" placeholder="<fmt:message key="open.legnth"/>">
+				       <input id="closeLength" value=${job.closeLength} type="number" placeholder="<fmt:message key="open.legnth"/>">
 					 
                     </div>
 				  </div>
@@ -165,36 +167,35 @@
 				  </div>
 				  <div class ="col-lg-3 px8"  style="position: relative; left: 10px;">
 				    <label for="" class="form-label"><a> <fmt:message key="ctp.fees"/></a></label> 
-					<input type="number" id="ctpFees" value="0">
+					<input type="number" id="ctpFees"  value=${job.ctpFees}>
 			      </div>
 		       </div>		
-	
 		      <div class="row py-3">
 			    <div class ="col-lg-3 px3">
                   <div class="form-check">
-                    <label class="form-check-label" for="existingPlate"><a><fmt:message key="existing.plate"/></a> </label>
-                      <input class="form-check-input" type="checkbox" name="existingPlate" id="existingPlate">
+                    <label class="form-check-label" for="existingPlate"><fmt:message key="existing.plate"/></label>
+                      <input class="form-check-input" type="checkbox" name="existingPlate" id="existingPlate" ${job.existingPlate ? 'checked':''}>
                   </div>
 			    </div>
 			    <div class ="col-lg-3 px3">
-			    <div class="form-check">                     
-                    <label class="form-check-label" for="gridCheck1"> <a><fmt:message key="type.setting.by.us"/></a></label>
-                    <input class="form-check-input" type="checkbox" name="name" id="typesettingByUs">
+			      <div class="form-check">                     
+                    <label class="form-check-label" for="gridCheck1"><fmt:message key="type.setting.by.us"/></label>
+                    <input class="form-check-input" type="checkbox" name="name" id="typesettingByUs" ${job.typesettingByUs ? 'checked':''}>
                   </div>
-			    </div>
+                </div>
 			  <div class ="col-lg-3 px3" style="position: relative; left: 10px;"> 
 			     <div>
 			      <div class="form-check">                      
-                    <label class="form-check-label" for="gridCheck1"><a><fmt:message key="data.supplied.by.customer"/></a> </label>
-                    <input class="form-check-input" type="checkbox" id="dataSuppliedByCustomer">
+                    <label class="form-check-label" for="gridCheck1"><fmt:message key="data.supplied.by.customer"/></label>
+                    <input class="form-check-input" type="checkbox" id="dataSuppliedByCustomer" ${job.dataSuppliedByCustomer ? 'checked':''}>
                   </div>
                   
 			    </div>
 			  </div>
 			  <div class ="col-lg-3 px3" style="position: relative; left: 10px;">
 			  <div class="form-check">
-                    <label class="form-check-label" for="gridCheck1"><a><fmt:message key="layout.by.us"/></a> </label>
-                    <input class="form-check-input" type="checkbox" id="layoutByUs">
+                    <label class="form-check-label" for="gridCheck1"><fmt:message key="layout.by.us"/></label>
+                    <input class="form-check-input" type="checkbox" name ="layOutByUs" id="layoutByUs" ${job.layOutByUs ? 'checked' : ''}>
                   </div>
 			  </div>
 		    </div>	
@@ -231,7 +232,7 @@
               </div>
 			  <div class ="col-lg-3 px8" style="position: relative; left: 10px;">
 			    <label for="" class="form-label"><a><fmt:message key="cover.volume"/></a></label>
-			     <input id="coverVolume" type="text"  name="fname" readonly="readonly">
+			     <input id="coverVolume" type="number"  name="fname" readonly="readonly">
               </div>
               
               <div class ="col-lg-3 px8" style="position: relative;">
@@ -264,13 +265,13 @@
 			 
 			  <div class="col-lg-3 px-8 coverDup" style="position: relative; left: 10px;float:left">
 			    <label for="" class="form-label"><a> <fmt:message key="content.volume"/> </a></label> 
-				<input type="text" contentVolume  name="contentVolume" oldValue="" onclick="this.oldValue=this.value" onchange="updateTotalContentvolume(this.value,this.oldValue)"  >
+				<input type="number" contentVolume  name="contentVolume" oldValue="" onclick="this.oldValue=this.value" onchange="updateTotalContentvolume(this.value,this.oldValue)"  >
 			  </div>
 			  
 			   <div class ="col-lg-3 px8" style="position: relative;">
 			    <label for="" class="form-label"><a><fmt:message key="content.paper.price"/></a> </label>
-			     <input paperUnitPrice type="text"  name="paperUnitPrice">
-			     <button type="button" id="deleteButton"  onclick="removeContentNode(this,this.parentNode.previousElementSibling)"><i class="ri-delete-bin-3-line"></i> </button>
+			     <input paperUnitPrice type="number"  name="paperUnitPrice">
+			     <button type="button" id="deleteButton"  onclick="removeContentNode(this,this.previousElementSibling)"><i class="ri-delete-bin-3-line"></i> </button>
               </div>
 			  
 		   </div>
@@ -297,7 +298,7 @@
 			  </div>
 			  <div class="col-lg-3 px-8 " style="position: relative; left: 10px">
 			    <label for="" class="form-label"><a><fmt:message key="content.volume"/></a> </label> 
-				<input type="text" contentVolume name="contentVolume" readonly="readonly">
+				<input type="number" contentVolume name="contentVolume" readonly="readonly">
 			  </div>
 
 				<div class ="col-lg-3 px8" style="position: relative;">
@@ -326,28 +327,15 @@
 
 	     </div>
 				
-       </div>      
-       
-       
-       
-       
-       
-       
-       
-       
-       
-       
-       
-       
-       
-          
+       </div>         
 <!------------------------------- TAB 3 BIGINS --------------->
        <div class="tab-pane fade" id="tab3" role="tabpanel" aria-labelledby="contact-tab">
         <div class="container" >	
           <div class="row py-3" id="cover-signature-div">
 		    <div class ="col-lg-3 px8" >
 			  <label for="" class="form-label"><a><fmt:message key="cover.printing.machine"/></a></label> 
-			  <select id="coverPrintingMachine" name="name" class="form-select" onchange="coverSignatureCalculation(this.value , this.parentNode)">
+			  <select id="coverPrintingMachine1" name="name" class="form-select" onchange="hello()">
+<!-- 			  -->
 			    <option selected>Choose...</option>
 			    <c:forEach items="${printingMachines}" var="printingMachine">
                   <option value="${printingMachine.id},${printingMachine.plateLength},${printingMachine.plateWidth}">${printingMachine.name}</option>
@@ -475,7 +463,7 @@
                   </div>
                   <div class ="col-lg-3 px8" style="position: relative; left:10px;">
 				  <label for="" class="form-label"><a><fmt:message key="signature"/></a></label>
-				  <div> <input type="number" step=".1" id="" style="width:70px;color:red; text-align:center" allSignatures inputSignReadonly readonly="readonly">
+				  <div> <input type="number" step=".1" id="" style="width:70px;color:red; text-align:center" allSignatures inputSignReadonly>
 				  <span> <button   type="button" id="duplicateButton" style="display: inline;" onclick="updateContentSignature(this.parentNode.parentNode.parentNode.parentNode.parentNode,1,this.parentNode.parentNode.parentNode.parentNode)"><i class="ri-add-fill"></i></button> </span>
 				 </div> 
 	            </div>
@@ -567,7 +555,6 @@
 				</div>
 		
 				</div>
-				
 					
 <!-- 							duplicated div ends 	-->
 				</div> 
@@ -587,16 +574,6 @@
 			     	<!-- 			main content div -->
                </div>
              </div>  	<!-- 			main div ends -->
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          
           
 <!-- <--------------------TAB 4 BEGINS HERE----------------------------------------------------------------------->  
              <div class="tab-pane fade" id="tab4" role="tabpanel" aria-labelledby="contact-tab">
@@ -732,7 +709,7 @@
 			        </div>
                	</div>
                	
-               	<!-- <--------------------TAB 5 BEGINS HERE----------------------------------------------------------------------->  
+               <!-- <--------------------TAB 5 BEGINS HERE----------------------------------------------------------------------->  
              <div class="tab-pane fade" id="tab5" role="tabpanel" aria-labelledby="contact-tab">
                 <div class="container" style="position: relative;bottom: -20px;" >
        				<h4><fmt:message key="job.description"/></h4>
@@ -884,7 +861,7 @@
 				      <button type="button" style="float:left" class="btn btn-primary" onclick="navigate(5,4);removeRows()"> <fmt:message key="previews"/></button>	
 				     </div>
 			         <div class ="col-sm-6">
-			         <button   type="button" style="width:125px;float:right"  class="btn btn-primary" id="next-btn1" onclick="navigate(4,5); submitForm(0)"><fmt:message key="submit"/></button>			
+			         <button   type="button" style="width:125px;float:right"  class="btn btn-primary" id="next-btn1" onclick="navigate(4,5); submitForm()"><fmt:message key="submit"/></button>			
 			        </div>
 			        </div>
                	</div>

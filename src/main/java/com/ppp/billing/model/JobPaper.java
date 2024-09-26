@@ -47,7 +47,7 @@ public class JobPaper {
 	@JoinColumn(name = "job_id", referencedColumnName = "id")
 	private Job  job;
 	
-	@OneToMany(fetch = FetchType.LAZY,  mappedBy = "jobPaper", cascade = CascadeType.PERSIST)
+	@OneToMany(mappedBy = "jobPaper", orphanRemoval = true, cascade = CascadeType.ALL)
 	private List<JobColorCombination> jobColorCombinations;
 
 
