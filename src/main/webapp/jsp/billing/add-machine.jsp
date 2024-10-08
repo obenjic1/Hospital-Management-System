@@ -28,7 +28,7 @@
 							  <input type="text" id="abbreviation" name="abbreviation" class="form-control" placeholder="Abbreviation" required />
 							</div>
 						</div>
-								<div class="col-md-3">
+						<div class="col-md-3">
 		                  <label for="isActive" class="form-label"></label>
 		                  <select id="isActive" class="form-select">
 		                    <option selected> <fmt:message key="select.the.machine.status"/> </option>

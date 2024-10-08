@@ -84,10 +84,10 @@
 								     <option >Action</option>
 								      <option data-bs-toggle="modal" data-bs-target="#ExtralargeModal" data-toggle="tooltip" data-placement="top" title="view job details" onclick="loadPageModalForm('invoice/job-invoice/${result.id}');">View</option>
 								      <sec:authorize  access="hasRole('ROLE_APPLY_DISCOUNT')"> 
-								       <option data-bs-toggle="modal" data-bs-target="#ExtralargeModal" data-toggle="tooltip" data-placement="top" title="edit job details" onClick="loadPageModalForm('invoice/invoice-discount/${result.id}');">Apply Discount</option>
+								       <option data-bs-toggle="modal" data-bs-target="#ExtralargeModal" data-toggle="tooltip" data-placement="top" title="Apply Discount" onClick="loadPageModalForm('invoice/invoice-discount/${result.id}');">Apply Discount</option>
  									 </sec:authorize> 
 								   	 <sec:authorize  access="hasRole('ROLE_APPLY_TAX')"> 
-								        <option data-bs-toggle="modal" data-bs-target="#ExtralargeModal" data-toggle="tooltip" data-placement="top" title="view job details" onclick="loadPageModalForm('invoice/job-tax-form/${result.id}');">Apply Taxes</option>
+								        <option data-bs-toggle="modal" data-bs-target="#ExtralargeModal" data-toggle="tooltip" data-placement="top" title="Apply Taxes" onclick="loadPageModalForm('invoice/job-tax-form/${result.id}');">Apply Taxes</option>
 					              	 </sec:authorize> 
 
 					               </select>								 

@@ -631,8 +631,8 @@
 			   		<label for="" class="form-label"><a>Stitching</a></label> 
 				      <select id="stitching" name="name" class="form-select">
 				        <option value="" selected>Choose...</option>
-	                    <option value="Left-Stitch">Head</option>
-	                    <option value="Head-Stitch">Left</option>
+	                    <option value="Head-Stitch">Head</option>
+	                    <option value="Left-Stitch">Left</option>
 	                  </select>
 			    </div>
 			   </div>
@@ -668,14 +668,14 @@
                     </div>
 				  </div>
 			    </div>
-			    <div class ="col-lg-2 px3" style="position: relative; left: 10px;">
-				  <div>
-                      <div class="form-check">
-                      <label class="form-check-label" for="stitching"><a><fmt:message key="stitching"/></a></label>
-                       <input class="form-check-input" type="checkbox" id="stitching">
-                    </div>
-				  </div>
-                  </div>
+<!-- 			    <div class ="col-lg-2 px3" style="position: relative; left: 10px;"> -->
+<!-- 				  <div> -->
+<!--                       <div class="form-check"> -->
+<%--                       <label class="form-check-label" for="stitching"><a><fmt:message key="stitching"/></a></label> --%>
+<!--                        <input class="form-check-input" type="checkbox" id="stitching"> -->
+<!--                     </div> -->
+<!-- 				  </div> -->
+<!--                   </div> -->
                   </div>
      
 <!--                    <div class="row py-3"> -->

@@ -4,17 +4,20 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="sec"
+	uri="http://www.springframework.org/security/tags"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
-<meta charset="utf-8">
-<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<link href="assets/css/list-users.css" rel="stylesheet">
+<link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+<link href="assets/vendor/simple-datatables/style.css" rel="stylesheet">
+<link href="assets/vendor/bootstrap/css/bootstrap.min.css"
+	rel="stylesheet">
 
-<link rel="stylesheet" href="/DataTables/datatables.dataTables.css" />
-<link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-<link href="assets/css/list-role.css" rel="stylesheet">
 <link href="assets/css/list-users.css" rel="stylesheet">
 
 
-<main id="list-customer" class="main">
+<main id="list-jobType" class="main">
 	<div class="pagetitle">
 		<nav>
 			<ol class="breadcrumb">
@@ -30,7 +33,7 @@
 				<div class="card">
 					<div class="card-body">
 						<h5 class="card-title"> <fmt:message key="job.type"/></h5>
-						<button data-bs-target="#ExtralargeModal" data-bs-toggle="modal" onclick="fillContentModal('/papertype/displayform')" type="button" class="btn btn-primary" style=" position: relative; left: 94%; width: 77px;">
+						<button data-bs-target="#ExtralargeModal" data-bs-toggle="modal" onclick="loadPageModalForm('jobtype/displayform')" type="button" class="btn btn-primary" style=" position: relative; left: 94%; width: 77px;">
 						  <fmt:message key="add.group"/>
 						</button>
 						<!-- Table with stripped rows -->
@@ -39,26 +42,25 @@
 						    <tr>
 						       <th scope="col"><fmt:message key="number"/></th>
 						       <th scope="col"><fmt:message key="name"/></th>
-						        <th scope="col"><fmt:message key="jobs"/></th>
+						       <th scope="col"><fmt:message key="category"/></th>
 						       <th scope="col"><fmt:message key="actions"/></th>
 							</tr>
 						  </thead>
 						  <tbody>
-						   <c:forEach var="allJobtype" items="${allJobtypes}" varStatus="loop">
+						   <c:forEach var="jobType" items="${jobTypes}" varStatus="loop">
 						    <tr class="${loop.index % 2 == 0 ? 'even-row' : 'odd-row'}">
-						    <th scope="row">${allJobtype.id}</th>
-							   <td>${allJobtype.name}</td>
-							   <td>${allJobtype.jobs}</td>
+						   <c:set var="index" value="${loop.index}" />
+							    <%    int index = (Integer) pageContext.getAttribute("index");  %>
+							 <td>  <%= index + 1 %></td>
+							   <td>${jobType.name}</td>
+							   <td>${jobType.category}</td>
 							   <td>
 							     <a>
-								   <button data-bs-toggle="modal" data-bs-target="#ExtralargeModal" data-bs-toggle="modal" class="button-see" onclick="fillContentModal('papertype/paper/${jobttype.id}')">
-								     <i class="fas fa-eye"></i>
+							     <button class="button-see" data-bs-toggle="modal" data-bs-target="#ExtralargeModal" data-toggle="tooltip" data-placement="top" title="view jobType details" onclick="loadPageModalForm('jobtype/viewJobtype/${jobType.id}')">
+								     <i class="ri-eye-line"></i>
 								   </button>
-								   <button class="button-edite" data-bs-target="#ExtralargeModal" data-bs-toggle="modal" class="button-see" onclick="fillContentModal('papertype/toUpdate/${jobttype.id}')">
-								     <i class="fas fa-pencil-alt"></i>
-								   </button>
-								   <button class="button-delete" id="startDeleting" data-bs-toggle="modal" onclick="confirmDelete('${jobttype.id}')" data-bs-target="#areyouSureYouWantToDetele">
-								     <i class="fas fa-trash-alt"></i>
+								    <button class="button-edite" data-bs-toggle="modal" data-bs-target="#ExtralargeModal" data-toggle="tooltip" data-placement="top" title="edit jobType" onclick=" loadPageModalForm('jobtype/update/${jobType.id}')">
+								    <i class="ri-pencil-line"></i>
 								   </button>
 								 </a>
 							   </td>

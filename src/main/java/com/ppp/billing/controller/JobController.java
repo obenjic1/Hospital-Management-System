@@ -167,7 +167,6 @@ public class JobController {
 		List<JobColorCombination> jobColorCombinationResult = jobColorCombinationServiceImpl.findAll();
 		List<PaperGrammage> paperGrammageResult = paperGrammageServiceImpl.findAll();
 		List<BindingType> bindingTypeResult = bindingTypeserviceImpl.listAll();
-
 		
 		model.addAttribute("customers", customerResult);
 		model.addAttribute("jobTypes", jobTypeResult);
@@ -304,7 +303,7 @@ public class JobController {
 					printer.print(document, "Cover : "+job.getCoverVolume()+" Pages", 69, 297-99);
 					printer.print(document, "Cover : "+ jobPaper.getJobColorCombinations().get(0).getFrontColorNumber()+"/"+jobPaper.getJobColorCombinations().get(0).getBackColorNumber()+" "+jobPaper.getJobColorCombinations().get(0).getPrintType().getName(), 35, 297-163.5f);
 				}
-					
+				
 			}
 			if(job.isTypesettingByUs()) {
 				printer.print(document, "X", 34, 297-116);
@@ -1333,7 +1332,7 @@ public class JobController {
 			throw e;
 		}
 	}
-	
+
 	
 	/*
 	 * Invoices Methodes
@@ -1521,19 +1520,18 @@ public class JobController {
 //				}
 //				
 				
-//				//<--------------------- Complete a  DraftJob ------------------------------>
-//				@PostMapping(value="/complete-draft/{id}", consumes=MediaType.APPLICATION_JSON_VALUE)
-//				@ResponseBody
-//				public String completeDraft(@PathVariable Long id,@RequestBody JobDTO jobDTO){
-//
-//					try {
-//						jobServiceImpl.updateJob(jobDTO, id);
-//						return "OK";
-//					} catch (Exception e) {
-//						e.printStackTrace();
-//						return "KO";
-//					}
-//				}
+				//<--------------------- Complete a  DraftJob ------------------------------>
+				@PostMapping(value="/complete-draft/{id}", consumes=MediaType.APPLICATION_JSON_VALUE)
+				@ResponseBody
+				public String completeDraft(@PathVariable Long id,@RequestBody JobDTO jobDTO){
+					try {
+						jobServiceImpl.updateJob(jobDTO, id);
+						return "OK";
+					} catch (Exception e) {
+						e.printStackTrace();
+						return "KO";
+					}
+				}
 				
 		
 		
@@ -1634,19 +1632,19 @@ public class JobController {
 		}
 		
 		//<--------------------- Complete a  DraftJob ------------------------------>
-		@PostMapping(value="/complete-draft/{id}", consumes=MediaType.APPLICATION_JSON_VALUE)
-		@ResponseBody
-		public String completeDraft(@PathVariable Long id,@RequestBody JobDTO jobDTO){
-			try {
-				jobServiceImpl.updateJob(jobDTO, id);
-				return "OK";
-			} catch (Exception e) {
-				e.printStackTrace();
-				return "KO";
-			}
-		}
-		
-		
+//		@PostMapping(value="/complete-draft/{id}", consumes=MediaType.APPLICATION_JSON_VALUE)
+//		@ResponseBody
+//		public String completeDraft(@PathVariable Long id,@RequestBody JobDTO jobDTO){
+//			try {
+//				jobServiceImpl.updateJob(jobDTO, id);
+//				return "OK";
+//			} catch (Exception e) {
+//				e.printStackTrace();
+//				return "KO";
+//			}
+//		}
+//		
+	
 		/*
 		 * Mark Job as Proofread
 		 */

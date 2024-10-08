@@ -218,6 +218,12 @@
 					    <span><fmt:message key="paper.types"/></span>
 					  </a>
 					</li>
+						<li class="nav-item">
+					  <a class="nav-link collapsed" onclick="loadPage('jobtype/list-job-type')" href="#">
+					    <i class="bi bi-receipt-cutoff"></i>
+					    <span><fmt:message key="job.type"/></span>
+					  </a>
+					</li>
 					<li class="nav-item">
 					  <a class="nav-link collapsed" onclick="loadPage('grammage/list')" href="#">
 					    <i class="ri-file-damage-line"></i>
