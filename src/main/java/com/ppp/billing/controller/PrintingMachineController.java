@@ -35,7 +35,7 @@ public class PrintingMachineController {
 		model.addAttribute("totalElement", totalElement);
 		return "/billing/list-machine";
 	}
-	
+
 	// end point to show the add machine form 
 	
 	@GetMapping("/add")

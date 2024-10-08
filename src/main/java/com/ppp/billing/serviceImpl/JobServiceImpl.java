@@ -181,8 +181,9 @@ public class JobServiceImpl implements JobService {
 		jobTrackings.add(tracking);
 		tracking.setJob(newJob);
 		newJob.setJobTrackings(jobTrackings);
-		newJob.setJobPapers(jobPapers);		
-        generateSerialNumber(newJob);
+		newJob.setJobPapers(jobPapers);	
+		jobRepository.saveAndFlush(newJob); 
+		generateSerialNumber(newJob);
 		
         return newJob; 
 	}
@@ -314,6 +315,7 @@ public class JobServiceImpl implements JobService {
 		newJob.setJobTrackings(jobTrackings);
 		JobStatus status = jobStatusRepository.findById(1).get();
 		newJob.setStatus(status);
+		jobRepository.saveAndFlush(newJob); 
 		generateSerialNumber(newJob);
 		return newJob;
 	}
