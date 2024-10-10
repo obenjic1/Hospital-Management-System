@@ -1,5 +1,7 @@
 package com.ppp.user.controller;
 
+import static org.mockito.ArgumentMatchers.isNotNull;
+
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.ppp.user.model.Groupe;
@@ -32,6 +35,9 @@ public class UserController {
 
 	@Value("${paginationSise}")
 	private int paginationRoleSize;
+
+//	@Value("${folder.storage.path}")
+//	private String userFileStorage;
 //<----------------- Injection of dependences --------------------->
 	
 	@Autowired
@@ -53,7 +59,7 @@ public class UserController {
 
  	@PreAuthorize("hasAuthority('ROLE_LIST_USERS')")
  	@PostMapping("/add-user")
-	public String saveUser(UserDTO userDTO, @RequestParam("imageFile") MultipartFile getImageFile, String username, String email) throws Exception {
+	public String saveUser(UserDTO userDTO, @RequestParam(required=false) MultipartFile getImageFile, String username, String email) throws Exception {
  		String registeredUser = userServiceImpl.createUser(userDTO);
  		if(registeredUser.equals("error")) {
 			throw new Exception("Username or Email already exist");
@@ -95,19 +101,30 @@ public class UserController {
 	
 	
 //<---------------------- Update user ------------------------->	
-	@PreAuthorize("hasRole('ROLE_LIST_USERS')")
-	@PostMapping("/update-user/{id}")
-	public ResponseEntity<String> updateUser(@RequestBody User updatedUser, @PathVariable Long id) throws Exception {
-		try {
-	    User userUpdated = userServiceImpl.updateUser(updatedUser, id);
-	    
-	    return new ResponseEntity<String>("Success", HttpStatus.OK);
-	} catch (Exception e) {			
-		return new ResponseEntity<String>("Failed", HttpStatus.BAD_REQUEST);
-	}
-	}
+//	@PreAuthorize("hasRole('ROLE_LIST_USERS')")
+//	@PostMapping("/update-user/{id}")
+//	public ResponseEntity<String> updateUser( @RequestBody User updatedUser,
+////			@RequestParam(required=false) MultipartFile getImageFile,
+//			@PathVariable long id) throws Exception {
+//		//	userServiceImpl.findById(id).get();
+//		try {
+//			System.out.println(id +"------------------");
+//			User userUpdated = userServiceImpl.updateUser(updatedUser, id);
+//			
+//	    return new ResponseEntity<String>("Success", HttpStatus.OK);
+//	} catch (Exception e) {			
+//		return new ResponseEntity<String>("Failed", HttpStatus.BAD_REQUEST);
+//	}
+//	}
 
-	
+	@PostMapping("/update-user/{id}")
+	public String updateUser(@PathVariable long id, @RequestBody User userDTO ) throws Exception {
+ 		User registeredUser = userServiceImpl.updateUser(userDTO,id);
+ 		if(registeredUser.equals("error")) {
+			throw new Exception("Username or Email already exist");
+		}
+		return "user/list-users";
+	}
 //<---------------------- Get list of users ---------------------->
 	@PreAuthorize("hasRole('ROLE_LIST_USERS')")
 	@GetMapping("/list-users")

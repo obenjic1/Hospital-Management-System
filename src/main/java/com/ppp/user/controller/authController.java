@@ -39,7 +39,7 @@ public class authController {
 			model.addAttribute("user", user);
 			return "index";
 		}
-
+		
     }
 
 	// Login controller

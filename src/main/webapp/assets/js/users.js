@@ -74,9 +74,9 @@ function addUser() {
 	const address = document.getElementById('address').value;
 	const username = document.getElementById('username').value;
 	const groupe = document.getElementById('groupe').value;
-	//const imageFile = document.getElementById('imageFile').files[0];
-	var thumbnailInput = document.getElementById('imageFile');
-	var thumbnailFile = thumbnailInput.files.length > 0 ? thumbnailInput.files[0] : null;
+	const imageFile = document.getElementById('imageFile').files[0];
+//	var thumbnailInput = document.getElementById('imageFile');
+//	var thumbnailFile = thumbnailInput.files.length > 0 ? thumbnailInput.files[0] : null;
 
 	if(firstName==""){
 		customAlert('Please, enter your First Name!');
@@ -110,8 +110,6 @@ function addUser() {
 			customAlert('Please enter the confirm password!');
 		}
 
-
-
 	 if(confirmPassword != password){
 		customAlert('The password fields should be the same');
 		return;
@@ -126,8 +124,8 @@ function addUser() {
 		formData.append('confirmPassword', confirmPassword),
 		formData.append('address', address),
 		formData.append('groupe', groupe);
-		if (thumbnailFile) {
-		    formData.append('imageFile', thumbnailFile);
+		if (imageFile) {
+		    formData.append('imageFile', imageFile);
 		}
 
 		fetch('user/add-user', {
@@ -156,6 +154,55 @@ function addUser() {
 	
 }
 
+
+
+
+			
+//function updateUserById(id) {
+//	
+//			const firstName = document.getElementById('firstName').value;
+//			const lastName = document.getElementById('lastName').value;
+//			const email = document.getElementById("email").value;
+//			const mobile = document.getElementById('mobile').value;
+//			const address = document.getElementById('address').value;
+//		//	const imageFile = document.getElementById('imageFile').files[0];
+//	
+//		
+//		var formData = new FormData();
+//		 formData.append('firstName',firstName);
+//		 formData.append('lastName',lastName);
+//		 formData.append('email',email);
+//		 formData.append('mobile',mobile);
+//		 formData.append('address',address);
+//
+//		fetch(`user/update-user/${id}`, {
+//			method: 'POST',
+//			body: formData,
+//
+//		})
+//			.then( response => {	
+//   			 if (response.status === 200) {
+////       			sendMessage('Succes/Success', 1);
+//				Swal.fire("Succes/Success!", "You clicked the button!", "success")
+//				return loadPage('user/list-users');
+//   			 } else if (response.status !== 200) {
+//					Swal.fire({icon: "error", title: "Oops...", text: "Something went wrong!"});
+//					//				sendMessage('Failed / Echec : Email or Username already exist ',2);
+//				
+//				//	return loadPage('user/add-user');			
+//
+//  			 }
+//		})
+//		 .then(function(data) {
+//
+//		 })
+//			.catch(function(error) {
+//
+//			});
+//	
+//	}
+			
+
 			/*
 			
 				** End Add User Section
@@ -164,60 +211,117 @@ function addUser() {
 			
 	//			---------------------------------
 	
-			/* 
 			
-				** Start Update User Section
-				
-			*/
-
+			
+			//	** Start Update User Section
+	
 function updateUserById(id) {
 	
-	const firstName = document.getElementById('firstName').value;
-	const lastName = document.getElementById('lastName').value;
-	const email = document.getElementById("email").value;
-	const mobile = document.getElementById('mobile').value;
-	const address = document.getElementById('address').value;
-	const username = document.getElementById('username').value;
-	const groupe = document.getElementById('groupe').value;
-	const imageFile = document.getElementById('imageFile').files[0];
-
-	var formData = {
-				
-				firstName:firstName,
-				lastName:lastName,
-				email:email,
-				mobile:mobile,
-				username:username,
-				address:address,
-				groupe:groupe,
-				imageFile:imageFile
-}
-			
-	var jsonUserUpdateData = JSON.stringify(formData);
-
-	fetch(`user/update-user/${id}`, {
-		method: 'POST',
-		headers: {
+			const firstName = document.getElementById('firstName').value;
+			const lastName = document.getElementById('lastName').value;
+			const email = document.getElementById("email").value;
+			const mobile = document.getElementById('mobile').value;
+			const address = document.getElementById('address').value;
+		//	const imageFile = document.getElementById('imageFile').files[0];
+	
+		
+		var formData = {
+		firstName: firstName,
+			lastName: lastName,
+			email: email,
+			mobile: mobile,
+			address : address,
+		};
+		var jsonUpdatedData = JSON.stringify(formData);
+		
+		fetch(`user/update-user/${id}`, {
+			method: 'POST',
+			body: jsonUpdatedData,
+			headers: {
 			'Content-Type': 'application/json'
 		},
-		body: jsonUserUpdateData,
-	})
-		.then(response => {
-			if (response.ok) {
-				Swal.fire("Succes/Success!", "User updated successfully!", "success")	
-//				sendMessage('Succes/Success', 1);
-//				return loadPage('user/list-users');
-  			 } else if (response.status !== 200) {
-				Swal.fire({icon: "error", title: "Oops...", text: "Something went wrong!"});
-			//	sendMessage('Failed / Echec', 2);
+		})
+			.then( response => {	
+   			 if (response.status === 200) {
+//       			sendMessage('Succes/Success', 1);
+				Swal.fire("Succes/Success!", "You clicked the button!", "success")
+				return loadPage('user/list-users');
+   			 } else if (response.status !== 200) {
+					Swal.fire({icon: "error", title: "Oops...", text: "Something went wrong!"});
+//				sendMessage('Failed / Echec : Email or Username already exist ',2);
+				
+					return loadPage('user/add-user');			
+
   			 }
 		})
 		 .then(function(data) {
 
 		 })
 			.catch(function(error) {
+
 			});
-}
+	
+	}
+			
+			
+			
+			
+			
+
+//function updateUserById(id) {
+//	
+//	const firstName = document.getElementById('firstName').value;
+//	const lastName = document.getElementById('lastName').value;
+//	const email = document.getElementById("email").value;
+//	const mobile = document.getElementById('mobile').value;
+//	const address = document.getElementById('address').value;
+////	const username = document.getElementById('username').value;
+////	const groupe = document.getElementById('groupe').value;
+//	//var imageFile = document.getElementById('imageFile').files[0];
+//	//const imageFile = document.getElementById('imageFile').files[0];
+//
+////	var thumbnailFile = thumbnailInput.files.length > 0 ? thumbnailInput.files[0] : null;
+//
+//	var formData = new FormData() ;
+//				
+//		formData.append('firstName',firstName);
+//		formData.append('lastName',lastName);
+//		formData.append('email',email);
+//		formData.append('mobile',mobile);
+////		formData.append('username',username);
+//		formData.append('address',address);
+////		formData.append('groupe',groupe);
+////		if (imageFile) {
+////		formData.append('imageFile',imageFile);
+//	//	}		
+//
+//			
+//	var jsonUserUpdateData = JSON.stringify(formData);
+//
+//	fetch(`user/update-user/${id}`, {
+//		method: 'POST',
+//		body: formData,
+//		headers: {
+//			'Content-Type': 'application/json'
+//		},
+//		
+//	})
+//		.then(response => {
+//			if (response.ok) {
+//				Swal.fire("Succes/Success!", "User updated successfully!", "success")	
+////				sendMessage('Succes/Success', 1);
+////				return loadPage('user/list-users');
+//  			 } else if (response.status !== 200) {
+//				Swal.fire({icon: "error", title: "Oops...", text: "Something went wrong!"});
+//			//	sendMessage('Failed / Echec', 2);
+//  			 }
+//		})
+//		 .then(function(data) {
+//
+//		 })
+//			.catch(function(error) {
+//			});
+//}
 
 		/*
 		

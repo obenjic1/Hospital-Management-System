@@ -1,6 +1,8 @@
 package com.ppp.user.service;
 
 
+import java.util.Optional;
+
 import javax.security.auth.login.AccountNotFoundException;
 
 import org.springframework.data.domain.Page;
@@ -19,5 +21,6 @@ public interface UserService {
 	User getByResetPasswordToken(String token);
 	void updatePassword(User user, String newPassword);
 	void enableUser(long id);
+	Optional<User> findById(long id);
 }
 

@@ -107,11 +107,11 @@
                                      <div class="row mb-3">
                                          <label for="ImageFile" class="col-sm-4 col-lg-3 col-form-label"><fmt:message key="photo"/></label>
                                          <div class="col-sm-8 col-lg-8">
-                                             <input name="imageFile" type="file" class="form-control" id="imageFile" accept="image/*" value="${user.imagePath}">
+                                             <input name="imageFile" type="file" class="form-control" id="imageFile" accept="image/*" >
                                          </div>
                                      </div>
                                     <div class="text-center">
-                                    	<input type="button" onclick="updateUserById('${user.id}')" class="btn btn-primary" value="Save Changes" style="left: 42%;bottom: -18%;"/>
+                                    	<input type="button" onclick="updateUserById('${user.id}')" class="btn btn-primary" data-bs-dismiss="modal" value="Save Changes" style="left: 42%;bottom: -18%;"/>
                                     </div>
                  
                                 </form><!-- End Profile Edit Form -->

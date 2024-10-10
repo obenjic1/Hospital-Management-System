@@ -283,7 +283,7 @@
 			
 		  <div id="main-content" class="row">
 
-		  <jsp:include page="user/view-user-profile.jsp"></jsp:include>
+		  <jsp:include page="user/view-user-dashboard.jsp"></jsp:include>
 		   </div>
 		  		  
 		  <!-- modal content -->

@@ -1,7 +1,5 @@
 package com.ppp.billing.controller;
-
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
@@ -13,11 +11,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-
 import com.ppp.billing.model.JobType;
-import com.ppp.billing.model.PrintingMachine;
 import com.ppp.billing.model.dto.JobTypeDTO;
-import com.ppp.billing.model.dto.PrintingMachineDTO;
 import com.ppp.billing.serviceImpl.JobTypeServiceImpl;
 
 @Controller
@@ -36,7 +31,7 @@ public class JobTypeController {
 //	public String list(Model model) {
 //		return pagination(0, model);
 //	}
-
+	
 	//<------------------- end Point to list all JobType -------------------->	
 	@GetMapping("/list-job-type")
 	public String list(Model model) {
@@ -72,15 +67,14 @@ public class JobTypeController {
 		}
 	}
 
-	//<--------------- view detail ---------------------->
-	// find  a machine By Id
+	//<--------------- get edit form  ---------------------->
 		@GetMapping("/update/{id}")
 		public String findOneMachine(@PathVariable long id, Model model) {
 			JobType jobType = jobTypeServiceImpl.findById(id).get();
 			model.addAttribute("jobType", jobType);
 		    return "/billing/edit-jobtype";
 		}
-
+		
 //<------------------- Pagination -------------------->
 	@GetMapping("/page/{pageNo}")
 	public String pagination(@PathVariable int pageNo, Model model) {
