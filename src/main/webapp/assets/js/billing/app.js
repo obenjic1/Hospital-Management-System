@@ -142,4 +142,8 @@ function movementHistory(){
 			});
 	}
 	
+	function dashBoard(){
+		loadPage('jobtracking/profile')
+	}
+	window.onload = dashBoard;
      

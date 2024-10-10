@@ -1,5 +1,6 @@
 package com.ppp.billing.serviceImpl;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -12,6 +13,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
+import com.ppp.billing.model.Job;
 import com.ppp.billing.model.JobTracking;
 import com.ppp.billing.model.dto.JobTrackingDTO;
 import com.ppp.billing.repository.JobRepository;
@@ -87,5 +89,31 @@ public class JobTrackingServiceImpl implements JobTrackingService {
 		jobTrackings.add(tracking);
 		return jobTrackingRepository.saveAll(jobTrackings);
 	}
+
+
+	public User findConnectedUser(String username) {
+		// TODO Auto-generated method stub
+		return userRepository.findByUsername(username);
+	}
+
+	@Override
+	public List<Job> findByUser() {
+		List <Job> allJobs = jobRepository.findAll();
+		String name = SecurityContextHolder.getContext().getAuthentication().getName();
+		User user = userRepository.findByUsername(name);
+		List <Job> userJobs = new ArrayList<Job>();
+		for(Job job : allJobs) {
+			for (JobTracking jobTracking : job.getJobTrackings()) {
+				
+				if(jobTracking.getOperation().equalsIgnoreCase("Registered Job") && jobTracking.getUser().getUsername().equalsIgnoreCase(user.getUsername())) {
+					userJobs.add(job);
+				}
+			}
+		}
+		return userJobs;
+	}
+
+
+	
 
 }

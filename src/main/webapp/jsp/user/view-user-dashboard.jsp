@@ -40,11 +40,11 @@
          							 <div class="col-xxl-3 col-md-6">
 							              <div class="card info-card sales-card">
 							                <div class="card-body">
-							                  <h5 class="card-title">Profile Pic </h5>
+							                  <h5 class="card-title">Profile Pic</h5>
 							
 							                  <div class="d-flex align-items-center">
 							                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-							                      
+							                    
 							                    </div>
 							               
 							                  </div>
@@ -72,14 +72,14 @@
 							                </div>
 							
 							                <div class="card-body">
-							                  <h5 class="card-title">Jobs Done<span>| Today</span></h5>
+							                  <h5 class="card-title">Jobs Done <span> | ThisYear</span></h5>
 							
 							                  <div class="d-flex align-items-center">
 							                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
 							                      <i class="bi bi-cart"></i>
 							                    </div>
 							                    <div class="ps-3">
-							                      <h6>145</h6>
+							                      <h6>${count}</h6>
 							                      <span class="text-success small pt-1 fw-bold">12%</span> <span class="text-muted small pt-2 ps-1">increase</span>
 							
 							                    </div>
@@ -99,7 +99,7 @@
 							                      <h6>Filter</h6>
 							                    </li>
 							
-							                    <li><a class="dropdown-item" href="#">Today</a></li>
+							                    <li><a class="dropdown-item" href="google.com">Today</a></li>
 							                    <li><a class="dropdown-item" href="#">This Month</a></li>
 							                    <li><a class="dropdown-item" href="#">This Year</a></li>
 							                  </ul>
@@ -113,7 +113,7 @@
 							                      <i class="bi bi-currency-dollar"></i>
 							                    </div>
 							                    <div class="ps-3">
-							                      <h6>$3,264</h6>
+							                      FCFA<h6> <fmt:formatNumber value="${Amount}" type="currency"   pattern = "#,###,###"/> </h6>
 							                      <span class="text-success small pt-1 fw-bold">8%</span> <span class="text-muted small pt-2 ps-1">increase</span>
 							
 							                    </div>
@@ -187,7 +187,7 @@
 	                                        	</div> 
 												<div class="row">
 		                                            <div class="col-lg-5 col-md-4 label "><fmt:message key="email"/> :</div>
-		                                            <div class="col-lg-7 col-md-8">${user.email}</div>
+		                                            <div class="col-lg-7 col-md-8">${user.email} </div>
 	                                        	</div> 
 							
 							
@@ -198,53 +198,71 @@
 							         	<div class="col-9">
 							              <div class="card recent-sales overflow-auto">
 							                <div class="card-body">
-							                  <h5 class="card-title">Recent Jobs </h5>
-							                  <table class="table table-borderless datatable">
-							                    <thead>
+							                  <h5 class="card-title">User Recent Jobs </h5>
+							                  <table class="table table-border ">
+							                    <thead style="background-color: #dddfe3;">
 							                      <tr>
-							                        <th scope="col">Number</th>
-							                        <th scope="col">Reference</th>
-							                        <th scope="col">Job Type</th>
-							                        <th scope="col">Price</th>
-							                        <th scope="col">Status</th>
+							                        <th scope="col"><fmt:message key="number"/></th>
+							                        <th scope="col"><fmt:message key="reference"/></th>
+							                       <th scope="col"><fmt:message key="job.type"/></th>
+							                        <th scope="col"><fmt:message key="title"/></th>
+							                        <th scope="col"><fmt:message key="job.status"/></th>
 							                      </tr>
 							                    </thead>
 							                    <tbody>
-							                      <tr>
-							                        <th scope="row"><a href="#">#2457</a></th>
-							                        <td>Brandon Jacob</td>
-							                        <td><a href="#" class="text-primary">At praesentium minu</a></td>
-							                        <td>$64</td>
-							                        <td><span class="badge bg-success">Approved</span></td>
-							                      </tr>
-							                      <tr>
-							                        <th scope="row"><a href="#">#2147</a></th>
-							                        <td>Bridie Kessler</td>
-							                        <td><a href="#" class="text-primary">Blanditiis dolor omnis similique</a></td>
-							                        <td>$47</td>
-							                        <td><span class="badge bg-warning">Pending</span></td>
-							                      </tr>
-							                      <tr>
-							                        <th scope="row"><a href="#">#2049</a></th>
-							                        <td>Ashleigh Langosh</td>
-							                        <td><a href="#" class="text-primary">At recusandae consectetur</a></td>
-							                        <td>$147</td>
-							                        <td><span class="badge bg-success">Approved</span></td>
-							                      </tr>
-							                      <tr>
-							                        <th scope="row"><a href="#">#2644</a></th>
-							                        <td>Angus Grady</td>
-							                        <td><a href="#" class="text-primar">Ut voluptatem id earum et</a></td>
-							                        <td>$67</td>
-							                        <td><span class="badge bg-danger">Rejected</span></td>
-							                      </tr>
-							                      <tr>
-							                        <th scope="row"><a href="#">#2644</a></th>
-							                        <td>Raheem Lehner</td>
-							                        <td><a href="#" class="text-primary">Sunt similique distinctio</a></td>
-							                        <td>$165</td>
-							                        <td><span class="badge bg-success">Approved</span></td>
-							                      </tr>
+							                     <c:forEach var="job" items="${jobs}" varStatus="loop">
+							                     <tr class="${loop.index % 2 == 0 ? 'even-row' : 'odd-row'}">
+												    <c:set var="index" value="${loop.index}" />
+												    <%    int index = (Integer) pageContext.getAttribute("index");  %>
+												 <td>  <%= index + 1 %></td>
+							                    
+							                     <td><a>${job.jobType.name}</a></td>
+							                     <td><a class="text-primary">${job.title}</a></td>
+							                     <td><a>${job.referenceNumber}</a></td>
+							   					 <td>
+							   					  <c:if test="${job.status.name=='Registered'}"><a class=" badge bg-success">${job.status.name}</a></c:if>
+							   					  <c:if test="${job.status.name=='Draft'}"><a>${job.status.name}</a></c:if>
+							   					  <c:if test="${job.status.name=='Confrimed'}"><a class="badge bg-warning">${job.status.name}</a></c:if>
+							   					  <c:if test="${job.status.name=='Approved'}"> <a class=" badge bg-success" >${job.status.name}</a></c:if>
+							   					  <c:if test="${job.status.name=='Abort'}"><a>${job.status.name}</a></c:if>
+							   					 
+							   					 </td>
+<!-- 							                      <tr> -->
+<!-- 							                        <th scope="row"><a href="#">#2457</a></th> -->
+<!-- 							                        <td>Brandon Jacob</td> -->
+<!-- 							                        <td><a href="#" class="text-primary">At praesentium minu</a></td> -->
+<!-- 							                        <td>$64</td> -->
+<!-- 							                        <td><span class="badge bg-success">Approved</span></td> -->
+<!-- 							                      </tr> -->
+<!-- 							                      <tr> -->
+<!-- 							                        <th scope="row"><a href="#">#2147</a></th> -->
+<!-- 							                        <td>Bridie Kessler</td> -->
+<!-- 							                        <td><a href="#" class="text-primary">Blanditiis dolor omnis similique</a></td> -->
+<!-- 							                        <td>$47</td> -->
+<!-- 							                        <td><span class="badge bg-warning">Pending</span></td> -->
+<!-- 							                      </tr> -->
+<!-- 							                      <tr> -->
+<!-- 							                        <th scope="row"><a href="#">#2049</a></th> -->
+<!-- 							                        <td>Ashleigh Langosh</td> -->
+<!-- 							                        <td><a href="#" class="text-primary">At recusandae consectetur</a></td> -->
+<!-- 							                        <td>$147</td> -->
+<!-- 							                        <td><span class="badge bg-success">Approved</span></td> -->
+<!-- 							                      </tr> -->
+<!-- 							                      <tr> -->
+<!-- 							                        <th scope="row"><a href="#">#2644</a></th> -->
+<!-- 							                        <td>Angus Grady</td> -->
+<!-- 							                        <td><a href="#" class="text-primar">Ut voluptatem id earum et</a></td> -->
+<!-- 							                        <td>$67</td> -->
+<!-- 							                        <td><span class="badge bg-danger">Rejected</span></td> -->
+<!-- 							                      </tr> -->
+<!-- 							                      <tr> -->
+<!-- 							                        <th scope="row"><a href="#">#2644</a></th> -->
+<!-- 							                        <td>Raheem Lehner</td> -->
+<!-- 							                        <td><a href="#" class="text-primary">Sunt similique distinctio</a></td> -->
+<!-- 							                        <td>$165</td> -->
+<!-- 							                        <td><span class="badge bg-success">Approved</span></td> -->
+<!-- 							                      </tr> -->
+ 												</c:forEach>
 							                    </tbody>
 							                  </table>
 							
