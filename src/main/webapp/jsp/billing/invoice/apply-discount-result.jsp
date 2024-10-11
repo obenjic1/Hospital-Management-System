@@ -11,7 +11,6 @@
 <link href="assets/css/billing/job.css" rel="stylesheet">
 
 
-<tr>
 	<c:set var="i" value="1" />
 <tr>
 	<td style="font-family: bold;"><c:out value="${i}" /></td>
@@ -29,30 +28,31 @@
 	</a></td>
 
 </tr>
-<tr>
-
-	<c:if test="${discount}>0">
-		<td style="font-family: bold;"><span> <fmt:formatNumber
-					value="${invoices.discountPercentage}" pattern="#.00" /></span>% Discount</td>
-	</c:if>
-	<c:if test="${discount}==0"></c:if>
-	<td style="font-family: bold;"><span>
-			${invoices.discountPercentage}</span>% Discount</td>
-	<td></td>
-	<td></td>
-	<td><a> <fmt:formatNumber value="${discount}" type="currency"
-				pattern="#,###,###" />
-	</a></td>
-</tr>
-<tr>
-	<td style="font-family: bold; font-weight: bold"><a>Net
-			Payable </a></td>
-	<td><a> </a></td>
-	<td><a> </a></td>
-	<td style="font-family: bold; font-weight: bold;"><a> <fmt:formatNumber
-				value="${invoices.netPayable}" type="currency" pattern="#,###,###" />
-	</a></td>
-</tr>
-</tr>
-
+      <tr>
+      	 <td style="font-family: bold;">VAT <span>${invoices.vatPercentage}</span> % </td>                                 
+         <td> </td>                                  
+       	 <td> </td>  
+         <td><a> <fmt:formatNumber value="${vatValue}" type="currency"   pattern = "#,###,###"/> </a></td> 
+       </tr> 
+       
+       <tr> 
+    	 <td style="font-family: bold;">Tax IR ${invoices.irTaxPercentage} % </td>                                 
+        <td> </td>                                  
+         <td> </td>  
+         <td style="font-family: bold;"><a> <fmt:formatNumber value="${irTaxValue}" type="currency"   pattern = "#,###,###"/> </a></td> 
+        </tr>
+        
+         <tr> 
+            <td style="font-family: bold;"><span>${invoices.discountPercentage} </span>%  Discount</a></td>                                 
+            <td><a> </td>                                  
+            <td><a> </td>  
+            <td><a> <fmt:formatNumber value="${discountValue}" type="currency"   pattern = "#,###,###"/> </a></td>                               
+        </tr> 
+      <tr> 
+      
+            <td style="font-family: bold; font-weight: bold"><a>Net Payable </a></td>                                 
+          <td><a> </a> </td>                                  
+           <td><a> </a></td>  
+           <td style="font-family: bold; font-weight: bold;"><a> <fmt:formatNumber value="${invoices.netPayable}" type="currency"   pattern = "#,###,###"/> </a></td>                               
+     </tr>
 

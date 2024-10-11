@@ -16,5 +16,7 @@ public class JobPaperDTO {
    private int paperTypeId;
    private int contentTypeId;
    private int paperUnitPrice;
+	private double  paperSizeLength;
+	private double  paperSizeWidth;
    private List<JobColorCombinationDTO> jobColorCombinations;
 }

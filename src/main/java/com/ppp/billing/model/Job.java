@@ -111,7 +111,7 @@ public class Job {
 	private JobActivity jobActivity;
 	
 	@Column(name="job_papers")
-	@OneToMany(fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "job", cascade = CascadeType.PERSIST)
+	@OneToMany(mappedBy = "job", cascade = CascadeType.ALL)
 	private List<JobPaper> jobPapers;
 		
 	@ManyToOne

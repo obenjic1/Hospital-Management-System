@@ -35,6 +35,12 @@ public class JobPaper {
 	@Column(name = "unit_price", columnDefinition = "int default 0")
 	private int unitPrice;
 	
+	@Column(name = "paper_size_width", columnDefinition = "double default 65")
+	private double paperSizeWidth;
+	
+	@Column(name = "paper_size_length", columnDefinition = "double default 92")
+	private double paperSizeLength;
+	
 	@ManyToOne
 	@JoinColumn(name = "content_type_id", referencedColumnName = "id")
 	private ContentType  contentType;
@@ -47,7 +53,7 @@ public class JobPaper {
 	@JoinColumn(name = "job_id", referencedColumnName = "id")
 	private Job  job;
 	
-	@OneToMany(fetch = FetchType.LAZY,  mappedBy = "jobPaper", cascade = CascadeType.PERSIST)
+	@OneToMany(mappedBy = "jobPaper", orphanRemoval = true, cascade = CascadeType.ALL)
 	private List<JobColorCombination> jobColorCombinations;
 
 

@@ -21,7 +21,7 @@ public class PaperGrammage {
 	private long id;
 	
 	@Column(name="value", nullable = false)
-	private String value;
+	private int value;
 	
 
 }
