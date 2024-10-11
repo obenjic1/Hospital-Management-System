@@ -11,6 +11,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.support.RequestContextUtils;
 
 import com.ppp.user.model.User;
@@ -70,4 +71,12 @@ public class authController {
 		
 			return "user_auth/resetpassword";
 		}
+		
+		  //Public page
+	    @RequestMapping(value = "/sw.js")
+	    public String serveWorker() {
+
+	        return "sw";
+	    }
+
 }
