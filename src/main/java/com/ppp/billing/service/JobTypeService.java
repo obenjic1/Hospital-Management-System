@@ -18,5 +18,6 @@ public interface JobTypeService {
 	JobType update(JobTypeDTO jobTypeDto);
 	Page< JobType > findPaginatedJobType(int pageNo, int pageSize);
 	void delete(long id);
+	List<JobType> listAllJobTypeOrderByCategory();
 	
 }

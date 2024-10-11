@@ -38,19 +38,17 @@
          							<div class="row m-4">
          							<!-- start profile pic-->
          							 <div class="col-xxl-3 col-md-6">
-							              <div class="card info-card sales-card">
-							                <div class="card-body">
-							                  <h5 class="card-title">Profile Pic</h5>
-							
-							                  <div class="d-flex align-items-center">
-							                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-							                    
-							                    </div>
-							               
-							                  </div>
-							                </div>
-							
-							              </div>
+         							 	<div class="card">
+								            <div class="card-body profile-card pt-2 pb-2 d-flex flex-column align-items-center">
+								              <c:if test="${not empty user.imagePath}">
+							                      <img src="${pageContext.request.contextPath}/file/download?file=${user.imagePath}&dir=folder.user.images" class="rounded-circle">
+							                  </c:if>
+							                  <c:if test="${empty user.imagePath}">
+							                    <img src="assets/img/default.png" class="rounded-circle">
+							                  </c:if>
+							                  	 <h4>${user.firstName} ${user.lastName}</h4>
+								            </div>
+								         </div>
 							            </div><!-- End profile pic-->
          							
          							
@@ -80,7 +78,7 @@
 							                    </div>
 							                    <div class="ps-3">
 							                      <h6>${count}</h6>
-							                      <span class="text-success small pt-1 fw-bold">12%</span> <span class="text-muted small pt-2 ps-1">increase</span>
+							                      <span class="text-success small pt-1 fw-bold">12%</span> <span class="text-muted small pt-2 ps-1">from total</span>
 							
 							                    </div>
 							                  </div>
@@ -148,8 +146,8 @@
 							                      <i class="bi bi-people"></i>
 							                    </div>
 							                    <div class="ps-3">
-							                      <h6>1244</h6>
-							                      <span class="text-danger small pt-1 fw-bold">12%</span> <span class="text-muted small pt-2 ps-1">decrease</span>
+							                      <h6>10</h6>
+							                      <span class="text-danger small pt-1 fw-bold">2</span> <span class="text-muted small pt-2 ps-1">new Customer</span>
 							
 							                    </div>
 							                  </div>
@@ -227,41 +225,7 @@
 							   					  <c:if test="${job.status.name=='Abort'}"><a>${job.status.name}</a></c:if>
 							   					 
 							   					 </td>
-<!-- 							                      <tr> -->
-<!-- 							                        <th scope="row"><a href="#">#2457</a></th> -->
-<!-- 							                        <td>Brandon Jacob</td> -->
-<!-- 							                        <td><a href="#" class="text-primary">At praesentium minu</a></td> -->
-<!-- 							                        <td>$64</td> -->
-<!-- 							                        <td><span class="badge bg-success">Approved</span></td> -->
-<!-- 							                      </tr> -->
-<!-- 							                      <tr> -->
-<!-- 							                        <th scope="row"><a href="#">#2147</a></th> -->
-<!-- 							                        <td>Bridie Kessler</td> -->
-<!-- 							                        <td><a href="#" class="text-primary">Blanditiis dolor omnis similique</a></td> -->
-<!-- 							                        <td>$47</td> -->
-<!-- 							                        <td><span class="badge bg-warning">Pending</span></td> -->
-<!-- 							                      </tr> -->
-<!-- 							                      <tr> -->
-<!-- 							                        <th scope="row"><a href="#">#2049</a></th> -->
-<!-- 							                        <td>Ashleigh Langosh</td> -->
-<!-- 							                        <td><a href="#" class="text-primary">At recusandae consectetur</a></td> -->
-<!-- 							                        <td>$147</td> -->
-<!-- 							                        <td><span class="badge bg-success">Approved</span></td> -->
-<!-- 							                      </tr> -->
-<!-- 							                      <tr> -->
-<!-- 							                        <th scope="row"><a href="#">#2644</a></th> -->
-<!-- 							                        <td>Angus Grady</td> -->
-<!-- 							                        <td><a href="#" class="text-primar">Ut voluptatem id earum et</a></td> -->
-<!-- 							                        <td>$67</td> -->
-<!-- 							                        <td><span class="badge bg-danger">Rejected</span></td> -->
-<!-- 							                      </tr> -->
-<!-- 							                      <tr> -->
-<!-- 							                        <th scope="row"><a href="#">#2644</a></th> -->
-<!-- 							                        <td>Raheem Lehner</td> -->
-<!-- 							                        <td><a href="#" class="text-primary">Sunt similique distinctio</a></td> -->
-<!-- 							                        <td>$165</td> -->
-<!-- 							                        <td><span class="badge bg-success">Approved</span></td> -->
-<!-- 							                      </tr> -->
+
  												</c:forEach>
 							                    </tbody>
 							                  </table>
@@ -274,58 +238,7 @@
 	         					</div>
 	                            </div>
 	                            </section>
-	                            
-                            
-                            
-                            
-                            
-                            
-<!--                                 <div class="row" > -->
-<!--                                     <div class="col-xl-8" style="padding-left: 30px;" > -->
-<%--                                         <h5 class="card-title"><fmt:message key="profile.details"/></h5> --%>
-<!--                                         <div class="row"> -->
-<%--                                             <div class="col-lg-3 col-md-4 label "><fmt:message key="username"/>123</div> --%>
-<%--                                             <div class="col-lg-9 col-md-8">${user.username}</div> --%>
-<!--                                         </div>  -->
-<!--                                         <div class="row"> -->
-<%--                                             <div class="col-lg-3 col-md-4 label "><fmt:message key="names"/>123</div> --%>
-<%--                                             <div class="col-lg-9 col-md-8">${user.firstName} ${user.lastName}</div> --%>
-<!--                                         </div>  -->
-<!--                                         <div class="row"> -->
-<%--                                             <div class="col-lg-3 col-md-4 label"><fmt:message key="list.groups"/></div> --%>
-<%--                                             <div class="col-lg-9 col-md-8">${user.groupe.name}</div> --%>
-<!--                                         </div> -->
-<!--                                         <div class="row"> -->
-<%--                                             <div class="col-lg-3 col-md-4 label"><fmt:message key="address"/></div> --%>
-<%--                                             <div class="col-lg-9 col-md-8">${user.address}</div> --%>
-<!--                                         </div> -->
-<!--                                         <div class="row"> -->
-<%--                                             <div class="col-lg-3 col-md-4 label"><fmt:message key="phone"/></div> --%>
-<%--                                             <div class="col-lg-9 col-md-8">${user.mobile}</div> --%>
-<!--                                         </div> -->
-<!--                                         <div class="row"> -->
-<%--                                             <div class="col-lg-3 col-md-4 label"><fmt:message key="email"/></div> --%>
-<%--                                             <div class="col-lg-9 col-md-8">${user.email}</div> --%>
-<!--                                         </div> -->
-<!--                                         <div class="row"> -->
-<%--                                             <div class="col-lg-3 col-md-4 label"><fmt:message key="created.date"/></div> --%>
-<%--                                             <div class="col-lg-9 col-md-8"> <fmt:formatDate type = "both" value = "${user.createdAt}" /></div> --%>
-<!--                                         </div> -->
-<!--                                     </div> -->
-<!--                                     <div class="col-xl-4"> -->
-<%--                                         <c:if test="${not empty user.imagePath}"> --%>
-<%--                                             <img src="${pageContext.request.contextPath}/file/download?file=${user.imagePath}&dir=folder.user.images" style="height:300px"> --%>
-<%--                                         </c:if> --%>
-<%--                                         <c:if test="${empty user.imagePath}"> --%>
-<!--                                             <img class="img-responsive" src="assets/img/default.png" style=" min-height:250px; max-height:300px;"> -->
-<%--                                         </c:if> --%>
-
-<!--                                     </div> -->
-
-<!--                                 </div> -->
-
                             </div>
-
                             <div class="tab-pane fade profile-edit pt-3" id="profile-edit">
                                 <form style="margin-left: 5%">
                                     <div class="row mb-3">  </div>

@@ -118,7 +118,7 @@ public class UserController {
 //	}
 
 	@PostMapping("/update-user/{id}")
-	public String updateUser(@PathVariable long id, @RequestBody User userDTO ) throws Exception {
+	public String updateUser(@PathVariable long id, UserDTO userDTO, @RequestParam(required=false) MultipartFile getImageFile) throws Exception {
  		User registeredUser = userServiceImpl.updateUser(userDTO,id);
  		if(registeredUser.equals("error")) {
 			throw new Exception("Username or Email already exist");

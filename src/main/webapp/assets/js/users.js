@@ -158,49 +158,52 @@ function addUser() {
 
 
 			
-//function updateUserById(id) {
-//	
-//			const firstName = document.getElementById('firstName').value;
-//			const lastName = document.getElementById('lastName').value;
-//			const email = document.getElementById("email").value;
-//			const mobile = document.getElementById('mobile').value;
-//			const address = document.getElementById('address').value;
-//		//	const imageFile = document.getElementById('imageFile').files[0];
-//	
-//		
-//		var formData = new FormData();
-//		 formData.append('firstName',firstName);
-//		 formData.append('lastName',lastName);
-//		 formData.append('email',email);
-//		 formData.append('mobile',mobile);
-//		 formData.append('address',address);
-//
-//		fetch(`user/update-user/${id}`, {
-//			method: 'POST',
-//			body: formData,
-//
-//		})
-//			.then( response => {	
-//   			 if (response.status === 200) {
+function updateUserById(id) {
+	
+			const firstName = document.getElementById('firstName').value;
+			const lastName = document.getElementById('lastName').value;
+			const email = document.getElementById("email").value;
+			const mobile = document.getElementById('mobile').value;
+			const address = document.getElementById('address').value;
+			const imageFile = document.getElementById('imageFile').files[0];
+	
+		
+		var formData = new FormData();
+		 formData.append('firstName',firstName);
+		 formData.append('lastName',lastName);
+		 formData.append('email',email);
+		 formData.append('mobile',mobile);
+		 formData.append('address',address);
+		 if(imageFile){
+			 formData.append('imageFile',imageFile);
+		 }
+
+		fetch(`user/update-user/${id}`, {
+			method: 'POST',
+			body: formData,
+
+		})
+			.then( response => {	
+   			 if (response.status === 200) {
 ////       			sendMessage('Succes/Success', 1);
-//				Swal.fire("Succes/Success!", "You clicked the button!", "success")
-//				return loadPage('user/list-users');
-//   			 } else if (response.status !== 200) {
-//					Swal.fire({icon: "error", title: "Oops...", text: "Something went wrong!"});
-//					//				sendMessage('Failed / Echec : Email or Username already exist ',2);
-//				
-//				//	return loadPage('user/add-user');			
-//
-//  			 }
-//		})
-//		 .then(function(data) {
-//
-//		 })
-//			.catch(function(error) {
-//
-//			});
-//	
-//	}
+				Swal.fire("Succes/Success!", "You clicked the button!", "success")
+				return loadPage('user/list-users');
+   			 } else if (response.status !== 200) {
+					Swal.fire({icon: "error", title: "Oops...", text: "Something went wrong!"});
+					//				sendMessage('Failed / Echec : Email or Username already exist ',2);
+				
+				//	return loadPage('user/add-user');			
+
+  			 }
+		})
+		 .then(function(data) {
+
+		 })
+			.catch(function(error) {
+
+			});
+	
+	}
 			
 
 			/*
@@ -215,53 +218,53 @@ function addUser() {
 			
 			//	** Start Update User Section
 	
-function updateUserById(id) {
-	
-			const firstName = document.getElementById('firstName').value;
-			const lastName = document.getElementById('lastName').value;
-			const email = document.getElementById("email").value;
-			const mobile = document.getElementById('mobile').value;
-			const address = document.getElementById('address').value;
-		//	const imageFile = document.getElementById('imageFile').files[0];
-	
-		
-		var formData = {
-		firstName: firstName,
-			lastName: lastName,
-			email: email,
-			mobile: mobile,
-			address : address,
-		};
-		var jsonUpdatedData = JSON.stringify(formData);
-		
-		fetch(`user/update-user/${id}`, {
-			method: 'POST',
-			body: jsonUpdatedData,
-			headers: {
-			'Content-Type': 'application/json'
-		},
-		})
-			.then( response => {	
-   			 if (response.status === 200) {
-//       			sendMessage('Succes/Success', 1);
-				Swal.fire("Succes/Success!", "You clicked the button!", "success")
-				return loadPage('user/list-users');
-   			 } else if (response.status !== 200) {
-					Swal.fire({icon: "error", title: "Oops...", text: "Something went wrong!"});
-//				sendMessage('Failed / Echec : Email or Username already exist ',2);
-				
-					return loadPage('user/add-user');			
-
-  			 }
-		})
-		 .then(function(data) {
-
-		 })
-			.catch(function(error) {
-
-			});
-	
-	}
+//function updateUserById(id) {
+//	
+//			const firstName = document.getElementById('firstName').value;
+//			const lastName = document.getElementById('lastName').value;
+//			const email = document.getElementById("email").value;
+//			const mobile = document.getElementById('mobile').value;
+//			const address = document.getElementById('address').value;
+//		//	const imageFile = document.getElementById('imageFile').files[0];
+//	
+//		
+//		var formData = {
+//		firstName: firstName,
+//			lastName: lastName,
+//			email: email,
+//			mobile: mobile,
+//			address : address,
+//		};
+//		var jsonUpdatedData = JSON.stringify(formData);
+//		
+//		fetch(`user/update-user/${id}`, {
+//			method: 'POST',
+//			body: jsonUpdatedData,
+//			headers: {
+//			'Content-Type': 'application/json'
+//		},
+//		})
+//			.then( response => {	
+//   			 if (response.status === 200) {
+////       			sendMessage('Succes/Success', 1);
+//				Swal.fire("Succes/Success!", "You clicked the button!", "success")
+//				return loadPage('user/list-users');
+//   			 } else if (response.status !== 200) {
+//					Swal.fire({icon: "error", title: "Oops...", text: "Something went wrong!"});
+////				sendMessage('Failed / Echec : Email or Username already exist ',2);
+//				
+//					return loadPage('user/add-user');			
+//
+//  			 }
+//		})
+//		 .then(function(data) {
+//
+//		 })
+//			.catch(function(error) {
+//
+//			});
+//	
+//	}
 			
 			
 			

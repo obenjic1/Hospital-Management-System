@@ -58,7 +58,7 @@
                                     </div>
                                     <div class="col-xl-4">
                                         <c:if test="${not empty user.imagePath}">
-                                            <img src="${pageContext.request.contextPath}/file/download?file=${user.imagePath}&dir=folder.user.images" style="height:300px">
+                                            <img src="${pageContext.request.contextPath}/file/download?file=${user.imagePath}&dir=folder.user.images" class="py-2">
                                         </c:if>
                                         <c:if test="${empty user.imagePath}">
                                             <img class="img-responsive" src="assets/img/default.png" style=" min-height:250px; max-height:300px;">

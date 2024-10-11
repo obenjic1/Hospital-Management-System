@@ -37,23 +37,29 @@
 						  <fmt:message key="add.group"/>
 						</button>
 						<!-- Table with stripped rows -->
-						<table class="table datatable">
+						<table class="table datatable" id="job-type-content">
 						  <thead style="background-color: #dddfe3;">
 						    <tr>
 						       <th scope="col"><fmt:message key="number"/></th>
 						       <th scope="col"><fmt:message key="name"/></th>
-						       <th scope="col"><fmt:message key="category"/></th>
 						       <th scope="col"><fmt:message key="actions"/></th>
 							</tr>
 						  </thead>
 						  <tbody>
+						   <tr class="job-category-heading">
+						   	<td colspan="3">
+						   	FOLDED JOB WITH COVER 
+						   	</td>
+						   </tr>
+						   <c:set var="num" value="0" />
 						   <c:forEach var="jobType" items="${jobTypes}" varStatus="loop">
-						    <tr class="${loop.index % 2 == 0 ? 'even-row' : 'odd-row'}">
-						   <c:set var="index" value="${loop.index}" />
+						 <c:if test="${jobType.category==2}">
+						    <tr class="${num % 2 == 0 ? 'even-row' : 'odd-row'}">
+						   <c:set var="num" value="${num+1}" />
 							    <%    int index = (Integer) pageContext.getAttribute("index");  %>
-							 <td>  <%= index + 1 %></td>
-							   <td>${jobType.name}</td>
-							   <td>${jobType.category}</td>
+							 <td>  ${num}  </td>
+							  
+							    <td>${jobType.name}</td>
 							   <td>
 							     <a>
 							     <button class="button-see" data-bs-toggle="modal" data-bs-target="#ExtralargeModal" data-toggle="tooltip" data-placement="top" title="view jobType details" onclick="loadPageModalForm('jobtype/viewJobtype/${jobType.id}')">
@@ -64,7 +70,92 @@
 								   </button>
 								 </a>
 							   </td>
-							 </tr>						
+							 </tr>	
+							 </c:if>					
+						  </c:forEach>
+						  
+						    <tr class="job-category-heading">
+						   	<td colspan="3">
+						   	FOLDED JOB WITHOUT COVER
+						   	</td>
+						   </tr>
+						   <c:set var="num" value="0" />
+						   <c:forEach var="jobType" items="${jobTypes}" varStatus="loop">
+						 <c:if test="${jobType.category==1}">
+						    <tr class="${num % 2 == 0 ? 'even-row' : 'odd-row'}">
+						   <c:set var="num" value="${num+1}" />
+							    <%    int index = (Integer) pageContext.getAttribute("index");  %>
+							 <td>  ${num}  </td>
+							   
+							    <td>${jobType.name}</td>
+							   <td>
+							     <a>
+							     <button class="button-see" data-bs-toggle="modal" data-bs-target="#ExtralargeModal" data-toggle="tooltip" data-placement="top" title="view jobType details" onclick="loadPageModalForm('jobtype/viewJobtype/${jobType.id}')">
+								     <i class="ri-eye-line"></i>
+								   </button>
+								    <button class="button-edite" data-bs-toggle="modal" data-bs-target="#ExtralargeModal" data-toggle="tooltip" data-placement="top" title="edit jobType" onclick=" loadPageModalForm('jobtype/update/${jobType.id}')">
+								    <i class="ri-pencil-line"></i>
+								   </button>
+								 </a>
+							   </td>
+							 </tr>	
+							 </c:if>					
+						  </c:forEach>
+						    <tr class="job-category-heading">
+						   	<td colspan="3">
+						   	OPEN JOB WITH COVER
+						   	</td>
+						   </tr>
+						    <c:set var="num" value="0" />
+						   <c:forEach var="jobType" items="${jobTypes}" varStatus="loop">
+						 <c:if test="${jobType.category==3}">
+						    <tr class="${num % 2 == 0 ? 'even-row' : 'odd-row'}">
+						   <c:set var="index" value="${loop.index}" />
+							       <c:set var="num" value="${num+1}" />
+							    <%    int index = (Integer) pageContext.getAttribute("index");  %>
+							 <td>  ${num}  </td>
+							
+							    <td>${jobType.name}</td>
+							   <td>
+							     <a>
+							     <button class="button-see" data-bs-toggle="modal" data-bs-target="#ExtralargeModal" data-toggle="tooltip" data-placement="top" title="view jobType details" onclick="loadPageModalForm('jobtype/viewJobtype/${jobType.id}')">
+								     <i class="ri-eye-line"></i>
+								   </button>
+								    <button class="button-edite" data-bs-toggle="modal" data-bs-target="#ExtralargeModal" data-toggle="tooltip" data-placement="top" title="edit jobType" onclick=" loadPageModalForm('jobtype/update/${jobType.id}')">
+								    <i class="ri-pencil-line"></i>
+								   </button>
+								 </a>
+							   </td>
+							 </tr>	
+							 </c:if>					
+						  </c:forEach>
+						    <tr class="job-category-heading">
+						   	<td colspan="3">
+						   	OPEN JOB
+						   	</td>
+						   </tr>
+						    <c:set var="num" value="0" />
+						   <c:forEach var="jobType" items="${jobTypes}" varStatus="loop">
+						 <c:if test="${jobType.category==0}">
+						    <tr class="${num % 2 == 0 ? 'even-row' : 'odd-row'}">
+						   <c:set var="index" value="${loop.index}" />
+							     <c:set var="num" value="${num+1}" />
+							    <%    int index = (Integer) pageContext.getAttribute("index");  %>
+							 <td>  ${num}  </td>
+							  
+							    <td>${jobType.name}</td>
+							   <td>
+							     <a>
+							     <button class="button-see" data-bs-toggle="modal" data-bs-target="#ExtralargeModal" data-toggle="tooltip" data-placement="top" title="view jobType details" onclick="loadPageModalForm('jobtype/viewJobtype/${jobType.id}')">
+								     <i class="ri-eye-line"></i>
+								   </button>
+								    <button class="button-edite" data-bs-toggle="modal" data-bs-target="#ExtralargeModal" data-toggle="tooltip" data-placement="top" title="edit jobType" onclick=" loadPageModalForm('jobtype/update/${jobType.id}')">
+								    <i class="ri-pencil-line"></i>
+								   </button>
+								 </a>
+							   </td>
+							 </tr>	
+							 </c:if>					
 						  </c:forEach>
 						</tbody>
 					  </table>										  					 		

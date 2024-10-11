@@ -158,5 +158,14 @@ a {
     bottom: 5px;
     position: relative;
 }
+.job-category-heading{
+	
+	background:rgb(186, 189, 182);
 
+}
+.job-category-heading td{
+		color: black;
+/*	font-weight: bold;*/
+	
+}
   

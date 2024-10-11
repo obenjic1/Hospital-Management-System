@@ -220,6 +220,7 @@
 					</li>
 						<li class="nav-item">
 					  <a class="nav-link collapsed" onclick="loadPage('jobtype/list-job-type')" href="#">
+<!-- 					   <a class="nav-link collapsed" onclick="getJobType()" href="#"> -->
 					    <i class="bi bi-receipt-cutoff"></i>
 					    <span><fmt:message key="job.type"/></span>
 					  </a>

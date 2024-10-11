@@ -77,4 +77,7 @@ public class JobTypeServiceImpl implements JobTypeService {
 		return jobTypeRepository.save(jobType);
 	}
 	
+	public List<JobType> listAllJobTypeOrderByCategory(){
+		return jobTypeRepository.listAllJobTypeOrderByCategory();
+	}
 }

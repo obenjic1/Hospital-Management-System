@@ -70,14 +70,10 @@ public class JobTrackingController {
 					for (EstimatePricing estimateP: jobestimate.getEstimatePricings()) {
 						for(Invoice invoice : estimateP.getInvoices()) {
 						if(estimateP.getInvoices()!=null) {
-							
 							Amount = Amount + invoice.getNetPayable();
 						}
 						}
-						
 					}
-					
-					 
 				 }
 			}
 		}
