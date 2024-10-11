@@ -1,11 +1,10 @@
 package com.ppp.user.service.impl;
 
 import java.io.IOException;
-import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
+import java.util.Optional;
 
 import javax.security.auth.login.AccountNotFoundException;
 import javax.servlet.http.HttpServletRequest;
@@ -15,18 +14,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Service;
-import org.springframework.ui.Model;
-import org.springframework.web.servlet.support.RequestContextUtils;
-
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
 import com.ppp.user.model.Groupe;
 import com.ppp.user.model.User;
 import com.ppp.user.model.dto.UserDTO;
@@ -67,10 +60,10 @@ public class UserServiceImpl implements UserService {
 
 //<-------------------- Create user using userDTO ---------------------->
 	@Override
-	public String createUser(UserDTO userDTO) {
+	public String createUser(UserDTO userDTO) throws IllegalStateException, IOException {
 		try {
 			User newUser = new User();
-		    newUser.setUsername(userDTO.getUsername().toUpperCase());
+		    newUser.setUsername(userDTO.getUsername());
 		    newUser.setFirstName(userDTO.getFirstName());
 		    newUser.setLastName(userDTO.getLastName());
 		    newUser.setAddress(userDTO.getAddress());
@@ -88,12 +81,10 @@ public class UserServiceImpl implements UserService {
 		    		return "error";
 		    }
 		    if (userDTO.getImageFile() != null && !userDTO.getImageFile().isEmpty()) {
-		    	 try {
-		                String imagePath = fileStorageService.storeFile(userDTO.getImageFile());
+		    	
+		                String imagePath = fileStorageService.storeUserFile(userDTO.getImageFile());
 		                newUser.setImagePath(imagePath);
-		            } catch (IOException e) {
-		                e.printStackTrace();
-		            }
+		          
 	        } 
 		   userRepository.save(newUser);
 		   return "sucess";
@@ -137,7 +128,7 @@ public class UserServiceImpl implements UserService {
 		}
 	}
 //<----------------- Get user by user name using DTO object ------------------->	
-	public UserDTO getUserByUsername(String username) {
+	public UserDTO getUserByUsername(String username) throws Exception {
        try {
     	   User user = userRepository.findByUsername(username);
            if (user == null) {
@@ -152,6 +143,7 @@ public class UserServiceImpl implements UserService {
            userDTO.setPassword(user.getPassword());
            userDTO.setUsername(user.getUsername());
            userDTO.setEmail(user.getEmail());
+          
 
            return userDTO;
 	} catch (Exception e) {
@@ -161,20 +153,32 @@ public class UserServiceImpl implements UserService {
 
 //<---------------------- Update user ---------------------> 
 	@Override
-	public User updateUser(User updatedUser, Long id) {
-		try {
+	public User updateUser(UserDTO user, Long id) {
+		
 			User existingUser = userRepository.findById(id).get();
-			existingUser.setFirstName(updatedUser.getFirstName());
-			existingUser.setLastName(updatedUser.getLastName());
-			existingUser.setUsername(updatedUser.getUsername());
-			existingUser.setEmail(updatedUser.getEmail());
-			existingUser.setAddress(updatedUser.getAddress());
-			existingUser.setMobile(updatedUser.getMobile());
+			existingUser.setFirstName(user.getFirstName());
+			existingUser.setLastName(user.getLastName());
+//			existingUser.setUsername(updatedUser.getUsername());
+			existingUser.setEmail(user.getEmail());
+			existingUser.setAddress(user.getAddress());
+			existingUser.setMobile(user.getMobile());
+			 if (user.getImageFile() != null && !user.getImageFile().isEmpty()) {
+				   
+	            
+				try {
+					String imagePath = fileStorageService.storeUserFile(user.getImageFile());
+					 existingUser.setImagePath(imagePath);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+	              
+	         
+	   } 
 			userRepository.save(existingUser);
 			return existingUser;
-		} catch (Exception e) {
-			throw e;
-		}
+		
+	
 	}
 
 
@@ -240,7 +244,13 @@ public User getLogedUser(HttpServletRequest httpServletRequest){
 		
 		return user;
 }
-	
+
+
+@Override
+public Optional<User> findById(long id) {
+	// TODO Auto-generated method stub
+	return userRepository.findById(id);
+}
 	
 	}
 

@@ -110,3 +110,43 @@ function movementHistory(){
 		history_div.style.display="none";
 	}
 	}
+
+	
+	function saveJobType(id){
+		
+		let name = document.getElementById('name').value;
+		let category = document.getElementById('category').value;
+	//	let id = id;
+		var formData = new FormData();
+		
+		formData.append('name', name),
+		formData.append('id', id),
+		formData.append('category', category),
+		fetch('jobtype/add-jobType', {
+			method: 'POST',
+			body: formData,
+		}).then( response => {	
+   			 if (response.ok) {
+       			Swal.fire("Succes/Success!", "Job saved successfully!", "success")
+				return loadPage("jobtype/list-job-type");				
+   			 } else if (response.status !== 200) {
+				Swal.fire({  icon: "error", title: "Oops...", text: "Something went wrong!"});
+				return loadPage("jobtype/list-job-type");
+  			 }
+		})
+		 .then(function(data) {
+
+		 })
+			.catch(function(error) {
+
+			});
+	}
+		
+
+	
+	function dashBoard(){
+		loadPage('jobtracking/profile')
+	}
+	window.onload = dashBoard;
+	
+	

@@ -325,8 +325,8 @@ public class JobServiceImpl implements JobService {
 		newJob.setJobTrackings(jobTrackings);
 		JobStatus status = jobStatusRepository.findById(1).get();
 		newJob.setStatus(status);
-		
-		jobRepository.saveAndFlush(newJob);
+		jobRepository.saveAndFlush(newJob); 
+
 		generateSerialNumber(newJob);
 		return newJob;
 	}
