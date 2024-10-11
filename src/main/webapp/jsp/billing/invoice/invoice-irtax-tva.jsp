@@ -104,20 +104,31 @@
                                                                       <td style="font-family: bold;"><a> <fmt:formatNumber value="${invoices.estimatePricing.totalPrice}" type="currency"   pattern = "#,###,###"/> </a></td>  
                                                                                                    
                                                                 </tr> 
-                                                                  <tr> 
-                                                                 
-                                                                       <td style="font-family: bold;">VAT <span>${invoices.vatPercentage}</span> % </a></td>                                 
-                                                                     <td><a> </td>                                  
-                                                                      <td><a> </td>  
-                                                                      <td><a> <fmt:formatNumber value="${vatValue}" type="currency"   pattern = "#,###,###"/> </a></td>                               
-                                                                </tr> 
-                                                                 <tr> 
-                                                                 
-                                                                       <td style="font-family: bold;">Tax IR ${invoices.irTaxPercentage} % </a></td>                                 
+                                                                  <tr>
+<%--                                                                    <c:if test="${invoices.vatPercentage} >0"> --%>
+                                                                  
+                                                                  	<td style="font-family: bold;">VAT <span>${invoices.vatPercentage}</span> % </td>                                 
                                                                      <td> </td>                                  
                                                                       <td> </td>  
-                                                                      <td style="font-family: bold;"><a> <fmt:formatNumber value="${irTaxValue}" type="currency"   pattern = "#,###,###"/> </a></td>                               
+                                                                      <td><a> <fmt:formatNumber value="${vatValue}" type="currency"   pattern = "#,###,###"/> </a></td> 
+<%--                                                                   </c:if> --%>
+                                                                                                     
+                                                                </tr> 
+                                                                 <tr> 
+<%--                                                               <c:if test="${invoices.irTaxPercentage}>0.01"> --%>
+                                                                 	 <td style="font-family: bold;">Tax IR ${invoices.irTaxPercentage} % </td>                                 
+                                                                     <td> </td>                                  
+                                                                      <td> </td>  
+                                                                      <td style="font-family: bold;"><a> <fmt:formatNumber value="${irTaxValue}" type="currency"   pattern = "#,###,###"/> </a></td> 
+<%--                                                                 </c:if> --%>                    
                                                                 </tr>
+                                                                   <tr> 
+                   
+												                         <td style="font-family: bold;"><span>${invoices.discountPercentage} </span>%  Discount</a></td>                                 
+												                       <td><a> </td>                                  
+												                        <td><a> </td>  
+												                        <td><a> <fmt:formatNumber value="${discount}" type="currency"   pattern = "#,###,###"/> </a></td>                               
+												                  </tr> 
                                                                  <tr> 
                                                                  
                                                                        <td style="font-family: bold; font-weight: bold"><a>Net Payable </a></td>                                 
@@ -125,7 +136,6 @@
                                                                       <td><a> </a></td>  
                                                                       <td style="font-family: bold; font-weight: bold;"><a> <fmt:formatNumber value="${invoices.netPayable}" type="currency"   pattern = "#,###,###"/> </a></td>                               
                                                                 </tr>
-                                                        </tr>
                                                     </tbody>
                                                 </table>
                                             </div>

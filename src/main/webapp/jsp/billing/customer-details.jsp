@@ -70,6 +70,7 @@
                                         <th scope="col"><fmt:message key="reference"/></th>
                                         <th scope="col"><fmt:message key="job.status"/></th>
                                         <th scope="col"><fmt:message key="registration.date"/></th>
+                                        <th scope="col"><fmt:message key="reprint.job"/></th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -78,13 +79,19 @@
                                             <c:set var="index" value="${loop.index}" />
                                             <%    int index = (Integer) pageContext.getAttribute("index");  %>
                                             <td>  <%= index + 1 %></td>
+                                          	<td><a>${job.jobType.name}</a></td>
                                             <td><a>${job.title}</a></td>
-                                            <td><a>${job.jobType.name}</a></td>
                                             <td><a>${job.referenceNumber}</a></td>
-                                            <td><a>${job.status}</a></td>
+                                            <td><a>${job.status.name}</a></td>
                                             <td><a><fmt:formatDate type = "both" value = "${job.creationDate}" /></a></td>
-                                            <td>
-                                            </td>
+                                            <td style="text-align: center;">
+		                                     <a>
+										   <button class="button-see" data-toggle="modal" data-placement="top" title="<fmt:message key="reprint.job"/> "  data-bs-target="#ExtralargeModal" onclick="loadDynamicPageModal('job/reprint/${job.id}');"style="color: green;font-size: 15px;">
+										     <i class="bi bi-plus-square-fill"></i>
+										   </button>
+										 </a>
+										 </td>
+                                            
 
                                         </tr>
                                     </c:forEach>

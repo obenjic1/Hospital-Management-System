@@ -95,7 +95,7 @@ public class JobServiceImpl implements JobService {
 	@Override
 	public Job saveJob(JobDTO jobDTO) {
 		Job newJob = new Job();
-		newJob.setTitle(jobDTO.getTitle());
+		newJob.setTitle(jobDTO.getTitle().toUpperCase());
 		newJob.setContentVolume(jobDTO.getContentVolume());
 		newJob.setCoverVolume(jobDTO.getCoverVolume());
 		newJob.setOpenLength(jobDTO.getOpenLength());
@@ -148,6 +148,8 @@ public class JobServiceImpl implements JobService {
 			jobPaper.setPaperType(paperType.get());
 			Optional<ContentType> contentType = contentTypeRepository.findById(row.getContentTypeId());
 			jobPaper.setContentType(contentType.get());
+			jobPaper.setPaperSizeLength(row.getPaperSizeLength());
+			jobPaper.setPaperSizeWidth(row.getPaperSizeWidth());
 
 			List<JobColorCombination> colorCombinations = new ArrayList<JobColorCombination>();
 			row.getJobColorCombinations().forEach(colors->{
@@ -425,6 +427,8 @@ public class JobServiceImpl implements JobService {
 			JobPaper jobPaper = new JobPaper();
 			jobPaper.setGrammage(row.getGrammage());
 			jobPaper.setVolume(row.getVolume());
+			jobPaper.setPaperSizeLength(row.getPaperSizeLength());
+			jobPaper.setPaperSizeWidth(row.getPaperSizeWidth());
 			jobPaper.setUnitPrice(row.getPaperUnitPrice());
 			Optional<PaperType> paperType = paperTypeRepository.findById(row.getPaperTypeId());
 			if(paperType.isPresent())
@@ -645,4 +649,5 @@ public class JobServiceImpl implements JobService {
 	
 	}
 
+	
 }

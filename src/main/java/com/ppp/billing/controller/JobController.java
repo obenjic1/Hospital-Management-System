@@ -1556,54 +1556,7 @@ public class JobController {
 		}
 
 
-//			//<--------------------- Edit a draft job to complete job ( get the form) ------------------------------>
-//			
-//			
-//			
-//				@GetMapping("/get-complete-draft-form/{id}")
-//				public String completeDraftToJob(@PathVariable Long id, Model model) {
-//					List<Customer> customerResult = customerServiceImpl.findAll();
-//					List<JobType> jobTypeResult = jobTypeServiceImpl.findAll();
-//					List<PaperFormat> paperFormatResult = paperFormatServiceImpl.findAll();
-//					List<JobPaper> jobPaperResult = jobPaperServiceImpl.findAll();
-//					List<PaperType>  paperTypeResult = paperTypeServiceImpl.listAll();
-//					List<PaperGrammage> paperGrammageResult = paperGrammageServiceImpl.findAll();
-//					List<PrintingMachine> printingMachineResult = printingMachineServiceImpl.listMachines();
-//					List<PrintType> printTypeResult = printTypeServiceImpl.findAll();
-//					List<BindingType> bindingTypeResult = bindingTypeserviceImpl.listAll();
-//
-//					Job existingJob = jobServiceImpl.findById(id).get();
-//			//		existingJob.getJobPapers().get(0).u
-//					model.addAttribute("job", existingJob);
-//					model.addAttribute("customers", customerResult);
-//					model.addAttribute("jobTypes", jobTypeResult);
-//					model.addAttribute("paperFormats", paperFormatResult);
-//					model.addAttribute("jobPaperResults", jobPaperResult);
-//					model.addAttribute("paperTypes", paperTypeResult);
-//					model.addAttribute("paperGrammages", paperGrammageResult);
-//					model.addAttribute("printingMachines", printingMachineResult);
-//					model.addAttribute("printTypes", printTypeResult);
-//					model.addAttribute("bindingTypes", bindingTypeResult);
-//
-//
-//				    return "/billing/update-draft-to-registered-form";
-//				}
-//				
-				
-//				//<--------------------- Complete a  DraftJob ------------------------------>
-//				@PostMapping(value="/complete-draft/{id}", consumes=MediaType.APPLICATION_JSON_VALUE)
-//				@ResponseBody
-//				public String completeDraft(@PathVariable Long id,@RequestBody JobDTO jobDTO){
-//
-//					try {
-//						jobServiceImpl.updateJob(jobDTO, id);
-//						return "OK";
-//					} catch (Exception e) {
-//						e.printStackTrace();
-//						return "KO";
-//					}
-//				}
-				
+
 		
 		
 		@GetMapping("/confimJob/{id}")
@@ -1891,5 +1844,67 @@ public class JobController {
 			model.addAttribute("jobTrackings",jobTrackings);
 
 	    return "/billing/history";
+		}
+		
+		
+		
+							// Reprint Job 
+		@GetMapping("/reprint/{id}")
+		public String displayReprintJobForm(@PathVariable long id, Model model) {
+			List<Customer> customerResult = customerServiceImpl.findAll();
+			List<JobType> jobTypeResult = jobTypeServiceImpl.findAll();
+			List<PaperFormat> paperFormatResult = paperFormatServiceImpl.findAll();
+			List<JobPaper> jobPaperResult = jobPaperServiceImpl.findAll();
+			List<PaperType>  paperTypeResult = paperTypeServiceImpl.listAll();
+			List<PrintingMachine> printingMachineResult = printingMachineServiceImpl.listMachines();
+			List<PrintType> printTypeResult = printTypeServiceImpl.findAll();
+			List<JobColorCombination> jobColorCombinationResult = jobColorCombinationServiceImpl.findAll();
+			List<PaperGrammage> paperGrammageResult = paperGrammageServiceImpl.findAll();
+			List<BindingType> bindingTypeResult = bindingTypeserviceImpl.listAll();
+			
+			Job existingJob = jobServiceImpl.findById(id).get();
+	    	List<JobPaper> contentJobPapers = new ArrayList<JobPaper>(); //Extraire la liste des jobPaper appartenant à un job
+		
+			for(int i =0; i< existingJob.getJobPapers().size(); i++) {
+				if(existingJob.getJobPapers().get(i).getContentType().getId()==2) {
+					contentJobPapers.add(existingJob.getJobPapers().get(i));
+				}
+		
+			}
+			
+			JobPaper existingJobPaper = existingJob.getJobPapers().remove(0);
+			JobColorCombination covercolourCombination = existingJobPaper.getJobColorCombinations().get(0);
+			double coversignature = existingJobPaper.getJobColorCombinations().get(0).getNumberOfSignature();
+			JobActivity jobActivity = existingJob.getJobActivity();
+			int jobActivit = existingJob.getJobActivity().getXPerforated();
+			int numbered = existingJob.getJobActivity().getXNumbered();
+			int creased = existingJob.getJobActivity().getXCreased();
+			int wireStiched = existingJob.getJobActivity().getXWiredStiched();
+			int cross = existingJob.getJobActivity().getXCross();
+			int handFoldCov = existingJob.getJobActivity().getHandFoldingCov();
+			model.addAttribute("job", existingJob);
+			model.addAttribute("coversignature", coversignature);
+			model.addAttribute("customers", customerResult);
+			model.addAttribute("jobTypes", jobTypeResult);
+			model.addAttribute("paperFormats", paperFormatResult);
+			model.addAttribute("bindingTypes", bindingTypeResult);
+			model.addAttribute("coverJobPaper", existingJobPaper);
+			model.addAttribute("jobPaperResults", jobPaperResult);
+			model.addAttribute("paperTypes", paperTypeResult);
+			model.addAttribute("printingMachines", printingMachineResult);
+			model.addAttribute("printTypes", printTypeResult);
+			model.addAttribute("jobColorCombinations", jobColorCombinationResult); 
+			model.addAttribute("paperGrammages", paperGrammageResult);
+			model.addAttribute("covercolourCombination", covercolourCombination);
+			model.addAttribute("jobActivity", jobActivity);
+			model.addAttribute("numbered", numbered);
+			model.addAttribute("creased", creased);
+			model.addAttribute("wireStiched", wireStiched);
+			model.addAttribute("cross", cross);
+			model.addAttribute("jobActivit", jobActivit);
+			model.addAttribute("handFoldCov", handFoldCov);
+			model.addAttribute("contentJobPaper", contentJobPapers);
+			
+		    return "/billing/duplicate-job-form";
 		}
 }

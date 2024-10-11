@@ -222,11 +222,11 @@
         
  <!-- <----------------------------------- Tab2 ------------------------------->   
  
-       <div class=" container tab-pane fade"  id="tab2" role="tabpanel" aria-labelledby="profile-tab">
+              <div class=" container tab-pane fade"  id="tab2" role="tabpanel" aria-labelledby="profile-tab">
          <div style="position: relative;bottom: -20px;" id="mainDiv" >	
          	
 		   <div class="row py-4" id="coverInformations">
-			 <div class ="col-lg-3 px8" >
+			 <div class ="col-lg-2 px8" >
 			   <label for="" class="form-label"><a> <fmt:message key="cover.paper.type"/></a></label> 
 			   <select id="coverPaperType" name="name" class="form-select">
 			     <option selected>Choose...</option>
@@ -236,7 +236,7 @@
                </select>
 			 </div>
 
-			 <div class ="col-lg-3 px8" style="position: relative; left:10px;">
+			 <div class ="col-lg-2 px8" style="position: relative;">
 			   <label for="" class="form-label"><a><fmt:message key="grammage"/></a> </label>
 			   <input style="postion-relative-left:2px;position: relative;left: 10px;" list="coverGrammage" id="coverGrammage" name="xx">
 					   <datalist id="coverGrammage">
@@ -245,21 +245,35 @@
                     </c:forEach>
 	                   </datalist>  
               </div>
-			  <div class ="col-lg-3 px8" style="position: relative; left: 10px;">
+			  <div class ="col-lg-2 px8" style="position: relative; left: 10px;">
 			    <label for="" class="form-label"><a><fmt:message key="cover.volume"/></a></label>
 			     <input id="coverVolume" type="text"  name="fname" readonly="readonly">
               </div>
               
-              <div class ="col-lg-3 px8" style="position: relative;">
+               <div class ="col-lg-2 px8" style="position: relative; left: 10px;">
+			  <label for="" class="form-label"><a><fmt:message key="paper.size"/> (mm)</a></label>
+				 <div class="row">
+				   <div class="col-6 paper-size-width">
+                     <input onchange="resetNumberOfSignature(this)" id="paperSizeWidth" placeholder="<fmt:message key='width'/>" value="650" type="number" style="postion-relative-left:2px;position: relative;left: 4px;">
+                   </div>
+				   <div  class="col-6 paper-size-length"  style="position: relative;left: -25px;">
+				      <input onchange="resetNumberOfSignature(this)" id="paperSizeLength" value="920" placeholder="<fmt:message key='length'/>" type="number">
+                    </div>
+				  </div>
+              </div>
+              
+              <div class ="col-lg-2 px8" style="position: relative;">
 			    <label for="" class="form-label"><a><fmt:message key="cover.paper.price"/></a></label>
 			     <input id="coverPaperUnitPrice" type="number"  name="coverPaperUnitPrice">
               </div>
+              
+           
 		    </div>	
 		    
 		   <div id="contentDiv">   		
 			<div class="row py-3"  style="display:none">
 			
-			  <div class="col-lg-3 px-8" >
+			  <div class="col-lg-2 px-8" >
 			    <label for="" class="form-label"><a> <fmt:message key="content.paper.type"/></a> </label>
 				<select contentPaperType name="name" class="form-select">
 				  <option >Choose...</option>
@@ -268,7 +282,7 @@
                   </c:forEach>
                 </select>
 			  </div>
-			  <div class="col-lg-3 px-8" style="position: relative; left: 10px;">
+			  <div class="col-lg-2 px-8" style="position: relative; left: 10px;">
 			    <label for="" class="form-label"><a><fmt:message key="grammage"/></a> </label>
 			     <input contentGrammage type="text"  list="contentGrammage" >
 				  <datalist  id="contentGrammage">
@@ -278,21 +292,34 @@
 	            </datalist>   
 			  </div>
 			 
-			  <div class="col-lg-3 px-8 coverDup" style="position: relative; left: 10px;float:left">
+			  <div class="col-lg-2 px-8 coverDup" style="position: relative; left: 10px;float:left ;" >
 			    <label for="" class="form-label"><a> <fmt:message key="content.volume"/> </a></label> 
-				<input type="text" contentVolume  name="contentVolume" oldValue="" onclick="this.oldValue=this.value" onchange="updateTotalContentvolume(this.value,this.oldValue)"  >
+				<input type="text" contentVolume  name="contentVolume" oldValue="" onclick="this.oldValue=this.value" onchange="updateTotalContentvolume(this.value,this.oldValue, this)"  >
 			  </div>
 			  
-			   <div class ="col-lg-3 px8" style="position: relative;">
+			  <div class ="col-lg-2 px8" style="position: relative; left: 10px;">
+			  <label for="" class="form-label"><a><fmt:message key="paper.size"/> (mm)</a></label>
+				 <div class="row">
+				   <div class="col-6 paper-size-width">
+                     <input onchange="resetNumberOfSignature(this)" paperSizeWidth placeholder="<fmt:message key='width'/>" value="620" type="number" style="postion-relative-left:2px;position: relative;left: 4px;">
+                   </div>
+				   <div  class="col-6 paper-size-length"  style="position: relative;left: -25px;">
+				      <input onchange="resetNumberOfSignature(this)" paperSizeLength value="950" placeholder="<fmt:message key='length'/>" type="number">
+                    </div>
+				  </div>
+              </div>
+			  
+			   <div class ="col-lg-2 px8" style="position: relative; width: 230px;">
 			    <label for="" class="form-label"><a><fmt:message key="content.paper.price"/></a> </label>
 			     <input paperUnitPrice type="text"  name="paperUnitPrice">
 			     <button type="button" id="deleteButton"  onclick="removeContentNode(this,this.parentNode.previousElementSibling)"><i class="ri-delete-bin-3-line"></i> </button>
               </div>
+              
 			  
 		   </div>
 		   
-		   <div class="row py-3"  >
-			  <div class="col-lg-3 px-8">
+		   <div class="row py-3">
+			  <div class="col-lg-2 px-8">
 			    <label for="" class="form-label"><a><fmt:message key="content.paper.type"/> </a> </label>
 				<select contentPaperType name="name" class="form-select">
 				  <option >Choose...</option>
@@ -302,7 +329,7 @@
                 </select>
 			  </div>
 			  
-			  <div class="col-lg-3 px-8" style="position: relative; left: 10px;">
+			  <div class="col-lg-2 px-8" style="position: relative; left: 10px;">
 			    <label for="" class="form-label"><a> <fmt:message key="grammage"/></a></label>
 			     <input contentGrammage type="text" list="contentGrammage">
 				  <datalist  id="contentGrammage">
@@ -311,16 +338,26 @@
                     </c:forEach>
 	            </datalist>   
 			  </div>
-			  <div class="col-lg-3 px-8 " style="position: relative; left: 10px">
+			  <div class="col-lg-2 px-8 " style="position: relative; left: 10px;">
 			    <label for="" class="form-label"><a><fmt:message key="content.volume"/></a> </label> 
 				<input type="text" contentVolume name="contentVolume" readonly="readonly">
 			  </div>
-
-				<div class ="col-lg-3 px8" style="position: relative;">
+			  <div class ="col-lg-2 px8" style="position: relative; left: 10px;">
+			  <label for="" class="form-label"><a><fmt:message key="paper.size"/> (mm)</a></label>
+				 <div class="row">
+				   <div class="col-6 paper-size-width">
+                     <input onchange="resetNumberOfSignature(this)" paperSizeWidth placeholder="<fmt:message key='width'/>" value="620" type="number" style="postion-relative-left:2px;position: relative;left: 4px;">
+                   </div>
+				   <div  class="col-6 paper-size-length"  style="position: relative;left: -25px;">
+				      <input onchange="resetNumberOfSignature(this)" paperSizeLength value="950" placeholder="<fmt:message key='length'/>" type="number">
+                    </div>
+				  </div>
+              </div>
+				<div class ="col-lg-2 px8" style="position: relative;">
 			    <label for="" class="form-label"><a><fmt:message key="content.paper.price"/></a></label>
 			     <input paperUnitPrice type="number"  name="paperUnitPrice">
               </div>
-			   <div class="col-lg-3 px-8 " style="position: relative; left: 10px">
+			   <div class="col-lg-2 px-8 " >
 			       <label for="" class="form-label" style=""><a><fmt:message key="add"/></a></label> 
 			       <span>
 			       	<button type="button"  id="duplicateButton"  onclick="addContentPaperChild()" ><i class="ri-add-fill"></i>
@@ -328,6 +365,7 @@
 
 			       </span>
 			  </div>
+			 
 		   </div>
 		   
 		    </div>
@@ -342,7 +380,7 @@
 
 	     </div>
 				
-       </div>      
+       </div> 
        
        
        

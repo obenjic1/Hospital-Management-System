@@ -144,7 +144,8 @@
 									<c:if test="${job.status.name !='Abort' && job.status.name !='Approved'}">
 								      <option data-toggle="tooltip" data-placement="top" title="archive a job" onclick="confirmAbort(${job.id})"><fmt:message key="abort.button"/></option>
 								    </c:if>  
-
+									
+									<option data-bs-toggle="modal" data-bs-target="#ExtralargeModal" onclick="loadDynamicPageModal('job/reprint/${job.id}');"><fmt:message key="reprint.job"/></option>
 								     <option data-bs-toggle="modal" data-bs-target="#ExtralargeModal" onclick="loadDynamicPageModal('job/history/${job.id}');"><fmt:message key="history"/></option>
 
 					              </select>

@@ -104,6 +104,13 @@ public class PrintingElementCost {
 		PrintingMachine printingMachine = colorCombination.getPrintingMachine();
 		float machinePlateLength = printingMachine.getPlateLength();
 		float machinePlateWidth = printingMachine.getPlateLength();
+		
+		double minimumLenght = Math.min(Math.min( colorCombination.getJobPaper().getPaperSizeWidth()-20,  colorCombination.getJobPaper().getPaperSizeLength()-20),Math.min(machinePlateLength, machinePlateWidth));
+		double maximumLength =  Math.min(Math.max( colorCombination.getJobPaper().getPaperSizeWidth()-20,  colorCombination.getJobPaper().getPaperSizeLength()-20),Math.max(machinePlateLength, machinePlateWidth));
+	 	machinePlateLength = (float) minimumLenght;
+	 	machinePlateWidth =  (float)maximumLength;
+	 	
+		
 		float closeLength = (float) colorCombination.getJobPaper().getJob().getCloseLength();
 		float closeWidth = (float) colorCombination.getJobPaper().getJob().getCloseWidth();
 		double logP = Math.log((machinePlateLength*machinePlateWidth)/(closeLength*closeWidth));
