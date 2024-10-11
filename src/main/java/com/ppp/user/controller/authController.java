@@ -78,5 +78,12 @@ public class authController {
 
 	        return "sw";
 	    }
+		  //Public page
+	    @RequestMapping(value = "/sw.js")
+	    public String serve2Worker() {
+
+	        return "sw";
+	    }
+
 
 }

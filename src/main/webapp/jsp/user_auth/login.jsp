@@ -40,7 +40,7 @@
 	src="assets/js/install-sw.js"></script>
 </head>
 
-<body>
+<body onload="registerServiceWorker();">
 	<main>
 		<div class="container">
 						 	
