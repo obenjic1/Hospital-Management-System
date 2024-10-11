@@ -39,7 +39,7 @@ public class CustomerServiceImpl implements CustomerService {
 				String imagePath = fileStorageService.storeCustomerFile(customerDTO.getThumbnail());
 				customer.setThumbnail(imagePath);
 			}
-		
+	
 		return customerRepostory.save(customer);
 	}
 	

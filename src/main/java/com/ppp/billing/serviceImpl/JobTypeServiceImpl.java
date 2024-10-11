@@ -7,9 +7,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.util.Streamable;
 import org.springframework.stereotype.Service;
 
 import com.ppp.billing.model.JobType;
+import com.ppp.billing.model.dto.JobTypeDTO;
 import com.ppp.billing.repository.JobTypeRepository;
 import com.ppp.billing.service.JobTypeService;
 
@@ -19,11 +21,7 @@ public class JobTypeServiceImpl implements JobTypeService {
 	@Autowired
 	private JobTypeRepository jobTypeRepository;
 
-//	@Override
-//	public JobType save(JobTypeDTO jobTypeDTO) {
-//		// TODO Auto-generated method stub
-//		return null;
-//	}
+	
 
 	@Override
 	public Optional<JobType> findByName(String name) {
@@ -57,6 +55,29 @@ public class JobTypeServiceImpl implements JobTypeService {
 		
 	}
 
+	@Override
+	public JobType save(JobTypeDTO jobTypeDto) {
+		
+		JobType jobType = new JobType();
+		jobType.setName(jobTypeDto.getName());
+		jobType.setCategory(jobTypeDto.getCategory());
+		jobTypeRepository.save(jobType);
+		return jobType;
+	}
 
+	public Optional<JobType> findById(long id) {
+		return jobTypeRepository.findById(id);
+	}
+
+	@Override
+	public JobType update(JobTypeDTO jobTypeDto) {
+		JobType jobType = jobTypeRepository.findById(jobTypeDto.getId()).get();
+		jobType.setName(jobTypeDto.getName());
+		jobType.setCategory(jobTypeDto.getCategory());
+		return jobTypeRepository.save(jobType);
+	}
 	
+	public List<JobType> listAllJobTypeOrderByCategory(){
+		return jobTypeRepository.listAllJobTypeOrderByCategory();
+	}
 }

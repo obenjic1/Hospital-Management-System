@@ -60,7 +60,7 @@ public class CustomerController {
 	@GetMapping("/displayCustomerForm")
 	public String showRegistrationForm(Model model) {
 		model.addAttribute("CustomerDTO", new CustomerDTO());
-		
+	
 		return "billing/customer";
 	}
 

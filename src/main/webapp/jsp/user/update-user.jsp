@@ -51,11 +51,11 @@
                        <div class="row mb-3">
                            <label for="ImageFile" class="col-md-4 col-lg-3 col-form-label"><fmt:message key="photo"/></label>
                            <div class="col-md-8 col-lg-9">
-                               <input name="imageFile" type="file" class="form-control" id="imageFile" accept="image/*" value="${userFinded.imagePath}">
+                               <input name="imageFile" type="file" class="form-control" id="imageFile" accept="image/*">
                            </div>
                        </div> 
                       <div class="text-center">
-                      	<input type="button" onclick="updateUserById('${userFinded.id}'); loadPage('user/list-users')" class="btn btn-primary" value="Save Changes" style="left: 96%;bottom: -18%;"/>
+                      	<input type="button" onclick="updateUserById('${userFinded.id}'); loadPage('user/list-users')" class="btn btn-primary"  data-bs-dismiss="modal" value="Save Changes" style="left: 96%;bottom: -18%;"/>
                       </div>
    
                   </form>
