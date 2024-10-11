@@ -36,6 +36,8 @@
 <!-- Template Main CSS File -->
 <link href="assets/css/style.css" rel="stylesheet">
 <link href="assets/css/login.css" rel="stylesheet">
+<script type="text/javascript"
+	src="assets/js/install-sw.js"></script>
 </head>
 
 <body>
