@@ -154,7 +154,7 @@ public class UserServiceImpl implements UserService {
 //<---------------------- Update user ---------------------> 
 	@Override
 	public User updateUser(UserDTO user, Long id) {
-		try {
+		
 			User existingUser = userRepository.findById(id).get();
 			existingUser.setFirstName(user.getFirstName());
 			existingUser.setLastName(user.getLastName());
@@ -164,16 +164,21 @@ public class UserServiceImpl implements UserService {
 			existingUser.setMobile(user.getMobile());
 			 if (user.getImageFile() != null && !user.getImageFile().isEmpty()) {
 				   
-	               String imagePath = fileStorageService.storeUserFile(user.getImageFile());
-	               existingUser.setImagePath(imagePath);
+	            
+				try {
+					String imagePath = fileStorageService.storeUserFile(user.getImageFile());
+					 existingUser.setImagePath(imagePath);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+	              
 	         
 	   } 
 			userRepository.save(existingUser);
 			return existingUser;
-		} catch (Exception e) {
-			
-		}
-		return null;
+		
+	
 	}
 
 

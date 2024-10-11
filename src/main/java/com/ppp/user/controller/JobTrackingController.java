@@ -62,7 +62,7 @@ public class JobTrackingController {
 		String name = SecurityContextHolder.getContext().getAuthentication().getName();
 		User user = jobTrackingServiceImpl.findConnectedUser(name);
 		List<Job> jobs = jobTrackingServiceImpl.findByUser();
-		double Amount = 0;
+		double amount = 0;
 		int count = jobs.size();
 		for(Job job : jobs) {
 			for (JobEstimate jobestimate : job.getJobEstimates()){
@@ -70,7 +70,7 @@ public class JobTrackingController {
 					for (EstimatePricing estimateP: jobestimate.getEstimatePricings()) {
 						for(Invoice invoice : estimateP.getInvoices()) {
 						if(estimateP.getInvoices()!=null) {
-							Amount = Amount + invoice.getNetPayable();
+							amount = amount + invoice.getNetPayable();
 						}
 						}
 					}
@@ -81,7 +81,7 @@ public class JobTrackingController {
 		model.addAttribute("user", user);
 		model.addAttribute("jobs", jobs);
 		model.addAttribute("count", count);
-		model.addAttribute("Amount", Amount);
+		model.addAttribute("Amount", amount);
 	
 		return "user/view-user-dashboard";
 		
