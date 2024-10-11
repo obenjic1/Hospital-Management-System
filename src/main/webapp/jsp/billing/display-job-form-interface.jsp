@@ -357,6 +357,7 @@
 		  
 	     </div>	
 	     <div class ="row py-3 "style="margin-top:50px" >
+	     
 		     <div class ="col-sm-6"> <button type="button" style ="width:125px;float:left" class="btn btn-primary" onclick="navigate(2,1);"><fmt:message key="previews"/></button>	
 		    </div>
 	        <div class ="col-sm-6">
