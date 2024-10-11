@@ -45,7 +45,7 @@
 			     <div class="row py-4">
 				  <div id="loadInputForCustomerNewlyCreated" class ="col-lg-3 px8">					 
 				   <label for="" class="form-label"><a> <fmt:message key="customer"/> </a></label>
-				   <select id="customer"  class="form-select" >
+				   <select id="customer" name="customer"  class="form-select" >
 				   	<option value="${job.customer.id}" selected>${job.customer.name}</option>
 	                 <c:forEach items="${customers}" var="customer">
 	                   <option value="${customer.id}">${customer.name}</option>
@@ -121,7 +121,7 @@
 			<div class="row py-3">
 			  <div class ="col-lg-3 px8" >
 				   <label for="" class="form-label"> <a><fmt:message key="format"/></a> </label>
-              	   <select id="paperFormat" onchange="paperF(this.value)" name="name" class="form-select">
+              	   <select id="paperFormat" onchange="paperF(this.value)" name="paperFormat" class="form-select">
               	      <option onclick="">Custom Format...</option>
               	      <option value="${paperFormat.id},${paperFormat.length},${paperFormat.width}" selected>${job.paperFormat}</option>
 					  <c:forEach items="${paperFormats}" var="paperFormat">
@@ -133,10 +133,10 @@
 			     <label for="" class="form-label"> <a><fmt:message key="open.format"/></a> </label> 
 			       <div class="row">
 				     <div class="col-6 volume-cover-l">
-                       <input id="openWidth" type="number" value="${job.openWidth}" style="postion-relative-left:2px;position: relative;left: 4px;"  placeholder= "<fmt:message key='open.width'/> ">
+                       <input id="openWidth" name="openwidth" value="${job.openWidth}" style="postion-relative-left:2px;position: relative;left: 4px;"  placeholder= "<fmt:message key='open.width'/> ">
 				      </div>
 				      <div  class="col-6 volume-cover-w">
-				      <input id="openLength" type="number" value="${job.openLength}" placeholder="<fmt:message key='open.legnth'/>">
+				      <input id="openLength"  name="openLegnth" value="${job.openLength}" placeholder="<fmt:message key='open.legnth'/>">
 					  
                    </div>
 				 </div>
@@ -145,10 +145,10 @@
 			   <label for="" class="form-label"> <a><fmt:message key="close.format"/></a> </label>
 			     <div class="row">
 				   <div class="col-6 volume-cover-l">
-                     <input type="number" id="closeWidth" value="${job.closeWidth}" style="postion-relative-left:2px;position: relative;left: 4px;"  placeholder= "<fmt:message key="open.width"/> ">
+                     <input name="closeWidth id="closeWidth" value="${job.closeWidth}" style="postion-relative-left:2px;position: relative;left: 4px;"  placeholder= "<fmt:message key="open.width"/> ">
 				     </div>
 				     <div  class="col-6 volume-cover-w">
-				       <input id="closeLength" type="number" value="${job.closeLength}"  placeholder="<fmt:message key="open.legnth"/>">
+				       <input id="closeLength"  name="closeLength" value="${job.closeLength}"  placeholder="<fmt:message key="open.legnth"/>">
                     </div>
 				  </div>
 			   </div>
@@ -168,8 +168,8 @@
 				    </div>
 				  </div>
 				  <div class ="col-lg-3 px8"  style="position: relative; left: 10px;">
-				    <label for="" class="form-label"><a> <fmt:message key="ctp.fees"/></a></label> 
-					<input type="number" id="ctpFees" value="${job.ctpFees}">
+				    <label for="" class="form-label"><a> <fmt:message key="ctp.fees" /></a></label> 
+					<input type="number"  name="ctpFees" id="ctpFees" value="${job.ctpFees}">
 			      </div>
 		       </div>		
 	
@@ -203,7 +203,7 @@
 			  </div>
 		    </div>	
 		     <div class="row py-3">    
-			<button  style=" width: 94px;" type="button"  class="btn btn-primary" onclick="validateTab1(); tab1NextBtnAction()" id="next-btn" >Next</button>	
+			<button  style=" width: 94px;" type="button"  class="btn btn-primary" onclick="validateTab1(); tab1NextBtnAction();" id="next-btn" >Next</button>	
 		   </div>  	
           </div>             
         </div>
@@ -222,7 +222,7 @@
 		   <div class="row py-4" id="coverInformations">
 			  <div class ="col-lg-2 px8" >
 			   <label for="" class="form-label"><a> <fmt:message key="cover.paper.type"/></a></label> 
-			   <select id="coverPaperType" name="name" class="form-select">
+			   <select id="coverPaperType" name="paperType" class="form-select">
 				 <c:forEach items="${paperTypes}" var="paperTypeToUpdate">
 				 	<c:if test="${coverJobPaper.paperType.id==paperTypeToUpdate.id}">
 				 	<option selected value="${paperTypeToUpdate.id}">${paperTypeToUpdate.name}</option>
@@ -235,7 +235,7 @@
 			 </div>
 			 <div class ="col-lg-2 px8" style="position: relative; left:10px;">
 			   <label for="" class="form-label"><a><fmt:message key="grammage"/></a> </label>
-			   <input style="postion-relative-left:2px;position: relative;left: 10px;" value="${coverJobPaper.grammage}" list="coverGrammage" id="coverGrammage" name="xx">
+			   <input   name="paperGrammage" style="postion-relative-left:2px;position: relative;left: 10px;" value="${coverJobPaper.grammage}" list="coverGrammage" id="coverGrammage" name="xx">
 			   <datalist id="coverGrammage">
                    <c:forEach items="${paperGrammages}" var="paperGrammage"> 
                    <option value="${paperGrammage.value}"></option> 
@@ -244,22 +244,22 @@
               </div>
 			  <div class ="col-lg-2 px8" style="position: relative; left: 10px;">
 			    <label for="" class="form-label"><a><fmt:message key="cover.volume"/></a></label>
-			     <input id="coverVolume" type="text"  name="fname" readonly="readonly">
+			     <input id="coverVolume" type="text"  name="volume" readonly="readonly">
               </div>
               <div class ="col-lg-2 px8" style="position: relative; left: 10px;">
 			  <label for="" class="form-label"><a><fmt:message key="paper.size"/> (mm)</a></label>
 				 <div class="row">
 				   <div class="col-6 paper-size-width">
-                     <input id="paperSizeWidth" placeholder="<fmt:message key='width'/>" value="${coverJobPaper.paperSizeWidth}" type="number" style="postion-relative-left:2px;position: relative;left: 4px;">
+                     <input name="paperSizeWidth" id="paperSizeWidth" placeholder="<fmt:message key='width'/>" value="${coverJobPaper.paperSizeWidth}" style="postion-relative-left:2px;position: relative;left: 4px;">
                    </div>
 				   <div  class="col-6 paper-size-length"  style="position: relative;left: -25px;">
-				      <input id="paperSizeLength" value="${coverJobPaper.paperSizeLength}" placeholder="<fmt:message key='length'/>" type="number">
+				      <input name="paperSizeLength" id="paperSizeLength" value="${coverJobPaper.paperSizeLength}" placeholder="<fmt:message key='length'/>">
                     </div>
 				  </div>
               </div>
               <div class ="col-lg-2 px8" style="position: relative;">
 			    <label for="" class="form-label"><a><fmt:message key="cover.paper.price"/></a></label>
-			     <input id="coverPaperUnitPrice" type="number" value="${coverJobPaper.unitPrice}" name="coverPaperUnitPrice">
+			     <input id="coverPaperUnitPrice" type="number" value="${coverJobPaper.unitPrice}" name="paperPrice">
               </div>
 		    </div>	
 		    
@@ -267,7 +267,7 @@
 			<div class="row py-3"  style="display:none">
 			  <div class="col-lg-2 px-8" >
 			    <label for="" class="form-label"><a> <fmt:message key="content.paper.type"/></a> </label>
-				<select contentPaperType name="name" class="form-select">
+				<select contentPaperType name="paperType" class="form-select">
 				<option >Choose...</option>
 			  	<c:forEach items="${paperTypes}" var="paperType">
                     <option value="${paperType.id}">${paperType.name}</option>
@@ -276,7 +276,7 @@
 			  </div>
 			  <div class="col-lg-2 px-8" style="position: relative; left: 10px;">
 			    <label for="" class="form-label"><a><fmt:message key="grammage"/></a> </label>
-			     <input contentGrammage  list="contentGrammage" >
+			     <input contentGrammage  list="contentGrammage" name="paperGrammage">
 				  <datalist  id="contentGrammage">
 	               <c:forEach items="${paperGrammages}" var="paperGrammage">
                     <option value="${paperGrammage.value}"></option>
@@ -286,22 +286,22 @@
 			 
 			  <div class="col-lg-2 px-8 coverDup" style="position: relative; left: 10px;float:left">
 			    <label for="" class="form-label"><a> <fmt:message key="content.volume"/> </a></label> 
-				<input type="text" contentVolume name="contentVolume" oldValue="" onclick="this.oldValue=this.value" onchange="updateTotalContentvolume(this.value,this.oldValue)"  >
+				<input type="text" contentVolume name="volume" oldValue="" onclick="this.oldValue=this.value" onchange="updateTotalContentvolume(this.value,this.oldValue)"  >
 			  </div>
 			       <div class ="col-lg-2 px8" style="position: relative; left: 10px;">
 			  <label for="" class="form-label"><a><fmt:message key="paper.size"/> (mm)</a></label>
 				 <div class="row">
 				   <div class="col-6 paper-size-width">
-                     <input paperSizeWidth placeholder="<fmt:message key='width'/>" value="620" type="number" style="postion-relative-left:2px;position: relative;left: 4px;">
+                     <input name="paperSizeWidth" paperSizeWidth placeholder="<fmt:message key='width'/>" value="620" type="number" style="postion-relative-left:2px;position: relative;left: 4px;">
                    </div>
 				   <div  class="col-6 paper-size-length"  style="position: relative;left: -25px;">
-				      <input paperSizeLength value="950" placeholder="<fmt:message key='length'/>" type="number">
+				      <input name="paperSizeLength" paperSizeLength value="950" placeholder="<fmt:message key='length'/>" type="number">
                     </div>
 				  </div>
               </div>
 			   <div class ="col-lg-3 px8" style="position: relative;">
 			    <label for="" class="form-label"><a><fmt:message key="content.paper.price"/></a> </label>
-			     <input paperUnitPrice type="number"  name="paperUnitPrice" value="">
+			     <input paperUnitPrice type="number"  name="paperPrice" value="">
 			     <button type="button" id="deleteButton"  onclick="removeContentNode(this,this.parentNode.previousElementSibling)"><i class="ri-delete-bin-3-line"></i> </button>
               </div>
 			  
@@ -312,7 +312,7 @@
 		   <div class="row py-3"  >
 			  <div class="col-lg-2 px-8">
 			    <label for="" class="form-label"><a><fmt:message key="content.paper.type"/> </a> </label>
-				<select contentPaperType name="name" class="form-select">
+				<select contentPaperType name="paperType" class="form-select">
 					 <option >Choose...</option>
 			  <c:forEach items="${paperTypes}" var="paperType">
 			  <c:if test="${contentJPaper.paperType.id==paperType.id}">
@@ -327,7 +327,7 @@
 			  
 			  <div class="col-lg-2 px-8" style="position: relative; left: 10px;">
 			    <label for="" class="form-label"><a> <fmt:message key="grammage"/></a></label>
-			     <input contentGrammage  list="contentGrammage" value="${contentJPaper.grammage}">
+			     <input contentGrammage  list="contentGrammage" value="${contentJPaper.grammage}" name="paperGrammage">
 				  <datalist  id="contentGrammage">
 	               <c:forEach items="${paperGrammages}" var="paperGrammage">
 	               <c:if test="${contentJPaper.grammage==paperGrammage.value}"> 
@@ -341,24 +341,24 @@
 			  </div>
 			  <div class="col-lg-2 px-8 " style="position: relative; left: 10px">
 			    <label for="" class="form-label"><a><fmt:message key="content.volume"/></a> </label> 
-				<input  contentVolume name="contentVolume" value="${contentJPaper.volume}" readonly="readonly">
+				<input  contentVolume name="volume" value="${contentJPaper.volume}" readonly="readonly">
 			  </div>
 
  			<div class ="col-lg-2 px8" style="position: relative; left: 10px;">
 			  <label for="" class="form-label"><a><fmt:message key="paper.size"/> (mm)</a></label>
 				 <div class="row">
 				   <div class="col-6 paper-size-width">
-                     <input paperSizeWidth placeholder="<fmt:message key='width'/>" value="${contentJPaper.paperSizeWidth}" type="number" style="postion-relative-left:2px;position: relative;left: 4px;">
+                     <input name="paperSizeWidth" paperSizeWidth placeholder="<fmt:message key='width'/>" value="${contentJPaper.paperSizeWidth}" type="number" style="postion-relative-left:2px;position: relative;left: 4px;">
                    </div>
 				   <div  class="col-6 paper-size-length"  style="position: relative;left: -25px;">
-				      <input paperSizeLength value="${contentJPaper.paperSizeLength}" placeholder="<fmt:message key='length'/>" type="number">
+				      <input name="paperSizeLength" paperSizeLength value="${contentJPaper.paperSizeLength}" placeholder="<fmt:message key='length'/>" type="number">
                     </div>
 				  </div>
               </div>
              
               <div class ="col-lg-2 px8" style="position: relative;"> 			    
  				<label for="" class="form-label"><a><fmt:message key="content.paper.price"/></a></label> 
- 			     <input paperUnitPrice type="number"  name="paperUnitPrice" value="${contentJPaper.unitPrice}"> 
+ 			     <input paperUnitPrice type="number"  name="paperPrice" value="${contentJPaper.unitPrice}"> 
               </div>
 			   <div class="col-lg-2 px-8 " style="position: relative; left: 10px">
 			       <label for="" class="form-label" style=""><a><fmt:message key="add"/></a></label> 
@@ -383,7 +383,7 @@
 		     <div class="row py-3">
 			  <div class="col-lg-2 px-8" >
 			    <label for="" class="form-label"><a> <fmt:message key="content.paper.type"/></a> </label>
-				<select contentPaperType name="name" class="form-select">
+				<select contentPaperType name="paperType" class="form-select">
 				<option >Choose...</option>
 			  	 <c:forEach items="${paperTypes}" var="paperType">
 					  <c:if test="${contentJPaper.paperType.id==paperType.id}">
@@ -397,7 +397,7 @@
 			  </div>
 			  <div class="col-lg-2 px-8" style="position: relative; left: 10px;">
 			    <label for="" class="form-label"><a><fmt:message key="grammage"/></a> </label>
-			    <input contentGrammage  list="contentGrammage" value="${contentJPaper.grammage}">
+			    <input contentGrammage  list="contentGrammage" value="${contentJPaper.grammage}" name="paperGrammage">
 				  <datalist  id="contentGrammage">
 	               <c:forEach items="${paperGrammages}" var="paperGrammage">
 	               <c:if test="${contentJPaper.grammage==paperGrammage.value}"> 
@@ -412,23 +412,23 @@
 			 
 			  <div class="col-lg-2 px-8 coverDup" style="position: relative; left: 10px;float:left">
 			    <label for="" class="form-label"><a> <fmt:message key="content.volume"/> </a></label> 
-				<input type="text" value="${contentJPaper.volume}" contentVolume name="contentVolume" oldValue="" onclick="this.oldValue=this.value" onchange="updateTotalContentvolume(this.value,this.oldValue)"  >
+				<input name="volume" type="text" value="${contentJPaper.volume}" contentVolume name="contentVolume" oldValue="" onclick="this.oldValue=this.value" onchange="updateTotalContentvolume(this.value,this.oldValue)"  >
 			  </div>
 			  	<div class ="col-lg-2 px8" style="position: relative; left: 10px;">
 			  <label for="" class="form-label"><a><fmt:message key="paper.size"/> (mm)</a></label>
 				 <div class="row">
 				   <div class="col-6 paper-size-width">
-                     <input paperSizeWidth placeholder="<fmt:message key='width'/>" value="${contentJPaper.paperSizeWidth}" type="number" style="postion-relative-left:2px;position: relative;left: 4px;">
+                     <input name="paperSizeWidth" paperSizeWidth placeholder="<fmt:message key='width'/>" value="${contentJPaper.paperSizeWidth}" type="number" style="postion-relative-left:2px;position: relative;left: 4px;">
                    </div>
 				   <div  class="col-6 paper-size-length"  style="position: relative;left: -25px;">
-				      <input paperSizeLength value="${contentJPaper.paperSizeLength}" placeholder="<fmt:message key='length'/>" type="number">
+				      <input name="paperSizeLength" paperSizeLength value="${contentJPaper.paperSizeLength}" placeholder="<fmt:message key='length'/>" type="number">
                     </div>
 				  </div>
               </div>
              
 			   <div class ="col-lg-2 px8" style="position: relative;">
 			    <label for="" class="form-label"><a><fmt:message key="content.paper.price"/></a> </label>
-			     <input paperUnitPrice type="number"  name="paperUnitPrice" value="${contentJPaper.unitPrice}">
+			     <input paperUnitPrice type="number"  name="paperPrice" value="${contentJPaper.unitPrice}">
 			     <button type="button" id="deleteButton"  onclick="removeContentNode(this,this.parentNode.previousElementSibling)"><i class="ri-delete-bin-3-line"></i> </button>
               </div>
 			  
@@ -444,7 +444,7 @@
 		     <div class ="col-sm-6"> <button type="button" style ="width:125px;float:left" class="btn btn-primary" onclick="navigate(2,1);"><fmt:message key="previews"/></button>	
 		    </div>
 	        <div class ="col-sm-6">
-	        <button type="button"  style ="width:125px;float:right" onclick="navigate(2,3)"  class="btn btn-primary" id=""><fmt:message key="next"/></button>	
+	        <button type="button"  style ="width:125px;float:right" onclick="validateTab2();navigate(2,3)"  class="btn btn-primary" id=""><fmt:message key="next"/></button>	
 	       </div>
 	     </div>
        </div>     
@@ -466,7 +466,7 @@
           <div class="row py-3">
 		   <div class ="col-lg-3 px8" >
 				  <label for="" class="form-label"><a><fmt:message key="cover.printing.machine"/></a></label> 
-				  <select id="coverPrintingMachine" name="name" class="form-select" onchange="coverSignatureCalculation2(this.value , this.parentNode)">
+				  <select id="coverPrintingMachine" name="printingMachine" class="form-select" onchange="coverSignatureCalculation2(this.value , this.parentNode)">
 				    <c:forEach items="${printingMachines}" var="printingMachine">
 				    <c:if test="${covercolourCombination.printingMachine.id==printingMachine.id}">
 				    	 <option selected value="${printingMachine.id},${printingMachine.plateLength},${printingMachine.plateWidth}">${printingMachine.name}</option>
@@ -480,7 +480,7 @@
 				</div>
 			<div class ="col-lg-3 px8" style="position: relative; left: 10px;">
 			  <label for="" class="form-label"><fmt:message key="cover.print.type"/></label>
-			  <select id="coverPrintType" name="name" class="form-select">
+			  <select id="coverPrintType" name="printType" class="form-select">
 			    <c:forEach items="${printTypes}" var="printType">
 			    <c:if test="${covercolourCombination.printType.id==printType.id}">
 			    	 <option selected value="${printType.id}">${printType.name}</option>
@@ -496,11 +496,11 @@
 			  <label for="" class="form-label"><fmt:message key="cover.color.combination"/></label>
 				 <div class="row">
 				   <div class="col-6 volume-cover-l">
-                     <input id="coverFrontColorNumber" placeholder="<fmt:message key='front'/>" type="number" min="0" max="5" style="postion-relative-left:2px;position: relative;left: 4px;" value="${covercolourCombination.frontColorNumber}">
+                     <input name="frontColor" id="coverFrontColorNumber" placeholder="<fmt:message key='front'/>" type="number" min="0" max="5" style="postion-relative-left:2px;position: relative;left: 4px;" value="${covercolourCombination.frontColorNumber}">
 					                    
 				     </div>
 				     <div  class="col-6 volume-cover-w">
-				       <input id="converBackColorNumber" placeholder="<fmt:message key='back'/>" type="number" min="0" max="5" value="${covercolourCombination.frontColorNumber}">
+				       <input name="backColor" id="converBackColorNumber" placeholder="<fmt:message key='back'/>" type="number" min="0" max="5" value="${covercolourCombination.frontColorNumber}">
 					   
                     </div>
 				  </div>
@@ -509,7 +509,7 @@
 			  	<label for="" class="form-label"> <a><fmt:message key="signature"/></a></label>
 			  	<div style=" display: flex;">
 			  <div style="width: 73px;"> 
-			  	<input class="coverSpace" type="number" step=".1" id="coverSignature" value="${covercolourCombination.numberOfSignature}" readonly="readonly">
+			  	<input name="signature" class="coverSpace" type="number" step=".1" id="coverSignature" value="${covercolourCombination.numberOfSignature}" readonly="readonly">
 			 </div> 
 				 <div>
 				 <span onclick="randUpCoverSignature()"><i style="color: green; font-size: 22px" class="bi bi-arrow-up"></i></span>
@@ -532,7 +532,7 @@
 			  <div class="row py-3" style="display:none">
 			    <div class ="col-lg-3 px8" >
 				  <label for="" class="form-label"><a><fmt:message key="printing.machine"/></a></label> 
-				  <select contentPrintingMachine name="name" class="form-select" disabled="disabled">
+				  <select contentPrintingMachine name="printingMachine" class="form-select" disabled="disabled">
 				    <option selected>Choose...</option>
 				    <c:forEach items="${printingMachines}" var="printingMachine">
 		                <option value="${printingMachine.id},${printingMachine.plateLength},${printingMachine.plateWidth}">${printingMachine.name}</option>
@@ -541,7 +541,7 @@
 			   </div>
 			   <div class ="col-lg-3 px8" style="position: relative; left: 10px;">
 				 <label for="" class="form-label"><a><fmt:message key="content.print.type"/></a> </label>
-				 <select contentPrintType name="name" class="form-select">
+				 <select contentPrintType name="printType" class="form-select">
 				   <option selected>Choose...</option>
 				   <c:forEach items="${printTypes}" var="printType">
                      <option value="${printType.id}">${printType.name}</option>
@@ -552,11 +552,11 @@
 					<label for="" class="form-label"><a><fmt:message key="content.color.combination"/></a></label>
 					 <div class="row">
 				   <div class="col-6 content-cover-l">
-                     <input contentFrontColorNumber placeholder="<fmt:message key='front'/>" type="number" min="0" max="5" style="postion-relative-left:2px;position: relative;left: 4px;">
+                     <input name="frontColor" contentFrontColorNumber placeholder="<fmt:message key='front'/>" type="number" min="0" max="5" style="postion-relative-left:2px;position: relative;left: 4px;">
 					                  
 				     </div>
 				     <div class="col-6 volume-cover-w">
-				       <input type="number" min="0" max="5" placeholder="<fmt:message key='back'/>" contentBackColorNumber>
+				       <input name="backColor" type="number" min="0" max="5" placeholder="<fmt:message key='back'/>" contentBackColorNumber>
 					     
                     </div>
 				  </div>
@@ -564,7 +564,7 @@
                   <div class ="col-lg-3 px8" style="position: relative; left:10px;">
 				  <label for="" class="form-label"><a><fmt:message key="signature"/></a></label>
 				  <div> 
-				  <input type="number" step=".1" delContentSign allSignatures style="width:70px;color:red; text-align:center" onclick="this.oldValue=this.value" onchange="signatureChange(this.value,this.parentNode.parentNode.parentNode.parentNode,oldValue)">
+				  <input name="signature" type="number" step=".1" delContentSign allSignatures style="width:70px;color:red; text-align:center" onclick="this.oldValue=this.value" onchange="signatureChange(this.value,this.parentNode.parentNode.parentNode.parentNode,oldValue)">
 				  <span> <button  type="button" onclick="deleteContentsignature(this.parentNode.parentNode.parentNode.parentNode,this.parentNode.parentNode.parentNode.parentNode.parentNode)" style="background:red"><i class="ri-delete-bin-3-line"></i></i></button> </span>
 				 </div> 
 	            </div>
@@ -574,7 +574,7 @@
 			  <div class="row py-3" >
 			    <div class ="col-lg-3 px8" >
 				  <label for="" class="form-label"><a><fmt:message key="printing.machine"/></a></label> 
-				  <select  contentPrintingMachine name="name" class="form-select" onchange="signatureCalculation(this.value,this.parentNode.parentNode.parentNode)">
+				  <select  contentPrintingMachine name="printingMachine"" class="form-select" onchange="signatureCalculation(this.value,this.parentNode.parentNode.parentNode)">
 				    <option selected>Choose...</option>
 				    <c:forEach items="${printingMachines}" var="printingMachine">
 		                <option value="${printingMachine.id},${printingMachine.plateLength},${printingMachine.plateWidth}">${printingMachine.name}</option>
@@ -583,7 +583,7 @@
 			   </div>
 			   <div class ="col-lg-3 px8" style="position: relative; left: 10px;">
 				 <label for="" class="form-label"><a><fmt:message key="content.print.type"/> </a></label>
-				 <select contentPrintType name="name" class="form-select">
+				 <select contentPrintType name="printType" class="form-select">
 				   <option selected>Choose...</option>
 				   <c:forEach items="${printTypes}" var="printType">
                      <option value="${printType.id}">${printType.name}</option>
@@ -594,18 +594,18 @@
 					<label for="" class="form-label"><a><fmt:message key="content.color.combination"/></a></label>
 					 <div class="row">
 				   <div class="col-6 volume-cover-l">
-                     <input contentFrontColorNumber type="number" min="0" placeholder="<fmt:message key='front'/>" max="5" style="postion-relative-left:2px;position: relative;left: 4px;">
+                     <input name="frontColor" contentFrontColorNumber type="number" min="0" placeholder="<fmt:message key='front'/>" max="5" style="postion-relative-left:2px;position: relative;left: 4px;">
 					                  
 				     </div>
 				     <div class="col-6 volume-cover-w">
-				       <input type="number" min="0" max="5" placeholder="<fmt:message key='back'/>" contentBackColorNumber>
+				       <input name="backColor" type="number" min="0" max="5" placeholder="<fmt:message key='back'/>" contentBackColorNumber>
 					     
                     </div>
 				  </div>
                   </div>
                   <div class ="col-lg-3 px8" style="position: relative; left:10px;">
 				  <label for="" class="form-label"><a><fmt:message key="signature"/></a></label>
-				  <div> <input type="number" step=".1" id="" style="width:70px;color:red; text-align:center" allSignatures inputSignReadonly readonly="readonly">
+				  <div> <input name="signature" type="number" step=".1" id="" style="width:70px;color:red; text-align:center" allSignatures inputSignReadonly readonly="readonly">
 				  <span> <button   type="button" id="duplicateButton" style="display: inline;" onclick="updateContentSignature(this.parentNode.parentNode.parentNode.parentNode.parentNode,1,this.parentNode.parentNode.parentNode.parentNode)"><i class="ri-add-fill"></i></button> </span>
 				 </div> 
 	            </div>
@@ -629,7 +629,7 @@
 			    <div class="row py-3" style="display:none">
 			    <div class ="col-lg-3 px8">
 				  <label for="" class="form-label"><a><fmt:message key="printing.machine"/></a></label> 
-				  <select contentPrintingMachine name="name" class="form-select"  disabled="disabled" >
+				  <select contentPrintingMachine name="printingMachine" class="form-select"  disabled="disabled" >
 				    <option selected>Choose...</option>
 				    <c:forEach items="${printingMachines}" var="printingMachine">
 		                <option value="${printingMachine.id},${printingMachine.plateLength},${printingMachine.plateWidth}">${printingMachine.name}</option>
@@ -638,7 +638,7 @@
 			   </div>
 			   <div class ="col-lg-3 px8" style="position: relative; left: 10px;">
 				 <label for="" class="form-label"><a><fmt:message key="content.print.type"/> </a></label>
-				 <select contentPrintType name="name" updateContentSignature class="form-select">
+				 <select contentPrintType name="printType" updateContentSignature class="form-select">
 				   <option selected>Choose...</option>
 				   <c:forEach items="${printTypes}" var="printType">
                      <option value="${printType.id}">${printType.name}</option>
@@ -649,17 +649,17 @@
 					<label for="" class="form-label"><a><fmt:message key="content.color.combination"/></a></label>
 				<div class="row">
 				   <div class="col-6 volume-cover-l">
-                     <input contentFrontColorNumber type="number" min="0" placeholder="<fmt:message key='front'/>" max="5" style="postion-relative-left:2px;position: relative;left: 4px;">                 
+                     <input name="frontColor" contentFrontColorNumber type="number" min="0" placeholder="<fmt:message key='front'/>" max="5" style="postion-relative-left:2px;position: relative;left: 4px;">                 
 				     </div>
 				     <div class="col-6 volume-cover-w">
-				       <input type="number" min="0" max="5"  contentBackColorNumber placeholder="<fmt:message key='back'/>">  
+				       <input name="backColor" type="number" min="0" max="5"  contentBackColorNumber placeholder="<fmt:message key='back'/>">  
                     </div>
 				  </div>
                   </div>
                   <div class ="col-lg-3 px8" style="position: relative; left:10px;">
 				  <label for="" class="form-label"><a><fmt:message key="signature"/></a></label>
 				  <div>
-				  <input type="number" step=".1" delContentSign allSignatures style="width:70px;color:red; text-align:center" onclick="this.oldValue=this.value" onchange="signatureChange(this.value,this.parentNode.parentNode.parentNode.parentNode, oldValue)">
+				  <input name="signature" type="number" step=".1" delContentSign allSignatures style="width:70px;color:red; text-align:center" onclick="this.oldValue=this.value" onchange="signatureChange(this.value,this.parentNode.parentNode.parentNode.parentNode, oldValue)">
 				  <span> <button style="background:transparent;border-style: none;color: orange; font-size: 20px;" type="button" onclick="deleteContentsignature(this.parentNode.parentNode.parentNode.parentNode,this.parentNode.parentNode.parentNode.parentNode.parentNode)" style="background:red"><i class="ri-delete-bin-3-line"></i></i></button> </span>
 				 </div> 
 	            </div>
@@ -669,7 +669,7 @@
 			  <div class="row py-3" id="test-me">
 			   <div class ="col-lg-3 px8" >
 				  <label for="" class="form-label"><a><fmt:message key="printing.machine"/></a></label> 
-				 <select  contentPrintingMachine name="name" class="form-select" onchange="signatureCalculation(this.value,this.parentNode.parentNode.parentNode)">
+				 <select  contentPrintingMachine name="printingMachine" class="form-select" onchange="signatureCalculation(this.value,this.parentNode.parentNode.parentNode)">
 			      <option >Choose...</option>
 				    <c:forEach items="${printingMachines}" var="printingMachine">
 				    <c:if test="${jobColorCombinaition.printingMachine.id==printingMachine.id}">
@@ -684,7 +684,7 @@
 			   </div>
 			   <div class ="col-lg-3 px8" style="position: relative; left: 10px;">
 				 <label for="" class="form-label"><a><fmt:message key="content.print.type"/></a> </label>
-				<select contentPrintType name="name" class="form-select">
+				<select contentPrintType name="printType" class="form-select">
 				   <option >Choose...</option>
 				  <c:forEach items="${printTypes}" var="printType">
 
@@ -703,18 +703,18 @@
 					<label for="" class="form-label"><a><fmt:message key="content.color.combination"/></a></label>
 					 <div class="row">
 				   <div class="col-6 volume-cover-l">
-                     <input  value="${jobColorCombinaition.frontColorNumber}"  contentFrontColorNumber type="number" min="0" max="5" placeholder="<fmt:message key='front'/>" style="postion-relative-left:2px;position: relative;left: 4px;" >
+                     <input name="frontColor" value="${jobColorCombinaition.frontColorNumber}"  contentFrontColorNumber type="number" min="0" max="5" placeholder="<fmt:message key='front'/>" style="postion-relative-left:2px;position: relative;left: 4px;" >
 					                  
 				     </div>
 				     <div class="col-6 volume-cover-w">
-				       <input  value="${jobColorCombinaition.backColorNumber}"  type="number" min="0" max="5" placeholder="<fmt:message key='back'/>"  contentBackColorNumber>
+				       <input  name="backColor" value="${jobColorCombinaition.backColorNumber}"  type="number" min="0" max="5" placeholder="<fmt:message key='back'/>"  contentBackColorNumber>
 					     
                     </div>
 				  </div>
                   </div>
                   <div class ="col-lg-3 px8" style="position: relative; left:10px;">
 				  <label for="" class="form-label"><a><fmt:message key="signature"/></a></label>
-				  <div> <input  value="${jobColorCombinaition.numberOfSignature}"  type="number" id="signature-content-to-randup" step=".1" style="width:70px;color:red; text-align:center" readonly="readonly" allSignatures inputSignReadonly>
+				  <div> <input name="signature" value="${jobColorCombinaition.numberOfSignature}"  type="number" id="signature-content-to-randup" step=".1" style="width:70px;color:red; text-align:center" readonly="readonly" allSignatures inputSignReadonly>
 				  	<span><button  type="button" style="display: inline;" id="duplicateButton" onclick="updateContentSignature(this.parentNode.parentNode.parentNode.parentNode.parentNode,0,this.parentNode.parentNode.parentNode.parentNode)" ><i class="ri-add-fill"></i></button> </span>
 <!-- 				  	<span onclick="randUpContentSignature()"><i style="color: green; font-size: 22px" class="bi bi-arrow-up"></i></span> -->
 				 </div> 
@@ -730,7 +730,7 @@
 			  <div class="row py-3">
 			    <div class ="col-lg-3 px8">
 				  <label for="" class="form-label"><a><fmt:message key="printing.machine"/></a></label> 
-				  <select  contentPrintingMachine name="name" class="form-select" onchange="signatureCalculation(this.value,this.parentNode.parentNode.parentNode)">
+				  <select  contentPrintingMachine name="printingMachine class="form-select" onchange="signatureCalculation(this.value,this.parentNode.parentNode.parentNode)">
 			      <option >Choose...</option>
 				    <c:forEach items="${printingMachines}" var="printingMachine">
 				    <c:if test="${jobColorCombinaition.printingMachine.id==printingMachine.id}">
@@ -745,7 +745,7 @@
 			   </div>
 			   <div class ="col-lg-3 px8" style="position: relative; left: 10px;">
 				 <label for="" class="form-label"><a><fmt:message key="content.print.type"/> </a></label>
-				 <select contentPrintType name="name" class="form-select">
+				 <select contentPrintType name="printType" class="form-select">
 				   <option >Choose...</option>
 				  <c:forEach items="${printTypes}" var="printType">
 
@@ -764,17 +764,17 @@
 					<label for="" class="form-label"><a><fmt:message key="content.color.combination"/></a></label>
 				<div class="row">
 				   <div class="col-6 volume-cover-l">
-                     <input  value="${jobColorCombinaition.frontColorNumber}"  contentFrontColorNumber type="number" min="0" placeholder="<fmt:message key='front'/>" max="5" style="postion-relative-left:2px;position: relative;left: 4px;">                 
+                     <input name="frontColor" value="${jobColorCombinaition.frontColorNumber}"  contentFrontColorNumber type="number" min="0" placeholder="<fmt:message key='front'/>" max="5" style="postion-relative-left:2px;position: relative;left: 4px;">                 
 				     </div>
 				     <div class="col-6 volume-cover-w">
-				       <input  value="${jobColorCombinaition.backColorNumber}"  type="number" min="0" max="5"  contentBackColorNumber placeholder="<fmt:message key='back'/>">  
+				       <input name="backColor" value="${jobColorCombinaition.backColorNumber}"  type="number" min="0" max="5"  contentBackColorNumber placeholder="<fmt:message key='back'/>">  
                     </div>
 				  </div>
                   </div>
                   <div class ="col-lg-3 px8" style="position: relative; left:10px;">
 				  <label for="" class="form-label"><a><fmt:message key="signature"/></a></label>
 				  <div>
-				  <input  value="${jobColorCombinaition.numberOfSignature}"  type="number" step=".1" delContentSign allSignatures style="width:70px;color:red; text-align:center" onclick="this.oldValue=this.value" onchange="signatureChange(this.value,this.parentNode.parentNode.parentNode.parentNode, oldValue)">
+				  <input name="signature" value="${jobColorCombinaition.numberOfSignature}"  type="number" step=".1" delContentSign allSignatures style="width:70px;color:red; text-align:center" onclick="this.oldValue=this.value" onchange="signatureChange(this.value,this.parentNode.parentNode.parentNode.parentNode, oldValue)">
 				  <span> <button style="background:transparent;border-style: none;color: orange; font-size: 20px;" type="button" onclick="deleteContentsignature(this.parentNode.parentNode.parentNode.parentNode,this.parentNode.parentNode.parentNode.parentNode.parentNode)" style="background:red"><i class="ri-delete-bin-3-line"></i></i></button> </span>
 				 </div> 
 	            </div>
@@ -793,7 +793,7 @@
 			  <div class="row py-3" style="display:none">
 			    <div class ="col-lg-3 px8" >
 				  <label for="" class="form-label"><a><fmt:message key="printing.machine"/></a></label> 
-				  <select contentPrintingMachine name="name" class="form-select" disabled="disabled">
+				  <select contentPrintingMachine name="printingMachine" class="form-select" disabled="disabled">
 				    <option selected>Choose...</option>
 				    <c:forEach items="${printingMachines}" var="printingMachine">
 		                <option value="${printingMachine.id},${printingMachine.plateLength},${printingMachine.plateWidth}">${printingMachine.name}</option>
@@ -802,7 +802,7 @@
 			   </div>
 			   <div class ="col-lg-3 px8" style="position: relative; left: 10px;">
 				 <label for="" class="form-label"><a><fmt:message key="content.print.type"/></a> </label>
-				 <select contentPrintType name="name" class="form-select">
+				 <select contentPrintType name="printType" class="form-select">
 				   <option selected>Choose...</option>
 				   <c:forEach items="${printTypes}" var="printType">
                      <option value="${printType.id}">${printType.name}</option>
@@ -813,11 +813,11 @@
 					<label for="" class="form-label"><a><fmt:message key="content.color.combination"/></a></label>
 					 <div class="row">
 				   <div class="col-6 content-cover-l">
-                     <input contentFrontColorNumber placeholder="<fmt:message key='front'/>" type="number" min="0" max="5" style="postion-relative-left:2px;position: relative;left: 4px;">
+                     <input name="frontColor" contentFrontColorNumber placeholder="<fmt:message key='front'/>" type="number" min="0" max="5" style="postion-relative-left:2px;position: relative;left: 4px;">
 					                  
 				     </div>
 				     <div class="col-6 volume-cover-w">
-				       <input type="number" min="0" max="5" placeholder="<fmt:message key='back'/>" contentBackColorNumber>
+				       <input name="backColor" type="number" min="0" max="5" placeholder="<fmt:message key='back'/>" contentBackColorNumber>
 					     
                     </div>
 				  </div>
@@ -825,7 +825,7 @@
                   <div class ="col-lg-3 px8" style="position: relative; left:10px;">
 				  <label for="" class="form-label"><a><fmt:message key="signature"/></a></label>
 				  <div> 
-				  <input type="number" step=".1" delContentSign allSignatures style="width:70px;color:red; text-align:center" onclick="this.oldValue=this.value" onchange="signatureChange(this.value,this.parentNode.parentNode.parentNode.parentNode,oldValue)">
+				  <input name="signature" type="number" step=".1" delContentSign allSignatures style="width:70px;color:red; text-align:center" onclick="this.oldValue=this.value" onchange="signatureChange(this.value,this.parentNode.parentNode.parentNode.parentNode,oldValue)">
 				  <span> <button  type="button" onclick="deleteContentsignature(this.parentNode.parentNode.parentNode.parentNode,this.parentNode.parentNode.parentNode.parentNode.parentNode)" style="background:red"><i class="ri-delete-bin-3-line"></i></i></button> </span>
 				 </div> 
 	            </div>
@@ -835,7 +835,7 @@
 			  <div class="row py-3" >
 			    <div class ="col-lg-3 px8" >
 				  <label for="" class="form-label"><a><fmt:message key="printing.machine"/></a></label> 
-				  <select  contentPrintingMachine name="name" class="form-select" onchange="signatureCalculation(this.value,this.parentNode.parentNode.parentNode)">
+				  <select  contentPrintingMachine name="printingMachine" class="form-select" onchange="signatureCalculation(this.value,this.parentNode.parentNode.parentNode)">
 			      <option >Choose...</option>
 				    <c:forEach items="${printingMachines}" var="printingMachine">
 				    <c:if test="${jobColorCombinaition.printingMachine.id==printingMachine.id}">
@@ -850,7 +850,7 @@
 			   </div>
 			   <div class ="col-lg-3 px8" style="position: relative; left: 10px;">
 				 <label for="" class="form-label"><a><fmt:message key="content.print.type"/> </a></label>
-				<select contentPrintType name="name" class="form-select">
+				<select contentPrintType name="printType" class="form-select">
 				   <option >Choose...</option>
 				  <c:forEach items="${printTypes}" var="printType">
 
@@ -869,18 +869,18 @@
 					<label for="" class="form-label"><a><fmt:message key="content.color.combination"/></a></label>
 					 <div class="row">
 				   <div class="col-6 volume-cover-l">
-                     <input  value="${jobColorCombinaition.frontColorNumber}"  contentFrontColorNumber type="number" min="0" placeholder="<fmt:message key='front'/>" max="5" style="postion-relative-left:2px;position: relative;left: 4px;">
+                     <input name="frontColor value="${jobColorCombinaition.frontColorNumber}"  contentFrontColorNumber type="number" min="0" placeholder="<fmt:message key='front'/>" max="5" style="postion-relative-left:2px;position: relative;left: 4px;">
 					                  
 				     </div>
 				     <div class="col-6 volume-cover-w">
-				       <input  value="${jobColorCombinaition.backColorNumber}"  type="number" min="0" max="5" placeholder="<fmt:message key='back'/>" contentBackColorNumber>
+				       <input name="backColor" value="${jobColorCombinaition.backColorNumber}"  type="number" min="0" max="5" placeholder="<fmt:message key='back'/>" contentBackColorNumber>
 					     
                     </div>
 				  </div>
                   </div>
                   <div class ="col-lg-3 px8" style="position: relative; left:10px;">
 				  <label for="" class="form-label"><a><fmt:message key="signature"/></a></label>
-				  <div> <input  value="${jobColorCombinaition.numberOfSignature}"  type="number" step=".1" id="" style="width:70px;color:red; text-align:center" allSignatures inputSignReadonly readonly="readonly">
+				  <div> <input name="signature" value="${jobColorCombinaition.numberOfSignature}"  type="number" step=".1" id="" style="width:70px;color:red; text-align:center" allSignatures inputSignReadonly readonly="readonly">
 				  <span> <button   type="button" id="duplicateButton" style="display: inline;" onclick="updateContentSignature(this.parentNode.parentNode.parentNode.parentNode.parentNode,1,this.parentNode.parentNode.parentNode.parentNode)"><i class="ri-add-fill"></i></button> </span>
 				 </div> 
 	            </div>
@@ -896,7 +896,7 @@
 					 <div class="row py-3">
 			    <div class ="col-lg-3 px8" >
 				  <label for="" class="form-label"><a><fmt:message key="printing.machine"/></a></label> 
-				 <select  contentPrintingMachine name="name" class="form-select" onchange="signatureCalculation(this.value,this.parentNode.parentNode.parentNode)">
+				 <select  contentPrintingMachine name="printingMachine" class="form-select" onchange="signatureCalculation(this.value,this.parentNode.parentNode.parentNode)">
 			      <option >Choose...</option>
 				    <c:forEach items="${printingMachines}" var="printingMachine">
 				    <c:if test="${jobColorCombinaition.printingMachine.id==printingMachine.id}">
@@ -911,7 +911,7 @@
 			   </div>
 			   <div class ="col-lg-3 px8" style="position: relative; left: 10px;">
 				 <label for="" class="form-label"><a><fmt:message key="content.print.type"/></a> </label>
-				<select contentPrintType name="name" class="form-select">
+				<select contentPrintType name="printType" class="form-select">
 				   <option >Choose...</option>
 				  <c:forEach items="${printTypes}" var="printType">
 
@@ -930,11 +930,11 @@
 					<label for="" class="form-label"><a><fmt:message key="content.color.combination"/></a></label>
 					 <div class="row">
 				   <div class="col-6 content-cover-l">
-                     <input  value="${jobColorCombinaition.frontColorNumber}"  contentFrontColorNumber placeholder="<fmt:message key='front'/>" type="number" min="0" max="5" style="postion-relative-left:2px;position: relative;left: 4px;">
+                     <input name="frontColor" value="${jobColorCombinaition.frontColorNumber}"  contentFrontColorNumber placeholder="<fmt:message key='front'/>" type="number" min="0" max="5" style="postion-relative-left:2px;position: relative;left: 4px;">
 					                  
 				     </div>
 				     <div class="col-6 volume-cover-w">
-				       <input  value="${jobColorCombinaition.backColorNumber}"  type="number" min="0" max="5" placeholder="<fmt:message key='back'/>" contentBackColorNumber>
+				       <input name="backColor" value="${jobColorCombinaition.backColorNumber}"  type="number" min="0" max="5" placeholder="<fmt:message key='back'/>" contentBackColorNumber>
 					     
                     </div>
 				  </div>
@@ -942,7 +942,7 @@
                   <div class ="col-lg-3 px8" style="position: relative; left:10px;">
 				  <label for="" class="form-label"><a><fmt:message key="signature"/></a></label>
 				  <div> 
-				  <input type="number"  value="${jobColorCombinaition.numberOfSignature}"  step=".1" delContentSign allSignatures style="width:70px;color:red; text-align:center" onclick="this.oldValue=this.value" onchange="signatureChange(this.value,this.parentNode.parentNode.parentNode.parentNode,oldValue)">
+				  <input name="signature" type="number"  value="${jobColorCombinaition.numberOfSignature}"  step=".1" delContentSign allSignatures style="width:70px;color:red; text-align:center" onclick="this.oldValue=this.value" onchange="signatureChange(this.value,this.parentNode.parentNode.parentNode.parentNode,oldValue)">
 				  <span> <button  type="button" onclick="deleteContentsignature(this.parentNode.parentNode.parentNode.parentNode,this.parentNode.parentNode.parentNode.parentNode.parentNode)" style="background:red"><i class="ri-delete-bin-3-line"></i></i></button> </span>
 				 </div> 
 	            </div>
@@ -967,7 +967,7 @@
 		    </div>
 	        <div class ="col-sm-6">
 	        	
-	         <button style="width:125px;float:right"  type="button" class="btn btn-primary" id="next-btn1" onclick="navigate(3,4);"><fmt:message key="next"/></button>	
+	         <button style="width:125px;float:right"  type="button" class="btn btn-primary" id="next-btn1" onclick="validateTab3();navigate(3,4);"><fmt:message key="next"/></button>	
 	        		
 	       </div>
 

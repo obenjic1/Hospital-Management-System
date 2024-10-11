@@ -145,10 +145,10 @@
 			     <label for="" class="form-label"> <a><fmt:message key="open.format"/></a> </label> 
 			       <div class="row">
 				     <div class="col-6 volume-cover-l">
-                       <input id="openWidth" type="number" value="${job.openWidth}" style="postion-relative-left:2px;position: relative;left: 4px;"  placeholder= "<fmt:message key='open.width'/> ">
+                       <input id="openWidth"  value="${job.openWidth}" style="postion-relative-left:2px;position: relative;left: 4px;"  placeholder= "<fmt:message key='open.width'/> ">
 				      </div>
 				      <div  class="col-6 volume-cover-w">
-				      <input id="openLength" type="number" value="${job.openLength}" placeholder="<fmt:message key='open.legnth'/>">
+				      <input id="openLength" value="${job.openLength}" placeholder="<fmt:message key='open.legnth'/>">
 					  
                    </div>
 				 </div>
@@ -228,7 +228,7 @@
 		   <div class="row py-4" id="coverInformations">
 			 <div class ="col-lg-2 px8" >
 			   <label for="" class="form-label"><a> <fmt:message key="cover.paper.type"/></a></label> 
-			   <select id="coverPaperType" name="name" class="form-select">
+			   <select id="coverPaperType" name="paperType" class="form-select">
 			     <option selected>Choose...</option>
 				 <c:forEach items="${paperTypes}" var="paperType">
                    <option value="${paperType.id}">${paperType.name}</option>
@@ -238,7 +238,7 @@
 
 			 <div class ="col-lg-2 px8" style="position: relative;">
 			   <label for="" class="form-label"><a><fmt:message key="grammage"/></a> </label>
-			   <input style="postion-relative-left:2px;position: relative;left: 10px;" list="coverGrammage" id="coverGrammage" name="xx">
+			   <input style="postion-relative-left:2px;position: relative;left: 10px;" list="coverGrammage" id="coverGrammage" name="paperGrammage">
 					   <datalist id="coverGrammage">
 	                    <c:forEach items="${paperGrammages}" var="paperGrammage">
                     <option value="${paperGrammage.value}"></option>
@@ -247,24 +247,24 @@
               </div>
 			  <div class ="col-lg-2 px8" style="position: relative; left: 10px;">
 			    <label for="" class="form-label"><a><fmt:message key="cover.volume"/></a></label>
-			     <input id="coverVolume" type="text"  name="fname" readonly="readonly">
+			     <input id="coverVolume" type="text"  name="volume" readonly="readonly">
               </div>
               
                <div class ="col-lg-2 px8" style="position: relative; left: 10px;">
 			  <label for="" class="form-label"><a><fmt:message key="paper.size"/> (mm)</a></label>
 				 <div class="row">
 				   <div class="col-6 paper-size-width">
-                     <input onchange="resetNumberOfSignature(this)" id="paperSizeWidth" placeholder="<fmt:message key='width'/>" value="650" type="number" style="postion-relative-left:2px;position: relative;left: 4px;">
+                     <input name="paperSizeWidth" onchange="resetNumberOfSignature(this)" id="paperSizeWidth" placeholder="<fmt:message key='width'/>" value="650" type="number" style="postion-relative-left:2px;position: relative;left: 4px;">
                    </div>
 				   <div  class="col-6 paper-size-length"  style="position: relative;left: -25px;">
-				      <input onchange="resetNumberOfSignature(this)" id="paperSizeLength" value="920" placeholder="<fmt:message key='length'/>" type="number">
+				      <input name="paperSizeLength" onchange="resetNumberOfSignature(this)" id="paperSizeLength" value="920" placeholder="<fmt:message key='length'/>" type="number">
                     </div>
 				  </div>
               </div>
               
               <div class ="col-lg-2 px8" style="position: relative;">
 			    <label for="" class="form-label"><a><fmt:message key="cover.paper.price"/></a></label>
-			     <input id="coverPaperUnitPrice" type="number"  name="coverPaperUnitPrice">
+			     <input id="coverPaperUnitPrice" type="number"  name="paperPrice">
               </div>
               
            
@@ -275,7 +275,7 @@
 			
 			  <div class="col-lg-2 px-8" >
 			    <label for="" class="form-label"><a> <fmt:message key="content.paper.type"/></a> </label>
-				<select contentPaperType name="name" class="form-select">
+				<select contentPaperType name="paperType" class="form-select">
 				  <option >Choose...</option>
 			  <c:forEach items="${paperTypes}" var="paperType">
                     <option value="${paperType.id}">${paperType.name}</option>
@@ -284,7 +284,7 @@
 			  </div>
 			  <div class="col-lg-2 px-8" style="position: relative; left: 10px;">
 			    <label for="" class="form-label"><a><fmt:message key="grammage"/></a> </label>
-			     <input contentGrammage type="text"  list="contentGrammage" >
+			     <input name="paperGrammage" contentGrammage type="text"  list="contentGrammage" >
 				  <datalist  id="contentGrammage">
 	               <c:forEach items="${paperGrammages}" var="paperGrammage">
                     <option value="${paperGrammage.value}"></option>
@@ -294,24 +294,24 @@
 			 
 			  <div class="col-lg-2 px-8 coverDup" style="position: relative; left: 10px;float:left ;" >
 			    <label for="" class="form-label"><a> <fmt:message key="content.volume"/> </a></label> 
-				<input type="text" contentVolume  name="contentVolume" oldValue="" onclick="this.oldValue=this.value" onchange="updateTotalContentvolume(this.value,this.oldValue, this)"  >
+				<input name="volume" type="text" contentVolume  name="contentVolume" oldValue="" onclick="this.oldValue=this.value" onchange="updateTotalContentvolume(this.value,this.oldValue, this)"  >
 			  </div>
 			  
 			  <div class ="col-lg-2 px8" style="position: relative; left: 10px;">
 			  <label for="" class="form-label"><a><fmt:message key="paper.size"/> (mm)</a></label>
 				 <div class="row">
 				   <div class="col-6 paper-size-width">
-                     <input onchange="resetNumberOfSignature(this)" paperSizeWidth placeholder="<fmt:message key='width'/>" value="620" type="number" style="postion-relative-left:2px;position: relative;left: 4px;">
+                     <input name="paperSizeWidth" onchange="resetNumberOfSignature(this)" paperSizeWidth placeholder="<fmt:message key='width'/>" value="620" type="number" style="postion-relative-left:2px;position: relative;left: 4px;">
                    </div>
 				   <div  class="col-6 paper-size-length"  style="position: relative;left: -25px;">
-				      <input onchange="resetNumberOfSignature(this)" paperSizeLength value="950" placeholder="<fmt:message key='length'/>" type="number">
+				      <input name="paperSizeLength" onchange="resetNumberOfSignature(this)" paperSizeLength value="950" placeholder="<fmt:message key='length'/>" type="number">
                     </div>
 				  </div>
               </div>
 			  
 			   <div class ="col-lg-2 px8" style="position: relative; width: 230px;">
 			    <label for="" class="form-label"><a><fmt:message key="content.paper.price"/></a> </label>
-			     <input paperUnitPrice type="text"  name="paperUnitPrice">
+			     <input paperUnitPrice type="text"  name="paperPrice">
 			     <button type="button" id="deleteButton"  onclick="removeContentNode(this,this.parentNode.previousElementSibling)"><i class="ri-delete-bin-3-line"></i> </button>
               </div>
               
@@ -321,7 +321,7 @@
 		   <div class="row py-3">
 			  <div class="col-lg-2 px-8">
 			    <label for="" class="form-label"><a><fmt:message key="content.paper.type"/> </a> </label>
-				<select contentPaperType name="name" class="form-select">
+				<select contentPaperType name="paperType" class="form-select">
 				  <option >Choose...</option>
 			  <c:forEach items="${paperTypes}" var="paperType">
                     <option value="${paperType.id}">${paperType.name}</option>
@@ -331,7 +331,7 @@
 			  
 			  <div class="col-lg-2 px-8" style="position: relative; left: 10px;">
 			    <label for="" class="form-label"><a> <fmt:message key="grammage"/></a></label>
-			     <input contentGrammage type="text" list="contentGrammage">
+			     <input name="paperGrammage" contentGrammage type="text" list="contentGrammage">
 				  <datalist  id="contentGrammage">
 	               <c:forEach items="${paperGrammages}" var="paperGrammage">
                     <option value="${paperGrammage.value}"></option>
@@ -340,22 +340,22 @@
 			  </div>
 			  <div class="col-lg-2 px-8 " style="position: relative; left: 10px;">
 			    <label for="" class="form-label"><a><fmt:message key="content.volume"/></a> </label> 
-				<input type="text" contentVolume name="contentVolume" readonly="readonly">
+				<input type="text" contentVolume name="volume" readonly="readonly">
 			  </div>
 			  <div class ="col-lg-2 px8" style="position: relative; left: 10px;">
 			  <label for="" class="form-label"><a><fmt:message key="paper.size"/> (mm)</a></label>
 				 <div class="row">
 				   <div class="col-6 paper-size-width">
-                     <input onchange="resetNumberOfSignature(this)" paperSizeWidth placeholder="<fmt:message key='width'/>" value="620" type="number" style="postion-relative-left:2px;position: relative;left: 4px;">
+                     <input name="paperSizeWidth" onchange="resetNumberOfSignature(this)" paperSizeWidth placeholder="<fmt:message key='width'/>" value="620" type="number" style="postion-relative-left:2px;position: relative;left: 4px;">
                    </div>
 				   <div  class="col-6 paper-size-length"  style="position: relative;left: -25px;">
-				      <input onchange="resetNumberOfSignature(this)" paperSizeLength value="950" placeholder="<fmt:message key='length'/>" type="number">
+				      <input name="paperSizeLength" onchange="resetNumberOfSignature(this)" paperSizeLength value="950" placeholder="<fmt:message key='length'/>" type="number">
                     </div>
 				  </div>
               </div>
 				<div class ="col-lg-2 px8" style="position: relative;">
 			    <label for="" class="form-label"><a><fmt:message key="content.paper.price"/></a></label>
-			     <input paperUnitPrice type="number"  name="paperUnitPrice">
+			     <input paperUnitPrice type="number" name="paperPrice">
               </div>
 			   <div class="col-lg-2 px-8 " >
 			       <label for="" class="form-label" style=""><a><fmt:message key="add"/></a></label> 
@@ -375,7 +375,7 @@
 		     <div class ="col-sm-6"> <button type="button" style ="width:125px;float:left" class="btn btn-primary" onclick="navigate(2,1);"><fmt:message key="previews"/></button>	
 		    </div>
 	        <div class ="col-sm-6">
-	        <button type="button"  style ="width:125px;float:right" onclick="navigate(2,3)"  class="btn btn-primary" id=""><fmt:message key="next"/></button>	
+	        <button type="button"  style ="width:125px;float:right" onclick="validateTab2();navigate(2,3)"  class="btn btn-primary" id=""><fmt:message key="next"/></button>	
 	       </div>
 
 	     </div>

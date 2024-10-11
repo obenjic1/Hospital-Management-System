@@ -133,7 +133,7 @@
 			     <label for="" class="form-label"> <a><fmt:message key="open.format"/></a> </label> 
 			       <div class="row">
 				     <div class="col-6 volume-cover-l">
-                       <input id="openWidth" value="${job.openWidth}" style="postion-relative-left:2px;position: relative;left: 4px;"  placeholder= "<fmt:message key='open.width'/>  ">
+                       <input id="openWidth" name="openwidth" value="${job.openWidth}" style="postion-relative-left:2px;position: relative;left: 4px;"  placeholder= "<fmt:message key='open.width'/>  ">
 				      </div>
 				      <div  class="col-6 volume-cover-w">
 				      <input id="openLength"  value="${job.openLength}" placeholder="<fmt:message key='open.legnth'/>" name="openLegnth">
@@ -342,7 +342,7 @@
 			  </div>
 			  <div class="col-lg-2 px-8 " style="position: relative; left: 10px">
 			    <label for="" class="form-label"><a><fmt:message key="content.volume"/></a> </label> 
-				<input contentVolume name="contentVolume" value="${contentJPaper.volume}" readonly="readonly" name="volume">
+				<input contentVolume name="volume" value="${contentJPaper.volume}" readonly="readonly" name="volume">
 			  </div>
 
  			<div class ="col-lg-2 px8" style="position: relative; left: 10px;">
@@ -462,19 +462,19 @@
         <div class="container" >	
           <div class="row py-3">
 		   <div class ="col-lg-3 px8" >
-				  <label for="" class="form-label"><a><fmt:message key="cover.printing.machine"/></a></label> 
-				  <select id="coverPrintingMachine" name="printingMachine" class="form-select" onchange="coverSignatureCalculation2(this.value , this.parentNode)">
-				    <c:forEach items="${printingMachines}" var="printingMachine">
-				    <c:if test="${covercolourCombination.printingMachine.id==printingMachine.id}">
-				    	 <option selected value="${printingMachine.id},${printingMachine.plateLength},${printingMachine.plateWidth}">${printingMachine.name}</option>
-				    </c:if>
-				    <c:if test="${covercolourCombination.printingMachine.id!=printingMachine.id}">
-				    	 <option  value="${printingMachine.id},${printingMachine.plateLength},${printingMachine.plateWidth}">${printingMachine.name}</option>
-				    </c:if>
-	                 
-	                </c:forEach>
-	              </select>
-				</div>
+			  <label for="" class="form-label"><a><fmt:message key="cover.printing.machine"/></a></label> 
+			  <select id="coverPrintingMachine" name="printingMachine" class="form-select" onchange="coverSignatureCalculation2(this.value , this.parentNode)">
+			    <c:forEach items="${printingMachines}" var="printingMachine">
+			    <c:if test="${covercolourCombination.printingMachine.id==printingMachine.id}">
+			    	 <option selected value="${printingMachine.id},${printingMachine.plateLength},${printingMachine.plateWidth}">${printingMachine.name}</option>
+			    </c:if>
+			    <c:if test="${covercolourCombination.printingMachine.id!=printingMachine.id}">
+			    	 <option  value="${printingMachine.id},${printingMachine.plateLength},${printingMachine.plateWidth}">${printingMachine.name}</option>
+			    </c:if>
+                 
+                </c:forEach>
+              </select>
+			</div>
 			<div class ="col-lg-3 px8" style="position: relative; left: 10px;">
 			  <label for="" class="form-label"><fmt:message key="cover.print.type"/></label>
 			  <select id="coverPrintType" name="printType" class="form-select">
