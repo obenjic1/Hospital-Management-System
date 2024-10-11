@@ -23,6 +23,7 @@ public class SecurityConfig {
 	    return http.csrf(csrf -> csrf.disable()) 
 	            .authorizeRequests(authorize -> authorize
 	            	.antMatchers("/login").permitAll()
+	            	.antMatchers("/sw.js").permitAll()
 	            	.antMatchers("/login/sw.js").permitAll()
 	            	.antMatchers("/password/forgotten/**").permitAll()
 	            	.antMatchers("/assets/**").permitAll()
