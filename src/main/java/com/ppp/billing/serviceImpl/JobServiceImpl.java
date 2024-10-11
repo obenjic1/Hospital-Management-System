@@ -390,9 +390,9 @@ public class JobServiceImpl implements JobService {
 		JobStatus status = jobStatusRepository.findById(2).get();
 		newJob.setStatus(status);
 		
-		List<JobPaper> _jobPapers = newJob.getJobPapers();
+		List<JobPaper> jobPapers_ = newJob.getJobPapers();
 		
-		for( JobPaper jobpaper : _jobPapers ) {
+		for( JobPaper jobpaper : jobPapers_ ) {
 			for(JobColorCombination jbColorCmb : jobpaper.getJobColorCombinations()) {
 				jobPaperRepository.deleteByjobColorCombination(jbColorCmb.getId());
 			}

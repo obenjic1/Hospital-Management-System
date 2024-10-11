@@ -1863,7 +1863,7 @@ public class JobController {
 			List<BindingType> bindingTypeResult = bindingTypeserviceImpl.listAll();
 			
 			Job existingJob = jobServiceImpl.findById(id).get();
-	    	List<JobPaper> contentJobPapers = new ArrayList<JobPaper>(); //Extraire la liste des jobPaper appartenant à un job
+	    	List<JobPaper> contentJobPapers = new ArrayList<JobPaper>();
 		
 			for(int i =0; i< existingJob.getJobPapers().size(); i++) {
 				if(existingJob.getJobPapers().get(i).getContentType().getId()==2) {
