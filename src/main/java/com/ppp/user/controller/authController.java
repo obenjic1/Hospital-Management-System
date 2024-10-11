@@ -73,7 +73,7 @@ public class authController {
 		}
 		
 		  //Public page
-	    @RequestMapping(value = "/sw.js")
+	    @RequestMapping(value = "/login/sw.js")
 	    public String serveWorker() {
 
 	        return "sw";
