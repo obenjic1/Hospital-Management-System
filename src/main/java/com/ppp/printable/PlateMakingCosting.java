@@ -40,6 +40,13 @@ public class PlateMakingCosting {
 		float machinePlateWidth = printingMachine.getPlateWidth();
 		float closeLength = (float) jobPaper.getJob().getCloseLength();
 		float closeWidth = (float) jobPaper.getJob().getCloseWidth();
+		
+		double minimumLenght = Math.min(Math.min( jobPaper.getPaperSizeWidth()-20, jobPaper.getPaperSizeLength()-20),Math.min(machinePlateLength, machinePlateWidth));
+		double maximumLength =  Math.min(Math.max(jobPaper.getPaperSizeWidth()-20, jobPaper.getPaperSizeLength()-20),Math.max(machinePlateLength, machinePlateWidth));
+	 	machinePlateLength = (float) minimumLenght;
+	 	machinePlateWidth =  (float)maximumLength;
+	 	
+		
 		double logP = Math.log((machinePlateLength*machinePlateWidth)/(closeLength*closeWidth));
 		logP = logP/Math.log(2);
 		logP= Math.floor(logP)+1;
@@ -50,9 +57,15 @@ public class PlateMakingCosting {
 		jobPaper.getJobColorCombinations().forEach(colorCombination->{
 			double signature = (colorCombination.getNumberOfSignature());
 			this.signatures+=colorCombination.getNumberOfSignature();
-			plates += signature*(colorCombination.getBackColorNumber()+colorCombination.getFrontColorNumber());
+			double tmpplate= Math.ceil(signature*(colorCombination.getBackColorNumber()+colorCombination.getFrontColorNumber()));
+			if(colorCombination.getPrintingMachine().getAbbreviation().equals("SPM5"))
+				tmpplate= Math.ceil((tmpplate)/4.0);
+			plates +=tmpplate;
 		});
+		
+		plates = Math.ceil(plates);
 	}
+	
 	public float generateBasicCost() {
 		
 		if(printingMachine.getAbbreviation().equals("GTO")) {
@@ -67,7 +80,6 @@ public class PlateMakingCosting {
 	}
 	
 	public float generateExposureCost() {
-		
 		
 		if(printingMachine.getAbbreviation().equals("GTO"))
 			return (float) (this.plates*3800);

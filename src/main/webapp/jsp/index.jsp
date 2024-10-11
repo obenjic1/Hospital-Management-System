@@ -39,6 +39,8 @@
 <link href="assets/css/profile.css" rel="stylesheet">
 <link href="assets/css/user.css" rel="stylesheet">
 
+  <link href="assets/vendor/bootstrapValidator.min.css" rel="stylesheet">
+
 
 </head>
 
@@ -302,7 +304,8 @@
 	               </div>
 	             </div>
 	           </div>
-	         </div>	   
+	         </div>	 
+	           
 			 <div class="modal fade" id="ExtralargeModal" tabindex="-1">
 			   <div class="modal-dialog modal-xl">
 				 <div class="modal-content" id="addForm">
@@ -410,9 +413,9 @@ $(document).ready(function() {
     refreshGroupTable(1);
 });
 </script>
+	<script src="assets/js/billing/job.js"></script>
 	<script src="assets/sweetalert/sweetalert2.all.min.js"></script>
 	<!-- Template Main JS File -->
-	<script src="assets/js/billing/job.js"></script>
     <script src="assets/js/users.js"></script>
 	<script src="assets/js/role.js"> </script>
 	<script src="assets/js/groups.js"> </script>
@@ -429,6 +432,8 @@ $(document).ready(function() {
 	<script src="DataTables/datatables.js"></script>
 	<script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 	<script src="assets/vendor/tinymce/tinymce.min.js"></script>
+	
+	<script src="assets/vendor/bootstrap/bootstrapValidator.min.js"></script>
 </body>
 
 </html>

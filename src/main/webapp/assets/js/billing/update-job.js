@@ -1,3 +1,32 @@
+
+     		// Calcul of Cover Signqture
+ function coverSignatureCalculation2(machineParams,node){
+	let coverSignature=document.getElementById("cover-signature-div");
+	let coverDivTab2 = document.getElementById("coverInformations");
+	
+	let inputCoverVolume = document.getElementById("coverVolume");
+	let inputCoverSignature = document.getElementById("coverSignature");
+	
+	let volume = inputCoverVolume.value;
+	
+	let coverMachineParamArray = machineParams.split(",");
+	let machinePlateLength = parseInt(coverMachineParamArray[1]);
+	let machinePlateWidth = parseInt(coverMachineParamArray[2]);
+	
+	let closeWidth =parseInt(document.getElementById("closeWidth").value);
+	let closeLength =parseInt(document.getElementById("closeLength").value);
+	
+	let logP = Math.log((machinePlateLength*machinePlateWidth)/(closeLength*closeWidth));
+		logP = logP/Math.log(2);
+		logP= Math.floor(logP)+1;
+	let pagesPerSignature = Math.pow(2,logP);
+	let floatingCoverSignature = (volume/pagesPerSignature);
+	let totalCoverSignature = Math.floor(floatingCoverSignature)<floatingCoverSignature&&floatingCoverSignature<Math.floor(floatingCoverSignature+0.5)&&(floatingCoverSignature+0.5 != Math.floor(floatingCoverSignature+0.5)) ?Math.ceil(floatingCoverSignature):Math.floor(floatingCoverSignature)<floatingCoverSignature?Math.floor(floatingCoverSignature)+0.5:Math.floor(floatingCoverSignature); 
+	inputCoverSignature.value = totalCoverSignature;
+	 
+	
+}
+	
 	/*
 	* Update Job function
 	*/
@@ -10,16 +39,16 @@ function submitUpdateForm(id){
  job.jobTypeId = document.getElementById("jobType").value;
  job.title = document.getElementById("title").value;
  
- if(dataContentValue==2){
+ if(dataContentValue==2||dataContentValue==3){
 	  job.coverVolume = document.getElementById("volumeOfCover").value;
  }
-    if(dataContentValue==0||dataContentValue==2){
+    if(dataContentValue==0||dataContentValue==2||dataContentValue==3){
 	   job.contentVolume = document.getElementById("volumeOfContent").value;
  } 
  job.ctpFees = document.getElementById("ctpFees").value;
  job.openWidth = document.getElementById("openWidth").value;
  job.openLength = document.getElementById("openLength").value;
- if(dataContentValue==1 || dataContentValue==2){
+ if(dataContentValue==1 || dataContentValue==2||dataContentValue==3){
 	  job.closeWidth = document.getElementById("closeWidth").value;
  	  job.closeLength = document.getElementById("closeLength").value;
  }else{
@@ -53,7 +82,7 @@ function submitUpdateForm(id){
  	// Adding coverJobPaper and color combination  
  	
 	 let jobPapers = [ ];
-	 if(dataContentValue==2){
+	 if(dataContentValue==2||dataContentValue==3){
 		 let coverJobPaper = { };
 	  coverJobPaper.grammage = document.getElementById("coverGrammage").value;
 	  coverJobPaper.volume = document.getElementById("coverVolume").value;
@@ -67,14 +96,14 @@ function submitUpdateForm(id){
 	   colorCombination.backColorNumber = document.getElementById("converBackColorNumber").value;
 	   colorCombination.printTypeId = document.getElementById("coverPrintType").value;
 	   colorCombination.printingMachineId = document.getElementById("coverPrintingMachine").value;
-	   colorCombination.signatureNumber = document.getElementById("coverSignature").value;
+	   colorCombination.signatureNumber = totalCoverSignature;
        coverColorCombinations.push(colorCombination);
        coverJobPaper.jobColorCombinations = coverColorCombinations;
        jobPapers.push(coverJobPaper);
  	}
 	 
     //End of Adding CoverJobPaper and color combination   
-    // Start adding contentJobPaper and color combination
+    // Start adding contentJobPaper and color combinationcoverVolume
     
     if(dataContentValue==1||dataContentValue==2 || dataContentValue==0|| dataContentValue==3){
 		
@@ -120,7 +149,7 @@ function submitUpdateForm(id){
 		 }
 		 contentJobPaper.jobColorCombinations = jobColorCombinations;
 		 jobPapers.push(contentJobPaper);
-	 }
+	 }200
 	 }
 	  
 	 job.jobPapers = jobPapers;
@@ -132,9 +161,10 @@ function submitUpdateForm(id){
            },
 		})
 		.then( response => {	
-   			 if (response.status === 200) {
+   			 if (response.status) {
        			Swal.fire("Succes/Success!", "Job Updated / Job mis a jour", "success")
-   			 } else if (response.status) {
+				return loadPage("job/list-job");				
+   			 } else if (response.status === 200) {
 				Swal.fire({  icon: "error", title: "Oops...", text: "Something went wrong!"});
   			 }
 		})
@@ -263,7 +293,7 @@ function submitUpdateForm(id){
 			document.getElementById("cover-printtype").innerHTML= document.getElementById("coverPrintType").selectedOptions[0].innerHTML;
 			document.getElementById("cover-color-front").innerHTML= document.getElementById("coverFrontColorNumber").value;
 			document.getElementById("cover-color-back").innerHTML= document.getElementById("converBackColorNumber").value;
-			document.getElementById("cover-signature").innerHTML= document.getElementById("coverSignature").innerHTML;
+			document.getElementById("cover-signature").innerHTML= document.getElementById("coverSignature").value;
 				
 			document.getElementById('cover-pages-info').style.display = "";
 			document.getElementById('cover-papers-options-info').style.display = "";

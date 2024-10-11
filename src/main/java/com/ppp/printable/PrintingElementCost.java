@@ -89,15 +89,28 @@ public class PrintingElementCost {
 		this.colorCombination = colorCombination;
 		this.basic = colorCombination.getJobPaper().getGrammage();
 		double signature =colorCombination.getNumberOfSignature();
-		this.plateChange= signature*(colorCombination.getBackColorNumber()+colorCombination.getFrontColorNumber())-1;
+		this.plateChange= Math.ceil(signature*(colorCombination.getBackColorNumber()+colorCombination.getFrontColorNumber()))-1;
 		this.inckChange = colorCombination.getBackColorNumber() > colorCombination.getFrontColorNumber() ? colorCombination.getBackColorNumber()-1 : colorCombination.getFrontColorNumber()-1;
-		this.run = this.plateChange+1;
+		
+		if(colorCombination.getPrintingMachine().getAbbreviation().equals("SPM5")) {
+			this.run = Math.ceil((this.plateChange+1)/4.0);
+		}else {
+			this.run = this.plateChange+1; 
+		}
+		run = Math.ceil(run);
 		this.preparation = colorCombination.getPrintType().getName();
 		this.numbering = colorCombination.getJobPaper().getJob().getJobActivity().getXNumbered();
 		this.perforating = colorCombination.getJobPaper().getJob().getJobActivity().getXPerforated();
 		PrintingMachine printingMachine = colorCombination.getPrintingMachine();
 		float machinePlateLength = printingMachine.getPlateLength();
 		float machinePlateWidth = printingMachine.getPlateLength();
+		
+		double minimumLenght = Math.min(Math.min( colorCombination.getJobPaper().getPaperSizeWidth()-20,  colorCombination.getJobPaper().getPaperSizeLength()-20),Math.min(machinePlateLength, machinePlateWidth));
+		double maximumLength =  Math.min(Math.max( colorCombination.getJobPaper().getPaperSizeWidth()-20,  colorCombination.getJobPaper().getPaperSizeLength()-20),Math.max(machinePlateLength, machinePlateWidth));
+	 	machinePlateLength = (float) minimumLenght;
+	 	machinePlateWidth =  (float)maximumLength;
+	 	
+		
 		float closeLength = (float) colorCombination.getJobPaper().getJob().getCloseLength();
 		float closeWidth = (float) colorCombination.getJobPaper().getJob().getCloseWidth();
 		double logP = Math.log((machinePlateLength*machinePlateWidth)/(closeLength*closeWidth));

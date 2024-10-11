@@ -83,6 +83,13 @@
                          </c:if>
                       </c:forEach>
                      </optgroup>
+                     <optgroup   label="<fmt:message key="job.category.opened.with.cover"/>" data-content="3">
+                       <c:forEach items="${jobTypes}" var="jobType">
+                       <c:if test="${jobType.category==3}">
+                        <option  selected value="${jobType.id}" >${jobType.name}</option>
+                         </c:if>
+                      </c:forEach>
+                     </optgroup>
                     </select>
 				  </div>
 				  <div class ="col-lg-3 px8" style="position: relative; left: 10px;">

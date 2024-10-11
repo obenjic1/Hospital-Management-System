@@ -97,7 +97,6 @@
                                                                       <td><a> </a></td>  
                                                                       <td style="font-family: bold; font-weight: bold;"><a> <fmt:formatNumber value="${invoices.netPayable}" type="currency"   pattern = "#,###,###"/> </a></td>                               
                                                                 </tr>
-                                                        </tr>
                                                     </tbody>
                                                 </table>
                                             </div>

@@ -9,6 +9,7 @@ import java.util.Optional;
 
 import javax.transaction.Transactional;
 
+import org.hibernate.mapping.Array;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -34,6 +35,8 @@ import com.ppp.billing.repository.BindingTypeRepository;
 import com.ppp.billing.repository.ContentTypeRepository;
 import com.ppp.billing.repository.CustomerRepository;
 import com.ppp.billing.repository.DepartmentRepository;
+import com.ppp.billing.repository.JobColorCombinationRepository;
+import com.ppp.billing.repository.JobPaperRepository;
 import com.ppp.billing.repository.JobRepository;
 import com.ppp.billing.repository.JobStatusRepository;
 import com.ppp.billing.repository.JobTrackingRepository;
@@ -82,11 +85,17 @@ public class JobServiceImpl implements JobService {
     JobTrackingRepository jobTrackingRepository;
 	@Autowired
 	private UserRepository userRepository;
+	
+	@Autowired
+	private JobColorCombinationRepository jobColorCombinationRepository;
+	
+	@Autowired
+	private JobPaperRepository jobPaperRepository;
    
 	@Override
 	public Job saveJob(JobDTO jobDTO) {
 		Job newJob = new Job();
-		newJob.setTitle(jobDTO.getTitle());
+		newJob.setTitle(jobDTO.getTitle().toUpperCase());
 		newJob.setContentVolume(jobDTO.getContentVolume());
 		newJob.setCoverVolume(jobDTO.getCoverVolume());
 		newJob.setOpenLength(jobDTO.getOpenLength());
@@ -139,6 +148,8 @@ public class JobServiceImpl implements JobService {
 			jobPaper.setPaperType(paperType.get());
 			Optional<ContentType> contentType = contentTypeRepository.findById(row.getContentTypeId());
 			jobPaper.setContentType(contentType.get());
+			jobPaper.setPaperSizeLength(row.getPaperSizeLength());
+			jobPaper.setPaperSizeWidth(row.getPaperSizeWidth());
 
 			List<JobColorCombination> colorCombinations = new ArrayList<JobColorCombination>();
 			row.getJobColorCombinations().forEach(colors->{
@@ -182,9 +193,8 @@ public class JobServiceImpl implements JobService {
 		tracking.setJob(newJob);
 		newJob.setJobTrackings(jobTrackings);
 		newJob.setJobPapers(jobPapers);	
-		jobRepository.saveAndFlush(newJob); 
-		generateSerialNumber(newJob);
-		
+		jobRepository.saveAndFlush(newJob);
+        generateSerialNumber(newJob);
         return newJob; 
 	}
 	
@@ -316,10 +326,12 @@ public class JobServiceImpl implements JobService {
 		JobStatus status = jobStatusRepository.findById(1).get();
 		newJob.setStatus(status);
 		jobRepository.saveAndFlush(newJob); 
+
 		generateSerialNumber(newJob);
 		return newJob;
 	}
 
+	
 	public Job updateDraft(JobDTO jobDTO, long id) {
 		Job newJob =jobRepository.findById(id).get();
 		newJob.setTitle(jobDTO.getTitle());
@@ -337,7 +349,6 @@ public class JobServiceImpl implements JobService {
 		// Optional<JobType> jobType = jobTypeRepository.findById(jobDTO.getJobTypeId());
 		//newJob.setJobType(jobType.get());
 		
-		List<JobTracking> jobTrackings = newJob.getJobTrackings() ;
 		JobTracking tracking = new JobTracking();
 		tracking.setCreationDate(new Date());
 		String name = SecurityContextHolder.getContext().getAuthentication().getName();
@@ -345,17 +356,126 @@ public class JobServiceImpl implements JobService {
 		tracking.setUser(user);
 		tracking.setOperation("Edit Daft");
 		tracking.setJob(newJob);
-		jobTrackings.add(tracking);
-		newJob.setJobTrackings(jobTrackings);
+		jobTrackingRepository.save(tracking);
+
 		jobRepository.saveAndFlush(newJob);
 		return newJob;
 	}
 
 	
+	
+	
+	
+	
+	public Job updateJob(JobDTO jobDTO) {
+	Job newJob = jobRepository.findById(jobDTO.getId()).get() ;
+		newJob.setTitle(jobDTO.getTitle());
+		newJob.setContentVolume(jobDTO.getContentVolume());
+		newJob.setCoverVolume(jobDTO.getCoverVolume());
+		newJob.setOpenLength(jobDTO.getOpenLength());
+		newJob.setCloseLength(jobDTO.getCloseLength());
+		newJob.setOpenWidth(jobDTO.getOpenWidth());
+		newJob.setCloseWidth(jobDTO.getCloseWidth());
+		newJob.setCtpFees(jobDTO.getCtpFees());
+		newJob.setExistingPlate(jobDTO.isExistingPlate());
+		newJob.setDataSuppliedByCustomer(jobDTO.isDataSuppliedByCustomer());
+		newJob.setLayOutByUs(jobDTO.isLayOutByUs());
+		newJob.setTypesettingByUs(jobDTO.isTypesettingByUs());
+		newJob.setPaperFormat(jobDTO.getPaperFormat());
+		newJob.setCreationDate(new Date());
+		Optional<Customer> customer = customerRepository.findById(jobDTO.getCustomerId());
+		newJob.setCustomer(customer.get());
+		Optional<JobType> jobType = jobTypeRepository.findById(jobDTO.getJobTypeId());
+		newJob.setJobType(jobType.get());
+		JobStatus status = jobStatusRepository.findById(2).get();
+		newJob.setStatus(status);
+		
+		List<JobPaper> jobPapers_ = newJob.getJobPapers();
+		
+		for( JobPaper jobpaper : jobPapers_ ) {
+			for(JobColorCombination jbColorCmb : jobpaper.getJobColorCombinations()) {
+				jobPaperRepository.deleteByjobColorCombination(jbColorCmb.getId());
+			}
+			jobPaperRepository.deleteByjobPaper(jobpaper.getId());
+		}
+	
+		
+		JobActivityOptionDTO jobdto = jobDTO.getJobActivities();
+		JobActivity activity = newJob.getJobActivity();
+		activity.setXPerforated(jobdto.getxPerforated());
+		activity.setXNumbered(jobdto.getxNumbered());
+		activity.setLamination(jobdto.getLamination());
+		activity.setXCreased(jobdto.getxCreased());
+//		activity.setXWiredStiched(jobdto.getrackingServicetxWiredStiched());
+		activity.setXCross(jobdto.getxCross());
+		//activity.setGlueOption(jobdto.getGlueOption());
+		activity.setHandgather(jobdto.isHandgather());
+		activity.setIsStitching(jobdto.getStitching());
+		activity.setTrimmed(jobdto.isTrimmed());
+		activity.setSewn(jobdto.isSewn());
+		activity.setHandFoldingCov(jobdto.getHandFoldCov());
+		activity.setSelloptaped(jobdto.isSelloptaped());
+		if(jobdto.getBindingType()!=0) {
+			Optional<BindingType> bindingtp = bindingTypeRepository.findById(jobdto.getBindingType());
+			activity.setBindingType(bindingtp.get());
+		}
+		activity.setJob(newJob);
+		newJob.setJobActivity(activity);
+				
+		List<JobPaper> jobPapers =new ArrayList<JobPaper>();
+		jobDTO.getJobPapers().forEach(row-> {
+			JobPaper jobPaper = new JobPaper();
+			jobPaper.setGrammage(row.getGrammage());
+			jobPaper.setVolume(row.getVolume());
+			jobPaper.setPaperSizeLength(row.getPaperSizeLength());
+			jobPaper.setPaperSizeWidth(row.getPaperSizeWidth());
+			jobPaper.setUnitPrice(row.getPaperUnitPrice());
+			Optional<PaperType> paperType = paperTypeRepository.findById(row.getPaperTypeId());
+			if(paperType.isPresent())
+			jobPaper.setPaperType(paperType.get());
+			Optional<ContentType> contentType = contentTypeRepository.findById(row.getContentTypeId());
+			if(contentType.isPresent())
+			jobPaper.setContentType(contentType.get());
+
+			List<JobColorCombination> colorCombinations = new ArrayList<JobColorCombination>();
+			row.getJobColorCombinations().forEach(colors->{
+				JobColorCombination jobColorCombination = new JobColorCombination();
+				jobColorCombination.setBackColorNumber(colors.getBackColorNumber());
+				jobColorCombination.setFrontColorNumber(colors.getFrontColorNumber());
+				jobColorCombination.setNumberOfSignature(colors.getSignatureNumber());
+				int machineId = Integer.valueOf(colors.getPrintingMachineId().split(",")[0]);
+				Optional<PrintingMachine> printingMachine =  printingMachineRepository.findById(machineId);
+				if(printingMachine.isPresent())
+				jobColorCombination.setPrintingMachine(printingMachine.get());
+				Optional<PrintType> printType =  printTypeRepository.findById(colors.getPrintTypeId());
+				if(printType.isPresent())
+				jobColorCombination.setPrintType(printType.get());
+				jobColorCombination.setJobPaper(jobPaper);
+				colorCombinations.add(jobColorCombination);
+		
+			});
+			jobPaper.setJobColorCombinations(colorCombinations);
+			jobPaper.setJob(newJob);
+			jobPapers.add(jobPaper);
+			
+		});
+		String name = SecurityContextHolder.getContext().getAuthentication().getName();
+		User user = userRepository.findByUsername(name);
+		JobTracking tracking = new JobTracking();
+		tracking.setCreationDate(new Date());
+		tracking.setUser(user);
+		tracking.setOperation("Edit Job");
+		tracking.setJob(newJob);
+		newJob.setJobPapers(jobPapers);
+		jobTrackingRepository.save(tracking);
+		jobRepository.saveAndFlush(newJob);
+        return newJob; 
+	}
+	
 	/*
 	 * Function That is Use to update Job And Draft
 	 */
-	public Job updateJob(JobDTO jobDTO, long id) {
+	public Job completeDraft(JobDTO jobDTO, long id) {
 		Job newJob =jobRepository.findById(id).get();
 		newJob.setTitle(jobDTO.getTitle().toUpperCase());
 		newJob.setContentVolume(jobDTO.getContentVolume());
@@ -380,12 +500,12 @@ public class JobServiceImpl implements JobService {
 
 		
 		JobActivityOptionDTO jobdto = jobDTO.getJobActivities();
-		JobActivity activity = newJob.getJobActivity();
+		JobActivity activity = new JobActivity();
 		activity.setXPerforated(jobdto.getxPerforated());
 		activity.setXNumbered(jobdto.getxNumbered());
 		activity.setLamination(jobdto.getLamination());
 		activity.setXCreased(jobdto.getxCreased());
-		activity.setXWiredStiched(jobdto.getxWiredStiched());
+//		activity.setXWiredStiched(jobdto.getrackingServicetxWiredStiched());
 		activity.setXCross(jobdto.getxCross());
 		//activity.setGlueOption(jobdto.getGlueOption());
 		activity.setHandgather(jobdto.isHandgather());
@@ -401,14 +521,13 @@ public class JobServiceImpl implements JobService {
 		activity.setJob(newJob);
 		newJob.setJobActivity(activity);
 				
-		List<JobPaper> jobPapers = newJob.getJobPapers();
+		List<JobPaper> jobPapers = new ArrayList<JobPaper>();
 		jobDTO.getJobPapers().forEach(row-> {
 			JobPaper jobPaper = new JobPaper();
 			jobPaper.setGrammage(row.getGrammage());
 			jobPaper.setVolume(row.getVolume());
 			jobPaper.setUnitPrice(row.getPaperUnitPrice());
 			Optional<PaperType> paperType = paperTypeRepository.findById(row.getPaperTypeId());
-			if(paperType.isPresent())
 			jobPaper.setPaperType(paperType.get());
 			Optional<ContentType> contentType = contentTypeRepository.findById(row.getContentTypeId());
 			jobPaper.setContentType(contentType.get());
@@ -426,28 +545,27 @@ public class JobServiceImpl implements JobService {
 				jobColorCombination.setPrintType(printType.get());
 				jobColorCombination.setJobPaper(jobPaper);
 				colorCombinations.add(jobColorCombination);
-			
+		
 			});
 			jobPaper.setJobColorCombinations(colorCombinations);
 			jobPaper.setJob(newJob);
 			jobPapers.add(jobPaper);
-
+			
 		});
 		
-//		List<JobTracking> jobTrackings = new ArrayList<JobTracking>();
-//		JobTracking tracking = new JobTracking();
-//		String name = SecurityContextHolder.getContext().getAuthentication().getName();
-//		User user = userRepository.findByUsername(name);
-//		tracking.setUser(user);
-//		tracking.setCreationDate(new Date());
-//		tracking.setOperation("Edit Job");
-//		jobTrackings.add(tracking);
-//		tracking.setJob(newJob);
-//		newJob.setJobTrackings(jobTrackings);
-		newJob.setJobPapers(jobPapers);		
-		jobRepository.saveAndFlush(newJob);
+		String name = SecurityContextHolder.getContext().getAuthentication().getName();
+		User user = userRepository.findByUsername(name);
 		
-        return newJob;
+		JobTracking tracking = new JobTracking();
+		tracking.setCreationDate(new Date());
+		tracking.setUser(user);
+		tracking.setOperation("complete draft  Job");
+		tracking.setJob(newJob);
+		newJob.setJobPapers(jobPapers);	
+		jobTrackingRepository.save(tracking);
+		jobRepository.saveAndFlush(newJob);
+        generateSerialNumber(newJob);
+        return newJob; 
 	}
 
 			// aborting a job
@@ -458,7 +576,6 @@ public class JobServiceImpl implements JobService {
 		Job job = jobRepository.findById(id).get();
 		JobStatus status = jobStatusRepository.findById(5).get();
 		job.setStatus(status);
-		List<JobTracking> jobTrackings = job.getJobTrackings() ;
 		JobTracking tracking = new JobTracking();
 		tracking.setCreationDate(new Date());
 		tracking.setOperation("Aborted Job");
@@ -466,8 +583,7 @@ public class JobServiceImpl implements JobService {
 		User user = userRepository.findByUsername(name);
 		tracking.setUser(user);
 		tracking.setJob(job);
-		jobTrackings.add(tracking);
-		job.setJobTrackings(jobTrackings);
+		jobTrackingRepository.save(tracking);
 		jobRepository.saveAndFlush(job);
 	}
 				// Mark Job has been proofreaded 
@@ -477,7 +593,6 @@ public class JobServiceImpl implements JobService {
 			Job job =jobRepository.findById(id).get();
 			if(job.getStatus().getName().equals("Registered")||job.getStatus().getName().equals("Confrimed")||job.getStatus().getName().equals("Approved"))
 				job.setProofread(true);
-			List<JobTracking> jobTrackings = job.getJobTrackings() ;
 			JobTracking tracking = new JobTracking();
 			tracking.setCreationDate(new Date());
 			tracking.setOperation("proof read Job");
@@ -485,9 +600,7 @@ public class JobServiceImpl implements JobService {
 			User user = userRepository.findByUsername(name);
 			tracking.setUser(user);
 			tracking.setJob(job);
-			jobTrackings.add(tracking);
-			job.setJobTrackings(jobTrackings);
-			
+			jobTrackingRepository.save(tracking);
 			jobRepository.save(job);
 		} catch (Exception e) {
 			throw e;
@@ -501,7 +614,6 @@ public class JobServiceImpl implements JobService {
 		Job job =jobRepository.findById(id).get();
 		if(job.getStatus().getName().equals("Registered")){
 			JobStatus status = jobStatusRepository.findById(3).get();
-			List<JobTracking> jobTrackings = job.getJobTrackings() ;
 			JobTracking tracking = new JobTracking();
 			tracking.setCreationDate(new Date());
 			tracking.setOperation("Confim Job");
@@ -510,8 +622,7 @@ public class JobServiceImpl implements JobService {
 			tracking.setUser(user);
 			tracking.setJob(job);
 			tracking.setOperation("Confirmed Job");
-			jobTrackings.add(tracking);
-			job.setJobTrackings(jobTrackings);
+			jobTrackingRepository.save(tracking);
 			job.setStatus(status);
 			jobRepository.saveAndFlush(job);
 		}
@@ -524,7 +635,6 @@ public class JobServiceImpl implements JobService {
 		Job job =jobRepository.findById(id).get();
 		if(job.getStatus().getName().equals("Confrimed")){
 			JobStatus status = jobStatusRepository.findById(4).get();
-			List<JobTracking> jobTrackings = job.getJobTrackings() ;
 			JobTracking tracking = new JobTracking();
 			tracking.setCreationDate(new Date());
 			tracking.setOperation("Approved Job");
@@ -532,12 +642,12 @@ public class JobServiceImpl implements JobService {
 			User user = userRepository.findByUsername(name);
 			tracking.setUser(user);
 			tracking.setJob(job);
-			jobTrackings.add(tracking);
-			job.setJobTrackings(jobTrackings);
+			jobTrackingRepository.save(tracking);
 			job.setStatus(status);
 			jobRepository.saveAndFlush(job);
 		}
 	
 	}
 
+	
 }

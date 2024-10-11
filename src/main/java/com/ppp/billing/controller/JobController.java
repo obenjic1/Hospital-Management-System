@@ -18,7 +18,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.WebDataBinder;
@@ -61,8 +60,8 @@ import com.ppp.billing.model.PrintingMachine;
 import com.ppp.billing.model.dto.EstimateDTO;
 import com.ppp.billing.model.dto.JobDTO;
 import com.ppp.billing.model.dto.JobMovementDTO;
-import com.ppp.billing.repository.DepartmentRepository;
 import com.ppp.billing.repository.JobEstimateRepository;
+import com.ppp.billing.repository.JobRepository;
 import com.ppp.billing.repository.JobTrackingRepository;
 import com.ppp.billing.serviceImpl.BindingTypeserviceImpl;
 import com.ppp.billing.serviceImpl.CustomerServiceImpl;
@@ -86,7 +85,6 @@ import com.ppp.printable.PrintingElementCost;
 import com.ppp.user.model.User;
 import com.ppp.user.repository.UserRepository;
 
-import net.sf.saxon.expr.instruct.ForEach;
 
 @Controller
 @RequestMapping("/job")
@@ -151,9 +149,12 @@ public class JobController {
  
 	
 	
-//	
+	/*
+		 * 
+		 * Start Save Job and Draft Section 
+		 * 
+	 */
 	
-//<--------------------- Collect datas form @Vincent------------------------------>
 	@PreAuthorize("hasAuthority('ROLE_REGISTER_NEW_JOB')")
 	@GetMapping("/displayform")
 	public String displayFormInterface(Model model) {
@@ -210,17 +211,37 @@ public class JobController {
 //<--------------------- Save data collected to the data base @Vincent ------------------------------>
 	@PostMapping(value="/save", consumes=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public String saveJob(@RequestBody JobDTO jobDTO,Model model){
+	public String saveJob( @RequestBody JobDTO jobDTO,Model model){
 		try {
-			jobServiceImpl.saveJob(jobDTO);
-			return "OK";
+			if(jobDTO.getId()==0) {
+				jobServiceImpl.saveJob(jobDTO);
+				return "OK";
+			}
+			else {
+				jobServiceImpl.updateJob(jobDTO);
+				return "OK";
+			}
+
 		} catch (Exception e) {
 			e.printStackTrace();
 			return "KO";
 		}
 	}
 	
+	/*
+		 * 
+		 * End Save Job and Draft Section
+		 * 
+	 */
 	
+//	------------------------------------
+	
+	/*
+		 * 
+		 * Start List Job Section
+		 * 
+	 */
+		
 	@PreAuthorize("hasAuthority('ROLE_REGISTER_NEW_JOB')")
 	@GetMapping("/list-job")
 	public String listJob(Model model) {
@@ -234,7 +255,20 @@ public class JobController {
 		return "billing/list-job";
 	}
 
-////<--------------------- Generate a job pdf @Vincent ------------------------------>
+	/*
+		 * 
+		 * End List Job Section
+		 * 
+	 */
+	
+//	------------------------------------
+	
+	/*
+	 	* 
+	 	* Start print Control Sheet Section 
+	 	* 
+	 */
+	
 	@PreAuthorize("hasAuthority('ROLE_REGISTER_NEW_JOB')")
 	@GetMapping("/generate-pdf/{id}")
 	@ResponseBody
@@ -283,7 +317,7 @@ public class JobController {
 		double p4=0;
 		
 			/**
-			 * Impression de la premiere page du controle sheet
+			 	*  Debut d'Impression de la premiere page (Job Description)
 			 */
 			PrintableElement printer = new PrintableElement();	
 			printer.print(document, job.getCustomer().getName(), 9, 297-16);
@@ -381,7 +415,12 @@ public class JobController {
 			printer.print(document, message,  34, 297-243);
 			
 			/**
-			 * Printing Prepress 
+			 	* Fin de la premiere page (Job Description)
+			 */
+			
+			
+			/**
+			 	* Debut de la deuxieme page (Prepress)
 			 */
 			document.add(new AreaBreak());
 			PdfCanvas canvas_= new PdfCanvas(pdfDocument.getLastPage());
@@ -445,7 +484,7 @@ public class JobController {
 				printer.print(document, exposior+"",  180, 297-78-vecteur2);
 				printer.print(document, signature+"",  180, 297-85-vecteur2);
 				printer.print(document,run+"",  180, 297-91-vecteur2);
-			
+
 				 float mmToPoint = 2.83465f;
 				if(basic>0) {
 					int kx = (int) (Math.log(basic)/Math.log(2));
@@ -487,8 +526,6 @@ public class JobController {
 				}
 				printer.printMoney(document, job.getCtpFees(), 126, 171);
 				//fix price
-				
-				
 
 			}
 			fixePrice+=job.getCtpFees();
@@ -496,7 +533,12 @@ public class JobController {
 			p1=variablePrice;
 			
 			/**
-			 * Print Printing Elements
+			 	* Fin de la Deuxieme Page (Prepress) 
+			 */
+			
+			
+			/**
+			 	* Debut de la troisieme page (Printing)
 			 */
 			document.add(new AreaBreak());
 			PdfCanvas canvas1= new PdfCanvas(pdfDocument.getLastPage());
@@ -512,7 +554,7 @@ public class JobController {
 					PrintingElementCost printinElementCost = new PrintingElementCost(jobColorCombination);
 					
 					String machine = jobColorCombination.getPrintingMachine().getAbbreviation();
-					int grammage = jobColorCombination.getJobPaper().getGrammage();
+					int grammage = jobColorCombination.getJobPaper().getGrammage() ;
 					float basicPrice = printinElementCost.getBasicUnitCost();
 					
 					printer.print(document, machine, 22, 297-23-decalage);
@@ -562,7 +604,12 @@ public class JobController {
 			p2=variablePrice-p1;
 			
 			/**
-			 * Print Finishing Elements
+			 	* Fin de la troisieme page (Printing)
+			 */
+			
+			
+			/**
+			 	* Debut de la quatrieme page (Finishing)
 			 */
 			
 			document.add(new AreaBreak());
@@ -711,9 +758,13 @@ public class JobController {
 				variablePrice+=job.getJobActivity().getLamination()*(laminationUnitePrice/1000.0)*1000_000;
 			
 			}
+			
+			/**
+			 	* Debut de la quatrieme page (Finishing)
+			 */
 
 			/**
-			 * Print  Paper Element
+			 	* Debut de la ciquieme page (Paper)
 			 */
 			p3=variablePrice-p1-p2;
 			document.add(new AreaBreak());
@@ -799,7 +850,12 @@ public class JobController {
 					
 				 }
 			 }
-			 p4=variablePrice-p1-p2-p3;
+			 
+			 /**
+			  	* Debut de la ciquieme page (Paper)
+			  */
+			 
+			p4=variablePrice-p1-p2-p3;
 			printer.printMoney(document, fixePrice , 135, 99);
 			printer.printMoney(document, variablePrice , 175, 99);
 			job.setFixCost((float) fixePrice);
@@ -810,6 +866,12 @@ public class JobController {
 			return job.getReferenceNumber()+".pdf";
 		
 	}
+	
+	/*
+		 * 
+		 * End print Control Sheet Section 
+		 * 
+	 */
 
 	@GetMapping("/error-pdf")
 	@ResponseBody
@@ -821,12 +883,16 @@ public class JobController {
 	public String viewJobDetails(@PathVariable long id, Model model) {
 		Job job = jobServiceImpl.findById(id).get();
 		List<JobPaper> jobPapers = job.getJobPapers();
+		List<JobPaper> jobP = new ArrayList<JobPaper>();
 		JobPaper cover = null;
 		for(JobPaper jp : jobPapers) {
 			if(jp.getContentType().getId()==1) {
 				cover=jp;
-				jobPapers.remove(jp);
+				//jobPapers.remove(jp);
+			}else {
+				jobP.add(jp);
 			}
+
 		}
 		List<JobEstimate>  jobEstimates = job.getJobEstimates();
 		List<Invoice> invoices = new ArrayList<Invoice>();
@@ -840,7 +906,7 @@ public class JobController {
 		}
 		model.addAttribute("invoices",invoices);
 		model.addAttribute("job",job);
-		model.addAttribute("jobPapers",jobPapers);
+		model.addAttribute("jobPapers",jobP);
 		model.addAttribute("coverjobPapers",cover);
 		model.addAttribute("jobEstimates",jobEstimates);
 
@@ -927,6 +993,9 @@ public class JobController {
 			model.addAttribute("job", job);		
 			return "/billing/estimate/estimate-view";
 		}
+		
+		
+		
 		
 		@GetMapping("/generate/{id}")
 		public String generateEstimate(@PathVariable long id, @RequestParam("quantities") String quantities, 
@@ -1521,31 +1590,36 @@ public class JobController {
 //				
 				
 				//<--------------------- Complete a  DraftJob ------------------------------>
-				@PostMapping(value="/complete-draft/{id}", consumes=MediaType.APPLICATION_JSON_VALUE)
-				@ResponseBody
-				public String completeDraft(@PathVariable Long id,@RequestBody JobDTO jobDTO){
-					try {
-						jobServiceImpl.updateJob(jobDTO, id);
-						return "OK";
-					} catch (Exception e) {
-						e.printStackTrace();
-						return "KO";
-					}
-				}
+//				@PostMapping(value="/complete-draft/{id}", consumes=MediaType.APPLICATION_JSON_VALUE)
+//				@ResponseBody
+//				public String completeDraft(@PathVariable Long id,@RequestBody JobDTO jobDTO){
+//					try {
+//						jobServiceImpl.updateJob(jobDTO, id);
+//						return "OK";
+//					} catch (Exception e) {
+//						e.printStackTrace();
+//						return "KO";
+//					}
+//				}
 				
-		
+
 		
 		@GetMapping("/confimJob/{id}")
 		public String confimDetails(@PathVariable long id, Model model) {
 			Job job = jobServiceImpl.findById(id).get();
 			List<JobPaper> jobPapers = job.getJobPapers();
+			List<JobPaper> jobP = new ArrayList<JobPaper>();
 			JobPaper cover = null;
 			for(JobPaper jp : jobPapers) {
 				if(jp.getContentType().getId()==1) {
 					cover=jp;
-					jobPapers.remove(jp);
+				//	jobPapers.remove(jp);
+				}else {
+					jobP.add(jp);
 				}
 			}
+
+			
 			List<JobEstimate>  jobEstimates = job.getJobEstimates();
 			List<Invoice> invoices = new ArrayList<Invoice>();
 			
@@ -1558,7 +1632,7 @@ public class JobController {
 			}
 			model.addAttribute("invoices",invoices);
 			model.addAttribute("job",job);
-			model.addAttribute("jobPapers",jobPapers);
+			model.addAttribute("jobPapers",jobP);
 			model.addAttribute("coverjobPapers",cover);
 			model.addAttribute("jobEstimates",jobEstimates);
 
@@ -1598,6 +1672,39 @@ public class JobController {
 					return new ResponseEntity<String>("KO", HttpStatus.BAD_REQUEST);
 				}
 				
+				/*
+				 * Test function to complete draft	
+				 */
+				
+				@GetMapping("/display-draft-form/{id}")
+				public String displayDraftFormInterface2(@PathVariable Long id,Model model) {
+					List<Customer> customerResult = customerServiceImpl.findAll();
+					List<JobType> jobTypeResult = jobTypeServiceImpl.findAll();
+					List<PaperFormat> paperFormatResult = paperFormatServiceImpl.findAll();
+					List<JobPaper> jobPaperResult = jobPaperServiceImpl.findAll();
+					List<PaperType>  paperTypeResult = paperTypeServiceImpl.listAll();
+					List<PaperGrammage> paperGrammageResult = paperGrammageServiceImpl.findAll();
+					List<PrintingMachine> printingMachineResult = printingMachineServiceImpl.listMachines();
+					List<PrintType> printTypeResult = printTypeServiceImpl.findAll();
+					List<BindingType> bindingTypeResult = bindingTypeserviceImpl.listAll();
+
+					Job existingJob = jobServiceImpl.findById(id).get();
+					model.addAttribute("job", existingJob);
+					model.addAttribute("customers", customerResult);
+					model.addAttribute("jobTypes", jobTypeResult);
+					model.addAttribute("paperFormats", paperFormatResult);
+					model.addAttribute("jobPaperResults", jobPaperResult);
+					model.addAttribute("paperTypes", paperTypeResult);
+					model.addAttribute("paperGrammages", paperGrammageResult);
+					model.addAttribute("printingMachines", printingMachineResult);
+					model.addAttribute("printTypes", printTypeResult);
+					model.addAttribute("bindingTypes", bindingTypeResult);
+					
+					
+					return "billing/job-update-form";
+				}
+				
+				
 				
 			/*
 			 * Function Update Draft	
@@ -1628,15 +1735,14 @@ public class JobController {
 			model.addAttribute("printTypes", printTypeResult);
 			model.addAttribute("bindingTypes", bindingTypeResult);
 			
-		    return "/billing/job-update-form";
+		    return "/billing/update-draft-to-registered-form";
 		}
-		
-		//<--------------------- Complete a  DraftJob ------------------------------>
+
 //		@PostMapping(value="/complete-draft/{id}", consumes=MediaType.APPLICATION_JSON_VALUE)
 //		@ResponseBody
 //		public String completeDraft(@PathVariable Long id,@RequestBody JobDTO jobDTO){
 //			try {
-//				jobServiceImpl.updateJob(jobDTO, id);
+//				jobServiceImpl.completeDraft(jobDTO, id);
 //				return "OK";
 //			} catch (Exception e) {
 //				e.printStackTrace();
@@ -1644,7 +1750,7 @@ public class JobController {
 //			}
 //		}
 //		
-	
+		
 		/*
 		 * Mark Job as Proofread
 		 */
@@ -1677,20 +1783,14 @@ public class JobController {
 				List<PaperGrammage> paperGrammageResult = paperGrammageServiceImpl.findAll();
 				List<BindingType> bindingTypeResult = bindingTypeserviceImpl.listAll();
 				
-				Job existingJob = jobServiceImpl.findById(id).get();	
-				for(int i =1; i< existingJob.getJobPapers().size(); i++) {
-					JobPaper contentJobPaper = existingJob.getJobPapers().get(i);
-					for(int j= 0; j< existingJob.getJobPapers().get(i).getJobColorCombinations().size(); j++) {
-						PrintingMachine contentPrintingMachine = existingJob.getJobPapers().get(i).getJobColorCombinations().get(j).getPrintingMachine();
-						JobColorCombination colorCombin = existingJob.getJobPapers().get(i).getJobColorCombinations().get(j);
-						double contentSignature = existingJob.getJobPapers().get(i).getJobColorCombinations().get(j).getNumberOfSignature();
-						model.addAttribute("contentPrintingMachine", contentPrintingMachine);
-						model.addAttribute("contentSignature", contentSignature);
-						model.addAttribute("colorCombin", colorCombin);
+				Job existingJob = jobServiceImpl.findById(id).get();
+		    	List<JobPaper> contentJobPapers = new ArrayList<JobPaper>();
+			
+				for(int i =0; i< existingJob.getJobPapers().size(); i++) {
+					if(existingJob.getJobPapers().get(i).getContentType().getId()==2) {
+						contentJobPapers.add(existingJob.getJobPapers().get(i));
 					}
-					PaperType contentPaperType = existingJob.getJobPapers().get(i).getPaperType();
-					model.addAttribute("contentPaperType", contentPaperType);
-					model.addAttribute("contentJobPaper", contentJobPaper);
+			
 				}
 				
 				JobPaper existingJobPaper = existingJob.getJobPapers().remove(0);
@@ -1724,17 +1824,25 @@ public class JobController {
 				model.addAttribute("cross", cross);
 				model.addAttribute("jobActivit", jobActivit);
 				model.addAttribute("handFoldCov", handFoldCov);
+				model.addAttribute("contentJobPaper", contentJobPapers);
 				
 			    return "/billing/job-update-form";
 			}
 
+			
 			@PostMapping(value = "/update-job/{id}")
 			public String updateJobForm(@PathVariable long id, @RequestBody JobDTO jobDTO) {
 				try {
-					jobServiceImpl.updateJob(jobDTO, id);
-					return "/billing/list-job"; 
+					Job job = jobServiceImpl.findById(id).get();
+					if(job.getStatus().getName() =="Draft") {
+						
+						jobServiceImpl.completeDraft(jobDTO, id);
+						
+					}
+					return "OK";
 				} catch (Exception e) {
 					throw e;
+					
 				}
 			}
 	//<--------------------- Get Move Job Form ------------------------------>
@@ -1780,5 +1888,67 @@ public class JobController {
 			model.addAttribute("jobTrackings",jobTrackings);
 
 	    return "/billing/history";
+		}
+		
+		
+		
+							// Reprint Job 
+		@GetMapping("/reprint/{id}")
+		public String displayReprintJobForm(@PathVariable long id, Model model) {
+			List<Customer> customerResult = customerServiceImpl.findAll();
+			List<JobType> jobTypeResult = jobTypeServiceImpl.findAll();
+			List<PaperFormat> paperFormatResult = paperFormatServiceImpl.findAll();
+			List<JobPaper> jobPaperResult = jobPaperServiceImpl.findAll();
+			List<PaperType>  paperTypeResult = paperTypeServiceImpl.listAll();
+			List<PrintingMachine> printingMachineResult = printingMachineServiceImpl.listMachines();
+			List<PrintType> printTypeResult = printTypeServiceImpl.findAll();
+			List<JobColorCombination> jobColorCombinationResult = jobColorCombinationServiceImpl.findAll();
+			List<PaperGrammage> paperGrammageResult = paperGrammageServiceImpl.findAll();
+			List<BindingType> bindingTypeResult = bindingTypeserviceImpl.listAll();
+			
+			Job existingJob = jobServiceImpl.findById(id).get();
+	    	List<JobPaper> contentJobPapers = new ArrayList<JobPaper>();
+		
+			for(int i =0; i< existingJob.getJobPapers().size(); i++) {
+				if(existingJob.getJobPapers().get(i).getContentType().getId()==2) {
+					contentJobPapers.add(existingJob.getJobPapers().get(i));
+				}
+		
+			}
+			
+			JobPaper existingJobPaper = existingJob.getJobPapers().remove(0);
+			JobColorCombination covercolourCombination = existingJobPaper.getJobColorCombinations().get(0);
+			double coversignature = existingJobPaper.getJobColorCombinations().get(0).getNumberOfSignature();
+			JobActivity jobActivity = existingJob.getJobActivity();
+			int jobActivit = existingJob.getJobActivity().getXPerforated();
+			int numbered = existingJob.getJobActivity().getXNumbered();
+			int creased = existingJob.getJobActivity().getXCreased();
+			int wireStiched = existingJob.getJobActivity().getXWiredStiched();
+			int cross = existingJob.getJobActivity().getXCross();
+			int handFoldCov = existingJob.getJobActivity().getHandFoldingCov();
+			model.addAttribute("job", existingJob);
+			model.addAttribute("coversignature", coversignature);
+			model.addAttribute("customers", customerResult);
+			model.addAttribute("jobTypes", jobTypeResult);
+			model.addAttribute("paperFormats", paperFormatResult);
+			model.addAttribute("bindingTypes", bindingTypeResult);
+			model.addAttribute("coverJobPaper", existingJobPaper);
+			model.addAttribute("jobPaperResults", jobPaperResult);
+			model.addAttribute("paperTypes", paperTypeResult);
+			model.addAttribute("printingMachines", printingMachineResult);
+			model.addAttribute("printTypes", printTypeResult);
+			model.addAttribute("jobColorCombinations", jobColorCombinationResult); 
+			model.addAttribute("paperGrammages", paperGrammageResult);
+			model.addAttribute("covercolourCombination", covercolourCombination);
+			model.addAttribute("jobActivity", jobActivity);
+			model.addAttribute("numbered", numbered);
+			model.addAttribute("creased", creased);
+			model.addAttribute("wireStiched", wireStiched);
+			model.addAttribute("cross", cross);
+			model.addAttribute("jobActivit", jobActivit);
+			model.addAttribute("handFoldCov", handFoldCov);
+			model.addAttribute("contentJobPaper", contentJobPapers);
+			
+		    return "/billing/duplicate-job-form";
 		}
 }

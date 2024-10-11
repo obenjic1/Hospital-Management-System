@@ -20,10 +20,26 @@ function tab1NextBtnAction(){
 
 function navigate(activeTab,tabToActivate){
 	
+	if(activeTab<tabToActivate &&(activeTab==1 || activeTab==2  || activeTab==3) ){
+		let form = document.getElementById("myForm");
+	    let validator = $('#tab'+(tabToActivate-1)+'').data('bootstrapValidator');
+        //   validator.resetForm();
+
+          validator.validate();
+            if (validator.isValid()) {
 	$('.nav-tabs button[data-bs-target= "#tab'+tabToActivate+'"]').tab('show');
 	$('.nav-tabs button[data-bs-target= "#tab'+tabToActivate+'"]').css("color", "blue") ;
 	tabToActivate = tabToActivate-tabToActivate + activeTab;
 	$('.nav-tabs button[data-bs-target= "#tab'+tabToActivate+'"]').css("color", "black");
+
+	}
+	}else{
+	$('.nav-tabs button[data-bs-target= "#tab'+tabToActivate+'"]').tab('show');
+	$('.nav-tabs button[data-bs-target= "#tab'+tabToActivate+'"]').css("color", "blue") ;
+	tabToActivate = tabToActivate-tabToActivate + activeTab;
+	$('.nav-tabs button[data-bs-target= "#tab'+tabToActivate+'"]').css("color", "black");
+	}
+	
 }
 
 				/*
@@ -55,6 +71,8 @@ function addContentPaperChild(){
 		cloneContentFirstChild.style.display="block";
 		cloneContentFirstChild.style.display="";
 		contentDiv.appendChild(cloneContentFirstChild);	
+		let lastChild=contentDiv.lastChild;
+		notiFyAddValidator(2, lastChild);
 		
 	let contentDivTab2 =  document.getElementById("mainContentSignature");
 	let contentDivTab2FirstChild = contentDivTab2.children[0];
@@ -65,7 +83,7 @@ function addContentPaperChild(){
 
 	}
 
-function updateTotalContentvolume(value,oldValue){
+function updateTotalContentvolume(value,oldValue, input){
 
 	let volumeOfContent = document.querySelectorAll("[contentVolume]")[1].value;
 		if(isNaN(parseInt(value))==false){
@@ -76,21 +94,25 @@ function updateTotalContentvolume(value,oldValue){
 		volumeOfContent = parseInt(volumeOfContent)+parseInt(oldValue);	
 	}
 		document.querySelectorAll("[contentVolume]")[1].value = volumeOfContent;
+		resetNumberOfSignature(input);
+		resetMainNumberOfSignature();
 
 }
 
 
-function removeContentNode(deleteBtn,input){
+function removeContentNode(deleteBtn,inputParent){
 	let parentNode = deleteBtn.parentNode.parentNode.parentNode;
 	let removeindex =Array.from(parentNode.children).indexOf(deleteBtn.parentNode.parentNode);
+	var input= inputParent.querySelector("[contentVolume]");
 	let value =input.value;
+	
 	let volumeOfContent = document.querySelectorAll("[contentVolume]")[1].value;
 	if(isNaN(parseInt(value))==false){
 		volumeOfContent=parseInt(volumeOfContent) +  parseInt(value);
 	}
+	resetMainNumberOfSignature();
 	document.querySelectorAll("[contentVolume]")[1].value = volumeOfContent;
-	deleteBtn.parentNode.parentNode.remove();
-	
+	deleteBtn.parentNode.parentNode.remove();	
 	let nodeRemove = document.getElementById("mainContentSignature");
 		nodeRemove.children[removeindex].remove();
 	
@@ -159,7 +181,7 @@ function signatureChange(SignatureValue,parent,oldValue){
 		let readOnlyInput = parent.querySelector("[inputSignReadonly]");
 		let volumeOfContent = readOnlyInput.value;
 		if(isNaN(parseFloat(SignatureValue))==false){
-		volumeOfContent=parseFloat(volumeOfContent) -  parseFloat(SignatureValue);
+		volumeOfContent=parseFloat(volumeOfContent) - parseFloat(SignatureValue);
 	}
 	if(isNaN(parseFloat(oldValue))==false){
 		volumeOfContent=parseFloat(volumeOfContent) +  parseFloat(oldValue);
@@ -200,7 +222,14 @@ function signatureCalculation(machineParams,node){
 	
 	let closeWidth =parseInt(document.getElementById("closeWidth").value);
 	let closeLength =parseInt(document.getElementById("closeLength").value);
+
+	let paperSizeWidth = parseInt(volumeRow.querySelector("[paperSizeWidth]").value);
+	let paperSizeLength = parseInt(volumeRow.querySelector("[paperSizeLength]").value);
 	
+	let minimumLenght = Math.min(Math.min(paperSizeWidth-20, paperSizeLength-20),Math.min(machinePlateLength, machinePlateWidth));
+	let maximumLength =  Math.min(Math.max(paperSizeWidth-20, paperSizeLength-20),Math.max(machinePlateLength, machinePlateWidth));
+ 	machinePlateLength =  minimumLenght;
+ 	machinePlateWidth = maximumLength;
 	let logP = Math.log((machinePlateLength * machinePlateWidth)/ (closeLength*closeWidth));
 		logP = logP/Math.log(2);
 		logP= Math.floor(logP)+1;
@@ -223,9 +252,11 @@ function signatureCalculation(machineParams,node){
 }
 
 
+
+
+
      		// Calcul of Cover Signqture
  function coverSignatureCalculation(machineParams,node){
-	
 	let coverSignature=document.getElementById("cover-signature-div");
 	let coverDivTab2 = document.getElementById("coverInformations");
 	
@@ -233,11 +264,18 @@ function signatureCalculation(machineParams,node){
 	let inputCoverSignature = document.getElementById("coverSignature");
 	
 	let volume = inputCoverVolume.value;
+	paperSizeWidth =document.getElementById("paperSizeWidth").value;
+ 	paperSizeLength = document.getElementById("paperSizeLength").value;
 	
 	let coverMachineParamArray = machineParams.split(",");
 	let machinePlateLength = parseInt(coverMachineParamArray[1]);
 	let machinePlateWidth = parseInt(coverMachineParamArray[2]);
 	
+	let minimumLenght = Math.min(Math.min(paperSizeWidth-20, paperSizeLength-20),Math.min(machinePlateLength, machinePlateWidth));
+	let maximumLength =  Math.min(Math.max(paperSizeWidth-20, paperSizeLength-20),Math.max(machinePlateLength, machinePlateWidth));
+ 	machinePlateLength =  minimumLenght;
+ 	machinePlateWidth = maximumLength;
+ 	
 	let closeWidth =parseInt(document.getElementById("closeWidth").value);
 	let closeLength =parseInt(document.getElementById("closeLength").value);
 	
@@ -248,11 +286,42 @@ function signatureCalculation(machineParams,node){
 	let floatingCoverSignature = (volume/pagesPerSignature);
 	let totalCoverSignature = Math.floor(floatingCoverSignature)<floatingCoverSignature&&floatingCoverSignature<Math.floor(floatingCoverSignature+0.5)&&(floatingCoverSignature+0.5 != Math.floor(floatingCoverSignature+0.5)) ?Math.ceil(floatingCoverSignature):Math.floor(floatingCoverSignature)<floatingCoverSignature?Math.floor(floatingCoverSignature)+0.5:Math.floor(floatingCoverSignature); 
 	inputCoverSignature.value = totalCoverSignature;
+	 
 	
 }
 				/*
 				
 					** End Signature Calculation Section 
+					
+				*/
+				
+//		------------------------------------------		
+
+				/*
+				
+					** Start Rand Up Signature Section 
+					
+				*/
+
+
+function randUpCoverSignature(){
+	let valueToRandUp = document.getElementById("coverSignature").value;
+	let contentSignatureToRandUp = document.getElementById("coverSignature");
+	contentSignatureToRandUp.value = Math.ceil(valueToRandUp);
+}
+
+function randUpContentSignature(){
+	let contentValueToRandUp = document.getElementById("signature-content-to-randup").value;
+	let contentRandedUpValue = document.getElementById("signature-content-to-randup");
+	contentRandedUpValue.value = Math.ceil(contentValueToRandUp);
+	alert(contentRandedUpValue);
+
+}
+
+
+				/*
+				
+					** End Rand Up Signature Section
 					
 				*/
 				
@@ -264,10 +333,11 @@ function signatureCalculation(machineParams,node){
 					
 				*/
 
-function submitForm(){
+function submitForm(id){
 	 let opt=document.getElementById("jobType").selectedOptions[0];	
 	 let dataContentValue = opt.parentElement.getAttribute('data-content');
  let job = { };
+ job.id=id;
  job.customerId = document.getElementById("customer").value;
  job.jobTypeId = document.getElementById("jobType").value;
  job.title = document.getElementById("title").value;
@@ -320,6 +390,8 @@ function submitForm(){
 	  coverJobPaper.grammage = document.getElementById("coverGrammage").value;
 	  coverJobPaper.volume = document.getElementById("coverVolume").value;
 	  coverJobPaper.paperTypeId = document.getElementById("coverPaperType").value;
+	  coverJobPaper.paperSizeWidth = document.getElementById("paperSizeWidth").value;
+	  coverJobPaper.paperSizeLength = document.getElementById("paperSizeLength").value;
 	  coverJobPaper.contentTypeId = 1;
 	  coverJobPaper.paperUnitPrice = document.getElementById("coverPaperUnitPrice").value;
 	  
@@ -354,6 +426,8 @@ function submitForm(){
 		 contentJobPaper.volume = volume;
 		 contentJobPaper.paperTypeId = paperType;
 		 contentJobPaper.paperUnitPrice=paperUnitPrice;
+		 contentJobPaper.paperSizeWidth =currentRow.querySelector("[paperSizeWidth]").value;
+ 		 contentJobPaper.paperSizeLength = currentRow.querySelector("[paperSizeLength]").value;
 		 
 		 let jobColorCombinations = [];
 		 let colorConbination = {}; 
@@ -555,7 +629,11 @@ function submitForm(){
 		fc4.innerHTML =currentContentSignature.querySelectorAll("[contentPrintingMachine]")[j].selectedOptions[0].innerHTML;
 		fc5.innerHTML =currentContentSignature.querySelectorAll("[contentPrintType]")[j].selectedOptions[0].innerHTML;
 		fc6.innerHTML =currentContentSignature.querySelectorAll("[contentFrontColorNumber]")[j].value +" / "+ currentContentSignature.querySelectorAll("[contentBackColorNumber]")[j].value;
-		fc7.innerHTML =currentContentSignature.querySelectorAll("[allSignatures]")[j].value;
+		fc7.innerHTML = currentContentSignature.querySelectorAll("[allSignatures]")[j].value;
+//		let allSignature = currentContentSignature.querySelectorAll("[inputSignReadonly]");
+//			for(let a=0; a< allSignature.length; a++){
+//				fc7.innerHTML = allSignature[a].value;
+//			}
 		}
 		
 		}
@@ -1245,7 +1323,7 @@ function summaryDraftUpdate(){
 			}).then((result) => {
 				if(result.isConfirmed){
 				    confirm(id);
-					Swal.fire("Success!/Success!", "Your job has been confirmed!", "success");
+					Swal.fire("Success!/SuinnertHTMccess!", "Your job has been confirmed!", "success");
 				}else{
 					Swal.fire("Cancelled/Annulee!", "Operation cancelled", "info");
 				}
@@ -1375,5 +1453,265 @@ function summaryDraftUpdate(){
 			});
 
 	  }
-	 
+	  
+	  
+	  /**
+		   * 
+		   * Reset functions Section
+		   * 
+	  */
+
+function resetMainNumberOfSignature(){
+	let contentSignature = document.getElementById("mainContentSignature");
+    let mainNodeUpdate = contentSignature.children[1];
+     mainNodeUpdate.querySelectorAll("input, select").forEach(content=>{
+		 content.value="";
+	 });
+	
+	
+}
+
+function resetNumberOfSignature(contentVolume){
+	let parentNode = contentVolume.parentNode.parentNode.parentNode;
+	let removeindex =Array.from(parentNode.children).indexOf(contentVolume.parentNode.parentNode);
+
+	let contentSignature = document.getElementById("mainContentSignature");
+    let nodeUpdate = contentSignature.children[removeindex];
+     nodeUpdate.querySelectorAll("input, select").forEach(content=>{
+		 content.value="";
+	 });
+    
+	
+}
+
+
+
+				/**
+					 * 
+					 * Start Validation section 
+					 * 
+				 */
+
+function validateTab1(){
+	
+ 	 $("#tab1").bootstrapValidator({
+            fields: {
+                title: {
+                    validators: {
+                        notEmpty: {
+                            message: 'this field is required'
+                        }
+                    }
+                },
+                
+                 customer: {
+                    validators: {
+                        notEmpty: {
+                            message: 'this field is required'
+                        }
+                    }
+                },
+                
+                 jobType: {
+                    validators: {
+                        notEmpty: {
+                            message: 'this field is required'
+                        }
+                    }
+                },
+                
+                  volumeOfCover: {
+                    validators: {
+                        notEmpty: {
+                            message: 'this field is required'
+                        }
+                    }
+                },
+                
+                  volumeOfContent: {
+                    validators: {
+                        notEmpty: {
+                            message: 'this field is required'
+                        }
+                    }
+                },
+                
+                  closeWidth: {
+                    validators: {
+                        notEmpty: {
+                            message: 'this field is required'
+                        }
+                    }
+                },
+                
+                  closeLength: {
+                    validators: {
+                        notEmpty: {
+                            message: 'this field is required'
+                        }
+                    }
+                },
+                
+                  openWidth: {
+                    validators: {
+                        notEmpty: {
+                            message: 'this field is required'
+                        }
+                    }
+                },
+                
+                  openLength: {
+                    validators: {
+                        notEmpty: {
+                            message: 'this field is required'
+                        }
+                    }
+                },
+                
+                  ctpFees: {
+                    validators: {
+                        notEmpty: {
+                            message: 'this field is required'
+                        }
+                    }
+                },
+                
+            }
+        });
+}
+
+
+function validateTab2(){
+	
+     //$("#tab2").removeClass("needs-validation");
+    // $("#tab2").addClass("needs-validation");
+
+	 $("#tab2").bootstrapValidator({
+            fields: {
+                paperType: {
+                    validators: {
+                        notEmpty: {
+                            message: 'this field is required'
+                        }
+                    }
+                },
+                
+                 paperGrammage: {
+                    validators: {
+                        notEmpty: {
+                            message: 'this field is required'
+                        }
+                    }
+                },
+                
+                 volume: {
+                    validators: {
+                        notEmpty: {
+                            message: 'this field is required'
+                        }
+                    }
+                },
+                
+                  paperSizeWidth: {
+                    validators: {
+                        notEmpty: {
+                            message: 'this field is required'
+                        }
+                    }
+                },
+                
+                  paperSizeLength: {
+                    validators: {
+                        notEmpty: {
+                            message: 'this field is required'
+                        }
+                    }
+                },
+                
+                  paperPrice: {
+                    validators: {
+                        notEmpty: {
+                            message: 'this field is required'
+                        }
+                    }
+                },
+                
+                paperPrice: {
+                    validators: {
+                        notEmpty: {
+                            message: 'this field is required'
+                        }
+                    }
+                },
+	      
+            }
+        });
+}
+
+function validateTab3(){
+	 $("#tab3").bootstrapValidator({
+		 
+            fields: {
+                printingMachine: {
+                    validators: {
+                        notEmpty: {
+                            message: 'this field is required'
+                        }
+                    }
+                },
+                
+                 printType: {
+                    validators: {
+                        notEmpty: {
+                            message: 'this field is required'
+                        }
+                    }
+                },
+                
+                 frontColor: {
+                    validators: {
+                        notEmpty: {
+                            message: 'this field is required'
+                        }
+                    }
+                },
+                
+                  backColor: {
+                    validators: {
+                        notEmpty: {
+                            message: 'this field is required'
+                        }
+                    }
+                },
+                
+                  signature: {
+                    validators: {
+                        notEmpty: {
+                            message: 'this field is required'
+                        }
+                    }
+                },
+                
+                  paperPrice: {
+                    validators: {
+                        notEmpty: {
+                            message: 'this field is required'
+                        }
+                    }
+                },
+
+            }
+        });
+}
+
+
+function notiFyAddValidator(tab, lastChild){
+     let allInput=lastChild.querySelectorAll("input, select");
+      allInput.forEach(input=>{
+		
+		
+	 });
+
+             
+}
 	
