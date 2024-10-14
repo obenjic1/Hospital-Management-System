@@ -29,31 +29,36 @@
                                         <h5 class="card-title"><fmt:message key="profile.details"/></h5>
                                         <div class="row">
                                             <div class="col-lg-3 col-md-4 label "><fmt:message key="username"/></div>
-                                            <div class="col-lg-9 col-md-8">${user.username}</div>
+                                            <div class="col-lg-9 col-md-8 user-details-font">${user.username}</div>
                                         </div> 
                                         <div class="row">
                                             <div class="col-lg-3 col-md-4 label "><fmt:message key="names"/></div>
-                                            <div class="col-lg-9 col-md-8">${user.firstName} ${user.lastName}</div>
+                                            <div class="col-lg-9 col-md-8 user-details-font">${user.firstName} ${user.lastName}</div>
                                         </div> 
+                                         <div class="row">
+                                            <div class="col-lg-3 col-md-4 label"><fmt:message key="email"/></div>
+                                            <div class="col-lg-9 col-md-8 user-details-font">${user.email}</div>
+                                        </div>
+                                           <div class="row">
+                                            <div class="col-lg-3 col-md-4 label"><fmt:message key="phone"/></div>
+                                            <div class="col-lg-9 col-md-8 user-details-font">${user.mobile}</div>
+                                        </div>
+                                           <div class="row">
+                                            <div class="col-lg-3 col-md-4 label"><fmt:message key="address"/></div>
+                                            <div class="col-lg-9 col-md-8 user-details-font">${user.address}</div>
+                                        </div>
                                         <div class="row">
                                             <div class="col-lg-3 col-md-4 label"><fmt:message key="list.groups"/></div>
                                             <div class="col-lg-9 col-md-8">${user.groupe.name}</div>
                                         </div>
-                                        <div class="row">
-                                            <div class="col-lg-3 col-md-4 label"><fmt:message key="address"/></div>
-                                            <div class="col-lg-9 col-md-8">${user.address}</div>
+                                 		<div class="row">
+                                            <div class="col-lg-3 col-md-4 label"><fmt:message key="department"/></div>
+                                            <div class="col-lg-9 col-md-8 user-details-font">${user.department.name}</div>
                                         </div>
-                                        <div class="row">
-                                            <div class="col-lg-3 col-md-4 label"><fmt:message key="phone"/></div>
-                                            <div class="col-lg-9 col-md-8">${user.mobile}</div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-lg-3 col-md-4 label"><fmt:message key="email"/></div>
-                                            <div class="col-lg-9 col-md-8">${user.email}</div>
-                                        </div>
+                              
                                         <div class="row">
                                             <div class="col-lg-3 col-md-4 label"><fmt:message key="created.date"/></div>
-                                            <div class="col-lg-9 col-md-8"> <fmt:formatDate type = "both" value = "${user.createdAt}" /></div>
+                                            <div class="col-lg-9 col-md-8 user-details-font"> <fmt:formatDate type = "both" value = "${user.createdAt}" /></div>
                                         </div>
                                     </div>
                                     <div class="col-xl-4">

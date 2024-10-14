@@ -8,7 +8,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
+
+import com.ppp.user.model.User;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -29,6 +30,11 @@ public class Department {
 	
 	@OneToMany(mappedBy="department")
 	private List<JobMovement> jobMovements;
+	
+	
+
+	@OneToMany(mappedBy="department")
+	private List<User> users;
 	
 //	private JobMovement jobMovement;
 
