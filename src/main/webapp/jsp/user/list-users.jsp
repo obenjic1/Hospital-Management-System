@@ -40,6 +40,7 @@
 							  <th scope="col"><fmt:message key="photo"/></th>
 						      <th scope="col"><fmt:message key="username"/></th>
 							  <th scope="col"><fmt:message key="list.groups"/></th>
+							  <th scope="col"><fmt:message key="department"/></th>
 							  <th scope="col"><fmt:message key="status"/></th>
 							  <th scope="col"><fmt:message key="actions"/></th>
 							</tr>
@@ -57,6 +58,7 @@
 
 							   <td><a>${user.username}</a><i class="bi bi-record2 <?php echo $isConnected ? 'text-success' : 'text-warning'; ?>"></i></td>
 							   <td><a>${user.groupe.name}</a></td>
+							   <td><a>${user.department.name}</a></td>
 							    <td><a class="${user.active ? 'Blocked' : 'Active' }">${user.active ? 'Inactive' : 'Active'}</a></td>
 							   <td>
 							     <a style="font-size: 15px;">

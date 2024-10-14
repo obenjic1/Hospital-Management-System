@@ -20,6 +20,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.ppp.billing.model.Department;
+import com.ppp.billing.repository.DepartmentRepository;
 import com.ppp.user.model.Groupe;
 import com.ppp.user.model.User;
 import com.ppp.user.model.dto.UserDTO;
@@ -40,6 +42,9 @@ public class UserServiceImpl implements UserService {
 	private GroupeRepository groupeRepository;
 	@Autowired
 	private FileStorageService fileStorageService;
+	
+	@Autowired 
+	private DepartmentRepository departmentRepository;
 
 //<---------------- List user ---------------------->
 	@Override
@@ -71,6 +76,8 @@ public class UserServiceImpl implements UserService {
 		    newUser.setPassword(passwordEncoder.encode(userDTO.getPassword()));
 		    newUser.setConfirmPassword(passwordEncoder.encode(userDTO.getConfirmPassword()));
 		    newUser.setMobile(userDTO.getMobile());
+		    Department department = departmentRepository.findById(userDTO.getDepartment());
+		    newUser.setDepartment(department);
 		    newUser.setCreatedAt(new Date());
 		    String getGroup = userDTO.getGroupe();
 		    Groupe groupe = groupeRepository.findByName(getGroup);
@@ -162,6 +169,8 @@ public class UserServiceImpl implements UserService {
 			existingUser.setEmail(user.getEmail());
 			existingUser.setAddress(user.getAddress());
 			existingUser.setMobile(user.getMobile());
+			 Department department = departmentRepository.findById(user.getDepartment());
+			existingUser.setDepartment(department);
 			 if (user.getImageFile() != null && !user.getImageFile().isEmpty()) {
 				   
 	            

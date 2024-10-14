@@ -18,6 +18,8 @@ import javax.persistence.OneToMany;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import com.ppp.billing.model.Department;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -79,6 +81,10 @@ public class User implements UserDetails {
 	@JoinColumn(name = "user_id", referencedColumnName = "id")
 	private List<History> history;
 	
+	@ManyToOne
+	@JoinColumn(name="department_id", nullable=false)
+	private Department department;
+
 
 	
 	@Override

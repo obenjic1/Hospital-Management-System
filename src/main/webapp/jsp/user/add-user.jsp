@@ -82,9 +82,10 @@
 						    <input type="file" id="imageFile" name="imageFile" class="form-control" accept="image/*">
 						  </div>
 						</div>
-						<div class="col-md-6" style="position: relative;left: -10px;bottom: -2px;">
+						<div class="col-md-6" style="display: flex;left: -56px;position: relative;">
+						<div class="col-md-6" style="width: 234px;">
 						  <label for="groupe" id="groupeLabel" class="form-label"><fmt:message key="list.groups"/></label>
-						  <div class="input-group has-validation" style=" left: -8%;  width: 94%; ">
+						  <div class="input-group has-validation">
 							 <select id="groupe" name="groupe" class="form-select">
 							   <c:forEach items="${groups}" var="group">
 								 <option value="${group.name}">${group.name}</option>
@@ -92,8 +93,19 @@
 								</select>
 							</div>
 						</div>
+						<div class="col-md-6" style="width: 234px;left: 25px;position: relative;">
+						  <label for="groupe" id="departement" class="form-label"><fmt:message key="list.departement"/></label>
+						  <div class="input-group has-validation" >
+							 <select id="department" name="department" class="form-select">
+							   <c:forEach items="${departements}" var="departement">
+								 <option value="${departement.id}">${departement.name}</option>
+							   </c:forEach>
+								</select>
+							</div>
+						</div>
+						</div>
 						<div class="col-md-3" style="  width: 20%; left: 72%; position: relative;bottom: -10px; ">
-							<input type="button" id="createBtn"  onclick="addUser(); loadPage('user/list-users');"  data-bs-dismiss="modal" style=" bottom: -42%;" class="btn btn-primary w-100" value="Save" >
+							<input type="button" id="createBtn"  onclick="addUser(); loadPage('user/list-users');"  style=" bottom: -42%;" class="btn btn-primary w-100" value="Save" >
 						</div>
 					</form>
 				</div>

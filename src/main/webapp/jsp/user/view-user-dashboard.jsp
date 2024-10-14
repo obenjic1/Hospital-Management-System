@@ -185,7 +185,7 @@
 	                                        	</div> 
 												<div class="row">
 		                                            <div class="col-lg-5 col-md-4 label "><fmt:message key="email"/> :</div>
-		                                            <div class="col-lg-7 col-md-8">${user.email} </div>
+		                                            <div class="col-lg-7 col-md-8">${user.department.name} </div>
 	                                        	</div> 
 							
 							
@@ -196,7 +196,7 @@
 							         	<div class="col-9">
 							              <div class="card recent-sales overflow-auto">
 							                <div class="card-body">
-							                  <h5 class="card-title">User Recent Jobs </h5>
+							                  <h5 class="card-title">User 5 Recent Jobs </h5>
 							                  <table class="table table-border ">
 							                    <thead style="background-color: #dddfe3;">
 							                      <tr>
@@ -212,8 +212,8 @@
 							                     <tr class="${loop.index % 2 == 0 ? 'even-row' : 'odd-row'}">
 												    <c:set var="index" value="${loop.index}" />
 												    <%    int index = (Integer) pageContext.getAttribute("index");  %>
+												  <c:if test="${index<5}">
 												 <td>  <%= index + 1 %></td>
-							                    
 							                     <td><a>${job.jobType.name}</a></td>
 							                     <td><a class="text-primary">${job.title}</a></td>
 							                     <td><a>${job.referenceNumber}</a></td>
@@ -225,7 +225,7 @@
 							   					  <c:if test="${job.status.name=='Abort'}"><a>${job.status.name}</a></c:if>
 							   					 
 							   					 </td>
-
+												</c:if>
  												</c:forEach>
 							                    </tbody>
 							                  </table>

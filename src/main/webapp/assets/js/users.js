@@ -74,6 +74,7 @@ function addUser() {
 	const address = document.getElementById('address').value;
 	const username = document.getElementById('username').value;
 	const groupe = document.getElementById('groupe').value;
+	const department = document.getElementById('department').value;
 	const imageFile = document.getElementById('imageFile').files[0];
 //	var thumbnailInput = document.getElementById('imageFile');
 //	var thumbnailFile = thumbnailInput.files.length > 0 ? thumbnailInput.files[0] : null;
@@ -124,6 +125,7 @@ function addUser() {
 		formData.append('confirmPassword', confirmPassword),
 		formData.append('address', address),
 		formData.append('groupe', groupe);
+		formData.append('department', department);
 		if (imageFile) {
 		    formData.append('imageFile', imageFile);
 		}
@@ -165,6 +167,7 @@ function updateUserById(id) {
 			const email = document.getElementById("email").value;
 			const mobile = document.getElementById('mobile').value;
 			const address = document.getElementById('address').value;
+			const department = document.getElementById('department').value;
 			const imageFile = document.getElementById('imageFile').files[0];
 	
 		
@@ -174,6 +177,7 @@ function updateUserById(id) {
 		 formData.append('email',email);
 		 formData.append('mobile',mobile);
 		 formData.append('address',address);
+		 formData.append('department',department);
 		 if(imageFile){
 			 formData.append('imageFile',imageFile);
 		 }

@@ -38,6 +38,7 @@
 <link href="assets/css/smartsheet.css" rel="stylesheet">
 <link href="assets/css/profile.css" rel="stylesheet">
 <link href="assets/css/user.css" rel="stylesheet">
+<link href="assets/css/update-user.css" rel="stylesheet">
 
   <link href="assets/vendor/bootstrapValidator.min.css" rel="stylesheet">
 

@@ -1251,4 +1251,11 @@ h6 {
 	color: red;
 }
 
+ .col-form-label {
+	font-family: bold;
+}
 
+.user-details-font {
+	font-family: bold;
+	color: black;
+}

@@ -1,6 +1,5 @@
 package com.ppp.user.controller;
 
-import static org.mockito.ArgumentMatchers.isNotNull;
 
 import java.util.List;
 
@@ -15,17 +14,16 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.ppp.billing.model.Department;
+import com.ppp.billing.repository.DepartmentRepository;
 import com.ppp.user.model.Groupe;
 import com.ppp.user.model.User;
 import com.ppp.user.model.dto.UserDTO;
 import com.ppp.user.repository.GroupeRepository;
-import com.ppp.user.repository.UserRepository;
 import com.ppp.user.service.impl.UserServiceImpl;
 
 @Controller
@@ -44,13 +42,17 @@ public class UserController {
 	private GroupeRepository groupeRepository;
 	@Autowired
 	private UserServiceImpl userServiceImpl;
+	@Autowired 
+	private DepartmentRepository departmentRepository;
 
 //<------------------- Get add user form ---------------------->
  	@PreAuthorize("hasAuthority('ROLE_LIST_USERS')")
 	@GetMapping("/add-user")
 	public String showRegistrationForm(Model model ,String name) {
 		List<Groupe> groups = groupeRepository.findAll();
+		List<Department> departements = departmentRepository.findAll();
 		model.addAttribute("groups", groups);
+		model.addAttribute("departements", departements);
 		model.addAttribute("userDTO", new UserDTO());
 		return "user/add-user";
 	}
@@ -90,12 +92,15 @@ public class UserController {
 	@GetMapping("/get-user/{username}")
 		public String getUserByUsername(@PathVariable String username, Model model) throws Exception {
 				List<Groupe> groups = groupeRepository.findAll();
+				List<Department> departements = departmentRepository.findAll();
+			
 				User userFinded = userServiceImpl.findUserByUsername(username);
 				if(userFinded  == null) {
 					throw new Exception("something wher wrong");
 				}
 				model.addAttribute("userFinded", userFinded);
 				model.addAttribute("groups", groups);
+				model.addAttribute("departements", departements);
 		    return "user/update-user";
 		}
 	
