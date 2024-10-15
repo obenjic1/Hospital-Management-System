@@ -53,7 +53,7 @@ public class authController {
 				 User user = userRepository.findByUsername(authentication.getName()) ;
 
 				 model.addAttribute("user", user);
-				 return "/";
+				 return "index";
 			 }
 		}
 
