@@ -25,6 +25,7 @@ public class SmartSheetApplication extends SpringBootServletInitializer implemen
 
 	@Override
 	protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
+		setRegisterErrorPageFilter(false);
 		return application.sources(SmartSheetApplication.class);
 	}
 	
