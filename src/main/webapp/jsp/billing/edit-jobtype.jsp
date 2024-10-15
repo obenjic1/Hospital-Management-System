@@ -30,15 +30,37 @@
 					  <div class="col-md-6">
 						 <label for="" class="form-label"><a>Category</a></label> 
 					        <select id="category" name="name" class="form-select">
-					        <option value="${jobType.category}" selected>${jobType.category}</option>
-		                    <option value="0">OPEN JOB</option>
-		                    <option value="1">FOLDED JOB WITHOUT COVER</option>
-		                    <option value="2">FOLDED JOB WITH COVER</option>
-		                    <option value="3">OPEN JOB WITH COVER</option>
+					        <c:if test="${jobType.category==jobType.category}">
+					       <c:if test="${jobType.category ==0}"> 
+						        <option selected value="0">OPEN JOB</option>
+			                    <option value="1">FOLDED JOB WITHOUT COVER</option>
+			                    <option value="2">FOLDED JOB WITH COVER</option>
+			                    <option value="3">OPEN JOB WITH COVER</option>
+					          </c:if>
+					            <c:if test="${jobType.category==1}"> 
+						        <option  selected value="1">FOLDED JOB WITHOUT COVER</option>
+						        <option value="0">OPEN JOB</option>
+			                    <option value="2">FOLDED JOB WITH COVER</option>
+			                    <option value="3">OPEN JOB WITH COVER</option>
+					          </c:if>
+					           <c:if test="${jobType.category==2}"> 
+					             <option selected value="2">FOLDED JOB WITH COVER</option>
+					             <option value="0">OPEN JOB</option>
+		                   		 <option value="1">FOLDED JOB WITHOUT COVER</option>
+		                   		 <option value="3">OPEN JOB WITH COVER</option>
+					          </c:if>
+					           <c:if test="${jobType.category==3}"> 
+					             <option selected value="3">OPEN JOB WITH COVER</option>
+					             <option value="0">OPEN JOB</option>
+		                   		 <option value="1">FOLDED JOB WITHOUT COVER</option>
+		                   		 <option value="2">FOLDED JOB WITH COVER</option>
+					          </c:if>
+					        </c:if>
+		                 
 		                  </select>
 					 </div>
 						
-				<div class="col-md-3" style="  width: 13%; left: 81%; position: relative; ">
+				<div class="col-md-3" style="  width: 13%; left: 71%; position: relative; ">
 				  <input type="button" onclick="saveJobType('${jobType.id}')" style=" bottom: -42%;" class="btn btn-primary w-100" value="Save" data-bs-dismiss="modal"  />
 				</div>
 				</form:form>

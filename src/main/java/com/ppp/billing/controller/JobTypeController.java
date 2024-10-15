@@ -74,7 +74,9 @@ public class JobTypeController {
 		@GetMapping("/update/{id}")
 		public String findOneMachine(@PathVariable long id, Model model) {
 			JobType jobType = jobTypeServiceImpl.findById(id).get();
+			List<JobType> jobTypes = jobTypeServiceImpl.findAll();
 			model.addAttribute("jobType", jobType);
+			model.addAttribute("jobTypes", jobTypes);
 		    return "/billing/edit-jobtype";
 		}
 		
