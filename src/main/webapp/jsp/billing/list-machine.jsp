@@ -20,7 +20,7 @@
 	<div class="pagetitle">
 		<nav>
 			<ol class="breadcrumb">
-				<li class="breadcrumb-item"><a href="/"><fmt:message key="home"/></a></li>
+				<li class="breadcrumb-item"><a href="/">Home</a></li>
 				<li class="breadcrumb-item"><fmt:message key="machine"/> </li>
 				<li class="breadcrumb-item active"><fmt:message key="list"/></li>
 			</ol>
