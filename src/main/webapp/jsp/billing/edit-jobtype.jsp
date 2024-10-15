@@ -32,22 +32,31 @@
 					        <select id="category" name="name" class="form-select">
 					        <c:if test="${jobType.category==jobType.category}">
 					       <c:if test="${jobType.category ==0}"> 
-					        <option selected value="0">OPEN JOB</option>
+						        <option selected value="0">OPEN JOB</option>
+			                    <option value="1">FOLDED JOB WITHOUT COVER</option>
+			                    <option value="2">FOLDED JOB WITH COVER</option>
+			                    <option value="3">OPEN JOB WITH COVER</option>
 					          </c:if>
 					            <c:if test="${jobType.category==1}"> 
-					            <option  selected value="1">FOLDED JOB WITHOUT COVER</option>
+						        <option  selected value="1">FOLDED JOB WITHOUT COVER</option>
+						        <option value="0">OPEN JOB</option>
+			                    <option value="2">FOLDED JOB WITH COVER</option>
+			                    <option value="3">OPEN JOB WITH COVER</option>
 					          </c:if>
 					           <c:if test="${jobType.category==2}"> 
-					            <option selected value="2">FOLDED JOB WITH COVER</option>
+					             <option selected value="2">FOLDED JOB WITH COVER</option>
+					             <option value="0">OPEN JOB</option>
+		                   		 <option value="1">FOLDED JOB WITHOUT COVER</option>
+		                   		 <option value="3">OPEN JOB WITH COVER</option>
 					          </c:if>
 					           <c:if test="${jobType.category==3}"> 
-					            <option selected value="3">OPEN JOB WITH COVER</option>
+					             <option selected value="3">OPEN JOB WITH COVER</option>
+					             <option value="0">OPEN JOB</option>
+		                   		 <option value="1">FOLDED JOB WITHOUT COVER</option>
+		                   		 <option value="2">FOLDED JOB WITH COVER</option>
 					          </c:if>
 					        </c:if>
-		                    <option value="0">OPEN JOB</option>
-		                    <option value="1">FOLDED JOB WITHOUT COVER</option>
-		                    <option value="2">FOLDED JOB WITH COVER</option>
-		                    <option value="3">OPEN JOB WITH COVER</option>
+		                 
 		                  </select>
 					 </div>
 						
