@@ -96,7 +96,14 @@ function closeModalView(modalId) {
  
  
  
- 
+ function loadThisApplyDiscountCommissionDiv(url){
+	      fetch(url)
+         .then(response => response.text())
+         .then(html => {
+             document.getElementById("discount-table").innerHTML = html;
+         })
+         .catch(error => console.log(error));
+ }
  
  
  

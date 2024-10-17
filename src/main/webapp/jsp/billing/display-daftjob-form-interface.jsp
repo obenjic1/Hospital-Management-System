@@ -187,7 +187,7 @@
 			  </div>
 		    </div>	
 		     <div class="row p-3">    
-			<button  style=" position:relative;width: 94px;left:90%" type="button"  class="btn btn-primary" onclick="tab1NextBtn(),summaryDraftUpdate()" id="next-btn-draft" >Next</button>	
+			<button  style=" position:relative;width: 94px;left:90%" type="button"  class="all-button-style" onclick="tab1NextBtn(),summaryDraftUpdate()" id="next-btn-draft" >Next</button>	
 			
 		   </div>  	
           </div>             
@@ -240,10 +240,10 @@
                	</div>
 	    	 </div>	
 	     	<div class ="row py-3 "style="margin-top:50px" >
-		     <div class ="col-sm-6"> <button type="button" style ="width:125px;float:left" class="btn btn-primary" onclick="navigate(2,1);"><fmt:message key="previews"/></button>	
+		     <div class ="col-sm-6"> <button type="button" style ="width:125px;float:left" class="all-button-style" onclick="navigate(2,1);"><fmt:message key="previews"/></button>	
 		    </div>
 	        <div class ="col-sm-6">
-			  <button type="button" style="width:125px;float:right"  class="btn btn-primary" id="next-btn1" onclick="submitFormDraft(); loadPage('job/list-job')"><fmt:message key="submit"/></button>			
+			  <button type="button" style="width:125px;float:right"  class="all-button-style" id="next-btn1" onclick="submitFormDraft(); loadPage('job/list-job')"><fmt:message key="submit"/></button>			
 	       </div>
 	     </div>
        </div>         	

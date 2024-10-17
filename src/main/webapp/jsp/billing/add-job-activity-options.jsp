@@ -24,7 +24,7 @@
 					<div class="col-md-4">
 						   <label for="logo" class="form-label"></label>
 						      <div class="input-group has-validation" style="width: 60%; left: 7%;">
-						        <input type="button" id="addActivity-btn" onclick="addActivity()" style=" bottom: -42%;" class="btn btn-primary w-100" value="Save" />
+						        <input type="button" id="addActivity-btn" onclick="addActivity()" style=" bottom: -42%;" class="class="all-button-style" w-100" value="Save" />
 						   </div>
 						</div>
 				   </form:form>

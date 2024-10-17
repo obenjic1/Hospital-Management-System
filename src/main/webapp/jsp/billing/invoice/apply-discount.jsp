@@ -79,7 +79,7 @@
 
 				                       			 <div class="col-lg-2"  id="apply-btn-tax">
 				                       			    <div class ="col px3" style="position: relative;" >
-													  <input type= "button" class="btn btn-primary btn-sm" value ="Apply" style="margin-left: 100px;" onclick="applyDiscount(${invoices.id})">
+													  <input type= "button" class="all-button-style" btn-sm" value ="Apply" style="margin-left: 100px;" onclick="applyDiscount(${invoices.id})">
 					                 				</div>	
 							                      </div>
 														

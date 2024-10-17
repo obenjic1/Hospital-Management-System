@@ -3,6 +3,8 @@ package com.ppp.billing.controller;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -61,11 +63,13 @@ public class InvoiceController {
 	public String listinvoices(Model model) {
 		try {
 			List<Invoice> result = invoiceServiceImpl.listInvoice();
+			Collections.reverse(result);
 			double netPayable =0;
 			for(Invoice invoice :result) {
 				
 				netPayable += invoice.getNetPayable();
 			}
+			
 			int totalElement = result.size();
 			model.addAttribute("netPayable", netPayable);
 			model.addAttribute("totalElement", totalElement);

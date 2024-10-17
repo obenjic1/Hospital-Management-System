@@ -159,3 +159,29 @@ input[type=number]{
 .estimate ta th {
 	background-color:#1f8278
 }
+
+.nav-link, .card-title, th, .taxes-div,td {
+	font-family: bold;
+}
+
+.commission-tab{
+	width: 104%;
+}
+
+.taxes-div{
+	 left: 14%;
+	 position: relative;
+	 bottom: -15px;
+}
+
+.taxes-div{
+  position: relative;
+  bottom: -8%;
+  left: 3%;
+}
+
+.profile .profile-overview .row {
+  margin-bottom: 0px;
+  font-size: 15px;
+}
+

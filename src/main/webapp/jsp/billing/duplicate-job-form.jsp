@@ -203,7 +203,7 @@
 			  </div>
 		    </div>	
 		     <div class="row py-3">    
-			<button  style=" width: 94px;" type="button"  class="btn btn-primary" onclick="validateTab1();tab1NextBtnAction();" id="next-btn" >Next</button>	
+			<button  style=" width: 94px;" type="button"  class="all-button-style" onclick="validateTab1();tab1NextBtnAction();" id="next-btn" >Next</button>	
 		   </div>  	
           </div>             
         </div>
@@ -442,10 +442,10 @@
 		  
 	     </div>	
 	     <div class ="row py-3 "style="margin-top:50px" >
-		     <div class ="col-sm-6"> <button type="button" style ="width:125px;float:left" class="btn btn-primary" onclick="navigate(2,1);"><fmt:message key="previews"/></button>	
+		     <div class ="col-sm-6"> <button type="button" style ="width:125px;float:left" class="all-button-style" onclick="navigate(2,1);"><fmt:message key="previews"/></button>	
 		    </div>
 	        <div class ="col-sm-6">
-	        <button type="button"  style ="width:125px;float:right" onclick=" validateTab2(); navigate(2,3)"  class="btn btn-primary" id=""><fmt:message key="next"/></button>	
+	        <button type="button"  style ="width:125px;float:right" onclick=" validateTab2(); navigate(2,3)"  class="all-button-style" id=""><fmt:message key="next"/></button>	
 	       </div>
 	     </div>
        </div>     
@@ -715,6 +715,9 @@
 				  	<span><button  type="button" style="display: inline;" id="duplicateButton" onclick="updateContentSignature(this.parentNode.parentNode.parentNode.parentNode.parentNode,0,this.parentNode.parentNode.parentNode.parentNode)" ><i class="ri-add-fill"></i></button> </span>
 <!-- 				  	<span onclick="randUpContentSignature()"><i style="color: green; font-size: 22px" class="bi bi-arrow-up"></i></span> -->
 				 </div> 
+				 <div>
+					 <span style="position: relative;left: 35%;bottom: 112%;" onclick="randUpContentSignature()"><i style="color: green; font-size: 22px" class="bi bi-arrow-up"></i></span>
+				</div>
 				 
 	            </div>
 				</div>
@@ -960,11 +963,11 @@
 	
 			<div class ="row py-3 "style="margin-top:50px" >
 		     <div class ="col-sm-6"> 
-		      <button type="button" style="width:125px;float:left" class="btn btn-primary" onclick="navigate(3,2);"><fmt:message key="previews"/></button>	
+		      <button type="button" style="width:125px;float:left" class="all-button-style" onclick="navigate(3,2);"><fmt:message key="previews"/></button>	
 		    </div>
 	        <div class ="col-sm-6">
 	        	
-	         <button style="width:125px;float:right"  type="button" class="btn btn-primary" id="next-btn1" onclick="validateTab3(); navigate(3,4);"><fmt:message key="next"/></button>	
+	         <button style="width:125px;float:right"  type="button" class="all-button-style" id="next-btn1" onclick="validateTab3(); navigate(3,4);"><fmt:message key="next"/></button>	
 	        		
 	       </div>
 
@@ -1097,7 +1100,7 @@
 				      <button type="button" style="float:left" class="btn btn-primary" onclick="navigate(4,3);"> <fmt:message key="previews"/></button>	
 				     </div>
 			         <div class ="col-sm-6">
-			         <button type="button" style="width:125px;float:right"  class="btn btn-primary" id="next-btn1" onclick="navigate(4,5);summary()"><fmt:message key="next"/></button>			
+			         <button type="button" style="width:125px;float:right"  class="all-button-style" id="next-btn1" onclick="navigate(4,5);summary()"><fmt:message key="next"/></button>			
 			        </div>			        
 <!-- 			         <div class ="col-sm-6">  -->
 <%-- 				      <button type="button" style="float:left" class="btn btn-primary" onclick="navigate(4,3);"> <fmt:message key="previews"/></button>	 --%>
@@ -1257,10 +1260,10 @@
                 </div>
 		           <div class ="row py-3 "style="margin-top:50px" >
 				     <div class ="col-sm-6"> 
-				      <button type="button" style="float:left" class="btn btn-primary" onclick="navigate(5,4);removeRows()"> <fmt:message key="previews"/></button>	
+				      <button type="button" style="float:left" class="all-button-style" onclick="navigate(5,4);removeRows()"> <fmt:message key="previews"/></button>	
 				     </div>
 			         <div class ="col-sm-6">
-			         <button   type="button" style="width:125px;float:right"  class="btn btn-primary" id="next-btn1" onclick="navigate(4,5); submitForm(0)"><fmt:message key="submit"/></button>			
+			         <button   type="button" style="width:125px;float:right"  class="all-button-style" id="next-btn1" onclick="navigate(4,5); submitForm(0)"><fmt:message key="submit"/></button>			
 			        </div>
 			        </div>
                	</div>

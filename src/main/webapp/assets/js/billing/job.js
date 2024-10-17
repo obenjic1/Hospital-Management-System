@@ -314,7 +314,6 @@ function randUpContentSignature(){
 	let contentValueToRandUp = document.getElementById("signature-content-to-randup").value;
 	let contentRandedUpValue = document.getElementById("signature-content-to-randup");
 	contentRandedUpValue.value = Math.ceil(contentValueToRandUp);
-	alert(contentRandedUpValue);
 
 }
 

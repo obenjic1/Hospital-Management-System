@@ -24,11 +24,11 @@
                                         <div class="row">
                                             <div class="row">
                                                 <div class="col-sm-6" style="text-align:left">
-                                                    <h3 style="font-family: bold;"><strong>Estimate</strong></h3>
+                                                    <h3 style="font-family: bold;"><strong> <fmt:message key="estimate"/></strong></h3>
                                                 </div>
                                                 <div class="col-sm-1">
                                                 </div>
-                                                <div class="col-sm-5 customer-info"  style="text-align:left; font-weight: bold;">
+                                                <div class="col-sm-5 customer-info"  style="text-align:left; font-weight: bold; font-family: bold;">
                                                     <div>${job.customer.name}</div>
                                                     <div>${job.customer.telephone}</div>
                                                     <div>${job.customer.address}</div>
@@ -39,33 +39,33 @@
                                                 <table class="ta" id="cover-table">
                                                     <tbody>
                                                         <tr>
-                                                            <td>Description</td>
+                                                            <td> <fmt:message key="description"/> </td>
                                                             <td>${job.title}</td>
                                                             <td></td>
 
                                                         </tr>
                                                         <tr>
-                                                            <td>Format</td>
+                                                            <td><fmt:message key="format"/></td>
                                                             <td>
-                                                              Open  :<span>${job.openLength}</span> x <span>${job.openWidth}</span>mm<br> 
-                                                                Folded : <span>${job.closeLength}</span> x <span>${job.closeWidth}</span>mm 
+                                                              <fmt:message key="open"/> :<span>${job.openLength}</span> x <span>${job.openWidth}</span>mm<br> 
+                                                               <fmt:message key="folded"/> : <span>${job.closeLength}</span> x <span>${job.closeWidth}</span>mm 
                                                             </td>
                                                             <td></td>
                                                         </tr>
                                                         <tr>
-                                                            <td>Volume</td> 
+                                                            <td><fmt:message key="volume"/></td> 
                                                              <c:if test="${job.jobType.category==2||job.jobType.category==3}"> 
-                                                           <td> Cover : <span>${job.coverVolume}</span>  <span>Pages</span><br> 
+                                                           <td> <fmt:message key="cover"/> : <span>${job.coverVolume}</span>  <span>Pages</span><br> 
                                                              </c:if> 
                                                              
                                                               <c:if test="${job.jobType.category==0||job.jobType.category==1||job.jobType.category==2||job.jobType.category==3}"> 
-                                                                 Content : <span>${job.contentVolume}</span> <span>Pages</span> 
+                                                                <fmt:message key="content"/> : <span>${job.contentVolume}</span> <span>Pages</span> 
                                                              </c:if> 
                                                             </td> 
                                                             <td></td> 
                                                         </tr>
                                                         <tr>
-                                                            <td>TypeSetting &<br> Reproduction</td>
+                                                            <td><fmt:message key="type.setting"/> &<br><fmt:message key="reproduction"/> </td>
                                                             <td>
                                                                 <span>
                                                                     <c:forEach var="typeSettingActivity" items="${typeSettingActivities}" varStatus="loop">
@@ -76,7 +76,7 @@
                                                             <td></td>
                                                         </tr>
                                                         <tr>
-                                                            <td>Printing</td>
+                                                            <td><fmt:message key="printing"/></td>
                                                             <td>
                                                              <c:if test="${job.jobType.category==2 || job.jobType.category==3}">
                                                                 <span>
@@ -121,16 +121,16 @@
                                                         </tr>
 
                                                         <tr>
-                                                            <td>Finishing</td>
+                                                            <td><fmt:message key="finishing"/></td>
                                                             <td><span>${ finishingActivities}</span></td>
                                                             <td></td>
                                                         </tr>
 
                                                         <tr>
-                                                            <td>Paper </td>
+                                                            <td><fmt:message key="paper"/> </td>
                                                             <td>
                                                              <c:if test="${job.jobType.category==2 || job.jobType.category==3}">
-                                                                Cover :<span>${coverJobPaper.paperType.name}</span>
+                                                                <fmt:message key="cover"/> :<span>${coverJobPaper.paperType.name}</span>
                                                                     <span style="float:right">${coverJobPaper.grammage} GSM</span>
 															</c:if>
                                                                 <br>
@@ -166,24 +166,48 @@
                                                     </tbody>
                                                 </table>
 			                                   </div>
-         									<div class="row">
-         										<div class="col-sm-6" style="font-family: bold;"> Commission Applied :<span> <a> <fmt:formatNumber value="${JobEstimateP.commission } " type="currency"   pattern = "#,###,###"/> </a></span></div>
-         										<div class="col-sm-6" style="font-family: bold;"> Discount Applied : <span><a> <fmt:formatNumber value=" ${JobEstimateP.discountValue } " type="currency"   pattern = "#,###,###"/> </a></span></div>
-         									</div>
-			                              <div class="row">
-                                                <table class="table-responsive ta" id="cover-table">
+         									
+         									
+	         							<div class="row">
+								
+								          <div class="card">
+								            <div class="card-body">
+								              <h5 style="color: green;" class="card-title"><fmt:message key="print.estimate"/> </h5>
+								
+								              <!-- Default Tabs -->
+								              <ul class="nav nav-tabs d-flex commission-tab" id="myTabjustified" role="tablist">
+								                <li class="nav-item flex-fill" role="presentation">
+								                  <button class="nav-link w-100 active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home-justified" type="button" role="tab" aria-controls="home" aria-selected="true"><fmt:message key="without.commissions"/> </button>
+								                </li>
+								                <li class="nav-item flex-fill" role="presentation">
+								                  <button  onclick="displayDiscountOnTable(${JobEstimateP.id})" class="nav-link w-100" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile-justified" type="button" role="tab" aria-controls="profile" aria-selected="false"><fmt:message key="with.discount.as.commissions"/></button>
+								                </li>
+								                <li class="nav-item flex-fill" role="presentation">
+								                  <button onclick="displayOnTable(${JobEstimateP.id})" class="nav-link w-100" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact-justified" type="button" role="tab" aria-controls="contact" aria-selected="false"> <fmt:message key="with.all.commissions"/></button>
+								                </li>
+								              </ul>
+								              <div class="tab-content pt-2" id="myTabjustifiedContent">
+								                <div class="tab-pane fade show active" id="home-justified" role="tabpanel" aria-labelledby="home-tab">
+								                 <div class="row">
+								                 
+								                 
+									            <div class="row taxes-div" style="margin-bottom: 0px;">
+	         										<div style="font-family: bold;left: 7%;position: relative;" class="col-sm-6"><fmt:message key="no.commissions.applied"/></a></span></div>
+	         										<div class="col-sm-6" style="font-family: bold; position: relative; left: 14%;"><fmt:message key="no.discount.applied"/></a></span></div>
+	         									</div>
+                                                <table class="table-responsive ta" id="cover-table1">
                                                     <thead id="estimate-header">
                                                         <tr>
-                                                            <th scope="col">No.</th>
-                                                            <th><span style="padding:10px">Quantity</span></th>
-                                                            <th scope="col">Unit price(FCFA)</th>
-                                                            <th scope="col">Total Price (FCFA)</th>
+                                                            <th scope="col"> <fmt:message key="number"/> .</th>
+                                                            <th><span style="padding:10px"> <fmt:message key="quantity"/></span></th>
+                                                            <th scope="col"> <fmt:message key="unit.price"/> (FCFA)</th>
+                                                            <th scope="col"> <fmt:message key="total.price"/> (FCFA)</th>
 <%--                                                              <sec:authorize  access="hasRole('ROLE_GENERATE_INVOICE')"> --%>
-                                                            <th scope="col">Actions</th>    
+                                                            <th scope="col"><fmt:message key="actions"/></th>    
 <%--                                                              </sec:authorize>                                                             --%>
                                                         </tr>
                                                     </thead>
-                                                    <tbody>
+                                                    <tbody >
                                                         <tr>
                                                         <c:set var = "i"  value = "1"/> 
                                                         <c:forEach var="estimate" items="${estimates}" varStatus="loop"> 
@@ -202,7 +226,7 @@
                                                                  </c:if>
                                                                  
                                                                    <c:if test="${!estimate.invoiced}"> 
-                                                                     <button type="button" class="btn " onclick="loadPageModalForm(getInvoiceQuantity(${estimate.id}))" data-toggle="tooltip" data-placement="top" title="Generate Invoice">
+                                                                     <button type="button" class="all-button-style" onclick="getInvoiceFromPricing(${estimate.id})" data-toggle="tooltip"data-bs-dismiss="modal" data-placement="top" title="Generate Invoice">
                                                                        <i class="ir ri-draft-line" style="color: green"></i>
                                                                      </button>
                                                                    </c:if>
@@ -213,14 +237,52 @@
                                                            </c:forEach> 
                                                         </tr>
                                                     </tbody>
-                                                </table>
-                                            </div>
-                                             <div class="" style="margin-top:50px;">
-                                            <button class="btn btn-primary" style="left: 87%;position: relative;width: 117px;" data-bs-toggle="modal" data-bs-target="#ExtralargeModalFile" onclick="loadPageModal('job/estimate-pdf/${JobEstimateP.reference}')">Print</button>
-                                        </div>
+                                               	  </table>
+                                           		</div>
+                                             	<div class="" style="margin-top:50px;">
+                                           		  <button class="all-button-style" data-bs-toggle="modal" data-bs-target="#ExtralargeModalFile" onclick="loadPageModal('job/estimate-pdf/${JobEstimateP.reference}')"><fmt:message key="print"/> </button>
+                                        		</div>
+								                </div>
+								                
+								                
+								                <div class="tab-pane fade" id="profile-justified" role="tabpanel" aria-labelledby="profile-tab">
+								                   <div>
+								                   
+								                   <div class="row taxes-div" style="margin-bottom: -5px;">
+	         										<div style="left: 13%;position: relative;font-family: bold;" class="col-sm-6"><fmt:message key="commissions.applied"/> :<span> <a> <fmt:formatNumber value="${JobEstimateP.commission } " type="currency"   pattern = "#,###,###"/> </a></span></div>
+	         									</div>
+	         									 <div class="row" id="discount-table">
+	         									  </div>
+                                         		</div> 
+								                </div>
+								                
+								                
+								                <div  class="tab-pane fade" id="contact-justified" role="tabpanel" aria-labelledby="contact-tab">
+								                   <div >
+								                   
+								                    <div class="row taxes-div" style="margin-bottom: -5px;">
+	         										 <div style="font-family: bold;left: 13%;position: relative;" class="col-sm-6" id=""><fmt:message key="commissions.applied"/> :<span> <a> <fmt:formatNumber value="${JobEstimateP.commission } " type="currency"   pattern = "#,###,###"/> </a></span></div>
+	         										 <div class="col-sm-6" style="font-family: bold; position: relative; left: 14%;"><fmt:message key="discount.applied"/> : <span><a> <fmt:formatNumber value=" ${JobEstimateP.discountValue } " type="currency"   pattern = "#,###,###"/> </a></span></div>
+	         									  </div>
+	         									  
+	         									  <div class="row" id="estimate-table">
+	         									  
+	         									  </div>
+                                                
+								                </div>
+								                
+								              </div><!-- End Default Tabs -->
+								
+								            </div>
+								          </div>
+	                                        
+	                                    </div>
+         									
+			                              
                                         </div>
                                         <hr><br>
-                                    </div>
+                                        
+							         
                                 </div>
                             </div>
                         </div>
