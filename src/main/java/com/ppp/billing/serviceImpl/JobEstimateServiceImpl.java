@@ -60,6 +60,7 @@ public class JobEstimateServiceImpl implements JobEstimateService {
 		JobEstimate estimate = jobEstimateRepository.findById(id).get();
 		List<EstimatePricing> estimqtePricing = estimate.getEstimatePricings();
 		List<EstimatePricing> estimateP = new ArrayList<EstimatePricing>();
+		
 		for(EstimatePricing estimatePrice :estimqtePricing) {
 			EstimatePricing estimateCommision = new EstimatePricing();
 			estimateCommision.setQuantity(estimatePrice.getQuantity());
@@ -67,7 +68,6 @@ public class JobEstimateServiceImpl implements JobEstimateService {
 			estimateCommision.setUnitPrice((estimatePrice.getTotalPrice()+estimate.getCommission())/estimatePrice.getQuantity());
 			estimateP.add(estimateCommision);
 		}
-
 		return estimateP;
 	}
 
@@ -76,8 +76,7 @@ public class JobEstimateServiceImpl implements JobEstimateService {
 		List<EstimatePricing> estimqtePricing = estimate.getEstimatePricings();
 		estimate.setDiscountValue(estimate.getDiscountValue());
 		List<EstimatePricing> estimateP = new ArrayList<EstimatePricing>();
-		
-		
+
 		for(EstimatePricing estimatePrice :estimqtePricing) {
 			EstimatePricing estimateCommision = new EstimatePricing();
 			estimateCommision.setQuantity(estimatePrice.getQuantity());
@@ -85,7 +84,7 @@ public class JobEstimateServiceImpl implements JobEstimateService {
 			estimateCommision.setUnitPrice((estimatePrice.getTotalPrice()-estimate.getDiscountValue())/estimatePrice.getQuantity());
 			estimateP.add(estimateCommision);
 		}
-		
+
 		return estimateP;
 	}
 	

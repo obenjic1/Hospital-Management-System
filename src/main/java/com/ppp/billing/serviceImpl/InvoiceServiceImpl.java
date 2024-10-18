@@ -15,6 +15,7 @@ import com.ppp.billing.model.Job;
 import com.ppp.billing.model.JobEstimate;
 import com.ppp.billing.repository.EstimatePricingRepository;
 import com.ppp.billing.repository.InvoiceRepository;
+import com.ppp.billing.repository.JobEstimateRepository;
 import com.ppp.billing.service.InvoiceService;
 
 @Service
@@ -27,6 +28,9 @@ public class InvoiceServiceImpl implements InvoiceService{
 	private EstimatePricingRepository estimatePricingRepository;
 	@Autowired
 	private InvoiceRepository invoiceRepository;
+	
+	@Autowired
+	private JobEstimateRepository estimateRepository;
 	
 	@Override
 	public Invoice findById(long id) {
@@ -173,6 +177,54 @@ public class InvoiceServiceImpl implements InvoiceService{
 		} catch (Exception e) {
 			throw e;
 		}
+	}
+	
+	
+	public Invoice saveInvoiceWithDiscount(long id, int qty) {
+		JobEstimate estimate = estimateRepository.findById(id).get();
+		List<EstimatePricing> estimatePricing = estimate.getEstimatePricings();
+		Invoice invoiceToSave = new Invoice();
+		EstimatePricing selectedPricingElement = new EstimatePricing();
+		estimate.setInvoiced(true);
+		invoiceToSave.setCreationDate(new Date()); 
+		for(EstimatePricing correspondingestimatePricing : estimatePricing ) {
+			if(correspondingestimatePricing.getQuantity() == qty) {
+				
+				correspondingestimatePricing.setQuantity(qty);
+				correspondingestimatePricing.setTotalPrice(correspondingestimatePricing.getTotalPrice());
+				correspondingestimatePricing.setUnitPrice(correspondingestimatePricing.getTotalPrice()/correspondingestimatePricing.getQuantity());
+				correspondingestimatePricing.setInvoiced(true);
+				selectedPricingElement = correspondingestimatePricing;
+			}
+			
+		}
+			/*
+			 * Create Reference for Invoice
+			 */
+			String updateRef = estimate.getReference();
+			String reference = updateRef.replace('E', 'I');	
+			String invoiceRefence = reference.substring(0, reference.length()-1);
+			invoiceRefence = invoiceRefence  + ""+(selectedPricingElement.getInvoices().size()+1);
+			invoiceToSave.setReferenceNumber(invoiceRefence);
+			/*
+			 * Calculate Net Payable
+			 */
+		
+
+			invoiceToSave.setNetPayable(selectedPricingElement.getTotalPrice());
+			invoiceToSave.setEstimatePricing(selectedPricingElement);
+			
+			/*
+			 * Calculate  Discount
+			 */
+		
+			estimate.setEstimatePricings(estimate.getEstimatePricings());
+			invoiceRepository.saveAndFlush(invoiceToSave);
+			selectedPricingElement.setInvoices(selectedPricingElement.getInvoices());
+			selectedPricingElement.setJobEstimate(estimate);
+			generateSerialNumber(invoiceToSave);
+			
+		return invoiceToSave;
 	}
 	
 }

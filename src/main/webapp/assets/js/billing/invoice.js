@@ -136,7 +136,7 @@
  }
  
  function getInvoiceFromPricing(id){
-	 fetch(`job/generate/invoice/${id}`, {
+	 fetch(`invoice/generate/invoice/${id}`, {
 			method: 'GET',
 			 headers: {
            "Content-Type": "application/json",
@@ -159,3 +159,29 @@
 			});
  }
  
+function getCommissionInvoice(id,qty){
+ loadMainModalForm(`invoice/commission-invoice/${id}/${qty}`);
+}
+
+function getDiscountInvoiceFromPricing(id,qty){
+	 fetch(`invoice/generateDiscount/invoice/${id}/${qty}`, {
+			method: 'GET',
+			 headers: {
+           "Content-Type": "application/json",
+           },
+		})
+		.then( response => {	
+   			 if (response.status===200) {
+       			Swal.fire("Succes/Success!", "Genreted successfully!/Genere avec succes!", "success")
+			return loadPage('invoice/list');				
+   			 } else if (response.status !== 200) {
+				Swal.fire({  icon: "error", title: "Oops...", text: "Something went wrong!"});
+				return loadPage('invoice/list');
+  			 }
+		})
+			.catch(function(error) {
+
+			});
+ }
+
+

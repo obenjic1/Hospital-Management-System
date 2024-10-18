@@ -160,13 +160,6 @@ function movementHistory(){
 
 			});
 	}
-		
-
-
-function getInfo(num,qty){
- loadMainModalForm(`invoice/commission-invoice/${num}/${qty}`);
-}
-
 
 	
 	function dashBoard(){
@@ -179,3 +172,6 @@ function getInfo(num,qty){
 		loadPage('job/list-job');
 	}
 	
+	
+	
+
