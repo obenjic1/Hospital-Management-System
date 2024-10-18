@@ -36,10 +36,10 @@ public class JobPaper {
 	private int unitPrice;
 	
 	@Column(name = "paper_size_width", columnDefinition = "double default 65")
-	private double paperSizeWidth;
+	private int paperSizeWidth;
 	
 	@Column(name = "paper_size_length", columnDefinition = "double default 92")
-	private double paperSizeLength;
+	private int paperSizeLength;
 	
 	@ManyToOne
 	@JoinColumn(name = "content_type_id", referencedColumnName = "id")

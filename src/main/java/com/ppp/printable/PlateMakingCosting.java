@@ -56,10 +56,12 @@ public class PlateMakingCosting {
 		plates=0;
 		jobPaper.getJobColorCombinations().forEach(colorCombination->{
 			double signature = (colorCombination.getNumberOfSignature());
+			if(jobPaper.getContentType().getId()==2||jobPaper.getJob().getJobType().getCategory()==3) {
+				signature = 1;
+			}
 			this.signatures+=colorCombination.getNumberOfSignature();
 			double tmpplate= Math.ceil(signature*(colorCombination.getBackColorNumber()+colorCombination.getFrontColorNumber()));
-			if(colorCombination.getPrintingMachine().getAbbreviation().equals("SPM5"))
-				tmpplate= Math.ceil((tmpplate)/4.0);
+			
 			plates +=tmpplate;
 		});
 		
@@ -152,5 +154,12 @@ public class PlateMakingCosting {
 		this.soSpBasicValues = soSpBasicValues;
 	}
 	
-
+	public int getReceitBookletRun() {
+		int run =0 ;
+		for(JobColorCombination colorCombination: jobPaper.getJobColorCombinations())
+		{
+		run += (int) Math.ceil(colorCombination.getNumberOfSignature()*(colorCombination.getBackColorNumber()+colorCombination.getFrontColorNumber()));
+	  }
+	return run;
+	}
 }
