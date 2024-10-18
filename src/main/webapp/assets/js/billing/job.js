@@ -6,10 +6,13 @@
 				*/
 
 function tab1NextBtnAction(){
-	let volumeOfCover = document.getElementById("volumeOfCover").value;
+	let opt=document.getElementById("jobType").selectedOptions[0];	
+	 let dataContentValue = opt.parentElement.getAttribute('data-content');
+	 if(dataContentValue==2||dataContentValue==3){
+		 let volumeOfCover = document.getElementById("volumeOfCover").value;
+		document.getElementById("coverVolume").value=volumeOfCover;
+	 }
 	let volumeOfContent = document.getElementById("volumeOfContent").value;
-	
-	document.getElementById("coverVolume").value=volumeOfCover;
 	let contentVolumes = document.querySelectorAll("[contentVolume]");  
 	if(contentVolumes[1].value == 0)
 	contentVolumes[1].value = volumeOfContent;
@@ -206,6 +209,9 @@ function deleteContentsignature(noteToDel,parent){
 
 function signatureCalculation(machineParams,node){
 	
+	 let opt=document.getElementById("jobType").selectedOptions[0];	
+	 let dataContentValue = opt.parentElement.getAttribute('data-content');
+	 
 	let allSignatureNodes=document.getElementById("mainContentSignature");
 	let nodeIndex =Array.from(allSignatureNodes.children).indexOf(node);
 	let contentDivTab2 = document.getElementById("contentDiv");
@@ -235,7 +241,19 @@ function signatureCalculation(machineParams,node){
 		logP= Math.floor(logP)+1;
 	let pagesPerSignature = Math.pow(2,logP);
 	let floatingSignature = ( volume / pagesPerSignature);
-	let totalSignature = Math.floor(floatingSignature)<floatingSignature&&floatingSignature<Math.floor(floatingSignature+0.5)&&(floatingSignature+0.5 != Math.floor(floatingSignature+0.5)) ?Math.ceil(floatingSignature):Math.floor(floatingSignature)<floatingSignature?Math.floor(floatingSignature)+0.5:Math.floor(floatingSignature); 
+	let intSignature =  Math.floor(floatingSignature);
+	let floatRemainSignature=floatingSignature-intSignature;
+	let totalSignature = 0;
+	if(floatRemainSignature!=0 && dataContentValue==0){
+		//round up to the next floating aceptable value(.125, .25,.5,1);
+		let theta =-Math.log(floatRemainSignature)/Math.log(2);
+		theta =Math.floor(theta)!=theta?Math.floor(theta)+1:Math.floor(theta);
+		floatRemainSignature =Math.pow(2, -theta);
+		floatRemainSignature =Math.max(0.25,floatRemainSignature);
+		totalSignature=intSignature+floatRemainSignature;
+
+	}
+	else  totalSignature = Math.floor(floatingSignature)<floatingSignature&&floatingSignature<Math.floor(floatingSignature+0.5)&&(floatingSignature+0.5 != Math.floor(floatingSignature+0.5)) ?Math.ceil(floatingSignature):Math.floor(floatingSignature)<floatingSignature?Math.floor(floatingSignature)+0.5:Math.floor(floatingSignature); 
 	inputSignature.value = totalSignature;
 	
 	let machines = node.querySelectorAll("[contentPrintingMachine]");
@@ -257,6 +275,8 @@ function signatureCalculation(machineParams,node){
 
      		// Calcul of Cover Signqture
  function coverSignatureCalculation(machineParams,node){
+	 
+	 
 	let coverSignature=document.getElementById("cover-signature-div");
 	let coverDivTab2 = document.getElementById("coverInformations");
 	
@@ -266,12 +286,22 @@ function signatureCalculation(machineParams,node){
 	let volume = inputCoverVolume.value;
 	paperSizeWidth =document.getElementById("paperSizeWidth").value;
  	paperSizeLength = document.getElementById("paperSizeLength").value;
-	
+
 	let coverMachineParamArray = machineParams.split(",");
 	let machinePlateLength = parseInt(coverMachineParamArray[1]);
 	let machinePlateWidth = parseInt(coverMachineParamArray[2]);
-	
-	let minimumLenght = Math.min(Math.min(paperSizeWidth-20, paperSizeLength-20),Math.min(machinePlateLength, machinePlateWidth));
+	// Print job with blank cover
+	if(machinePlateLength==0||machinePlateWidth==0){
+		inputCoverSignature.value = 0;
+		document.getElementById("converBackColorNumber").value = 0;
+		document.getElementById("coverFrontColorNumber").value =0;
+		document.getElementById("coverPrintType").value =10;
+		
+		document.getElementById("converBackColorNumber").readOnly = true;
+		document.getElementById("coverFrontColorNumber").readOnly = true;
+		document.getElementById("coverPrintType").readOnly = true;
+	}else{
+			let minimumLenght = Math.min(Math.min(paperSizeWidth-20, paperSizeLength-20),Math.min(machinePlateLength, machinePlateWidth));
 	let maximumLength =  Math.min(Math.max(paperSizeWidth-20, paperSizeLength-20),Math.max(machinePlateLength, machinePlateWidth));
  	machinePlateLength =  minimumLenght;
  	machinePlateWidth = maximumLength;
@@ -287,6 +317,8 @@ function signatureCalculation(machineParams,node){
 	let totalCoverSignature = Math.floor(floatingCoverSignature)<floatingCoverSignature&&floatingCoverSignature<Math.floor(floatingCoverSignature+0.5)&&(floatingCoverSignature+0.5 != Math.floor(floatingCoverSignature+0.5)) ?Math.ceil(floatingCoverSignature):Math.floor(floatingCoverSignature)<floatingCoverSignature?Math.floor(floatingCoverSignature)+0.5:Math.floor(floatingCoverSignature); 
 	inputCoverSignature.value = totalCoverSignature;
 	 
+	}
+
 	
 }
 				/*
@@ -313,7 +345,10 @@ function randUpCoverSignature(){
 function randUpContentSignature(){
 	let contentValueToRandUp = document.getElementById("signature-content-to-randup").value;
 	let contentRandedUpValue = document.getElementById("signature-content-to-randup");
+	if(contentValueToRandUp>=0.5)
 	contentRandedUpValue.value = Math.ceil(contentValueToRandUp);
+	//case of 0.25 signature , generally for open job
+	else contentRandedUpValue.value=0.5;
 
 }
 

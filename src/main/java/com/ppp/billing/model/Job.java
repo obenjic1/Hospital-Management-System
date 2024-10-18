@@ -47,16 +47,16 @@ public class Job {
 	private int coverVolume;
 
 	@Column(name = "open_width")
-	private double openWidth;
+	private int openWidth;
 	
 	@Column(name = "open_length")
-	private double openLength;
+	private int openLength;
 	
 	@Column(name = "close_length")
-	private double closeLength;
+	private int closeLength;
 	
 	@Column(name = "close_width")
-	private double closeWidth;
+	private int closeWidth;
 	
 	@Column(name = "ctp_fees")
 	private int ctpFees;

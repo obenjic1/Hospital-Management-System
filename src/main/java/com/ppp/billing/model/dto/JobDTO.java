@@ -17,10 +17,10 @@ public class JobDTO {
 	private int coverVolume;
 	private int contentVolume;
 	private int  ctpFees;
-	private double openWidth;
-	private double  openLength;
-	private double  closeWidth;
-	private double  closeLength;
+	private int openWidth;
+	private int  openLength;
+	private int  closeWidth;
+	private int  closeLength;
 	private boolean  existingPlate;
 	private boolean  dataSuppliedByCustomer;
 	private boolean  layOutByUs;
