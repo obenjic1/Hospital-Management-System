@@ -207,7 +207,7 @@ public class JobController {
 		
 		return "billing/display-daftjob-form-interface";
 	}
-
+	
 //<--------------------- Save data collected to the data base @Vincent ------------------------------>
 	@PostMapping(value="/save", consumes=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
@@ -989,12 +989,29 @@ public class JobController {
 		}
 		
 
+		
 		@GetMapping("/estimateRef/{ref}")
 		public String getEstimate (@PathVariable String ref, Model model) {
 			
 			JobEstimate estimate = jobEstimateRepository.findByReference(ref).get();
 			Job job = estimate.getJob();
-			List<EstimatePricing> estimates = estimate.getEstimatePricings();
+			List<EstimatePricing>  estimates = new ArrayList<EstimatePricing>();
+			
+			if (estimate.isInvoiced() && estimate.getDiscountValue()>0) {
+				
+				estimates = estimate.getEstimatePricings();
+				for (EstimatePricing calculatedEstimatePricing : estimates) {
+					
+					if(calculatedEstimatePricing.isInvoiced()) {
+					calculatedEstimatePricing.setTotalPrice(calculatedEstimatePricing.getTotalPrice()+estimate.getDiscountValue());
+					calculatedEstimatePricing.setUnitPrice(calculatedEstimatePricing.getTotalPrice()/calculatedEstimatePricing.getQuantity());
+					}
+				}
+				} else {
+					estimates = estimate.getEstimatePricings();
+					
+				}
+			
 			
 			List<String> typsettingActivities = jobServiceImpl.gettypsettingActivities(job);
 			
@@ -1006,15 +1023,13 @@ public class JobController {
 			for(JobPaper jj : jobPapers) {
 				if(jj.getContentType().getId()==1) coverJobPaper=jj;
 				else jobPapersResult.add(jj);			}
-
 			String finishingActivities =jobServiceImpl.getFinishingActivities(job);
-
+			
 			model.addAttribute("typeSettingActivities", typsettingActivities);
 			model.addAttribute("finishingActivities", finishingActivities);
 			model.addAttribute("finishingActivities", finishingActivities);
 			model.addAttribute("coverJobPaper", coverJobPaper);			
 			model.addAttribute("contentJobPapers", jobPapersResult);
-
 			model.addAttribute("JobEstimateP", estimate);	
 			model.addAttribute("estimates", estimates);		
 			model.addAttribute("job", job);		
@@ -1387,8 +1402,23 @@ public class JobController {
 				printer.printHeader(document, "Total(XAF)",  172, 297-200);
 				
 				String messagesAdvancePayment="";
-				
+		// work done on printed estimate with commission		
 				List<EstimatePricing> estimates =jobEstimateServiceImpl.generateCommissionEstimateResult(jobEstimate.getId());
+			
+				for (EstimatePricing estimatePricing: jobEstimate.getEstimatePricings()) {
+					
+					if(estimatePricing.isInvoiced()) {
+							for(EstimatePricing invoicedEstimatePricing : estimates ) {
+						if(estimatePricing.getQuantity() == invoicedEstimatePricing.getQuantity()) {
+							
+							invoicedEstimatePricing.setTotalPrice(invoicedEstimatePricing.getTotalPrice() + jobEstimate.getDiscountValue() );
+							invoicedEstimatePricing.setUnitPrice(invoicedEstimatePricing.getTotalPrice()/invoicedEstimatePricing.getQuantity());
+						}
+							}
+					}
+				}
+				
+				
 				float vect = -5;
 				DateFormat date =  DateFormat.getDateInstance(DateFormat.DEFAULT,Locale.ENGLISH);
 				printer.printHeader(document,date.format(new Date())+"", 38, 297-73);
@@ -1539,6 +1569,25 @@ public class JobController {
 				String messagesAdvancePayment="";
 				
 				List<EstimatePricing> estimates =jobEstimateServiceImpl.generateDiscountCommissionEstimateResult(jobEstimate.getId());
+			
+	/// work done on printed estimate with DIscount
+				
+				for (EstimatePricing estimatePricing: jobEstimate.getEstimatePricings()) {
+					
+					if(estimatePricing.isInvoiced()) {
+							for(EstimatePricing invoicedEstimatePricing : estimates ) {
+						if(estimatePricing.getQuantity() == invoicedEstimatePricing.getQuantity()) {
+							
+							invoicedEstimatePricing.setTotalPrice(invoicedEstimatePricing.getTotalPrice() + jobEstimate.getDiscountValue() );
+							invoicedEstimatePricing.setUnitPrice(invoicedEstimatePricing.getTotalPrice()/invoicedEstimatePricing.getQuantity());
+						}
+							}
+					}
+				}
+				
+				
+				
+				
 				float vect = -5;
 				DateFormat date =  DateFormat.getDateInstance(DateFormat.DEFAULT,Locale.ENGLISH);
 				printer.printHeader(document,date.format(new Date())+"", 38, 297-73);
@@ -1582,39 +1631,7 @@ public class JobController {
 	}
 
 	
-	/*
-	 * Invoices Methodes
-	 */
-	@GetMapping("/generate/invoice/{id}")
-	@ResponseBody
-	public String generateInvoice(@PathVariable long id, Invoice invoice, Model model) {
-		Invoice invoicefinded =	invoiceServiceImpl.saveInvoice(id);
-		EstimatePricing estimate = estimatePricingServiceImpl.findById(id).get();
-		Job job = estimate.getJobEstimate().getJob();
-		
-		//Get and structure typesetting values
-		List<String> typsettingActivities = jobServiceImpl.gettypsettingActivities(job);
-		
-		//Get and Structure printing 
-		List<JobPaper> jobPapers = job.getJobPapers();
-		List<JobPaper> jobPapersResult= new ArrayList<JobPaper>();
-		
-		JobPaper coverJobPaper = new JobPaper();
-		for(JobPaper jj : jobPapers) {
-			if(jj.getContentType().getId()==1) coverJobPaper=jj;
-			else jobPapersResult.add(jj);			}
-		
-		//Get Finishing structure
-		String finishingActivities = jobServiceImpl.getFinishingActivities(job);
-		model.addAttribute("typeSettingActivities", typsettingActivities);
-		model.addAttribute("finishingActivities", finishingActivities);
-		model.addAttribute("coverJobPaper", coverJobPaper);			
-		model.addAttribute("contentJobPapers", jobPapersResult);
-		
-		model.addAttribute("invoices", invoicefinded);
-		model.addAttribute("job", job);
-		return "OK";
-	}
+	
 	
 /*
  *   Estimate function  
@@ -1672,7 +1689,18 @@ public class JobController {
 		
 		List<EstimatePricing> estimates = jobEstimateServiceImpl.generateCommissionEstimateResult(id);
 		JobEstimate jobEstimate = jobEstimateRepository.findById(id).get();
-		
+		for (EstimatePricing estimatePricing: jobEstimate.getEstimatePricings()) {
+			
+			if(estimatePricing.isInvoiced()) {
+					for(EstimatePricing invoicedEstimatePricing : estimates ) {
+				if(estimatePricing.getQuantity() == invoicedEstimatePricing.getQuantity()) {
+					
+					invoicedEstimatePricing.setTotalPrice(invoicedEstimatePricing.getTotalPrice() + jobEstimate.getDiscountValue() );
+					invoicedEstimatePricing.setUnitPrice(invoicedEstimatePricing.getTotalPrice()/invoicedEstimatePricing.getQuantity());
+				}
+					}
+			}
+		}
 		
 		model.addAttribute("estimates",estimates);
 		model.addAttribute("jobEstimate",jobEstimate);
@@ -1685,10 +1713,25 @@ public class JobController {
 		
 		List<EstimatePricing> estimates = jobEstimateServiceImpl.generateDiscountCommissionEstimateResult(id);
 		JobEstimate jobEstimate = jobEstimateRepository.findById(id).get();
-		
+	
+		for (EstimatePricing estimatePricing: jobEstimate.getEstimatePricings()) {
+			
+			if(estimatePricing.isInvoiced()) {
+					for(EstimatePricing invoicedEstimatePricing : estimates ) {
+				if(estimatePricing.getQuantity() == invoicedEstimatePricing.getQuantity()) {
+					
+					invoicedEstimatePricing.setTotalPrice(invoicedEstimatePricing.getTotalPrice() + jobEstimate.getDiscountValue() );
+					invoicedEstimatePricing.setUnitPrice(invoicedEstimatePricing.getTotalPrice()/invoicedEstimatePricing.getQuantity());
+					invoicedEstimatePricing.setInvoiced(true);
+					
+				}
+					}
+			}
+		}
+	
 		model.addAttribute("estimates",estimates);
 		model.addAttribute("jobEstimateD",jobEstimate);
-		
+	
 		return "/results/discount-result";
 	}
 	@GetMapping("/estimate/commission/{id}/{commissionValue}/{discountValue}")

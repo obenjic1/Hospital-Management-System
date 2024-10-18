@@ -32,7 +32,7 @@
 		          
 		<%--   <sec:authorize  access="hasRole('ROLE_GENERATE_INVOICE')"> --%>
 		           <td>
-		            <c:if test="${estimate.jobEstimate.discountValue!=0 || estimate.jobEstimate.commission!=0}">
+		            <c:if test="${jobEstimate.discountValue!=0 || jobEstimate.commission!=0}">
 		           <c:if test="${estimate.invoiced}"> 
 		            <button type="button" class="btn " onclick="loadMainModalForm('invoice/job-invoice/from-pricing/${estimate.id}')" data-toggle="tooltip" data-placement="top" title="View Invoices">
 		              <i class="ri-eye-line" style="color: #0d6efd"></i>
@@ -40,7 +40,7 @@
 		           </c:if>
 		           
 		             <c:if test="${!estimate.invoiced}"> 
-		               <button type="button" class="btn " onclick="getInfo('${jobEstimate.id}','${estimate.quantity}')" data-toggle="tooltip" data-placement="top" title="Generate Invoice">
+		               <button type="button" class="btn " onclick="getCommissionInvoice('${jobEstimate.id}','${estimate.quantity}')" data-toggle="tooltip" data-placement="top" title="Generate Invoice">
 		                 <i class="ir ri-draft-line" style="color: green"></i>
 		               </button>
 		             </c:if>

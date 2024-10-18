@@ -25,24 +25,24 @@
 		  <c:forEach var="estimate" items="${estimates}" varStatus="loop"> 
 		     <tr> 
 		         <td><c:out value = "${i}"/></td> 
-		            <td style="font-family: bold;"><a> <fmt:formatNumber value="${estimate.quantity}" type="currency"   pattern = "#,###,###"/> </a></td>                                 
+		            <td style="font-family: bold;"><a> <fmt:formatNumber value="${estimate.quantity}" type="currency"   pattern = "#,###,###"/></a></td>                                 
 		          <td style="font-family: bold;"><a> <fmt:formatNumber value="${estimate.unitPrice}" type="currency"   pattern = "#,###,###"/> </a></td>                                  
 		           <td style="font-family: bold;"><a> <fmt:formatNumber value="${estimate.totalPrice}" type="currency"   pattern = "#,###,###"/> </a></td>  
 		          
 		<%--   <sec:authorize  access="hasRole('ROLE_GENERATE_INVOICE')"> --%>
 		           <td>
-		           <c:if test="${estimate.jobEstimate.discountValue!=0}">
-		           <c:if test="${estimate.invoiced}"> 
-		            <button type="button" class="btn " onclick="loadMainModalForm('invoice/job-invoice/from-pricing/${estimate.id}')" data-toggle="tooltip" data-placement="top" title="View Invoices">
-		              <i class="ri-eye-line" style="color: #0d6efd"></i>
-		             </button>
-		           </c:if>
-		           
-		             <c:if test="${!estimate.invoiced}"> 
-		               <button type="button" class="btn " onclick="loadPageModalForm(getInvoiceQuantity(${estimate.id}))" data-toggle="tooltip" data-placement="top" title="Generate Invoice">
-		                 <i class="ir ri-draft-line" style="color: green"></i>
-		               </button>
-		             </c:if>
+		           <c:if test="${jobEstimateD.discountValue!=0}">
+				           <c:if test="${estimate.invoiced}"> 
+					            <button type="button" class="btn " onclick="loadMainModalForm('invoice/discount/from-pricing/${jobEstimateD.id}/${estimate.quantity}')" data-toggle="tooltip" data-placement="top" title="View Invoices">
+					              <i class="ri-eye-line" style="color: #0d6efd"></i> 
+					             </button>
+				           </c:if>
+			           
+			             <c:if test="${!estimate.invoiced}"> 
+				               <button type="button" class="btn " onclick="getDiscountInvoiceFromPricing('${jobEstimateD.id}','${estimate.quantity}')" data-bs-dismiss="modal" data-toggle="tooltip" data-placement="top" title="Generate Invoice">
+				                 <i class="ir ri-draft-line" style="color: green"></i>
+				               </button>
+			             </c:if>
 		              </c:if>
 		    </td>
 		<%--                                                     		  </sec:authorize>                                 --%>
