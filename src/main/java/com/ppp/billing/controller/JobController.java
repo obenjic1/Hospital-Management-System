@@ -454,7 +454,6 @@ public class JobController {
 				double signature = plateMakingCosting.getSignatures();
 				double run = exposior;
 				if(jobPapers.get(i).getContentType().getId()==2&&jobPapers.get(i).getJob().getJobType().getCategory()==3) {
-					System.out.println(plateMakingCosting.getReceitBookletRun());
 					run = plateMakingCosting.getReceitBookletRun();
 				}
 				if(machine.equals("SPM5")) {
