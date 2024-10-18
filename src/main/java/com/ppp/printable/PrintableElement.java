@@ -6,6 +6,7 @@ import java.text.NumberFormat;
 import java.util.Locale;
 
 import com.itextpdf.io.font.FontConstants;
+import com.itextpdf.kernel.color.Color;
 import com.itextpdf.kernel.font.PdfFont;
 import com.itextpdf.kernel.font.PdfFontFactory;
 import com.itextpdf.layout.Document;
@@ -119,5 +120,14 @@ public class PrintableElement {
 		document.add(paragraph);
 	
 	}
+
+public void printJobRef(Document document, String message, int ix, float fy) throws IOException {
+	PdfFont font = PdfFontFactory.createFont(FontConstants.COURIER);
+	this.setxAxis(ix);
+	this.setyAxis(fy);
+	document.setFont(font);
+	document.add(new Paragraph(message).setFontColor(Color.RED).setFixedPosition(this.xAxis, this.yAxis, 595));
+	
+}
  
 }

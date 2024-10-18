@@ -1259,3 +1259,21 @@ h6 {
 	font-family: bold;
 	color: black;
 }
+
+.all-button-style{
+	background-color: #007bff;
+	color: white;
+	text-align: center;
+	text-decoration: none;
+	vertical-align: middle;
+	padding: .375rem .75rem;
+	border: 1px solid transparent;
+	border-radius: 0.25rem;
+	transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out
+}
+
+.all-button-style:hover{
+	color: white;
+	background-color: #0056b3;
+	border-color:  #0056b3;
+}

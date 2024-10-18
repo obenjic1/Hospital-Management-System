@@ -3,6 +3,8 @@ package com.ppp.billing.controller;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -33,6 +35,7 @@ import com.ppp.billing.model.JobEstimate;
 import com.ppp.billing.model.JobPaper;
 import com.ppp.billing.serviceImpl.EstimatePricingServiceImpl;
 import com.ppp.billing.serviceImpl.InvoiceServiceImpl;
+import com.ppp.billing.serviceImpl.JobEstimateServiceImpl;
 import com.ppp.printable.PrintableElement;
 
 @Controller
@@ -49,6 +52,9 @@ public class InvoiceController {
 	@Autowired
 	private EstimatePricingServiceImpl estimatePricingServiceImpl;
 	
+	@Autowired
+	private JobEstimateServiceImpl estimateServiceImpl;
+	
 	@InitBinder
 	public void customDateEditor(WebDataBinder binder) {
 		binder.registerCustomEditor(String.class, new StringTrimmerEditor(true));
@@ -61,11 +67,13 @@ public class InvoiceController {
 	public String listinvoices(Model model) {
 		try {
 			List<Invoice> result = invoiceServiceImpl.listInvoice();
+			Collections.reverse(result);
 			double netPayable =0;
 			for(Invoice invoice :result) {
 				
 				netPayable += invoice.getNetPayable();
 			}
+			
 			int totalElement = result.size();
 			model.addAttribute("netPayable", netPayable);
 			model.addAttribute("totalElement", totalElement);
@@ -93,6 +101,48 @@ public class InvoiceController {
 			model.addAttribute("invoices", invoice);
 			
 			return "billing/estimate/invoice-view";
+		} catch (Exception e) {
+			throw e;
+		}
+	}
+	
+	@GetMapping("/commission-invoice/{id}/{qty}")
+	public String getCommissionInvoice(@PathVariable long id,@PathVariable int qty, Model model) {		
+		
+	
+		try {
+			JobEstimate estimate = estimateServiceImpl.findById(id);
+			List<EstimatePricing> estimatePricing = estimate.getEstimatePricings();
+			EstimatePricing estimatePricingWithCommission = new EstimatePricing();
+			//long lastInvoice = correspondingestimatePricing.getInvoices().getS;
+			Invoice invoice = new Invoice();
+			for(EstimatePricing correspondingestimatePricing :estimatePricing ) {
+				
+				if(correspondingestimatePricing.getQuantity() == qty) {
+					
+					estimatePricingWithCommission.setQuantity(correspondingestimatePricing.getQuantity());
+					estimatePricingWithCommission.setTotalPrice(correspondingestimatePricing.getTotalPrice() +	estimate.getCommission() -  estimate.getDiscountValue());
+					estimatePricingWithCommission.setUnitPrice(estimatePricingWithCommission.getTotalPrice()/correspondingestimatePricing.getQuantity());
+					 invoice = correspondingestimatePricing.getInvoices().get(0);
+				}
+			}
+			
+			Job jobs = estimate.getJob();
+		
+//			Job jobs = invoice.getEstimatePricing().getJobEstimate().getJob();
+			double discount = (invoice.getDiscountPercentage()/100)*(estimatePricingWithCommission.getTotalPrice());
+			double irTaxValue= (invoice.getIrTaxPercentage()/100)*estimatePricingWithCommission.getTotalPrice();
+			double vatValue= (invoice.getVatPercentage()/100)*estimatePricingWithCommission.getTotalPrice();
+			double netPayable = estimatePricingWithCommission.getTotalPrice()+ irTaxValue + vatValue -discount;
+			model.addAttribute("irTaxValue", irTaxValue);
+			model.addAttribute("netPayable", netPayable);
+			model.addAttribute("vatValue", vatValue);
+			model.addAttribute("discount", discount);
+			model.addAttribute("job", jobs);
+			model.addAttribute("invoices", invoice);
+			model.addAttribute("estimatePricingWithCommission", estimatePricingWithCommission);
+			
+			return "billing/estimate/commission-invoice-view";
 		} catch (Exception e) {
 			throw e;
 		}

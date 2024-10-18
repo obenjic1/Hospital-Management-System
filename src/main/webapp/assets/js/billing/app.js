@@ -29,9 +29,28 @@ function loadTables(url, idContainer) {
 	 let discountValue =document.getElementById("discount").value;
 	  if(discountValue<1){ discountValue=100;}
 		 loadMainModalForm(`job/estimate/commission/${id}/${commissionValue}/${discountValue}`);
-	 
 
  }
+ 
+ 
+  function displayOnTable(id){
+	  loadThisApplyCommissionDiv(`job/estimateRef/result/${id}`)
+	  
+  }
+  function displayDiscountOnTable(id){
+	  loadThisApplyDiscountCommissionDiv(`job/discount/result/${id}`)
+	  
+  }
+  
+ function loadThisApplyCommissionDiv(url){
+	      fetch(url)
+         .then(response => response.text())
+         .then(html => {
+             document.getElementById("estimate-table").innerHTML = html;
+         })
+         .catch(error => console.log(error));
+ }
+ 
  
  function showTvaInput(){
 	 let tvaCheckbox = document.getElementById("applyTva");
@@ -143,10 +162,20 @@ function movementHistory(){
 	}
 		
 
+
+function getInfo(num,qty){
+ loadMainModalForm(`invoice/commission-invoice/${num}/${qty}`);
+}
+
+
 	
 	function dashBoard(){
 		loadPage('jobtracking/profile')
 	}
 	//window.onload = dashBoard;
 	
+	
+	function listJob(){
+		loadPage('job/list-job');
+	}
 	

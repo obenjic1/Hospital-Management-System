@@ -58,6 +58,11 @@ public class InvoiceServiceImpl implements InvoiceService{
 		estimate.getJobEstimate().setInvoiced(true);
 		invoiceToSave.setEstimatePricing(estimate);
 		
+		/*
+		 * Calculate  Discount
+		 */
+		
+		
 		jobEstimate.setEstimatePricings(jobEstimate.getEstimatePricings());
 		invoiceRepository.saveAndFlush(invoiceToSave);
 		estimate.setInvoices(estimate.getInvoices());

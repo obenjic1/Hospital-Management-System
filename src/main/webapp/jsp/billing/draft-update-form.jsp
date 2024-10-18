@@ -205,8 +205,8 @@
 			  </div>
 		    </div>	
 		     <div class="row py-3">    
-			 <button  style=" width: 94px;display:none" type="button"  class="btn btn-primary" onclick="tab1NextBtn(),summary()" id="next-btn-draft">Next</button>	
-			<button  style=" position:relative;width: 94px;left:90%" type="button"  class="btn btn-primary" onclick="tab1NextBtn(),summaryDraftUpdate()" id="next-btn-draft" >Next</button>	
+			 <button  style=" width: 94px;display:none" type="button"  class="all-button-style" onclick="tab1NextBtn(),summary()" id="next-btn-draft">Next</button>	
+			<button  style=" position:relative;width: 94px;left:90%" type="button"  class="all-button-style" onclick="tab1NextBtn(),summaryDraftUpdate()" id="next-btn-draft" >Next</button>	
 		
 		   </div>  	
           </div>

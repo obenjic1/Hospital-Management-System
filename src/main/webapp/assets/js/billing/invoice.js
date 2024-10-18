@@ -135,5 +135,27 @@
 	loadtaxsApply(`invoice/display-taxs/${id}/${irTaxVal}/${tvaVal}`);
  }
  
- 
+ function getInvoiceFromPricing(id){
+	 fetch(`job/generate/invoice/${id}`, {
+			method: 'GET',
+			 headers: {
+           "Content-Type": "application/json",
+           },
+		})
+		.then( response => {	
+   			 if (response.status===200) {
+       			Swal.fire("Succes/Success!", "Genreted successfully!/Genere avec succes!", "success")
+			return loadPage('invoice/list');				
+   			 } else if (response.status !== 200) {
+				Swal.fire({  icon: "error", title: "Oops...", text: "Something went wrong!"});
+				return loadPage('invoice/list');
+  			 }
+		})
+		 .then(function(data) {
+
+		 })
+			.catch(function(error) {
+
+			});
+ }
  

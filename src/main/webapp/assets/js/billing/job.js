@@ -314,7 +314,6 @@ function randUpContentSignature(){
 	let contentValueToRandUp = document.getElementById("signature-content-to-randup").value;
 	let contentRandedUpValue = document.getElementById("signature-content-to-randup");
 	contentRandedUpValue.value = Math.ceil(contentValueToRandUp);
-	alert(contentRandedUpValue);
 
 }
 
@@ -806,6 +805,7 @@ function generateEstimate(url, currentDiv, nextDiv){
 	loadDynamicPageContent(url, nextDiv);
 	document.getElementById(nextDiv).style.display="block";
 	document.getElementById(currentDiv).style.display="none";
+	listJob();
 	
 	
 }

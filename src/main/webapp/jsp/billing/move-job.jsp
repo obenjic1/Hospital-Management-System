@@ -52,8 +52,9 @@
                                                    
 							</div>
 							  <div class="row py-1" style="margin-bottom: -63px;">  
-									<button  style=" width: 94px;margin-left: -24%;margin-top: 18px;" type="button"  class="btn btn-primary"data-bs-dismiss="modal" onclick="moveJob('${job.id}')" id="next-btn" > <fmt:message key="send"/> </button>	
+									<button   type="button"  class="all-button-style" data-bs-dismiss="modal" onclick="moveJob('${job.id}')" id="next-btn" > <fmt:message key="send"/> </button>	
 							  </div> 
+<!-- 							  style=" width: 94px;margin-left: -24%;margin-top: 18px;" -->
 						</div>
 					
 					</div>
