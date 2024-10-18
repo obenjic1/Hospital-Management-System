@@ -220,14 +220,14 @@ public class InvoiceController {
 		try {
 			JobEstimate jobEstimate = estimateServiceImpl.findById(id);
 			List<EstimatePricing> estimatePricing = jobEstimate.getEstimatePricings();
-			EstimatePricing DiscountestimatePricing = new EstimatePricing();
+			EstimatePricing discountestimatePricing = new EstimatePricing();
 			for (EstimatePricing invoicedEstimatePricing : estimatePricing) {
 				if(invoicedEstimatePricing.getQuantity() == qty) {
-					DiscountestimatePricing = invoicedEstimatePricing;
+					discountestimatePricing = invoicedEstimatePricing;
 				}
 			}
 
-			long index = DiscountestimatePricing.getInvoices().get(0).getId();
+			long index = discountestimatePricing.getInvoices().get(0).getId();
 			Invoice invoice = invoiceServiceImpl.findById(index);
 			Job job = invoice.getEstimatePricing().getJobEstimate().getJob();
 			
