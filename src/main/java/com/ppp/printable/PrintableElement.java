@@ -121,10 +121,10 @@ public class PrintableElement {
 	
 	}
 
-public void printJobRef(Document document, String message, int i, float f) throws IOException {
+public void printJobRef(Document document, String message, int ix, float fy) throws IOException {
 	PdfFont font = PdfFontFactory.createFont(FontConstants.COURIER);
-	this.setxAxis(i);
-	this.setyAxis(f);
+	this.setxAxis(ix);
+	this.setyAxis(fy);
 	document.setFont(font);
 	document.add(new Paragraph(message).setFontColor(Color.RED).setFixedPosition(this.xAxis, this.yAxis, 595));
 	
