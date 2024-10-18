@@ -153,7 +153,7 @@ public class InvoiceController {
 				if(correspondingestimatePricing.getQuantity() == qty) {
 					
 					estimatePricingWithCommission.setQuantity(correspondingestimatePricing.getQuantity());
-					estimatePricingWithCommission.setTotalPrice(correspondingestimatePricing.getTotalPrice() +	estimate.getCommission() -  estimate.getDiscountValue());
+					estimatePricingWithCommission.setTotalPrice(correspondingestimatePricing.getTotalPrice() +	estimate.getCommission() +  estimate.getDiscountValue());
 					estimatePricingWithCommission.setUnitPrice(estimatePricingWithCommission.getTotalPrice()/correspondingestimatePricing.getQuantity());
 					 invoice = correspondingestimatePricing.getInvoices().get(0);
 				}

@@ -135,7 +135,6 @@ function movementHistory(){
 		
 		let name = document.getElementById('name').value;
 		let category = document.getElementById('category').value;
-	//	let id = id;
 		var formData = new FormData();
 		
 		formData.append('name', name),
@@ -146,7 +145,7 @@ function movementHistory(){
 			body: formData,
 		}).then( response => {	
    			 if (response.ok) {
-       			Swal.fire("Succes/Success!", "Job saved successfully!", "success")
+       			Swal.fire("Succes/Success!", "JobType saved successfully!", "success")
 				return loadPage("jobtype/list-job-type");				
    			 } else if (response.status !== 200) {
 				Swal.fire({  icon: "error", title: "Oops...", text: "Something went wrong!"});
