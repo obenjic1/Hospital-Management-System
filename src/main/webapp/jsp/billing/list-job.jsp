@@ -105,7 +105,7 @@
 								      <option data-bs-toggle="modal" data-bs-target="#ExtralargeModal" data-toggle="tooltip" data-placement="top" title="edit job details" onClick="loadPageModalForm('job/update-form/${job.id}');"><fmt:message key="edit"/></option>
 								      <option data-bs-toggle="modal" data-bs-target="#ExtralargeModal" data-toggle="tooltip" data-placement="top" title="view job details" onclick="loadPageModalForm('job/confimJob/${job.id}');"><fmt:message key="confirm"/></option>
 								      <option data-bs-toggle="modal" data-bs-target="#ExtralargeModal" data-toggle="tooltip" data-placement="top" title="view job details" onclick="loadPageModalForm('job/move/${job.id}');"><fmt:message key="move.job"/></option>
-								      <option data-bs-toggle="modal" data-bs-target="#ExtralargeModalFile" onclick="loadPageModal('job/generate-pdf/${job.id}');listJob()"><fmt:message key="control.sheet"/></option>
+								      <option data-bs-toggle="modal" data-bs-target="#ExtralargeModalFile" onclick="loadPageModalControlSheet('job/generate-pdf/${job.id}');"><fmt:message key="control.sheet"/></option>
 								      <c:if test="${job.controlSheetGenerated=='true'}">
 								     	 <option data-bs-toggle="modal" data-bs-target="#ExtralargeModal" onclick="loadDynamicPageModal('job/estimate/${job.id}');"><fmt:message key="generate.estimate"/></option>
 								      </c:if>

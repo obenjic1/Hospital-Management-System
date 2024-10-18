@@ -25,13 +25,7 @@ public class JobEstimateServiceImpl implements JobEstimateService {
 	public JobEstimate save(JobEstimate jobEstimate) {
 		return jobEstimateRepository.saveAndFlush(jobEstimate);
 	}
-//
-//	@Override
-//	public JobEstimate saveEstimate(String quantity, float advancePercentage) {
-//		JobEstimate Estimate = new JobEstimate();
-//		Estimate.setAdvancePercentage(advancePercentage);
-//		return jobEstimateRepository.saveAndFlush(Estimate);
-//	}
+
 
 
 	@Override
@@ -46,16 +40,18 @@ public class JobEstimateServiceImpl implements JobEstimateService {
 		List<EstimatePricing> estimqtePricing = estimate.getEstimatePricings();
 		estimate.setCommission(commission);
 		estimate.setDiscountValue(discount);
+		
 		List<EstimatePricing> estimateP = new ArrayList<EstimatePricing>();
 		for(EstimatePricing estimatePrice :estimqtePricing) {
 			EstimatePricing estimateCommision = new EstimatePricing();
 			estimateCommision.setQuantity(estimatePrice.getQuantity());
-			estimateCommision.setTotalPrice(estimatePrice.getTotalPrice()+estimate.getCommission()+estimate.getDiscountValue());
-			estimateCommision.setUnitPrice((estimatePrice.getTotalPrice()+estimate.getCommission()+estimate.getDiscountValue())/estimatePrice.getQuantity());
+				estimateCommision.setTotalPrice(estimatePrice.getTotalPrice()+ estimate.getCommission());
+				estimateCommision.setUnitPrice((estimatePrice.getTotalPrice()+estimate.getCommission())/estimatePrice.getQuantity());
 			estimateP.add(estimateCommision);
 		}
 		
 		jobEstimateRepository.save(estimate);
+	
 		return estimateP;
 	}
 
@@ -63,34 +59,33 @@ public class JobEstimateServiceImpl implements JobEstimateService {
 	public List<EstimatePricing> generateCommissionEstimateResult(long id) {
 		JobEstimate estimate = jobEstimateRepository.findById(id).get();
 		List<EstimatePricing> estimqtePricing = estimate.getEstimatePricings();
-		estimate.setCommission(estimate.getCommission());
-	//	estimate.setDiscountValue(estimate.getDiscountValue());
-		estimate.setDiscountValue(0);
 		List<EstimatePricing> estimateP = new ArrayList<EstimatePricing>();
 		for(EstimatePricing estimatePrice :estimqtePricing) {
 			EstimatePricing estimateCommision = new EstimatePricing();
 			estimateCommision.setQuantity(estimatePrice.getQuantity());
-			estimateCommision.setTotalPrice(estimatePrice.getTotalPrice()+estimate.getCommission()+estimate.getDiscountValue());
-			estimateCommision.setUnitPrice((estimatePrice.getTotalPrice()+estimate.getCommission()+estimate.getDiscountValue())/estimatePrice.getQuantity());
+			estimateCommision.setTotalPrice(estimatePrice.getTotalPrice()+ estimate.getCommission());
+			estimateCommision.setUnitPrice((estimatePrice.getTotalPrice()+estimate.getCommission())/estimatePrice.getQuantity());
 			estimateP.add(estimateCommision);
 		}
 
 		return estimateP;
 	}
-	
+
 	public List<EstimatePricing> generateDiscountCommissionEstimateResult(long id) {
 		JobEstimate estimate = jobEstimateRepository.findById(id).get();
 		List<EstimatePricing> estimqtePricing = estimate.getEstimatePricings();
 		estimate.setDiscountValue(estimate.getDiscountValue());
 		List<EstimatePricing> estimateP = new ArrayList<EstimatePricing>();
+		
+		
 		for(EstimatePricing estimatePrice :estimqtePricing) {
 			EstimatePricing estimateCommision = new EstimatePricing();
 			estimateCommision.setQuantity(estimatePrice.getQuantity());
-			estimateCommision.setTotalPrice(estimatePrice.getTotalPrice()-estimate.getCommission());
-			estimateCommision.setUnitPrice((estimatePrice.getTotalPrice()-estimate.getCommission())/estimatePrice.getQuantity());
+			estimateCommision.setTotalPrice(estimatePrice.getTotalPrice()-estimate.getDiscountValue());
+			estimateCommision.setUnitPrice((estimatePrice.getTotalPrice()-estimate.getDiscountValue())/estimatePrice.getQuantity());
 			estimateP.add(estimateCommision);
 		}
-
+		
 		return estimateP;
 	}
 	

@@ -215,7 +215,7 @@
 			  </div>
 		    </div>	
 		     <div class="row py-3">    
-			<button  style=" width: 94px;" type="button"  class="all-button-style" onclick="tab1NextBtnAction()" id="next-btn" >Next</button>	
+			<button  style=" width: 94px;" type="button"  class="all-button-style" onclick="validateTab1(); tab1NextBtnAction()" id="next-btn" >Next</button>	
 		   </div>  	
           </div>                         
         </div>
@@ -615,6 +615,8 @@
 				  <div> <input type="number" id="signature-content-to-randup" step=".1" style="width:70px;color:red; text-align:center" readonly="readonly" allSignatures inputSignReadonly>
 				  	<span><button  type="button" style="display: inline;" id="duplicateButton" onclick="updateContentSignature(this.parentNode.parentNode.parentNode.parentNode.parentNode,0,this.parentNode.parentNode.parentNode.parentNode)" ><i class="ri-add-fill"></i></button> </span>
 <!-- 				  	<span onclick="randUpContentSignature()"><i style="color: green; font-size: 22px" class="bi bi-arrow-up"></i></span> -->
+				 				 <span onclick="randUpContentSignature()"><i style="color: green; font-size: 22px" class="bi bi-arrow-up"></i></span>
+				 
 				 </div> 
 				 
 	            </div>
@@ -632,7 +634,7 @@
 		    </div>
 	        <div class ="col-sm-6">
 	        	
-	         <button style="width:125px;float:right"  type="button" class="all-button-style" id="next-btn1" onclick="navigate(3,4);"><fmt:message key="next"/></button>	
+	         <button style="width:125px;float:right"  type="button" class="all-button-style" id="next-btn1" onclick="validateTab3();navigate(3,4);"><fmt:message key="next"/></button>	
 	        		
 	       </div>
 

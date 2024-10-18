@@ -68,7 +68,7 @@
 				                       			  </sec:authorize>
 				                       			 <div class="col-lg-2">
 				                       			 			<div class ="col px3" style="position: relative;bottom: -13px;">
-													 			 <input type= "button" class="btn btn-primary btn-sm" value ="Apply" style="margin-left: 49px;" onclick="applyCommission(${estimate.id})">
+													 			 <input type= "button" class="all-button-style" value ="Apply" style="margin-left: 49px;" onclick="applyCommission(${estimate.id})">
 					                 					 	</div>	
 							                      </div>
 														

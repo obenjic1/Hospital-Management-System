@@ -328,6 +328,8 @@ public class JobController {
 			printer.print(document, job.getOpenLength()+"", 109, 297-88);
 			printer.print(document, job.getCloseWidth()+"", 157, 297-88);
 			printer.print(document, job.getCloseLength()+"", 182, 297-88);
+			printer.printJobRef(document,"No: " + job.getReferenceNumber()+"", 145, 297-53.5f);
+
 			
 			JobPaper jobPaper =new JobPaper();
 			for(JobPaper pp : job.getJobPapers()) {

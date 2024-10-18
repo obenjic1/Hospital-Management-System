@@ -76,7 +76,7 @@
                                                 <div class="" style="margin-top:50px;">
                            <!--                 <button class="btn btn-primary" onclick="confirmEstimate('/job/estimate/confirm/${job.id}');"><fmt:message key="confirm"/></button> -->
 
-                                           		 <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#ExtralargeModalFile" onclick="loadPageModal('job/estimate-pdf-commission/${jobEstimate.reference}',);"><fmt:message key="confirm"/></button>
+                                           		 <button class="all-button-style" data-bs-toggle="modal" data-bs-target="#ExtralargeModalFile" onclick="loadPageModal('job/estimate-pdf-commission/${jobEstimate.reference}',);"><fmt:message key="confirm"/></button>
                               <!--                <button  class="btn btn-danger" onclick="closeModalView('ExtralargeModal');"><fmt:message key="cancel"/></button> -->
 
                                        		 </div>

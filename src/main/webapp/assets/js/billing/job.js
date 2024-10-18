@@ -805,6 +805,7 @@ function generateEstimate(url, currentDiv, nextDiv){
 	loadDynamicPageContent(url, nextDiv);
 	document.getElementById(nextDiv).style.display="block";
 	document.getElementById(currentDiv).style.display="none";
+	listJob();
 	
 	
 }

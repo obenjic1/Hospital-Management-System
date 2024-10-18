@@ -35,6 +35,7 @@ import com.ppp.billing.model.JobEstimate;
 import com.ppp.billing.model.JobPaper;
 import com.ppp.billing.serviceImpl.EstimatePricingServiceImpl;
 import com.ppp.billing.serviceImpl.InvoiceServiceImpl;
+import com.ppp.billing.serviceImpl.JobEstimateServiceImpl;
 import com.ppp.printable.PrintableElement;
 
 @Controller
@@ -50,6 +51,9 @@ public class InvoiceController {
 	
 	@Autowired
 	private EstimatePricingServiceImpl estimatePricingServiceImpl;
+	
+	@Autowired
+	private JobEstimateServiceImpl estimateServiceImpl;
 	
 	@InitBinder
 	public void customDateEditor(WebDataBinder binder) {
@@ -97,6 +101,48 @@ public class InvoiceController {
 			model.addAttribute("invoices", invoice);
 			
 			return "billing/estimate/invoice-view";
+		} catch (Exception e) {
+			throw e;
+		}
+	}
+	
+	@GetMapping("/commission-invoice/{id}/{qty}")
+	public String getCommissionInvoice(@PathVariable long id,@PathVariable int qty, Model model) {		
+		
+	
+		try {
+			JobEstimate estimate = estimateServiceImpl.findById(id);
+			List<EstimatePricing> estimatePricing = estimate.getEstimatePricings();
+			EstimatePricing estimatePricingWithCommission = new EstimatePricing();
+			//long lastInvoice = correspondingestimatePricing.getInvoices().getS;
+			Invoice invoice = new Invoice();
+			for(EstimatePricing correspondingestimatePricing :estimatePricing ) {
+				
+				if(correspondingestimatePricing.getQuantity() == qty) {
+					
+					estimatePricingWithCommission.setQuantity(correspondingestimatePricing.getQuantity());
+					estimatePricingWithCommission.setTotalPrice(correspondingestimatePricing.getTotalPrice() +	estimate.getCommission() -  estimate.getDiscountValue());
+					estimatePricingWithCommission.setUnitPrice(estimatePricingWithCommission.getTotalPrice()/correspondingestimatePricing.getQuantity());
+					 invoice = correspondingestimatePricing.getInvoices().get(0);
+				}
+			}
+			
+			Job jobs = estimate.getJob();
+		
+//			Job jobs = invoice.getEstimatePricing().getJobEstimate().getJob();
+			double discount = (invoice.getDiscountPercentage()/100)*(estimatePricingWithCommission.getTotalPrice());
+			double irTaxValue= (invoice.getIrTaxPercentage()/100)*estimatePricingWithCommission.getTotalPrice();
+			double vatValue= (invoice.getVatPercentage()/100)*estimatePricingWithCommission.getTotalPrice();
+			double netPayable = estimatePricingWithCommission.getTotalPrice()+ irTaxValue + vatValue -discount;
+			model.addAttribute("irTaxValue", irTaxValue);
+			model.addAttribute("netPayable", netPayable);
+			model.addAttribute("vatValue", vatValue);
+			model.addAttribute("discount", discount);
+			model.addAttribute("job", jobs);
+			model.addAttribute("invoices", invoice);
+			model.addAttribute("estimatePricingWithCommission", estimatePricingWithCommission);
+			
+			return "billing/estimate/commission-invoice-view";
 		} catch (Exception e) {
 			throw e;
 		}

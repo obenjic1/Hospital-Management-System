@@ -718,10 +718,10 @@
 				  <div> <input name="signature" value="${jobColorCombinaition.numberOfSignature}"  type="number" id="signature-content-to-randup" step=".1" style="width:70px;color:red; text-align:center" readonly="readonly" allSignatures inputSignReadonly>
 				  	<span><button  type="button" style="display: inline;" id="duplicateButton" onclick="updateContentSignature(this.parentNode.parentNode.parentNode.parentNode.parentNode,0,this.parentNode.parentNode.parentNode.parentNode)" ><i class="ri-add-fill"></i></button> </span>
 <!-- 				  	<span onclick="randUpContentSignature()"><i style="color: green; font-size: 22px" class="bi bi-arrow-up"></i></span> -->
+					 <span onclick="randUpContentSignature()"><i style="color: green; font-size: 22px" class="bi bi-arrow-up"></i></span>
+				
 				 </div> 
-				  <div>
-					 <span style="position: relative;left: 48%;bottom: 113%;" onclick="randUpContentSignature()"><i style="color: green; font-size: 22px" class="bi bi-arrow-up"></i></span>
-				</div> 
+				 
 	            </div>
 				</div>
 		

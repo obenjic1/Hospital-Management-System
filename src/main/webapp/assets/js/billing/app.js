@@ -31,6 +31,8 @@ function loadTables(url, idContainer) {
 		 loadMainModalForm(`job/estimate/commission/${id}/${commissionValue}/${discountValue}`);
 
  }
+ 
+ 
   function displayOnTable(id){
 	  loadThisApplyCommissionDiv(`job/estimateRef/result/${id}`)
 	  
@@ -159,6 +161,12 @@ function movementHistory(){
 			});
 	}
 		
+
+
+function getInfo(num,qty){
+ loadMainModalForm(`invoice/commission-invoice/${num}/${qty}`);
+}
+
 
 	
 	function dashBoard(){

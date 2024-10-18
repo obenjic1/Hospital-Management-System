@@ -18,7 +18,7 @@
                         <div class="tab-content pt-2">
                             <div class="tab-pane fade show active profile-overview" id="profile-overview" style="margin-left: 10%">
                                 <class="card-title">
-                                    <div class="container estimate"  style="position: relative;bottom: -20px" >
+                                    <div class="container estimate" style="position: relative;bottom: -20px" >
                                         <div class="row">
                                             <div class="row">
                                                 <div class="col-sm-6" style="text-align:left">
@@ -45,45 +45,6 @@
                                                     </tbody>
                                                 </table>
                                             </div>
-                                            
-                                            <div class="row" " style="margin-bottom: -27px;">
-				                       			 <div class="col-lg-5">
-				                       			 	<div class="row" style="position: relative;">
-							                          <div class ="col-lg-3 px3">
-													    <div class="form-check" style="display: contents;">                     
-										                    <label class="form-check-label" for="gridCheck1" style="position: relative;bottom: -6px; left: 35px;"><a>Apply VAT</a></label>
-										                    <input class="form-check-input" type="checkbox" name="name" id="applyTva" style="position: relative;left: 35px; bottom: -7px"  onclick="showTvaInput()">
-										                  </div>
-													   </div> 
-						                         		<div class ="col-lg-2 px3" id="tvaDiv" style="display: none;">
-															<input id= "tvaValue" name="title" type= "number" placeholder="" style="width: 200px;height: 35px;margin-left: 15px;bottom: -2px;position: relative;" value=19.25>
-											       </div>
-													
-													</div>
-				                       			 </div>
-				                       			 <div class="col-lg-5" >
-				                       			 	 <div class="row" >
-							                          <div class ="col-lg-3 px3">
-													    <div class="form-check">                     
-										                    <label class="form-check-label" for="gridCheck2" style="position: relative;bottom: -10px;left: 18px;"><a style="position: relative;bottom: 24px;">IR TAX </a></label>
-										                    <input class="form-check-input" type="checkbox" name="name" id="applyIrTax"  style="position: relative;bottom: 14px;left: 18px;" onclick="showIrInput()" >
-										                  </div>
-													   </div> 
-						                         		<div class ="col-lg-2 px3" style="width: 200px, relative; display: none;" id="irDiv">
-														<input id= "irValue" name="title" type= "number"  style="width: 200px; height: 35px;" value="5.5">
-											       </div>
-													
-													</div>
-				                       			 </div>
-				                       			 <div class="col-lg-2"  id="apply-btn-tax">
-				                       			    <div class ="col px3" style="position: relative;" >
-													  <input type= "button" class="btn btn-outline-danger" value ="Display Taxes " style="margin-left: 0px;width: 101px;position: relative;bottom: -2px;left: -65px;text-align:center " onclick="displayTax(${invoices.id})"" >
-													  <input type= "button" class="btn btn-outline-primary" value ="Apply Taxes" style=" margin-left: -6px;position: relative;bottom: 35px;left: 46px; width: 107px; " onclick="applyTax(${invoices.id})" ">
-													  
-					                 				</div>	
-							                      </div>
-														
-				                       			 </div>
                                             <div class="row">
                                                 <table class="table-responsive ta" id="cover-table">
                                                     <thead id="estimate-header">
@@ -100,8 +61,8 @@
                                                                 <tr> 
                                                                     <td style="font-family: bold;"><c:out value = "${i}"/></td> 
                                                                        <td style="font-family: bold;"><a> <fmt:formatNumber value="${invoices.estimatePricing.quantity}" type="currency"   pattern = "#,###,###"/> </a></td>                                 
-                                                                     <td style="font-family: bold;"><a> <fmt:formatNumber value="${invoices.estimatePricing.unitPrice}" type="currency"   pattern = "#,###,###"/> </a></td>                                  
-                                                                      <td style="font-family: bold;"><a> <fmt:formatNumber value="${invoices.estimatePricing.totalPrice}" type="currency"   pattern = "#,###,###"/> </a></td>  
+                                                                     <td style="font-family: bold;"><a> <fmt:formatNumber value="${estimatePricingWithCommission.unitPrice}" type="currency"   pattern = "#,###,###"/> </a></td>                                  
+                                                                      <td style="font-family: bold;"><a> <fmt:formatNumber value="${estimatePricingWithCommission.totalPrice}" type="currency"   pattern = "#,###,###"/> </a></td>  
                                                                                                    
                                                                 </tr> 
                                                                   <tr>
@@ -124,7 +85,7 @@
                                                                 </tr>
                                                                    <tr> 
                    
-												                         <td style="font-family: bold;">Discount <span>${invoices.discountPercentage} </span>% </a></td>                                 
+												                         <td style="font-family: bold;"><span>${invoices.discountPercentage} </span>%  Discount</a></td>                                 
 												                       <td><a> </td>                                  
 												                        <td><a> </td>  
 												                        <td><a> <fmt:formatNumber value="${discount}" type="currency"   pattern = "#,###,###"/> </a></td>                               
@@ -134,7 +95,7 @@
                                                                        <td style="font-family: bold; font-weight: bold"><a>Net Payable </a></td>                                 
                                                                      <td><a> </a> </td>                                  
                                                                       <td><a> </a></td>  
-                                                                      <td style="font-family: bold; font-weight: bold;"><a> <fmt:formatNumber value="${invoices.netPayable}" type="currency"   pattern = "#,###,###"/> </a></td>                               
+                                                                      <td style="font-family: bold; font-weight: bold;"><a> <fmt:formatNumber value="${netPayable}" type="currency"   pattern = "#,###,###"/> </a></td>                               
                                                                 </tr>
                                                     </tbody>
                                                 </table>
@@ -143,8 +104,7 @@
                                          <span style="font-family: bold;left: 88%;position: relative; bottom: -1.5%">${invoices.referenceNumber}</span> 
                                         <hr><br>
                                         <div class="" style="margin-top:50px;">
-                                           <button class="btn btn-primary"style="left: 87%;position: relative;width: 117px;" data-bs-toggle="modal" data-bs-target="#ExtralargeModalFile" onclick="confirmEstimate('job/estimate/confirm/${job.id}','job/estimate-pdf/');"><fmt:message key="print"/></button>
-
+                                           <button class="btn btn-primary"style="left: 87%;position: relative;width: 117px;" data-bs-toggle="modal" data-bs-target="#ExtralargeModalFile" onclick="loadPageModal('invoice/invoice-pdf/${invoices.referenceNumber}');"><fmt:message key="print"/></button>
                                         </div>
 
                                     </div>
