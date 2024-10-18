@@ -811,7 +811,7 @@ public class JobController {
 				 
 				 printer.printMoney(document,  numberSign*1000, 25, 297-30-vct);
 				 printer.printMoney(document,  (numberSign*10)*percentage , 25, 297-36-vct);
-				 int totalOversh = (int) (cb.getNumberOfSignature()*10*percentage + numberSign*1000);
+				 int totalOversh = (int) (numberSign*10*percentage + numberSign*1000);
 				 
 				 printer.printMoney(document,  totalOversh, 29, 297-43-vct);
 				 int up = (paper.getPaperSizeWidth()/10)*(paper.getPaperSizeLength()/10);
