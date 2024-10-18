@@ -1,32 +1,32 @@
 
      		// Calcul of Cover Signqture
- function coverSignatureCalculation2(machineParams,node){
-	let coverSignature=document.getElementById("cover-signature-div");
-	let coverDivTab2 = document.getElementById("coverInformations");
-	
-	let inputCoverVolume = document.getElementById("coverVolume");
-	let inputCoverSignature = document.getElementById("coverSignature");
-	
-	let volume = inputCoverVolume.value;
-	
-	let coverMachineParamArray = machineParams.split(",");
-	let machinePlateLength = parseInt(coverMachineParamArray[1]);
-	let machinePlateWidth = parseInt(coverMachineParamArray[2]);
-	
-	let closeWidth =parseInt(document.getElementById("closeWidth").value);
-	let closeLength =parseInt(document.getElementById("closeLength").value);
-	
-	let logP = Math.log((machinePlateLength*machinePlateWidth)/(closeLength*closeWidth));
-		logP = logP/Math.log(2);
-		logP= Math.floor(logP)+1;
-	let pagesPerSignature = Math.pow(2,logP);
-	let floatingCoverSignature = (volume/pagesPerSignature);
-	let totalCoverSignature = Math.floor(floatingCoverSignature)<floatingCoverSignature&&floatingCoverSignature<Math.floor(floatingCoverSignature+0.5)&&(floatingCoverSignature+0.5 != Math.floor(floatingCoverSignature+0.5)) ?Math.ceil(floatingCoverSignature):Math.floor(floatingCoverSignature)<floatingCoverSignature?Math.floor(floatingCoverSignature)+0.5:Math.floor(floatingCoverSignature); 
-	inputCoverSignature.value = totalCoverSignature;
-	 
-	
-}
-	
+// function coverSignatureCalculation2(machineParams,node){
+//	let coverSignature=document.getElementById("cover-signature-div");
+//	let coverDivTab2 = document.getElementById("coverInformations");
+//	
+//	let inputCoverVolume = document.getElementById("coverVolume");
+//	let inputCoverSignature = document.getElementById("coverSignature");
+//	
+//	let volume = inputCoverVolume.value;
+//	
+//	let coverMachineParamArray = machineParams.split(",");
+//	let machinePlateLength = parseInt(coverMachineParamArray[1]);
+//	let machinePlateWidth = parseInt(coverMachineParamArray[2]);
+//	
+//	let closeWidth =parseInt(document.getElementById("closeWidth").value);
+//	let closeLength =parseInt(document.getElementById("closeLength").value);
+//	
+//	let logP = Math.log((machinePlateLength*machinePlateWidth)/(closeLength*closeWidth));
+//		logP = logP/Math.log(2);
+//		logP= Math.floor(logP)+1;
+//	let pagesPerSignature = Math.pow(2,logP);
+//	let floatingCoverSignature = (volume/pagesPerSignature);
+//	let totalCoverSignature = Math.floor(floatingCoverSignature)<floatingCoverSignature&&floatingCoverSignature<Math.floor(floatingCoverSignature+0.5)&&(floatingCoverSignature+0.5 != Math.floor(floatingCoverSignature+0.5)) ?Math.ceil(floatingCoverSignature):Math.floor(floatingCoverSignature)<floatingCoverSignature?Math.floor(floatingCoverSignature)+0.5:Math.floor(floatingCoverSignature); 
+//	inputCoverSignature.value = totalCoverSignature;
+//	 
+//	
+//}
+//	
 	/*
 	* Update Job function
 	*/

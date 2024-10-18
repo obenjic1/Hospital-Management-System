@@ -434,6 +434,7 @@ public class JobController {
 			 float vecteur3 = -73;
 			 float vecteurex =-47;
 			for(int i=0; i<jobPapers.size(); i++) {
+				if(!jobPapers.get(i).getJobColorCombinations().get(0).getPrintingMachine().getAbbreviation().equals("NONE")) {
 				PlateMakingCosting plateMakingCosting = new PlateMakingCosting(jobPapers.get(i));
 				vecteur +=24;
 				vecteur2 +=73;
@@ -452,6 +453,14 @@ public class JobController {
 				String contentType = plateMakingCosting.getJobPaper().getContentType().getName();
 				double signature = plateMakingCosting.getSignatures();
 				double run = exposior;
+				if(jobPapers.get(i).getContentType().getId()==2&&jobPapers.get(i).getJob().getJobType().getCategory()==3) {
+					run = plateMakingCosting.getReceitBookletRun();
+				}
+				if(machine.equals("SPM5")) {
+					 run = Math.ceil(run/4);
+				}
+				
+
 				
 				float y1 = 120.5f;
 				printer.print(document, machine, 27, y1-vecteur);
@@ -530,6 +539,7 @@ public class JobController {
 				//fix price
 
 			}
+	}
 			fixePrice+=job.getCtpFees();
 			printer.print(document, "CTP", 107, 171);
 			p1=variablePrice;
@@ -548,6 +558,7 @@ public class JobController {
 			canvas1.addImage(data, PageSize.A4, false);
 			float decalage = -30;
 			for(int i= 0; i<jobPapers.size(); i++) {
+				if(!jobPapers.get(i).getJobColorCombinations().get(0).getPrintingMachine().getAbbreviation().equals("NONE")) {
 				JobPaper jobPeper = jobPapers.get(i);
 				for(int j = 0; j<jobPeper.getJobColorCombinations().size(); j++)
 				{
@@ -602,7 +613,7 @@ public class JobController {
 					
 				}
 				
-			}
+			}}
 			p2=variablePrice-p1;
 			
 			/**
@@ -783,19 +794,33 @@ public class JobController {
 				 printer.print(document, paper.getContentType().getName(), 20, 297-24.5f-vct);
 				 printer.print(document, paper.getPaperType().getName(), 65, 297-24-vct);
 				 printer.print(document, paper.getGrammage()+"", 123, 297-23-vct);
-				 printer.print(document, 65+"", 155, 297-23-vct);
-				 printer.print(document, 92+"", 180, 297-23-vct);
+				 printer.print(document, paper.getPaperSizeWidth()/10+"", 155, 297-23-vct);
+				 printer.print(document, paper.getPaperSizeLength()/10+"", 180, 297-23-vct);
 				 
 				 int maxC = Math.max(cb.getBackColorNumber(), cb.getFrontColorNumber());
 				 int percentage = maxC +6;
 				 printer.print(document, percentage+"", 180, 297-28-vct);
-				 printer.printMoney(document,  cb.getNumberOfSignature()*1000, 25, 297-30-vct);
-				 printer.printMoney(document,  (cb.getNumberOfSignature()*10)*percentage , 25, 297-36-vct);
-				 int totalOversh = (int) (cb.getNumberOfSignature()*10*percentage + cb.getNumberOfSignature()*1000);
+				 double numberSign=0;
+				 
+				 if(paper.getJobColorCombinations().get(0).getPrintingMachine().getAbbreviation().equals("NONE")) {
+					 numberSign=1;
+				 }else {
+					 
+					 numberSign=cb.getNumberOfSignature();
+				 }
+				 
+				 printer.printMoney(document,  numberSign*1000, 25, 297-30-vct);
+				 printer.printMoney(document,  (numberSign*10)*percentage , 25, 297-36-vct);
+				 int totalOversh = (int) (cb.getNumberOfSignature()*10*percentage + numberSign*1000);
+				 
 				 printer.printMoney(document,  totalOversh, 29, 297-43-vct);
-				 int up = 65*92;
+				 int up = (paper.getPaperSizeWidth()/10)*(paper.getPaperSizeLength()/10);
 				 PlateMakingCosting pltc = new PlateMakingCosting(paper);
 				 int kx = (int) (Math.log(pltc.getBasic())/Math.log(2));
+				 
+				 if(paper.getJobColorCombinations().get(0).getPrintingMachine().getAbbreviation().equals("NONE")) {
+					 kx=0;
+				  }
 					int ax =kx/2;
 					int bx=kx-ax;
 					int horizontalLignes = (int) Math.pow(2, ax)-1;
@@ -1963,20 +1988,25 @@ public class JobController {
 				List<JobColorCombination> jobColorCombinationResult = jobColorCombinationServiceImpl.findAll();
 				List<PaperGrammage> paperGrammageResult = paperGrammageServiceImpl.findAll();
 				List<BindingType> bindingTypeResult = bindingTypeserviceImpl.listAll();
-				
+				JobPaper existingJobPaper=null;
 				Job existingJob = jobServiceImpl.findById(id).get();
 		    	List<JobPaper> contentJobPapers = new ArrayList<JobPaper>();
 			
 				for(int i =0; i< existingJob.getJobPapers().size(); i++) {
 					if(existingJob.getJobPapers().get(i).getContentType().getId()==2) {
 						contentJobPapers.add(existingJob.getJobPapers().get(i));
-					}
+					}else existingJobPaper=existingJob.getJobPapers().get(i);
 			
 				}
-				
-				JobPaper existingJobPaper = existingJob.getJobPapers().remove(0);
-				JobColorCombination covercolourCombination = existingJobPaper.getJobColorCombinations().get(0);
-				double coversignature = existingJobPaper.getJobColorCombinations().get(0).getNumberOfSignature();
+				if(existingJobPaper!=null) {
+					JobColorCombination covercolourCombination = existingJobPaper.getJobColorCombinations().get(0);
+					double coversignature = existingJobPaper.getJobColorCombinations().get(0).getNumberOfSignature();
+					model.addAttribute("coverJobPaper", existingJobPaper);
+					model.addAttribute("covercolourCombination", covercolourCombination);
+					model.addAttribute("coversignature", coversignature);
+
+					}
+					
 				JobActivity jobActivity = existingJob.getJobActivity();
 				int jobActivit = existingJob.getJobActivity().getXPerforated();
 				int numbered = existingJob.getJobActivity().getXNumbered();
@@ -1985,7 +2015,6 @@ public class JobController {
 				int cross = existingJob.getJobActivity().getXCross();
 				int handFoldCov = existingJob.getJobActivity().getHandFoldingCov();
 				model.addAttribute("job", existingJob);
-				model.addAttribute("coversignature", coversignature);
 				model.addAttribute("customers", customerResult);
 				model.addAttribute("jobTypes", jobTypeResult);
 				model.addAttribute("paperFormats", paperFormatResult);
@@ -1997,7 +2026,6 @@ public class JobController {
 				model.addAttribute("printTypes", printTypeResult);
 				model.addAttribute("jobColorCombinations", jobColorCombinationResult); 
 				model.addAttribute("paperGrammages", paperGrammageResult);
-				model.addAttribute("covercolourCombination", covercolourCombination);
 				model.addAttribute("jobActivity", jobActivity);
 				model.addAttribute("numbered", numbered);
 				model.addAttribute("creased", creased);
@@ -2086,20 +2114,25 @@ public class JobController {
 			List<JobColorCombination> jobColorCombinationResult = jobColorCombinationServiceImpl.findAll();
 			List<PaperGrammage> paperGrammageResult = paperGrammageServiceImpl.findAll();
 			List<BindingType> bindingTypeResult = bindingTypeserviceImpl.listAll();
-			
+			JobPaper existingJobPaper=null;
 			Job existingJob = jobServiceImpl.findById(id).get();
 	    	List<JobPaper> contentJobPapers = new ArrayList<JobPaper>();
 		
 			for(int i =0; i< existingJob.getJobPapers().size(); i++) {
 				if(existingJob.getJobPapers().get(i).getContentType().getId()==2) {
 					contentJobPapers.add(existingJob.getJobPapers().get(i));
-				}
+				}else existingJobPaper=existingJob.getJobPapers().get(i);
 		
 			}
-			
-			JobPaper existingJobPaper = existingJob.getJobPapers().remove(0);
-			JobColorCombination covercolourCombination = existingJobPaper.getJobColorCombinations().get(0);
-			double coversignature = existingJobPaper.getJobColorCombinations().get(0).getNumberOfSignature();
+			if(existingJobPaper!=null) {
+				JobColorCombination covercolourCombination = existingJobPaper.getJobColorCombinations().get(0);
+				double coversignature = existingJobPaper.getJobColorCombinations().get(0).getNumberOfSignature();
+				model.addAttribute("coverJobPaper", existingJobPaper);
+				model.addAttribute("covercolourCombination", covercolourCombination);
+				model.addAttribute("coversignature", coversignature);
+
+				}
+				
 			JobActivity jobActivity = existingJob.getJobActivity();
 			int jobActivit = existingJob.getJobActivity().getXPerforated();
 			int numbered = existingJob.getJobActivity().getXNumbered();
@@ -2108,7 +2141,6 @@ public class JobController {
 			int cross = existingJob.getJobActivity().getXCross();
 			int handFoldCov = existingJob.getJobActivity().getHandFoldingCov();
 			model.addAttribute("job", existingJob);
-			model.addAttribute("coversignature", coversignature);
 			model.addAttribute("customers", customerResult);
 			model.addAttribute("jobTypes", jobTypeResult);
 			model.addAttribute("paperFormats", paperFormatResult);
@@ -2120,7 +2152,6 @@ public class JobController {
 			model.addAttribute("printTypes", printTypeResult);
 			model.addAttribute("jobColorCombinations", jobColorCombinationResult); 
 			model.addAttribute("paperGrammages", paperGrammageResult);
-			model.addAttribute("covercolourCombination", covercolourCombination);
 			model.addAttribute("jobActivity", jobActivity);
 			model.addAttribute("numbered", numbered);
 			model.addAttribute("creased", creased);

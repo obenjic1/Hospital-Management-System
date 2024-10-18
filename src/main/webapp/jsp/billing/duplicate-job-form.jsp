@@ -54,7 +54,7 @@
 			      </div>
 				  <div class ="col-lg-3 px8" style="position: relative; left: 10px;"> 
 					<label for="" class="form-label"><a> <fmt:message key="job.type"/></a></label> 
-						<select onchange="jobTypeChoice(this.selectedOptions[0])"  id="jobType" name="jobType" class="form-select" >
+						<select onchange="jobTypeChoice(this.selectedOptions[0])"  id="jobType" name="jobType" class="form-select" disabled="disabled">
 					  <option>Choose...</option>
 					  
 					  <optgroup label="<fmt:message key="job.category.folded.two"/>" data-content="2">
@@ -218,7 +218,7 @@
  
       <div class=" container tab-pane fade"  id="tab2" role="tabpanel" aria-labelledby="profile-tab">
          <div style="position: relative;bottom: -20px;" id="mainDiv" >	
-         	
+         	 <c:if test="${not empty coverJobPaper}">
 		   <div class="row py-4" id="coverInformations">
 			  <div class ="col-lg-2 px8" >
 			   <label for="" class="form-label"><a> <fmt:message key="cover.paper.type"/></a></label> 
@@ -262,7 +262,7 @@
 			     <input id="coverPaperUnitPrice" value="${coverJobPaper.unitPrice}" name="paperPrice">
               </div>
 		    </div>	
-		    
+		     </c:if>
 		   <div id="contentDiv">   		
 			<div class="row py-3"  style="display:none">
 			  <div class="col-lg-2 px-8" >
@@ -459,11 +459,12 @@
            
 <!------------------------------- TAB 3 BIGINS --------------->
        <div class="tab-pane fade" id="tab3" role="tabpanel" aria-labelledby="contact-tab">
-        <div class="container" >	
+        <div class="container" >
+         <c:if test="${not empty coverJobPaper}">	
           <div class="row py-3">
 		   <div class ="col-lg-3 px8" >
 			  <label for="" class="form-label"><a><fmt:message key="cover.printing.machine"/></a></label> 
-			  <select id="coverPrintingMachine" name="printingMachine" class="form-select" onchange="coverSignatureCalculation2(this.value , this.parentNode)">
+			  <select id="coverPrintingMachine" name="printingMachine" class="form-select" onchange="coverSignatureCalculation(this.value , this.parentNode)">
 			    <c:forEach items="${printingMachines}" var="printingMachine">
 			    <c:if test="${covercolourCombination.printingMachine.id==printingMachine.id}">
 			    	 <option selected value="${printingMachine.id},${printingMachine.plateLength},${printingMachine.plateWidth}">${printingMachine.name}</option>
@@ -514,7 +515,7 @@
             </div>
 			</div>
 			</div>	
-			
+			 </c:if>
 		<!-- 			main content signature div -->
 		
 		
@@ -532,7 +533,9 @@
 				  <select contentPrintingMachine name="printingMachine" class="form-select" disabled="disabled">
 				    <option selected>Choose...</option>
 				    <c:forEach items="${printingMachines}" var="printingMachine">
+		                <c:if test="${printingMachine.abbreviation!='NONE' }">
 		                <option value="${printingMachine.id},${printingMachine.plateLength},${printingMachine.plateWidth}">${printingMachine.name}</option>
+		           	</c:if>
 		            </c:forEach>
 		         </select>
 			   </div>
@@ -574,7 +577,9 @@
 				  <select  contentPrintingMachine name="printingMachine" class="form-select" onchange="signatureCalculation(this.value,this.parentNode.parentNode.parentNode)">
 				    <option selected>Choose...</option>
 				    <c:forEach items="${printingMachines}" var="printingMachine">
+		                 <c:if test="${printingMachine.abbreviation!='NONE' }">
 		                <option value="${printingMachine.id},${printingMachine.plateLength},${printingMachine.plateWidth}">${printingMachine.name}</option>
+		           	</c:if>
 		            </c:forEach>
 		         </select>
 			   </div>
@@ -630,7 +635,9 @@
 				  <select contentPrintingMachine name="printingMachine" class="form-select"  disabled="disabled" >
 				    <option selected>Choose...</option>
 				    <c:forEach items="${printingMachines}" var="printingMachine">
+		                <c:if test="${printingMachine.abbreviation!='NONE' }">
 		                <option value="${printingMachine.id},${printingMachine.plateLength},${printingMachine.plateWidth}">${printingMachine.name}</option>
+		           	</c:if>
 		            </c:forEach>
 		         </select>
 			   </div>
@@ -670,12 +677,15 @@
 				 <select  contentPrintingMachine name="printingMachine" class="form-select" onchange="signatureCalculation(this.value,this.parentNode.parentNode.parentNode)">
 			      <option >Choose...</option>
 				    <c:forEach items="${printingMachines}" var="printingMachine">
+				   <c:if test="${printingMachine.abbreviation!='NONE' }">
+		         
 				    <c:if test="${jobColorCombinaition.printingMachine.id==printingMachine.id}">
 				    	<option selected value="${printingMachine.id},${printingMachine.plateLength},${printingMachine.plateWidth}">${printingMachine.name}</option>
 				    </c:if>
 				     <c:if test="${jobColorCombinaition.printingMachine.id!=printingMachine.id}">
 				    	<option  value="${printingMachine.id},${printingMachine.plateLength},${printingMachine.plateWidth}">${printingMachine.name}</option>
 				    </c:if>
+		         </c:if>
 		                
 		            </c:forEach>
 		         </select>
@@ -731,12 +741,15 @@
 				  <select  contentPrintingMachine name="printingMachine" class="form-select" onchange="signatureCalculation(this.value,this.parentNode.parentNode.parentNode)">
 			      <option >Choose...</option>
 				    <c:forEach items="${printingMachines}" var="printingMachine">
+				   <c:if test="${printingMachine.abbreviation!='NONE' }">
+		         
 				    <c:if test="${jobColorCombinaition.printingMachine.id==printingMachine.id}">
 				    	<option selected value="${printingMachine.id},${printingMachine.plateLength},${printingMachine.plateWidth}">${printingMachine.name}</option>
 				    </c:if>
 				     <c:if test="${jobColorCombinaition.printingMachine.id!=printingMachine.id}">
 				    	<option  value="${printingMachine.id},${printingMachine.plateLength},${printingMachine.plateWidth}">${printingMachine.name}</option>
 				    </c:if>
+		         </c:if>
 		                
 		            </c:forEach>
 		         </select>
@@ -794,7 +807,9 @@
 				  <select contentPrintingMachine name="printingMachine" class="form-select" disabled="disabled">
 				    <option selected>Choose...</option>
 				    <c:forEach items="${printingMachines}" var="printingMachine">
+		                 <c:if test="${printingMachine.abbreviation!='NONE' }">
 		                <option value="${printingMachine.id},${printingMachine.plateLength},${printingMachine.plateWidth}">${printingMachine.name}</option>
+		           	</c:if>
 		            </c:forEach>
 		         </select>
 			   </div>
@@ -836,12 +851,15 @@
 				  <select  contentPrintingMachine name="printingMachine" class="form-select" onchange="signatureCalculation(this.value,this.parentNode.parentNode.parentNode)">
 			      <option >Choose...</option>
 				    <c:forEach items="${printingMachines}" var="printingMachine">
+				    <c:if test="${printingMachine.abbreviation!='NONE' }">
+		         
 				    <c:if test="${jobColorCombinaition.printingMachine.id==printingMachine.id}">
 				    	<option selected value="${printingMachine.id},${printingMachine.plateLength},${printingMachine.plateWidth}">${printingMachine.name}</option>
 				    </c:if>
 				     <c:if test="${jobColorCombinaition.printingMachine.id!=printingMachine.id}">
 				    	<option  value="${printingMachine.id},${printingMachine.plateLength},${printingMachine.plateWidth}">${printingMachine.name}</option>
 				    </c:if>
+		         </c:if>
 		                
 		            </c:forEach>
 		         </select>
@@ -897,12 +915,15 @@
 				 <select  contentPrintingMachine name="printingMachine" class="form-select" onchange="signatureCalculation(this.value,this.parentNode.parentNode.parentNode)">
 			      <option >Choose...</option>
 				    <c:forEach items="${printingMachines}" var="printingMachine">
+				    <c:if test="${printingMachine.abbreviation!='NONE' }">
+		         
 				    <c:if test="${jobColorCombinaition.printingMachine.id==printingMachine.id}">
 				    	<option selected value="${printingMachine.id},${printingMachine.plateLength},${printingMachine.plateWidth}">${printingMachine.name}</option>
 				    </c:if>
 				     <c:if test="${jobColorCombinaition.printingMachine.id!=printingMachine.id}">
 				    	<option  value="${printingMachine.id},${printingMachine.plateLength},${printingMachine.plateWidth}">${printingMachine.name}</option>
 				    </c:if>
+		         </c:if>
 		                
 		            </c:forEach>
 		         </select>
