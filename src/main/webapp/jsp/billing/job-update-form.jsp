@@ -158,13 +158,13 @@
 				  <div id="volumeofCover" class ="col-lg-3 px8">
 				    <label for="coverVolume" class="form-label"> <a><fmt:message key="volume.cover"/></a></label> 
 				     <div>
-					  <input id= "volumeOfCover" name="volumeOfCover" type="number" value="${job.coverVolume}">
+					 	 <input id= "volumeOfCover" name="volumeOfCover" min="4" type="number" value=4  readonly>
 				    </div>
 				  </div>
 				  <div id="volumeofContent" class ="col-lg-3 px8" style="position: relative; left: 10px;"> 
 				    <label for="volumeOfContent"   class="form-label"> <a><fmt:message key="volume.content"/></a></label>
 				    <div>
-					  <input id= "volumeOfContent" name="volumeOfContent" type="number" onchange="totalContentVolumeChange()" value="${job.contentVolume}">
+					  <input min="2" id= "volumeOfContent" name="volumeOfContent" type="number" onchange="totalContentVolumeChange()" value="${job.contentVolume}">
 				    </div>
 				  </div>
 				  <div class ="col-lg-3 px8"  style="position: relative; left: 10px;">
@@ -292,10 +292,10 @@
 			  <label for="" class="form-label"><a><fmt:message key="paper.size"/> (mm)</a></label>
 				 <div class="row">
 				   <div class="col-6 paper-size-width">
-                     <input name="paperSizeWidth" paperSizeWidth placeholder="<fmt:message key='width'/>" value="620" type="number" style="postion-relative-left:2px;position: relative;left: 4px;">
+                     <input name="paperSizeWidth" paperSizeWidth placeholder="<fmt:message key='width'/>" value="650" type="number" style="postion-relative-left:2px;position: relative;left: 4px;">
                    </div>
 				   <div  class="col-6 paper-size-length"  style="position: relative;left: -25px;">
-				      <input name="paperSizeLength" paperSizeLength value="950" placeholder="<fmt:message key='length'/>" type="number">
+				      <input name="paperSizeLength" paperSizeLength value="920" placeholder="<fmt:message key='length'/>" type="number">
                     </div>
 				  </div>
               </div>

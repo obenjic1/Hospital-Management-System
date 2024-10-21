@@ -90,12 +90,12 @@ public class PrintingElementCost {
 		this.basic = colorCombination.getJobPaper().getGrammage();
 		double signature =colorCombination.getNumberOfSignature();
 		double signTeorique =signature;
-		if(colorCombination.getJobPaper().getContentType().getId()==2||colorCombination.getJobPaper().getJob().getJobType().getCategory()==3) {
+		if(colorCombination.getJobPaper().getContentType().getId()==2&&colorCombination.getJobPaper().getJob().getJobType().getCategory()==3) {
 			signature = 1;
 		}
-		this.plateChange= Math.ceil(signature*(colorCombination.getBackColorNumber()+colorCombination.getFrontColorNumber()))-1;
+		this.plateChange= Math.ceil(signature)*(colorCombination.getBackColorNumber()+colorCombination.getFrontColorNumber())-1;
 		this.inckChange = colorCombination.getBackColorNumber() > colorCombination.getFrontColorNumber() ? colorCombination.getBackColorNumber()-1 : colorCombination.getFrontColorNumber()-1;
-		this.run= Math.ceil(signTeorique*(colorCombination.getBackColorNumber()+colorCombination.getFrontColorNumber()));
+		this.run= Math.ceil(signTeorique)*(colorCombination.getBackColorNumber()+colorCombination.getFrontColorNumber());
 		if(colorCombination.getPrintingMachine().getAbbreviation().equals("SPM5")) {
 			this.run = Math.ceil((this.run)/4.0);
 		}
