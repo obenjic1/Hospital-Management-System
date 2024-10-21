@@ -745,15 +745,15 @@ public class JobController {
 				}
 			}
 			int totalNumberOfSignature_ = (int) Math.ceil(totalNumberOfSignature);
-			int glueBondPreparationFactor= (int) Math.ceil(totalNumberOfSignature_/10.0);
+			int glueBondPreparationFactor= 8000;
 			//use binding type instead jobactivty glue option
 			if (job.getJobActivity().getBindingType()!=null && job.getJobActivity().getBindingType().getName().equals("Glue-Bound"))	 {
 				printer.printMoney(document, 10000, 130, 297-79.5f);
 				//fixePrice
 				fixePrice+=10000;
-				printer.printMoney(document, 80000*glueBondPreparationFactor , 175, 297-79.5f);
+				printer.printMoney(document, totalNumberOfSignature_*glueBondPreparationFactor , 175, 297-79.5f);
 				//variablePrice
-				variablePrice+=80000*glueBondPreparationFactor;
+				variablePrice+=totalNumberOfSignature_*glueBondPreparationFactor;
 			}
 			if(job.getJobActivity().getLamination()>0) {
 				printer.print(document, paperFormat, 40, 297-91);
