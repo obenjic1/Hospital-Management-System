@@ -10,9 +10,13 @@
 		.catch(error => console.log(error));
 }
 
- function getInvoiceQuantity(id){
-		loadMainModalForm(`job/generate/invoice/${id}`);
+ function getInvoiceQuantity(id,qty){
+		loadMainModalForm(`invoice/generateDiscount/invoice/${id}/${qty}`);
  }
+ 
+// function getInvoiceQuantity(id){
+//		loadMainModalForm(`job/generate/invoice/${id}`);
+// }
  
   function findBycreationDate(){
 	  let startDate = document.getElementById("search_startDate").value;
@@ -183,5 +187,3 @@ function getDiscountInvoiceFromPricing(id,qty){
 
 			});
  }
-
-

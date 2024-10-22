@@ -86,7 +86,7 @@
                                                             <th scope="col">Unit price(FCFA)</th>
                                                             <th scope="col">Total Price (FCFA)</th>
 <%--                                                              <sec:authorize  access="hasRole('ROLE_GENERATE_INVOICE')"> --%>
-                                                            <th scope="col">Actions</th>    
+<!--                                                             <th scope="col">Actions</th>     -->
 <%--                                                              </sec:authorize>                                                             --%>
                                                         </tr>
                                                     </thead>
@@ -99,12 +99,11 @@
                                                                        <td style="font-family: bold;"><a> <fmt:formatNumber value="${estimate.quantity}" type="currency"   pattern = "#,###,###"/> </a></td>                                 
                                                                      <td style="font-family: bold;"><a> <fmt:formatNumber value="${estimate.unitPrice}" type="currency"   pattern = "#,###,###"/> </a></td>                                  
                                                                       <td style="font-family: bold;"><a> <fmt:formatNumber value="${estimate.totalPrice}" type="currency"   pattern = "#,###,###"/> </a></td>  
-<%--                                                                      <sec:authorize  access="hasRole('ROLE_GENERATE_INVOICE')"> --%>
-                                                                       <td>
-                                                                        <button type="button" class="btn " onclick="getInvoiceQuantity(${estimate.id})" data-toggle="tooltip" data-placement="top" title="generate invoice"><i class="ir ri-draft-line" style="color: green"></i></i></button>
-<%--                                                                       	<button class="btn btn-secondary"style="width: 95px;" data-bs-toggle="modal" data-bs-target="#ExtralargeModalFile" onclick="confirmEstimate('job/estimate/confirm/${job.id}','job/estimate-pdf/');"><fmt:message key="generate"/></button> --%>
-                                                                       </td>  
-<%--                                                                      </sec:authorize>                               --%>
+<%--                                                                    <sec:authorize  access="hasRole('ROLE_GENERATE_INVOICE')">  --%>
+<!--                                                                        <td> -->
+<%--                                                                         <button type="button" class="btn" onclick="getCommissionInvoice('${jobEstimate.id}','${estimate.quantity}')" data-toggle="tooltip" data-placement="top" title="generate invoice"><i class="ir ri-draft-line" style="color: green"></i></i></button> --%>
+<!--                                                                        </td>   -->
+<%--                                                                      </sec:authorize>                                --%>
                                                                 </tr> 
                                                                 <c:set var = "i"  value = "${i+1}"/>
                                                            </c:forEach> 

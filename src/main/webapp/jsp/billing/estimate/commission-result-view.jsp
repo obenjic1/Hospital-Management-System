@@ -62,7 +62,7 @@
                                                                       <td style="font-family: bold;"><a> <fmt:formatNumber value="${estimate.totalPrice}" type="currency"   pattern = "#,###,###"/> </a></td>  
                                                                        <sec:authorize  access="hasRole('ROLE_GENERATE_INVOICE')">
                                                                       <td>
-                                                                        <button type="button" class="btn " onclick="getInvoiceQuantity(${estimate.id})" data-toggle="tooltip" data-placement="top" title="generate invoice"><i class="ir ri-draft-line"></i></button>
+                                                                        <button type="button" class="btn " onclick="getCommissionInvoice('${jobEstimate.id}','${estimate.quantity}')" data-toggle="tooltip" data-placement="top" title="generate invoice"><i class="ir ri-draft-line"></i></button>
 <%--                                                                       	<button class="btn btn-secondary"style="width: 95px;" data-bs-toggle="modal" data-bs-target="#ExtralargeModalFile" onclick="confirmEstimate('job/estimate/confirm/${job.id}','job/estimate-pdf/');"><fmt:message key="generate"/></button> --%>
 
                                                                       </td>

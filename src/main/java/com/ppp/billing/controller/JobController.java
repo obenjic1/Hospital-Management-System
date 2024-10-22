@@ -148,7 +148,7 @@ public class JobController {
 	private UserRepository userRepository;
  
 	
-	
+
 	/*
 		 * 
 		 * Start Save Job and Draft Section 
@@ -207,7 +207,7 @@ public class JobController {
 		
 		return "billing/display-daftjob-form-interface";
 	}
-	
+
 //<--------------------- Save data collected to the data base @Vincent ------------------------------>
 	@PostMapping(value="/save", consumes=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
@@ -298,6 +298,7 @@ public class JobController {
 		}
 		
 	}	
+	
 	private String createJobDataPdf(Long id) throws IOException {
 	
 		Job job = jobServiceImpl.findById(id).get();
@@ -1131,150 +1132,14 @@ public class JobController {
 	public String generateEstimatePdf(@PathVariable String reference) throws IOException {
 		JobEstimate jobEstimate=jobEstimateRepository.findByReference(reference).get();
 		if(jobEstimate.getJob().isControlSheetGenerated()) {
-			return createEstimateDataPdf(reference);
+			return jobServiceImpl.createEstimateDataPdf(reference);
 		}
 		else {
 			return "The controlsheet must be Generated before";
 		}	
 			
 	}	
-	
-		
-	/*
-	 * Print the estimate pdf
-	 */
-	public String createEstimateDataPdf(String estimateName) throws IOException{
-	 try {
-		PdfWriter pdfWriter = new PdfWriter(estimateDir+estimateName+".pdf");
-		JobEstimate jobEstimate=jobEstimateRepository.findByReference(estimateName).get();
-		Job job=jobEstimate.getJob();
-		PdfDocument pdfDocument = new PdfDocument(pdfWriter);
-		Document document = new Document(pdfDocument, PageSize.A4);
-//		 document.setMargins(25, 25, 297-156, 50);
 
-		PrintableElement printer = new PrintableElement();	
-		JobActivity jobActivity = job.getJobActivity();
-		List<JobPaper> jcc = job.getJobPapers();
-		JobPaper coverPaper = null;
-		for(JobPaper pp : jcc) {
-			if(pp.getContentType().getId()==1)
-			{
-				coverPaper=pp;
-				printer.print(document,"Cover: "+ job.getOpenLength()+" X "+job.getOpenWidth()+" mm", 73, 297-93);
-				printer.print(document, "Cover: " +job.getCoverVolume()+" Pages", 73, 297-110);
-				printer.print(document,"Cover: "+  coverPaper.getJobColorCombinations().get(0).getFrontColorNumber() + "/" +coverPaper.getJobColorCombinations().get(0).getBackColorNumber()+" " + coverPaper.getJobColorCombinations().get(0).getPrintType().getName(), 73, 297-136);
-				printer.printHeader(document,"Paper", 38, 297-182);
-			    printer.print(document, "Cover : "+ job.getJobPapers().get(0).getPaperType().getName(), 73, 297-182);
-				printer.print(document, job.getJobPapers().get(0).getGrammage()+" GSM", 168, 297-182);
-		}}
-		String jobActivities = "";
-		String typeSettings = "";
-		String reproduction = "";
-			
-			printer.printHeader(document, "Estimate ".toUpperCase() , 73, 297-42);
-		 	printer.print(document, "("+jobEstimate.getReference().toUpperCase()+")", 97, 297-42);
-
-		 	printer.printHeader(document,job.getCustomer().getName().toUpperCase(), 123, 297-52);
-			printer.printHeader(document,job.getCustomer().getAddress().toUpperCase(), 123, 297-58);
-
-			printer.printHeader(document, "Description", 38, 297-83);
-			printer.print(document, job.getJobType().getName(), 73, 297-83);
-
-			if(job.isTypesettingByUs()||job.isLayOutByUs()) typeSettings =	typeSettings + "By us,";
-			if(job.isExistingPlate()) {
-				reproduction = reproduction +  "Existing Plate";
-				
-			}else reproduction = reproduction +  "Data supplied By Customer";
-
-			printer.printHeader(document, "Typesetting ", 38, 297-123);
-			printer.print(document, typeSettings, 73, 297-123);
-			
-			printer.printHeader(document, " Reproduction", 38, 297-128 );
-			printer.print(document, reproduction, 73, 297-128);
-
-			printer.printHeader(document, "Format", 38, 297-93);
-			printer.printHeader(document, "Volume", 38, 297-110);
-			
-			printer.printHeader(document, "Printing", 38, 297-137);
-
-				String message_ =" ";
-				boolean isContent =false;
-				for(JobPaper pp:jcc) {
-				if(pp.getContentType().getId()!=1)
-					{
-					isContent=true;
-					for(int j=0; j<pp.getJobColorCombinations().size(); j++) {
-					message_+=  pp.getJobColorCombinations().get(j).getFrontColorNumber()+"/"+ pp.getJobColorCombinations().get(j).getBackColorNumber()+" "+pp.getJobColorCombinations().get(j).getPrintType().getName()+"";
-				}}
-				
-			}
-				if(isContent) {
-					printer.print(document, message_, 90, 297-142);
-					printer.print(document, "Content", 73, 297-142);
-					printer.print(document,"Content: "+  job.getCloseLength()+" X "+ job.getCloseWidth()+ " mm", 73, 297-99);
-					printer.print(document, "Content: " +job.getContentVolume()+" Pages", 73, 297-116);
-				}
-			
-			printer.printHeader(document, "Finishing", 38, 297-161);
-			
-			if(jobActivity.isHandgather()) jobActivities =	jobActivities + "hand-gatherd, ";
-			if(jobActivity.isSelloptaped()) jobActivities =	jobActivities + " Selloptaped, ";
-			if(jobActivity.isSewn()) jobActivities =	jobActivities + " Sewn,";
-			if(jobActivity.isTrimmed()) jobActivities =	jobActivities + " trimmed, ";
-			if(jobActivity.getIsStitching()!=null) jobActivities =	jobActivity.getIsStitching() + ", ";
-			//if(!jobActivity.getGlueOption().isEmpty()) jobActivities =	jobActivities + jobActivity.getGlueOption()+ ", ";
-			if(jobActivity.getXWiredStiched()>0) jobActivities =	jobActivities + jobActivity.getXWiredStiched()+ " x Stiched, ";
-			if(jobActivity.getXCreased()>0) jobActivities =	jobActivities + " Cover "+ jobActivity.getXCreased()+ " x creased, ";
-			if(jobActivity.getXCross()>0) jobActivities =	jobActivities + jobActivity.getXCross()+ " x folded,";
-			if(jobActivity.getXNumbered()>0) jobActivities =	jobActivities + jobActivity.getXNumbered()+ " x Numbered, ";
-			if(jobActivity.getBindingType()!=null) jobActivities =	jobActivities + jobActivity.getBindingType().getName()+" ";
-			if(jobActivity.getLamination()>0) jobActivities =	jobActivities +" Cover " + jobActivity.getLamination() + " side(s) laminated, ";
-
-		 printer.printParagraphe(document,jobActivities, 73, 297-170);
-
-		   if(isContent)			
-			printer.printParagraphe(document,"Content : ", 73, 297-187);
-			float vecto = -5;
-			for(JobPaper pp:jcc) {
-				if(pp.getContentType().getId()!=1) {
-					vecto+=5;
-					printer.print(document, pp.getPaperType().getName(),  90, 297-187-vecto);
-					printer.print(document, pp.getGrammage()+" GSM",  168, 297-187-vecto);
-				}
-
-			}
-			printer.printHeader(document, "Quantity",  38, 297-200);
-			printer.printHeader(document, "Unit(XAF)",  132, 297-200);
-			printer.printHeader(document, "Total(XAF)",  172, 297-200);
-			
-			String messagesAdvancePayment="";
-			List<EstimatePricing> estimates =jobEstimate.getEstimatePricings();
-			float vect = -5;
-			DateFormat date =  DateFormat.getDateInstance(DateFormat.DEFAULT,Locale.ENGLISH);
-			printer.printHeader(document,date.format(new Date())+"", 38, 297-73);
-			for(int i=0; i<estimates.size(); i++) {
-				vect+=5;
-				printer.printMoney(document,estimates.get(i).getQuantity(), 82, 297-207-vect);
-				printer.printMoney(document,estimates.get(i).getUnitPrice(), 132, 297-207-vect);
-				printer.printMoney(document,estimates.get(i).getTotalPrice() , 171, 297-207-vect);
-				
-			}
-			if(jobEstimate.getAdvancePercentage()> 0)
-				messagesAdvancePayment =" Terms of Payment : "+ jobEstimate.getAdvancePercentage()  + "%" + " in advance, "+(100-jobEstimate.getAdvancePercentage())+ ""+"% on delivery.";
-		printer.printHeader(document,messagesAdvancePayment, 38,297-227-vect);
-			
-			document.close();
-			String	file = jobEstimate.getReference()+".pdf";
-		 return "file="+file+"&dir=folder.estimate";
-		} 
-		
-		catch (Exception e) {
-			e.printStackTrace();
-			return "file=error.pdf&dir=folder.estimate";
-		}
-		
-	}
-	
 	
 	/*
 	 * print Estimate with commission
@@ -1283,164 +1148,34 @@ public class JobController {
 	@GetMapping("/estimate-pdf-commission/{reference}")
 	@ResponseBody
 	public String generateEstimatePdfWithCommission(@PathVariable String reference) throws IOException {
+		
+		JobEstimate jobEstimate=jobEstimateRepository.findByReference(reference).get();
+		
+	//	Job job=jobEstimate.getJob();
+		List<EstimatePricing> estimates =jobEstimateServiceImpl.generateCommissionEstimateResult(jobEstimate.getId());
+		
+			for (EstimatePricing estimatePricing: jobEstimate.getEstimatePricings()) {
+				
+				if(estimatePricing.isInvoiced()) {
+						for(EstimatePricing invoicedEstimatePricing : estimates ) {
+					if(estimatePricing.getQuantity() == invoicedEstimatePricing.getQuantity()) {
+						
+						invoicedEstimatePricing.setTotalPrice(invoicedEstimatePricing.getTotalPrice() + jobEstimate.getDiscountValue() );
+						invoicedEstimatePricing.setUnitPrice(invoicedEstimatePricing.getTotalPrice()/invoicedEstimatePricing.getQuantity());
+					}
+						}
+				}
+			}
 	
-			return createEstimateDataPdfWithCommision(reference);
+			return jobServiceImpl.createEstimateDataPdfWithCommision(reference,estimates);
 			
 	}
 	
-	public String createEstimateDataPdfWithCommision(String estimateName) throws IOException{
-		 try {
-			PdfWriter pdfWriter = new PdfWriter(estimateDir+estimateName+".pdf");
-			JobEstimate jobEstimate=jobEstimateRepository.findByReference(estimateName).get();
-			
-			Job job=jobEstimate.getJob();
-			PdfDocument pdfDocument = new PdfDocument(pdfWriter);
-			Document document = new Document(pdfDocument, PageSize.A4);
-//			 document.setMargins(25, 25, 297-156, 50);
-
-			PrintableElement printer = new PrintableElement();	
-			JobActivity jobActivity = job.getJobActivity();
-			List<JobPaper> jcc = job.getJobPapers();
-			JobPaper coverPaper = null;
-			for(JobPaper pp : jcc) {
-				if(pp.getContentType().getId()==1)
-				{
-					coverPaper=pp;
-					printer.print(document,"Cover: "+ job.getOpenLength()+" X "+job.getOpenWidth()+" mm", 73, 297-93);
-					printer.print(document, "Cover: " +job.getCoverVolume()+" Pages", 73, 297-110);
-					printer.print(document,"Cover: "+  coverPaper.getJobColorCombinations().get(0).getFrontColorNumber() + "/" +coverPaper.getJobColorCombinations().get(0).getBackColorNumber()+" " + coverPaper.getJobColorCombinations().get(0).getPrintType().getName(), 73, 297-136);
-					printer.printHeader(document,"Paper", 38, 297-182);
-				    printer.print(document, "Cover : "+ job.getJobPapers().get(0).getPaperType().getName(), 73, 297-182);
-					printer.print(document, job.getJobPapers().get(0).getGrammage()+" GSM", 168, 297-182);
-			}}
-			String jobActivities = "";
-			String typeSettings = "";
-			String reproduction = "";
-				
-				printer.printHeader(document, "Estimate ".toUpperCase() , 73, 297-42);
-			 	printer.print(document, "("+jobEstimate.getReference().toUpperCase()+")", 97, 297-42);
-
-			 	printer.printHeader(document,job.getCustomer().getName().toUpperCase(), 123, 297-52);
-				printer.printHeader(document,job.getCustomer().getAddress().toUpperCase(), 123, 297-58);
-
-				printer.printHeader(document, "Description", 38, 297-83);
-				printer.print(document, job.getJobType().getName(), 73, 297-83);
-
-				if(job.isTypesettingByUs()||job.isLayOutByUs()) typeSettings =	typeSettings + "By us,";
-				if(job.isExistingPlate()) {
-					reproduction = reproduction +  "Existing Plate";
-					
-				}else reproduction = reproduction +  "Data supplied By Customer";
-
-				printer.printHeader(document, "Typesetting ", 38, 297-123);
-				printer.print(document, typeSettings, 73, 297-123);
-				
-				printer.printHeader(document, " Reproduction", 38, 297-128 );
-				printer.print(document, reproduction, 73, 297-128);
-
-				printer.printHeader(document, "Format", 38, 297-93);
-				printer.printHeader(document, "Volume", 38, 297-110);
-				
-				printer.printHeader(document, "Printing", 38, 297-137);
-
-					String message_ =" ";
-					boolean isContent =false;
-					for(JobPaper pp:jcc) {
-					if(pp.getContentType().getId()!=1)
-						{
-						isContent=true;
-						for(int j=0; j<pp.getJobColorCombinations().size(); j++) {
-						message_+=  pp.getJobColorCombinations().get(j).getFrontColorNumber()+"/"+ pp.getJobColorCombinations().get(j).getBackColorNumber()+" "+pp.getJobColorCombinations().get(j).getPrintType().getName()+"";
-					}}
-					
-				}
-					if(isContent) {
-						printer.print(document, message_, 90, 297-142);
-						printer.print(document, "Content", 73, 297-142);
-						printer.print(document,"Content: "+  job.getCloseLength()+" X "+ job.getCloseWidth()+ " mm", 73, 297-99);
-						printer.print(document, "Content: " +job.getContentVolume()+" Pages", 73, 297-116);
-					}
-				
-				printer.printHeader(document, "Finishing", 38, 297-161);
-				
-				if(jobActivity.isHandgather()) jobActivities =	jobActivities + "hand-gatherd, ";
-				if(jobActivity.isSelloptaped()) jobActivities =	jobActivities + " Selloptaped, ";
-				if(jobActivity.isSewn()) jobActivities =	jobActivities + " Sewn,";
-				if(jobActivity.isTrimmed()) jobActivities =	jobActivities + " trimmed, ";
-				if(jobActivity.getIsStitching()!=null) jobActivities =	jobActivity.getIsStitching() + ", ";
-				//if(!jobActivity.getGlueOption().isEmpty()) jobActivities =	jobActivities + jobActivity.getGlueOption()+ ", ";
-				if(jobActivity.getXWiredStiched()>0) jobActivities =	jobActivities + jobActivity.getXWiredStiched()+ " x Stiched, ";
-				if(jobActivity.getXCreased()>0) jobActivities =	jobActivities + " Cover "+ jobActivity.getXCreased()+ " x creased, ";
-				if(jobActivity.getXCross()>0) jobActivities =	jobActivities + jobActivity.getXCross()+ " x folded,";
-				if(jobActivity.getXNumbered()>0) jobActivities =	jobActivities + jobActivity.getXNumbered()+ " x Numbered, ";
-				if(jobActivity.getBindingType()!=null) jobActivities =	jobActivities + jobActivity.getBindingType().getName()+" ";
-				if(jobActivity.getLamination()>0) jobActivities =	jobActivities +" Cover " + jobActivity.getLamination() + " side(s) laminated, ";
-
-			 printer.printParagraphe(document,jobActivities, 73, 297-170);
-			 
-			   if(isContent)			
-				printer.printParagraphe(document,"Content : ", 73, 297-187);
-				float vecto = -5;
-				for(JobPaper pp:jcc) {
-					if(pp.getContentType().getId()!=1) {
-						vecto+=5;
-						printer.print(document, pp.getPaperType().getName(),  90, 297-187-vecto);
-						printer.print(document, pp.getGrammage()+" GSM",  168, 297-187-vecto);
-					}
-
-				}
-				printer.printHeader(document, "Quantity",  38, 297-200);
-				printer.printHeader(document, "Unit(XAF)",  132, 297-200);
-				printer.printHeader(document, "Total(XAF)",  172, 297-200);
-				
-				String messagesAdvancePayment="";
-		// work done on printed estimate with commission		
-				List<EstimatePricing> estimates =jobEstimateServiceImpl.generateCommissionEstimateResult(jobEstimate.getId());
-			
-				for (EstimatePricing estimatePricing: jobEstimate.getEstimatePricings()) {
-					
-					if(estimatePricing.isInvoiced()) {
-							for(EstimatePricing invoicedEstimatePricing : estimates ) {
-						if(estimatePricing.getQuantity() == invoicedEstimatePricing.getQuantity()) {
-							
-							invoicedEstimatePricing.setTotalPrice(invoicedEstimatePricing.getTotalPrice() + jobEstimate.getDiscountValue() );
-							invoicedEstimatePricing.setUnitPrice(invoicedEstimatePricing.getTotalPrice()/invoicedEstimatePricing.getQuantity());
-						}
-							}
-					}
-				}
-				
-				
-				float vect = -5;
-				DateFormat date =  DateFormat.getDateInstance(DateFormat.DEFAULT,Locale.ENGLISH);
-				printer.printHeader(document,date.format(new Date())+"", 38, 297-73);
-				for(int i=0; i<estimates.size(); i++) {
-					vect+=5;
-					printer.printMoney(document,estimates.get(i).getQuantity(), 82, 297-207-vect);
-					printer.printMoney(document,estimates.get(i).getUnitPrice(), 132, 297-207-vect);
-					printer.printMoney(document,estimates.get(i).getTotalPrice() , 171, 297-207-vect);
-					
-				}
-				if(jobEstimate.getAdvancePercentage()> 0)
-					messagesAdvancePayment =" Terms of Payment : "+ jobEstimate.getAdvancePercentage()  + "%" + " in advance, "+(100-jobEstimate.getAdvancePercentage())+ ""+"% on delivery.";
-			printer.printHeader(document,messagesAdvancePayment, 38,297-227-vect);
-				
-				document.close();
-				String	file = jobEstimate.getReference()+".pdf";
-			 return "file="+file+"&dir=folder.estimate";
-			} 
-			
-			catch (Exception e) {
-				e.printStackTrace();
-				return "file=error.pdf&dir=folder.estimate";
-			}
-			
-		}
 	
 	
-	/**
+	/*
 		 * 
-		 * 
+		 * printing estimate with Discount
 		 * 
 	 */
 	
@@ -1449,163 +1184,180 @@ public class JobController {
 	@ResponseBody
 	public String generateEstimatePdfWithDiscount(@PathVariable String reference) throws IOException {
 	
-			return createEstimateDataPdfWithDiscount(reference);
+		JobEstimate jobEstimate=jobEstimateRepository.findByReference(reference).get();
+		List<EstimatePricing> estimates =jobEstimateServiceImpl.generateDiscountCommissionEstimateResult(jobEstimate.getId());
+		
+		/// work done on printed estimate with DIscount
+		
+		for (EstimatePricing estimatePricing: jobEstimate.getEstimatePricings()) {
+			
+			if(estimatePricing.isInvoiced()) {
+					for(EstimatePricing invoicedEstimatePricing : estimates ) {
+				if(estimatePricing.getQuantity() == invoicedEstimatePricing.getQuantity()) {
+					
+					invoicedEstimatePricing.setTotalPrice(invoicedEstimatePricing.getTotalPrice() + jobEstimate.getDiscountValue() );
+					invoicedEstimatePricing.setUnitPrice(invoicedEstimatePricing.getTotalPrice()/invoicedEstimatePricing.getQuantity());
+				}
+					}
+			}
+		}
+		return jobServiceImpl.createEstimateDataPdfWithCommision(reference,estimates);
 			
 	}
 	
-	public String createEstimateDataPdfWithDiscount(String estimateName) throws IOException{
-		 try {
-			PdfWriter pdfWriter = new PdfWriter(estimateDir+estimateName+".pdf");
-			JobEstimate jobEstimate=jobEstimateRepository.findByReference(estimateName).get();
-			
-			Job job=jobEstimate.getJob();
-			PdfDocument pdfDocument = new PdfDocument(pdfWriter);
-			Document document = new Document(pdfDocument, PageSize.A4);
-//			 document.setMargins(25, 25, 297-156, 50);
-
-			PrintableElement printer = new PrintableElement();	
-			JobActivity jobActivity = job.getJobActivity();
-			List<JobPaper> jcc = job.getJobPapers();
-			JobPaper coverPaper = null;
-			for(JobPaper pp : jcc) {
-				if(pp.getContentType().getId()==1)
-				{
-					coverPaper=pp;
-					printer.print(document,"Cover: "+ job.getOpenLength()+" X "+job.getOpenWidth()+" mm", 73, 297-93);
-					printer.print(document, "Cover: " +job.getCoverVolume()+" Pages", 73, 297-110);
-					printer.print(document,"Cover: "+  coverPaper.getJobColorCombinations().get(0).getFrontColorNumber() + "/" +coverPaper.getJobColorCombinations().get(0).getBackColorNumber()+" " + coverPaper.getJobColorCombinations().get(0).getPrintType().getName(), 73, 297-136);
-					printer.printHeader(document,"Paper", 38, 297-182);
-				    printer.print(document, "Cover : "+ job.getJobPapers().get(0).getPaperType().getName(), 73, 297-182);
-					printer.print(document, job.getJobPapers().get(0).getGrammage()+" GSM", 168, 297-182);
-			}}
-			String jobActivities = "";
-			String typeSettings = "";
-			String reproduction = "";
-				
-				printer.printHeader(document, "Estimate ".toUpperCase() , 73, 297-42);
-			 	printer.print(document, "("+jobEstimate.getReference().toUpperCase()+")", 97, 297-42);
-
-			 	printer.printHeader(document,job.getCustomer().getName().toUpperCase(), 123, 297-52);
-				printer.printHeader(document,job.getCustomer().getAddress().toUpperCase(), 123, 297-58);
-
-				printer.printHeader(document, "Description", 38, 297-83);
-				printer.print(document, job.getJobType().getName(), 73, 297-83);
-
-				if(job.isTypesettingByUs()||job.isLayOutByUs()) typeSettings =	typeSettings + "By us,";
-				if(job.isExistingPlate()) {
-					reproduction = reproduction +  "Existing Plate";
-					
-				}else reproduction = reproduction +  "Data supplied By Customer";
-
-				printer.printHeader(document, "Typesetting ", 38, 297-123);
-				printer.print(document, typeSettings, 73, 297-123);
-				
-				printer.printHeader(document, " Reproduction", 38, 297-128 );
-				printer.print(document, reproduction, 73, 297-128);
-
-				printer.printHeader(document, "Format", 38, 297-93);
-				printer.printHeader(document, "Volume", 38, 297-110);
-				
-				printer.printHeader(document, "Printing", 38, 297-137);
-
-					String message_ =" ";
-					boolean isContent =false;
-					for(JobPaper pp:jcc) {
-					if(pp.getContentType().getId()!=1)
-						{
-						isContent=true;
-						for(int j=0; j<pp.getJobColorCombinations().size(); j++) {
-						message_+=  pp.getJobColorCombinations().get(j).getFrontColorNumber()+"/"+ pp.getJobColorCombinations().get(j).getBackColorNumber()+" "+pp.getJobColorCombinations().get(j).getPrintType().getName()+"";
-					}}
-					
-				}
-					if(isContent) {
-						printer.print(document, message_, 90, 297-142);
-						printer.print(document, "Content", 73, 297-142);
-						printer.print(document,"Content: "+  job.getCloseLength()+" X "+ job.getCloseWidth()+ " mm", 73, 297-99);
-						printer.print(document, "Content: " +job.getContentVolume()+" Pages", 73, 297-116);
-					}
-				
-				printer.printHeader(document, "Finishing", 38, 297-161);
-				
-				if(jobActivity.isHandgather()) jobActivities =	jobActivities + "hand-gatherd, ";
-				if(jobActivity.isSelloptaped()) jobActivities =	jobActivities + " Selloptaped, ";
-				if(jobActivity.isSewn()) jobActivities =	jobActivities + " Sewn,";
-				if(jobActivity.isTrimmed()) jobActivities =	jobActivities + " trimmed, ";
-				if(jobActivity.getIsStitching()!=null) jobActivities =	jobActivity.getIsStitching() + ", ";
-				//if(!jobActivity.getGlueOption().isEmpty()) jobActivities =	jobActivities + jobActivity.getGlueOption()+ ", ";
-				if(jobActivity.getXWiredStiched()>0) jobActivities =	jobActivities + jobActivity.getXWiredStiched()+ " x Stiched, ";
-				if(jobActivity.getXCreased()>0) jobActivities =	jobActivities + " Cover "+ jobActivity.getXCreased()+ " x creased, ";
-				if(jobActivity.getXCross()>0) jobActivities =	jobActivities + jobActivity.getXCross()+ " x folded,";
-				if(jobActivity.getXNumbered()>0) jobActivities =	jobActivities + jobActivity.getXNumbered()+ " x Numbered, ";
-				if(jobActivity.getBindingType()!=null) jobActivities =	jobActivities + jobActivity.getBindingType().getName()+" ";
-				if(jobActivity.getLamination()>0) jobActivities =	jobActivities +" Cover " + jobActivity.getLamination() + " side(s) laminated, ";
-
-			 printer.printParagraphe(document,jobActivities, 73, 297-170);
-			 
-			   if(isContent)			
-				printer.printParagraphe(document,"Content : ", 73, 297-187);
-				float vecto = -5;
-				for(JobPaper pp:jcc) {
-					if(pp.getContentType().getId()!=1) {
-						vecto+=5;
-						printer.print(document, pp.getPaperType().getName(),  90, 297-187-vecto);
-						printer.print(document, pp.getGrammage()+" GSM",  168, 297-187-vecto);
-					}
-
-				}
-				printer.printHeader(document, "Quantity",  38, 297-200);
-				printer.printHeader(document, "Unit(XAF)",  132, 297-200);
-				printer.printHeader(document, "Total(XAF)",  172, 297-200);
-				
-				String messagesAdvancePayment="";
-				
-				List<EstimatePricing> estimates =jobEstimateServiceImpl.generateDiscountCommissionEstimateResult(jobEstimate.getId());
-			
-	/// work done on printed estimate with DIscount
-				
-				for (EstimatePricing estimatePricing: jobEstimate.getEstimatePricings()) {
-					
-					if(estimatePricing.isInvoiced()) {
-							for(EstimatePricing invoicedEstimatePricing : estimates ) {
-						if(estimatePricing.getQuantity() == invoicedEstimatePricing.getQuantity()) {
-							
-							invoicedEstimatePricing.setTotalPrice(invoicedEstimatePricing.getTotalPrice() + jobEstimate.getDiscountValue() );
-							invoicedEstimatePricing.setUnitPrice(invoicedEstimatePricing.getTotalPrice()/invoicedEstimatePricing.getQuantity());
-						}
-							}
-					}
-				}
-				
-				
-				
-				
-				float vect = -5;
-				DateFormat date =  DateFormat.getDateInstance(DateFormat.DEFAULT,Locale.ENGLISH);
-				printer.printHeader(document,date.format(new Date())+"", 38, 297-73);
-				for(int i=0; i<estimates.size(); i++) {
-					vect+=5;
-					printer.printMoney(document,estimates.get(i).getQuantity(), 82, 297-207-vect);
-					printer.printMoney(document,estimates.get(i).getUnitPrice(), 132, 297-207-vect);
-					printer.printMoney(document,estimates.get(i).getTotalPrice() , 171, 297-207-vect);
-					
-				}
-				if(jobEstimate.getAdvancePercentage()> 0)
-					messagesAdvancePayment =" Terms of Payment : "+ jobEstimate.getAdvancePercentage()  + "%" + " in advance, "+(100-jobEstimate.getAdvancePercentage())+ ""+"% on delivery.";
-			printer.printHeader(document,messagesAdvancePayment, 38,297-227-vect);
-				
-				document.close();
-				String	file = jobEstimate.getReference()+".pdf";
-			 return "file="+file+"&dir=folder.estimate";
-			} 
-			
-			catch (Exception e) {
-				e.printStackTrace();
-				return "file=error.pdf&dir=folder.estimate";
-			}
-			
-		}
-	
+//	public String createEstimateDataPdfWithDiscount(String estimateName) throws IOException{
+//		 try {
+//			PdfWriter pdfWriter = new PdfWriter(estimateDir+estimateName+".pdf");
+//			JobEstimate jobEstimate=jobEstimateRepository.findByReference(estimateName).get();
+//			
+//			Job job=jobEstimate.getJob();
+//			PdfDocument pdfDocument = new PdfDocument(pdfWriter);
+//			Document document = new Document(pdfDocument, PageSize.A4);
+////			 document.setMargins(25, 25, 297-156, 50);
+//
+//			PrintableElement printer = new PrintableElement();	
+//			JobActivity jobActivity = job.getJobActivity();
+//			List<JobPaper> jcc = job.getJobPapers();
+//			JobPaper coverPaper = null;
+//			for(JobPaper pp : jcc) {
+//				if(pp.getContentType().getId()==1)
+//				{
+//					coverPaper=pp;
+//					printer.print(document,"Cover: "+ job.getOpenLength()+" X "+job.getOpenWidth()+" mm", 73, 297-93);
+//					printer.print(document, "Cover: " +job.getCoverVolume()+" Pages", 73, 297-110);
+//					printer.print(document,"Cover: "+  coverPaper.getJobColorCombinations().get(0).getFrontColorNumber() + "/" +coverPaper.getJobColorCombinations().get(0).getBackColorNumber()+" " + coverPaper.getJobColorCombinations().get(0).getPrintType().getName(), 73, 297-136);
+//					printer.printHeader(document,"Paper", 38, 297-182);
+//				    printer.print(document, "Cover : "+ job.getJobPapers().get(0).getPaperType().getName(), 73, 297-182);
+//					printer.print(document, job.getJobPapers().get(0).getGrammage()+" GSM", 168, 297-182);
+//			}}
+//			String jobActivities = "";
+//			String typeSettings = "";
+//			String reproduction = "";
+//				
+//				printer.printHeader(document, "Estimate ".toUpperCase() , 73, 297-42);
+//			 	printer.print(document, "("+jobEstimate.getReference().toUpperCase()+")", 97, 297-42);
+//
+//			 	printer.printHeader(document,job.getCustomer().getName().toUpperCase(), 123, 297-52);
+//				printer.printHeader(document,job.getCustomer().getAddress().toUpperCase(), 123, 297-58);
+//
+//				printer.printHeader(document, "Description", 38, 297-83);
+//				printer.print(document, job.getJobType().getName(), 73, 297-83);
+//
+//				if(job.isTypesettingByUs()||job.isLayOutByUs()) typeSettings =	typeSettings + "By us,";
+//				if(job.isExistingPlate()) {
+//					reproduction = reproduction +  "Existing Plate";
+//					
+//				}else reproduction = reproduction +  "Data supplied By Customer";
+//
+//				printer.printHeader(document, "Typesetting ", 38, 297-123);
+//				printer.print(document, typeSettings, 73, 297-123);
+//				
+//				printer.printHeader(document, " Reproduction", 38, 297-128 );
+//				printer.print(document, reproduction, 73, 297-128);
+//
+//				printer.printHeader(document, "Format", 38, 297-93);
+//				printer.printHeader(document, "Volume", 38, 297-110);
+//				
+//				printer.printHeader(document, "Printing", 38, 297-137);
+//
+//					String message_ =" ";
+//					boolean isContent =false;
+//					for(JobPaper pp:jcc) {
+//					if(pp.getContentType().getId()!=1)
+//						{
+//						isContent=true;
+//						for(int j=0; j<pp.getJobColorCombinations().size(); j++) {
+//						message_+=  pp.getJobColorCombinations().get(j).getFrontColorNumber()+"/"+ pp.getJobColorCombinations().get(j).getBackColorNumber()+" "+pp.getJobColorCombinations().get(j).getPrintType().getName()+"";
+//					}}
+//					
+//				}
+//					if(isContent) {
+//						printer.print(document, message_, 90, 297-142);
+//						printer.print(document, "Content", 73, 297-142);
+//						printer.print(document,"Content: "+  job.getCloseLength()+" X "+ job.getCloseWidth()+ " mm", 73, 297-99);
+//						printer.print(document, "Content: " +job.getContentVolume()+" Pages", 73, 297-116);
+//					}
+//				
+//				printer.printHeader(document, "Finishing", 38, 297-161);
+//				
+//				if(jobActivity.isHandgather()) jobActivities =	jobActivities + "hand-gatherd, ";
+//				if(jobActivity.isSelloptaped()) jobActivities =	jobActivities + " Selloptaped, ";
+//				if(jobActivity.isSewn()) jobActivities =	jobActivities + " Sewn,";
+//				if(jobActivity.isTrimmed()) jobActivities =	jobActivities + " trimmed, ";
+//				if(jobActivity.getIsStitching()!=null) jobActivities =	jobActivity.getIsStitching() + ", ";
+//				//if(!jobActivity.getGlueOption().isEmpty()) jobActivities =	jobActivities + jobActivity.getGlueOption()+ ", ";
+//				if(jobActivity.getXWiredStiched()>0) jobActivities =	jobActivities + jobActivity.getXWiredStiched()+ " x Stiched, ";
+//				if(jobActivity.getXCreased()>0) jobActivities =	jobActivities + " Cover "+ jobActivity.getXCreased()+ " x creased, ";
+//				if(jobActivity.getXCross()>0) jobActivities =	jobActivities + jobActivity.getXCross()+ " x folded,";
+//				if(jobActivity.getXNumbered()>0) jobActivities =	jobActivities + jobActivity.getXNumbered()+ " x Numbered, ";
+//				if(jobActivity.getBindingType()!=null) jobActivities =	jobActivities + jobActivity.getBindingType().getName()+" ";
+//				if(jobActivity.getLamination()>0) jobActivities =	jobActivities +" Cover " + jobActivity.getLamination() + " side(s) laminated, ";
+//
+//			 printer.printParagraphe(document,jobActivities, 73, 297-170);
+//			 
+//			   if(isContent)			
+//				printer.printParagraphe(document,"Content : ", 73, 297-187);
+//				float vecto = -5;
+//				for(JobPaper pp:jcc) {
+//					if(pp.getContentType().getId()!=1) {
+//						vecto+=5;
+//						printer.print(document, pp.getPaperType().getName(),  90, 297-187-vecto);
+//						printer.print(document, pp.getGrammage()+" GSM",  168, 297-187-vecto);
+//					}
+//
+//				}
+//				printer.printHeader(document, "Quantity",  38, 297-200);
+//				printer.printHeader(document, "Unit(XAF)",  132, 297-200);
+//				printer.printHeader(document, "Total(XAF)",  172, 297-200);
+//				
+//				String messagesAdvancePayment="";
+//				
+//				List<EstimatePricing> estimates =jobEstimateServiceImpl.generateDiscountCommissionEstimateResult(jobEstimate.getId());
+//			
+//				/// work done on printed estimate with DIscount
+//				
+//				for (EstimatePricing estimatePricing: jobEstimate.getEstimatePricings()) {
+//					
+//					if(estimatePricing.isInvoiced()) {
+//							for(EstimatePricing invoicedEstimatePricing : estimates ) {
+//						if(estimatePricing.getQuantity() == invoicedEstimatePricing.getQuantity()) {
+//							
+//							invoicedEstimatePricing.setTotalPrice(invoicedEstimatePricing.getTotalPrice() + jobEstimate.getDiscountValue() );
+//							invoicedEstimatePricing.setUnitPrice(invoicedEstimatePricing.getTotalPrice()/invoicedEstimatePricing.getQuantity());
+//						}
+//							}
+//					}
+//				}
+//				
+//				
+//				
+//				
+//				float vect = -5;
+//				DateFormat date =  DateFormat.getDateInstance(DateFormat.DEFAULT,Locale.ENGLISH);
+//				printer.printHeader(document,date.format(new Date())+"", 38, 297-73);
+//				for(int i=0; i<estimates.size(); i++) {
+//					vect+=5;
+//					printer.printMoney(document,estimates.get(i).getQuantity(), 82, 297-207-vect);
+//					printer.printMoney(document,estimates.get(i).getUnitPrice(), 132, 297-207-vect);
+//					printer.printMoney(document,estimates.get(i).getTotalPrice() , 171, 297-207-vect);
+//					
+//				}
+//				if(jobEstimate.getAdvancePercentage()> 0)
+//					messagesAdvancePayment =" Terms of Payment : "+ jobEstimate.getAdvancePercentage()  + "%" + " in advance, "+(100-jobEstimate.getAdvancePercentage())+ ""+"% on delivery.";
+//			printer.printHeader(document,messagesAdvancePayment, 38,297-227-vect);
+//				
+//				document.close();
+//				String	file = jobEstimate.getReference()+".pdf";
+//			 return "file="+file+"&dir=folder.estimate";
+//			} 
+//			
+//			catch (Exception e) {
+//				e.printStackTrace();
+//				return "file=error.pdf&dir=folder.estimate";
+//			}
+//			
+//		}
+//	
 	
 	@GetMapping("/search-by/{reference}")
 	public String findJobByReferenceNumber(@PathVariable String reference, Model model) {
@@ -1622,9 +1374,7 @@ public class JobController {
 		}
 	}
 
-	
-	
-	
+		
 /*
  *   Estimate function  
  */
@@ -1681,6 +1431,7 @@ public class JobController {
 		
 		List<EstimatePricing> estimates = jobEstimateServiceImpl.generateCommissionEstimateResult(id);
 		JobEstimate jobEstimate = jobEstimateRepository.findById(id).get();
+		int invoicedQunatity = 0;
 		for (EstimatePricing estimatePricing: jobEstimate.getEstimatePricings()) {
 			
 			if(estimatePricing.isInvoiced()) {
@@ -1689,6 +1440,7 @@ public class JobController {
 					
 					invoicedEstimatePricing.setTotalPrice(invoicedEstimatePricing.getTotalPrice() + jobEstimate.getDiscountValue() );
 					invoicedEstimatePricing.setUnitPrice(invoicedEstimatePricing.getTotalPrice()/invoicedEstimatePricing.getQuantity());
+					invoicedQunatity =estimatePricing.getQuantity();
 				}
 					}
 			}
@@ -1696,10 +1448,12 @@ public class JobController {
 		
 		model.addAttribute("estimates",estimates);
 		model.addAttribute("jobEstimate",jobEstimate);
+		model.addAttribute("invoicedQunatity",invoicedQunatity);
+
 		
 		return "/results/commission-result";
 	}
-	
+
 	@GetMapping("/discount/result/{id}")
 	public String getDiscountComissionResult(@PathVariable long id, Model model) {
 		
@@ -1723,9 +1477,12 @@ public class JobController {
 	
 		model.addAttribute("estimates",estimates);
 		model.addAttribute("jobEstimateD",jobEstimate);
+		
 	
 		return "/results/discount-result";
 	}
+	
+	
 	@GetMapping("/estimate/commission/{id}/{commissionValue}/{discountValue}")
 	public String findeByCreationDate(@PathVariable long id,@PathVariable double commissionValue, @PathVariable  double discountValue, Model model) {
 		
@@ -1744,6 +1501,7 @@ public class JobController {
 			throw e;
 		}
 	}
+	
 	
 	@GetMapping("/search-estimate-by/{reference}")
 	public String displayEstimates(@PathVariable String reference,Model model) {
@@ -1794,55 +1552,6 @@ public class JobController {
 				return "KO";
 			}
 		}
-
-
-//			//<--------------------- Edit a draft job to complete job ( get the form) ------------------------------>
-//			
-//			
-//			
-//				@GetMapping("/get-complete-draft-form/{id}")
-//				public String completeDraftToJob(@PathVariable Long id, Model model) {
-//					List<Customer> customerResult = customerServiceImpl.findAll();
-//					List<JobType> jobTypeResult = jobTypeServiceImpl.findAll();
-//					List<PaperFormat> paperFormatResult = paperFormatServiceImpl.findAll();
-//					List<JobPaper> jobPaperResult = jobPaperServiceImpl.findAll();
-//					List<PaperType>  paperTypeResult = paperTypeServiceImpl.listAll();
-//					List<PaperGrammage> paperGrammageResult = paperGrammageServiceImpl.findAll();
-//					List<PrintingMachine> printingMachineResult = printingMachineServiceImpl.listMachines();
-//					List<PrintType> printTypeResult = printTypeServiceImpl.findAll();
-//					List<BindingType> bindingTypeResult = bindingTypeserviceImpl.listAll();
-//
-//					Job existingJob = jobServiceImpl.findById(id).get();
-//			//		existingJob.getJobPapers().get(0).u
-//					model.addAttribute("job", existingJob);
-//					model.addAttribute("customers", customerResult);
-//					model.addAttribute("jobTypes", jobTypeResult);
-//					model.addAttribute("paperFormats", paperFormatResult);
-//					model.addAttribute("jobPaperResults", jobPaperResult);
-//					model.addAttribute("paperTypes", paperTypeResult);
-//					model.addAttribute("paperGrammages", paperGrammageResult);
-//					model.addAttribute("printingMachines", printingMachineResult);
-//					model.addAttribute("printTypes", printTypeResult);
-//					model.addAttribute("bindingTypes", bindingTypeResult);
-//
-//
-//				    return "/billing/update-draft-to-registered-form";
-//				}
-//				
-				
-				//<--------------------- Complete a  DraftJob ------------------------------>
-//				@PostMapping(value="/complete-draft/{id}", consumes=MediaType.APPLICATION_JSON_VALUE)
-//				@ResponseBody
-//				public String completeDraft(@PathVariable Long id,@RequestBody JobDTO jobDTO){
-//					try {
-//						jobServiceImpl.updateJob(jobDTO, id);
-//						return "OK";
-//					} catch (Exception e) {
-//						e.printStackTrace();
-//						return "KO";
-//					}
-//				}
-				
 
 		
 		@GetMapping("/confimJob/{id}")
@@ -1913,6 +1622,7 @@ public class JobController {
 					return new ResponseEntity<String>("KO", HttpStatus.BAD_REQUEST);
 				}
 				
+				
 				/*
 				 * Test function to complete draft	
 				 */
@@ -1946,11 +1656,6 @@ public class JobController {
 				}
 				
 				
-				
-			/*
-			 * Function Update Draft	
-			 */
-				
 		//<--------------------- Edit a draft job to complete job ( get the form) ------------------------------>
 		@GetMapping("/get-complete-draft-form/{id}")
 		public String completeDraftToJob(@PathVariable Long id, Model model) {
@@ -1979,22 +1684,6 @@ public class JobController {
 		    return "/billing/update-draft-to-registered-form";
 		}
 
-//		@PostMapping(value="/complete-draft/{id}", consumes=MediaType.APPLICATION_JSON_VALUE)
-//		@ResponseBody
-//		public String completeDraft(@PathVariable Long id,@RequestBody JobDTO jobDTO){
-//			try {
-//				jobServiceImpl.completeDraft(jobDTO, id);
-//				return "OK";
-//			} catch (Exception e) {
-//				e.printStackTrace();
-//				return "KO";
-//			}
-//		}
-//		
-		
-		/*
-		 * Mark Job as Proofread
-		 */
 	
 	@PreAuthorize("hasAuthority('ROLE_REGISTER_NEW_JOB')")	
 	@PostMapping("/proofread/{id}")

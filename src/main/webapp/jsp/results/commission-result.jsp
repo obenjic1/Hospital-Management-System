@@ -33,20 +33,24 @@
 		<%--   <sec:authorize  access="hasRole('ROLE_GENERATE_INVOICE')"> --%>
 		           <td>
 		            <c:if test="${jobEstimate.discountValue!=0 || jobEstimate.commission!=0}">
-		           <c:if test="${estimate.invoiced}"> 
-		            <button type="button" class="btn " onclick="loadMainModalForm('invoice/job-invoice/from-pricing/${estimate.id}')" data-toggle="tooltip" data-placement="top" title="View Invoices">
-		              <i class="ri-eye-line" style="color: #0d6efd"></i>
-		             </button>
+		           <c:if test="${jobEstimate.invoiced}"> 
+		            <c:if test="${estimate.quantity == invoicedQunatity}"> 
+		            <button type="button" class="btn " onclick="getCommissionInvoice('${jobEstimate.id}','${estimate.quantity}')" data-toggle="tooltip" data-placement="top" title="Generate Invoice">
+		                 <i class="ir ri-draft-line" style="color: green"></i>
+		               </button>
 		           </c:if>
+		            </c:if>
 		           
+		             <c:if test="${!jobEstimate.invoiced}"> 
 		             <c:if test="${!estimate.invoiced}"> 
 		               <button type="button" class="btn " onclick="getCommissionInvoice('${jobEstimate.id}','${estimate.quantity}')" data-toggle="tooltip" data-placement="top" title="Generate Invoice">
 		                 <i class="ir ri-draft-line" style="color: green"></i>
 		               </button>
 		             </c:if>
 		             </c:if>
+		             </c:if>
 		    </td>
-		<%--                                                     		  </sec:authorize>                                 --%>
+		<%--                    <c:if test="${estimate.quantity == invoicedQunatity}"> 	                                  		  </sec:authorize>                                 --%>
 		          </tr> 
 		          <c:set var = "i"  value = "${i+1}"/>
 		     </c:forEach> 
