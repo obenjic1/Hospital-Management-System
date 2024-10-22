@@ -66,7 +66,7 @@ public class InvoiceController {
 		simpleDateFormat.setLenient(false);
 		binder.registerCustomEditor(Date.class, new CustomDateEditor(simpleDateFormat, false));
 	}
-	
+
 	@GetMapping("/list")
 	public String listinvoices(Model model) {
 		try {
@@ -112,7 +112,39 @@ public class InvoiceController {
 		return "OK";
 	}
 	
+	
+	
+	@GetMapping("/commission-result/{id}/{qty}")
+	public String getInvoice(@PathVariable long id,@PathVariable long qty, Model model) {		
+			try {
+				JobEstimate estimate = estimateServiceImpl.findById(id);
+				List<EstimatePricing> estimatePricing = estimate.getEstimatePricings();
+				EstimatePricing estimatePricingWithCommission = new EstimatePricing();
+				//long lastInvoice = correspondingestimatePricing.getInvoices().getS;
+				Invoice invoice = new Invoice();
+				for(EstimatePricing correspondingestimatePricing :estimatePricing ) {
+						estimatePricingWithCommission.setQuantity(correspondingestimatePricing.getQuantity());
+						estimatePricingWithCommission.setTotalPrice(correspondingestimatePricing.getTotalPrice() +	estimate.getCommission());
+						estimatePricingWithCommission.setUnitPrice(estimatePricingWithCommission.getTotalPrice()/correspondingestimatePricing.getQuantity());
+				}
 
+			Job jobs = estimate.getJob();
+			double discount = (invoice.getDiscountPercentage()/100)*(invoice.getEstimatePricing().getTotalPrice());
+			double irTaxValue= (invoice.getIrTaxPercentage()/100)*invoice.getEstimatePricing().getTotalPrice();
+			double vatValue= (invoice.getVatPercentage()/100)*invoice.getEstimatePricing().getTotalPrice();
+			model.addAttribute("irTaxValue", irTaxValue);
+			model.addAttribute("vatValue", vatValue);
+			model.addAttribute("discount", discount);
+			model.addAttribute("job", jobs);
+			model.addAttribute("invoices", invoice);
+			
+			return "billing/estimate/invoice-view";
+		} catch (Exception e) {
+			throw e;
+		}
+	}
+	
+	
 	
 	@GetMapping("/job-invoice/{id}")
 	public String getInvoice(@PathVariable long id, Model model) {		
