@@ -16,9 +16,9 @@
       <div class="row">
         <div class="col-xl-8" style="width: 100%">
           <div class="card">
-            <div class="card-body pt-4">
+            <div class="">
 
-              <ul class="nav nav-tabs" style="margin-left:10%; justify-content: center; background-color: #012970;">
+              <ul class="nav nav-tabs" style=" justify-content: center; background-color: #012970;">
                 <li class="nav-item">
                    <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#estimate-overview" style="height:35px;background:#012970; color:white;"><h5>Estimates </h5></button>
                  </li>
@@ -32,7 +32,7 @@
                 
                 
     <!-- ************************************************************************************************************* -->
- 			<div  class="tab-pane fade show active estimate-overview" id="estimate-overview" style="margin-left: 10%"> 
+ 			<div  class="tab-pane fade show active estimate-overview" id="estimate-overview" style=""> 
  				 <div class="row" style="margin:25px;"> 
  					<table class="table " id="content-table"> 
  					    <thead style="background-color: #dddfe3;"> 
