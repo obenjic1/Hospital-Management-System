@@ -1381,17 +1381,24 @@ public class JobController {
 	@GetMapping("/get-estimate/{id}")
 	public String displayEstimates(@PathVariable long id,Model model) {
 		Job job = jobServiceImpl.findById(id).get();
-		List<Integer> jobEstimateList = new ArrayList<Integer>();
-		for (JobEstimate jobEstimate :job.getJobEstimates()) {
-			for(EstimatePricing estimatePricing : jobEstimate.getEstimatePricings()) {
-				jobEstimateList.add(estimatePricing.getInvoices().size());
+		String invoicedRefrence = "";
+		int invoicedNumber = 0;
+		
+		for(JobEstimate estimate : job.getJobEstimates()) {
+			if(estimate.isInvoiced()) { 
+				invoicedRefrence = estimate.getReference();
+				invoicedNumber +=1;
+			
 			}
+			
 		}
-		model.addAttribute("jobEstimateList", jobEstimateList);
 		model.addAttribute("job", job);
+		model.addAttribute("invoicedNumber", invoicedNumber);
+		model.addAttribute("invoicedRefrence", invoicedRefrence);
 		return "billing/estimate/view-estimate";
 	}
 
+	
 	@GetMapping("/find-by/creationdate/{startDate}/{endDate}")
 	public String findeByCreationDate(@PathVariable Date startDate, @PathVariable  Date endDate, Model model) {
 		try {
