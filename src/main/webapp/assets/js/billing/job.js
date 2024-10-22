@@ -961,7 +961,7 @@ function jobTypeChoice(opt){
 		document.getElementById('cover-signature-div').style.display = "none";
 		document.getElementById('mainContentSignature').style.display = "";  
 		document.getElementById('closeDimensionDiv').style.display = "none";
-		document.getElementById('volumeOfContent').value=1;
+		document.getElementById('volumeOfContent').value="";
 		document.getElementById('volumeOfContent').readOnly = false;
 	}
 	else if(dataContentValue==1){

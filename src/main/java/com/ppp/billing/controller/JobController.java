@@ -649,7 +649,7 @@ public class JobController {
 				paperFormat = 2+"";
 			
 			for(int i3=0; i3<jobPapers.size(); i3++) {
-				if(jobPapers.get(i3).getContentType().getId()==2)
+				if(jobPapers.get(i3).getContentType().getId()==2 && (jobPapers.get(i3).getJob().getJobType().getCategory()==1 || jobPapers.get(i3).getJob().getJobType().getCategory()==2))
 				{
 				translation +=5;
 				JobPaper jobPeper = jobPapers.get(i3);
@@ -677,7 +677,6 @@ public class JobController {
 			printer.printMoney(document, 4000, 175, 297-38);
 			//variablePrice
 			variablePrice+=4000;
-			
 			printer.print(document, job.getJobActivity().getHandFoldingCov()+"", 43, 297-43 );
 			printer.printMoney(document, job.getJobActivity().getHandFoldingCov()*2000, 175, 297-44);
 			//variablePrice
@@ -747,15 +746,15 @@ public class JobController {
 				}
 			}
 			int totalNumberOfSignature_ = (int) Math.ceil(totalNumberOfSignature);
-			int glueBondPreparationFactor= (int) Math.ceil(totalNumberOfSignature_/10.0);
+			int glueBondPreparationFactor= 8000;
 			//use binding type instead jobactivty glue option
 			if (job.getJobActivity().getBindingType()!=null && job.getJobActivity().getBindingType().getName().equals("Glue-Bound"))	 {
 				printer.printMoney(document, 10000, 130, 297-79.5f);
 				//fixePrice
 				fixePrice+=10000;
-				printer.printMoney(document, 80000*glueBondPreparationFactor , 175, 297-79.5f);
+				printer.printMoney(document, totalNumberOfSignature_*glueBondPreparationFactor , 175, 297-79.5f);
 				//variablePrice
-				variablePrice+=80000*glueBondPreparationFactor;
+				variablePrice+=totalNumberOfSignature_*glueBondPreparationFactor;
 			}
 			if(job.getJobActivity().getLamination()>0) {
 				printer.print(document, paperFormat, 40, 297-91);
@@ -774,7 +773,7 @@ public class JobController {
 			}
 			
 			/**
-			 	* Debut de la quatrieme page (Finishing)
+			 	* FIN de la quatrieme page (Finishing)
 			 */
 
 			/**
@@ -820,7 +819,8 @@ public class JobController {
 				 int kx = (int) (Math.log(pltc.getBasic())/Math.log(2));
 				 
 				 if(paper.getJobColorCombinations().get(0).getPrintingMachine().getAbbreviation().equals("NONE")) {
-					 kx=0;
+					 //A COVER WITHOUT PRINTING MACHINE HAVE A BASIC 2
+					 kx=1;
 				  }
 					int ax =kx/2;
 					int bx=kx-ax;
@@ -829,15 +829,8 @@ public class JobController {
 					
 					double max = Math.max(job.getCloseLength(), job.getCloseWidth());
 					double min = Math.min(job.getCloseLength(), job.getCloseWidth());
-					double lengthFoldedJob =min/(horizontalLignes+1);
-					double widthFoldedJob =max/(verticalLigne+1);
-					if(widthFoldedJob>lengthFoldedJob) {
-						widthFoldedJob = Math.ceil(max*(verticalLigne+1)/10)+2;
-						lengthFoldedJob = Math.ceil(min*(horizontalLignes+1)/10)+2;
-					}else {
-						widthFoldedJob=Math.ceil(min*(verticalLigne+1)/10)+2;
-						lengthFoldedJob=Math.ceil(max*(horizontalLignes+1)/10)+2;
-					}
+					double widthFoldedJob=Math.ceil(min*(verticalLigne+1)/10)+2;
+					double lengthFoldedJob=Math.ceil(max*(horizontalLignes+1)/10)+2;
 					
 					up = (int) Math.floor(up/(lengthFoldedJob*widthFoldedJob));
 					DecimalFormat dcf= new DecimalFormat("#.###");
@@ -852,7 +845,7 @@ public class JobController {
 					printer.printMoney(document,  paper.getUnitPrice()*Double.valueOf(dcf.format(variableC)) , 175, 297-40-vct);
 					//variableCost
 					variablePrice+=paper.getUnitPrice()*Double.valueOf(dcf.format(variableC));
-					printer.print(document, cb.getNumberOfSignature()+"", 13, 297-53-vct);
+					printer.print(document, numberSign+"", 13, 297-53-vct);
 					
 					int ps = maxC*50;
 				
@@ -863,24 +856,24 @@ public class JobController {
 						ps=ps*2;
 					
 					printer.print(document, ps+"", 43, 297-53-vct);
-					printer.printMoney(document, cb.getNumberOfSignature()*ps, 95, 297-51.5f-vct);
+					printer.printMoney(document, numberSign*ps, 95, 297-51.5f-vct);
 					
 					printer.print(document, 40+"", 43, 297-58-vct);
-					printer.printMoney(document,  40*cb.getNumberOfSignature() , 95, 297-58-vct);
+					printer.printMoney(document,  40*numberSign , 95, 297-58-vct);
 					
-					printer.printMoney(document,  (40+ps)*cb.getNumberOfSignature() , 29, 297-64-vct);
+					printer.printMoney(document,  (40+ps)*numberSign , 29, 297-64-vct);
 					printer.print(document, up+"", 66, 297-64-vct);
-					printer.print(document, dcf.format((40+ps)*cb.getNumberOfSignature()/(up*1000.0)), 95, 297-64-vct);
+					printer.print(document, dcf.format((40+ps)*numberSign/(up*1000.0)), 95, 297-64-vct);
 					
-					printer.printMoney(document,Double.valueOf(dcf.format((40+ps)*cb.getNumberOfSignature()/(up*1000.0)))*paper.getUnitPrice() , 130, 297-64-vct);
+					printer.printMoney(document,Double.valueOf(dcf.format((40+ps)*numberSign/(up*1000.0)))*paper.getUnitPrice() , 130, 297-64-vct);
 					//fixeCost
-					fixePrice+=Double.valueOf(dcf.format((40+ps)*cb.getNumberOfSignature()/(up*1000.0)))*paper.getUnitPrice();
+					fixePrice+=Double.valueOf(dcf.format((40+ps)*numberSign/(up*1000.0)))*paper.getUnitPrice();
 					
 				 }
 			 }
 			 
 			 /**
-			  	* Debut de la ciquieme page (Paper)
+			  	* Fin de la ciquieme page (Paper)
 			  */
 			 
 			p4=variablePrice-p1-p2-p3;
@@ -900,7 +893,6 @@ public class JobController {
 		 * End print Control Sheet Section 
 		 * 
 	 */
-
 	@GetMapping("/error-pdf")
 	@ResponseBody
 	public String fileError(Model model) throws FileNotFoundException {
