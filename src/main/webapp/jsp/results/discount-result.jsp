@@ -38,7 +38,7 @@
 					             </button>
 				           </c:if>
 			           
-			          <c:if test="${!jobEstimateD.invoiced}"> 
+			          <c:if test="${!jobEstimateD.invoiced && job.invoiced==0 && job.status.name=='Approved'}"> 
 			             <c:if test="${!estimate.invoiced}"> 
 				               <button type="button" class="btn " onclick="getDiscountInvoiceFromPricing('${jobEstimateD.id}','${estimate.quantity}')" data-bs-dismiss="modal" data-toggle="tooltip" data-placement="top" title="Generate Invoice">
 				                 <i class="ir ri-draft-line" style="color: green"></i>
