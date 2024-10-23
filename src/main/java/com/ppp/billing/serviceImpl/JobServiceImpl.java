@@ -418,13 +418,14 @@ public class JobServiceImpl implements JobService {
 		activity.setXNumbered(jobdto.getxNumbered());
 		activity.setLamination(jobdto.getLamination());
 		activity.setXCreased(jobdto.getxCreased());
-//		activity.setXWiredStiched(jobdto.getrackingServicetxWiredStiched());
+        activity.setXWiredStiched(jobdto.getxWiredStiched());
 		activity.setXCross(jobdto.getxCross());
 		//activity.setGlueOption(jobdto.getGlueOption());
 		activity.setHandgather(jobdto.isHandgather());
 		activity.setIsStitching(jobdto.getStitching());
 		activity.setTrimmed(jobdto.isTrimmed());
 		activity.setSewn(jobdto.isSewn());
+		activity.setXWiredStiched(jobdto.getxWiredStiched());		
 		activity.setHandFoldingCov(jobdto.getHandFoldCov());
 		activity.setSelloptaped(jobdto.isSelloptaped());
 		if(jobdto.getBindingType()!=0) {

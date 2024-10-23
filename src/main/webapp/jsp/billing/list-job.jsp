@@ -68,12 +68,12 @@
 						  <thead style="background-color: #dddfe3;">
 						     <tr>
 						      <th scope="col"><fmt:message key="number"/></th>
+						      <th scope="col"><fmt:message key="reference"/></th>
 						       <th scope="col"><fmt:message key="job.type"/></th>
 						      <th scope="col"><fmt:message key="title"/></th>
-							  <th scope="col"><fmt:message key="reference"/></th>
-						      <th scope="col"><fmt:message key="job.status"/></th>
 						      <th scope="col"><fmt:message key="registration.date"/></th>
 						      <th scope="col"><fmt:message key="customer"/></th>
+						       <th scope="col"><fmt:message key="job.status"/></th>
 						      <th scope="col"><fmt:message key="actions"/></th>
 							</tr>
 						   </thead>
@@ -84,19 +84,19 @@
 							    <c:set var="index" value="${loop.index}" />
 							    <%    int index = (Integer) pageContext.getAttribute("index");  %>
 						   	   <td>  <%= index + 1 %></td>
+							   <td><a>${job.referenceNumber}</a></td>
 							   <td><a>${job.jobType.name}</a></td>
 							   <td><a>${job.title}</a></td>
-							   <td><a>${job.referenceNumber}</a></td>
-							   <td>	 
-							   					  <c:if test="${job.status.name=='Registered'}"><a>${job.status.name}</a></c:if>
-							   					  <c:if test="${job.status.name=='Draft'}"><a>${job.status.name}</a></c:if>
-							   					  <c:if test="${job.status.name=='Confrimed'}"><a class="badge bg-warning">${job.status.name}</a></c:if>
-							   					  <c:if test="${job.status.name=='Approved'}"> <a class=" badge bg-success" >${job.status.name}</a></c:if>
-							   					  <c:if test="${job.status.name=='Abort'}"><a class=" badge bg-danger" >${job.status.name}</a></c:if>
-							   					 
-							   					 </td>
+							   
 							   <td><a><fmt:formatDate type = "both" value = "${job.creationDate}" /></a></td>
 							   <td><a>${job.customer.name}</a></td>
+							   <td>	 
+			   					  <c:if test="${job.status.name=='Registered'}"><a>${job.status.name}</a></c:if>
+			   					  <c:if test="${job.status.name=='Draft'}"><a>${job.status.name}</a></c:if>
+			   					  <c:if test="${job.status.name=='Confrimed'}"><a class="badge bg-warning">${job.status.name}</a></c:if>
+			   					  <c:if test="${job.status.name=='Approved'}"> <a class=" badge bg-success" >${job.status.name}</a></c:if>
+			   					  <c:if test="${job.status.name=='Abort'}"><a class=" badge bg-danger" >${job.status.name}</a></c:if>
+							    </td>
 							 <td>
 								  <select id="jobListActions" name="name" class="form-select">
 								     <option >Actions</option>
