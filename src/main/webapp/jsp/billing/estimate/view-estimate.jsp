@@ -60,32 +60,23 @@
  											  </a>
                                             </td>
  		                                  <td>                             
- 		                                  	<c:if test="${invoicedNumber==0}">
-			                              	<a style="font-size: 15px;"> 
+			                              	     <a style="font-size: 15px;"> 
 												   <button class="button-see" data-bs-toggle="modal" data-toggle="tooltip" data-placement="top" title="view estimate Details" data-bs-target="#MainModal" onclick="loadMainModalForm('job/estimateRef/${jobEstimate.reference}')"> 
 												     <i class="ri-eye-line"></i>
 												   </button>
-												   
-												   <c:if test="${jobEstimate.commission == 0 && jobEstimate.discountValue == 0}">
+												   <c:if test="${job.invoiced==0}">
 												   <button class="button-see" data-bs-toggle="modal" data-toggle="tooltip" data-placement="top" title="apply comission" data-bs-target="#MainModal" onclick="loadMainModalForm('job/estimateRef/commission/${jobEstimate.reference}')"> 
 												     <i class="bi-cash-coin " style="color:green"></i>
 												   </button>
-											   </c:if>
-											 </a>
-											 </c:if>
-											<c:if test="${jobEstimate.reference == invoicedRefrence}">
-			                              	<a style="font-size: 15px;"> 
-												   <button class="button-see" data-bs-toggle="modal" data-toggle="tooltip" data-placement="top" title="view estimate Details" data-bs-target="#MainModal" onclick="loadMainModalForm('job/estimateRef/${jobEstimate.reference}')"> 
-												     <i class="ri-eye-line"></i>
-												   </button>
+												   </c:if>
 												   
-												   <c:if test="${jobEstimate.commission == 0 && jobEstimate.discountValue == 0}">
-												   <button class="button-see" data-bs-toggle="modal" data-toggle="tooltip" data-placement="top" title="apply comission" data-bs-target="#MainModal" onclick="loadMainModalForm('job/estimateRef/commission/${jobEstimate.reference}')"> 
+												     <c:if test="${job.invoiced==1}">
+												   <button disabled class="button-see" data-bs-toggle="modal" data-toggle="tooltip" data-placement="top" title="apply comission" data-bs-target="#MainModal" onclick="loadMainModalForm('job/estimateRef/commission/${jobEstimate.reference}')"> 
 												     <i class="bi-cash-coin " style="color:green"></i>
 												   </button>
-											   </c:if>
-											 </a>
-											  </c:if>
+												   </c:if>
+											     </a>
+											
 											 </a>
                                             </td>
                                           </tr>

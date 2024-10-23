@@ -16,6 +16,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -145,5 +146,20 @@ public class Job {
 	@OneToMany(fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "job", cascade = CascadeType.PERSIST)
 	private List<JobTracking> jobTrackings;
 	
+	@Transient
+	private int invoiced;
+	
+	public int getInvoiced() {
+		int result =0;
+		for( JobEstimate je : jobEstimates) {
+			for(EstimatePricing ep : je.getEstimatePricings()) {
+				if(ep.isInvoiced()) {
+					return 1;
+				}
+			}
+		}
+		
+		return result;
+	}
 	
 }
