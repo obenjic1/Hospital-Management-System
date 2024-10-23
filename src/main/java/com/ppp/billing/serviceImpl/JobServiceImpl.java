@@ -102,10 +102,7 @@ public class JobServiceImpl implements JobService {
     JobTrackingRepository jobTrackingRepository;
 	@Autowired
 	private UserRepository userRepository;
-	
-	@Autowired
-	private JobColorCombinationRepository jobColorCombinationRepository;
-	
+		
 	@Autowired
 	private JobPaperRepository jobPaperRepository;
    
