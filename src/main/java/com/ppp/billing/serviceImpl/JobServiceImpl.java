@@ -125,6 +125,7 @@ public class JobServiceImpl implements JobService {
 		newJob.setLayOutByUs(jobDTO.isLayOutByUs());
 		newJob.setTypesettingByUs(jobDTO.isTypesettingByUs());
 		newJob.setPaperFormat(jobDTO.getPaperFormat());
+		newJob.setCardCopies(jobDTO.getCardCopies());
 		newJob.setCreationDate(new Date());
 		Optional<Customer> customer = customerRepository.findById(jobDTO.getCustomerId());
 		newJob.setCustomer(customer.get());
@@ -324,6 +325,7 @@ public class JobServiceImpl implements JobService {
 		newJob.setDataSuppliedByCustomer(jobDTO.isDataSuppliedByCustomer());
 		newJob.setLayOutByUs(jobDTO.isLayOutByUs());
 		newJob.setTypesettingByUs(jobDTO.isTypesettingByUs());
+		newJob.setCardCopies(jobDTO.getCardCopies());
 		newJob.setCreationDate(new Date());
 		Optional<Customer> customer = customerRepository.findById(jobDTO.getCustomerId());
 		newJob.setCustomer(customer.get());
@@ -358,6 +360,7 @@ public class JobServiceImpl implements JobService {
 		newJob.setCloseLength(jobDTO.getCloseLength());
 		newJob.setOpenWidth(jobDTO.getOpenWidth());
 		newJob.setCloseWidth(jobDTO.getCloseWidth());
+		newJob.setCardCopies(jobDTO.getCardCopies());
 		newJob.setCtpFees(jobDTO.getCtpFees());
 		newJob.setExistingPlate(jobDTO.isExistingPlate());
 		newJob.setDataSuppliedByCustomer(jobDTO.isDataSuppliedByCustomer());
@@ -393,6 +396,7 @@ public class JobServiceImpl implements JobService {
 		newJob.setCloseLength(jobDTO.getCloseLength());
 		newJob.setOpenWidth(jobDTO.getOpenWidth());
 		newJob.setCloseWidth(jobDTO.getCloseWidth());
+		newJob.setCardCopies(jobDTO.getCardCopies());
 		newJob.setCtpFees(jobDTO.getCtpFees());
 		newJob.setExistingPlate(jobDTO.isExistingPlate());
 		newJob.setDataSuppliedByCustomer(jobDTO.isDataSuppliedByCustomer());
@@ -501,6 +505,7 @@ public class JobServiceImpl implements JobService {
 		newJob.setCloseLength(jobDTO.getCloseLength());
 		newJob.setOpenWidth(jobDTO.getOpenWidth());
 		newJob.setCloseWidth(jobDTO.getCloseWidth());
+		newJob.setCardCopies(jobDTO.getCardCopies());
 		newJob.setCtpFees(jobDTO.getCtpFees());
 		newJob.setExistingPlate(jobDTO.isExistingPlate());
 		newJob.setDataSuppliedByCustomer(jobDTO.isDataSuppliedByCustomer());
@@ -739,7 +744,10 @@ public class JobServiceImpl implements JobService {
 					printer.print(document, message_, 90, 297-142);
 					printer.print(document, "Content", 73, 297-142);
 					printer.print(document,"Content: "+  job.getCloseLength()+" X "+ job.getCloseWidth()+ " mm", 73, 297-99);
-					printer.print(document, "Content: " +job.getContentVolume()+" Pages", 73, 297-116);
+					if(job.getJobType().getCategory()!=3)
+						 printer.print(document, "Content: " +job.getContentVolume()+" Pages", 73, 297-116);
+					else
+						printer.print(document, "Content: " +job.getContentVolume()+" x " +job.getCardCopies() +" Copies", 73, 297-116);
 				}
 			
 			printer.printHeader(document, "Finishing", 38, 297-161);
@@ -873,7 +881,10 @@ public class JobServiceImpl implements JobService {
 						printer.print(document, message_, 90, 297-142);
 						printer.print(document, "Content", 73, 297-142);
 						printer.print(document,"Content: "+  job.getCloseLength()+" X "+ job.getCloseWidth()+ " mm", 73, 297-99);
-						printer.print(document, "Content: " +job.getContentVolume()+" Pages", 73, 297-116);
+						if(job.getJobType().getCategory()!=3)
+							 printer.print(document, "Content: " +job.getContentVolume()+" Pages", 73, 297-116);
+						else
+							printer.print(document, "Content: " +job.getContentVolume()+" x " +job.getCardCopies() +" Copies", 73, 297-116);
 					}
 				
 				printer.printHeader(document, "Finishing", 38, 297-161);

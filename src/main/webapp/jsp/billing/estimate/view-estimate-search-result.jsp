@@ -99,11 +99,18 @@
 					     	  Number of Pages for Cover : <span id="cover-pages">${job.coverVolume} </span>
 					       </c:if>
 					      </div>
-					      <c:if test="${job.jobType.category==0||job.jobType.category==1||job.jobType.category==2||job.jobType.category==3}">
+					      <c:if test="${job.jobType.category==0||job.jobType.category==1||job.jobType.category==2}">
 					      <div class="col-sm-4">
 					    	Number of Pages for Content :  <span id="content-pages"> ${job.contentVolume}</span> 
 					      </div>
 					      </c:if>
+					      
+					       <c:if test="${job.jobType.category==3}">
+					      <div class="col-sm-4">
+					    	Number of Copies for Content :  <span id="content-pages">${job.contentVolume} x ${job.cardCopies}</span> 
+					      </div>
+					      </c:if>
+					      
 					      <div class="col-sm-4">
 					    	 CTP Fees : <span id="ctp">${job.ctpFees}</span> 
 					      </div>

@@ -40,6 +40,7 @@ import com.itextpdf.kernel.pdf.canvas.PdfCanvas;
 import com.itextpdf.layout.Document;
 import com.itextpdf.layout.element.AreaBreak;
 import com.ppp.billing.model.BindingType;
+import com.ppp.billing.model.ContentType;
 import com.ppp.billing.model.Customer;
 import com.ppp.billing.model.Department;
 import com.ppp.billing.model.EstimatePricing;
@@ -372,10 +373,14 @@ public class JobController {
 					message+=jobPapers.get(i).getJobColorCombinations().get(j).getFrontColorNumber()+"/" + jobPapers.get(i).getJobColorCombinations().get(j).getBackColorNumber()+ " "+jobPapers.get(i).getJobColorCombinations().get(j).getPrintType().getName()+", ";
 				}
 			}}
-			if(isContent)
-			{
+			if(isContent){
+				if(job.getJobType().getCategory()==3) {
+					printer.print(document, "Content : "+job.getContentVolume()+" x "+job.getCardCopies()+" Copies", 69, 297-108);
+					printer.print(document, message, 35, 297-173.5f);
+				}else {
 				printer.print(document, "Content : "+job.getContentVolume()+" Pages", 69, 297-108);
 				printer.print(document, message, 35, 297-173.5f);
+			  }
 			}
 			
 			float yx = 297-188;
@@ -558,6 +563,7 @@ public class JobController {
 			data = ImageDataFactory.create(backgroundFolder + "P3.jpg");
 			canvas1.addImage(data, PageSize.A4, false);
 			float decalage = -30;
+			PlateMakingCosting plateMakingCosting = new PlateMakingCosting(jobPaper);
 			for(int i= 0; i<jobPapers.size(); i++) {
 				if(!jobPapers.get(i).getJobColorCombinations().get(0).getPrintingMachine().getAbbreviation().equals("NONE")) {
 				JobPaper jobPeper = jobPapers.get(i);
@@ -615,6 +621,25 @@ public class JobController {
 				}
 				
 			}}
+			if(job.getJobActivity().getXNumbered()>0) {
+				int perforated = (int) Math.ceil((job.getContentVolume()*job.getCardCopies())/2);
+				printer.print(document, perforated+"", 40, 297-173.5f);
+				printer.print(document, 2300+"", 137, 297-173.5f); //fix cost
+				printer.print(document, (perforated*0.5)*1000+"", 175, 297-173.5f); //fix cost
+			//	printer.print(document, numberingCost, 10 , 10);
+				fixePrice += 2300;
+				variablePrice += (perforated*0.5)*1000; //varable cost
+			}
+			
+			if((job.getJobActivity().getXPerforated()>0)) {
+				int cardNumber = Math.max(job.getCardCopies()-1, 1);
+				int cardValue = job.getContentVolume()*cardNumber;
+				printer.print(document,cardValue+"", 40, 297-180);
+				printer.print(document, 2300+"", 137, 297-180); //fix cost
+				printer.print(document, (cardValue*0.5)*1000+"", 175, 297-180); //variable cost
+				fixePrice += 2300;
+				variablePrice +=(cardValue*0.5)*1000; //varable cost
+			}
 			p2=variablePrice-p1;
 			
 			/**
@@ -688,25 +713,41 @@ public class JobController {
 				plates+=plmCst.getPlates();
 			}
 			if(job.getJobActivity().getXWiredStiched()>0) {
-				printer.printMoney(document, 4500, 135, 297-50);
-				//fixePrice
-				fixePrice+=4500;
-				boolean isCover =false;
-				isCover=job.getJobPapers().stream().anyMatch(t->t.getContentType().getId()==1);
-				if(isCover) {
-					printer.printMoney(document, 15000, 175, 297-55);
-					//variableCost
-					variablePrice+=15000;
+				if(job.getJobType().getCategory()!=3) {
+					printer.printMoney(document, 4500, 135, 297-50);
+					//fixePrice
+					fixePrice+=4500;
+					boolean isCover =false;
+					isCover=job.getJobPapers().stream().anyMatch(t->t.getContentType().getId()==1);
+					if(isCover) {
+						printer.printMoney(document, 15000, 175, 297-55);
+						//variableCost
+						variablePrice+=15000;
+					}else {
+						printer.printMoney(document, 12000, 175, 297-55);
+						//variableCost
+						variablePrice+=12000;
+					}
+					
+					printer.print(document, plates+"", 50, 297-62);
+					printer.printMoney(document, plates*4700, 175, 297-62);
+					//variablePrice
+					variablePrice+=plates*4700;
 				}else {
-					printer.printMoney(document, 12000, 175, 297-55);
-					//variableCost
-					variablePrice+=12000;
-				}
-				
-				printer.print(document, plates+"", 50, 297-62);
-				printer.printMoney(document, plates*4700, 175, 297-62);
-				//variablePrice
-				variablePrice+=plates*4700;
+					printer.print(document, 2000+"", 134, 297-140);
+				    fixePrice+=2000;}
+				int wrtiche = job.getJobActivity().getXWiredStiched();
+				if(wrtiche==1)
+					wrtiche=30000;
+				else 
+					wrtiche = wrtiche>2?53000:40000;
+					printer.printMoney(document, wrtiche, 175, 297-145);
+					variablePrice +=wrtiche;
+			}
+			
+			if(job.getJobActivity().isSelloptaped()) {
+				printer.printMoney(document, 25000, 174, 297-152);
+				variablePrice +=25000;
 			}
 			
 			if(job.getJobActivity().isSewn()) {
@@ -725,16 +766,31 @@ public class JobController {
 			}
 			
 			if(job.getJobActivity().isHandgather()) {
-				float totalContentOfSignature = 0;
-			    for(int i=0; i<job.getJobPapers().size();i++) {
-			    		for(int j=0;j<job.getJobPapers().get(i).getJobColorCombinations().size(); j++) {
-			    			totalContentOfSignature+=job.getJobPapers().get(i).getJobColorCombinations().get(j).getNumberOfSignature();
-			    	}
-			    }
-				printer.print(document, Math.ceil(totalContentOfSignature)+"", 50, 297-74);
-				printer.printMoney(document, Math.ceil(totalContentOfSignature)*1000, 175, 297-74);
-				//variablePrice
-				variablePrice+=Math.ceil(totalContentOfSignature)*1000;
+				if(job.getJobType().getCategory()!=3) {
+					float totalContentOfSignature = 0;
+				    for(int i=0; i<job.getJobPapers().size();i++) {
+				    		for(int j=0;j<job.getJobPapers().get(i).getJobColorCombinations().size(); j++) {
+				    			totalContentOfSignature+=job.getJobPapers().get(i).getJobColorCombinations().get(j).getNumberOfSignature();
+				    	}
+				    }
+					printer.print(document, Math.ceil(totalContentOfSignature)+"", 50, 297-74);
+					printer.printMoney(document, Math.ceil(totalContentOfSignature)*1000, 175, 297-74);
+					//variablePrice
+					variablePrice+=Math.ceil(totalContentOfSignature)*1000;
+				}else {
+					float totalContentOfSignature = 0;
+				    for(int i=0; i<job.getJobPapers().size();i++) {
+				    		for(int j=0;j<job.getJobPapers().get(i).getJobColorCombinations().size(); j++) {
+				    			totalContentOfSignature+=job.getJobPapers().get(i).getJobColorCombinations().get(j).getNumberOfSignature();
+				    	}
+				    }
+				    int hg =(int) Math.ceil(totalContentOfSignature);
+				    hg= job.getJobActivity().getXNumbered()>0?hg*500:hg*400;
+					printer.print(document, (int)Math.ceil(totalContentOfSignature)+"", 38, 297-110);
+					printer.printMoney(document, hg, 175, 297-110);
+					//variablePrice
+					variablePrice+=hg;
+				}
 			}
 		
 			float totalNumberOfSignature = 0;
@@ -771,6 +827,8 @@ public class JobController {
 				variablePrice+=job.getJobActivity().getLamination()*(laminationUnitePrice/1000.0)*1000_000;
 			
 			}
+		
+			
 			
 			/**
 			 	* FIN de la quatrieme page (Finishing)
@@ -1204,161 +1262,7 @@ public class JobController {
 		return jobServiceImpl.createEstimateDataPdfWithCommision(reference,estimates);
 			
 	}
-	
-//	public String createEstimateDataPdfWithDiscount(String estimateName) throws IOException{
-//		 try {
-//			PdfWriter pdfWriter = new PdfWriter(estimateDir+estimateName+".pdf");
-//			JobEstimate jobEstimate=jobEstimateRepository.findByReference(estimateName).get();
-//			
-//			Job job=jobEstimate.getJob();
-//			PdfDocument pdfDocument = new PdfDocument(pdfWriter);
-//			Document document = new Document(pdfDocument, PageSize.A4);
-////			 document.setMargins(25, 25, 297-156, 50);
-//
-//			PrintableElement printer = new PrintableElement();	
-//			JobActivity jobActivity = job.getJobActivity();
-//			List<JobPaper> jcc = job.getJobPapers();
-//			JobPaper coverPaper = null;
-//			for(JobPaper pp : jcc) {
-//				if(pp.getContentType().getId()==1)
-//				{
-//					coverPaper=pp;
-//					printer.print(document,"Cover: "+ job.getOpenLength()+" X "+job.getOpenWidth()+" mm", 73, 297-93);
-//					printer.print(document, "Cover: " +job.getCoverVolume()+" Pages", 73, 297-110);
-//					printer.print(document,"Cover: "+  coverPaper.getJobColorCombinations().get(0).getFrontColorNumber() + "/" +coverPaper.getJobColorCombinations().get(0).getBackColorNumber()+" " + coverPaper.getJobColorCombinations().get(0).getPrintType().getName(), 73, 297-136);
-//					printer.printHeader(document,"Paper", 38, 297-182);
-//				    printer.print(document, "Cover : "+ job.getJobPapers().get(0).getPaperType().getName(), 73, 297-182);
-//					printer.print(document, job.getJobPapers().get(0).getGrammage()+" GSM", 168, 297-182);
-//			}}
-//			String jobActivities = "";
-//			String typeSettings = "";
-//			String reproduction = "";
-//				
-//				printer.printHeader(document, "Estimate ".toUpperCase() , 73, 297-42);
-//			 	printer.print(document, "("+jobEstimate.getReference().toUpperCase()+")", 97, 297-42);
-//
-//			 	printer.printHeader(document,job.getCustomer().getName().toUpperCase(), 123, 297-52);
-//				printer.printHeader(document,job.getCustomer().getAddress().toUpperCase(), 123, 297-58);
-//
-//				printer.printHeader(document, "Description", 38, 297-83);
-//				printer.print(document, job.getJobType().getName(), 73, 297-83);
-//
-//				if(job.isTypesettingByUs()||job.isLayOutByUs()) typeSettings =	typeSettings + "By us,";
-//				if(job.isExistingPlate()) {
-//					reproduction = reproduction +  "Existing Plate";
-//					
-//				}else reproduction = reproduction +  "Data supplied By Customer";
-//
-//				printer.printHeader(document, "Typesetting ", 38, 297-123);
-//				printer.print(document, typeSettings, 73, 297-123);
-//				
-//				printer.printHeader(document, " Reproduction", 38, 297-128 );
-//				printer.print(document, reproduction, 73, 297-128);
-//
-//				printer.printHeader(document, "Format", 38, 297-93);
-//				printer.printHeader(document, "Volume", 38, 297-110);
-//				
-//				printer.printHeader(document, "Printing", 38, 297-137);
-//
-//					String message_ =" ";
-//					boolean isContent =false;
-//					for(JobPaper pp:jcc) {
-//					if(pp.getContentType().getId()!=1)
-//						{
-//						isContent=true;
-//						for(int j=0; j<pp.getJobColorCombinations().size(); j++) {
-//						message_+=  pp.getJobColorCombinations().get(j).getFrontColorNumber()+"/"+ pp.getJobColorCombinations().get(j).getBackColorNumber()+" "+pp.getJobColorCombinations().get(j).getPrintType().getName()+"";
-//					}}
-//					
-//				}
-//					if(isContent) {
-//						printer.print(document, message_, 90, 297-142);
-//						printer.print(document, "Content", 73, 297-142);
-//						printer.print(document,"Content: "+  job.getCloseLength()+" X "+ job.getCloseWidth()+ " mm", 73, 297-99);
-//						printer.print(document, "Content: " +job.getContentVolume()+" Pages", 73, 297-116);
-//					}
-//				
-//				printer.printHeader(document, "Finishing", 38, 297-161);
-//				
-//				if(jobActivity.isHandgather()) jobActivities =	jobActivities + "hand-gatherd, ";
-//				if(jobActivity.isSelloptaped()) jobActivities =	jobActivities + " Selloptaped, ";
-//				if(jobActivity.isSewn()) jobActivities =	jobActivities + " Sewn,";
-//				if(jobActivity.isTrimmed()) jobActivities =	jobActivities + " trimmed, ";
-//				if(jobActivity.getIsStitching()!=null) jobActivities =	jobActivity.getIsStitching() + ", ";
-//				//if(!jobActivity.getGlueOption().isEmpty()) jobActivities =	jobActivities + jobActivity.getGlueOption()+ ", ";
-//				if(jobActivity.getXWiredStiched()>0) jobActivities =	jobActivities + jobActivity.getXWiredStiched()+ " x Stiched, ";
-//				if(jobActivity.getXCreased()>0) jobActivities =	jobActivities + " Cover "+ jobActivity.getXCreased()+ " x creased, ";
-//				if(jobActivity.getXCross()>0) jobActivities =	jobActivities + jobActivity.getXCross()+ " x folded,";
-//				if(jobActivity.getXNumbered()>0) jobActivities =	jobActivities + jobActivity.getXNumbered()+ " x Numbered, ";
-//				if(jobActivity.getBindingType()!=null) jobActivities =	jobActivities + jobActivity.getBindingType().getName()+" ";
-//				if(jobActivity.getLamination()>0) jobActivities =	jobActivities +" Cover " + jobActivity.getLamination() + " side(s) laminated, ";
-//
-//			 printer.printParagraphe(document,jobActivities, 73, 297-170);
-//			 
-//			   if(isContent)			
-//				printer.printParagraphe(document,"Content : ", 73, 297-187);
-//				float vecto = -5;
-//				for(JobPaper pp:jcc) {
-//					if(pp.getContentType().getId()!=1) {
-//						vecto+=5;
-//						printer.print(document, pp.getPaperType().getName(),  90, 297-187-vecto);
-//						printer.print(document, pp.getGrammage()+" GSM",  168, 297-187-vecto);
-//					}
-//
-//				}
-//				printer.printHeader(document, "Quantity",  38, 297-200);
-//				printer.printHeader(document, "Unit(XAF)",  132, 297-200);
-//				printer.printHeader(document, "Total(XAF)",  172, 297-200);
-//				
-//				String messagesAdvancePayment="";
-//				
-//				List<EstimatePricing> estimates =jobEstimateServiceImpl.generateDiscountCommissionEstimateResult(jobEstimate.getId());
-//			
-//				/// work done on printed estimate with DIscount
-//				
-//				for (EstimatePricing estimatePricing: jobEstimate.getEstimatePricings()) {
-//					
-//					if(estimatePricing.isInvoiced()) {
-//							for(EstimatePricing invoicedEstimatePricing : estimates ) {
-//						if(estimatePricing.getQuantity() == invoicedEstimatePricing.getQuantity()) {
-//							
-//							invoicedEstimatePricing.setTotalPrice(invoicedEstimatePricing.getTotalPrice() + jobEstimate.getDiscountValue() );
-//							invoicedEstimatePricing.setUnitPrice(invoicedEstimatePricing.getTotalPrice()/invoicedEstimatePricing.getQuantity());
-//						}
-//							}
-//					}
-//				}
-//				
-//				
-//				
-//				
-//				float vect = -5;
-//				DateFormat date =  DateFormat.getDateInstance(DateFormat.DEFAULT,Locale.ENGLISH);
-//				printer.printHeader(document,date.format(new Date())+"", 38, 297-73);
-//				for(int i=0; i<estimates.size(); i++) {
-//					vect+=5;
-//					printer.printMoney(document,estimates.get(i).getQuantity(), 82, 297-207-vect);
-//					printer.printMoney(document,estimates.get(i).getUnitPrice(), 132, 297-207-vect);
-//					printer.printMoney(document,estimates.get(i).getTotalPrice() , 171, 297-207-vect);
-//					
-//				}
-//				if(jobEstimate.getAdvancePercentage()> 0)
-//					messagesAdvancePayment =" Terms of Payment : "+ jobEstimate.getAdvancePercentage()  + "%" + " in advance, "+(100-jobEstimate.getAdvancePercentage())+ ""+"% on delivery.";
-//			printer.printHeader(document,messagesAdvancePayment, 38,297-227-vect);
-//				
-//				document.close();
-//				String	file = jobEstimate.getReference()+".pdf";
-//			 return "file="+file+"&dir=folder.estimate";
-//			} 
-//			
-//			catch (Exception e) {
-//				e.printStackTrace();
-//				return "file=error.pdf&dir=folder.estimate";
-//			}
-//			
-//		}
-//	
-	
+
 	@GetMapping("/search-by/{reference}")
 	public String findJobByReferenceNumber(@PathVariable String reference, Model model) {
 		try {

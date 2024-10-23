@@ -145,12 +145,28 @@
 					  <input id= "volumeOfCover" name="volumeOfCover" type="number" value=4>
 				    </div>
 				  </div>
+				  
+				  <div id="card" class ="col-lg-3 px8">
+				    <label for="card" class="form-label"> <a><fmt:message key="card.number"/></a></label> 
+				     <div>
+					  <input id= "cardNumber" name="cardNumber" type="number" value="1">
+				    </div>
+				  </div>
+				  
 				  <div id="volumeofContent" class ="col-lg-3 px8" style="position: relative; left: 10px;"> 
 				    <label for="volumeOfContent"   class="form-label"> <a><fmt:message key="volume.content"/></a></label>
 				    <div>
 					  <input id= "volumeOfContent" name="volumeOfContent" type="number" onchange="totalContentVolumeChange()">
 				    </div>
 				  </div>
+				  
+				   <div id="card" class ="col-lg-2 px8" style="display: none">
+				    <label for="card" class="form-label"> <a><fmt:message key="card.number"/></a></label> 
+				     <div>
+					  <input id= "cardNumber" name="cardNumber" type="number" value="1">
+				    </div>
+				  </div>
+				  
 				  <div class ="col-lg-3 px8"  style="position: relative; left: 10px;">
 				    <label for="" class="form-label"><a> <fmt:message key="ctp.fees"/></a></label> 
 					<input type="number" id="ctpFees" value="0">

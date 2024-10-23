@@ -167,6 +167,22 @@
 					  <input id= "volumeOfContent"  min="2" name="volumeOfContent" type="number" onchange="totalContentVolumeChange()" value="${job.contentVolume}">
 				    </div>
 				  </div>
+				   <c:if test="${job.jobType.category!=3}">
+				  	<div id="card" class ="col-lg-2 px8" style="display: none">
+				    <label for="card" class="form-label"> <a><fmt:message key="card.number"/></a></label> 
+				     <div>
+					  <input id= "cardNumber" name="cardNumber" type="number" value="${job.cardCopies}">
+				    </div>
+				  </div>
+				  </c:if>
+				  <c:if test="${job.jobType.category==3}">
+				  	<div id="card" class ="col-lg-2 px8" style="display: block">
+				    <label for="card" class="form-label"> <a><fmt:message key="card.number"/></a></label> 
+				     <div>
+					  <input id= "cardNumber" name="cardNumber" type="number" value="${job.cardCopies}" >
+				    </div>
+				  </div>
+				  </c:if>
 				  <div class ="col-lg-3 px8"  style="position: relative; left: 10px;">
 				    <label for="" class="form-label"><a> <fmt:message key="ctp.fees"/></a></label> 
 					<input type="number" id="ctpFees" value="${job.ctpFees}" name="ctpFees">
@@ -1116,7 +1132,7 @@
 				</div>	
 		           <div class ="row py-3 "style="margin-top:50px" >
 				     <div class ="col-sm-6"> 
-				      <button type="button" style="float:left" class="btn btn-primary" onclick="navigate(4,3);"> <fmt:message key="previews"/></button>	
+				      <button type="button" style="float:left" class="all-button-style" onclick="navigate(4,3);"> <fmt:message key="previews"/></button>	
 				     </div>
 			         <div class ="col-sm-6">
 			         <button type="button" style="width:125px;float:right"  class="all-button-style" id="next-btn1" onclick="navigate(4,5);summary()"><fmt:message key="next"/></button>			
@@ -1198,7 +1214,7 @@
 					    <tr>
 					      <th scope="col"><fmt:message key="number"/> </th>
 					       <th scope="col"><fmt:message key="paper.type"/></th>
-					      <th scope="col"> <fmt:message key="grammage"/> (GSM)</th>
+					      <th scope="col"> <fmt:message key="grammage"/> </th>
 					      <th scope="col"> <fmt:message key="volume"/> (Pages)</th>
 					    </tr>
 					  </thead>

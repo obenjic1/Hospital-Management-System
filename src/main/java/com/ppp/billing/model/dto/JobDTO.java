@@ -21,6 +21,7 @@ public class JobDTO {
 	private int  openLength;
 	private int  closeWidth;
 	private int  closeLength;
+	private int cardCopies;
 	private boolean  existingPlate;
 	private boolean  dataSuppliedByCustomer;
 	private boolean  layOutByUs;
