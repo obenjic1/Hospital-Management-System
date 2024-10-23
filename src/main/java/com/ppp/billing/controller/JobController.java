@@ -1381,20 +1381,9 @@ public class JobController {
 	@GetMapping("/get-estimate/{id}")
 	public String displayEstimates(@PathVariable long id,Model model) {
 		Job job = jobServiceImpl.findById(id).get();
-		String invoicedRefrence = "";
-		int invoicedNumber = 0;
 		
-		for(JobEstimate estimate : job.getJobEstimates()) {
-			if(estimate.isInvoiced()) { 
-				invoicedRefrence = estimate.getReference();
-				invoicedNumber +=1;
-			
-			}
-			
-		}
 		model.addAttribute("job", job);
-		model.addAttribute("invoicedNumber", invoicedNumber);
-		model.addAttribute("invoicedRefrence", invoicedRefrence);
+		
 		return "billing/estimate/view-estimate";
 	}
 
