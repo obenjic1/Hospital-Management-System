@@ -59,22 +59,28 @@
  												  </button>
  											  </a>
                                             </td>
- 		                                   <td>                             
- 		                                   
-			                              <a style="font-size: 15px;"> 
-											   <button class="button-see" data-bs-toggle="modal" data-toggle="tooltip" data-placement="top" title="view estimate Details" data-bs-target="#MainModal" onclick="loadMainModalForm('job/estimateRef/${jobEstimate.reference}')"> 
-											     <i class="ri-eye-line"></i>
-											   </button>
-											   <button class="button-see" data-bs-toggle="modal" data-toggle="tooltip" data-placement="top" title="apply comission" data-bs-target="#MainModal" onclick="loadMainModalForm('job/estimateRef/commission/${jobEstimate.reference}')"> 
-											     <i class="bi-cash-coin " style="color:green"></i>
-											   </button>
-											   
-										 </a>
+ 		                                  <td>                             
+			                              	     <a style="font-size: 15px;"> 
+												   <button class="button-see" data-bs-toggle="modal" data-toggle="tooltip" data-placement="top" title="view estimate Details" data-bs-target="#MainModal" onclick="loadMainModalForm('job/estimateRef/${jobEstimate.reference}')"> 
+												     <i class="ri-eye-line"></i>
+												   </button>
+												   <c:if test="${job.invoiced==0}">
+												   <button class="button-see" data-bs-toggle="modal" data-toggle="tooltip" data-placement="top" title="apply comission" data-bs-target="#MainModal" onclick="loadMainModalForm('job/estimateRef/commission/${jobEstimate.reference}')"> 
+												     <i class="bi-cash-coin " style="color:green"></i>
+												   </button>
+												   </c:if>
+												   
+												     <c:if test="${job.invoiced==1}">
+												   <button disabled class="button-see" data-bs-toggle="modal" data-toggle="tooltip" data-placement="top" title="apply comission" data-bs-target="#MainModal" onclick="loadMainModalForm('job/estimateRef/commission/${jobEstimate.reference}')"> 
+												     <i class="bi-cash-coin " style="color:green"></i>
+												   </button>
+												   </c:if>
+											     </a>
+											
+											 </a>
                                             </td>
-                                            
                                           </tr>
-                                         </c:forEach> 
-                           
+                                 </c:forEach> 
 		 					    </tbody> 
 		 					</table> 
 		 				</div>

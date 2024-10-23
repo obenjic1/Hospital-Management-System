@@ -41,7 +41,7 @@
 		           </c:if>
 		            </c:if>
 		           
-		             <c:if test="${!jobEstimate.invoiced}"> 
+		             <c:if test="${!jobEstimate.invoiced && job.invoiced==0 && job.status.name=='Approved'}"> 
 		             <c:if test="${!estimate.invoiced}"> 
 		               <button type="button" class="btn " onclick="getCommissionInvoice('${jobEstimate.id}','${estimate.quantity}')" data-toggle="tooltip" data-placement="top" title="Generate Invoice">
 		                 <i class="ir ri-draft-line" style="color: green"></i>

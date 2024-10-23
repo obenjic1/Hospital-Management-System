@@ -1278,17 +1278,13 @@ public class JobController {
 	@GetMapping("/get-estimate/{id}")
 	public String displayEstimates(@PathVariable long id,Model model) {
 		Job job = jobServiceImpl.findById(id).get();
-		List<Integer> jobEstimateList = new ArrayList<Integer>();
-		for (JobEstimate jobEstimate :job.getJobEstimates()) {
-			for(EstimatePricing estimatePricing : jobEstimate.getEstimatePricings()) {
-				jobEstimateList.add(estimatePricing.getInvoices().size());
-			}
-		}
-		model.addAttribute("jobEstimateList", jobEstimateList);
+		
 		model.addAttribute("job", job);
+		
 		return "billing/estimate/view-estimate";
 	}
 
+	
 	@GetMapping("/find-by/creationdate/{startDate}/{endDate}")
 	public String findeByCreationDate(@PathVariable Date startDate, @PathVariable  Date endDate, Model model) {
 		try {
