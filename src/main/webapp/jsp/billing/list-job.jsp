@@ -79,7 +79,7 @@
 						   </thead>
 						<tbody>
 						  <c:forEach var="job" items="${jobs}" varStatus="loop">
-						   <c:if test="${job.status.name=='Draft' }">
+						   <c:if test="${job.status.name=='Abort' }">
 						    <tr style="background:red">
 						   </c:if>
 						    <c:if test="${job.status.name!='Abort' }">
