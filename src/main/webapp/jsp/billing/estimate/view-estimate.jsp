@@ -22,9 +22,9 @@
                 <li class="nav-item">
                    <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#estimate-overview" style="height:35px;background:#012970; color:white;"><h5>Estimates </h5></button>
                  </li>
-                <li class="nav-item">
-                  <button class="nav-link " data-bs-toggle="tab" data-bs-target="#profile-overview" style="height:35px;background:#012970; color:white;"><h5>Job </h5></button>
-                </li>
+<!--                 <li class="nav-item"> -->
+<!--                   <button class="nav-link " data-bs-toggle="tab" data-bs-target="#profile-overview" style="height:35px;background:#012970; color:white;"><h5>Job </h5></button> -->
+<!--                 </li> -->
                 
 
               </ul>
@@ -33,6 +33,72 @@
                 
     <!-- ************************************************************************************************************* -->
  			<div  class="tab-pane fade show active estimate-overview" id="estimate-overview" style=""> 
+ 			
+ 				  <div class="row py-2" style= "margin-left:25px;">
+					 	 <div class="row">
+					 	 	<h4>Description</h4>
+					      <div class="col-sm-4">
+					    	The Type of Job : <span id="job-type">${job.jobType.name}</span>
+					      </div>
+					      <div class="col-sm-4">
+					    	 Title of Job : <span id="job-title">${job.title} </span> 
+					      </div>
+					      <div class="col-sm-4">
+					    	 Name of Customer : <span id="job-customer"> ${job.customer.name} </span> 
+					      </div>
+					      </div>
+					   	 <div class="row">
+					       <div class="col-sm-4">
+					       <c:if test="${job.jobType.category==2||job.jobType.category==3}">
+					     	  Number of Pages for Cover : <span id="cover-pages">${job.coverVolume} </span>
+					       </c:if>
+					      </div>
+					      <c:if test="${job.jobType.category==0|| job.jobType.category==1||job.jobType.category==2||job.jobType.category==3}">
+					      <div class="col-sm-4">
+					    	Number of Pages for Content :  <span id="content-pages"> ${job.contentVolume}</span> 
+					      </div>
+					      </c:if>
+					       <c:if test="${job.jobType.category==3}">
+					      <div class="col-sm-4">
+					    	Number of Copies :  <span id="content-pages"> ${job.contentVolume} x  ${job.cardCopies}</span> 
+					      </div>
+					      </c:if>
+					      
+					      <div class="col-sm-4">
+					    	 CTP Fees : <span id="ctp">${job.ctpFees}</span> 
+					      </div>
+					   </div>
+					   
+					   <div class="row">
+					    <div class="col-sm-4">
+					    	Paper Format : <span id="paper-format"> ${job.paperFormat}</span>
+					    </div>
+					    <div class="col-sm-4">
+					    	Open :<span id="open-l">${job.openLength}</span> | <span id="open-w">${job.openWidth}</span></div> 
+					    	<div class="col-sm-4">
+					    	Fold :<span id="fold-l">${job.closeLength}</span> | <span id="fold-w">${job.closeWidth}</span>
+					    </div>
+					    </div>
+					    <div class="row">
+					    <div class="col-sm-4">
+					    	Existing Plate: <span class="${job.existingPlate ? 'true' : 'false'}">${job.existingPlate ? 'yes' : 'no'}</span>
+					    </div>
+					    <div class="col-sm-4">
+					    	Data Supply By Us : <span class="${job.dataSuppliedByCustomer ? 'true' : 'false'}"> ${job.dataSuppliedByCustomer ? 'yes' : 'no'}</span>
+					    </div>
+					    <div class="col-sm-4">
+					    	Lay Out by Us :   <span class="${job.layOutByUs ? 'true' : 'false'}">${job.layOutByUs ? 'yes' : 'no'}</span>
+					    </div>
+					     
+					    <div class="col-sm-4" id="">
+					    	Type-Setting By Us : <span class="${job.typesettingByUs ? 'true' : 'false'}">${job.typesettingByUs ? 'yes' : 'no'}</span>
+					   </div>
+					   <div class="col-sm-4" id="">
+	    				Created Date : <fmt:formatDate type = "both" value = "${job.creationDate}" />
+					    	
+					   </div>
+					    </div>
+				</div>
  				 <div class="row" style="margin:25px;"> 
  					<table class="table " id="content-table"> 
  					    <thead style="background-color: #dddfe3;"> 
@@ -71,7 +137,7 @@
 												   </c:if>
 												   
 												     <c:if test="${job.invoiced==1}">
-												   <button disabled class="button-see" data-bs-toggle="modal" data-toggle="tooltip" data-placement="top" title="apply comission" data-bs-target="#MainModal" onclick="loadMainModalForm('job/estimateRef/commission/${jobEstimate.reference}')"> 
+												   <button disabled class="button-see" data-bs-toggle="modal" data-toggle="tooltip" data-placement="top" title="job already invoiced" data-bs-target="#MainModal" onclick="loadMainModalForm('job/estimateRef/commission/${jobEstimate.reference}')"> 
 												     <i class="bi-cash-coin " style="color:green"></i>
 												   </button>
 												   </c:if>
@@ -155,7 +221,7 @@
 					   </div>
 					    </div>
 					   </div>
-					<!--            job decription ends     -->
+					           job decription ends    
 					
 					<c:if test="${job.jobType.category==2||job.jobType.category==3}">
 							<h4 id="top2">Cover Paper Option</h4>
