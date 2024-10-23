@@ -79,7 +79,12 @@
 						   </thead>
 						<tbody>
 						  <c:forEach var="job" items="${jobs}" varStatus="loop">
-						   <tr class="${loop.index % 2 == 0 ? 'even-row' : 'odd-row'}">
+						   <c:if test="${job.status.name=='Draft' }">
+						    <tr style="background:red">
+						   </c:if>
+						    <c:if test="${job.status.name!='Abort' }">
+						    <tr class="${loop.index % 2 == 0 ? 'even-row' : 'odd-row'}">
+						   </c:if>
 							    <c:set var="index" value="${loop.index}" />
 							    <%    int index = (Integer) pageContext.getAttribute("index");  %>
 							 <td>  <%= index + 1 %></td>
