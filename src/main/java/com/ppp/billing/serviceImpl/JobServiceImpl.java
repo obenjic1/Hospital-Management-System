@@ -11,7 +11,6 @@ import java.util.Optional;
 
 import javax.transaction.Transactional;
 
-import org.hibernate.mapping.Array;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -44,7 +43,6 @@ import com.ppp.billing.repository.BindingTypeRepository;
 import com.ppp.billing.repository.ContentTypeRepository;
 import com.ppp.billing.repository.CustomerRepository;
 import com.ppp.billing.repository.DepartmentRepository;
-import com.ppp.billing.repository.JobColorCombinationRepository;
 import com.ppp.billing.repository.JobEstimateRepository;
 import com.ppp.billing.repository.JobPaperRepository;
 import com.ppp.billing.repository.JobRepository;
@@ -58,7 +56,6 @@ import com.ppp.billing.service.JobService;
 import com.ppp.printable.PrintableElement;
 import com.ppp.user.model.User;
 import com.ppp.user.repository.UserRepository;
-import com.ppp.user.service.impl.UserServiceImpl;
 
 
 @Service
@@ -94,10 +91,7 @@ public class JobServiceImpl implements JobService {
     
     @Autowired
 	private DepartmentRepository departmentRepository;
-    
-    @Autowired
-	private UserServiceImpl userServiceImpl;
-    
+        
     @Autowired
     JobTrackingRepository jobTrackingRepository;
 	@Autowired

@@ -4,7 +4,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.*;
 import java.math.RoundingMode;
-import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.text.SimpleDateFormat;
@@ -40,7 +39,6 @@ import com.itextpdf.kernel.pdf.canvas.PdfCanvas;
 import com.itextpdf.layout.Document;
 import com.itextpdf.layout.element.AreaBreak;
 import com.ppp.billing.model.BindingType;
-import com.ppp.billing.model.ContentType;
 import com.ppp.billing.model.Customer;
 import com.ppp.billing.model.Department;
 import com.ppp.billing.model.EstimatePricing;
@@ -62,12 +60,10 @@ import com.ppp.billing.model.dto.EstimateDTO;
 import com.ppp.billing.model.dto.JobDTO;
 import com.ppp.billing.model.dto.JobMovementDTO;
 import com.ppp.billing.repository.JobEstimateRepository;
-import com.ppp.billing.repository.JobRepository;
 import com.ppp.billing.repository.JobTrackingRepository;
 import com.ppp.billing.serviceImpl.BindingTypeserviceImpl;
 import com.ppp.billing.serviceImpl.CustomerServiceImpl;
 import com.ppp.billing.serviceImpl.DepartmentServiceImpl;
-import com.ppp.billing.serviceImpl.EstimatePricingServiceImpl;
 import com.ppp.billing.serviceImpl.InvoiceServiceImpl;
 import com.ppp.billing.serviceImpl.JobColorCombinationServiceImpl;
 import com.ppp.billing.serviceImpl.JobEstimateServiceImpl;
@@ -129,10 +125,7 @@ public class JobController {
 	private JobEstimateRepository jobEstimateRepository; 
 	@Autowired
 	private InvoiceServiceImpl invoiceServiceImpl;  
-	
-	@Autowired
-	private EstimatePricingServiceImpl estimatePricingServiceImpl;
-	
+		
 	@Autowired
 	private JobEstimateServiceImpl jobEstimateServiceImpl;
 	
