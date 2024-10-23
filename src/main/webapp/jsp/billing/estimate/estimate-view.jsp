@@ -58,7 +58,10 @@
                                                            <td> <fmt:message key="cover"/> : <span>${job.coverVolume}</span>  <span>Pages</span><br> 
                                                              </c:if> 
                                                              
-                                                              <c:if test="${job.jobType.category==0||job.jobType.category==1||job.jobType.category==2||job.jobType.category==3}"> 
+                                                              <c:if test="${job.jobType.category==3}"> 
+                                                                <fmt:message key="content"/> : <span>${job.contentVolume} x ${job.cardCopies}</span> <span>Copies</span> 
+                                                             </c:if> 
+                                                             <c:if test="${job.jobType.category==0||job.jobType.category==1||job.jobType.category==2}"> 
                                                                 <fmt:message key="content"/> : <span>${job.contentVolume}</span> <span>Pages</span> 
                                                              </c:if> 
                                                             </td> 

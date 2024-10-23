@@ -11,7 +11,6 @@ import java.util.Optional;
 
 import javax.transaction.Transactional;
 
-import org.hibernate.mapping.Array;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -44,7 +43,6 @@ import com.ppp.billing.repository.BindingTypeRepository;
 import com.ppp.billing.repository.ContentTypeRepository;
 import com.ppp.billing.repository.CustomerRepository;
 import com.ppp.billing.repository.DepartmentRepository;
-import com.ppp.billing.repository.JobColorCombinationRepository;
 import com.ppp.billing.repository.JobEstimateRepository;
 import com.ppp.billing.repository.JobPaperRepository;
 import com.ppp.billing.repository.JobRepository;
@@ -58,7 +56,6 @@ import com.ppp.billing.service.JobService;
 import com.ppp.printable.PrintableElement;
 import com.ppp.user.model.User;
 import com.ppp.user.repository.UserRepository;
-import com.ppp.user.service.impl.UserServiceImpl;
 
 
 @Service
@@ -94,18 +91,12 @@ public class JobServiceImpl implements JobService {
     
     @Autowired
 	private DepartmentRepository departmentRepository;
-    
-    @Autowired
-	private UserServiceImpl userServiceImpl;
-    
+        
     @Autowired
     JobTrackingRepository jobTrackingRepository;
 	@Autowired
 	private UserRepository userRepository;
-	
-	@Autowired
-	private JobColorCombinationRepository jobColorCombinationRepository;
-	
+		
 	@Autowired
 	private JobPaperRepository jobPaperRepository;
    
@@ -125,6 +116,7 @@ public class JobServiceImpl implements JobService {
 		newJob.setLayOutByUs(jobDTO.isLayOutByUs());
 		newJob.setTypesettingByUs(jobDTO.isTypesettingByUs());
 		newJob.setPaperFormat(jobDTO.getPaperFormat());
+		newJob.setCardCopies(jobDTO.getCardCopies());
 		newJob.setCreationDate(new Date());
 		Optional<Customer> customer = customerRepository.findById(jobDTO.getCustomerId());
 		newJob.setCustomer(customer.get());
@@ -324,6 +316,7 @@ public class JobServiceImpl implements JobService {
 		newJob.setDataSuppliedByCustomer(jobDTO.isDataSuppliedByCustomer());
 		newJob.setLayOutByUs(jobDTO.isLayOutByUs());
 		newJob.setTypesettingByUs(jobDTO.isTypesettingByUs());
+		newJob.setCardCopies(jobDTO.getCardCopies());
 		newJob.setCreationDate(new Date());
 		Optional<Customer> customer = customerRepository.findById(jobDTO.getCustomerId());
 		newJob.setCustomer(customer.get());
@@ -358,6 +351,7 @@ public class JobServiceImpl implements JobService {
 		newJob.setCloseLength(jobDTO.getCloseLength());
 		newJob.setOpenWidth(jobDTO.getOpenWidth());
 		newJob.setCloseWidth(jobDTO.getCloseWidth());
+		newJob.setCardCopies(jobDTO.getCardCopies());
 		newJob.setCtpFees(jobDTO.getCtpFees());
 		newJob.setExistingPlate(jobDTO.isExistingPlate());
 		newJob.setDataSuppliedByCustomer(jobDTO.isDataSuppliedByCustomer());
@@ -393,6 +387,7 @@ public class JobServiceImpl implements JobService {
 		newJob.setCloseLength(jobDTO.getCloseLength());
 		newJob.setOpenWidth(jobDTO.getOpenWidth());
 		newJob.setCloseWidth(jobDTO.getCloseWidth());
+		newJob.setCardCopies(jobDTO.getCardCopies());
 		newJob.setCtpFees(jobDTO.getCtpFees());
 		newJob.setExistingPlate(jobDTO.isExistingPlate());
 		newJob.setDataSuppliedByCustomer(jobDTO.isDataSuppliedByCustomer());
@@ -501,6 +496,7 @@ public class JobServiceImpl implements JobService {
 		newJob.setCloseLength(jobDTO.getCloseLength());
 		newJob.setOpenWidth(jobDTO.getOpenWidth());
 		newJob.setCloseWidth(jobDTO.getCloseWidth());
+		newJob.setCardCopies(jobDTO.getCardCopies());
 		newJob.setCtpFees(jobDTO.getCtpFees());
 		newJob.setExistingPlate(jobDTO.isExistingPlate());
 		newJob.setDataSuppliedByCustomer(jobDTO.isDataSuppliedByCustomer());
@@ -739,7 +735,10 @@ public class JobServiceImpl implements JobService {
 					printer.print(document, message_, 90, 297-142);
 					printer.print(document, "Content", 73, 297-142);
 					printer.print(document,"Content: "+  job.getCloseLength()+" X "+ job.getCloseWidth()+ " mm", 73, 297-99);
-					printer.print(document, "Content: " +job.getContentVolume()+" Pages", 73, 297-116);
+					if(job.getJobType().getCategory()!=3)
+						 printer.print(document, "Content: " +job.getContentVolume()+" Pages", 73, 297-116);
+					else
+						printer.print(document, "Content: " +job.getContentVolume()+" x " +job.getCardCopies() +" Copies", 73, 297-116);
 				}
 			
 			printer.printHeader(document, "Finishing", 38, 297-161);
@@ -873,7 +872,10 @@ public class JobServiceImpl implements JobService {
 						printer.print(document, message_, 90, 297-142);
 						printer.print(document, "Content", 73, 297-142);
 						printer.print(document,"Content: "+  job.getCloseLength()+" X "+ job.getCloseWidth()+ " mm", 73, 297-99);
-						printer.print(document, "Content: " +job.getContentVolume()+" Pages", 73, 297-116);
+						if(job.getJobType().getCategory()!=3)
+							 printer.print(document, "Content: " +job.getContentVolume()+" Pages", 73, 297-116);
+						else
+							printer.print(document, "Content: " +job.getContentVolume()+" x " +job.getCardCopies() +" Copies", 73, 297-116);
 					}
 				
 				printer.printHeader(document, "Finishing", 38, 297-161);

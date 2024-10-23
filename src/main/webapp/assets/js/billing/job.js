@@ -367,6 +367,7 @@ function randUpContentSignature(){
 					
 				*/
 
+
 function submitForm(id){
 	 let opt=document.getElementById("jobType").selectedOptions[0];	
 	 let dataContentValue = opt.parentElement.getAttribute('data-content');
@@ -375,6 +376,7 @@ function submitForm(id){
  job.customerId = document.getElementById("customer").value;
  job.jobTypeId = document.getElementById("jobType").value;
  job.title = document.getElementById("title").value;
+ job.cardCopies = document.getElementById("cardNumber").value;
  
  if(dataContentValue==2){
 	  job.coverVolume = document.getElementById("volumeOfCover").value;
@@ -613,7 +615,11 @@ function submitForm(id){
 		let mainContentSignature = document.getElementById("mainContentSignature").children;
 		let signatureDive = document.getElementById("signatureDiv").children;
 		let coverTable = document.getElementById("cover-table");
-		document.getElementById("content-pages").innerHTML= document.getElementById("volumeOfContent").value;
+		if(dataContentValue==3){
+			document.getElementById("content-pages").innerHTML= document.getElementById("volumeOfContent").value+ " x "+ document.getElementById('cardNumber').value;
+		}else{
+			document.getElementById("content-pages").innerHTML= document.getElementById("volumeOfContent").value;
+		}
 
 
 	for (let i = 1; i < contentPaperTypes.length; i++) {
@@ -629,8 +635,12 @@ function submitForm(id){
 		c1.innerHTML = i;
 		c2.innerHTML = currentRow.querySelector("[contentPaperType]").selectedOptions[0].innerHTML;
 		c3.innerHTML = currentRow.querySelector("[contentGrammage]").value;
-		c4.innerHTML = currentRow.querySelector("[contentVolume]").value;
-
+		if(dataContentValue==3){
+			c4.innerHTML = currentRow.querySelector("[contentVolume]").value + " x "+ document.getElementById('cardNumber').value;
+		}else{
+			c4.innerHTML = currentRow.querySelector("[contentVolume]").value;
+		}
+		
 }
 
 					// PAPER OPTIONS SECTION ( cover )		
@@ -963,6 +973,7 @@ function jobTypeChoice(opt){
 		document.getElementById('closeDimensionDiv').style.display = "none";
 		document.getElementById('volumeOfContent').value="";
 		document.getElementById('volumeOfContent').readOnly = false;
+		document.getElementById("card").style.display = "none";
 	}
 	else if(dataContentValue==1){
 		document.getElementById('volumeofCover').style.display = "none";
@@ -974,6 +985,7 @@ function jobTypeChoice(opt){
 		document.getElementById('closeDimensionDiv').style.display = "";
 		document.getElementById('volumeOfContent').value="";
 		document.getElementById('volumeOfContent').readOnly = false;
+		document.getElementById("card").style.display = "none";
 	}
 	else if(dataContentValue==3){
 		document.getElementById('closeDimensionDiv').style.display = "none";
@@ -985,6 +997,8 @@ function jobTypeChoice(opt){
 		document.getElementById('mainContentSignature').style.display = "";
 		document.getElementById('volumeOfContent').value="";
 		document.getElementById('volumeOfContent').readOnly = false;
+		document.getElementById("card").style.display = "block";
+
 	}
 	else {
 		document.getElementById('volumeofContent').style.display = "";
@@ -996,6 +1010,7 @@ function jobTypeChoice(opt){
 		document.getElementById('closeDimensionDiv').style.display = "";
 		document.getElementById('volumeOfContent').value="";
 		document.getElementById('volumeOfContent').readOnly = false;
+		document.getElementById("card").style.display = "none";
 	}
 
 }
@@ -1610,6 +1625,16 @@ function validateTab1(){
                         }
                     }
                 },
+                
+                cardNumber: {
+                    validators: {
+                        notEmpty: {
+                            message: 'this field is required'
+                        }
+                    }
+                },
+                
+                
                 
             }
         });

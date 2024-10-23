@@ -46,11 +46,18 @@
 					     	 <fmt:message key="number.of.pages.for.cover"/> : <span id="cover-pages">${job.coverVolume} </span>
 					       </c:if>
 					      </div>
-					      <c:if test="${job.jobType.category==1||job.jobType.category==2||job.jobType.category==0||job.jobType.category==3}">
+					      <c:if test="${job.jobType.category==1||job.jobType.category==2||job.jobType.category==0}">
 					      <div class="col-sm-4">
 					    	<fmt:message key="pages.for.content"/> :  <span id="content-pages"> ${job.contentVolume}</span> 
 					      </div>
 					      </c:if>
+					      
+					      <c:if test="${job.jobType.category==3}">
+						      <div class="col-sm-4">
+						    	<fmt:message key="pages.for.content"/> :  <span id="content-pages"> ${job.contentVolume} x ${job.cardCopies}</span> 
+						      </div>
+					      </c:if>
+					      
 					      <div class="col-sm-4">
 					    	<fmt:message key="ctp.fees"/> : <span id="ctp">${job.ctpFees}</span> 
 					      </div>
@@ -129,8 +136,12 @@
 							 <td>  <%= index + 1 %></td>
 							   <td><a>${jobPaper.paperType.name}</a></td>
 							   <td><a>${jobPaper.grammage}</a></td>
-							   <td><a>${jobPaper.volume}</a></td>
-							 </tr>
+							    <c:if test="${job.jobType.category==3}">
+					             <td><a>${job.contentVolume} x ${job.cardCopies}</a></td>
+					            </c:if>
+					             <c:if test="${job.jobType.category!=3}">
+					            <td><a>${jobPaper.volume}</a></td>
+					            </c:if>
 							   </c:forEach>
 							    </tbody>
 						</table>

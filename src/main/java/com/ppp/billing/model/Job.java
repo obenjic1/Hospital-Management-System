@@ -107,6 +107,9 @@ public class Job {
 	@Column(name = "other_fee_description")
 	private String otherFeeDescription;
 	
+	@Column(name = "card_copies", columnDefinition = "int default 1")
+	private int cardCopies;
+	
 	@OneToOne(fetch = FetchType.LAZY, orphanRemoval = true, cascade = CascadeType.PERSIST)
 	@JoinColumn(name = "job_activity_id", referencedColumnName = "id")
 	private JobActivity jobActivity;
