@@ -41,17 +41,17 @@
 						<div class="row " style="margin-bottom:10px; ">
 					    <div id="startPeriod" class="col-sm-4" >
 					         <label for="search_startDate" class="required" ><fmt:message key="start.date"/></label>
-					        <input type="date" id="search_startDate"  required="required" class="date_picker hasDatepicker" style="width: 255px;display:block">
+					        <input type="date" id="search_startDate"  required="required" class="date_picker hasDatepicker" style="width: 100%;display:block">
 					    </div>
 					    <div id="endPeriod" class="col-sm-4" >
 					        <label for="search_endDate" class="required"><fmt:message key="end.date"/></label>
-					        <input type="date" id="search_endDate"  required="required" class="date_picker hasDatepicker" style="width: 255px;display:block">
+					        <input type="date" id="search_endDate"  required="required" class="date_picker hasDatepicker" style="width: 100%;display:block">
 					    </div>
-					    <div id="endPeriod" class="col-sm-3" style=" margin:auto">
+					    <div id="endPeriod" class="col-sm-1" style=" margin:auto">
 					     <label></label>
 					      <button type="button" title="Search"onclick="findByDate()" style="background: none; display:block"> <i class="bi bi-search" ></i> </button>
 					    </div>
-					    
+					    <div class="col-sm-3"></div>
 					</div> 
 			  
 						<table id="myTable" class="table datatable">
