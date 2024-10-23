@@ -68,9 +68,9 @@
 						  <thead style="background-color: #dddfe3;">
 						     <tr>
 						      <th scope="col"><fmt:message key="number"/></th>
+						      <th scope="col"><fmt:message key="reference"/></th>
 						       <th scope="col"><fmt:message key="job.type"/></th>
 						      <th scope="col"><fmt:message key="title"/></th>
-							  <th scope="col"><fmt:message key="reference"/></th>
 						      <th scope="col"><fmt:message key="job.status"/></th>
 						      <th scope="col"><fmt:message key="registration.date"/></th>
 						      <th scope="col"><fmt:message key="customer"/></th>
@@ -84,9 +84,9 @@
 							    <c:set var="index" value="${loop.index}" />
 							    <%    int index = (Integer) pageContext.getAttribute("index");  %>
 						   	   <td>  <%= index + 1 %></td>
+							   <td><a>${job.referenceNumber}</a></td>
 							   <td><a>${job.jobType.name}</a></td>
 							   <td><a>${job.title}</a></td>
-							   <td><a>${job.referenceNumber}</a></td>
 							   <td>	 
 							   					  <c:if test="${job.status.name=='Registered'}"><a>${job.status.name}</a></c:if>
 							   					  <c:if test="${job.status.name=='Draft'}"><a>${job.status.name}</a></c:if>
