@@ -617,21 +617,26 @@ public class JobController {
 			if(job.getJobActivity().getXNumbered()>0) {
 				int perforated = (int) Math.ceil((job.getContentVolume()*job.getCardCopies())/2);
 				printer.print(document, perforated+"", 40, 297-173.5f);
-				printer.print(document, 2300+"", 137, 297-173.5f); //fix cost
-				printer.print(document, (perforated*0.5)*1000+"", 175, 297-173.5f); //fix cost
+				//fix cost
+				printer.print(document, 2300+"", 137, 297-173.5f); 
+				//fix cost
+				printer.print(document, (perforated*0.5)*1000+"", 175, 297-173.5f); 
 			//	printer.print(document, numberingCost, 10 , 10);
 				fixePrice += 2300;
-				variablePrice += (perforated*0.5)*1000; //varable cost
+				//varable cost
+				variablePrice += (perforated*0.5)*1000; 
 			}
 			
 			if((job.getJobActivity().getXPerforated()>0)) {
 				int cardNumber = Math.max(job.getCardCopies()-1, 1);
 				int cardValue = job.getContentVolume()*cardNumber;
 				printer.print(document,cardValue+"", 40, 297-180);
-				printer.print(document, 2300+"", 137, 297-180); //fix cost
+				 //fix cost
+				printer.print(document, 2300+"", 137, 297-180);
 				printer.print(document, (cardValue*0.5)*1000+"", 175, 297-180); //variable cost
 				fixePrice += 2300;
-				variablePrice +=(cardValue*0.5)*1000; //varable cost
+				//varable cost
+				variablePrice +=(cardValue*0.5)*1000; 
 			}
 			p2=variablePrice-p1;
 			
