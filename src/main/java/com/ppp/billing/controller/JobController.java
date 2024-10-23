@@ -633,7 +633,8 @@ public class JobController {
 				printer.print(document,cardValue+"", 40, 297-180);
 				 //fix cost
 				printer.print(document, 2300+"", 137, 297-180);
-				printer.print(document, (cardValue*0.5)*1000+"", 175, 297-180); //variable cost
+				 //variable cost
+				printer.print(document, (cardValue*0.5)*1000+"", 175, 297-180);
 				fixePrice += 2300;
 				//varable cost
 				variablePrice +=(cardValue*0.5)*1000; 
