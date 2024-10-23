@@ -169,6 +169,24 @@
 					  <input id= "volumeOfContent" name="volumeOfContent" type="number" onchange="totalContentVolumeChange()" value="${job.contentVolume}">
 				    </div>
 				  </div>
+				  
+				  <c:if test="${job.jobType.category!=3}">
+				  	<div id="card" class ="col-lg-2 px8" style="display: none">
+				    <label for="card" class="form-label"> <a><fmt:message key="card.number"/></a></label> 
+				     <div>
+					  <input id= "cardNumber" name="cardNumber" type="number" value="${job.cardCopies}">
+				    </div>
+				  </div>
+				  </c:if>
+				  <c:if test="${job.jobType.category==3}">
+				  	<div id="card" class ="col-lg-2 px8" style="display: block">
+				    <label for="card" class="form-label"> <a><fmt:message key="card.number"/></a></label> 
+				     <div>
+					  <input id= "cardNumber" name="cardNumber" type="number" value="${job.cardCopies}" >
+				    </div>
+				  </div>
+				  </c:if>
+				  
 				  <div class ="col-lg-3 px8"  style="position: relative; left: 10px;">
 				    <label for="" class="form-label"><a> <fmt:message key="ctp.fees"/></a></label> 
 					<input type="number" id="ctpFees" value="${job.ctpFees}">

@@ -307,7 +307,10 @@ public class InvoiceServiceImpl implements InvoiceService{
 						printer.print(document, message_, 90, 297-142);
 						printer.print(document, "Content", 73, 297-142);
 						printer.print(document,"Content: "+  job.getCloseLength()+" X "+ job.getCloseWidth()+ " mm", 73, 297-99);
-						printer.print(document, "Content: " +job.getContentVolume()+" Pages", 73, 297-116);
+						if(job.getJobType().getCategory()!=3)
+							 printer.print(document, "Content: " +job.getContentVolume()+" Pages", 73, 297-116);
+						else 
+							printer.print(document, "Content: " +job.getContentVolume()+ " x "+ job.getCardCopies() +" Copies", 73, 297-116);
 					}
 				
 				printer.printHeader(document, "Finishing", 38, 297-161);
