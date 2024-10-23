@@ -113,7 +113,7 @@
  					    <tbody>
                               <c:forEach var="jobEstimate" items="${job.jobEstimates}" varStatus="loop">
                                  <c:set var="index" value="${loop.index}" />
-                                     <%    int index = (Integer) pageContext.getAttribute("index");  %> 
+                                     <% int index = (Integer) pageContext.getAttribute("index");  %> 
                                           <tr>   <td> <%= index + 1 %></td>	
                                             <td>${jobEstimate.reference}</td> 
                                             <td> <fmt:formatDate type = "both" value = "${jobEstimate.createdDate}" /></td> 
