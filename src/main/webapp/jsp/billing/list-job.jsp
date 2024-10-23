@@ -86,7 +86,14 @@
 							   <td><a>${job.jobType.name}</a></td>
 							   <td><a>${job.title}</a></td>
 							   <td><a>${job.referenceNumber}</a></td>
-							   <td><a>${job.status.name}</a></td>
+							   <td>	 
+							   					  <c:if test="${job.status.name=='Registered'}"><a class=" badge bg-success">${job.status.name}</a></c:if>
+							   					  <c:if test="${job.status.name=='Draft'}"><a>${job.status.name}</a></c:if>
+							   					  <c:if test="${job.status.name=='Confrimed'}"><a class="badge bg-warning">${job.status.name}</a></c:if>
+							   					  <c:if test="${job.status.name=='Approved'}"> <a class=" badge bg-success" >${job.status.name}</a></c:if>
+							   					  <c:if test="${job.status.name=='Abort'}"><a class=" badge bg-danger" >${job.status.name}</a></c:if>
+							   					 
+							   					 </td>
 							   <td><a><fmt:formatDate type = "both" value = "${job.creationDate}" /></a></td>
 							   <td><a>${job.customer.name}</a></td>
 							 <td>
