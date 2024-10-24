@@ -1374,8 +1374,10 @@ function summaryDraftUpdate(){
 				if(result.isConfirmed){
 				    confirm(id);
 					Swal.fire("Success!/SuinnertHTMccess!", "Your job has been confirmed!", "success");
+					loadPage("job/list-job");
 				}else{
 					Swal.fire("Cancelled/Annulee!", "Operation cancelled", "info");
+					loadPage("job/list-job");
 				}
 			})  
 		}
