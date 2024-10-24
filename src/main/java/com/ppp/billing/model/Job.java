@@ -151,19 +151,16 @@ public class Job {
 	
 	@Transient
 	private int invoiced;
-	
 	public int getInvoiced() {
-		int result =0;
 		if(jobEstimates!=null) {
 		for( JobEstimate je : jobEstimates) {
 			for(EstimatePricing ep : je.getEstimatePricings()) {
 				if(ep.isInvoiced()) 
 					return  1;
-				
 			}
 		}}
 		
-		return result;
+		return invoiced;
 	}
 	
 }

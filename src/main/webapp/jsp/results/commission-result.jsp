@@ -33,20 +33,18 @@
 		<%--   <sec:authorize  access="hasRole('ROLE_GENERATE_INVOICE')"> --%>
 		           <td>
 		            <c:if test="${jobEstimate.discountValue!=0 || jobEstimate.commission!=0}">
-		           <c:if test="${jobEstimate.invoiced}"> 
-		            <c:if test="${estimate.quantity == invoicedQunatity}"> 
-		            <button type="button" class="btn " onclick="getCommissionInvoice('${jobEstimate.id}','${estimate.quantity}')" data-toggle="tooltip" data-placement="top" title="Generate Invoice">
+		            <c:if test="${jobEstimate.invoiced}"> 
+		            <c:if test="${estimate.invoiced}"> 
+		            <button type="button" class="btn " onclick="getCommissionInvoice('${estimate.id}','${estimate.quantity}')" data-toggle="tooltip" data-placement="top" title="Generate Invoice">
 		                 <i class="ir ri-draft-line" style="color: green"></i>
 		               </button>
 		           </c:if>
 		            </c:if>
 		           
-		             <c:if test="${!jobEstimate.invoiced && job.invoiced==0 && job.status.name=='Approved'}"> 
-		             <c:if test="${!estimate.invoiced}"> 
-		               <button type="button" class="btn " onclick="getCommissionInvoice('${jobEstimate.id}','${estimate.quantity}')" data-toggle="tooltip" data-placement="top" title="Generate Invoice">
+		             <c:if test="${estima.jobEstimate.job.invoiced==0 && job.status.name=='Approved'}"> 
+		               <button type="button" class="btn " onclick="getCommissionInvoice('${estimate.id}','${estimate.quantity}')" data-toggle="tooltip" data-placement="top" title="Generate Invoice">
 		                 <i class="ir ri-draft-line" style="color: green"></i>
 		               </button>
-		             </c:if>
 		             </c:if>
 		             </c:if>
 		    </td>

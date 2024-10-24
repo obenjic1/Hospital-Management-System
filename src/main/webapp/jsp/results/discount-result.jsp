@@ -31,19 +31,18 @@
 		          
 		<%--   <sec:authorize  access="hasRole('ROLE_GENERATE_INVOICE')"> --%>
 		           <td>
-		           <c:if test="${jobEstimateD.discountValue!=0}"> 
+		           <c:if test="${estimate.jobEstimate.discountValue!=0}"> 
 				           <c:if test="${estimate.invoiced}"> 
-					            <button type="button" class="btn " onclick="loadMainModalForm('invoice/discount/from-pricing/${jobEstimateD.id}/${estimate.quantity}')" data-toggle="tooltip" data-placement="top" title="View Invoices">
+					            <button type="button" class="btn " onclick="loadMainModalForm('invoice/discount/from-pricing/${estimate.id}/${estimate.quantity}')" data-toggle="tooltip" data-placement="top" title="View Invoices">
 					              <i class="ri-eye-line" style="color: #0d6efd"></i> 
 					             </button>
 				           </c:if>
 			           
-			          <c:if test="${!jobEstimateD.invoiced && job.invoiced==0 && job.status.name=='Approved'}"> 
-			             <c:if test="${!estimate.invoiced}"> 
-				               <button type="button" class="btn " onclick="getDiscountInvoiceFromPricing('${jobEstimateD.id}','${estimate.quantity}')" data-bs-dismiss="modal" data-toggle="tooltip" data-placement="top" title="Generate Invoice">
-				                 <i class="ir ri-draft-line" style="color: green"></i>
+			          <c:if test="${estimate.jobEstimate.job.invoiced==0}"> 
+				               <button type="button" class="btn " onclick="getDiscountInvoiceFromPricing('${estimate.id}','${estimate.quantity}')" data-bs-dismiss="modal" data-toggle="tooltip" data-placement="top" title="Generate Invoice">
+				                 <i class="ir ri-draft-line" style="color: green">
+				                 </i>
 				               </button>
-			             </c:if>
 			           </c:if>  
 			             
 		         </c:if>

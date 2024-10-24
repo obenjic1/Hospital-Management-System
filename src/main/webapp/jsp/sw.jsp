@@ -6,7 +6,7 @@
  */
 
 
-var staticCacheName = 'ppp_billing_v1';
+var staticCacheName = 'ppp_billing_v2';
 var allCaches = [staticCacheName];
 self.addEventListener('install', function(event) {
   event.waitUntil(

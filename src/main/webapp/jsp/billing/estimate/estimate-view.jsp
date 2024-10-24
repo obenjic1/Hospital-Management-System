@@ -152,7 +152,7 @@
                                                                                      <span style="display:left"> 
                                                                                          ${jobPaper.paperType.name} 
                                                                                      </span> 
-                                                                                     <span style="float:rigJ000002ht"> 
+                                                                                     <span style="float:right"> 
                                                                                          ${jobPaper.grammage} GSM <br> 
                                                                                      </span> 
                                                                                      <br> 
@@ -230,7 +230,7 @@
                                                                    </button>
                                                                  </c:if>
                                                                  
-                                                                   <c:if test="${!estimate.invoiced && job.invoiced==0 && job.status.name=='Approved'}"> 
+                                                                   <c:if test="${job.invoiced==0 && job.status.name=='Approved'}"> 
                                                                      <button type="button" class="btn " onclick="getInvoiceFromPricing(${estimate.id})" data-toggle="tooltip"data-bs-dismiss="modal" data-placement="top" title="Generate Invoice">
                                                                        <i class="ir ri-draft-line" style="color: green"></i>
                                                                      </button>

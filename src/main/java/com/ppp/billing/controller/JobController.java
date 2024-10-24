@@ -1328,55 +1328,19 @@ public class JobController {
 	@GetMapping("/estimateRef/result/{id}")
 	public String getComissionResult(@PathVariable long id, Model model) {
 		
-		List<EstimatePricing> estimates = jobEstimateServiceImpl.generateCommissionEstimateResult(id);
 		JobEstimate jobEstimate = jobEstimateRepository.findById(id).get();
-		int invoicedQunatity = 0;
-		for (EstimatePricing estimatePricing: jobEstimate.getEstimatePricings()) {
-			
-			if(estimatePricing.isInvoiced()) {
-					for(EstimatePricing invoicedEstimatePricing : estimates ) {
-				if(estimatePricing.getQuantity() == invoicedEstimatePricing.getQuantity()) {
-					
-					invoicedEstimatePricing.setTotalPrice(invoicedEstimatePricing.getTotalPrice() + jobEstimate.getDiscountValue() );
-					invoicedEstimatePricing.setUnitPrice(invoicedEstimatePricing.getTotalPrice()/invoicedEstimatePricing.getQuantity());
-					invoicedQunatity =estimatePricing.getQuantity();
-				}
-					}
-			}
-		}
-		
+		List<EstimatePricing> estimates=jobEstimate.getEstimatePricings(); 
 		model.addAttribute("estimates",estimates);
 		model.addAttribute("jobEstimate",jobEstimate);
-		model.addAttribute("invoicedQunatity",invoicedQunatity);
-
-		
 		return "/results/commission-result";
 	}
 
 	@GetMapping("/discount/result/{id}")
 	public String getDiscountComissionResult(@PathVariable long id, Model model) {
 		
-		List<EstimatePricing> estimates = jobEstimateServiceImpl.generateDiscountCommissionEstimateResult(id);
 		JobEstimate jobEstimate = jobEstimateRepository.findById(id).get();
-	
-		for (EstimatePricing estimatePricing: jobEstimate.getEstimatePricings()) {
-			
-			if(estimatePricing.isInvoiced()) {
-					for(EstimatePricing invoicedEstimatePricing : estimates ) {
-				if(estimatePricing.getQuantity() == invoicedEstimatePricing.getQuantity()) {
-					
-					invoicedEstimatePricing.setTotalPrice(invoicedEstimatePricing.getTotalPrice() + jobEstimate.getDiscountValue() );
-					invoicedEstimatePricing.setUnitPrice(invoicedEstimatePricing.getTotalPrice()/invoicedEstimatePricing.getQuantity());
-					invoicedEstimatePricing.setInvoiced(true);
-					
-				}
-					}
-			}
-		}
-	
+		List<EstimatePricing> estimates = jobEstimate.getEstimatePricings();
 		model.addAttribute("estimates",estimates);
-		model.addAttribute("jobEstimateD",jobEstimate);
-		
 	
 		return "/results/discount-result";
 	}
