@@ -157,7 +157,7 @@ public class PlateMakingCosting {
 		int run =0 ;
 		for(JobColorCombination colorCombination: jobPaper.getJobColorCombinations())
 		{
-		run += (int) Math.ceil(colorCombination.getNumberOfSignature())*(colorCombination.getBackColorNumber()+colorCombination.getFrontColorNumber());
+		run += (int) Math.ceil(colorCombination.getNumberOfSignature()*(colorCombination.getBackColorNumber()+colorCombination.getFrontColorNumber()));
 	  }
 	return run;
 	}
