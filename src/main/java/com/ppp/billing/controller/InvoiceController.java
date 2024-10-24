@@ -173,23 +173,12 @@ public class InvoiceController {
 	@GetMapping("/commission-invoice/{id}/{qty}")
 	public String getCommissionInvoice(@PathVariable long id,@PathVariable int qty, Model model) {		
 		try {
-			JobEstimate estimate = estimateServiceImpl.findById(id);
-			List<EstimatePricing> estimatePricing = estimate.getEstimatePricings();
-			EstimatePricing estimatePricingWithCommission = new EstimatePricing();
+			EstimatePricing estimatePricingWithCommission = estimatePricingServiceImpl.findById(id).get();
 			//long lastInvoice = correspondingestimatePricing.getInvoices().getS;
 			Invoice invoice = new Invoice();
-			for(EstimatePricing correspondingestimatePricing :estimatePricing ) {
-				
-				if(correspondingestimatePricing.getQuantity() == qty) {
-					
-					estimatePricingWithCommission.setQuantity(correspondingestimatePricing.getQuantity());
-					estimatePricingWithCommission.setTotalPrice(correspondingestimatePricing.getTotalPrice() +	estimate.getCommission() +  estimate.getDiscountValue());
-					estimatePricingWithCommission.setUnitPrice(estimatePricingWithCommission.getTotalPrice()/correspondingestimatePricing.getQuantity());
-					 invoice = correspondingestimatePricing.getInvoices().get(0);
-				}
-			}
+			invoice = estimatePricingWithCommission.getInvoices().get(0);
 
-			Job jobs = estimate.getJob();
+			Job jobs = estimatePricingWithCommission.getJobEstimate().getJob();
 		
 //			Job jobs = invoice.getEstimatePricing().getJobEstimate().getJob();
 			double discount = (invoice.getDiscountPercentage()/100)*(estimatePricingWithCommission.getTotalPrice());
@@ -248,14 +237,8 @@ public class InvoiceController {
 	@GetMapping("/discount/from-pricing/{id}/{qty}")
 	public String getInvoiceFromPricing(@PathVariable long id, @PathVariable long qty, Model model) {	
 		try {
-			JobEstimate jobEstimate = estimateServiceImpl.findById(id);
-			List<EstimatePricing> estimatePricing = jobEstimate.getEstimatePricings();
-			EstimatePricing discountestimatePricing = new EstimatePricing();
-			for (EstimatePricing invoicedEstimatePricing : estimatePricing) {
-				if(invoicedEstimatePricing.getQuantity() == qty) {
-					discountestimatePricing = invoicedEstimatePricing;
-				}
-			}
+			EstimatePricing discountestimatePricing = estimatePricingServiceImpl.findById(id).get();
+			
 
 			long index = discountestimatePricing.getInvoices().get(0).getId();
 			Invoice invoice = invoiceServiceImpl.findById(index);
