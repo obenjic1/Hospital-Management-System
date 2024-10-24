@@ -74,18 +74,7 @@ public class JobEstimateServiceImpl implements JobEstimateService {
 	public List<EstimatePricing> generateDiscountCommissionEstimateResult(long id) {
 		JobEstimate estimate = jobEstimateRepository.findById(id).get();
 		List<EstimatePricing> estimqtePricing = estimate.getEstimatePricings();
-		estimate.setDiscountValue(estimate.getDiscountValue());
-		List<EstimatePricing> estimateP = new ArrayList<EstimatePricing>();
-
-		for(EstimatePricing estimatePrice :estimqtePricing) {
-			EstimatePricing estimateCommision = new EstimatePricing();
-			estimateCommision.setQuantity(estimatePrice.getQuantity());
-			estimateCommision.setTotalPrice(estimatePrice.getTotalPrice()-estimate.getDiscountValue());
-			estimateCommision.setUnitPrice((estimatePrice.getTotalPrice()-estimate.getDiscountValue())/estimatePrice.getQuantity());
-			estimateP.add(estimateCommision);
-		}
-
-		return estimateP;
+		return estimqtePricing;
 	}
 	
 

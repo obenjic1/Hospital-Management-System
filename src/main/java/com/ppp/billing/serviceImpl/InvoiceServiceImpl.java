@@ -189,23 +189,12 @@ public class InvoiceServiceImpl implements InvoiceService{
 	
 	
 	public Invoice saveInvoiceWithDiscount(long id, int qty) {
-		JobEstimate estimate = estimateRepository.findById(id).get();
-		List<EstimatePricing> estimatePricing = estimate.getEstimatePricings();
 		Invoice invoiceToSave = new Invoice();
-		EstimatePricing selectedPricingElement = new EstimatePricing();
+		EstimatePricing selectedPricingElement = estimatePricingRepository.findById(id).get();
+		JobEstimate estimate= selectedPricingElement.getJobEstimate();
 		estimate.setInvoiced(true);
 		invoiceToSave.setCreationDate(new Date()); 
-		for(EstimatePricing correspondingestimatePricing : estimatePricing ) {
-			if(correspondingestimatePricing.getQuantity() == qty) {
-				
-				correspondingestimatePricing.setQuantity(qty);
-				correspondingestimatePricing.setTotalPrice(correspondingestimatePricing.getTotalPrice());
-				correspondingestimatePricing.setUnitPrice(correspondingestimatePricing.getTotalPrice()/correspondingestimatePricing.getQuantity());
-				correspondingestimatePricing.setInvoiced(true);
-				selectedPricingElement = correspondingestimatePricing;
-			}
-			
-		}
+		
 			/*
 			 * Create Reference for Invoice
 			 */
@@ -225,7 +214,7 @@ public class InvoiceServiceImpl implements InvoiceService{
 			/*
 			 * Calculate  Discount
 			 */
-		
+			selectedPricingElement.setInvoiced(true);
 			estimate.setEstimatePricings(estimate.getEstimatePricings());
 			invoiceRepository.saveAndFlush(invoiceToSave);
 			selectedPricingElement.setInvoices(selectedPricingElement.getInvoices());
