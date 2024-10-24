@@ -269,7 +269,7 @@ public class JobController {
 	public String generatePdf(@PathVariable long id) throws IOException {
 		try {	
 			Job jobStatus = jobServiceImpl.findById(id).get();
-			
+			jobStatus.setControlSheetGenerated(true);
 			List<JobTracking> jobTrackings = jobStatus.getJobTrackings() ;
 			JobTracking tracking = new JobTracking();
 			tracking.setCreationDate(new Date());
@@ -1559,6 +1559,42 @@ public class JobController {
 			 return "KO";
 		}
 	}
+
+	@GetMapping("/get-proof/{id}")
+	public String getProofRead(@PathVariable long id, Model model) {
+		Job job = jobServiceImpl.findById(id).get();
+		List<JobPaper> jobPapers = job.getJobPapers();
+		List<JobPaper> jobP = new ArrayList<JobPaper>();
+		JobPaper cover = null;
+		for(JobPaper jp : jobPapers) {
+			if(jp.getContentType().getId()==1) {
+				cover=jp;
+			//	jobPapers.remove(jp);
+			}else {
+				jobP.add(jp);
+			}
+		}
+
+		
+		List<JobEstimate>  jobEstimates = job.getJobEstimates();
+		List<Invoice> invoices = new ArrayList<Invoice>();
+		
+		for (JobEstimate jobEstimate: jobEstimates) {
+			for (EstimatePricing estimatePricing: jobEstimate.getEstimatePricings()) {
+				for (Invoice invoice: estimatePricing.getInvoices()) {
+					invoices.add(invoice);
+				}
+			}
+		}
+		model.addAttribute("invoices",invoices);
+		model.addAttribute("job",job);
+		model.addAttribute("jobPapers",jobP);
+		model.addAttribute("coverjobPapers",cover);
+		model.addAttribute("jobEstimates",jobEstimates);
+
+    return "/billing/confirm-job";
+	}
+
 	
 
 	// to get the update page of job

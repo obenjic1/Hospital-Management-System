@@ -7,6 +7,7 @@ function loadPageModal(page) {
 			fetch('file/download?'+ html).then(resp=> resp.blob()).then(blob=>{
 			let file = window.URL.createObjectURL(blob);
 			document.getElementById('controlSheetViewer').src=file;
+			listjob();
 			});
 		})
 		.catch(error => console.log(error));
