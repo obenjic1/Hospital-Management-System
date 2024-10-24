@@ -232,12 +232,12 @@
                   <div class ="col-lg-6">
                   	<h4><fmt:message key="estimates"/></h4>
                   </div>
-                  <c:if test="${job.proofread=='true'&&job.status.name=='Confrimed'||job.status.name=='Approved'}">
+                  <c:if test="${job.proofread=='true'}">
                     <div class ="col-lg-6" id="proofreaded">
                     <span style="position: relative;justify-content: end;bottom: 2px;left: 332px; font-family: bold; font-size: 16px; color: green"><fmt:message key="proof.readed"/></span>
                      </div>
                    </c:if>
-                    <c:if test="${job.proofread=='false'&&job.status.name=='Registered'}">
+                    <c:if test="${job.proofread=='false'}">
                     <div class ="col-lg-6">
                   	   <button style="position: relative;justify-content: end;bottom: 2px;left: 332px;" onclick="proofreadByTheCustomer('${job.id}')"  data-toggle="tooltip" data-placement="top" title="Mark as Proofread" class="btn btn-outline-danger" data-bs-dismiss="modal"> <fmt:message key="proofread"/> ?</button>
                      </div>
@@ -257,14 +257,13 @@
                             </div>
                         </c:forEach>
                 </div>
-             <c:if test="${job.proofread=='true'}">
              <div class ="row py-3 "style="margin-top:50px" >
 		     	<div class ="col-sm-6">
 		     		 <button type="button" style ="width:125px;float:left" class="btn btn-outline-danger" onClick="loadPageModalForm('job/update-form/${job.id}');"><fmt:message key="edit"/></button>	
 		    	</div>
 		    	
 	        	<div class ="col-sm-6">
-		        	 <c:if test="${job.proofread=='true'&&job.status.name=='Registered'}">
+		        	 <c:if test="${job.status.name=='Registered'}">
 		       		 	<button type="button"  style ="width:125px;float:right" onclick="confirmJob(${job.id})"  class="btn btn-outline-primary" id="" data-bs-dismiss="modal"><fmt:message key="confirm"/></button>	
 		       		 </c:if>
 		       		 <c:if test="${job.proofread=='true'&&job.status.name=='Confrimed'}">
@@ -272,7 +271,6 @@
 		       		 </c:if>
 	       		 </div>
 	     	</div>
-	     	</c:if>
 	
                 
 			</div>
