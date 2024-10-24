@@ -95,19 +95,21 @@
 								  <select id="jobListActions" name="name" class="form-select">
 								     <option >Actions</option>
 								     <option data-bs-toggle="modal" data-bs-target="#ExtralargeModal" data-toggle="tooltip" data-placement="top" title="view job details" onclick="loadPageModalForm('job/viewJob/${job.id}');"><fmt:message key="view"/> </option>
+								     
   									<c:if test="${job.status.name=='Draft'}">
 								      <option data-bs-toggle="modal" data-bs-target="#ExtralargeModal" data-toggle="tooltip" data-placement="top" title="edit Draft Job" onClick="loadPageModalForm('job/update-draft/${job.id}');"><fmt:message key="edit.draft"/></option>
 <%-- 								      <option data-bs-toggle="modal" data-bs-target="#ExtralargeModal" data-toggle="tooltip" data-placement="top" title="edit job details" onClick="loadPageModalForm('job/display-draft-form/${job.id}');">Test Edit Job</option> --%>
 								      <option data-bs-toggle="modal" data-bs-target="#ExtralargeModal" data-toggle="tooltip" data-placement="top" title="edit job details" onClick="loadPageModalForm('job/get-complete-draft-form/${job.id}');"><fmt:message key="edi.to.copletedJob"/></option>
 								      <option data-bs-toggle="modal" data-bs-target="#ExtralargeModal" data-toggle="tooltip" data-placement="top" title="view job details" onclick="loadPageModalForm('job/move/${job.id}');"><fmt:message key="move.job"/> </option>
+								      
 <%-- 								      <option data-toggle="tooltip" data-placement="top" title="archive a job" onclick="confirmAbort(${job.id})">Abort</option> --%>
 								    </c:if>
-								    
+								    <option data-bs-toggle="modal" data-bs-target="#ExtralargeModal" data-toggle="tooltip" data-placement="top" title="view job details" onclick="loadPageModalForm('job/get-proof/${job.id}');"><fmt:message key="proof.read"/> </option>
 								    <c:if test="${job.status.name=='Registered'}">
 								      <option data-bs-toggle="modal" data-bs-target="#ExtralargeModal" data-toggle="tooltip" data-placement="top" title="edit job details" onClick="loadPageModalForm('job/update-form/${job.id}');"><fmt:message key="edit"/></option>
 								      <option data-bs-toggle="modal" data-bs-target="#ExtralargeModal" data-toggle="tooltip" data-placement="top" title="view job details" onclick="loadPageModalForm('job/confimJob/${job.id}');"><fmt:message key="confirm"/></option>
 								      <option data-bs-toggle="modal" data-bs-target="#ExtralargeModal" data-toggle="tooltip" data-placement="top" title="view job details" onclick="loadPageModalForm('job/move/${job.id}');"><fmt:message key="move.job"/></option>
-								      <option data-bs-toggle="modal" data-bs-target="#ExtralargeModalFile" onclick="loadPageModalControlSheet('job/generate-pdf/${job.id}');"><fmt:message key="control.sheet"/></option>
+								      <option data-bs-toggle="modal" data-bs-target="#ExtralargeModalFile" onclick="loadPageModalControlSheet('job/generate-pdf/${job.id}'),listJob();"><fmt:message key="control.sheet"/></option>
 								     <c:if test="${job.jobEstimates.size()>0}">
  									    <option data-bs-toggle="modal" onclick="loadPage('job/get-estimate/${job.id}');"><fmt:message key="view.estimate"/></option>
 								      </c:if> 
@@ -123,13 +125,16 @@
  									   <c:if test="${job.jobEstimates.size()>0}">
  									      <option data-bs-toggle="modal" onclick="loadPage('job/get-estimate/${job.id}');"><fmt:message key="view.estimate"/></option>
 								        </c:if> 
- 									    <option data-bs-toggle="modal" data-bs-target="#ExtralargeModalFile" onclick="loadPageModalControlSheet('job/generate-pdf/${job.id}');"><fmt:message key="control.sheet"/></option>
-									    <option data-bs-toggle="modal" data-bs-target="#ExtralargeModal" onclick="loadDynamicPageModal('job/estimate/${job.id}');"><fmt:message key="generate.estimate"/></option>	
+ 									    <option data-bs-toggle="modal" data-bs-target="#ExtralargeModalFile" onclick="loadPageModalControlSheet('job/generate-pdf/${job.id}');listJob();"><fmt:message key="control.sheet"/></option>
+ 									     <c:if test="${job.invoiced==0 && job.controlSheetGenerated=='true'}">
+									    <option data-bs-toggle="modal" data-bs-target="#ExtralargeModal" onclick="loadDynamicPageModal('job/estimate/${job.id}'),listJob();;"><fmt:message key="generate.estimate"/></option>	
 								      </c:if>
+								      </c:if>
+								      
 								   	 <c:if test="${job.status.name=='Approved'}">
 								      <option data-bs-toggle="modal" data-bs-target="#ExtralargeModal" data-toggle="tooltip" data-placement="top" title="view job details" onclick="loadPageModalForm('job/move/${job.id}');"><fmt:message key="move.job"/></option>
 <%-- 								       <c:if test="${job.controlSheetGenerated=='true'}"> --%>
-								       <c:if test="${job.invoiced==0}">
+								       <c:if test="${job.invoiced==0 && job.controlSheetGenerated=='true'}">
 									 		 <option data-bs-toggle="modal" data-bs-target="#ExtralargeModal" onclick="loadDynamicPageModal('job/estimate/${job.id}');"><fmt:message key="generate.estimate"/></option>	
 <%-- 								  </c:if>		 --%>
 									    </c:if>							  
@@ -142,10 +147,8 @@
 									<c:if test="${job.status.name !='Abort' && job.status.name !='Approved' && job.invoiced==0}">
 								      <option data-toggle="tooltip" data-placement="top" title="archive a job" onclick="confirmAbort(${job.id})"><fmt:message key="abort.button"/></option>
 								    </c:if>  
-									
 									<option data-bs-toggle="modal" data-bs-target="#ExtralargeModal" onclick="loadDynamicPageModal('job/reprint/${job.id}');"><fmt:message key="reprint.job"/></option>
-								     <option data-bs-toggle="modal" data-bs-target="#ExtralargeModal" onclick="loadDynamicPageModal('job/history/${job.id}');"><fmt:message key="history"/></option>
-
+								    <option data-bs-toggle="modal" data-bs-target="#ExtralargeModal" onclick="loadDynamicPageModal('job/history/${job.id}');"><fmt:message key="history"/></option>
 					              </select>
 							  </td>
 							</tr>
