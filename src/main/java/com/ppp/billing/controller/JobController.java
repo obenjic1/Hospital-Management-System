@@ -556,7 +556,7 @@ public class JobController {
 			data = ImageDataFactory.create(backgroundFolder + "P3.jpg");
 			canvas1.addImage(data, PageSize.A4, false);
 			float decalage = -30;
-			PlateMakingCosting plateMakingCosting = new PlateMakingCosting(jobPaper);
+			//PlateMakingCosting plateMakingCosting = new PlateMakingCosting(jobPaper);
 			for(int i= 0; i<jobPapers.size(); i++) {
 				if(!jobPapers.get(i).getJobColorCombinations().get(0).getPrintingMachine().getAbbreviation().equals("NONE")) {
 				JobPaper jobPeper = jobPapers.get(i);
