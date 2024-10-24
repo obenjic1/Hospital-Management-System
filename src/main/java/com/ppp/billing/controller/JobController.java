@@ -4,7 +4,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.*;
 import java.math.RoundingMode;
-import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.text.SimpleDateFormat;
@@ -40,7 +39,6 @@ import com.itextpdf.kernel.pdf.canvas.PdfCanvas;
 import com.itextpdf.layout.Document;
 import com.itextpdf.layout.element.AreaBreak;
 import com.ppp.billing.model.BindingType;
-import com.ppp.billing.model.ContentType;
 import com.ppp.billing.model.Customer;
 import com.ppp.billing.model.Department;
 import com.ppp.billing.model.EstimatePricing;
@@ -62,12 +60,10 @@ import com.ppp.billing.model.dto.EstimateDTO;
 import com.ppp.billing.model.dto.JobDTO;
 import com.ppp.billing.model.dto.JobMovementDTO;
 import com.ppp.billing.repository.JobEstimateRepository;
-import com.ppp.billing.repository.JobRepository;
 import com.ppp.billing.repository.JobTrackingRepository;
 import com.ppp.billing.serviceImpl.BindingTypeserviceImpl;
 import com.ppp.billing.serviceImpl.CustomerServiceImpl;
 import com.ppp.billing.serviceImpl.DepartmentServiceImpl;
-import com.ppp.billing.serviceImpl.EstimatePricingServiceImpl;
 import com.ppp.billing.serviceImpl.InvoiceServiceImpl;
 import com.ppp.billing.serviceImpl.JobColorCombinationServiceImpl;
 import com.ppp.billing.serviceImpl.JobEstimateServiceImpl;
@@ -129,10 +125,7 @@ public class JobController {
 	private JobEstimateRepository jobEstimateRepository; 
 	@Autowired
 	private InvoiceServiceImpl invoiceServiceImpl;  
-	
-	@Autowired
-	private EstimatePricingServiceImpl estimatePricingServiceImpl;
-	
+		
 	@Autowired
 	private JobEstimateServiceImpl jobEstimateServiceImpl;
 	
@@ -624,21 +617,27 @@ public class JobController {
 			if(job.getJobActivity().getXNumbered()>0) {
 				int perforated = (int) Math.ceil((job.getContentVolume()*job.getCardCopies())/2);
 				printer.print(document, perforated+"", 40, 297-173.5f);
-				printer.print(document, 2300+"", 137, 297-173.5f); //fix cost
-				printer.print(document, (perforated*0.5)*1000+"", 175, 297-173.5f); //fix cost
+				//fix cost
+				printer.print(document, 2300+"", 137, 297-173.5f); 
+				//fix cost
+				printer.print(document, (perforated*0.5)*1000+"", 175, 297-173.5f); 
 			//	printer.print(document, numberingCost, 10 , 10);
 				fixePrice += 2300;
-				variablePrice += (perforated*0.5)*1000; //varable cost
+				//varable cost
+				variablePrice += (perforated*0.5)*1000; 
 			}
 			
 			if((job.getJobActivity().getXPerforated()>0)) {
 				int cardNumber = Math.max(job.getCardCopies()-1, 1);
 				int cardValue = job.getContentVolume()*cardNumber;
 				printer.print(document,cardValue+"", 40, 297-180);
-				printer.print(document, 2300+"", 137, 297-180); //fix cost
-				printer.print(document, (cardValue*0.5)*1000+"", 175, 297-180); //variable cost
+				 //fix cost
+				printer.print(document, 2300+"", 137, 297-180);
+				 //variable cost
+				printer.print(document, (cardValue*0.5)*1000+"", 175, 297-180);
 				fixePrice += 2300;
-				variablePrice +=(cardValue*0.5)*1000; //varable cost
+				//varable cost
+				variablePrice +=(cardValue*0.5)*1000; 
 			}
 			p2=variablePrice-p1;
 			
@@ -1329,55 +1328,19 @@ public class JobController {
 	@GetMapping("/estimateRef/result/{id}")
 	public String getComissionResult(@PathVariable long id, Model model) {
 		
-		List<EstimatePricing> estimates = jobEstimateServiceImpl.generateCommissionEstimateResult(id);
 		JobEstimate jobEstimate = jobEstimateRepository.findById(id).get();
-		int invoicedQunatity = 0;
-		for (EstimatePricing estimatePricing: jobEstimate.getEstimatePricings()) {
-			
-			if(estimatePricing.isInvoiced()) {
-					for(EstimatePricing invoicedEstimatePricing : estimates ) {
-				if(estimatePricing.getQuantity() == invoicedEstimatePricing.getQuantity()) {
-					
-					invoicedEstimatePricing.setTotalPrice(invoicedEstimatePricing.getTotalPrice() + jobEstimate.getDiscountValue() );
-					invoicedEstimatePricing.setUnitPrice(invoicedEstimatePricing.getTotalPrice()/invoicedEstimatePricing.getQuantity());
-					invoicedQunatity =estimatePricing.getQuantity();
-				}
-					}
-			}
-		}
-		
+		List<EstimatePricing> estimates=jobEstimate.getEstimatePricings(); 
 		model.addAttribute("estimates",estimates);
 		model.addAttribute("jobEstimate",jobEstimate);
-		model.addAttribute("invoicedQunatity",invoicedQunatity);
-
-		
 		return "/results/commission-result";
 	}
 
 	@GetMapping("/discount/result/{id}")
 	public String getDiscountComissionResult(@PathVariable long id, Model model) {
 		
-		List<EstimatePricing> estimates = jobEstimateServiceImpl.generateDiscountCommissionEstimateResult(id);
 		JobEstimate jobEstimate = jobEstimateRepository.findById(id).get();
-	
-		for (EstimatePricing estimatePricing: jobEstimate.getEstimatePricings()) {
-			
-			if(estimatePricing.isInvoiced()) {
-					for(EstimatePricing invoicedEstimatePricing : estimates ) {
-				if(estimatePricing.getQuantity() == invoicedEstimatePricing.getQuantity()) {
-					
-					invoicedEstimatePricing.setTotalPrice(invoicedEstimatePricing.getTotalPrice() + jobEstimate.getDiscountValue() );
-					invoicedEstimatePricing.setUnitPrice(invoicedEstimatePricing.getTotalPrice()/invoicedEstimatePricing.getQuantity());
-					invoicedEstimatePricing.setInvoiced(true);
-					
-				}
-					}
-			}
-		}
-	
+		List<EstimatePricing> estimates = jobEstimate.getEstimatePricings();
 		model.addAttribute("estimates",estimates);
-		model.addAttribute("jobEstimateD",jobEstimate);
-		
 	
 		return "/results/discount-result";
 	}

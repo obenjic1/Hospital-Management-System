@@ -25,14 +25,13 @@ function loadTables(url, idContainer) {
  
  function applyCommission(id){
 	 let commissionValue = document.getElementById("commision").value;
-	 if(commissionValue<1){commissionValue=0;}
+	 if(commissionValue<1 || commissionValue==""){commissionValue=0;}
 	 let discountValue =document.getElementById("discount").value;
-	  if(discountValue<1){ discountValue=100;}
+	  if(discountValue<1 || commissionValue==""){ discountValue=0;}
 		 loadMainModalForm(`job/estimate/commission/${id}/${commissionValue}/${discountValue}`);
 
  }
- 
- 
+
   function displayOnTable(id){
 	  loadThisApplyCommissionDiv(`job/estimateRef/result/${id}`)
 	  

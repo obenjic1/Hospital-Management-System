@@ -32,68 +32,65 @@
 				<div class="card">
 					<div class="card-body">
 						<h5 class="card-title"><fmt:message key="job.management"/></h5>
-
-						<div class="row" style="position: relative; left:  42.5%;margin:13px">
-							<div class="col-sm-4"><button onclick="loadPage('job/displayform')"  data-toggle="tooltip" data-placement="top" title=" new job"  style="width: 100px;position: relative; margin-bottom:10px;left: 130.5%" type="button" class="btn btn-outline-primary"><fmt:message key="new.job"/></button>
-							</div>
-							<div class="col-sm-4"><button onclick="loadPage('job/displayform-draft')"  data-toggle="tooltip" data-placement="top" title="draft job"  style="width: 100px;position: relative; left:50.5%" type="button" class="btn btn-outline-danger"><fmt:message key="draft.job"/></button>
-							</div>
+					 	<div class="row" style="margin-bottom:15px; float:right">
+							  <button onclick="loadPage('job/displayform')"  data-toggle="tooltip" data-placement="top" title=" new job"  style="width: 150px; margin:5px" type="button" class="btn btn-outline-primary"><fmt:message key="new.job"/></button>
+							  <button  onclick="loadPage('job/displayform-draft')"  data-toggle="tooltip" data-placement="top" title="draft job"  style="width: 150px; margin:5px" type="button" class="btn btn-outline-danger"><fmt:message key="draft.job"/></button>
 						</div>
-						
+						<br>
 						<!-- Table with stripped rows -->
-						<div class="row" style="position: relative;bottom: 46px; left: 154px;">
-					    <div id="startPeriod" class="col-sm-3" style="display: block;">
-					         <label for="search_startDate" class="required"><fmt:message key="start.date"/></label>
-					        <input type="date" id="search_startDate"  required="required" class="date_picker hasDatepicker" style="width: 255px;">
+						<div class="row " style="margin-bottom:10px; ">
+					    <div id="startPeriod" class="col-sm-4" >
+					         <label for="search_startDate" class="required" ><fmt:message key="start.date"/></label>
+					        <input type="date" id="search_startDate"  required="required" class="date_picker hasDatepicker" style="width: 100%;display:block">
 					    </div>
-	    
-					    <div id="endPeriod" class="col-sm-3" style="display: block;">
+					    <div id="endPeriod" class="col-sm-4" >
 					        <label for="search_endDate" class="required"><fmt:message key="end.date"/></label>
-					        <input type="date" id="search_endDate"  required="required" class="date_picker hasDatepicker" style="width: 255px;">
-					        
+					        <input type="date" id="search_endDate"  required="required" class="date_picker hasDatepicker" style="width: 100%;display:block">
 					    </div>
-					    
-					    <div id="endPeriod" class="col-sm-3" style="display: block;">
-					      <button type="button" title="Search"onclick="findByDate()" style="background: none;"> <i class="bi bi-search" ></i> </button>
-					        
+					    <div id="endPeriod" class="col-sm-1" style=" margin:auto">
+					     <label></label>
+					      <button type="button" title="Search"onclick="findByDate()" style="background: none; display:block"> <i class="bi bi-search" ></i> </button>
 					    </div>
-					    <div > 
-						    <label style="left: 71%;position: relative; font-family: bold;color: #012970;"><fmt:message key="total.jobs"/> </label>
-						    <span style="left: 75%;position: relative; color: red; font-family: bold;">${totalElement}</span>
-					    </div> 
-					   
+					    <div class="col-sm-3"></div>
 					</div> 
-			
+			  
 						<table id="myTable" class="table datatable">
 						  <thead style="background-color: #dddfe3;">
+						   <div style="float:right; margin-bottom:30px">
+						    <label style=" font-family: bold;color: #012970;"><fmt:message key="total.jobs"/> </label>
+						    <span style=" color: red; font-family: bold;">${totalElement}</span>
+					    </div>
 						     <tr>
 						      <th scope="col"><fmt:message key="number"/></th>
+						      <th scope="col"><fmt:message key="reference"/></th>
 						       <th scope="col"><fmt:message key="job.type"/></th>
 						      <th scope="col"><fmt:message key="title"/></th>
-							  <th scope="col"><fmt:message key="reference"/></th>
-						      <th scope="col"><fmt:message key="job.status"/></th>
 						      <th scope="col"><fmt:message key="registration.date"/></th>
 						      <th scope="col"><fmt:message key="customer"/></th>
+						       <th scope="col"><fmt:message key="job.status"/></th>
 						      <th scope="col"><fmt:message key="actions"/></th>
 							</tr>
 						   </thead>
 						<tbody>
 						  <c:forEach var="job" items="${jobs}" varStatus="loop">
-						   <c:if test="${job.status.name=='Abort' }">
-						    <tr style="background:red">
-						   </c:if>
-						    <c:if test="${job.status.name!='Abort' }">
-						    <tr class="${loop.index % 2 == 0 ? 'even-row' : 'odd-row'}">
-						   </c:if>
+							
+						    
 							    <c:set var="index" value="${loop.index}" />
 							    <%    int index = (Integer) pageContext.getAttribute("index");  %>
-							 <td>  <%= index + 1 %></td>
+						   	   <td>  <%= index + 1 %></td>
+							   <td><a>${job.referenceNumber}</a></td>
 							   <td><a>${job.jobType.name}</a></td>
 							   <td><a>${job.title}</a></td>
-							   <td><a>${job.referenceNumber}</a></td>
-							   <td><a>${job.status.name}</a></td>
+							   
 							   <td><a><fmt:formatDate type = "both" value = "${job.creationDate}" /></a></td>
 							   <td><a>${job.customer.name}</a></td>
+							   <td>	 
+			   					  <c:if test="${job.status.name=='Registered'}"><a>${job.status.name}</a></c:if>
+			   					  <c:if test="${job.status.name=='Draft'}"><a>${job.status.name}</a></c:if>
+			   					  <c:if test="${job.status.name=='Confrimed'}"><a class="badge bg-warning">${job.status.name}</a></c:if>
+			   					  <c:if test="${job.status.name=='Approved'}"> <a class=" badge bg-success" >${job.status.name}</a></c:if>
+			   					  <c:if test="${job.status.name=='Abort'}"><a class=" badge bg-danger" >${job.status.name}</a></c:if>
+							    </td>
 							 <td>
 								  <select id="jobListActions" name="name" class="form-select">
 								     <option >Actions</option>

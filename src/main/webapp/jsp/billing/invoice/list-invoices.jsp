@@ -33,29 +33,28 @@
 					<div class="card-body">
 						<h5 class="card-title"> <fmt:message key="invoice"/></h5>
 						<!-- Table with stripped rows -->
-					 <div class="row" style="position: relative;bottom: 46px; left: 154px;">
-					    <div id="startPeriod" class="col-sm-3" style="display: block;">
+					 <div class="row" style="bottom: 30px;">
+					    <div id="startPeriod" class="col-sm-4">
 					         <label for="search_startDate" class="required">Start date</label>
-					        <input type="date" id="search_startDate"  required="required" class="date_picker hasDatepicker" style="width: 255px;">
+					        <input type="date" id="search_startDate"  required="required" class="date_picker hasDatepicker" style="width: 100%;">
 					    </div>
-	    
-					    <div id="endPeriod" class="col-sm-3" style="display: block;">
+					    <div id="endPeriod" class="col-sm-4">
 					        <label for="search_endDate" class="required">End date</label>
-					        <input type="date" id="search_endDate"  required="required" class="date_picker hasDatepicker" style="width: 255px;">
-					        
+					        <input type="date" id="search_endDate"  required="required" class="date_picker hasDatepicker" style="width: 100%;">
 					    </div>
-					    
-					    <div id="endPeriod" class="col-sm-3" >
-					      <button type="button" title="Search"  onclick="findBycreationDate()"> <i class="bi bi-search" ></i> </button>
-					        
+					    <div id="endPeriod" class="col-sm-1" >
+					   	 <label></label>
+					      <button style="display:block" type="button" title="Search"  onclick="findBycreationDate()"> <i class="bi bi-search" ></i> </button>
 					 </div>
-					 <div > 
-						    <label style="left: 71%;position: relative; font-family: bold;color: #012970;">Total Invoices </label>
-						    <span style="left: 75%;position: relative; color: red; font-family: bold;">${totalElement}</span>
+					    <div class="col-sm-3">
 					    </div>
 						</div> 
 						<table id="myTable1" class="table datatable">
 						  <thead style="background-color: #dddfe3;">
+						   <div  style="float:right; margin-bottom:30px"> 
+						    <label style="font-family: bold;color: #012970;">Total Invoices </label>
+						    <span style=" color: red; font-family: bold;">${totalElement}</span>
+					    </div>
 						    <tr>
 						       <th scope="col"><fmt:message key="number"/></th>
 						       <th scope="col"><fmt:message key="reference.number"/></th>
