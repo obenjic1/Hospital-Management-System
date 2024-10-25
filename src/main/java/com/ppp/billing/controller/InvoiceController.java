@@ -321,7 +321,7 @@ public class InvoiceController {
 		@GetMapping("/invoice-discount-amount/{id}/{discount}")
 		public String applyDiscountAmount(@PathVariable long id,@PathVariable  double discount, Model model) {
 			try {
-				Invoice invoice = invoiceServiceImpl.applyDiscount(id, discount);
+				Invoice invoice = invoiceServiceImpl.applyDiscountAmount(id, discount);
 				double discountValue = (invoice.getDiscountPercentage()/100)*(invoice.getEstimatePricing().getTotalPrice());
 				double irTaxValue= (invoice.getIrTaxPercentage()/100)*invoice.getEstimatePricing().getTotalPrice();
 				double vatValue= (invoice.getVatPercentage()/100)*invoice.getEstimatePricing().getTotalPrice();

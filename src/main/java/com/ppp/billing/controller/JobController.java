@@ -1246,16 +1246,17 @@ public class JobController {
 		List<EstimatePricing> estimates =jobEstimateServiceImpl.generateDiscountCommissionEstimateResult(jobEstimate.getId());
 		
 		/// work done on printed estimate with DIscount
-		
+
 		for (EstimatePricing estimatePricing: jobEstimate.getEstimatePricings()) {
 			
 			if(estimatePricing.isInvoiced()) {
+				
 					for(EstimatePricing invoicedEstimatePricing : estimates ) {
 				if(estimatePricing.getQuantity() == invoicedEstimatePricing.getQuantity()) {
 					
 					invoicedEstimatePricing.setTotalPrice(invoicedEstimatePricing.getTotalPrice() + jobEstimate.getDiscountValue() );
 					invoicedEstimatePricing.setUnitPrice(invoicedEstimatePricing.getTotalPrice()/invoicedEstimatePricing.getQuantity());
-				}
+			}
 					}
 			}
 		}
