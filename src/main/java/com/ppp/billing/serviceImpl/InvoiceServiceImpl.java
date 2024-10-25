@@ -17,12 +17,14 @@ import com.itextpdf.kernel.pdf.PdfWriter;
 import com.itextpdf.layout.Document;
 import com.ppp.billing.model.EstimatePricing;
 import com.ppp.billing.model.Invoice;
+import com.ppp.billing.model.InvoiceStatus;
 import com.ppp.billing.model.Job;
 import com.ppp.billing.model.JobActivity;
 import com.ppp.billing.model.JobEstimate;
 import com.ppp.billing.model.JobPaper;
 import com.ppp.billing.repository.EstimatePricingRepository;
 import com.ppp.billing.repository.InvoiceRepository;
+import com.ppp.billing.repository.InvoiceStatusRepository;
 import com.ppp.billing.repository.JobEstimateRepository;
 import com.ppp.billing.service.InvoiceService;
 import com.ppp.printable.PrintableElement;
@@ -40,6 +42,9 @@ public class InvoiceServiceImpl implements InvoiceService{
 	
 	@Autowired
 	private JobEstimateRepository estimateRepository;
+	
+	@Autowired
+	private InvoiceStatusRepository invoiceStatusRepository;
 	
 	@Override
 	public Invoice findById(long id) {
@@ -64,10 +69,12 @@ public class InvoiceServiceImpl implements InvoiceService{
 		estimate.getJobEstimate().setInvoiced(true);
 		invoiceToSave.setEstimatePricing(estimate);
 		
+		InvoiceStatus status= invoiceStatusRepository.findByName("Registered").get();
+		invoiceToSave.setInvoiceStatus(status);
+		
 		/*
 		 * Calculate  Discount
 		 */
-		
 		
 		jobEstimate.setEstimatePricings(jobEstimate.getEstimatePricings());
 		invoiceRepository.saveAndFlush(invoiceToSave);
@@ -109,9 +116,9 @@ public class InvoiceServiceImpl implements InvoiceService{
 			Invoice invoice = invoiceRepository.findById(id).get();
 			invoice.setIrTaxPercentage(irTax);
 			invoice.setVatPercentage(vatTax);
-			double irTaxValue =(irTax/100)*invoice.getEstimatePricing().getTotalPrice();
-			double vatTaxValue =(vatTax/100)*invoice.getEstimatePricing().getTotalPrice();
-			invoice.setNetPayable(irTaxValue+vatTaxValue+invoice.getEstimatePricing().getTotalPrice());
+//			double irTaxValue =(irTax/100)*invoice.getEstimatePricing().getTotalPrice();
+//			double vatTaxValue =(vatTax/100)*invoice.getEstimatePricing().getTotalPrice();
+//			invoice.setNetPayable(irTaxValue+vatTaxValue+invoice.getEstimatePricing().getTotalPrice());
 			invoiceRepository.save(invoice);
 			return invoice;
 		} catch (Exception e) {
@@ -213,7 +220,7 @@ public class InvoiceServiceImpl implements InvoiceService{
 		return invoiceToSave;
 	}
 
-	public String createInvoiceDataPdf( String reference, boolean isCommission) throws IOException{
+	public String createInvoiceDataPdf( String reference, boolean isCommission, boolean isApplyTaxe) throws IOException{
 		 try {
 			PdfWriter pdfWriter = new PdfWriter(invoiceDir+reference+ ".pdf");
 			Invoice invoice=invoiceRepository.findByReferenceNumber(reference).get();
@@ -372,6 +379,10 @@ public class InvoiceServiceImpl implements InvoiceService{
 				if(isCommission) {
 					netPayable=(int) (totalPrice+irTaxValue+vatValue-discountAmount);
 				}
+				if(!isApplyTaxe) {
+					netPayable=(int)(netPayable -irTaxValue-vatValue);
+				}
+			
 				printer.printMoney(document, netPayable,  171, 264-200-vect);
 				printer.print(document, " --------------------",  171, 261-200-vect);
 				printer.print(document, " --------------------",  171, 260-200-vect);

@@ -36,7 +36,7 @@
 		            <c:if test="${jobEstimate.invoiced}"> 
 		            <c:if test="${estimate.invoiced}"> 
 		            <button type="button" class="btn " onclick="getCommissionInvoice('${estimate.id}','${estimate.quantity}')" data-toggle="tooltip" data-placement="top" title="Generate Invoice">
-		                 <i class="ir ri-draft-line" style="color: green"></i>
+		                 <i class="ir ri-eye-line" style="color: #0d6efd"></i>
 		               </button>
 		           </c:if>
 		            </c:if>

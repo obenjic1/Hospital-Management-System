@@ -109,10 +109,16 @@
                                         </div>
                                          <span style="font-family: bold;left: 88%;position: relative; bottom: -1.5%">${invoices.referenceNumber}</span> 
                                         <hr><br>
-                                        <div class="" style="margin-top:50px;">
-                                           <button class="btn btn-primary"style="left: 87%;position: relative;width: 117px;" data-bs-toggle="modal" data-bs-target="#ExtralargeModalFile" onclick="loadPageModal('invoice/invoice-pdf/${invoices.referenceNumber}');"><fmt:message key="print"/></button>
+                                        <c:if test="${invoices.invoiceStatus.name!='Registered' }">
+                                        <div class="row" style="margin-bottom:100px">
+                                        <div style="float:left; " class="col-sm-6 ">
+                                           <button class="btn btn-danger"style="width: 300px;" data-bs-toggle="modal" data-bs-target="#ExtralargeModalFile" onclick="loadPageModal('invoice/invoice-pdf-display/${invoices.referenceNumber}');"><fmt:message key="print.taxes.display"/></button>
+                                         </div>
+                                         <div style="float:right;" class="col-sm-6 ">
+                                            <button class="btn btn-success"style=" width: 300px;" data-bs-toggle="modal" data-bs-target="#ExtralargeModalFile" onclick="loadPageModal('invoice/invoice-pdf-apply/${invoices.referenceNumber}');"><fmt:message key="print.taxes.apply"/></button>
                                         </div>
-
+                                        </div>
+										</c:if>
                                     </div>
                                 </div>
                             </div>
