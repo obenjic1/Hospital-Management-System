@@ -1222,8 +1222,9 @@ public class JobController {
 		List<EstimatePricing> estimates =jobEstimateServiceImpl.generateDiscountCommissionEstimateResult(jobEstimate.getId());
 		List<EstimatePricing> calculatedDisucountEstimatePrice= new ArrayList<EstimatePricing>();
 		/// work done on printed estimate with DIscount
-		
+
 		for (EstimatePricing estimatePricing: jobEstimate.getEstimatePricings()) {
+
 		EstimatePricing estimate= new EstimatePricing(); 
 		estimate.setQuantity(estimatePricing.getQuantity());
 		estimate.setUnitPrice(estimatePricing.getUnitPrice()-jobEstimate.getDiscountValue()/estimatePricing.getQuantity())	;	

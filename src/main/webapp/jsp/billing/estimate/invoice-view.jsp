@@ -109,7 +109,12 @@
                                         </div>
                                          <span style="font-family: bold;left: 88%;position: relative; bottom: -1.5%">${invoices.referenceNumber}</span> 
                                         <hr><br>
-                                        <c:if test="${invoices.invoiceStatus.name!='Registered' }">
+                                        <c:if test="${invoices.invoiceStatus.name=='Registered' }">
+                                        <div class="row" style="margin-bottom:100px;float:right">
+                                           <button class="btn btn-success"style="width: 300px;" data-bs-dismiss="modal"  onclick="confirmInvoiceValidation('${invoices.referenceNumber}');"><fmt:message key="validate"/></button>
+                                        </div>
+										</c:if>
+										<c:if test="${invoices.invoiceStatus.name!='Registered' }">
                                         <div class="row" style="margin-bottom:100px">
                                         <div style="float:left; " class="col-sm-6 ">
                                            <button class="btn btn-danger"style="width: 300px;" data-bs-toggle="modal" data-bs-target="#ExtralargeModalFile" onclick="loadPageModal('invoice/invoice-pdf-display/${invoices.referenceNumber}');"><fmt:message key="print.taxes.display"/></button>

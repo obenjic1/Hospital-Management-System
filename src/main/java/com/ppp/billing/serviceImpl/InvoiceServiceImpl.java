@@ -125,9 +125,7 @@ public class InvoiceServiceImpl implements InvoiceService{
 			throw e;
 		}
 	}
-	
-	
-	
+
 
 	public void generateSerialNumber(Invoice invoice) {
 		int currentCount = (int) (invoice.getId()%9999); 
@@ -136,7 +134,6 @@ public class InvoiceServiceImpl implements InvoiceService{
 		invoice.setReferenceNumber(serialNuber);
 		invoiceRepository.save(invoice);
 	}
-	
 	
 	@Override
 	public Invoice applyDiscount(long id, double discount) {
@@ -175,7 +172,7 @@ public class InvoiceServiceImpl implements InvoiceService{
 			throw e;
 		}
 	}
-
+	
 	public Invoice applyDiscountAmount(long id, double discountAmount) {
 		try {
 			Invoice invoice = invoiceRepository.findById(id).get();
@@ -204,6 +201,8 @@ public class InvoiceServiceImpl implements InvoiceService{
 			String invoiceRefence = reference.substring(0, reference.length()-1);
 			invoiceRefence = invoiceRefence  + ""+(selectedPricingElement.getInvoices().size()+1);
 			invoiceToSave.setReferenceNumber(invoiceRefence);
+			InvoiceStatus status= invoiceStatusRepository.findByName("Registered").get();
+			invoiceToSave.setInvoiceStatus(status);
 
 			invoiceToSave.setEstimatePricing(selectedPricingElement);
 			
@@ -220,7 +219,9 @@ public class InvoiceServiceImpl implements InvoiceService{
 		return invoiceToSave;
 	}
 
+
 	public String createInvoiceDataPdf( String reference, boolean isCommission, boolean isApplyTaxe) throws IOException{
+
 		 try {
 			PdfWriter pdfWriter = new PdfWriter(invoiceDir+reference+ ".pdf");
 			Invoice invoice=invoiceRepository.findByReferenceNumber(reference).get();
@@ -337,6 +338,7 @@ public class InvoiceServiceImpl implements InvoiceService{
 				
 					vect+=5;
 					printer.printMoney(document,estimates.getQuantity(), 82, 297-207-vect);
+
 					int unitPrice=(int)(estimates.getUnitPrice()-estimates.getJobEstimate().getDiscountValue()/estimates.getQuantity());
 					int totalPrice =(int)(estimates.getTotalPrice()-estimates.getJobEstimate().getDiscountValue());
 					if(isCommission) {
@@ -399,4 +401,17 @@ public class InvoiceServiceImpl implements InvoiceService{
 			
 		
 		}
+
+	public void confirmInvoice(String referenceNumber) {
+		Invoice invoice = invoiceRepository.findByReferenceNumber(referenceNumber).get();
+		if(invoice.getInvoiceStatus().getName().equals("Registered")) {
+			InvoiceStatus status = invoiceStatusRepository.findByName("Approved").get();
+			invoice.setInvoiceStatus(status);
+			
+			invoiceRepository.save(invoice);
+			
+			
+		}
+		
+	}
 }

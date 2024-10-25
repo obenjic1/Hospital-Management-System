@@ -40,7 +40,7 @@
         </tr>
         
          <tr> 
-            <td style="font-family: bold;">Discount <span>${invoices.discountPercentage} </span> %</a></td>                                 
+            <td style="font-family: bold;">Discount <span> <fmt:formatNumber value=" ${invoices.discountPercentage}" type="currency"   pattern = "#,###,###"/>  </span> %</a></td>                                 
             <td><a> </td>                                  
             <td><a> </td>  
             <td><a> <fmt:formatNumber value="${discount}" type="currency"   pattern = "#,###,###"/> </a></td>                               

@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,6 +20,7 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -311,7 +314,7 @@ public class InvoiceController {
 		@GetMapping("/invoice-discount-amount/{id}/{discount}")
 		public String applyDiscountAmount(@PathVariable long id,@PathVariable  double discount, Model model) {
 			try {
-				Invoice invoice = invoiceServiceImpl.applyDiscount(id, discount);
+				Invoice invoice = invoiceServiceImpl.applyDiscountAmount(id, discount);
 				double discountValue = (invoice.getDiscountPercentage()/100)*(invoice.getEstimatePricing().getTotalPrice());
 				double irTaxValue= (invoice.getIrTaxPercentage()/100)*invoice.getEstimatePricing().getTotalPrice();
 				double vatValue= (invoice.getVatPercentage()/100)*invoice.getEstimatePricing().getTotalPrice();
@@ -398,6 +401,22 @@ public class InvoiceController {
 	@ResponseBody
 	public String generateInvoicePdfApply(@PathVariable String reference) throws IOException {
 	    return invoiceServiceImpl.createInvoiceDataPdf(reference, false, true);
+	}
+	
+	
+	// Confirm a Job 
+	//@PreAuthorize("hasAuthority('ROLE_VALIDATE_INVOICE')")
+	@PostMapping("/confirm-invoice/{referenceNumber}")
+	public ResponseEntity<String> confirmJob (@PathVariable String referenceNumber) {
+		try {
+			 
+			    	invoiceServiceImpl.confirmInvoice(referenceNumber);
+			    	return new ResponseEntity<String>("OK", HttpStatus.OK);
+			    
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return  new ResponseEntity<String>("KO", HttpStatus.BAD_REQUEST);
 	}
 	
 	

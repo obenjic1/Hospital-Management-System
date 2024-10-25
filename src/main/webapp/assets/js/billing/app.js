@@ -27,7 +27,7 @@ function loadTables(url, idContainer) {
 	 let commissionValue = document.getElementById("commision").value;
 	 if(commissionValue<1 || commissionValue==""){commissionValue=0;}
 	 let discountValue =document.getElementById("discount").value;
-	  if(discountValue<1 || commissionValue==""){ discountValue=0;}
+	  if(discountValue<1 || discountValue==""){ discountValue=0;}
 		 loadMainModalForm(`job/estimate/commission/${id}/${commissionValue}/${discountValue}`);
 
  }
@@ -170,6 +170,49 @@ function movementHistory(){
 		loadPage('job/list-job');
 	}
 	
+	 function confirmInvoiceValidation(referenceNumber) {
+			Swal.fire({
+			  title: 'Are you sure to Confirm?',
+		      text: "You won't be able to revert this!",
+		      icon: 'warning',
+		      showCancelButton: true,
+		      confirmButtonColor: '#3085d6',
+		      cancelButtonColor: '#d33',
+		      confirmButtonText: 'Yes, Confirm it!',
+			}).then((result) => {
+				if(result.isConfirmed){
+				    confirmInvoice(referenceNumber);
+					Swal.fire("Success!/SuinnertHTMccess!", "Your invoice has been confirmed!", "success");
+				 loadPage('invoice/list');
+				}else{
+					Swal.fire("Cancelled/Annulee!", "Operation cancelled", "info");
+				 loadPage('invoice/list');
+				}
+			})  
+		}
 	
-	
+	function confirmInvoice(referenceNumber){
+		  fetch(`invoice/confirm-invoice/${referenceNumber}`, {
+			method: 'POST',
+		headers: {
+			'Content-type': 'application/json'
+		},
+	})
+		.then( response => {	
 
+   			  if (response.ok) {
+				//return loadPage("job/list-job"); 
+  			 } else if (response.status !== 200) {
+	//			Swal.fire({  icon: "error", title: "Oops...", text: "Something went wrong!"});
+				//return loadPage("job/list-job");
+  			 }
+		})
+		 .then(function(data) {
+
+		 })
+			.catch(function(error) {
+
+			});
+	 }
+	 
+	 
