@@ -262,6 +262,7 @@ public class JobController {
 	 	* Start print Control Sheet Section 
 	 	* 
 	 */
+
 	
 	@PreAuthorize("hasAuthority('ROLE_REGISTER_NEW_JOB')")
 	@GetMapping("/generate-pdf/{id}")
