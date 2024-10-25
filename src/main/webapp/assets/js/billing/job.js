@@ -847,10 +847,10 @@ function generateEstimate(url, currentDiv, nextDiv){
 	let advancePercentage = document.getElementById("advancePercentage").value;
 
 	url+= "?quantities=" + estimateQuantities + "&extraFee=" +extraFee + "&extraFeeDescription=" + description +"&advancePercentage="+advancePercentage;
-	loadDynamicPageContent(url, nextDiv);
+	loadDynamicPageContentEstimate(url, nextDiv);
 	document.getElementById(nextDiv).style.display="block";
 	document.getElementById(currentDiv).style.display="none";
-	listJob();
+	
 	
 	
 }
@@ -915,6 +915,7 @@ function confirmEstimate(urlConfirm, urlPrintEstimate){
     	   .then(html=> {
 
             if(html.indexOf("k0###")== -1){
+               listJob();
 				loadPageModal(urlPrintEstimate+html);
 				
 			}else{

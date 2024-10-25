@@ -52,6 +52,7 @@ public class Invoice {
 	
 	public double getNetPayable() {
 		double totalPrice = estimatePricing.getTotalPrice();
+		totalPrice-=estimatePricing.getJobEstimate().getDiscountValue();
 		return totalPrice-(totalPrice*discountPercentage)/100+(totalPrice*vatPercentage)/100+(totalPrice*irTaxPercentage)/100;
 	}
 	

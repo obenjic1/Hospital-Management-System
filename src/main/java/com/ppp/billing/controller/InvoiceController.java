@@ -1,14 +1,11 @@
 package com.ppp.billing.controller;
 
 import java.io.IOException;
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -24,21 +21,14 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.itextpdf.kernel.geom.PageSize;
-import com.itextpdf.kernel.pdf.PdfDocument;
-import com.itextpdf.kernel.pdf.PdfWriter;
-import com.itextpdf.layout.Document;
 import com.ppp.billing.model.EstimatePricing;
 import com.ppp.billing.model.Invoice;
 import com.ppp.billing.model.Job;
-import com.ppp.billing.model.JobActivity;
 import com.ppp.billing.model.JobEstimate;
-import com.ppp.billing.model.JobPaper;
 import com.ppp.billing.serviceImpl.EstimatePricingServiceImpl;
 import com.ppp.billing.serviceImpl.InvoiceServiceImpl;
 import com.ppp.billing.serviceImpl.JobEstimateServiceImpl;
 import com.ppp.billing.serviceImpl.JobServiceImpl;
-import com.ppp.printable.PrintableElement;
 
 @Controller
 @RequestMapping("invoice")
@@ -181,10 +171,10 @@ public class InvoiceController {
 			Job jobs = estimatePricingWithCommission.getJobEstimate().getJob();
 		
 //			Job jobs = invoice.getEstimatePricing().getJobEstimate().getJob();
-			double discount = (invoice.getDiscountPercentage()/100)*(estimatePricingWithCommission.getTotalPrice());
-			double irTaxValue= (invoice.getIrTaxPercentage()/100)*estimatePricingWithCommission.getTotalPrice();
-			double vatValue= (invoice.getVatPercentage()/100)*estimatePricingWithCommission.getTotalPrice();
-			double netPayable = estimatePricingWithCommission.getTotalPrice()+ irTaxValue + vatValue -discount;
+			double discount = (invoice.getDiscountPercentage()/100)*(estimatePricingWithCommission.getTotalPrice()+estimatePricingWithCommission.getJobEstimate().getCommission());
+			double irTaxValue= (invoice.getIrTaxPercentage()/100)*(estimatePricingWithCommission.getTotalPrice()+estimatePricingWithCommission.getJobEstimate().getCommission());
+			double vatValue= (invoice.getVatPercentage()/100)*(estimatePricingWithCommission.getTotalPrice()+estimatePricingWithCommission.getJobEstimate().getCommission());
+			double netPayable = estimatePricingWithCommission.getTotalPrice()+estimatePricingWithCommission.getJobEstimate().getCommission()+ irTaxValue + vatValue -discount;
 			model.addAttribute("irTaxValue", irTaxValue);
 			model.addAttribute("netPayable", netPayable);
 			model.addAttribute("vatValue", vatValue);
@@ -226,6 +216,7 @@ public class InvoiceController {
 			Invoice invoicefinded = invoiceServiceImpl.findById(index);
 			Job jobs = invoicefinded.getEstimatePricing().getJobEstimate().getJob();
 			model.addAttribute("job", jobs);
+			model.addAttribute("discounted", 0);
 			model.addAttribute("invoices", invoicefinded);
 			
 			return "billing/estimate/invoice-view";
@@ -238,8 +229,6 @@ public class InvoiceController {
 	public String getInvoiceFromPricing(@PathVariable long id, @PathVariable long qty, Model model) {	
 		try {
 			EstimatePricing discountestimatePricing = estimatePricingServiceImpl.findById(id).get();
-			
-
 			long index = discountestimatePricing.getInvoices().get(0).getId();
 			Invoice invoice = invoiceServiceImpl.findById(index);
 			Job job = invoice.getEstimatePricing().getJobEstimate().getJob();
@@ -252,7 +241,7 @@ public class InvoiceController {
 			model.addAttribute("irTaxValue", irTaxValue);
 			model.addAttribute("vatValue", vatValue);
 			model.addAttribute("discount", discount);
-			
+			model.addAttribute("discounted", 1);
 			return "billing/estimate/invoice-view";
 		} catch (Exception e) {
 			throw e;
@@ -384,7 +373,14 @@ public class InvoiceController {
 	@GetMapping("/invoice-pdf/{reference}")
 	@ResponseBody
 	public String generateInvoicePdf(@PathVariable String reference) throws IOException {
-	    return invoiceServiceImpl.createInvoiceDataPdf(reference);
+	    return invoiceServiceImpl.createInvoiceDataPdf(reference, false);
+	}
+	
+	@PreAuthorize("hasAuthority('ROLE_APPLY_DISCOUNT')")
+	@GetMapping("/invoice-pdf-commission/{reference}")
+	@ResponseBody
+	public String generateInvoicePdfCommission(@PathVariable String reference) throws IOException {
+		return invoiceServiceImpl.createInvoiceDataPdf(reference, true);
 	}
 	}
 

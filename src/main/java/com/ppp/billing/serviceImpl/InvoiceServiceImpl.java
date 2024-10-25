@@ -61,12 +61,6 @@ public class InvoiceServiceImpl implements InvoiceService{
 		String invoiceRefence = reference.substring(0, reference.length()-1);
 		invoiceRefence = invoiceRefence  + ""+(estimate.getInvoices().size()+1);
 		invoiceToSave.setReferenceNumber(invoiceRefence);
-		/*
-		 * Calculate Net Payable
-		 */
-	
-
-		invoiceToSave.setNetPayable(estimate.getTotalPrice());
 		estimate.getJobEstimate().setInvoiced(true);
 		invoiceToSave.setEstimatePricing(estimate);
 		
@@ -203,12 +197,7 @@ public class InvoiceServiceImpl implements InvoiceService{
 			String invoiceRefence = reference.substring(0, reference.length()-1);
 			invoiceRefence = invoiceRefence  + ""+(selectedPricingElement.getInvoices().size()+1);
 			invoiceToSave.setReferenceNumber(invoiceRefence);
-			/*
-			 * Calculate Net Payable
-			 */
-		
 
-			invoiceToSave.setNetPayable(selectedPricingElement.getTotalPrice());
 			invoiceToSave.setEstimatePricing(selectedPricingElement);
 			
 			/*
@@ -224,7 +213,7 @@ public class InvoiceServiceImpl implements InvoiceService{
 		return invoiceToSave;
 	}
 
-	public String createInvoiceDataPdf( String reference) throws IOException{
+	public String createInvoiceDataPdf( String reference, boolean isCommission) throws IOException{
 		 try {
 			PdfWriter pdfWriter = new PdfWriter(invoiceDir+reference+ ".pdf");
 			Invoice invoice=invoiceRepository.findByReferenceNumber(reference).get();
@@ -341,14 +330,21 @@ public class InvoiceServiceImpl implements InvoiceService{
 				
 					vect+=5;
 					printer.printMoney(document,estimates.getQuantity(), 82, 297-207-vect);
-					printer.printMoney(document,estimates.getUnitPrice(), 132, 297-207-vect);
-					printer.printMoney(document,estimates.getTotalPrice() , 171, 297-207-vect);
+					int unitPrice=(int)(estimates.getUnitPrice()-estimates.getJobEstimate().getDiscountValue()/estimates.getQuantity());
+					int totalPrice =(int)(estimates.getTotalPrice()-estimates.getJobEstimate().getDiscountValue());
+					if(isCommission) {
+						 unitPrice=(int)(estimates.getUnitPrice()+estimates.getJobEstimate().getCommission()/estimates.getQuantity());
+						 totalPrice =(int)(estimates.getTotalPrice()+estimates.getJobEstimate().getCommission());
+						
+					}
+					printer.printMoney(document,unitPrice, 132, 297-207-vect);
+					printer.printMoney(document,totalPrice , 171, 297-207-vect);
 					
 
 				double discountAmount = 0;
 				if(invoice.getDiscountPercentage()> 0) {
 					printer.printHeader(document, invoice.getDiscountPercentage()+" % Discount",  38, 270-200-vect);
-					discountAmount = (invoice.getDiscountPercentage()/100) * invoice.getEstimatePricing().getTotalPrice();
+					discountAmount = (invoice.getDiscountPercentage()/100) * totalPrice;
 					printer.printMoney(document,discountAmount,   171, 270-200-vect);
 				}
 
@@ -356,7 +352,7 @@ public class InvoiceServiceImpl implements InvoiceService{
 				
 				double vatValue = 0;
 				if(invoice.getVatPercentage()> 0) {
-					vatValue = (invoice.getVatPercentage()/100)*invoice.getEstimatePricing().getTotalPrice();
+					vatValue = (invoice.getVatPercentage()/100)*totalPrice;
 					printer.printHeader(document, invoice.getVatPercentage()+" % TVA",  38, 280-200-vect);
 					printer.printMoney(document,vatValue, 171, 280-200-vect);
 				}
@@ -364,7 +360,7 @@ public class InvoiceServiceImpl implements InvoiceService{
 				double irTaxValue = 0;
 				if(invoice.getIrTaxPercentage()> 0)
 				{
-					irTaxValue = (invoice.getIrTaxPercentage()/100)*invoice.getEstimatePricing().getTotalPrice();
+					irTaxValue = (invoice.getIrTaxPercentage()/100)*totalPrice;
 					printer.printHeader(document, invoice.getIrTaxPercentage()+" % IR Tax",  38, 275-200-vect);
 					printer.printMoney(document,irTaxValue , 171, 275-200-vect);
 				}
@@ -372,8 +368,11 @@ public class InvoiceServiceImpl implements InvoiceService{
 				printer.print(document, " --------------------",  171, 267-200-vect);
 				
 				printer.printHeader(document, " NetPayable",  38, 264-200-vect);
-				printer.printMoney(document, invoice.getNetPayable(),  171, 264-200-vect);
-
+				int netPayable=(int)invoice.getNetPayable();
+				if(isCommission) {
+					netPayable=(int) (totalPrice+irTaxValue+vatValue-discountAmount);
+				}
+				printer.printMoney(document, netPayable,  171, 264-200-vect);
 				printer.print(document, " --------------------",  171, 261-200-vect);
 				printer.print(document, " --------------------",  171, 260-200-vect);
 
