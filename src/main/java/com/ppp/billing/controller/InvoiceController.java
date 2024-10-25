@@ -142,7 +142,7 @@ public class InvoiceController {
 			Invoice invoice = invoiceServiceImpl.findById(id);
 			Job jobs = invoice.getEstimatePricing().getJobEstimate().getJob();
 			double discount = (invoice.getDiscountPercentage()/100)*(invoice.getEstimatePricing().getTotalPrice()-invoice.getEstimatePricing().getJobEstimate().getDiscountValue());
-			double irTaxValue= (invoice.getIrTaxPercentage()/100)*(invoice.getEstimatePricing().getTotalPrice()-invoice.getEstimatePricing().getJobEstimate().getDiscountValue());;
+			double irTaxValue= (invoice.getIrTaxPercentage()/100)*(invoice.getEstimatePricing().getTotalPrice()-invoice.getEstimatePricing().getJobEstimate().getDiscountValue());
 			double vatValue= (invoice.getVatPercentage()/100)*(invoice.getEstimatePricing().getTotalPrice()-invoice.getEstimatePricing().getJobEstimate().getDiscountValue());
 			model.addAttribute("irTaxValue", irTaxValue);
 			model.addAttribute("vatValue", vatValue);
@@ -277,7 +277,7 @@ public class InvoiceController {
 			Job job = invoice.getEstimatePricing().getJobEstimate().getJob();
 			double discount = (invoice.getDiscountPercentage()/100)*(invoice.getEstimatePricing().getTotalPrice()-invoice.getEstimatePricing().getJobEstimate().getDiscountValue());
 			double irTaxValue= (invoice.getIrTaxPercentage()/100)*(invoice.getEstimatePricing().getTotalPrice()-invoice.getEstimatePricing().getJobEstimate().getDiscountValue());
-			double vatValue= (invoice.getVatPercentage()/100)*(invoice.getEstimatePricing().getTotalPrice()-invoice.getEstimatePricing().getJobEstimate().getDiscountValue());;
+			double vatValue= (invoice.getVatPercentage()/100)*(invoice.getEstimatePricing().getTotalPrice()-invoice.getEstimatePricing().getJobEstimate().getDiscountValue());
 			model.addAttribute("job", job);
 			model.addAttribute("invoices", invoice);
 			model.addAttribute("irTaxValue", irTaxValue);
