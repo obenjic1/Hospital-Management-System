@@ -49,6 +49,9 @@ public class Invoice {
 	@JoinColumn(name = "estimate_pricing_id", referencedColumnName = "id")
 	private EstimatePricing estimatePricing;
 	
+	@ManyToOne
+	@JoinColumn(name = "invoice_status_id", referencedColumnName = "id")
+	private InvoiceStatus invoiceStatus;
 	
 	public double getNetPayable() {
 		double totalPrice = estimatePricing.getTotalPrice();

@@ -82,12 +82,14 @@
 								   <select id="coverPaperType" name="name" class="form-select">
 								     <option >Action</option>
 								      <option data-bs-toggle="modal" data-bs-target="#ExtralargeModal" data-toggle="tooltip" data-placement="top" title="view job details" onclick="loadPageModalForm('invoice/job-invoice/${result.id}');">View</option>
+								     <c:if test="${result.invoiceStatus.name=='Registered' }">
 								      <sec:authorize  access="hasRole('ROLE_APPLY_DISCOUNT')"> 
 								       <option data-bs-toggle="modal" data-bs-target="#ExtralargeModal" data-toggle="tooltip" data-placement="top" title="Apply Discount" onClick="loadPageModalForm('invoice/invoice-discount/${result.id}');">Apply Discount</option>
  									 </sec:authorize> 
 								   	 <sec:authorize  access="hasRole('ROLE_APPLY_TAX')"> 
 								        <option data-bs-toggle="modal" data-bs-target="#ExtralargeModal" data-toggle="tooltip" data-placement="top" title="Apply Taxes" onclick="loadPageModalForm('invoice/job-tax-form/${result.id}');">Apply Taxes</option>
-					              	 </sec:authorize> 
+					              	 </sec:authorize>
+					              	  </c:if>
 
 					               </select>								 
 									 </a>
