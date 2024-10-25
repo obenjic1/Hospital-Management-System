@@ -60,10 +60,16 @@
                                                              <c:set var = "i"  value = "1"/> 
                                                                 <tr> 
                                                                     <td style="font-family: bold;"><c:out value = "${i}"/></td> 
+                                                                     <c:if test="${discounted==0 }">
                                                                        <td style="font-family: bold;"><a> <fmt:formatNumber value="${invoices.estimatePricing.quantity}" type="currency"   pattern = "#,###,###"/> </a></td>                                 
                                                                      <td style="font-family: bold;"><a> <fmt:formatNumber value="${invoices.estimatePricing.unitPrice}" type="currency"   pattern = "#,###,###"/> </a></td>                                  
                                                                       <td style="font-family: bold;"><a> <fmt:formatNumber value="${invoices.estimatePricing.totalPrice}" type="currency"   pattern = "#,###,###"/> </a></td>  
-                                                                                                   
+                                                                     </c:if>  
+                                                                     <c:if test="${discounted==1 }">
+                                                                       <td style="font-family: bold;"><a> <fmt:formatNumber value="${invoices.estimatePricing.quantity}" type="currency"   pattern = "#,###,###"/> </a></td>                                 
+                                                                       <td style="font-family: bold;"><a> <fmt:formatNumber value="${invoices.estimatePricing.unitPrice - invoices.estimatePricing.jobEstimate.discountValue/invoices.estimatePricing.quantity}" type="currency"   pattern = "#,###,###"/> </a></td>                                  
+                                                                       <td style="font-family: bold;"><a> <fmt:formatNumber value="${invoices.estimatePricing.totalPrice - invoices.estimatePricing.jobEstimate.discountValue}" type="currency"   pattern = "#,###,###"/> </a></td>  
+                                                                     </c:if>                                 
                                                                 </tr> 
                                                                   <tr>
 <%--                                                                    <c:if test="${invoices.vatPercentage} >0"> --%>

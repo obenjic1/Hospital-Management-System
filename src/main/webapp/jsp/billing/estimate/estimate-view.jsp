@@ -216,9 +216,10 @@
                                                         <c:forEach var="estimate" items="${estimates}" varStatus="loop"> 
                                                            <tr> 
                                                                <td><c:out value = "${i}"/></td> 
-                                                                  <td style="font-family: bold;"><a> <fmt:formatNumber value="${estimate.quantity}" type="currency"   pattern = "#,###,###"/> </a></td>                                 
+                                                               
+                                                                <td style="font-family: bold;"><a> <fmt:formatNumber value="${estimate.quantity}" type="currency"   pattern = "#,###,###"/> </a></td>                                 
                                                                 <td style="font-family: bold;"><a> <fmt:formatNumber value="${estimate.unitPrice}" type="currency"   pattern = "#,###,###"/> </a></td>                                  
-                                                                 <td style="font-family: bold;"><a> <fmt:formatNumber value="${estimate.totalPrice}" type="currency"   pattern = "#,###,###"/> </a></td>  
+                                                                <td style="font-family: bold;"><a> <fmt:formatNumber value="${estimate.totalPrice}" type="currency"   pattern = "#,###,###"/> </a></td>  
                                                                 
 <%--                                                                 <sec:authorize  access="hasRole('ROLE_GENERATE_INVOICE')"> --%>
                                                                  <td>
