@@ -61,8 +61,8 @@
                                                                 <tr> 
                                                                     <td style="font-family: bold;"><c:out value = "${i}"/></td> 
                                                                        <td style="font-family: bold;"><a> <fmt:formatNumber value="${invoices.estimatePricing.quantity}" type="currency"   pattern = "#,###,###"/> </a></td>                                 
-                                                                     <td style="font-family: bold;"><a> <fmt:formatNumber value="${estimatePricingWithCommission.unitPrice}" type="currency"   pattern = "#,###,###"/> </a></td>                                  
-                                                                      <td style="font-family: bold;"><a> <fmt:formatNumber value="${estimatePricingWithCommission.totalPrice}" type="currency"   pattern = "#,###,###"/> </a></td>  
+                                                                     <td style="font-family: bold;"><a> <fmt:formatNumber value="${estimatePricingWithCommission.unitPrice+estimatePricingWithCommission.jobEstimate.commission/estimatePricingWithCommission.quantity}" type="currency"   pattern = "#,###,###"/> </a></td>                                  
+                                                                      <td style="font-family: bold;"><a> <fmt:formatNumber value="${estimatePricingWithCommission.totalPrice+estimatePricingWithCommission.jobEstimate.commission}" type="currency"   pattern = "#,###,###"/> </a></td>  
                                                                                                    
                                                                 </tr> 
                                                                   <tr>
@@ -104,7 +104,7 @@
                                          <span style="font-family: bold;left: 88%;position: relative; bottom: -1.5%">${invoices.referenceNumber}</span> 
                                         <hr><br>
                                         <div class="" style="margin-top:50px;">
-                                           <button class="btn btn-primary"style="left: 87%;position: relative;width: 117px;" data-bs-toggle="modal" data-bs-target="#ExtralargeModalFile" onclick="loadPageModal('invoice/invoice-pdf/${invoices.referenceNumber}');"><fmt:message key="print"/></button>
+                                           <button class="btn btn-primary"style=";width: 117px;" data-bs-toggle="modal" data-bs-target="#ExtralargeModalFile" onclick="loadPageModal('invoice/invoice-pdf-commission/${invoices.referenceNumber}');"><fmt:message key="print"/></button>
                                         </div>
 
                                     </div>

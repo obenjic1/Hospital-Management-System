@@ -27,8 +27,8 @@
 		     <tr> 
 		         <td><c:out value = "${i}"/></td> 
 		            <td style="font-family: bold;"><a> <fmt:formatNumber value="${estimate.quantity}" type="currency"   pattern = "#,###,###"/> </a></td>                                 
-		          <td style="font-family: bold;"><a> <fmt:formatNumber value="${estimate.unitPrice}" type="currency"   pattern = "#,###,###"/> </a></td>                                  
-		           <td style="font-family: bold;"><a> <fmt:formatNumber value="${estimate.totalPrice}" type="currency"   pattern = "#,###,###"/> </a></td>  
+		          <td style="font-family: bold;"><a> <fmt:formatNumber value="${estimate.unitPrice+jobEstimate.commission/estimate.quantity}" type="currency"   pattern = "#,###,###"/> </a></td>                                  
+		           <td style="font-family: bold;"><a> <fmt:formatNumber value="${estimate.totalPrice+jobEstimate.commission}" type="currency"   pattern = "#,###,###"/> </a></td>  
 		          
 		<%--   <sec:authorize  access="hasRole('ROLE_GENERATE_INVOICE')"> --%>
 		           <td>
@@ -36,16 +36,16 @@
 		            <c:if test="${jobEstimate.invoiced}"> 
 		            <c:if test="${estimate.invoiced}"> 
 		            <button type="button" class="btn " onclick="getCommissionInvoice('${estimate.id}','${estimate.quantity}')" data-toggle="tooltip" data-placement="top" title="Generate Invoice">
-		                 <i class="ir ri-draft-line" style="color: green"></i>
+		                 <i class="ir ri-eye-line" style="color: #0d6efd"></i>
 		               </button>
 		           </c:if>
 		            </c:if>
 		           
-		             <c:if test="${estima.jobEstimate.job.invoiced==0 && job.status.name=='Approved'}"> 
-		               <button type="button" class="btn " onclick="getCommissionInvoice('${estimate.id}','${estimate.quantity}')" data-toggle="tooltip" data-placement="top" title="Generate Invoice">
-		                 <i class="ir ri-draft-line" style="color: green"></i>
-		               </button>
-		             </c:if>
+<%-- 		             <c:if test="${jobEstimate.job.invoiced==0 && jobEstimate.job.status.name=='Approved'}">  --%>
+<%-- 		               <button type="button" class="btn " onclick="getCommissionInvoice('${estimate.id}','${estimate.quantity}')" data-toggle="tooltip" data-placement="top" title="Generate Invoice"> --%>
+<!-- 		                 <i class="ir ri-draft-line" style="color: green"></i> -->
+<!-- 		               </button> -->
+<%-- 		             </c:if> --%>
 		             </c:if>
 		    </td>
 		<%--                    <c:if test="${estimate.quantity == invoicedQunatity}"> 	                                  		  </sec:authorize>                                 --%>
@@ -59,7 +59,7 @@
     	</tbody>
     </table>
 		<div class="" style="margin-top:50px;">	
-		<button class="btn btn-primary" style="left: 87%;position: relative;width: 117px;" data-bs-toggle="modal" data-bs-target="#ExtralargeModalFile" onclick="loadPageModal('job/estimate-pdf-commission/${jobEstimate.reference}')"><fmt:message key="print"/> </button>
+		<button class="btn btn-primary" style="width: 117px;" data-bs-toggle="modal" data-bs-target="#ExtralargeModalFile" onclick="loadPageModal('job/estimate-pdf-commission/${jobEstimate.reference}')"><fmt:message key="print"/> </button>
 	</div>
 	</div> 
  

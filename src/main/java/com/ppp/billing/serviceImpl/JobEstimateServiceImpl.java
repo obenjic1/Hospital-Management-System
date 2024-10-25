@@ -46,7 +46,7 @@ public class JobEstimateServiceImpl implements JobEstimateService {
 			EstimatePricing estimateCommision = new EstimatePricing();
 			estimateCommision.setQuantity(estimatePrice.getQuantity());
 				estimateCommision.setTotalPrice(estimatePrice.getTotalPrice()+ estimate.getCommission());
-				estimateCommision.setUnitPrice((estimatePrice.getTotalPrice()+estimate.getCommission())/estimatePrice.getQuantity());
+				estimateCommision.setUnitPrice(estimatePrice.getUnitPrice()+estimate.getCommission()/estimatePrice.getQuantity());
 			estimateP.add(estimateCommision);
 		}
 		

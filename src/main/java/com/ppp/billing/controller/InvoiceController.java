@@ -1,19 +1,18 @@
 package com.ppp.billing.controller;
 
 import java.io.IOException;
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,24 +20,18 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.itextpdf.kernel.geom.PageSize;
-import com.itextpdf.kernel.pdf.PdfDocument;
-import com.itextpdf.kernel.pdf.PdfWriter;
-import com.itextpdf.layout.Document;
 import com.ppp.billing.model.EstimatePricing;
 import com.ppp.billing.model.Invoice;
 import com.ppp.billing.model.Job;
-import com.ppp.billing.model.JobActivity;
 import com.ppp.billing.model.JobEstimate;
-import com.ppp.billing.model.JobPaper;
 import com.ppp.billing.serviceImpl.EstimatePricingServiceImpl;
 import com.ppp.billing.serviceImpl.InvoiceServiceImpl;
 import com.ppp.billing.serviceImpl.JobEstimateServiceImpl;
 import com.ppp.billing.serviceImpl.JobServiceImpl;
-import com.ppp.printable.PrintableElement;
 
 @Controller
 @RequestMapping("invoice")
@@ -151,12 +144,13 @@ public class InvoiceController {
 		try {
 			Invoice invoice = invoiceServiceImpl.findById(id);
 			Job jobs = invoice.getEstimatePricing().getJobEstimate().getJob();
-			double discount = (invoice.getDiscountPercentage()/100)*(invoice.getEstimatePricing().getTotalPrice());
-			double irTaxValue= (invoice.getIrTaxPercentage()/100)*invoice.getEstimatePricing().getTotalPrice();
-			double vatValue= (invoice.getVatPercentage()/100)*invoice.getEstimatePricing().getTotalPrice();
+			double discount = (invoice.getDiscountPercentage()/100)*(invoice.getEstimatePricing().getTotalPrice()-invoice.getEstimatePricing().getJobEstimate().getDiscountValue());
+			double irTaxValue= (invoice.getIrTaxPercentage()/100)*(invoice.getEstimatePricing().getTotalPrice()-invoice.getEstimatePricing().getJobEstimate().getDiscountValue());
+			double vatValue= (invoice.getVatPercentage()/100)*(invoice.getEstimatePricing().getTotalPrice()-invoice.getEstimatePricing().getJobEstimate().getDiscountValue());
 			model.addAttribute("irTaxValue", irTaxValue);
 			model.addAttribute("vatValue", vatValue);
 			model.addAttribute("discount", discount);
+			model.addAttribute("discounted", 1);
 			model.addAttribute("job", jobs);
 			model.addAttribute("invoices", invoice);
 			
@@ -181,10 +175,10 @@ public class InvoiceController {
 			Job jobs = estimatePricingWithCommission.getJobEstimate().getJob();
 		
 //			Job jobs = invoice.getEstimatePricing().getJobEstimate().getJob();
-			double discount = (invoice.getDiscountPercentage()/100)*(estimatePricingWithCommission.getTotalPrice());
-			double irTaxValue= (invoice.getIrTaxPercentage()/100)*estimatePricingWithCommission.getTotalPrice();
-			double vatValue= (invoice.getVatPercentage()/100)*estimatePricingWithCommission.getTotalPrice();
-			double netPayable = estimatePricingWithCommission.getTotalPrice()+ irTaxValue + vatValue -discount;
+			double discount = (invoice.getDiscountPercentage()/100)*(estimatePricingWithCommission.getTotalPrice()+estimatePricingWithCommission.getJobEstimate().getCommission());
+			double irTaxValue= (invoice.getIrTaxPercentage()/100)*(estimatePricingWithCommission.getTotalPrice()+estimatePricingWithCommission.getJobEstimate().getCommission());
+			double vatValue= (invoice.getVatPercentage()/100)*(estimatePricingWithCommission.getTotalPrice()+estimatePricingWithCommission.getJobEstimate().getCommission());
+			double netPayable = estimatePricingWithCommission.getTotalPrice()+estimatePricingWithCommission.getJobEstimate().getCommission()+ irTaxValue + vatValue -discount;
 			model.addAttribute("irTaxValue", irTaxValue);
 			model.addAttribute("netPayable", netPayable);
 			model.addAttribute("vatValue", vatValue);
@@ -226,6 +220,7 @@ public class InvoiceController {
 			Invoice invoicefinded = invoiceServiceImpl.findById(index);
 			Job jobs = invoicefinded.getEstimatePricing().getJobEstimate().getJob();
 			model.addAttribute("job", jobs);
+			model.addAttribute("discounted", 0);
 			model.addAttribute("invoices", invoicefinded);
 			
 			return "billing/estimate/invoice-view";
@@ -238,8 +233,6 @@ public class InvoiceController {
 	public String getInvoiceFromPricing(@PathVariable long id, @PathVariable long qty, Model model) {	
 		try {
 			EstimatePricing discountestimatePricing = estimatePricingServiceImpl.findById(id).get();
-			
-
 			long index = discountestimatePricing.getInvoices().get(0).getId();
 			Invoice invoice = invoiceServiceImpl.findById(index);
 			Job job = invoice.getEstimatePricing().getJobEstimate().getJob();
@@ -252,7 +245,7 @@ public class InvoiceController {
 			model.addAttribute("irTaxValue", irTaxValue);
 			model.addAttribute("vatValue", vatValue);
 			model.addAttribute("discount", discount);
-			
+			model.addAttribute("discounted", 1);
 			return "billing/estimate/invoice-view";
 		} catch (Exception e) {
 			throw e;
@@ -264,15 +257,15 @@ public class InvoiceController {
 		try {
 			Invoice invoice = invoiceServiceImpl.setIrtaxAndVatTax(id, irTax, vatTax);
 			Job jobs = invoice.getEstimatePricing().getJobEstimate().getJob();
-			double irTaxValue= (invoice.getIrTaxPercentage()/100)*invoice.getEstimatePricing().getTotalPrice();
-			double vatValue= (invoice.getVatPercentage()/100)*invoice.getEstimatePricing().getTotalPrice();
-			double discount = (invoice.getDiscountPercentage()/100)*(invoice.getEstimatePricing().getTotalPrice());
+			double irTaxValue= (invoice.getIrTaxPercentage()/100)*(invoice.getEstimatePricing().getTotalPrice()-invoice.getEstimatePricing().getJobEstimate().getDiscountValue());
+			double vatValue= (invoice.getVatPercentage()/100)*(invoice.getEstimatePricing().getTotalPrice()-invoice.getEstimatePricing().getJobEstimate().getDiscountValue());
+			double discount = (invoice.getDiscountPercentage()/100)*(invoice.getEstimatePricing().getTotalPrice()-invoice.getEstimatePricing().getJobEstimate().getDiscountValue());
 			model.addAttribute("irTaxValue", irTaxValue);
 			model.addAttribute("vatValue", vatValue);
 			model.addAttribute("job", jobs);
 			model.addAttribute("invoices", invoice);
-			model.addAttribute("discountValue", discount);
-
+			model.addAttribute("discount", discount);
+			model.addAttribute("isApplyTax", 1);
 			return "billing/invoice/invoice-tva-result";
 		} catch (Exception e) {
 			throw e;
@@ -285,9 +278,9 @@ public class InvoiceController {
 		try {
 			Invoice invoice = invoiceServiceImpl.findById(id);
 			Job job = invoice.getEstimatePricing().getJobEstimate().getJob();
-			double discount = (invoice.getDiscountPercentage()/100)*(invoice.getEstimatePricing().getTotalPrice());
-			double irTaxValue= (invoice.getIrTaxPercentage()/100)*invoice.getEstimatePricing().getTotalPrice();
-			double vatValue= (invoice.getVatPercentage()/100)*invoice.getEstimatePricing().getTotalPrice();
+			double discount = (invoice.getDiscountPercentage()/100)*(invoice.getEstimatePricing().getTotalPrice()-invoice.getEstimatePricing().getJobEstimate().getDiscountValue());
+			double irTaxValue= (invoice.getIrTaxPercentage()/100)*(invoice.getEstimatePricing().getTotalPrice()-invoice.getEstimatePricing().getJobEstimate().getDiscountValue());
+			double vatValue= (invoice.getVatPercentage()/100)*(invoice.getEstimatePricing().getTotalPrice()-invoice.getEstimatePricing().getJobEstimate().getDiscountValue());
 			model.addAttribute("job", job);
 			model.addAttribute("invoices", invoice);
 			model.addAttribute("irTaxValue", irTaxValue);
@@ -342,9 +335,9 @@ public class InvoiceController {
 		try {
 			Invoice invoice = invoiceServiceImpl.findById(id);
 			Job jobs = invoice.getEstimatePricing().getJobEstimate().getJob();
-			double irTaxValue= (invoice.getIrTaxPercentage()/100)*invoice.getEstimatePricing().getTotalPrice();
-			double vatValue= (invoice.getVatPercentage()/100)*invoice.getEstimatePricing().getTotalPrice();
-			double discount = (invoice.getDiscountPercentage()/100)*(invoice.getEstimatePricing().getTotalPrice());
+			double irTaxValue= (invoice.getIrTaxPercentage()/100)*(invoice.getEstimatePricing().getTotalPrice()-invoice.getEstimatePricing().getJobEstimate().getDiscountValue());
+			double vatValue= (invoice.getVatPercentage()/100)*(invoice.getEstimatePricing().getTotalPrice()-invoice.getEstimatePricing().getJobEstimate().getDiscountValue());
+			double discount = (invoice.getDiscountPercentage()/100)*(invoice.getEstimatePricing().getTotalPrice()-invoice.getEstimatePricing().getJobEstimate().getDiscountValue());
 			model.addAttribute("irTaxValue", irTaxValue);
 			model.addAttribute("vatValue", vatValue);
 			model.addAttribute("job", jobs);
@@ -363,14 +356,15 @@ public class InvoiceController {
 			
 			Invoice invoice = invoiceServiceImpl.displayIrtaxAndVatTax(id, irTax, vatTax);
 			Job jobs = invoice.getEstimatePricing().getJobEstimate().getJob();
-			double irTaxValue= (invoice.getIrTaxPercentage()/100)*invoice.getEstimatePricing().getTotalPrice();
-			double vatValue= (invoice.getVatPercentage()/100)*invoice.getEstimatePricing().getTotalPrice();
-			double discount = (invoice.getDiscountPercentage()/100)*(invoice.getEstimatePricing().getTotalPrice());
+			double irTaxValue= (invoice.getIrTaxPercentage()/100)*(invoice.getEstimatePricing().getTotalPrice()-invoice.getEstimatePricing().getJobEstimate().getDiscountValue());
+			double vatValue= (invoice.getVatPercentage()/100)*(invoice.getEstimatePricing().getTotalPrice()-invoice.getEstimatePricing().getJobEstimate().getDiscountValue());
+			double discount = (invoice.getDiscountPercentage()/100)*(invoice.getEstimatePricing().getTotalPrice()-invoice.getEstimatePricing().getJobEstimate().getDiscountValue());
 			model.addAttribute("irTaxValue", irTaxValue);
 			model.addAttribute("vatValue", vatValue);
 			model.addAttribute("job", jobs);
 			model.addAttribute("invoices", invoice);
 			model.addAttribute("discount", discount);
+			model.addAttribute("isApplyTax", 0);
 			return "billing/invoice/invoice-tva-result";
 		} catch (Exception e) {
 			throw e;
@@ -384,8 +378,48 @@ public class InvoiceController {
 	@GetMapping("/invoice-pdf/{reference}")
 	@ResponseBody
 	public String generateInvoicePdf(@PathVariable String reference) throws IOException {
-	    return invoiceServiceImpl.createInvoiceDataPdf(reference);
+	    return invoiceServiceImpl.createInvoiceDataPdf(reference, false, true);
 	}
+	
+	@PreAuthorize("hasAuthority('ROLE_APPLY_DISCOUNT')")
+	@GetMapping("/invoice-pdf-commission/{reference}")
+	@ResponseBody
+	public String generateInvoicePdfCommission(@PathVariable String reference) throws IOException {
+		return invoiceServiceImpl.createInvoiceDataPdf(reference, true, true);
+	}
+	
+	
+	@PreAuthorize("hasAuthority('ROLE_APPLY_DISCOUNT')")
+	@GetMapping("/invoice-pdf-display/{reference}")
+	@ResponseBody
+	public String generateInvoicePdfDisplay(@PathVariable String reference) throws IOException {
+	    return invoiceServiceImpl.createInvoiceDataPdf(reference, false, false);
+	}
+
+	@PreAuthorize("hasAuthority('ROLE_APPLY_DISCOUNT')")
+	@GetMapping("/invoice-pdf-apply/{reference}")
+	@ResponseBody
+	public String generateInvoicePdfApply(@PathVariable String reference) throws IOException {
+	    return invoiceServiceImpl.createInvoiceDataPdf(reference, false, true);
+	}
+	
+	
+	// Confirm a Job 
+	//@PreAuthorize("hasAuthority('ROLE_VALIDATE_INVOICE')")
+	@PostMapping("/confirm-invoice/{referenceNumber}")
+	public ResponseEntity<String> confirmJob (@PathVariable String referenceNumber) {
+		try {
+			 
+			    	invoiceServiceImpl.confirmInvoice(referenceNumber);
+			    	return new ResponseEntity<String>("OK", HttpStatus.OK);
+			    
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return  new ResponseEntity<String>("KO", HttpStatus.BAD_REQUEST);
+	}
+	
+	
 	}
 
 	

@@ -7,7 +7,7 @@ function loadPageModal(page) {
 			fetch('file/download?'+ html).then(resp=> resp.blob()).then(blob=>{
 			let file = window.URL.createObjectURL(blob);
 			document.getElementById('controlSheetViewer').src=file;
-			listjob();
+			//listJob();
 			});
 		})
 		.catch(error => console.log(error));
@@ -61,7 +61,6 @@ function closeModal() {
  }
 
  function loadDynamicPageContent(url, idContainer) {
-	 console.log()
      fetch(url)
          .then(response => response.text())
          .then(html => {
@@ -123,7 +122,15 @@ function closeModalView(modalId) {
  
  
  
- 
+  function loadDynamicPageContentEstimate(url, idContainer) {
+     fetch(url)
+         .then(response => response.text())
+         .then(html => {
+             document.getElementById(idContainer).innerHTML = html;
+        	listJob();
+         })
+         .catch(error => console.log(error));
+ }
  
  
  

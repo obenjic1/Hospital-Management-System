@@ -26,19 +26,19 @@
 		     <tr> 
 		         <td><c:out value = "${i}"/></td> 
 		            <td style="font-family: bold;"><a> <fmt:formatNumber value="${estimate.quantity}" type="currency"   pattern = "#,###,###"/></a></td>                                 
-		          <td style="font-family: bold;"><a> <fmt:formatNumber value="${estimate.unitPrice}" type="currency"   pattern = "#,###,###"/> </a></td>                                  
-		           <td style="font-family: bold;"><a> <fmt:formatNumber value="${estimate.totalPrice}" type="currency"   pattern = "#,###,###"/> </a></td>  
+		          <td style="font-family: bold;"><a> <fmt:formatNumber value="${estimate.unitPrice-(jobEstimate.discountValue/estimate.quantity)}" type="currency"   pattern = "#,###,###"/> </a></td>                                  
+		           <td style="font-family: bold;"><a> <fmt:formatNumber value="${estimate.totalPrice-jobEstimate.discountValue}" type="currency"   pattern = "#,###,###"/> </a></td>  
 		          
 		<%--   <sec:authorize  access="hasRole('ROLE_GENERATE_INVOICE')"> --%>
 		           <td>
-		           <c:if test="${estimate.jobEstimate.discountValue!=0}"> 
+		           <c:if test="${jobEstimate.discountValue!=0}"> 
 				           <c:if test="${estimate.invoiced}"> 
 					            <button type="button" class="btn " onclick="loadMainModalForm('invoice/discount/from-pricing/${estimate.id}/${estimate.quantity}')" data-toggle="tooltip" data-placement="top" title="View Invoices">
 					              <i class="ri-eye-line" style="color: #0d6efd"></i> 
 					             </button>
 				           </c:if>
 			           
-			          <c:if test="${estimate.jobEstimate.job.invoiced==0}"> 
+			          <c:if test="${jobEstimate.job.invoiced==0}"> 
 				               <button type="button" class="btn " onclick="getDiscountInvoiceFromPricing('${estimate.id}','${estimate.quantity}')" data-bs-dismiss="modal" data-toggle="tooltip" data-placement="top" title="Generate Invoice">
 				                 <i class="ir ri-draft-line" style="color: green">
 				                 </i>
@@ -55,7 +55,7 @@
     	</tbody>
     </table>
 		<div class="" style="margin-top:50px;">	
-		<button class="btn btn-primary" style="left: 87%;position: relative;width: 117px;" data-bs-toggle="modal" data-bs-target="#ExtralargeModalFile" onclick="loadPageModal('job/estimate-pdf-discount/${jobEstimateD.reference}')"><fmt:message key="print"/> </button>
+		<button class="btn btn-primary" style="flaot:right;width: 117px;" data-bs-toggle="modal" data-bs-target="#ExtralargeModalFile" onclick="loadPageModal('job/estimate-pdf-discount/${jobEstimate.reference}')"><fmt:message key="print"/> </button>
 	</div>
 	</div> 
  
