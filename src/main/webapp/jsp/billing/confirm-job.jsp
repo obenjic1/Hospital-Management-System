@@ -258,15 +258,16 @@
                         </c:forEach>
                 </div>
              <div class ="row py-3 "style="margin-top:50px" >
+             <c:if test="${job.status.name!='Approved'}">
 		     	<div class ="col-sm-6">
 		     		 <button type="button" style ="width:125px;float:left" class="btn btn-outline-danger" onClick="loadPageModalForm('job/update-form/${job.id}');"><fmt:message key="edit"/></button>	
 		    	</div>
-		    	
+		    	</c:if>
 	        	<div class ="col-sm-6">
 		        	 <c:if test="${job.status.name=='Registered'}">
 		       		 	<button type="button"  style ="width:125px;float:right" onclick="confirmJob(${job.id})"  class="btn btn-outline-primary" id="" data-bs-dismiss="modal"><fmt:message key="confirm"/></button>	
 		       		 </c:if>
-		       		 <c:if test="${job.proofread=='true'&&job.status.name=='Confrimed'}">
+		       		 <c:if test="${job.status.name=='Confrimed'}">
 		       		 	<button type="button"  style ="width:125px;float:right" onclick="confirmApproveJob(${job.id})"  class="btn btn-outline-primary"  id="" data-bs-dismiss="modal"><fmt:message key="approve"/></button>	
 		       		 </c:if>
 	       		 </div>

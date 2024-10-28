@@ -262,6 +262,7 @@ public class JobController {
 	 	* Start print Control Sheet Section 
 	 	* 
 	 */
+
 	
 	@PreAuthorize("hasAuthority('ROLE_REGISTER_NEW_JOB')")
 	@GetMapping("/generate-pdf/{id}")
@@ -1045,23 +1046,6 @@ public class JobController {
 			
 			JobEstimate estimate = jobEstimateRepository.findByReference(ref).get();
 			Job job = estimate.getJob();
-			List<EstimatePricing>  estimates = new ArrayList<EstimatePricing>();
-			
-			if (estimate.isInvoiced() && estimate.getDiscountValue()>0) {
-				
-				estimates = estimate.getEstimatePricings();
-				for (EstimatePricing calculatedEstimatePricing : estimates) {
-					
-					if(calculatedEstimatePricing.isInvoiced()) {
-					calculatedEstimatePricing.setTotalPrice(calculatedEstimatePricing.getTotalPrice()+estimate.getDiscountValue());
-					calculatedEstimatePricing.setUnitPrice(calculatedEstimatePricing.getTotalPrice()/calculatedEstimatePricing.getQuantity());
-					}
-				}
-				} else {
-					estimates = estimate.getEstimatePricings();
-					
-				}
-			
 			
 			List<String> typsettingActivities = jobServiceImpl.gettypsettingActivities(job);
 			
@@ -1081,7 +1065,7 @@ public class JobController {
 			model.addAttribute("coverJobPaper", coverJobPaper);			
 			model.addAttribute("contentJobPapers", jobPapersResult);
 			model.addAttribute("JobEstimateP", estimate);	
-			model.addAttribute("estimates", estimates);		
+			model.addAttribute("estimates", estimate.getEstimatePricings());		
 			model.addAttribute("job", job);		
 			return "/billing/estimate/estimate-view";
 		}
@@ -1209,22 +1193,15 @@ public class JobController {
 		JobEstimate jobEstimate=jobEstimateRepository.findByReference(reference).get();
 		
 	//	Job job=jobEstimate.getJob();
-		List<EstimatePricing> estimates =jobEstimateServiceImpl.generateCommissionEstimateResult(jobEstimate.getId());
-		
-			for (EstimatePricing estimatePricing: jobEstimate.getEstimatePricings()) {
-				
-				if(estimatePricing.isInvoiced()) {
-						for(EstimatePricing invoicedEstimatePricing : estimates ) {
-					if(estimatePricing.getQuantity() == invoicedEstimatePricing.getQuantity()) {
-						
-						invoicedEstimatePricing.setTotalPrice(invoicedEstimatePricing.getTotalPrice() + jobEstimate.getDiscountValue() );
-						invoicedEstimatePricing.setUnitPrice(invoicedEstimatePricing.getTotalPrice()/invoicedEstimatePricing.getQuantity());
-					}
-						}
-				}
+		List<EstimatePricing> calculatedDisucountEstimatePrice = new ArrayList<EstimatePricing>();
+		for (EstimatePricing estimatePricing: jobEstimate.getEstimatePricings()) {
+			EstimatePricing estimate= new EstimatePricing(); 
+			estimate.setQuantity(estimatePricing.getQuantity());
+			estimate.setUnitPrice(estimatePricing.getUnitPrice()+jobEstimate.getCommission()/estimatePricing.getQuantity())	;	
+			estimate.setTotalPrice(estimatePricing.getTotalPrice()+jobEstimate.getCommission())	;	
+			calculatedDisucountEstimatePrice.add(estimate);
 			}
-	
-			return jobServiceImpl.createEstimateDataPdfWithCommision(reference,estimates);
+			return jobServiceImpl.createEstimateDataPdfWithCommision(reference,calculatedDisucountEstimatePrice);
 			
 	}
 	
@@ -1243,22 +1220,18 @@ public class JobController {
 	
 		JobEstimate jobEstimate=jobEstimateRepository.findByReference(reference).get();
 		List<EstimatePricing> estimates =jobEstimateServiceImpl.generateDiscountCommissionEstimateResult(jobEstimate.getId());
-		
+		List<EstimatePricing> calculatedDisucountEstimatePrice= new ArrayList<EstimatePricing>();
 		/// work done on printed estimate with DIscount
-		
+
 		for (EstimatePricing estimatePricing: jobEstimate.getEstimatePricings()) {
-			
-			if(estimatePricing.isInvoiced()) {
-					for(EstimatePricing invoicedEstimatePricing : estimates ) {
-				if(estimatePricing.getQuantity() == invoicedEstimatePricing.getQuantity()) {
-					
-					invoicedEstimatePricing.setTotalPrice(invoicedEstimatePricing.getTotalPrice() + jobEstimate.getDiscountValue() );
-					invoicedEstimatePricing.setUnitPrice(invoicedEstimatePricing.getTotalPrice()/invoicedEstimatePricing.getQuantity());
-				}
-					}
-			}
+
+		EstimatePricing estimate= new EstimatePricing(); 
+		estimate.setQuantity(estimatePricing.getQuantity());
+		estimate.setUnitPrice(estimatePricing.getUnitPrice()-jobEstimate.getDiscountValue()/estimatePricing.getQuantity())	;	
+		estimate.setTotalPrice(estimatePricing.getTotalPrice()-jobEstimate.getDiscountValue())	;	
+		calculatedDisucountEstimatePrice.add(estimate);
 		}
-		return jobServiceImpl.createEstimateDataPdfWithCommision(reference,estimates);
+		return jobServiceImpl.createEstimateDataPdfWithCommision(reference,calculatedDisucountEstimatePrice);
 			
 	}
 
@@ -1341,7 +1314,7 @@ public class JobController {
 		JobEstimate jobEstimate = jobEstimateRepository.findById(id).get();
 		List<EstimatePricing> estimates = jobEstimate.getEstimatePricings();
 		model.addAttribute("estimates",estimates);
-	
+		model.addAttribute("jobEstimate",jobEstimate);
 		return "/results/discount-result";
 	}
 	

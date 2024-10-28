@@ -60,10 +60,16 @@
                                                              <c:set var = "i"  value = "1"/> 
                                                                 <tr> 
                                                                     <td style="font-family: bold;"><c:out value = "${i}"/></td> 
+                                                                     <c:if test="${discounted==0 }">
                                                                        <td style="font-family: bold;"><a> <fmt:formatNumber value="${invoices.estimatePricing.quantity}" type="currency"   pattern = "#,###,###"/> </a></td>                                 
                                                                      <td style="font-family: bold;"><a> <fmt:formatNumber value="${invoices.estimatePricing.unitPrice}" type="currency"   pattern = "#,###,###"/> </a></td>                                  
                                                                       <td style="font-family: bold;"><a> <fmt:formatNumber value="${invoices.estimatePricing.totalPrice}" type="currency"   pattern = "#,###,###"/> </a></td>  
-                                                                                                   
+                                                                     </c:if>  
+                                                                     <c:if test="${discounted==1 }">
+                                                                       <td style="font-family: bold;"><a> <fmt:formatNumber value="${invoices.estimatePricing.quantity}" type="currency"   pattern = "#,###,###"/> </a></td>                                 
+                                                                       <td style="font-family: bold;"><a> <fmt:formatNumber value="${invoices.estimatePricing.unitPrice - invoices.estimatePricing.jobEstimate.discountValue/invoices.estimatePricing.quantity}" type="currency"   pattern = "#,###,###"/> </a></td>                                  
+                                                                       <td style="font-family: bold;"><a> <fmt:formatNumber value="${invoices.estimatePricing.totalPrice - invoices.estimatePricing.jobEstimate.discountValue}" type="currency"   pattern = "#,###,###"/> </a></td>  
+                                                                     </c:if>                                 
                                                                 </tr> 
                                                                   <tr>
 <%--                                                                    <c:if test="${invoices.vatPercentage} >0"> --%>
@@ -103,10 +109,21 @@
                                         </div>
                                          <span style="font-family: bold;left: 88%;position: relative; bottom: -1.5%">${invoices.referenceNumber}</span> 
                                         <hr><br>
-                                        <div class="" style="margin-top:50px;">
-                                           <button class="btn btn-primary"style="left: 87%;position: relative;width: 117px;" data-bs-toggle="modal" data-bs-target="#ExtralargeModalFile" onclick="loadPageModal('invoice/invoice-pdf/${invoices.referenceNumber}');"><fmt:message key="print"/></button>
+                                        <c:if test="${invoices.invoiceStatus.name=='Registered' }">
+                                        <div class="row" style="margin-bottom:100px;float:right">
+                                           <button class="btn btn-success"style="width: 300px;" data-bs-dismiss="modal"  onclick="confirmInvoiceValidation('${invoices.referenceNumber}');"><fmt:message key="validate"/></button>
                                         </div>
-
+										</c:if>
+										<c:if test="${invoices.invoiceStatus.name!='Registered' }">
+                                        <div class="row" style="margin-bottom:100px">
+                                        <div style="float:left; " class="col-sm-6 ">
+                                           <button class="btn btn-danger"style="width: 300px;" data-bs-toggle="modal" data-bs-target="#ExtralargeModalFile" onclick="loadPageModal('invoice/invoice-pdf-display/${invoices.referenceNumber}');"><fmt:message key="print.taxes.display"/></button>
+                                         </div>
+                                         <div style="float:right;" class="col-sm-6 ">
+                                            <button class="btn btn-success"style=" width: 300px;" data-bs-toggle="modal" data-bs-target="#ExtralargeModalFile" onclick="loadPageModal('invoice/invoice-pdf-apply/${invoices.referenceNumber}');"><fmt:message key="print.taxes.apply"/></button>
+                                        </div>
+                                        </div>
+										</c:if>
                                     </div>
                                 </div>
                             </div>

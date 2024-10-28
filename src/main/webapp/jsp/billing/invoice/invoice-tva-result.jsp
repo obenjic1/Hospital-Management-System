@@ -38,12 +38,17 @@
             <td style="font-family: bold;">Discount <span>${invoices.discountPercentage} </span>% </td>                                 
             <td> </td>                                  
             <td> </td>  
-            <td> <fmt:formatNumber value="${discountValue}" type="currency"   pattern = "#,###,###"/> </td>                               
+            <td> <fmt:formatNumber value="${discount}" type="currency"   pattern = "#,###,###"/> </td>                               
         </tr> 
       <tr> 
       
             <td style="font-family: bold; font-weight: bold"><a>Net Payable </a></td>                                 
           <td><a> </a> </td>                                  
            <td><a> </a></td>  
-           <td style="font-family: bold; font-weight: bold;"><a> <fmt:formatNumber value="${invoices.netPayable}" type="currency"   pattern = "#,###,###"/> </a></td>                               
+           <c:if test="${isApplyTax==0 }">
+              <td style="font-family: bold; font-weight: bold;"><a> <fmt:formatNumber value="${invoices.netPayable -irTaxValue -vatValue}" type="currency"   pattern = "#,###,###"/> </a></td>                               
+           </c:if>
+             <c:if test="${isApplyTax==1 }">
+              <td style="font-family: bold; font-weight: bold;"><a> <fmt:formatNumber value="${invoices.netPayable}" type="currency"   pattern = "#,###,###"/> </a></td>                               
+           </c:if>
      </tr>

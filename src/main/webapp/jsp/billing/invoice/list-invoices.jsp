@@ -62,6 +62,7 @@
 						       <th scope="col"><fmt:message key="customer"/></th>
 						        <th scope="col"><fmt:message key="created.date"/></th>
 						        <th scope="col"><fmt:message key="net.payable"/></th>
+						         <th scope="col"><fmt:message key="status"/></th>
 							   <th scope="col"><fmt:message key="actions"/></th>
 							</tr>
 						  </thead>
@@ -77,17 +78,28 @@
 								 <td>${result.estimatePricing.jobEstimate.job.customer.name}</td>
 								   <td><fmt:formatDate type = "both" value = "${result.creationDate}" /></td>
 								    <td> <fmt:formatNumber value="${result.netPayable}" type="currency"   pattern = "#,###,###"/></td>
+								     <td>
+								      <c:if test="${result.invoiceStatus.name =='Approved'}"> <a class=" badge bg-success" >${result.invoiceStatus.name}</a></c:if>
+								       <c:if test="${result.invoiceStatus.name !='Approved'}"> <a>${result.invoiceStatus.name}</a></c:if>
+								    
+								     </td>
+								      
 								   <td>
 								     <a>
 								   <select id="coverPaperType" name="name" class="form-select">
 								     <option >Action</option>
 								      <option data-bs-toggle="modal" data-bs-target="#ExtralargeModal" data-toggle="tooltip" data-placement="top" title="view job details" onclick="loadPageModalForm('invoice/job-invoice/${result.id}');">View</option>
+								     
+								     <c:if test="${result.invoiceStatus.name=='Registered' }">
+								     <option data-bs-toggle="modal" data-bs-target="#ExtralargeModal" data-toggle="tooltip" data-placement="top" title="view job details" onclick="loadPageModalForm('invoice/job-invoice/${result.id}');">Validate</option>
+								     
 								      <sec:authorize  access="hasRole('ROLE_APPLY_DISCOUNT')"> 
 								       <option data-bs-toggle="modal" data-bs-target="#ExtralargeModal" data-toggle="tooltip" data-placement="top" title="Apply Discount" onClick="loadPageModalForm('invoice/invoice-discount/${result.id}');">Apply Discount</option>
  									 </sec:authorize> 
 								   	 <sec:authorize  access="hasRole('ROLE_APPLY_TAX')"> 
 								        <option data-bs-toggle="modal" data-bs-target="#ExtralargeModal" data-toggle="tooltip" data-placement="top" title="Apply Taxes" onclick="loadPageModalForm('invoice/job-tax-form/${result.id}');">Apply Taxes</option>
-					              	 </sec:authorize> 
+					              	 </sec:authorize>
+					              	  </c:if>
 
 					               </select>								 
 									 </a>
