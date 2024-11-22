@@ -603,7 +603,7 @@ public class JobController {
 					if(Math.ceil(jobColorCombination.getNumberOfSignature())!=Math.floor(jobColorCombination.getNumberOfSignature())) {
 						printer.print(document, 500+"", 38, 297-150);
 						PlateMakingCosting pmcst= new PlateMakingCosting(jobPeper);
-						printer.print(document, pmcst.getBasic()/2+"", 67, 297-150);
+						printer.print(document, pmcst.getBasic()+"", 67, 297-150);
 						//fix cost
 						fixePrice+= 1000;
 						printer.print(document,printinElementCost.getTrimmingUpsUnitCost()+"", 95, 297-150);
