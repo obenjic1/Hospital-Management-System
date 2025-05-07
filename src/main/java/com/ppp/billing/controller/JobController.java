@@ -603,7 +603,7 @@ public class JobController {
 					if(Math.ceil(jobColorCombination.getNumberOfSignature())!=Math.floor(jobColorCombination.getNumberOfSignature())) {
 						printer.print(document, 500+"", 38, 297-150);
 						PlateMakingCosting pmcst= new PlateMakingCosting(jobPeper);
-						printer.print(document, pmcst.getBasic()/2+"", 67, 297-150);
+						//printer.print(document, pmcst.getBasic()/2+"", 67, 297-150);
 						//fix cost
 						fixePrice+= 1000;
 						printer.print(document,printinElementCost.getTrimmingUpsUnitCost()+"", 95, 297-150);
@@ -616,7 +616,7 @@ public class JobController {
 				
 			}}
 			if(job.getJobActivity().getXNumbered()>0) {
-				int perforated = (int) Math.ceil((job.getContentVolume()*job.getCardCopies())/2);
+				int perforated = (job.getContentVolume()*job.getCardCopies());
 				printer.print(document, perforated+"", 40, 297-173.5f);
 				//fix cost
 				printer.print(document, 2300+"", 137, 297-173.5f); 

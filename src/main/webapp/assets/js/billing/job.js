@@ -378,7 +378,7 @@ function submitForm(id){
  job.title = document.getElementById("title").value;
  job.cardCopies = document.getElementById("cardNumber").value;
  
- if(dataContentValue==2){
+ if(dataContentValue==2||dataContentValue==3){
 	  job.coverVolume = document.getElementById("volumeOfCover").value;
  }
     if(dataContentValue==0||dataContentValue==2||dataContentValue==3){

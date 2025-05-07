@@ -77,7 +77,7 @@
 				<!-- End Search Icon-->
 				<!------------------ Select language ------------------>
 				<li class="choose-language">
-				  <a style="margin-right: 10px;" href=?lang=fr"> <fmt:message key="lang.fr" />  </a> 
+				  <a style="margin-right: 10px;" href="?lang=fr"> <fmt:message key="lang.fr" />  </a> 
 				  <a href="?lang=en"> <fmt:message key="lang.en" /> </a>
 				</li>
 
