@@ -1,0 +1,46 @@
+td {
+  max-width: 200px; /* Limite la largeur de la cellule */
+  white-space: nowrap; /* Empêche le texte de se retourner à la ligne */
+  overflow: hidden; /* Masque le texte qui dépasse */
+  text-overflow: ellipsis; /* Ajoute les points de suspension */
+}
+  
+  .even-row {
+  background-color: #f6f9ff; /* Couleur de fond pour les lignes paires */
+}
+
+.odd-row {
+  background-color: #ffffff; /* Couleur de fond pour les lignes impaires */
+}
+
+.table {
+  --bs-table-bg: unset;
+ 	position: relative;
+  }
+  
+.button-see {
+	border-style: none;
+	background-color: transparent;
+	color: #0d6efd;
+}
+
+.pagination{
+	justify-content: end;	
+}
+
+.page-item.active {
+  background-color: #0d6efd;
+}
+
+.page-item {
+  cursor: pointer;
+}
+
+.nav-no-border .page-link {
+  border: none !important; /* Supprime les bordures */
+}
+
+a {
+  text-decoration: none;
+}
+

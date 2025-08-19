@@ -1,0 +1,96 @@
+Here’s a detailed overview of the various models in a hospital management system with data types for each attribute:
+1. User Model
+
+    ID: String (e.g., UUID)
+    Username: String
+    Password: String
+    Email: String
+    Role: String (e.g., Enum: Admin, Doctor, Nurse, Receptionist)
+
+2. Staff Model
+
+    Staff ID: String (e.g., UUID)
+    Department: String
+    Position: String
+    Hire Date: LocalDate (or Date)
+    User: User (optional reference)
+
+3. Patient Model
+
+    Patient ID: String (e.g., UUID)
+    Name: String
+    Date of Birth: LocalDate (or Date)
+    Gender: String (e.g., Enum: Male, Female, Other)
+    Contact Information: String (could be a formatted string or a separate model)
+
+4. Appointment Model
+
+    Appointment ID: String (e.g., UUID)
+    Patient ID: String (reference)
+    Doctor ID: String (reference)
+    Date and Time: LocalDateTime (or Date)
+    Status: String (e.g., Enum: Scheduled, Completed, Cancelled)
+
+5. Medical Record Model
+
+    Record ID: String (e.g., UUID)
+    Patient ID: String (reference)
+    Date of Visit: LocalDate (or Date)
+    Symptoms: String
+    Diagnosis: String
+    Treatment Plan: String
+    Prescriptions: String (or a separate model)
+
+6. Billing Model
+
+    Billing ID: String (e.g., UUID)
+    Patient ID: String (reference)
+    Amount: BigDecimal (for currency)
+    Payment Status: String (e.g., Enum: Paid, Pending)
+    Date of Billing: LocalDate (or Date)
+
+7. Inventory Model
+
+    Item ID: String (e.g., UUID)
+    Item Name: String
+    Quantity: Integer
+    Supplier Information: String (could reference a separate Supplier model)
+    Expiry Date: LocalDate (or Date)
+
+8. Department Model
+
+    Department ID: String (e.g., UUID)
+    Name: String
+    Head of Department: String (could reference a User or Staff)
+    Contact Information: String
+
+9. Room/Bed Model
+
+    Room ID: String (e.g., UUID)
+    Room Type: String (e.g., Enum: ICU, General)
+    Availability Status: Boolean
+    Patient ID: String (optional reference)
+
+10. Staff Scheduling Model
+
+    Schedule ID: String (e.g., UUID)
+    Staff ID: String (reference)
+    Shift Time: LocalTime (or String for time range)
+    Date: LocalDate (or Date)
+    Role: String
+
+11. Feedback Model
+
+    Feedback ID: String (e.g., UUID)
+    Patient ID: String (reference)
+    Comments: String
+    Rating: Integer (scale from 1 to 5)
+    Date of Feedback: LocalDate (or Date)
+
+12. Prescription Model
+
+    Prescription ID: String (e.g., UUID)
+    Patient ID: String (reference)
+    Doctor ID: String (reference)
+    Medication Details: String
+    Dosage Instructions: String

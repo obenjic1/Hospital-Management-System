@@ -1,0 +1,991 @@
+
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+	pageEncoding="ISO-8859-1"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="sec"
+	uri="http://www.springframework.org/security/tags"%>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<head>
+  <link href="assets/css/billing/job.css" rel="stylesheet">
+</head>
+
+
+    <div class="pagetitle">
+      <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+          <li class="breadcrumb-item"><fmt:message key="jobs"/></li>
+          <li class="breadcrumb-item active"><fmt:message key="new"/></li>
+        </ol>
+      </nav>
+    </div><!-- End Page Title -->
+
+    <section class="section">
+      <div class="row">       
+        <div class="col-lg-12">
+          <div class="card">
+            <div class="card-body" >
+              <h5 class="card-title"> <fmt:message key="job.creation"/></h5>
+
+              <!-- Default Tabs -->
+              <ul style="background-color: #fbfbfb;"  class="nav nav-tabs d-flex" id="myTabjustified" role="tablist">
+                <li class="nav-item flex-fill" role="presentation">
+                  <button style="color: blue;" disabled="disabled" class="nav-link w-100 active" id="home-tab" data-bs-toggle="tab" data-bs-target="#tab1" type="button" role="tab" aria-controls="home" aria-selected="true"><fmt:message key="job.description.title"/></button>
+                </li>
+                <li class="nav-item flex-fill" role="presentation">
+                  <button disabled="disabled" class="nav-link w-100"  data-bs-toggle="tab" data-bs-target="#tab2" type="button" role="tab" aria-controls="profile" aria-selected="false"><fmt:message key="paper.option.title"/></button>
+                </li>
+                <li class="nav-item flex-fill" role="presentation">
+                  <button disabled="disabled" class="nav-link w-100" id="contact-tab" data-bs-toggle="tab" data-bs-target="#tab3" type="button" role="tab" aria-controls="contact" aria-selected="false"><fmt:message key="printing.option.title"/></button>
+                </li>
+                <li class="nav-item flex-fill" role="presentation">
+                  <button disabled="disabled" class="nav-link w-100" id="contact-tabm" data-bs-toggle="tab" data-bs-target="#tab4" type="button" role="tab" aria-controls="justified" aria-selected="false"><fmt:message key="finishing.option.title"/></button>
+                </li>
+                 <li class="nav-item flex-fill" role="presentation">
+                  <button disabled="disabled" class="nav-link w-100" id="contact-taob" data-bs-toggle="tab" data-bs-target="#tab5" type="button" role="tab" aria-controls="samary" aria-selected="false"><fmt:message key="summary"/></button>
+                </li>
+              </ul>
+           <form action="" method="post" id="myForm" style=" padding-left: 5%;">             
+              <div class="tab-content pt-2" id="myTabjustifiedContent">
+                <div class=" container tab-pane fade show active" id="tab1" role="tabpanel" aria-labelledby="home-tab">  
+                              
+<!-- <--------------------------------- TAB 1----------------------------------------------------------> 
+                 <div style="position: relative;bottom: -20px;" >		
+			     <div class="row py-4">
+				  <div id="loadInputForCustomerNewlyCreated" class ="col-lg-3 px8">					 
+				   <label for="" class="form-label"><a> <fmt:message key="customer"/> </a></label>
+				   <select id="customer"  class="form-select" >
+				   	<option value="${job.customer.id}" selected>${job.customer.name}</option>
+	                 <c:forEach items="${customers}" var="customer">
+	                   <option value="${customer.id}">${customer.name}</option>
+	                 </c:forEach>
+	                </select>
+			      </div>
+				  <div class ="col-lg-3 px8" style="position: relative; left: 10px;"> 
+					<label for="" class="form-label"><a> <fmt:message key="job.type"/></a></label> 
+					<select onchange="jobTypeChoice(this.selectedOptions[0])"  id="jobType" name="jobType" class="form-select" disabled >
+					  <option>Choose...</option>
+					  
+					  <optgroup label="<fmt:message key="job.category.folded.two"/>" data-content="2">
+					  <c:forEach items="${jobTypes}" var="jobType">
+					  <c:if test="${jobType.category==2}">
+					  <c:if test="${jobType.id==job.jobType.id}">
+					  	 <option style="marging-left: %;" selected value="${jobType.id}" >${jobType.name}</option>
+					  </c:if>
+					    <c:if test="${jobType.id!=job.jobType.id}">
+					  	 <option style="marging-left: %;"  value="${jobType.id}" >${jobType.name}</option>
+					  </c:if>
+                         </c:if>
+                      </c:forEach>
+                      </optgroup>
+                      
+                       <optgroup label="<fmt:message key="job.category.folded.one"/>" data-content="1">
+                        <c:forEach items="${jobTypes}" var="jobType">
+					  <c:if test="${jobType.category==1}">
+					  <c:if test="${jobType.id==job.jobType.id}">
+					  	 <option selected value="${jobType.id}" >${jobType.name}</option>
+					  </c:if>
+					    <c:if test="${jobType.id!=job.jobType.id}">
+					  	 <option  value="${jobType.id}" >${jobType.name}</option>
+					  </c:if>
+                         </c:if>
+                      </c:forEach>
+                       </optgroup>
+                       
+                       <optgroup   label="<fmt:message key="job.category.opened"/>" data-content="0">
+                        <c:forEach items="${jobTypes}" var="jobType">
+					  <c:if test="${jobType.category==0}">
+					  <c:if test="${jobType.id==job.jobType.id}">
+					  	 <option selected value="${jobType.id}" >${jobType.name}</option>
+					  </c:if>
+					    <c:if test="${jobType.id!=job.jobType.id}">
+					  	 <option  value="${jobType.id}" >${jobType.name}</option>
+					  </c:if>
+                         </c:if>
+                      </c:forEach>
+                     </optgroup>
+                     
+                      <optgroup   label="<fmt:message key="job.category.opened.with.cover"/>" data-content="3">
+                      <c:forEach items="${jobTypes}" var="jobType">
+					  <c:if test="${jobType.category==3}">
+					  <c:if test="${jobType.id==job.jobType.id}">
+					  	 <option style="marging-left: %;" selected value="${jobType.id}" >${jobType.name}</option>
+					  </c:if>
+					    <c:if test="${jobType.id!=job.jobType.id}">
+					  	 <option style="marging-left: %;"  value="${jobType.id}" >${jobType.name}</option>
+					  </c:if>
+                         </c:if>
+                      </c:forEach>
+                     </optgroup>
+                     
+                    </select>
+				  </div>
+				  <div class ="col-lg-3 px8" style="position: relative; left: 10px;">
+				  <label for="title" class="form-label"><a><fmt:message key="title"/></a> </label>
+					<div>
+					  <input id= "title" name="title" type= "text" value="${job.title}">
+					</div>
+                  </div>
+				</div>	
+			<div class="row py-3">
+			  <div class ="col-lg-3 px8" >
+				   <label for="" class="form-label"> <a><fmt:message key="format"/></a> </label>
+              	   <select id="paperFormat" onchange="paperF(this.value)" name="name" class="form-select">
+              	      <option onclick="">Custom Format...</option>
+              	      <option value="${paperFormat.id},${paperFormat.length},${paperFormat.width}" selected>${job.paperFormat}</option>
+					  <c:forEach items="${paperFormats}" var="paperFormat">
+                        <option value="${paperFormat.id},${paperFormat.length},${paperFormat.width}">${paperFormat.name}</option>
+                      </c:forEach>
+                    </select>
+			   </div>
+			   <div class ="col-lg-3 px8" style="position: relative; left: 10px;">
+			     <label for="" class="form-label"> <a><fmt:message key="open.format"/></a> </label> 
+			       <div class="row">
+				     <div class="col-6 volume-cover-l">
+                       <input id="openWidth"  value="${job.openWidth}" style="postion-relative-left:2px;position: relative;left: 4px;"  placeholder= "<fmt:message key='open.width'/> ">
+				      </div>
+				      <div  class="col-6 volume-cover-w">
+				      <input id="openLength" value="${job.openLength}" placeholder="<fmt:message key='open.legnth'/>">
+					  
+                   </div>
+				 </div>
+			  </div>
+			  <div class ="col-lg-3 px8" id="closeDimensionDiv" style="position: relative; left: 10px;"> 
+			   <label for="" class="form-label"> <a><fmt:message key="close.format"/></a> </label>
+			     <div class="row">
+				   <div class="col-6 volume-cover-l">
+                     <input type="number" id="closeWidth" value="${job.closeWidth}" style="postion-relative-left:2px;position: relative;left: 4px;"  placeholder= "<fmt:message key="open.width"/> ">
+				     </div>
+				     <div  class="col-6 volume-cover-w">
+				       <input id="closeLength" type="number" value="${job.closeLength}"  placeholder="<fmt:message key="open.legnth"/>">
+                    </div>
+				  </div>
+			   </div>
+		      </div>
+									
+			     <div class="row py-3">
+				  <div id="volumeofCover" class ="col-lg-3 px8">
+				    <label for="coverVolume" class="form-label"> <a><fmt:message key="volume.cover"/></a></label> 
+				     <div>
+					  <input id= "volumeOfCover" name="volumeOfCover" min="4" type="number" value=4  readonly>
+				    </div>
+				  </div>
+				  <div id="volumeofContent" class ="col-lg-3 px8" style="position: relative; left: 10px;"> 
+				    <label for="volumeOfContent"   class="form-label"> <a><fmt:message key="volume.content"/></a></label>
+				    <div>
+					  <input min="2" id= "volumeOfContent" name="volumeOfContent" type="number" onchange="totalContentVolumeChange()" value="${job.contentVolume}">
+				    </div>
+				  </div>
+				  <c:if test="${job.jobType.category!=3}">
+				  	<div id="card" class ="col-lg-2 px8">
+				    <label for="card" class="form-label"> <a><fmt:message key="card.number"/></a></label> 
+				     <div>
+					  <input id= "cardNumber" name="cardNumber" type="number" value>
+				    </div>
+				  </div>
+				  </c:if>
+				  <c:if test="${job.jobType.category==3}">
+				  	<div id="card" class ="col-lg-2 px8" style="display: none">
+				    <label for="card" class="form-label"> <a><fmt:message key="card.number"/></a></label> 
+				     <div>
+					  <input id= "cardNumber" name="cardNumber" type="number" value>
+				    </div>
+				  </div>
+				  </c:if>
+				   
+				  
+				  <div class ="col-lg-3 px8"  style="position: relative; left: 10px;">
+				    <label for="" class="form-label"><a> <fmt:message key="ctp.fees"/></a></label> 
+					<input type="number" id="ctpFees" value="${job.ctpFees}">
+			      </div>
+		       </div>		
+	
+		      <div class="row py-3">
+			    <div class ="col-lg-3 px3">
+                  <div class="form-check">
+                    <label class="form-check-label" for="existingPlate"><a><fmt:message key="existing.plate"/></a> </label>
+                      <input class="form-check-input" type="checkbox" name="existingPlate" id="existingPlate" ${job.existingPlate ? 'checked':''}>
+                  </div>
+			    </div>
+			    <div class ="col-lg-3 px3">
+			    <div class="form-check">                     
+                    <label class="form-check-label" for="gridCheck1"> <a><fmt:message key="type.setting.by.us"/></a></label>
+                    <input class="form-check-input" type="checkbox" name="name" id="typesettingByUs" ${job.typesettingByUs ? 'checked':''}>
+                  </div>
+			    </div>
+			  <div class ="col-lg-3 px3" style="position: relative; left: 10px;"> 
+			     <div>
+			      <div class="form-check">                      
+                    <label class="form-check-label" for="gridCheck1"><a><fmt:message key="data.supplied.by.customer"/></a> </label>
+                    <input class="form-check-input" type="checkbox" id="dataSuppliedByCustomer" ${job.dataSuppliedByCustomer ? 'checked' : ''}>
+                  </div>
+                  
+			    </div>
+			  </div>
+			  <div class ="col-lg-3 px3" style="position: relative; left: 10px;">
+			  <div class="form-check">
+                    <label class="form-check-label" for="gridCheck1"><a><fmt:message key="layout.by.us"/></a> </label>
+                    <input class="form-check-input" type="checkbox" id="layoutByUs" ${job.layOutByUs ? 'checked' : ''}>
+                  </div>
+			  </div>
+		    </div>	
+		     <div class="row py-3">    
+			<button  style=" width: 94px;" type="button"  class="all-button-style" onclick="validateTab1(); tab1NextBtnAction()" id="next-btn" >Next</button>	
+		   </div>  	
+          </div>                         
+        </div>
+        
+ <!-- <----------------------------------- Tab2 ------------------------------->   
+ 
+              <div class=" container tab-pane fade"  id="tab2" role="tabpanel" aria-labelledby="profile-tab">
+         <div style="position: relative;bottom: -20px;" id="mainDiv" >	
+         	
+		   <div class="row py-4" id="coverInformations">
+			 <div class ="col-lg-2 px8" >
+			   <label for="" class="form-label"><a> <fmt:message key="cover.paper.type"/></a></label> 
+			   <select id="coverPaperType" name="paperType" class="form-select">
+			     <option selected>Choose...</option>
+				 <c:forEach items="${paperTypes}" var="paperType">
+                   <option value="${paperType.id}">${paperType.name}</option>
+                 </c:forEach>
+               </select>
+			 </div>
+
+			 <div class ="col-lg-2 px8" style="position: relative;">
+			   <label for="" class="form-label"><a><fmt:message key="grammage"/></a> </label>
+			   <input style="postion-relative-left:2px;position: relative;left: 10px;" list="coverGrammage" id="coverGrammage" name="paperGrammage">
+					   <datalist id="coverGrammage">
+	                    <c:forEach items="${paperGrammages}" var="paperGrammage">
+                    <option value="${paperGrammage.value}"></option>
+                    </c:forEach>
+	                   </datalist>  
+              </div>
+			  <div class ="col-lg-2 px8" style="position: relative; left: 10px;">
+			    <label for="" class="form-label"><a><fmt:message key="cover.volume"/></a></label>
+			     <input id="coverVolume" type="text"  name="volume" readonly="readonly">
+              </div>
+              
+               <div class ="col-lg-2 px8" style="position: relative; left: 10px;">
+			  <label for="" class="form-label"><a><fmt:message key="paper.size"/> (mm)</a></label>
+				 <div class="row">
+				   <div class="col-6 paper-size-width">
+                     <input name="paperSizeWidth" onchange="resetNumberOfSignature(this)" id="paperSizeWidth" placeholder="<fmt:message key='width'/>" value="650" type="number" style="postion-relative-left:2px;position: relative;left: 4px;">
+                   </div>
+				   <div  class="col-6 paper-size-length"  style="position: relative;left: -25px;">
+				      <input name="paperSizeLength" onchange="resetNumberOfSignature(this)" id="paperSizeLength" value="920" placeholder="<fmt:message key='length'/>" type="number">
+                    </div>
+				  </div>
+              </div>
+              
+              <div class ="col-lg-2 px8" style="position: relative;">
+			    <label for="" class="form-label"><a><fmt:message key="cover.paper.price"/></a></label>
+			     <input id="coverPaperUnitPrice" type="number"  name="paperPrice">
+              </div>
+              
+           
+		    </div>	
+		    
+		   <div id="contentDiv">   		
+			<div class="row py-3"  style="display:none">
+			
+			  <div class="col-lg-2 px-8" >
+			    <label for="" class="form-label"><a> <fmt:message key="content.paper.type"/></a> </label>
+				<select contentPaperType name="paperType" class="form-select">
+				  <option >Choose...</option>
+			  <c:forEach items="${paperTypes}" var="paperType">
+                    <option value="${paperType.id}">${paperType.name}</option>
+                  </c:forEach>
+                </select>
+			  </div>
+			  <div class="col-lg-2 px-8" style="position: relative; left: 10px;">
+			    <label for="" class="form-label"><a><fmt:message key="grammage"/></a> </label>
+			     <input name="paperGrammage" contentGrammage type="text"  list="contentGrammage" >
+				  <datalist  id="contentGrammage">
+	               <c:forEach items="${paperGrammages}" var="paperGrammage">
+                    <option value="${paperGrammage.value}"></option>
+                    </c:forEach>
+	            </datalist>   
+			  </div>
+			 
+			  <div class="col-lg-2 px-8 coverDup" style="position: relative; left: 10px;float:left ;" >
+			    <label for="" class="form-label"><a> <fmt:message key="content.volume"/> </a></label> 
+				<input name="volume" type="text" contentVolume  name="contentVolume" oldValue="" onclick="this.oldValue=this.value" onchange="updateTotalContentvolume(this.value,this.oldValue, this)"  >
+			  </div>
+			  
+			  <div class ="col-lg-2 px8" style="position: relative; left: 10px;">
+			  <label for="" class="form-label"><a><fmt:message key="paper.size"/> (mm)</a></label>
+				 <div class="row">
+				   <div class="col-6 paper-size-width">
+                     <input name="paperSizeWidth" onchange="resetNumberOfSignature(this)" paperSizeWidth placeholder="<fmt:message key='width'/>" value="650" type="number" style="postion-relative-left:2px;position: relative;left: 4px;">
+                   </div>
+				   <div  class="col-6 paper-size-length"  style="position: relative;left: -25px;">
+				      <input name="paperSizeLength" onchange="resetNumberOfSignature(this)" paperSizeLength value="920" placeholder="<fmt:message key='length'/>" type="number">
+                    </div>
+				  </div>
+              </div>
+			  
+			   <div class ="col-lg-2 px8" style="position: relative; width: 230px;">
+			    <label for="" class="form-label"><a><fmt:message key="content.paper.price"/></a> </label>
+			     <input paperUnitPrice type="text"  name="paperPrice">
+			     <button type="button" id="deleteButton"  onclick="removeContentNode(this,this.parentNode.previousElementSibling)"><i class="ri-delete-bin-3-line"></i> </button>
+              </div>
+              
+			  
+		   </div>
+		   
+		   <div class="row py-3">
+			  <div class="col-lg-2 px-8">
+			    <label for="" class="form-label"><a><fmt:message key="content.paper.type"/> </a> </label>
+				<select contentPaperType name="paperType" class="form-select">
+				  <option >Choose...</option>
+			  <c:forEach items="${paperTypes}" var="paperType">
+                    <option value="${paperType.id}">${paperType.name}</option>
+                  </c:forEach>
+                </select>
+			  </div>
+			  
+			  <div class="col-lg-2 px-8" style="position: relative; left: 10px;">
+			    <label for="" class="form-label"><a> <fmt:message key="grammage"/></a></label>
+			     <input name="paperGrammage" contentGrammage type="text" list="contentGrammage">
+				  <datalist  id="contentGrammage">
+	               <c:forEach items="${paperGrammages}" var="paperGrammage">
+                    <option value="${paperGrammage.value}"></option>
+                    </c:forEach>
+	            </datalist>   
+			  </div>
+			  <div class="col-lg-2 px-8 " style="position: relative; left: 10px;">
+			    <label for="" class="form-label"><a><fmt:message key="content.volume"/></a> </label> 
+				<input type="text" contentVolume name="volume" readonly="readonly">
+			  </div>
+			  <div class ="col-lg-2 px8" style="position: relative; left: 10px;">
+			  <label for="" class="form-label"><a><fmt:message key="paper.size"/> (mm)</a></label>
+				 <div class="row">
+				   <div class="col-6 paper-size-width">
+                     <input name="paperSizeWidth" onchange="resetNumberOfSignature(this)" paperSizeWidth placeholder="<fmt:message key='width'/>" value="650" type="number" style="postion-relative-left:2px;position: relative;left: 4px;">
+                   </div>
+				   <div  class="col-6 paper-size-length"  style="position: relative;left: -25px;">
+				      <input name="paperSizeLength" onchange="resetNumberOfSignature(this)" paperSizeLength value="920" placeholder="<fmt:message key='length'/>" type="number">
+                    </div>
+				  </div>
+              </div>
+				<div class ="col-lg-2 px8" style="position: relative;">
+			    <label for="" class="form-label"><a><fmt:message key="content.paper.price"/></a></label>
+			     <input paperUnitPrice type="number" name="paperPrice">
+              </div>
+			   <div class="col-lg-2 px-8 " >
+			       <label for="" class="form-label" style=""><a><fmt:message key="add"/></a></label> 
+			       <span>
+			       	<button type="button"  id="duplicateButton"  onclick="addContentPaperChild()" ><i class="ri-add-fill"></i>
+			       	</button>
+
+			       </span>
+			  </div>
+			 
+		   </div>
+		   
+		    </div>
+		  
+	     </div>	
+	     <div class ="row py-3 "style="margin-top:50px" >
+		     <div class ="col-sm-6"> <button type="button" style ="width:125px;float:left" class="all-button-style" onclick="navigate(2,1);"><fmt:message key="previews"/></button>	
+		    </div>
+	        <div class ="col-sm-6">
+	        <button type="button"  style ="width:125px;float:right" onclick="validateTab2();navigate(2,3)"  class="all-button-style" id=""><fmt:message key="next"/></button>	
+	       </div>
+
+	     </div>
+				
+       </div> 
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+          
+<!------------------------------- TAB 3 BIGINS --------------->
+       <div class="tab-pane fade" id="tab3" role="tabpanel" aria-labelledby="contact-tab">
+        <div class="container" >	
+        
+          <div class="row py-3" id="cover-signature-div">
+		    <div class ="col-lg-3 px8" >
+			  <label for="" class="form-label"><a><fmt:message key="cover.printing.machine"/></a></label> 
+			  <select id="coverPrintingMachine" name="name" class="form-select" onchange="coverSignatureCalculation(this.value , this.parentNode)">
+			    <option selected>Choose...</option>
+			     <c:forEach items="${printingMachines}" var="printingMachine">
+                  <option value="${printingMachine.id},${printingMachine.plateLength},${printingMachine.plateWidth}">${printingMachine.name}</option>
+                </c:forEach>
+              </select>
+			</div>
+			<div class ="col-lg-3 px8" style="position: relative; left: 10px;">
+			  <label for="" class="form-label"><a><fmt:message key="cover.print.type"/></a></label>
+			  <select id="coverPrintType" name="name" class="form-select">
+			    <option selected>Choose...</option>
+			    <c:forEach items="${printTypes}" var="printType">
+                  <option value="${printType.id}">${printType.name}</option>
+                </c:forEach>
+              </select>
+            </div>
+			<div class ="col-lg-3 px8" style="position: relative; left: 10px;">
+			  <label for="" class="form-label"><a><fmt:message key="cover.color.combination"/></a></label>
+				 <div class="row">
+				   <div class="col-6 volume-cover-l">
+                     <input id="coverFrontColorNumber" placeholder="<fmt:message key='front'/>" type="number" min="0" max="5" style="postion-relative-left:2px;position: relative;left: 4px;">
+					                    
+				     </div>
+				     <div  class="col-6 volume-cover-w">
+				       <input id="converBackColorNumber" placeholder="<fmt:message key='back'/>" type="number" min="0" max="5">
+					   
+                    </div>
+				  </div>
+              </div>
+              <div class ="col-lg-3 px8" style="position: relative; left:10px;">
+			  	<label for="" class="form-label"> <a><fmt:message key="signature"/></a></label>
+			  	<div style=" display: flex;">
+			  <div style="width: 73px;"> 
+			  	<input class="coverSpace" type="number" step=".1" id="coverSignature" readonly="readonly">
+			 </div> 
+				 <div>
+				 <span onclick="randUpCoverSignature()"><i style="color: green; font-size: 22px" class="bi bi-arrow-up"></i></span>
+				</div>
+            </div>
+			</div>
+			</div>	
+			
+		<!-- 			main content signature div -->
+		
+		
+	
+		
+		<div id="mainContentSignature">
+		
+<!-- 		main duplicated div -->
+			 <div style="display:none" id="eachSignatureDiv"> 
+			 <hr style="margin-top: 10px; ">	
+			  <div class="row py-3" style="display:none">
+			    <div class ="col-lg-3 px8" >
+				  <label for="" class="form-label"><a><fmt:message key="printing.machine"/></a></label> 
+				  <select contentPrintingMachine name="name" class="form-select" disabled="disabled">
+				    <option selected>Choose...</option>
+				    <c:forEach items="${printingMachines}" var="printingMachine">
+		                 <c:if test="${printingMachine.abbreviation!='NONE' }">
+		                <option value="${printingMachine.id},${printingMachine.plateLength},${printingMachine.plateWidth}">${printingMachine.name}</option>
+		           	</c:if>
+		            </c:forEach>
+		         </select>
+			   </div>
+			   <div class ="col-lg-3 px8" style="position: relative; left: 10px;">
+				 <label for="" class="form-label"><a><fmt:message key="content.print.type"/></a> </label>
+				 <select contentPrintType name="name" class="form-select">
+				   <option selected>Choose...</option>
+				   <c:forEach items="${printTypes}" var="printType">
+                     <option value="${printType.id}">${printType.name}</option>
+                   </c:forEach>
+                 </select>
+               </div>
+				  <div class ="col-lg-3 px8" style="position: relative; left: 10px;">
+					<label for="" class="form-label"><a><fmt:message key="content.color.combination"/></a></label>
+					 <div class="row">
+				   <div class="col-6 content-cover-l">
+                     <input contentFrontColorNumber placeholder="<fmt:message key='front'/>" type="number" min="0" max="5" style="postion-relative-left:2px;position: relative;left: 4px;">
+					                  
+				     </div>
+				     <div class="col-6 volume-cover-w">
+				       <input type="number" min="0" max="5" placeholder="<fmt:message key='back'/>" contentBackColorNumber>
+					     
+                    </div>
+				  </div>
+                  </div>
+                  <div class ="col-lg-3 px8" style="position: relative; left:10px;">
+				  <label for="" class="form-label"><a><fmt:message key="signature"/></a></label>
+				  <div> 
+				  <input type="number" step=".1" delContentSign allSignatures style="width:70px;color:red; text-align:center" onclick="this.oldValue=this.value" onchange="signatureChange(this.value,this.parentNode.parentNode.parentNode.parentNode,oldValue)">
+				  <span> <button  type="button" onclick="deleteContentsignature(this.parentNode.parentNode.parentNode.parentNode,this.parentNode.parentNode.parentNode.parentNode.parentNode)" style="background:red"><i class="ri-delete-bin-3-line"></i></i></button> </span>
+				 </div> 
+	            </div>
+	           
+				</div>
+
+			  <div class="row py-3" >
+			    <div class ="col-lg-3 px8" >
+				  <label for="" class="form-label"><a><fmt:message key="printing.machine"/></a></label> 
+				  <select  contentPrintingMachine name="name" class="form-select" onchange="signatureCalculation(this.value,this.parentNode.parentNode.parentNode)">
+				    <option selected>Choose...</option>
+				    <c:forEach items="${printingMachines}" var="printingMachine">
+		                <c:if test="${printingMachine.abbreviation!='NONE' }">
+		                <option value="${printingMachine.id},${printingMachine.plateLength},${printingMachine.plateWidth}">${printingMachine.name}</option>
+		           	</c:if>
+		            </c:forEach>
+		         </select>
+			   </div>
+			   <div class ="col-lg-3 px8" style="position: relative; left: 10px;">
+				 <label for="" class="form-label"><a><fmt:message key="content.print.type"/> </a></label>
+				 <select contentPrintType name="name" class="form-select">
+				   <option selected>Choose...</option>
+				   <c:forEach items="${printTypes}" var="printType">
+                     <option value="${printType.id}">${printType.name}</option>
+                   </c:forEach>
+                 </select>
+               </div>
+				  <div class ="col-lg-3 px8" style="position: relative; left: 10px;">
+					<label for="" class="form-label"><a><fmt:message key="content.color.combination"/></a></label>
+					 <div class="row">
+				   <div class="col-6 volume-cover-l">
+                     <input contentFrontColorNumber type="number" min="0" placeholder="<fmt:message key='front'/>" max="5" style="postion-relative-left:2px;position: relative;left: 4px;">
+					                  
+				     </div>
+				     <div class="col-6 volume-cover-w">
+				       <input type="number" min="0" max="5" placeholder="<fmt:message key='back'/>" contentBackColorNumber>
+					     
+                    </div>
+				  </div>
+                  </div>
+                  <div class ="col-lg-3 px8" style="position: relative; left:10px;">
+				  <label for="" class="form-label"><a><fmt:message key="signature"/></a></label>
+				  <div> <input type="number" step=".1" id="" style="width:70px;color:red; text-align:center" allSignatures inputSignReadonly readonly="readonly">
+				  <span> <button   type="button" id="duplicateButton" style="display: inline;" onclick="updateContentSignature(this.parentNode.parentNode.parentNode.parentNode.parentNode,1,this.parentNode.parentNode.parentNode.parentNode)"><i class="ri-add-fill"></i></button> </span>
+				 </div> 
+	            </div>
+				</div>
+			</div>	
+			
+			 <div  id="signatureDiv">
+			  <div class="row py-3" style="display:none">
+			 
+			    <div class ="col-lg-3 px8">
+				  <label for="" class="form-label"><a><fmt:message key="printing.machine"/></a></label> 
+				  <select contentPrintingMachine name="name" class="form-select"  disabled="disabled" >
+				    <option selected>Choose...</option>
+				    <c:forEach items="${printingMachines}" var="printingMachine">
+ 					<c:if test="${printingMachine.abbreviation!='NONE' }">
+		                <option value="${printingMachine.id},${printingMachine.plateLength},${printingMachine.plateWidth}">${printingMachine.name}</option>
+		           	</c:if>		            </c:forEach>
+		         </select>
+			   </div>
+			   <div class ="col-lg-3 px8" style="position: relative; left: 10px;">
+				 <label for="" class="form-label"><a><fmt:message key="content.print.type"/> </a></label>
+				 <select contentPrintType name="name" updateContentSignature class="form-select">
+				   <option selected>Choose...</option>
+				   <c:forEach items="${printTypes}" var="printType">
+                     <option value="${printType.id}">${printType.name}</option>
+                   </c:forEach>
+                 </select>
+               </div>
+				  <div class ="col-lg-3 px8" style="position: relative; left: 10px;">
+					<label for="" class="form-label"><a><fmt:message key="content.color.combination"/></a></label>
+				<div class="row">
+				   <div class="col-6 volume-cover-l">
+                     <input contentFrontColorNumber type="number" min="0" placeholder="<fmt:message key='front'/>" max="5" style="postion-relative-left:2px;position: relative;left: 4px;">                 
+				     </div>
+				     <div class="col-6 volume-cover-w">
+				       <input type="number" min="0" max="5"  contentBackColorNumber placeholder="<fmt:message key='back'/>">  
+                    </div>
+				  </div>
+                  </div>
+                  <div class ="col-lg-3 px8" style="position: relative; left:10px;">
+				  <label for="" class="form-label"><a><fmt:message key="signature"/></a></label>
+				  <div>
+				  <input type="number" step=".1" delContentSign allSignatures style="width:70px;color:red; text-align:center" onclick="this.oldValue=this.value" onchange="signatureChange(this.value,this.parentNode.parentNode.parentNode.parentNode, oldValue)">
+				  <span> <button style="background:transparent;border-style: none;color: orange; font-size: 20px;" type="button" onclick="deleteContentsignature(this.parentNode.parentNode.parentNode.parentNode,this.parentNode.parentNode.parentNode.parentNode.parentNode)" style="background:red"><i class="ri-delete-bin-3-line"></i></i></button> </span>
+				 </div> 
+	            </div>
+	          		  
+				</div>
+
+			  <div class="row py-3" id="test-me">
+			   <div class ="col-lg-3 px8" >
+				  <label for="" class="form-label"><a><fmt:message key="printing.machine"/></a></label> 
+				  <select  contentPrintingMachine name="name" class="form-select"  onchange="signatureCalculation(this.value,this.parentNode.parentNode.parentNode)">
+				    <option selected>Choose...</option>
+				    <c:forEach items="${printingMachines}" var="printingMachine">
+		                 <c:if test="${printingMachine.abbreviation!='NONE' }">
+		                <option value="${printingMachine.id},${printingMachine.plateLength},${printingMachine.plateWidth}">${printingMachine.name}</option>
+		           	</c:if>
+		            </c:forEach>
+		         </select>
+			   </div>
+			   <div class ="col-lg-3 px8" style="position: relative; left: 10px;">
+				 <label for="" class="form-label"><a><fmt:message key="content.print.type"/></a> </label>
+				 <select contentPrintType name="name" class="form-select">
+				   <option selected>Choose...</option>
+				   <c:forEach items="${printTypes}" var="printType">
+                     <option value="${printType.id}">${printType.name}</option>
+                   </c:forEach>
+                 </select>
+               </div>
+				  <div class ="col-lg-3 px8" style="position: relative; left: 10px;">
+					<label for="" class="form-label"><a><fmt:message key="content.color.combination"/></a></label>
+					 <div class="row">
+				   <div class="col-6 volume-cover-l">
+                     <input contentFrontColorNumber type="number" min="0" max="5" placeholder="<fmt:message key='front'/>" style="postion-relative-left:2px;position: relative;left: 4px;" >
+					                  
+				     </div>
+				     <div class="col-6 volume-cover-w">
+				       <input type="number" min="0" max="5" placeholder="<fmt:message key='back'/>"  contentBackColorNumber>
+					     
+                    </div>
+				  </div>
+                  </div>
+                  <div class ="col-lg-3 px8" style="position: relative; left:10px;">
+				  <label for="" class="form-label"><a><fmt:message key="signature"/></a></label>
+				  <div> <input type="number" id="signature-content-to-randup" step=".1" style="width:70px;color:red; text-align:center" readonly="readonly" allSignatures inputSignReadonly>
+				  	<span><button  type="button" style="display: inline;" id="duplicateButton" onclick="updateContentSignature(this.parentNode.parentNode.parentNode.parentNode.parentNode,0,this.parentNode.parentNode.parentNode.parentNode)" ><i class="ri-add-fill"></i></button> </span>
+<!-- 				  	<span onclick="randUpContentSignature()"><i style="color: green; font-size: 22px" class="bi bi-arrow-up"></i></span> -->
+				 				 <span onclick="randUpContentSignature()"><i style="color: green; font-size: 22px" class="bi bi-arrow-up"></i></span>
+				 
+				 </div> 
+				 
+	            </div>
+				</div>
+		
+				</div>
+				
+					
+<!-- 							duplicated div ends 	-->
+				</div> 
+	
+			<div class ="row py-3 "style="margin-top:50px" >
+		     <div class ="col-sm-6"> 
+		      <button type="button" style="width:125px;float:left" class="all-button-style" onclick="navigate(3,2);"><fmt:message key="previews"/></button>	
+		    </div>
+	        <div class ="col-sm-6">
+	        	
+	         <button style="width:125px;float:right"  type="button" class="all-button-style" id="next-btn1" onclick="validateTab3();navigate(3,4);"><fmt:message key="next"/></button>	
+	        		
+	       </div>
+
+	     </div>
+			
+			     	<!-- 			main content div -->
+               </div>
+             </div>  	<!-- 			main div ends -->
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+<!-- <--------------------TAB 4 BEGINS HERE----------------------------------------------------------------------->  
+             <div class="tab-pane fade" id="tab4" role="tabpanel" aria-labelledby="contact-tab">
+                <div class="container" style="position: relative;bottom: -20px;" >
+                <div class="row py-4">
+				 
+				 <div class ="col-lg-3 px8">
+					<label for="" class="form-label"><a><fmt:message key="x.Perforated"/></a></label>
+					<input type="number" id="xPerforated" value="0">
+                  </div>
+				  <div class ="col-lg-3 px8" style="position: relative; left: 10px;">
+					<label for="" class="form-label"><a><fmt:message key="x.numbered"/></a></label>
+					<input type="number" id="xNumbered" value="0">
+                  </div>
+                    <div class ="col-lg-3 px8" style="position: relative; left:10px;">
+			   <label for="" class="form-label"><a><fmt:message key="lamination"/></a></label> 
+			      <select id="lamination" name="name" class="form-select">
+			        <option value="0" selected>0</option>
+					<option value="1">1</option>
+					<option value="2">2</option>
+					<option value="3">3</option>
+					<option value="4">4</option>
+                  </select>
+			    </div>
+				</div>	
+				   <div class="row py-4">
+				  <div class ="col-lg-3 px8" >
+				    <label for="" class="form-label"><a><fmt:message key="creased"/></a></label> 
+					<input type="number" id="creased" value="0">
+			      </div>
+				 <div class ="col-lg-3 px8" style="position: relative; left:10px;">
+					<label for="" class="form-label"><a><fmt:message key="x.Wire-stitched"/></a></label>
+					<input type="number" id="xWire-stitched" value="0">
+                  </div>
+				  <div class ="col-lg-3 px8" style="position: relative; left: 10px;">
+					<label for="" class="form-label"><a><fmt:message key="x.cross"/></a></label>
+					<input type="number" id="xcross" value="0">
+                  </div>
+				</div>	
+				 <div class="row py-4">
+<!-- 				<div class ="col-lg-3 px8" > -->
+<%-- 				  <label for="" class="form-label"><fmt:message key="glued.option"/></label>  --%>
+<!-- 				  <select id="glueingOption" name="name" class="form-select"> -->
+<!-- 				    <option value="0" selected>Choose...</option> -->
+<%-- 				    <option value="left"><fmt:message key="left.side"/></option> --%>
+<%-- 				   <option value="head"><fmt:message key="head"/></option> --%>
+<%-- 				   <option value="glue-bound"><fmt:message key="glue.bound"/></option> --%>
+<!-- 		         </select> -->
+<!-- 			   </div> -->
+
+ 				<div class ="col-lg-3 px8" style="position: relative; left:10px;">
+				   <label for="" class="form-label"><a><fmt:message key="binding.type"/></a></label> 
+				      <select id="bindingType" name="name" class="form-select">
+				        <option value="0" selected>Choose...</option>
+						<c:forEach items="${bindingTypes}" var="bindingTyp">
+	                      <option value="${bindingTyp.id}">${bindingTyp.name}</option>
+	                    </c:forEach>
+	                  </select>
+				    </div>
+			    <div class ="col-lg-3 px8" style="position: relative; left:10px;">
+				  <label for="" class="form-label"><a><fmt:message key="handFoldCov"/></a></label>
+				  <input type="number" id="handFoldCov" value="0">
+                </div>
+				 <div class ="col-lg-3 px8" style="position: relative; left:10px;">
+			   		<label for="" class="form-label"><a>Stitching</a></label> 
+				      <select id="stitching" name="name" class="form-select">
+				        <option value="" selected>Choose...</option>
+	                    <option value="Left-Stitch">Left</option>
+	                    <option value="Head-Stitch">Head</option>
+	                  </select>
+			    </div>
+			   </div>
+    
+                  <div class="row py-3">
+				   <div class ="col-lg-2 px3" >
+				    <div>
+                     <div class="form-check">
+                      <label class="form-check-label" for="trimmed"><a><fmt:message key="trimmed"/></a></label>
+                       <input class="form-check-input" type="checkbox" id="trimmed">
+                    </div>
+				  </div>
+			    </div>
+				<div class ="col-lg-2 px3" style="position: relative; left: 10px;">
+				  <div>
+                     <div class="form-check">
+                      <label class="form-check-label" for="sellotaped"><a><fmt:message key="sellotaped"/></a></label>
+                       <input class="form-check-input" type="checkbox" id="sellotaped">
+                    </div>
+				  </div>
+                  </div>
+				  <div class ="col-lg-2 px3" style="position: relative; left: 10px;">
+                     <div class="form-check">
+                      <label class="form-check-label" for="sewn"><a><fmt:message key="sewn"/></a></label>
+                       <input class="form-check-input" type="checkbox" id="sewn">
+                    </div>
+				  </div>
+				   <div class ="col-lg-2 px3" >
+				    <div>
+                     <div class="form-check">
+                      <label class="form-check-label" for="handgather"><a><fmt:message key="handgather"/></a></label>
+                       <input class="form-check-input" type="checkbox" id="handgather">
+                    </div>
+				  </div>
+			    </div>
+
+                  </div>
+     
+<!--                    <div class="row py-3"> -->
+<!-- 				   <div class ="col-lg-3 px3" > -->
+<!-- 				    <div> -->
+<!--                      <div class="form-check"> -->
+<%--                       <label class="form-check-label" for="handgather"><a><fmt:message key="handgather"/></a></label> --%>
+<!--                        <input class="form-check-input" type="checkbox" id="handgather"> -->
+<!--                     </div> -->
+<!-- 				  </div> -->
+<!-- 			    </div> -->
+				
+<!--                   </div> -->
+                  
+				</div>	
+		           <div class ="row py-3 "style="margin-top:50px" >
+				     <div class ="col-sm-6"> 
+				      <button type="button" style="float:left" class="all-button-style" onclick="navigate(4,3);"> <fmt:message key="previews"/></button>	
+				     </div>
+			         <div class ="col-sm-6">
+			         <button type="button" style="width:125px;float:right"  class="all-button-style" id="next-btn1" onclick="navigate(4,5),summary()"><fmt:message key="next"/></button>			
+			        </div>
+			        
+			        
+<!-- 			         <div class ="col-sm-6">  -->
+<%-- 				      <button type="button" style="float:left" class="all-button-style" onclick="navigate(4,3);"> <fmt:message key="previews"/></button>	 --%>
+<!-- 				     </div> -->
+			        </div>
+               	</div>
+               	
+               	<!-- <--------------------TAB 5 BEGINS HERE----------------------------------------------------------------------->  
+             <div class="tab-pane fade" id="tab5" role="tabpanel" aria-labelledby="contact-tab">
+                <div class="container" style="position: relative;bottom: -20px;" >
+       				<h4><fmt:message key="job.description"/></h4>
+       				<hr>
+					  <div class="row">
+					 	 <div class="row">
+					      <div class="col-sm-4"><fmt:message key="the.type.of.job"/>  : <span id="job-type"> </span>
+					      </div>
+					      <div class="col-sm-4"><fmt:message key="title.of.job"/> : <span id="job-title"> </span> 
+					      </div>
+					      <div class="col-sm-4"><fmt:message key="name.of.customer"/>  : <span id="job-customer">  </span> 
+					      </div>
+					    </div>
+					   
+					   	 <div class="row">
+					    <div class="col-sm-4" id="cover-pages-info"><fmt:message key="number.of.pages.for.cover"/> : <span id="cover-pages"> </span>
+					    </div>
+					    <div class="col-sm-4"  id="content-pages-info"><fmt:message key="number.of.pages.for.content"/> :  <span id="content-pages"> </span> 
+					    </div>
+					    <div class="col-sm-4"><fmt:message key="ctp.fees"/> : <span id="ctp">  </span>
+					    </div>
+					   </div>
+					   
+					     <div class="row">
+					    <div class="col-sm-4"><fmt:message key="paper.format"/> : <span id="paper-format"> </span>
+					    </div>
+						    <div class="col-sm-4"><fmt:message key="open"/> :<span id="open-l"></span> | <span id="open-w"></span></div> 
+						    	<div class="col-sm-4"><fmt:message key="fold"/>  :<span id="fold-l"></span> | <span id="fold-w"></span>
+						    </div>
+					    
+					    </div>
+					    <div class="row">
+					    <div class="col-sm-4"><fmt:message key="existing.plate"/> : <span id="existing-plate"></span>
+					    </div>
+					    <div class="col-sm-4"><fmt:message key="data.suply.by.us"/>  : <span id="supply-data"></span>
+					    </div>
+					    <div class="col-sm-4"><fmt:message key="lay.out.by.us"/>  : <span id="data-layout"></span>
+					    </div> 
+					    <div class="col-sm-4" id=""><fmt:message key="type.setting.by.us"/> : <span id="type-setting"></span> 
+					    </div>
+					    </div>
+					   </div>
+					   
+					<!--            job decription ends     -->
+					<div id="cover-papers-options-info">
+					<br>
+					<h4 id="top"><fmt:message key="cover.paper.option"/></h4>
+					<hr>
+					   <div class="row">
+					    <div class="row">
+					    <div class="col-sm-4"><fmt:message key="paper.types"/> : <span id="cover-paper"> </span>
+					    </div>
+					    <div class="col-sm-4"><fmt:message key="paper.grammage"/> (GSM) : <span id="cover-grammage"> 1</span> 
+					    </div>
+					    <div class="col-sm-4"><fmt:message key="volume"/> : <span id="cover-volume">  </span> 
+					    </div>
+					   </div>
+					   </div>
+					  </div> 
+					  
+					<div id="content-papers-options-info">
+					<br>
+					<h4 id="top"><fmt:message key="content.paper.option"/></h4>
+					<hr>
+					    <div class="row">
+					   <table class="ta" id="cover-table">
+					  <thead>
+					    <tr>
+					      <th scope="col"><fmt:message key="number"/> </th>
+					      <th scope="col"><fmt:message key="print.type"/> </th>
+					      <th scope="col"> <fmt:message key="grammage"/></th>
+					      <th scope="col"> <fmt:message key="volume"/> (Pages)</th>
+					    </tr>
+					  </thead>
+					  <tbody>
+					  </tbody>
+					</table>
+					   </div>
+					 </div>
+					 <div id="cover-printing-options-info">  
+					 <br>
+					 <h4> <fmt:message key="cover.printing.option"/></h4>
+					 <hr>
+						<div class="row">
+					    <div class="row">
+					     <div class="col-sm-3"><fmt:message key="machine"/> :  <span id="cover-machine"> </span>
+					    </div>
+					    <div class="col-sm-3"><fmt:message key="print.type"/> : <span id="cover-printtype"> </span> 
+					    </div>
+					    <div class="col-sm-3"><fmt:message key="color.combination"/> : <span id=cover-color-front></span> / <span id=cover-color-back></span> 
+					    </div>
+					     <div class="col-sm-3"><fmt:message key="signature"/> : <span id=cover-signature></span> 
+					    </div>
+					    </div>
+					  </div>
+					  </div>
+					  <div id="content-printing-options-info">
+					   <h4><fmt:message key="content.printing.option"/></h4>
+					 <hr>
+					  
+					  <div class="row">
+						<table class="ta" id="content-table">
+					  <thead>
+					    <tr>
+					      <th scope="col"><fmt:message key="number"/></th>
+					      <th scope="col"> <fmt:message key="print.type"/> </th>
+					      <th scope="col"><fmt:message key="machine"/></th>
+					      <th scope="col"> </th>
+					      <th scope="col"><fmt:message key="color.combination"/> </th>
+					      <th scope="col"><fmt:message key="signature"/></th>
+					    </tr>
+					  </thead>
+					  <tbody id="table-body">
+					
+					  </tbody>
+					</table>
+					   </div>
+					  </div>
+					  
+						<br>
+						 <h4><fmt:message key="finishing.option"/> </h4>
+						 <hr>
+						 <div class="row ">
+					    <div class="col-sm-4">
+					    	<div> <fmt:message key="x.perforated" /> : <span id="x-perforated"></span> </div>
+					    	<div> <fmt:message key="x.numbered" />: <span id="x-numbered"></span> </div>
+					    	<div> <fmt:message key="x.crossed"/> : <span id="x-crossed"></span></div>
+					    	<div><fmt:message key="x.wired.stitched"/> : <span id="x-wired"></span> </div>
+					    	<div> <fmt:message key="creased"/> : <span id="crease"></span> </div>
+					    	
+					    </div>
+					   <div class="col-sm-4">
+					    	<div> <fmt:message key="lamination"/>: <span id="laminated-sides"></span> </div>
+<!-- 					    	<div> Glueing Bound: <span id="glue-bound"></span> </div> -->
+					    	<div> <fmt:message key="binding.type"/> : <span id="binding-type"></span> </div>
+					    	<div> <fmt:message key="sewn" /> : <span id="sown"></span> </div>
+					    
+					    </div>
+					    
+					    <div class="col-sm-4">
+					    	<div><fmt:message key="handgather"/> : <span id="hand-gather"></span> </div>
+					    	<div> <fmt:message key="stitching"/> : <span id="stitch"></span> </div>
+					    	<div> <fmt:message key="trimmed"/> : <span id="trim"></span> </div>
+					    	<div> <fmt:message key="sellotaped"/> : <span id="sello-tape"></span> </div>
+					    </div>
+					 </div>
+		           <div class ="row py-3 "style="margin-top:50px" >
+				     <div class ="col-sm-6"> 
+				      <button type="button" style="float:left" class="all-button-style" onclick="navigate(5,4);removeRows()"> <fmt:message key="previews"/></button>	
+				     </div>
+			         <div class ="col-sm-6">
+			         <button   type="button" style="width:125px;float:right"  class="all-button-style" id="next-btn1" onclick="navigate(4,5); submitForm(0)"><fmt:message key="submit"/></button>			
+			        </div>
+			        </div>
+               	</div>
+               	<!-- <--------------------tab 5 ends ----------------------------------------------------------------------->  
+               	</div>
+               </form>  
+            </div>
+         </div>
+      </div>
+      
+      <!-- End Default Tabs -->
+      </div>
+    </section>  
+<script src="assets/js/billing/job.js"></script> 
+
+   
+  
+  
+  
+  
+  
+  

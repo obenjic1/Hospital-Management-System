@@ -1,0 +1,9 @@
+INSERT INTO `paper_format`(`length`, `name`, `width`) VALUES (841,"A0",1189);
+INSERT INTO `paper_format`(`length`, `name`, `width`) VALUES (594,"A1",841);
+INSERT INTO `paper_format`(`length`, `name`, `width`) VALUES (420,"A2",594);
+INSERT INTO `paper_format`(`length`, `name`, `width`) VALUES (297,"A3",420);
+INSERT INTO `paper_format`(`length`, `name`, `width`) VALUES (210,"A4",297);
+INSERT INTO `paper_format`(`length`, `name`, `width`) VALUES (148,"A5",210);
+INSERT INTO `paper_format`(`length`, `name`, `width`) VALUES (105,"A6",148);
+INSERT INTO `paper_format`(`length`, `name`, `width`) VALUES (74,"A7",105);
+INSERT INTO `paper_format`(`length`, `name`, `width`) VALUES (52,"A8",74);

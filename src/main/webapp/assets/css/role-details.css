@@ -1,0 +1,11 @@
+@charset "ISO-8859-1";
+.card{
+	position: relative;
+	left: 165px;
+}
+
+.nav-tabs-bordered .nav-link.active {
+  border-bottom: 2px solid #dfe0e6;
+  position: relative;
+  left: 250px;
+}

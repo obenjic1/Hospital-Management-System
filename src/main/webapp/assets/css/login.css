@@ -1,0 +1,66 @@
+@charset "ISO-8859-1";
+
+body {
+    
+    background-image: url('../img/design.jpg'); 
+/*    background-image: url("/images/design.jpg");*/
+    background-size: cover; 
+    background-position: center;
+    background-repeat: no-repeat; 
+    margin: 0; 
+    padding: 0;
+    height: 100vh; 
+}
+  body::before {
+        content: "";
+        position: absolute;
+        top: 0; left: 0;
+        width: 100%; height: 100%;
+        background: linear-gradient(to right, rgba(135, 206, 234, 0.4), rgba(135, 206, 235, 0.65));
+        backdrop-filter: blur(px);
+        z-index: 0;
+    }
+/*rgba(232, 240, 254, 0.65)*/
+/*rgba(245, 249, 255, 0.65)*/
+
+    .login-card {
+        background: rgba(255, 255, 255, 0.4);
+        
+        border-radius: 15px;
+        box-shadow: 0 5px 25px rgba(0, 0, 0, 0.15);
+        padding: 2rem;
+        width: 100%;
+        max-width: 380px;
+        position: relative;
+        z-index: 1;
+    }
+
+    .login-logo {
+        display: block;
+        margin: 0 auto 1rem;
+        max-width: 120px;
+    }
+
+.error{
+	color: orangered;
+	text-align: center;
+}
+
+#reset:hover{
+	cursor: pointer;
+	color:blue;
+	
+}
+#reset{
+	color:#13647e;
+}
+
+.top-logo{
+	width: 150px;
+  padding-bottom: 20px;
+  border-radius :10px;
+}
+
+.logOutAlert{
+	padding-right: 76%;
+}

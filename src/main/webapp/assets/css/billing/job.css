@@ -1,0 +1,187 @@
+@charset "UTF-8";
+
+
+input{
+	height: 37px;
+    width: 99%;
+    border-color:none;
+
+}
+
+#myTabjustified{
+	background: #dddfe3;
+}
+label{
+}
+.form-check{
+	padding-top:20px
+}
+#next-btn{
+    bottom: 9%;
+    position: relative;
+    left: 92%;
+    bottom: 25px;
+}
+.volume-cover-l{
+	padding-right:0px;
+	border:0px;
+	border-color:#fff;
+}
+.volume-cover-w{
+	padding-left:0px;
+	border-left:none"
+
+}
+#extraFees{
+	text-align : center;
+	border :1px solid black;
+	background: #f7f7f7;
+    bottom: 77px;
+    position: relative;
+    left: 65%;
+}
+textArea{
+	width:95%;
+	height:6rem;
+	margin-top: 3px;
+}
+#value{
+	width:95%;
+	margin-top: 6px;
+}
+.coverSpace{
+	padding-left: 30px;
+	padding-right: 20px;
+	color:red;
+	font-size:12px;
+}
+
+.card-body{
+	padding-right: 2%;
+}
+.lastBtn .button{
+	width:50px;
+}
+
+input[type=number]{
+	-moz-appearance: textfield;
+}
+
+#duplicateButton{
+	display: block; 
+	background-color: #03cc19; 
+	border-style: none;
+}
+
+#deleteButton{
+	float:right;
+	background-color:transparent;
+	color: orange;
+	border-style: none;
+	font-size: 20px;
+}
+
+.acitve {
+	color: blue !important; 
+}
+#tab5{
+	gap:2px;
+	
+}
+#top{
+	padding-top: 20px;
+	
+}
+#top2{
+	padding-top: 1px;
+	
+}
+#bottom{
+	padding-bottom:100px;
+}
+#tab5 div{
+	padding-bottom:4px;
+}
+
+#tab5 h4{
+	color: #012970;
+	padding-top:5px;
+	
+}
+#tab5 span{
+	font-weight:bold;
+	font-style:italic;
+}
+#tab5 rows{
+	background:red;
+}
+
+.ta{
+	
+	margin:25px 0;
+	margin: 0.9em;
+	min-width:auto;
+	
+}
+
+.ta th{
+	background-color:#012970;
+	color:#ffffff;
+	text-align:left;
+	font-weight:bold;
+}
+.ta th, 
+.ta td{
+	padding: 8px 11px;
+}
+
+.ta tr{
+	border-bottom:1px solid #dddddd; 
+}
+.ta tr:nth-of-type(odd){
+	background-color:#f3f3f3;
+}
+
+.ta tr:last-of-type{
+	border-bottom:2px solid #012970; 
+}
+.input-box {
+
+}
+.card-body {
+  padding-right: 10%;
+}
+.customer-info div {
+	padding-bottom: 7px;
+	font-size:1.6em;
+	font-family:Cursive;
+}
+.estimate ta th {
+	background-color:#1f8278
+}
+
+.nav-link, .card-title, th, .taxes-div,td {
+	font-family: bold;
+}
+
+.commission-tab{
+	width: 104%;
+}
+
+.taxes-div{
+	 left: 14%;
+	 position: relative;
+	 bottom: -15px;
+}
+
+.taxes-div{
+  position: relative;
+  bottom: -8%;
+  left: 3%;
+}
+
+.profile .profile-overview .row {
+  margin-bottom: 0px;
+  font-size: 15px;
+}
+

@@ -1,0 +1,171 @@
+
+
+.btn {
+/*	position: relative;*/
+	left: 88%;
+	bottom: 40px;
+}
+
+#paper{
+	left:30px;
+}
+.rounded-circle{
+	width: 30px;
+	border-width: 0.1px;
+	color: #575958;
+	border-style: solid;
+}
+
+
+.button-delete{
+	border-style: none;
+	background-color: transparent;
+}
+.bi-toggle2-off{
+	border-style: none;
+	background-color: transparent;
+	color: red;
+}
+.bi-toggle2-on{
+	border-style: none;
+	background-color: transparent;
+	color: green;
+}
+
+.button-edite{
+	border-style: none;
+	background-color: transparent;
+}
+
+.button-see {
+	border-style: none;
+	background-color: transparent;
+	color: #0d6efd;
+}
+
+.even-row {
+  background-color: #f6f9ff; /* Couleur de fond pour les lignes paires */
+}
+
+.odd-row {
+  background-color: #ffffff; /* Couleur de fond pour les lignes impaires */
+}
+
+.table {
+  --bs-table-bg: unset;
+ 	position: relative;
+ 	bottom: 15px;
+  }
+
+.pagination{
+	justify-content: end;
+	
+}
+
+.nav-no-border .page-link {
+  border: none !important; /* Supprime les bordures */
+}
+
+.page-item.active {
+  background-color: #0d6efd;
+}
+
+
+/*<------------ Deleted Sucessfully moda---------->*/
+.modal-body img{
+	width:20px;
+	height:auto;
+	margin:0 auto;
+	display:block;
+	margin-bottom:25px;
+}
+.modal-body h{
+	font-size: 20px;
+    margin-bottom: 27px;
+ 	color:#5C5C5C;
+}
+
+.modal-body p{
+	font-size: 14px;
+    margin-bottom: 27px;
+ 	color: black;
+}
+
+.modal-body{
+	width:100%;
+ 	padding:20px;
+	text-align:center;
+}
+
+.btn-close{
+	position: relative;
+    left: 50%;
+    font-size: 14px;
+    bottom: 12px;
+}
+.modal-content{
+	height: 150px
+}
+
+/*<---------- Are you sure you want to delete user moal ------------>*/
+
+.modal-body h5{
+	font-size: 20px;
+    margin-bottom: 27px;
+ 	color:#5C5C5C;
+}
+
+
+.delete-denied{
+	border-style: none;
+	background: white;
+	color: #0d6efd;
+	font-size: 12px;
+	position: relative;
+	left: 150px;
+}
+
+.accept-delete{
+	border-style: none;
+	background: white;
+	color: red;
+	font-size: 12px;
+	position: relative;
+	left: 160px;
+}
+
+.alert p{
+	font-size: 15px;
+ 	color:#5C5C5C;	
+}
+.Active {
+  color: green;
+  text-decoration: none;
+}
+
+.Blocked {
+  color: red;
+}
+
+a {
+  text-decoration: none;
+}
+
+.bi-record2::before {
+    content: "\f51c";
+    color: green;
+    font-size: 12px;
+    bottom: 5px;
+    position: relative;
+}
+.job-category-heading{
+	
+	background:rgb(186, 189, 182);
+
+}
+.job-category-heading td{
+		color: black;
+/*	font-weight: bold;*/
+	
+}
+  

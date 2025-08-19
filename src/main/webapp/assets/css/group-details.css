@@ -1,0 +1,67 @@
+@charset "ISO-8859-1";
+
+.card{
+	position: relative;
+/*	left: 165px;*/
+}
+
+.nav-tabs {
+	justify-content: center;
+}
+
+.btn-primary{
+	position: relative;
+	left: 12%; 
+}
+
+.role-column-0 {
+  width: 50%;
+  float: left;
+}
+
+.role-column-1 {
+  width: 50%;
+  float: right;
+}
+
+.scrollable-div {
+  max-height: 100px; 
+  overflow: auto;
+}
+
+.input-group{
+	position: relative;
+	left: -100px;
+	border-radius: 5px;
+	width: 115%;
+}
+
+.modal-body img{
+	width:20px;
+	height:auto;
+	margin:0 auto;
+	display:block;
+	margin-bottom:25px;
+}
+
+.modal-body p{
+	font-size: 15px;
+    margin-bottom: 27px;
+ 	color:black;
+}
+
+.modal-body{
+	width:100%;
+ 	padding:20px;
+	text-align: center;
+}
+
+.btn-close{
+	position: relative;
+    font-size: 12px;
+    left: 93%;
+  	bottom: -14px
+}
+.modal-content{
+	height: 150px
+}
