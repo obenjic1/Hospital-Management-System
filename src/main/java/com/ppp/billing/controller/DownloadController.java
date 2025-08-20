@@ -29,6 +29,8 @@ public class DownloadController {
 	@Value("${folder.invoice}")
 	private String invoice;
 
+	@Value("${folder.receipt}")
+	private String receiptFolder;
 	@Value("${folder.user.images}")
 	private String userImageFolder;
 
@@ -59,6 +61,9 @@ public class DownloadController {
 		case "folder.customer.images":
 				dir= customerImageFolder;
 				break;
+		case "folder.receipt":
+			dir= receiptFolder;
+			break;
 		default:
 			throw new NotFoundException("File not found");
 		}

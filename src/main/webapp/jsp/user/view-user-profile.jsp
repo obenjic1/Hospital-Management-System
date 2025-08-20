@@ -110,7 +110,7 @@
                                          </div>
                                      </div>
                                      <div class="row mb-3">
-                                         <label for="ImageFile" class="col-sm-4 col-lg-3 col-form-label"><fmt:message key="photo"/></label>
+                                         <label for="ImageFile" class="col-sm-4 col-lg-3 col-form-label"><fmt:message key="photo"/> </label>
                                          <div class="col-sm-8 col-lg-8">
                                              <input name="imageFile" type="file" class="form-control" id="imageFile" accept="image/*" >
                                          </div>

@@ -41,20 +41,12 @@ public class JobPaper {
 	@Column(name = "paper_size_length", columnDefinition = "double default 92")
 	private int paperSizeLength;
 	
-	@ManyToOne
-	@JoinColumn(name = "content_type_id", referencedColumnName = "id")
-	private ContentType  contentType;
+
 	
 	@ManyToOne
 	@JoinColumn(name = "paper_type_id", referencedColumnName = "id")
 	private PaperType  paperType;
 	
-	@ManyToOne
-	@JoinColumn(name = "job_id", referencedColumnName = "id")
-	private Job  job;
-	
-	@OneToMany(mappedBy = "jobPaper", orphanRemoval = true, cascade = CascadeType.ALL)
-	private List<JobColorCombination> jobColorCombinations;
 
 
 

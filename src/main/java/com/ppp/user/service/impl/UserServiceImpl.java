@@ -176,6 +176,7 @@ public class UserServiceImpl implements UserService {
 	            
 				try {
 					String imagePath = fileStorageService.storeUserFile(user.getImageFile());
+					System.out.println(imagePath);
 					 existingUser.setImagePath(imagePath);
 				} catch (IOException e) {
 					// TODO Auto-generated catch block

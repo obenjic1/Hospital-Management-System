@@ -6,7 +6,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import com.ppp.billing.model.JobStatus;
-import com.ppp.billing.repository.JobRepository;
 import com.ppp.billing.repository.JobStatusRepository;
 import com.ppp.billing.service.JobStatusService;
 
@@ -17,8 +16,6 @@ public class JobStatusServiceImpl implements JobStatusService {
 	public JobStatusRepository jobStatusRepository;
 	
 
-	@Autowired
-	private JobRepository jobRepository;
 	
 
 	@Override

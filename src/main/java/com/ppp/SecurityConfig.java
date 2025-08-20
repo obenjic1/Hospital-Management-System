@@ -21,6 +21,7 @@ public class SecurityConfig {
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 	    return http.csrf(csrf -> csrf.disable()) 
+	    		.headers().frameOptions().sameOrigin().and()
 	            .authorizeRequests(authorize -> authorize
 	            	.antMatchers("/login").permitAll()
 	            	.antMatchers("/sw.js").permitAll()

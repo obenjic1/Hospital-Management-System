@@ -4,7 +4,6 @@ import java.util.Optional;
 
 import org.springframework.data.domain.Page;
 
-import com.ppp.billing.model.Job;
 import com.ppp.billing.model.JobStatus;
 
 public interface JobStatusService {

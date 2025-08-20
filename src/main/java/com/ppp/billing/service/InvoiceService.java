@@ -8,7 +8,6 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 
 import com.ppp.billing.model.Invoice;
-import com.ppp.billing.model.Job;
 
 @Service
 public interface InvoiceService {
@@ -17,7 +16,7 @@ public interface InvoiceService {
 	Invoice findById (long id);
 //    String printInvoice(long id, String invoice);
     List<Invoice> listInvoice();
-    Job getJobEstimateInvoice(long id);
+   
     List<Invoice> findByCreationDateBetwen(Date startDate, Date endDate);
     Invoice setIrtaxAndVatTax(long id, double irTax, double vatTax);
     Invoice displayIrtaxAndVatTax(long id, double irTax, double vatTax);

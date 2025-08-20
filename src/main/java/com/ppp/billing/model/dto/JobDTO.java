@@ -1,6 +1,5 @@
 package com.ppp.billing.model.dto;
 
-import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -27,5 +26,4 @@ public class JobDTO {
 	private boolean  layOutByUs;
 	private boolean  typesettingByUs;
 	private JobActivityOptionDTO jobActivities;
-	private List<JobPaperDTO> jobPapers;
 }

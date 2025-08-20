@@ -45,18 +45,12 @@ public class Invoice {
 	@Transient
 	private double netPayable;
 	
-	@ManyToOne
-	@JoinColumn(name = "estimate_pricing_id", referencedColumnName = "id")
-	private EstimatePricing estimatePricing;
+	
 	
 	@ManyToOne
 	@JoinColumn(name = "invoice_status_id", referencedColumnName = "id")
 	private InvoiceStatus invoiceStatus;
 	
-	public double getNetPayable() {
-		double totalPrice = estimatePricing.getTotalPrice();
-		totalPrice-=estimatePricing.getJobEstimate().getDiscountValue();
-		return totalPrice-(totalPrice*discountPercentage)/100+(totalPrice*vatPercentage)/100+(totalPrice*irTaxPercentage)/100;
-	}
+
 	
 }

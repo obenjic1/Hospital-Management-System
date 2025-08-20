@@ -30,9 +30,7 @@ public class JobMovement {
 	@Column(name="creation_date")
 	private Date creationDate;
 
-	@ManyToOne
-	@JoinColumn(name="job_id", nullable=false)
-	private Job job;
+	
 	
 //	@OneToOne(mappedBy = "jobMovement")
 //	@JoinColumn(name="job_id", nullable=false)

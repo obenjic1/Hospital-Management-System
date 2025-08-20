@@ -41,7 +41,6 @@ public class GroupeController {
 
 
 //<------------------- Call a new group form -------------------->
-	@PreAuthorize("hasAuthority('ROLE_ADD_GROUP')")
 	@GetMapping("/add-group")
 	public String showGroupeRegistrationForm(Model model) {
 		List<Role> roles = roleRepository.findAll();
@@ -64,7 +63,6 @@ public class GroupeController {
 	}
 
 //<------------------- List groups -------------------->
-	@PreAuthorize("hasAuthority('ROLE_LIST_GROUPS')")
 	@GetMapping("/list-groups")
 	public String listAllGroupes(Model model) {
 		return findPaginatedGroups(1, model);
@@ -86,7 +84,6 @@ public class GroupeController {
 	}
 
 //<------------------- View group details -------------------->
-	@PreAuthorize("hasAuthority('ROLE_VIEW_GROUP_DETAILS')")
 	@GetMapping("/group-details/{name}")
 	public String getGroupeDetails(@PathVariable String name, Model model) {
 		List<Role> roles = roleRepository.findAll();
@@ -100,7 +97,6 @@ public class GroupeController {
 	}
 
 	// <------------------- View group details To update -------------------->
-	@PreAuthorize("hasAuthority('ROLE_VIEW_GROUP_DETAILS')")
 	@GetMapping("/update-group/{name}")
 	public String getGroupeDetailsToUpdate(@PathVariable String name, Model model) {
 		List<Role> roles = roleRepository.findAll();
@@ -125,7 +121,6 @@ public class GroupeController {
 		}
 
 //<------------------- Update group -------------------->
-	@PreAuthorize("hasAuthority('ROLE_UPDATE_GROUP')")
 	@PostMapping("/update-group/{name}")
 	public String updateGroup(@PathVariable String name, @RequestBody GroupDTO groupDTO) {
 		String updateGroup = groupeService.updateGroupe(groupDTO, name);

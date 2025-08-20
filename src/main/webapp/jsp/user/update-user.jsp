@@ -52,7 +52,7 @@
                        <div class="row mb-3">
 						  <label style="font-family: bold;" for="address" class="col-md-4 col-lg-3 col-form-label"><fmt:message key="list.departement"/></label>
 						  <div class="col-md-8 col-lg-9">
-							 <select id="department" name="department" class="form-select" style="position: relative;left: -118px;">
+							 <select id="department" name="department" class="form-select" style="position: relative;">
 							   <c:forEach items="${departements}" var="departement">
 							   <c:if test="${departement.id==userFinded.department.id}">
 								 <option selected value="${departement.id}">${departement.name}</option>

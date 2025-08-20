@@ -1,8 +1,8 @@
-INSERT INTO `department`(`name`) VALUES ("Marketing");
-INSERT INTO `department`(`name`) VALUES ("Typesetting");
-INSERT INTO `department`(`name`) VALUES ("Mounting");
-INSERT INTO `department`(`name`) VALUES ("Printing");
-INSERT INTO `department`(`name`) VALUES ("Finishing");
+INSERT INTO `department`(`name`) VALUES ("Admin"),
+INSERT INTO `department`(`name`) VALUES ("Pharmacist"),
+INSERT INTO `department`(`name`) VALUES ("Accountant"),
+INSERT INTO `department`(`name`) VALUES ("Cashier"),
+INSERT INTO `department`(`name`) VALUES ("Store"),
 
 
 

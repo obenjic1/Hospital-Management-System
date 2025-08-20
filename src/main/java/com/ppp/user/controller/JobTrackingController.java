@@ -13,14 +13,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.ppp.billing.model.EstimatePricing;
+
 import com.ppp.billing.model.Invoice;
-import com.ppp.billing.model.Job;
+
 import com.ppp.billing.model.JobEstimate;
 import com.ppp.billing.model.JobTracking;
 import com.ppp.billing.model.dto.JobDTO;
-import com.ppp.billing.repository.JobRepository;
-import com.ppp.billing.repository.JobTrackingRepository;
+
 import com.ppp.billing.serviceImpl.JobTrackingServiceImpl;
 import com.ppp.user.model.User;
 
@@ -34,8 +33,7 @@ public class JobTrackingController {
 	
 	@Autowired
 	private JobTrackingServiceImpl jobTrackingServiceImpl;
-	@Autowired
-	private JobTrackingRepository jobTrackingRepository;
+
 
 //<---------------- List ---------------------->
 	@GetMapping("/list")
@@ -61,27 +59,8 @@ public class JobTrackingController {
 	public String  profile(Model model) {
 		String name = SecurityContextHolder.getContext().getAuthentication().getName();
 		User user = jobTrackingServiceImpl.findConnectedUser(name);
-		List<Job> jobs = jobTrackingServiceImpl.findByUser();
-		double amount = 0;
-		int count = jobs.size();
-		for(Job job : jobs) {
-			for (JobEstimate jobestimate : job.getJobEstimates()){
-				 if(jobestimate.isInvoiced()) {
-					for (EstimatePricing estimateP: jobestimate.getEstimatePricings()) {
-						for(Invoice invoice : estimateP.getInvoices()) {
-						if(estimateP.getInvoices()!=null) {
-							amount = amount + invoice.getNetPayable();
-						}
-						}
-					}
-				 }
-			}
-		}
-		Collections.reverse(jobs);
-		model.addAttribute("user", user);
-		model.addAttribute("jobs", jobs);
-		model.addAttribute("count", count);
-		model.addAttribute("Amount", amount);
+		
+
 	
 		return "user/view-user-dashboard";
 		

@@ -240,50 +240,64 @@
 	                            </section>
                             </div>
                             <div class="tab-pane fade profile-edit pt-3" id="profile-edit">
-                                <form style="margin-left: 5%">
-                                    <div class="row mb-3">  </div>
-                                    <div class="row mb-3">
-                                        <label for="firstName" class="col-sm-4 col-lg-3 col-form-label"><fmt:message key="first.name"/></label>
-                                        <div class="col-sm-8 col-lg-8">
-                                            <input name="firstName" type="text" class="form-control" id="firstName" value="${user.firstName}">
-                                        </div>
-                                    </div>
-                                    <div class="row mb-3">
-                                        <label for="lastName" class="col-sm-4 col-lg-3 col-form-label"><fmt:message key="last.name"/></label>
-                                        <div class="col-sm-8 col-lg-8">
-                                            <input name="lastName" type="text" class="form-control" id="lastName" value="${user.lastName}">
-                                        </div>
-                                    </div>
-                                     <div class="row mb-3">
-                                        <label for="mobile" class="col-sm-4 col-lg-3 col-form-label"><fmt:message key="phone"/></label>
-                                        <div class="col-sm-8 col-lg-8">
-                                            <input name="mobile" type="text" class="form-control" id="mobile" value="${user.mobile}">
-                                        </div>
-                                    </div>
-                                    <div class="row mb-3">
-                                        <label for="email" class="col-sm-4 col-lg-3 col-form-label"><fmt:message key="email"/></label>
-                                        <div class="col-sm-8 col-lg-8">
-                                            <input name="email" type="email" class="form-control" id="email" value="${user.email}">
-                                        </div>
-                                    </div>
-                                    
-                                     <div class="row mb-3">
-                                         <label for="address" class="col-sm-4 col-lg-3 col-form-label"><fmt:message key="address"/></label>
-                                         <div class="col-sm-8 col-lg-8">
-                                             <input name="address" type="text" class="form-control" id="address" value="${user.address}">
-                                         </div>
-                                     </div>
-                                     <div class="row mb-3">
-                                         <label for="ImageFile" class="col-sm-4 col-lg-3 col-form-label"><fmt:message key="photo"/></label>
-                                         <div class="col-sm-8 col-lg-8">
-                                             <input name="imageFile" type="file" class="form-control" id="imageFile" accept="image/*" >
-                                         </div>
-                                     </div>
-                                    <div class="text-center">
-                                    	<input type="button" onclick="updateUserById('${user.id}')" class="btn btn-primary" data-bs-dismiss="modal" value="Save Changes" style="left: 42%;bottom: -18%;"/>
-                                    </div>
-                 
-                                </form><!-- End Profile Edit Form -->
+                              <section>
+			<div class="card" style="width: 102%; left: -1%;">
+				<div class="card-body">
+				  <h5 class="card-title text-center pb-0 fs-4 update-user-title" style="color: #012970;"><fmt:message key="update.user"/> : ${user.username}</h5>
+				  <p style="font-family: bold;" class="text-center small"><fmt:message key="enter.the.user.informations"/></p>
+					<form style="width: 55%;margin-left:30px">
+                      <div class="row mb-3">
+                          <label for="firstName" class="col-md-4 col-lg-3 col-form-label"><fmt:message key="first.name"/></label>
+                          <div class="col-md-8 col-lg-9">
+                              <input style="font-family: bold;" name="firstName" type="text" class="form-control" id="firstName" value="${user.firstName}">
+                          </div>
+                      </div>
+                      <div class="row mb-3">
+                          <label style="font-family: bold;" for="lastName" class="col-md-4 col-lg-3 col-form-label"><fmt:message key="last.name"/></label>
+                          <div class="col-md-8 col-lg-9">
+                              <input name="lastName" type="text" class="form-control" id="lastName" value="${user.lastName}">
+                          </div>
+                      </div>
+                       	 <div class="row mb-3">
+                          <label style="font-family: bold;" for="email" class="col-md-4 col-lg-3 col-form-label"><fmt:message key="email"/></label>
+                          <div class="col-md-8 col-lg-9">
+                          <input name="email" type="email" class="form-control" id="email" value="${user.email}">
+                      	</div>
+                      </div>
+                       <div class="row mb-3">
+                          <label style="font-family: bold;" for="mobile" class="col-md-4 col-lg-3 col-form-label"><fmt:message key="phone"/></label>
+                          <div class="col-md-8 col-lg-9">
+                              <input name="mobile" type="text" class="form-control" id="mobile" value="${user.mobile}">
+                          </div>
+                      </div>
+
+                      
+                       <div class="row mb-3">
+                           <label style="font-family: bold;" for="address" class="col-md-4 col-lg-3 col-form-label"><fmt:message key="address"/></label>
+                           <div class="col-md-8 col-lg-9">
+                               <input name="address" type="text" class="form-control" id="address" value="${user.address}">
+                           </div>
+                       </div>
+                       <div class="row mb-3">
+						  <label style="font-family: bold;" for="address" class="col-md-4 col-lg-3 col-form-label"><fmt:message key="list.departement"/></label>
+					 <div class="col-md-8 col-lg-9">
+                               <input name="address" type="text" class="form-control" id="address" value="${user.department.name}" readonly="readonly">
+                           </div>
+						</div>
+                       <div class="row mb-3">
+                           <label style="font-family: bold;" for="ImageFile" class="col-md-4 col-lg-3 col-form-label"><fmt:message key="photo"/></label>
+                           <div class="col-md-8 col-lg-9">
+                               <input name="imageFile" type="file" class="form-control" id="imageFile" accept="image/*">
+                           </div>
+                       </div> 
+                      <div class="text-center">
+                      	<input type="button" onclick="updateUserById('${user.id}'); loadPage('user/list-users')" class="btn btn-primary"  data-bs-dismiss="modal" value="Save Changes" style="left: 96%;bottom: -18%;"/>
+                      </div>
+   
+                  </form>
+				</div>
+			</div>
+		</section>
                             </div>
                 <div class="tab-pane fade pt-3" id="profile-change-password">
                 </div>

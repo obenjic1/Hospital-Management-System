@@ -10,6 +10,7 @@ import com.itextpdf.kernel.color.Color;
 import com.itextpdf.kernel.font.PdfFont;
 import com.itextpdf.kernel.font.PdfFontFactory;
 import com.itextpdf.layout.Document;
+import com.itextpdf.layout.element.AreaBreak;
 import com.itextpdf.layout.element.Paragraph;
 import com.itextpdf.layout.element.Table;
 import com.itextpdf.layout.property.TextAlignment;
@@ -21,6 +22,8 @@ public class PrintableElement {
 	
 
 	private String message;
+	private Table table;
+
 	private float xAxis;
 	private float yAxis;
 	private double money;
@@ -129,5 +132,32 @@ public void printJobRef(Document document, String message, int ix, float fy) thr
 	document.add(new Paragraph(message).setFontColor(Color.RED).setFixedPosition(this.xAxis, this.yAxis, 595));
 	
 }
+
+public void printParagraphe(Document document, String message) throws IOException {
+    PdfFont font = PdfFontFactory.createFont(FontConstants.TIMES_ITALIC);
+	
+	this.message= message;
+	document.setFont(font);
+	Paragraph  paragraph = new Paragraph(this.message);
+//	paragraph.setTextAlignment(TextAlignment)
+	//paragraph.setMarginRight(300);
+	paragraph.setPaddingRight(250);
+	document.add(paragraph);
+
+}
  
+public void printHeader(Document document, String message) throws IOException {
+    PdfFont font = PdfFontFactory.createFont(FontConstants.HELVETICA_BOLD);
+	this.message= message;
+	document.setFont(font);
+	document.add(new Paragraph(this.message));
+
+}
+
+public void printTable(Document document, Table table) throws IOException {
+   PdfFont font = PdfFontFactory.createFont(FontConstants.HELVETICA_BOLD);
+	document.setFont(font);
+	document.add(table);
+
+}
 }

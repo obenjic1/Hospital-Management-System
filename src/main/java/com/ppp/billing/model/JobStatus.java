@@ -30,7 +30,6 @@ public class JobStatus {
 	@Column(name = "description", length = 255)
 	private String description;
 	
-	@OneToMany(mappedBy="status")
-	private List<Job> jobs;
+	
 	
 }

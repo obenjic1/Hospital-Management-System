@@ -44,13 +44,7 @@ public class JobEstimate {
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdDate;
 
-    @JoinColumn(name = "job_id", referencedColumnName = "id")
-    @ManyToOne(fetch = FetchType.LAZY,  cascade = CascadeType.PERSIST)
-    private Job job;
-    
-
-	@Column(name = "estimate_pricing_id")
-	@OneToMany(fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "jobEstimate",cascade = CascadeType.PERSIST)
-	private List<EstimatePricing> estimatePricings;
+  
+  
 
 }

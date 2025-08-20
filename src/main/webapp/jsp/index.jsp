@@ -14,16 +14,18 @@
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-<title>Billing System </title>
+<title>Queen Mary</title>
 <meta content="" name="description">
 <meta content="" name="keywords">
 
 <!-- Favicons -->
-<link rel="stylesheet" href="assets/sweetalert/sweetalert2.min.css"" />
+<link rel="stylesheet" href="assets/sweetalert/sweetalert2.min.css"/>
 
 <link rel="stylesheet" href="DataTables/datatables.css" />
 <script src="DataTables/datatables.js"></script>
 <link href="assets/img/presprint.jpg" rel="icon">
+<link href="assets/img/queenmary-logo.png" rel="icon">
+
 <script src="assets/vendor/jquery-3.5.1.min.js"></script>
 
 
@@ -52,8 +54,8 @@
 
 		<div class="d-flex align-items-center justify-content-between">
 		   <a class="logo d-flex align-items-center">
-			 <img src="assets/img/logo.png" alt="">
-			 <span class="d-none d-lg-block">Billing System</span>
+			 <img src="assets/img/queenmary-logo.png" alt="">
+			 <span class="d-none d-lg-block">Queen Mary</span>
 		   </a>
 		   <i class="bi bi-list toggle-sidebar-btn"></i>
 		</div>
@@ -126,41 +128,72 @@
 	<!-- ======= Sidebar ======= -->
 			<aside id="sidebar" class="sidebar" style="background: #dddfe3;">
 		     <ul class="sidebar-nav" id="sidebar-nav">
-		     <sec:authorize access="hasRole('ROLE_ADD_USER')">
+<%-- 		     <sec:authorize access="hasRole('ROLE_ADD_USER')"> --%>
 			  <li class="pp-module">
 			    <i class="bi bi-person-lines-fill"> </i> 
 			     <span>
 			      <span><fmt:message key="administration.managemant" /></span>
 			    </span><script src="DataTables/datatables.js"></script>
 			  </li>
-			  </sec:authorize>
+<%-- 			  </sec:authorize> --%>
 			<!-- End Printing Press Nav -->
 			<li class="nav-item">
 <%-- 			<sec:authorize access="hasRole('ROLE_ADD_USER')">					 --%>
 			  <ul id="user-management-nav" >
-				<sec:authorize access="hasRole('ROLE_LIST_USERS')">
+<%-- 				<sec:authorize access="hasRole('ROLE_LIST_USERS')"> --%>
 			      <li class="nav-item">
 					<a class="nav-link collapsed" onclick="loadPage('user/list-users')" href="#"> <i class="bi bi-person">
 					  </i> <span><fmt:message key="list.users" /></span>
 					</a>
 				  </li>
-				</sec:authorize>
-				<sec:authorize access="hasRole('ROLE_LIST_GROUPS')">
+<%-- 				</sec:authorize> --%>
+<%-- 				<sec:authorize access="hasRole('ROLE_LIST_GROUPS')"> --%>
 				  <li class="nav-item">
 				    <a class="nav-link collapsed" onclick="loadPage('group/list-groups');refreshGroupTable(1)" href="#">
 				    <i class="bi bi-person">
 				  </i> <span><fmt:message key="list.groups" /></span></a></li>
-				</sec:authorize>
-				<sec:authorize access="hasRole('ROLE_LIST_ROLES')">
+<%-- 				</sec:authorize> --%>
+<%-- 				<sec:authorize access="hasRole('ROLE_LIST_ROLES')"> --%>
 				  <li class="nav-item"><a class="nav-link collapsed" onclick="loadPage('role/list-roles');refreshRolePage(1)" href="#">
 				    <i class="bi bi-card-list"></i> 
 				    <span><fmt:message key="list.roles" /></span> </a>
 				  </li>
-				</sec:authorize>
+<%-- 				</sec:authorize> --%>
 			  </ul>
 <%-- 			</sec:authorize> --%>
 			 <!-- start of job sheet management Nav -->	
-			 <sec:authorize  access="hasRole('ROLE_REGISTER_NEW_JOB')"> 
+			 
+			 <li class="nav-item">
+				  <li class="pp-module">
+				    <i class="ri-database-2-fill"> </i> 
+				  <span>
+				    <span><fmt:message key="store.management" /></span>
+				  </span>
+				</li>
+				<ul id="store-nav">
+					
+					<li class="nav-item">
+					  <a class="nav-link collapsed" onclick="loadPage('store')" href="#">
+					    <i class="ri-steam-fill"></i>
+					    <span>Store</span>
+					  </a>
+					</li>
+					<li class="nav-item">
+					  <a class="nav-link collapsed" onclick="loadPage('invoice/list')" href="#">
+					    <i class=" ri-money-dollar-circle-line"></i>
+					    <span><fmt:message key="invoice.management" /></span>
+					  </a>
+					</li>
+<%-- 				  <sec:authorize access="hasRole('ROLE_SAVE_CUSTOMER')"> --%>
+					<li class="nav-item">
+					  <a class="nav-link collapsed" onclick="loadPage('customer/list')" href="#">
+					    <i class="ri-team-line"></i>
+					    <span><fmt:message key="customer.management" /></span>
+					  </a>
+					</li>
+<%-- 				  </sec:authorize>  --%>
+				</ul> 
+<%-- 			 <sec:authorize  access="hasRole('ROLE_REGISTER_NEW_JOB')">  --%>
 				<li class="nav-item">
 				  <li class="pp-module">
 				    <i class="ri-database-2-fill"> </i> 
@@ -170,35 +203,28 @@
 				</li>
 				<ul id="jobsheet-management-nav">
 					<li class="nav-item">
-                      <a class="nav-link collapsed" onclick="loadPage('job/displayform')" href="#">
+                      <a class="nav-link collapsed" onclick="loadPage('pharmacy')"" href="#">
 						<i class="ri-file-list-3-line"></i>
-						<span><fmt:message key="new.controlsheets" /></span>
+						<span>Pharmacy</span>
 					  </a>
 					<li class="nav-item">
-					  <a class="nav-link collapsed" onclick="loadPage('job/list-job')" href="#">
-					    <i class="ri-steam-fill"></i>
-					    <span><fmt:message key="list.jobsheets" /></span>
-					  </a>
-					</li>
-					<li class="nav-item">
-					  <a class="nav-link collapsed" onclick="loadPage('invoice/list')" href="#">
-					    <i class=" ri-money-dollar-circle-line"></i>
-					    <span><fmt:message key="invoice.management" /></span>
-					  </a>
-					</li>
-				  <sec:authorize access="hasRole('ROLE_SAVE_CUSTOMER')">
+					
+<%-- 				  <sec:authorize access="hasRole('ROLE_SAVE_CUSTOMER')"> --%>
 					<li class="nav-item">
 					  <a class="nav-link collapsed" onclick="loadPage('customer/list')" href="#">
 					    <i class="ri-team-line"></i>
 					    <span><fmt:message key="customer.management" /></span>
 					  </a>
 					</li>
-				  </sec:authorize> 
+<%-- 				  </sec:authorize>  --%>
 				</ul> 
-			 </sec:authorize> 
+<%-- 			 </sec:authorize>  --%>
+				<!-- End of job sheet management Nav --> 
+				
+<%-- 			 </sec:authorize>  --%>
 				<!-- End of job sheet management Nav --> 
 
-			 <sec:authorize access="hasRole('ROLE_VIEW_SETINGS')">
+<%-- 			 <sec:authorize access="hasRole('ROLE_VIEW_SETINGS')"> --%>
 				<li class="nav-item">
 				  <li class="pp-module">
 				    <i class="ri-tools-fill"> </i> 
@@ -206,51 +232,19 @@
 				    <span><fmt:message key="settings" /></span>
 				  </span>
 				</li>
-			  </sec:authorize> 
-			  <sec:authorize access="hasRole('ROLE_VIEW_SETINGS')">
+<%-- 			  </sec:authorize>  --%>
+<%-- 			  <sec:authorize access="hasRole('ROLE_VIEW_SETINGS')"> --%>
 				<ul id="configuration-management-nav">
 					<li class="nav-item">
-                      <a class="nav-link collapsed" onclick="loadPage('machine/list')" href="#">
+                      <a class="nav-link collapsed" onclick="loadPage('staff')" href="#">
 						<i class="ri-steam-line"></i>
-						<span><fmt:message key="machines" /></span>
+						<span>Staff Management</span>
 					  </a>
-										
-					<li class="nav-item">
-					  <a class="nav-link collapsed" onclick="loadPage('papertype/list')" href="#">
-					    <i class="bi bi-receipt-cutoff"></i>
-					    <span><fmt:message key="paper.types"/></span>
-					  </a>
-					</li>
-						<li class="nav-item">
-					  <a class="nav-link collapsed" onclick="loadPage('jobtype/list-job-type')" href="#">
-<!-- 					   <a class="nav-link collapsed" onclick="getJobType()" href="#"> -->
-					    <i class="bi bi-receipt-cutoff"></i>
-					    <span><fmt:message key="job.type"/></span>
-					  </a>
-					</li>
-					<li class="nav-item">
-					  <a class="nav-link collapsed" onclick="loadPage('grammage/list')" href="#">
-					    <i class="ri-file-damage-line"></i>
-					    <span><fmt:message key="paper.grammage" /> </span>
-					  </a>
-					</li>
-					<li class="nav-item">
-					  <a class="nav-link collapsed" onclick="loadPage('paperformat/list')" href="#">
-					    <i class="ri-file-edit-line"></i>
-					    <span><fmt:message key="paper.format" /> </span>
-					  </a>
-					</li>
-
+					  </li>
 					
-					<li class="nav-item">
-					  <a class="nav-link collapsed" onclick="loadPage('bindingtype/list')" href="#">
-					    <i class="ri-pantone-fill"></i>
-					    <span><fmt:message key="binding.type" /> </span>
-					  </a>
-					</li>
 					
 				</ul> 
-			  </sec:authorize>  								
+<%-- 			  </sec:authorize>  								 --%>
 				<!-- End of user management Nav -->
 				
 				<!-- start of bill management Nav -->
@@ -266,7 +260,7 @@
 				<ul id="configuration-management-nav">
 					
 					<li class="nav-item">
-					  <a class="nav-link collapsed" onclick="getListOfUser()" href="#">
+					  <a class="nav-link collapsed" onclick="loadPage('reports/dashboard') "href="#">
 					    <i class="ri-line-chart-line"></i>
 					    <span>Statistics</span>
 					  </a>
@@ -287,7 +281,7 @@
 			
 		  <div id="main-content" class="row">
 
-		  <jsp:include page="user/view-user-profile.jsp"></jsp:include>
+		  <jsp:include page="user/view-user-dashboard.jsp"></jsp:include>
 <%-- 	  <jsp:include page="billing/list-job.jsp"></jsp:include> --%>
 		  
 		   </div>
@@ -313,19 +307,19 @@
 				        <div class="modal-body"  >
 				        </div>
 				        <div class="modal-footer" >
-				            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><fmt:message key="close"/></button>
+				            <button type="button" class="btn btn-secondary"  id="closeaddForm" data-bs-dismiss="modal"><fmt:message key="close"/></button>
 				        </div>
 			        </div>
 			  </div>
 			</div>	
 			 <div class="modal fade" id="MainModal" tabindex="-1">
 			   <div class="modal-dialog modal-xl">
-				 <div class="modal-content" id="getPage">
+				 <div class="modal-content" id="getPage" style="height: 400px; width: 50%; margin:0 auto">
 
 				        <div class="modal-body"  >
 				        </div>
 				        <div class="modal-footer" >
-				            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><fmt:message key="close"/></button>
+				            <button type="button"  id="close-modal" class="btn btn-secondary" data-bs-dismiss="modal"><fmt:message key="close"/></button>
 				        </div>
 			        </div>
 			  </div>
@@ -339,7 +333,8 @@
 				
 			    </div>
 			  </div>
-			</div>	
+			</div>
+			
 			<!-------------- Modal ------------->
 			<div class="modal fade" id="areyouSureYouWantToDetele" tabindex="-1">
 			  <div class="modal-dialog modal-dialog-centered">
@@ -399,7 +394,8 @@
 
 	<footer id="footer" class="fixed-bottom text-center">
 
-		<div class="copyright"> &copy; Copyright 2024 <strong><span>Presprint Plc</span></strong>. All Rights Reserved</div>
+		<div class="copyright"> &copy; Copyright 2025  Queen Mary<strong><span></span></strong>. All Rights Reserved</div>
+		<div><small>the Best health Care Service  695 697 830 / 679 625 303</small></div>
 
 
 
@@ -413,6 +409,10 @@ $(document).ready(function() {
     refreshGroupTable(1);
 });
 </script>
+    <script src="assets/js/hospital/medicine.js"></script>
+    <script src="assets/js/hospital/staff.js"></script>
+    
+
 	<script src="assets/js/billing/job.js"></script>
 	<script src="assets/sweetalert/sweetalert2.all.min.js"></script>
 	<!-- Template Main JS File -->

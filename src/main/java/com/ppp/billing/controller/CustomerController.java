@@ -56,7 +56,6 @@ public class CustomerController {
 	private CustomerServiceImpl customerServiceImpl;
 
 //<------------------- Show registration form -------------------->
-	@PreAuthorize("hasAuthority('ROLE_SAVE_CUSTOMER')")
 	@GetMapping("/displayCustomerForm")
 	public String showRegistrationForm(Model model) {
 		model.addAttribute("CustomerDTO", new CustomerDTO());
@@ -80,7 +79,6 @@ public class CustomerController {
 	}
 	
 //<------------------- Customers -------------------->
-	@PreAuthorize("hasAuthority('ROLE_LIST_CUSTOMER')")
 	@GetMapping("/list")
 	public String list(Model model) {
 		//int firstPage = initialPage;
@@ -103,17 +101,15 @@ public class CustomerController {
 	}
 	
 //<------------------- Find by email -------------------->
-	@PreAuthorize("hasAuthority('ROLE_VIEW_CUSTOMER_DETAILS')")
 	@GetMapping("/find/{email}")
 	public String findByEmail(@PathVariable String email, Model model) {
 		Customer customer = customerServiceImpl.findByEmail(email);
 		model.addAttribute("customer", customer);
-		model.addAttribute("jobs", customer.getJobs());
+	
 		return "/billing/customer-details";
 	}
 	
 //<------------------- Find customer to update -------------------->
-	@PreAuthorize("hasAuthority('ROLE_VIEW_CUSTOMER_DETAILS')")
 	@GetMapping("/update/{email}")
 	public String findCutomerByEmail(@PathVariable String email, Model model) {			
 		Customer findCustomerToUpdate = customerServiceImpl.findByEmail(email);
@@ -125,7 +121,6 @@ public class CustomerController {
 	
 
 //<------------------- Update customer -------------------->
-	@PreAuthorize("hasAuthority('ROLE_UPDATE_CUSTOMER')")
 
 	@PostMapping("/updateCustomer/{id}")
 	public ResponseEntity<String> updateCustomer(@RequestBody CustomerDTO customerDTO, @PathVariable int id) {			

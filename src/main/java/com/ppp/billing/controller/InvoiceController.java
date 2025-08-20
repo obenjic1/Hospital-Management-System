@@ -24,14 +24,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.ppp.billing.model.EstimatePricing;
 import com.ppp.billing.model.Invoice;
-import com.ppp.billing.model.Job;
 import com.ppp.billing.model.JobEstimate;
-import com.ppp.billing.serviceImpl.EstimatePricingServiceImpl;
 import com.ppp.billing.serviceImpl.InvoiceServiceImpl;
-import com.ppp.billing.serviceImpl.JobEstimateServiceImpl;
-import com.ppp.billing.serviceImpl.JobServiceImpl;
 
 @Controller
 @RequestMapping("invoice")
@@ -44,13 +39,7 @@ public class InvoiceController {
 	@Autowired
 	private InvoiceServiceImpl invoiceServiceImpl;
 	
-	@Autowired
-	private EstimatePricingServiceImpl estimatePricingServiceImpl;
 	
-	@Autowired
-	private JobEstimateServiceImpl estimateServiceImpl;
-	
-	@Autowired JobServiceImpl jobServiceImpl;
 	
 	@InitBinder
 	public void customDateEditor(WebDataBinder binder) {
@@ -110,25 +99,11 @@ public class InvoiceController {
 	@GetMapping("/commission-result/{id}/{qty}")
 	public String getInvoice(@PathVariable long id,@PathVariable long qty, Model model) {		
 			try {
-				JobEstimate estimate = estimateServiceImpl.findById(id);
-				List<EstimatePricing> estimatePricing = estimate.getEstimatePricings();
-				EstimatePricing estimatePricingWithCommission = new EstimatePricing();
 				//long lastInvoice = correspondingestimatePricing.getInvoices().getS;
 				Invoice invoice = new Invoice();
-				for(EstimatePricing correspondingestimatePricing :estimatePricing ) {
-						estimatePricingWithCommission.setQuantity(correspondingestimatePricing.getQuantity());
-						estimatePricingWithCommission.setTotalPrice(correspondingestimatePricing.getTotalPrice() +	estimate.getCommission());
-						estimatePricingWithCommission.setUnitPrice(estimatePricingWithCommission.getTotalPrice()/correspondingestimatePricing.getQuantity());
-				}
-
-			Job jobs = estimate.getJob();
-			double discount = (invoice.getDiscountPercentage()/100)*(invoice.getEstimatePricing().getTotalPrice());
-			double irTaxValue= (invoice.getIrTaxPercentage()/100)*invoice.getEstimatePricing().getTotalPrice();
-			double vatValue= (invoice.getVatPercentage()/100)*invoice.getEstimatePricing().getTotalPrice();
-			model.addAttribute("irTaxValue", irTaxValue);
-			model.addAttribute("vatValue", vatValue);
-			model.addAttribute("discount", discount);
-			model.addAttribute("job", jobs);
+				
+			
+			
 			model.addAttribute("invoices", invoice);
 			
 			return "billing/estimate/invoice-view";
@@ -142,17 +117,8 @@ public class InvoiceController {
 	@GetMapping("/job-invoice/{id}")
 	public String getInvoice(@PathVariable long id, Model model) {		
 		try {
-			Invoice invoice = invoiceServiceImpl.findById(id);
-			Job jobs = invoice.getEstimatePricing().getJobEstimate().getJob();
-			double discount = (invoice.getDiscountPercentage()/100)*(invoice.getEstimatePricing().getTotalPrice()-invoice.getEstimatePricing().getJobEstimate().getDiscountValue());
-			double irTaxValue= (invoice.getIrTaxPercentage()/100)*(invoice.getEstimatePricing().getTotalPrice()-invoice.getEstimatePricing().getJobEstimate().getDiscountValue());
-			double vatValue= (invoice.getVatPercentage()/100)*(invoice.getEstimatePricing().getTotalPrice()-invoice.getEstimatePricing().getJobEstimate().getDiscountValue());
-			model.addAttribute("irTaxValue", irTaxValue);
-			model.addAttribute("vatValue", vatValue);
-			model.addAttribute("discount", discount);
-			model.addAttribute("discounted", 1);
-			model.addAttribute("job", jobs);
-			model.addAttribute("invoices", invoice);
+			
+			
 			
 			return "billing/estimate/invoice-view";
 		} catch (Exception e) {
@@ -167,25 +133,9 @@ public class InvoiceController {
 	@GetMapping("/commission-invoice/{id}/{qty}")
 	public String getCommissionInvoice(@PathVariable long id,@PathVariable int qty, Model model) {		
 		try {
-			EstimatePricing estimatePricingWithCommission = estimatePricingServiceImpl.findById(id).get();
+			
 			//long lastInvoice = correspondingestimatePricing.getInvoices().getS;
-			Invoice invoice = new Invoice();
-			invoice = estimatePricingWithCommission.getInvoices().get(0);
-
-			Job jobs = estimatePricingWithCommission.getJobEstimate().getJob();
-		
-//			Job jobs = invoice.getEstimatePricing().getJobEstimate().getJob();
-			double discount = (invoice.getDiscountPercentage()/100)*(estimatePricingWithCommission.getTotalPrice()+estimatePricingWithCommission.getJobEstimate().getCommission());
-			double irTaxValue= (invoice.getIrTaxPercentage()/100)*(estimatePricingWithCommission.getTotalPrice()+estimatePricingWithCommission.getJobEstimate().getCommission());
-			double vatValue= (invoice.getVatPercentage()/100)*(estimatePricingWithCommission.getTotalPrice()+estimatePricingWithCommission.getJobEstimate().getCommission());
-			double netPayable = estimatePricingWithCommission.getTotalPrice()+estimatePricingWithCommission.getJobEstimate().getCommission()+ irTaxValue + vatValue -discount;
-			model.addAttribute("irTaxValue", irTaxValue);
-			model.addAttribute("netPayable", netPayable);
-			model.addAttribute("vatValue", vatValue);
-			model.addAttribute("discount", discount);
-			model.addAttribute("job", jobs);
-			model.addAttribute("invoices", invoice);
-			model.addAttribute("estimatePricingWithCommission", estimatePricingWithCommission);
+			
 			
 			return "billing/estimate/commission-invoice-view";
 		} catch (Exception e) {
@@ -215,14 +165,7 @@ public class InvoiceController {
 	public String getInvoiceFromPricing(@PathVariable long id, Model model) {	
 		
 		try {
-			EstimatePricing estimatePricing = estimatePricingServiceImpl.findById(id).get();
-			long index = estimatePricing.getInvoices().get(0).getId();
-			Invoice invoicefinded = invoiceServiceImpl.findById(index);
-			Job jobs = invoicefinded.getEstimatePricing().getJobEstimate().getJob();
-			model.addAttribute("job", jobs);
-			model.addAttribute("discounted", 0);
-			model.addAttribute("invoices", invoicefinded);
-			
+
 			return "billing/estimate/invoice-view";
 		} catch (Exception e) {
 			throw e;
@@ -232,20 +175,7 @@ public class InvoiceController {
 	@GetMapping("/discount/from-pricing/{id}/{qty}")
 	public String getInvoiceFromPricing(@PathVariable long id, @PathVariable long qty, Model model) {	
 		try {
-			EstimatePricing discountestimatePricing = estimatePricingServiceImpl.findById(id).get();
-			long index = discountestimatePricing.getInvoices().get(0).getId();
-			Invoice invoice = invoiceServiceImpl.findById(index);
-			Job job = invoice.getEstimatePricing().getJobEstimate().getJob();
-			
-			double discount = (invoice.getDiscountPercentage()/100)*(invoice.getEstimatePricing().getTotalPrice());
-			double irTaxValue= (invoice.getIrTaxPercentage()/100)*invoice.getEstimatePricing().getTotalPrice();
-			double vatValue= (invoice.getVatPercentage()/100)*invoice.getEstimatePricing().getTotalPrice();
-			model.addAttribute("job", job);
-			model.addAttribute("invoices", invoice);
-			model.addAttribute("irTaxValue", irTaxValue);
-			model.addAttribute("vatValue", vatValue);
-			model.addAttribute("discount", discount);
-			model.addAttribute("discounted", 1);
+		
 			return "billing/estimate/invoice-view";
 		} catch (Exception e) {
 			throw e;
@@ -255,16 +185,7 @@ public class InvoiceController {
 	@GetMapping("/invoice-taxs/{id}/{irTax}/{vatTax}")
 	public String  setIrtaxAndVatTax(@PathVariable long id, @PathVariable double irTax,@PathVariable double vatTax, Model model) {
 		try {
-			Invoice invoice = invoiceServiceImpl.setIrtaxAndVatTax(id, irTax, vatTax);
-			Job jobs = invoice.getEstimatePricing().getJobEstimate().getJob();
-			double irTaxValue= (invoice.getIrTaxPercentage()/100)*(invoice.getEstimatePricing().getTotalPrice()-invoice.getEstimatePricing().getJobEstimate().getDiscountValue());
-			double vatValue= (invoice.getVatPercentage()/100)*(invoice.getEstimatePricing().getTotalPrice()-invoice.getEstimatePricing().getJobEstimate().getDiscountValue());
-			double discount = (invoice.getDiscountPercentage()/100)*(invoice.getEstimatePricing().getTotalPrice()-invoice.getEstimatePricing().getJobEstimate().getDiscountValue());
-			model.addAttribute("irTaxValue", irTaxValue);
-			model.addAttribute("vatValue", vatValue);
-			model.addAttribute("job", jobs);
-			model.addAttribute("invoices", invoice);
-			model.addAttribute("discount", discount);
+		
 			model.addAttribute("isApplyTax", 1);
 			return "billing/invoice/invoice-tva-result";
 		} catch (Exception e) {
@@ -277,15 +198,9 @@ public class InvoiceController {
 	public String displayDiscountapplicationForm(@PathVariable long id, Model model) {
 		try {
 			Invoice invoice = invoiceServiceImpl.findById(id);
-			Job job = invoice.getEstimatePricing().getJobEstimate().getJob();
-			double discount = (invoice.getDiscountPercentage()/100)*(invoice.getEstimatePricing().getTotalPrice()-invoice.getEstimatePricing().getJobEstimate().getDiscountValue());
-			double irTaxValue= (invoice.getIrTaxPercentage()/100)*(invoice.getEstimatePricing().getTotalPrice()-invoice.getEstimatePricing().getJobEstimate().getDiscountValue());
-			double vatValue= (invoice.getVatPercentage()/100)*(invoice.getEstimatePricing().getTotalPrice()-invoice.getEstimatePricing().getJobEstimate().getDiscountValue());
-			model.addAttribute("job", job);
+			
 			model.addAttribute("invoices", invoice);
-			model.addAttribute("irTaxValue", irTaxValue);
-			model.addAttribute("vatValue", vatValue);
-			model.addAttribute("discount", discount);
+		
 			return "billing/invoice/apply-discount";
 		} catch (Exception e) {
 			throw e;
@@ -296,14 +211,8 @@ public class InvoiceController {
 	@GetMapping("/invoice-discount/{id}/{discount}")
 	public String applyDiscount(@PathVariable long id,@PathVariable  double discount, Model model) {
 		try {
-			Invoice invoice = invoiceServiceImpl.applyDiscount(id, discount);
-			double discountValue = (invoice.getDiscountPercentage()/100)*(invoice.getEstimatePricing().getTotalPrice());
-			double irTaxValue= (invoice.getIrTaxPercentage()/100)*invoice.getEstimatePricing().getTotalPrice();
-			double vatValue= (invoice.getVatPercentage()/100)*invoice.getEstimatePricing().getTotalPrice();
-			model.addAttribute("invoices", invoice);
-			model.addAttribute("discount", discountValue);
-			model.addAttribute("irTaxValue", irTaxValue);
-			model.addAttribute("vatValue", vatValue);
+			
+		
 			return "billing/invoice/apply-discount-result";
 		} catch (Exception e) {
 			throw e;
@@ -315,13 +224,9 @@ public class InvoiceController {
 		public String applyDiscountAmount(@PathVariable long id,@PathVariable  double discount, Model model) {
 			try {
 				Invoice invoice = invoiceServiceImpl.applyDiscountAmount(id, discount);
-				double discountValue = (invoice.getDiscountPercentage()/100)*(invoice.getEstimatePricing().getTotalPrice());
-				double irTaxValue= (invoice.getIrTaxPercentage()/100)*invoice.getEstimatePricing().getTotalPrice();
-				double vatValue= (invoice.getVatPercentage()/100)*invoice.getEstimatePricing().getTotalPrice();
+				
 				model.addAttribute("invoices", invoice);
-				model.addAttribute("discount", discountValue);
-				model.addAttribute("irTaxValue", irTaxValue);
-				model.addAttribute("vatValue", vatValue);
+			
 				return "billing/invoice/apply-discount-result";
 			} catch (Exception e) {
 				throw e;
@@ -334,15 +239,9 @@ public class InvoiceController {
 	public String getTaxForm(@PathVariable long id, Model model) {		
 		try {
 			Invoice invoice = invoiceServiceImpl.findById(id);
-			Job jobs = invoice.getEstimatePricing().getJobEstimate().getJob();
-			double irTaxValue= (invoice.getIrTaxPercentage()/100)*(invoice.getEstimatePricing().getTotalPrice()-invoice.getEstimatePricing().getJobEstimate().getDiscountValue());
-			double vatValue= (invoice.getVatPercentage()/100)*(invoice.getEstimatePricing().getTotalPrice()-invoice.getEstimatePricing().getJobEstimate().getDiscountValue());
-			double discount = (invoice.getDiscountPercentage()/100)*(invoice.getEstimatePricing().getTotalPrice()-invoice.getEstimatePricing().getJobEstimate().getDiscountValue());
-			model.addAttribute("irTaxValue", irTaxValue);
-			model.addAttribute("vatValue", vatValue);
-			model.addAttribute("job", jobs);
+			
 			model.addAttribute("invoices", invoice);
-			model.addAttribute("discount", discount);
+			
 			
 			return "billing/invoice/invoice-irtax-tva";
 		} catch (Exception e) {
@@ -355,15 +254,8 @@ public class InvoiceController {
 		try {
 			
 			Invoice invoice = invoiceServiceImpl.displayIrtaxAndVatTax(id, irTax, vatTax);
-			Job jobs = invoice.getEstimatePricing().getJobEstimate().getJob();
-			double irTaxValue= (invoice.getIrTaxPercentage()/100)*(invoice.getEstimatePricing().getTotalPrice()-invoice.getEstimatePricing().getJobEstimate().getDiscountValue());
-			double vatValue= (invoice.getVatPercentage()/100)*(invoice.getEstimatePricing().getTotalPrice()-invoice.getEstimatePricing().getJobEstimate().getDiscountValue());
-			double discount = (invoice.getDiscountPercentage()/100)*(invoice.getEstimatePricing().getTotalPrice()-invoice.getEstimatePricing().getJobEstimate().getDiscountValue());
-			model.addAttribute("irTaxValue", irTaxValue);
-			model.addAttribute("vatValue", vatValue);
-			model.addAttribute("job", jobs);
+		
 			model.addAttribute("invoices", invoice);
-			model.addAttribute("discount", discount);
 			model.addAttribute("isApplyTax", 0);
 			return "billing/invoice/invoice-tva-result";
 		} catch (Exception e) {

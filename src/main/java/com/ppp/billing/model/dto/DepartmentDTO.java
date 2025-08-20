@@ -5,7 +5,6 @@ import java.util.List;
 import javax.persistence.Column;
 
 import com.ppp.billing.model.Department;
-import com.ppp.billing.model.JobMovement;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

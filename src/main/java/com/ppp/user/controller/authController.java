@@ -51,7 +51,6 @@ public class authController {
 				 return "user_auth/login";
 			 }else {
 				 User user = userRepository.findByUsername(authentication.getName()) ;
-
 				 model.addAttribute("user", user);
 				 return "index";
 			 }

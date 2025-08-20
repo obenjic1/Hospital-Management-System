@@ -43,7 +43,6 @@ public class Customer {
 	@Column(name="creation_date")
 	private Date creationDate;
 	
-	@OneToMany(fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "customer")
-	private List<Job> jobs;
+
 
 }

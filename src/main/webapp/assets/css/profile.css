@@ -1,9 +1,7 @@
 @charset "ISO-8859-1";
 
 .form-control {
-	position: relative;
-	right: 15%;
-	width: 55%;
+/* 	right: 15%; */
 }
 
 .modal-body img{

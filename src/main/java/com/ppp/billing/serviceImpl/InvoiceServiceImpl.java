@@ -15,14 +15,9 @@ import com.itextpdf.kernel.geom.PageSize;
 import com.itextpdf.kernel.pdf.PdfDocument;
 import com.itextpdf.kernel.pdf.PdfWriter;
 import com.itextpdf.layout.Document;
-import com.ppp.billing.model.EstimatePricing;
 import com.ppp.billing.model.Invoice;
 import com.ppp.billing.model.InvoiceStatus;
-import com.ppp.billing.model.Job;
-import com.ppp.billing.model.JobActivity;
 import com.ppp.billing.model.JobEstimate;
-import com.ppp.billing.model.JobPaper;
-import com.ppp.billing.repository.EstimatePricingRepository;
 import com.ppp.billing.repository.InvoiceRepository;
 import com.ppp.billing.repository.InvoiceStatusRepository;
 import com.ppp.billing.repository.JobEstimateRepository;
@@ -35,13 +30,11 @@ public class InvoiceServiceImpl implements InvoiceService{
 	@Value("${folder.invoice}")
 	private String invoiceDir;
 	
-	@Autowired
-	private EstimatePricingRepository estimatePricingRepository;
+
 	@Autowired
 	private InvoiceRepository invoiceRepository;
 	
-	@Autowired
-	private JobEstimateRepository estimateRepository;
+	
 	
 	@Autowired
 	private InvoiceStatusRepository invoiceStatusRepository;
@@ -52,36 +45,18 @@ public class InvoiceServiceImpl implements InvoiceService{
 		return  invoice;
 	}
 	
-	public Invoice saveInvoice(long id) {
-		EstimatePricing estimate = estimatePricingRepository.findById(id).get();
-		JobEstimate jobEstimate=estimate.getJobEstimate();
-		Invoice invoiceToSave = new Invoice();
-		estimate.setInvoiced(true);
-		invoiceToSave.setCreationDate(new Date());
-		/*
-		 * Create Reference for Invoice
-		 */
-		String updateRef = estimate.getJobEstimate().getReference();
-		String reference = updateRef.replace('E', 'I');	
-		String invoiceRefence = reference.substring(0, reference.length()-1);
-		invoiceRefence = invoiceRefence  + ""+(estimate.getInvoices().size()+1);
-		invoiceToSave.setReferenceNumber(invoiceRefence);
-		estimate.getJobEstimate().setInvoiced(true);
-		invoiceToSave.setEstimatePricing(estimate);
+	public String saveInvoice(long id) {
+	
 		
 		InvoiceStatus status= invoiceStatusRepository.findByName("Registered").get();
-		invoiceToSave.setInvoiceStatus(status);
+	
 		
 		/*
 		 * Calculate  Discount
 		 */
 		
-		jobEstimate.setEstimatePricings(jobEstimate.getEstimatePricings());
-		invoiceRepository.saveAndFlush(invoiceToSave);
-		estimate.setInvoices(estimate.getInvoices());
-		estimate.setJobEstimate(jobEstimate);
-		generateSerialNumber(invoiceToSave);
-		return invoiceToSave;
+		
+		return "invoiceToSave";
 	}
 
 	@Override
@@ -89,13 +64,10 @@ public class InvoiceServiceImpl implements InvoiceService{
 		return invoiceRepository.findAll();
 	}
 
-	@Override
-	public Job getJobEstimateInvoice(long id) {
+	public Invoice getJobEstimateInvoice(long id) {
 		Invoice invoice = invoiceRepository.findById(id).get();
-		EstimatePricing estimatePricing = invoice.getEstimatePricing();
-		JobEstimate estimate = estimatePricing.getJobEstimate();
-		Job job = estimate.getJob();
-		return job;
+		
+		return invoice;
 	}
 
 /*
@@ -140,7 +112,6 @@ public class InvoiceServiceImpl implements InvoiceService{
 		try {
 			Invoice invoice = invoiceRepository.findById(id).get();
 			invoice.setDiscountPercentage(discount);
-			invoice.setNetPayable((invoice.getEstimatePricing().getTotalPrice())-((discount/100)*(invoice.getEstimatePricing().getTotalPrice())));
 			return invoiceRepository.save(invoice);
 		} catch (Exception e) {
 			throw e;
@@ -176,9 +147,6 @@ public class InvoiceServiceImpl implements InvoiceService{
 	public Invoice applyDiscountAmount(long id, double discountAmount) {
 		try {
 			Invoice invoice = invoiceRepository.findById(id).get();
-			double discount = (discountAmount/invoice.getEstimatePricing().getTotalPrice())*100;
-			invoice.setDiscountPercentage(discount);
-			invoice.setNetPayable((invoice.getEstimatePricing().getTotalPrice())-((discount/100)*(invoice.getEstimatePricing().getTotalPrice())));
 			return invoiceRepository.save(invoice);
 		} catch (Exception e) {
 			throw e;
@@ -188,32 +156,16 @@ public class InvoiceServiceImpl implements InvoiceService{
 	
 	public Invoice saveInvoiceWithDiscount(long id, int qty) {
 		Invoice invoiceToSave = new Invoice();
-		EstimatePricing selectedPricingElement = estimatePricingRepository.findById(id).get();
-		JobEstimate estimate= selectedPricingElement.getJobEstimate();
-		estimate.setInvoiced(true);
 		invoiceToSave.setCreationDate(new Date()); 
 		
 			/*
 			 * Create Reference for Invoice
 			 */
-			String updateRef = estimate.getReference();
-			String reference = updateRef.replace('E', 'I');	
-			String invoiceRefence = reference.substring(0, reference.length()-1);
-			invoiceRefence = invoiceRefence  + ""+(selectedPricingElement.getInvoices().size()+1);
-			invoiceToSave.setReferenceNumber(invoiceRefence);
-			InvoiceStatus status= invoiceStatusRepository.findByName("Registered").get();
-			invoiceToSave.setInvoiceStatus(status);
-
-			invoiceToSave.setEstimatePricing(selectedPricingElement);
-			
+		
 			/*
 			 * Calculate  Discount
 			 */
-			selectedPricingElement.setInvoiced(true);
-			estimate.setEstimatePricings(estimate.getEstimatePricings());
-			invoiceRepository.saveAndFlush(invoiceToSave);
-			selectedPricingElement.setInvoices(selectedPricingElement.getInvoices());
-			selectedPricingElement.setJobEstimate(estimate);
+			
 			generateSerialNumber(invoiceToSave);
 			
 		return invoiceToSave;
@@ -225,46 +177,20 @@ public class InvoiceServiceImpl implements InvoiceService{
 		 try {
 			PdfWriter pdfWriter = new PdfWriter(invoiceDir+reference+ ".pdf");
 			Invoice invoice=invoiceRepository.findByReferenceNumber(reference).get();
-			JobEstimate jobEstimate = invoice.getEstimatePricing().getJobEstimate();
-			Job job=jobEstimate.getJob();
 			PdfDocument pdfDocument = new PdfDocument(pdfWriter);
 			Document document = new Document(pdfDocument, PageSize.A4);
 		
 //			 document.setMargins(25, 25, 297-156, 50);
 
 			PrintableElement printer = new PrintableElement();	
-			JobActivity jobActivity = job.getJobActivity();
-			List<JobPaper> jcc = job.getJobPapers();
-			JobPaper coverPaper = null;
-			for(JobPaper pp : jcc) {
-				if(pp.getContentType().getId()==1)
-				{
-					coverPaper=pp;
-					printer.print(document,"Cover: "+ job.getOpenLength()+" X "+job.getOpenWidth()+" mm", 73, 297-93);
-					printer.print(document, "Cover: " +job.getCoverVolume()+" Pages", 73, 297-110);
-					printer.print(document,"Cover: "+  coverPaper.getJobColorCombinations().get(0).getFrontColorNumber() + "/" +coverPaper.getJobColorCombinations().get(0).getBackColorNumber()+" " + coverPaper.getJobColorCombinations().get(0).getPrintType().getName(), 73, 297-136);
-					printer.printHeader(document,"Paper", 38, 297-182);
-				    printer.print(document, "Cover : "+ job.getJobPapers().get(0).getPaperType().getName(), 73, 297-182);
-					printer.print(document, job.getJobPapers().get(0).getGrammage()+" GSM", 168, 297-182);
-			}}
+			
 			String jobActivities = "";
 			String typeSettings = "";
 			String reproduction = "";
 				
-				printer.printHeader(document, "Invoice ".toUpperCase() , 73, 297-42);
-			 	printer.print(document, "("+invoice.getReferenceNumber().toUpperCase()+")", 97, 297-42);
-
-			 	printer.printHeader(document,job.getCustomer().getName().toUpperCase(), 123, 297-52);
-				printer.printHeader(document,job.getCustomer().getAddress().toUpperCase(), 123, 297-58);
-
-				printer.printHeader(document, "Description", 38, 297-83);
-				printer.print(document, job.getJobType().getName(), 73, 297-83);
-
-				if(job.isTypesettingByUs()||job.isLayOutByUs()) typeSettings =	typeSettings + "By us,";
-				if(job.isExistingPlate()) {
+				
 					reproduction = reproduction +  "Existing Plate";
 					
-				}else reproduction = reproduction +  "Data supplied By Customer";
 
 				printer.printHeader(document, "Typesetting ", 38, 297-123);
 				printer.print(document, typeSettings, 73, 297-123);
@@ -280,88 +206,37 @@ public class InvoiceServiceImpl implements InvoiceService{
 
 					String message_ =" ";
 					boolean isContent =false;
-					for(JobPaper pp:jcc) {
-					if(pp.getContentType().getId()!=1)
-						{
-						isContent=true;
-						for(int j=0; j<pp.getJobColorCombinations().size(); j++) {
-						message_+=  pp.getJobColorCombinations().get(j).getFrontColorNumber()+"/"+ pp.getJobColorCombinations().get(j).getBackColorNumber()+" "+pp.getJobColorCombinations().get(j).getPrintType().getName()+"";
-					}}
 					
-				}
-					if(isContent) {
-						printer.print(document, message_, 90, 297-142);
-						printer.print(document, "Content", 73, 297-142);
-						printer.print(document,"Content: "+  job.getCloseLength()+" X "+ job.getCloseWidth()+ " mm", 73, 297-99);
-						if(job.getJobType().getCategory()!=3)
-							 printer.print(document, "Content: " +job.getContentVolume()+" Pages", 73, 297-116);
-						else 
-							printer.print(document, "Content: " +job.getContentVolume()+ " x "+ job.getCardCopies() +" Copies", 73, 297-116);
-					}
-				
+					
 				printer.printHeader(document, "Finishing", 38, 297-161);
 				
-				if(jobActivity.isHandgather()) jobActivities =	jobActivities + "hand-gatherd, ";
-				if(jobActivity.isSelloptaped()) jobActivities =	jobActivities + " Selloptaped, ";
-				if(jobActivity.isSewn()) jobActivities =	jobActivities + " Sewn,";
-				if(jobActivity.isTrimmed()) jobActivities =	jobActivities + " trimmed, ";
-				if(jobActivity.getIsStitching()!=null) jobActivities =	jobActivity.getIsStitching() + ", ";
-				//if(!jobActivity.getGlueOption().isEmpty()) jobActivities =	jobActivities + jobActivity.getGlueOption()+ ", ";
-				if(jobActivity.getXWiredStiched()>0) jobActivities =	jobActivities + jobActivity.getXWiredStiched()+ " x Stiched, ";
-				if(jobActivity.getXCreased()>0) jobActivities =	jobActivities + " Cover "+ jobActivity.getXCreased()+ " x creased, ";
-				if(jobActivity.getXCross()>0) jobActivities =	jobActivities + jobActivity.getXCross()+ " x folded,";
-				if(jobActivity.getXNumbered()>0) jobActivities =	jobActivities + jobActivity.getXNumbered()+ " x Numbered, ";
-				if(jobActivity.getBindingType()!=null) jobActivities =	jobActivities + jobActivity.getBindingType().getName()+" ";
-				if(jobActivity.getLamination()>0) jobActivities =	jobActivities +" Cover " + jobActivity.getLamination() + " side(s) laminated, ";
-
+				
 			    printer.printParagraphe(document,jobActivities, 73, 297-170);
 
 			   if(isContent)			
 				printer.printParagraphe(document,"Content : ", 73, 297-187);
 				float vecto = -5;
-				for(JobPaper pp:jcc) {
-					if(pp.getContentType().getId()!=1) {
-						vecto+=5;
-						printer.print(document, pp.getPaperType().getName(),  90, 297-187-vecto);
-						printer.print(document, pp.getGrammage()+" GSM",  168, 297-187-vecto);
-					}
-
-				}
+				
 				printer.printHeader(document, "Quantity",  38, 297-200);
 				printer.printHeader(document, "Unit(XAF)",  132, 297-200);
 				printer.printHeader(document, "Total(XAF)",  172, 297-200);
 				
-				EstimatePricing estimates =invoice.getEstimatePricing();
+				
 				float vect = -5;
 				DateFormat date =  DateFormat.getDateInstance(DateFormat.DEFAULT,Locale.ENGLISH);
 				printer.printHeader(document,date.format(new Date())+"", 38, 297-73);
 				
-					vect+=5;
-					printer.printMoney(document,estimates.getQuantity(), 82, 297-207-vect);
-
-					int unitPrice=(int)(estimates.getUnitPrice()-estimates.getJobEstimate().getDiscountValue()/estimates.getQuantity());
-					int totalPrice =(int)(estimates.getTotalPrice()-estimates.getJobEstimate().getDiscountValue());
-					if(isCommission) {
-						 unitPrice=(int)(estimates.getUnitPrice()+estimates.getJobEstimate().getCommission()/estimates.getQuantity());
-						 totalPrice =(int)(estimates.getTotalPrice()+estimates.getJobEstimate().getCommission());
-						
-					}
-					printer.printMoney(document,unitPrice, 132, 297-207-vect);
-					printer.printMoney(document,totalPrice , 171, 297-207-vect);
-					
+				
 
 				double discountAmount = 0;
 				if(invoice.getDiscountPercentage()> 0) {
 					printer.printHeader(document, invoice.getDiscountPercentage()+" % Discount",  38, 270-200-vect);
-					discountAmount = (invoice.getDiscountPercentage()/100) * totalPrice;
 					printer.printMoney(document,discountAmount,   171, 270-200-vect);
 				}
 
-				printer.print(document,"Cover: "+ job.getOpenLength()+" X "+job.getOpenWidth()+" mm", 73, 297-93);
 				
 				double vatValue = 0;
 				if(invoice.getVatPercentage()> 0) {
-					vatValue = (invoice.getVatPercentage()/100)*totalPrice;
 					printer.printHeader(document, invoice.getVatPercentage()+" % TVA",  38, 280-200-vect);
 					printer.printMoney(document,vatValue, 171, 280-200-vect);
 				}
@@ -369,7 +244,6 @@ public class InvoiceServiceImpl implements InvoiceService{
 				double irTaxValue = 0;
 				if(invoice.getIrTaxPercentage()> 0)
 				{
-					irTaxValue = (invoice.getIrTaxPercentage()/100)*totalPrice;
 					printer.printHeader(document, invoice.getIrTaxPercentage()+" % IR Tax",  38, 275-200-vect);
 					printer.printMoney(document,irTaxValue , 171, 275-200-vect);
 				}
@@ -378,9 +252,7 @@ public class InvoiceServiceImpl implements InvoiceService{
 				
 				printer.printHeader(document, " NetPayable",  38, 264-200-vect);
 				int netPayable=(int)invoice.getNetPayable();
-				if(isCommission) {
-					netPayable=(int) (totalPrice+irTaxValue+vatValue-discountAmount);
-				}
+				
 				if(!isApplyTaxe) {
 					netPayable=(int)(netPayable -irTaxValue-vatValue);
 				}

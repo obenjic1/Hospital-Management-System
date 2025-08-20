@@ -10,14 +10,11 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import com.ppp.billing.model.Department;
-import com.ppp.billing.model.Job;
 import com.ppp.billing.model.JobMovement;
 import com.ppp.billing.model.JobTracking;
 import com.ppp.billing.model.dto.JobMovementDTO;
 import com.ppp.billing.repository.DepartmentRepository;
 import com.ppp.billing.repository.JobMovementRepository;
-import com.ppp.billing.repository.JobRepository;
-import com.ppp.billing.repository.JobTrackingRepository;
 import com.ppp.billing.service.JobMovementService;
 import com.ppp.user.model.User;
 import com.ppp.user.repository.UserRepository;
@@ -26,15 +23,11 @@ import com.ppp.user.repository.UserRepository;
 public class JobMovermentServiceImpl implements JobMovementService{
 	@Autowired
 	JobMovementRepository jobMovementRepository;
-	@Autowired
-	JobRepository jobRepository;
 	
 	@Autowired
 	DepartmentRepository departmentRepository;
 	
-	@Autowired
-	JobTrackingRepository jobTrackingRepository;
-	
+
 	@Autowired
 	private UserRepository userRepository;
 	
@@ -46,32 +39,12 @@ public class JobMovermentServiceImpl implements JobMovementService{
 	
 	@Override
 	public String movejob(long id, JobMovementDTO jobMovementDTO) {
-		Job job =jobRepository.findById(id).get();
 		
-		List<JobMovement> movements = job.getJobMovements();
-		JobMovement moveJob = new JobMovement();
-		moveJob.setCreationDate(new Date());
-		Department	department = departmentRepository.findById(jobMovementDTO.getDepartment());
-		moveJob.setDepartment(department);
-		moveJob.setDescription( jobMovementDTO.getDescription());
-		movements.add(moveJob);
-		job.setJobMovements(movements);
-		moveJob.setJob(job);
+		
+		
 		String name = SecurityContextHolder.getContext().getAuthentication().getName();
 		User user = userRepository.findByUsername(name);
-		moveJob.setUser(user);
 		
-//		List<JobTracking> jobTrackings = job.getJobTrackings() ;
-//		JobTracking tracking = new JobTracking();
-//		tracking.setCreationDate(new Date());
-//		tracking.setOperation("send job to " + department.getName()+ " ( " + moveJob.getDescription() +" )" );
-//		String name = SecurityContextHolder.getContext().getAuthentication().getName();
-//		User user = userRepository.findByUsername(name);
-//		tracking.setUser(user);
-//		tracking.setJob(job);
-//		jobTrackings.add(tracking);
-//		jobTrackingRepository.saveAll(jobTrackings);
-		jobMovementRepository.saveAll(movements);
 		return "OK";
 	}
 

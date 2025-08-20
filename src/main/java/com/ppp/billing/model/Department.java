@@ -14,6 +14,7 @@ import com.ppp.user.model.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Data
 @AllArgsConstructor
@@ -28,12 +29,13 @@ public class Department {
 	@Column(name = "name",length = 255)
 	private String name;
 	
-	@OneToMany(mappedBy="department")
-	private List<JobMovement> jobMovements;
+
 	
 	
 
 	@OneToMany(mappedBy="department")
+    @ToString.Exclude
+
 	private List<User> users;
 	
 //	private JobMovement jobMovement;

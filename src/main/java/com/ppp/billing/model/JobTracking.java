@@ -41,7 +41,5 @@ public class JobTracking {
 	private User user;
 
 	
-	@ManyToOne
-	@JoinColumn(name = "job_id", referencedColumnName = "id")
-	private Job  job;
+
 }

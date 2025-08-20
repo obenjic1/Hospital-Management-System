@@ -28,7 +28,6 @@ public class RoleController {
 	@Autowired
 	private RoleService roleService;
 	
-	@PreAuthorize("hasAuthority('ROLE_LIST_ROLES')")
 	@GetMapping("/list-roles")
 	public String listAlltheRoles(Model model) {
 		
@@ -47,7 +46,6 @@ public class RoleController {
 	    return "user/list-roles";
 	}
 	
-	@PreAuthorize("hasAuthority('ROLE_VIEW_ROLE_DETAILS')")
 	@GetMapping("/view-role-details/{name}")
 	public String viewRoleDetails(@PathVariable String name, Model model) {
 			Role roleFind = roleRepository.findByName(name);

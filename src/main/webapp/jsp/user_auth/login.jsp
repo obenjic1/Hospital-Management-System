@@ -15,7 +15,7 @@
 <meta content="" name="keywords">
 
 <!-- Favicons -->
-<link href="assets/img/presprint.jpg" rel="icon">
+<link href="assets/img/queenmary-logo.png" rel="icon">
 <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
 
 <!-- Google Fonts -->
@@ -38,6 +38,12 @@
 <link href="assets/css/login.css" rel="stylesheet">
 <script type="text/javascript"
 	src="assets/js/install-sw.js"></script>
+	<style>
+	input{
+	opacity:0.3;
+	}
+	
+	</style>
 </head>
 
 <body onload="registerServiceWorker();">
@@ -50,8 +56,8 @@
 
 					<div class="row justify-content-center" id="formContent">
 						<div class="col-lg-4 col-md-6 d-flex flex-column align-items-center justify-content-center">
-							   <img src="assets/img/logo.png" alt="" class="top-logo">
-							<div class="card mb-3" >
+							   <img src="assets/img/queenmary-logo.png" width="400px"   alt="" class="top-logo login-logo">
+							<div class="card mb-3  login-card" >
 								<div class="card-body">
 									<div class="pt-3 pb-4">
 										<div class="d-flex justify-content-center py-4">
@@ -71,10 +77,10 @@
                							</div>											 
 										</c:if>										
 										<div class="col-12 fs-5">
-										  <label for="username " class="form-label"><fmt:message key="username" /></label>
+										  <label for="username " class="form-label" ><fmt:message key="username" /></label>
 										  <div class="input-group has-validation">
-											<span class="input-group-text" id="inputGroupPrepend">@</span>
-											<input type="text" name="username" class="form-control" id="username" required>
+											<span class="input-group-text" id="inputGroupPrepend" style="opacity: 0.2">@</span>
+											<input type="text" name="username"  class="form-control" id="username" required>
 											<div class="invalid-feedback"><fmt:message key="please.enter.your.username"/> </div>
 											</div>
 										 </div>
@@ -82,8 +88,8 @@
 										<div class="col-12 fs-5">
 											<label for="password" class="form-label"><fmt:message key="password"/></label>
 											<div class="input-group has-validation">
-												<span class="input-group-text"><i class="fas fa-lock"></i></span>
-												<input type="password" name="password" class="form-control" id="password" required>
+												<span class="input-group-text" style="opacity: 0.2"><i class="fas fa-lock"></i></span>
+												<input type="password" name="password"  class="form-control" id="password" required>
 												<div class="invalid-feedback"> <fmt:message key="please.enter.your.password"/> </div>
 											</div>
 										</div>
@@ -95,7 +101,7 @@
 										<input type="hidden" name="${_csrf.parameterName}"value="${_csrf.token}" />
 										  <div class="col-12">
 <!-- 									    <button class="btn btn-primary w-100" type="submit">Login</button> -->
-											<button class="btn btn-primary w-100" type="submit"  data-toggle="tooltip" data-placement="top" title="click to login">
+											<button class="btn btn-primary w-100" type="submit"  data-toggle="tooltip" data-placement="top"  style="position: inherit;" title="click to login">
 											<fmt:message key="login"/>
 										  </button>															
 										</div>

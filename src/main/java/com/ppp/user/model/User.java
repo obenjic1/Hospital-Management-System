@@ -13,16 +13,18 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-
+import javax.persistence.OneToOne;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.ppp.billing.model.Department;
+import com.ppp.billing.model.Staff;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Data
 @AllArgsConstructor
@@ -74,6 +76,7 @@ public class User implements UserDetails {
 	private String resetPasswordToken;
 
 	@ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @ToString.Exclude
 	@JoinColumn(name = "groupe_id")
 	private  Groupe groupe;
 	
@@ -82,9 +85,14 @@ public class User implements UserDetails {
 	private List<History> history;
 	
 	@ManyToOne
+    @ToString.Exclude
 	@JoinColumn(name="department_id", nullable=false)
 	private Department department;
 
+	 @OneToOne
+	 @ToString.Exclude
+	 @JoinColumn(name = "staff_id", nullable = false)
+	 private Staff staff;
 
 	
 	@Override

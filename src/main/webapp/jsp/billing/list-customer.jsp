@@ -32,7 +32,6 @@
 						<h5 class="card-title"> <fmt:message key="customers"/></h5>
 						<button data-bs-toggle="modal" data-bs-target="#ExtralargeModal" onclick="loadPageModalForm('customer/displayCustomerForm')" type="button" class="btn btn-primary" style=" position: relative; left: 94%; width: 77px;">
 						  <fmt:message key="add.group"/>
-<!-- 						   data-bs-toggle="modal" data-bs-target="#saveCustomerModal1" -->
 						</button>
 						<div style="position: relative; bottom: 44px;"> 
 						    <label style="left: 71%;position: relative; font-family: bold;color: #012970;">Total Customers </label>

@@ -46,7 +46,6 @@ public class UserController {
 	private DepartmentRepository departmentRepository;
 
 //<------------------- Get add user form ---------------------->
- 	@PreAuthorize("hasAuthority('ROLE_LIST_USERS')")
 	@GetMapping("/add-user")
 	public String showRegistrationForm(Model model ,String name) {
 		List<Groupe> groups = groupeRepository.findAll();
@@ -59,7 +58,6 @@ public class UserController {
  	
 //<----------------------- persist user in to database ------------------>
 
- 	@PreAuthorize("hasAuthority('ROLE_LIST_USERS')")
  	@PostMapping("/add-user")
 	public String saveUser(UserDTO userDTO, @RequestParam(required=false) MultipartFile getImageFile, String username, String email) throws Exception {
  		String registeredUser = userServiceImpl.createUser(userDTO);
@@ -70,7 +68,6 @@ public class UserController {
 	}
 	
 //<------------------- View user profile -------------------->
-	@PreAuthorize("hasRole('ROLE_VIEW_USER_DETAILS')")
 	@GetMapping("/viewUser/{username}")
 	public String findOneUser(@PathVariable String username, Model model) throws Exception {
 			try {
@@ -88,7 +85,6 @@ public class UserController {
 
 	
 	//<------------------- View user profile -------------------->
-	@PreAuthorize("hasRole('ROLE_UPDATE_USER')")
 	@GetMapping("/get-user/{username}")
 		public String getUserByUsername(@PathVariable String username, Model model) throws Exception {
 				List<Groupe> groups = groupeRepository.findAll();
@@ -124,6 +120,8 @@ public class UserController {
 
 	@PostMapping("/update-user/{id}")
 	public String updateUser(@PathVariable long id, UserDTO userDTO, @RequestParam(required=false) MultipartFile getImageFile) throws Exception {
+		System.out.println("i have been called.....update function");
+
  		User registeredUser = userServiceImpl.updateUser(userDTO,id);
  		if(registeredUser.equals("error")) {
 			throw new Exception("Username or Email already exist");
@@ -131,7 +129,6 @@ public class UserController {
 		return "user/list-users";
 	}
 //<---------------------- Get list of users ---------------------->
-	@PreAuthorize("hasRole('ROLE_LIST_USERS')")
 	@GetMapping("/list-users")
 	public String listUsers(Model model) {
 		return findPaginatedUser(1, model);

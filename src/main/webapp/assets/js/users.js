@@ -181,6 +181,8 @@ function updateUserById(id) {
 		 if(imageFile){
 			 formData.append('imageFile',imageFile);
 		 }
+		
+console.log(formData);
 
 		fetch(`user/update-user/${id}`, {
 			method: 'POST',
