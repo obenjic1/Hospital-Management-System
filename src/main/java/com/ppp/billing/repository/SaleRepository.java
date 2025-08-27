@@ -1,6 +1,7 @@
 package com.ppp.billing.repository;
 
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -37,5 +38,17 @@ public interface SaleRepository extends JpaRepository<Sale, Long> {
 
     // 🟢 List of sales by pharmacist
     List<Sale> findByPharmacistId(Long pharmacistId);
+    
+    @Query("SELECT COALESCE(SUM(s.total), 0) FROM Sale s WHERE DATE(s.saleDate) = :date")
+    BigDecimal sumSalesByDate(@Param("date") Date date);
+
+    @Query("SELECT s FROM Sale s WHERE DATE(s.saleDate) BETWEEN :sDate AND :eDate")
+	List<Sale> findBySaleDateBetween(@Param("sDate")Date sDate, @Param("eDate")Date eDate);
+       
+    @Query("SELECT p.saleDate, SUM(p.total) " +
+    	       "FROM Sale p " +
+    	       "WHERE FUNCTION('MONTH', p.saleDate) = :month AND FUNCTION('YEAR', p.saleDate) = :year " +
+    	       "GROUP BY p.saleDate ORDER BY p.saleDate")
+    	List<Object[]> getDailyPharmacySales(@Param("month") int month, @Param("year") int year);
 
 }

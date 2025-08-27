@@ -19,9 +19,13 @@ import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.ppp.billing.model.Department;
+import com.ppp.billing.model.Staff;
+import com.ppp.billing.model.dto.PasswordDto;
 import com.ppp.billing.repository.DepartmentRepository;
+import com.ppp.billing.repository.StaffRepository;
 import com.ppp.user.model.Groupe;
 import com.ppp.user.model.User;
 import com.ppp.user.model.dto.UserDTO;
@@ -45,6 +49,9 @@ public class UserServiceImpl implements UserService {
 	
 	@Autowired 
 	private DepartmentRepository departmentRepository;
+	
+	@Autowired 
+	private StaffRepository staffRepository;
 
 //<---------------- List user ---------------------->
 	@Override
@@ -67,17 +74,14 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public String createUser(UserDTO userDTO) throws IllegalStateException, IOException {
 		try {
+			Staff staff = staffRepository.findById(userDTO.getStaff()).get();
 			User newUser = new User();
 		    newUser.setUsername(userDTO.getUsername());
-		    newUser.setFirstName(userDTO.getFirstName());
-		    newUser.setLastName(userDTO.getLastName());
-		    newUser.setAddress(userDTO.getAddress());
-		    newUser.setEmail(userDTO.getEmail());
+		    newUser.setDepartment(staff.getDepartment());
+		    newUser.setStaff(staff);
+		    newUser.setEmail(staff.getEmail());
 		    newUser.setPassword(passwordEncoder.encode(userDTO.getPassword()));
 		    newUser.setConfirmPassword(passwordEncoder.encode(userDTO.getConfirmPassword()));
-		    newUser.setMobile(userDTO.getMobile());
-		    Department department = departmentRepository.findById(userDTO.getDepartment());
-		    newUser.setDepartment(department);
 		    newUser.setCreatedAt(new Date());
 		    String getGroup = userDTO.getGroupe();
 		    Groupe groupe = groupeRepository.findByName(getGroup);
@@ -142,11 +146,7 @@ public class UserServiceImpl implements UserService {
                return null;
            }
            UserDTO userDTO = new UserDTO();
-           userDTO.setFirstName(user.getFirstName());
-           userDTO.setLastName(user.getLastName());
-           userDTO.setAddress(user.getAddress());
-           userDTO.setMobile(user.getMobile());
-           userDTO.setMobile(user.getMobile());
+      
            userDTO.setPassword(user.getPassword());
            userDTO.setUsername(user.getUsername());
            userDTO.setEmail(user.getEmail());
@@ -163,20 +163,16 @@ public class UserServiceImpl implements UserService {
 	public User updateUser(UserDTO user, Long id) {
 		
 			User existingUser = userRepository.findById(id).get();
-			existingUser.setFirstName(user.getFirstName());
-			existingUser.setLastName(user.getLastName());
+		
 //			existingUser.setUsername(updatedUser.getUsername());
 			existingUser.setEmail(user.getEmail());
-			existingUser.setAddress(user.getAddress());
-			existingUser.setMobile(user.getMobile());
-			 Department department = departmentRepository.findById(user.getDepartment());
+			 Department department = departmentRepository.findById(existingUser.getDepartment().getId());
 			existingUser.setDepartment(department);
 			 if (user.getImageFile() != null && !user.getImageFile().isEmpty()) {
 				   
 	            
 				try {
 					String imagePath = fileStorageService.storeUserFile(user.getImageFile());
-					System.out.println(imagePath);
 					 existingUser.setImagePath(imagePath);
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
@@ -261,7 +257,30 @@ public Optional<User> findById(long id) {
 	// TODO Auto-generated method stub
 	return userRepository.findById(id);
 }
+
+public String changePassword(PasswordDto userfind) {
+	User user = userRepository.findById(userfind.getId()).get();
+
+    	 if (userfind.getImageFile() != null && !userfind.getImageFile().isEmpty()) {
+			   
+				try {
+					String imagePath = fileStorageService.storeUserFile(userfind.getImageFile());
+					user.setImagePath(imagePath);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+    	 }
+		    	 user.setPassword(passwordEncoder.encode(userfind.getNewpassword()));
+		    	    userRepository.save(user);
+    	return "Passsword Changed Successfully";
+    
+}
+
+    }
 	
-	}
+	
+	
 
 

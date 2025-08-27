@@ -28,6 +28,11 @@ public class SecurityConfig {
 	            	.antMatchers("/login/sw.js").permitAll()
 	            	.antMatchers("/password/forgotten/**").permitAll()
 	            	.antMatchers("/assets/**").permitAll()
+//	            	.antMatchers("/payments/**").permitAll()
+//	            	.antMatchers("/store/**").permitAll()
+//	            	.antMatchers("/pharmacy/**").permitAll()
+//	            	.antMatchers("/payroll/**").permitAll()
+//	            	.antMatchers("/reports/**").permitAll()
 	            	.anyRequest().authenticated()
 	            )
 	            .formLogin(form -> form

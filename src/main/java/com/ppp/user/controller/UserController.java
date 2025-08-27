@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,10 +16,14 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.ppp.billing.model.Department;
+import com.ppp.billing.model.Staff;
+import com.ppp.billing.model.dto.PasswordDto;
 import com.ppp.billing.repository.DepartmentRepository;
+import com.ppp.billing.repository.StaffRepository;
 import com.ppp.user.model.Groupe;
 import com.ppp.user.model.User;
 import com.ppp.user.model.dto.UserDTO;
@@ -44,13 +48,21 @@ public class UserController {
 	private UserServiceImpl userServiceImpl;
 	@Autowired 
 	private DepartmentRepository departmentRepository;
+	
+	@Autowired 
+	private StaffRepository staffRepository;
+	
+	@Autowired
+	private PasswordEncoder passwordEncoder;
 
 //<------------------- Get add user form ---------------------->
 	@GetMapping("/add-user")
 	public String showRegistrationForm(Model model ,String name) {
 		List<Groupe> groups = groupeRepository.findAll();
 		List<Department> departements = departmentRepository.findAll();
+		List<Staff> staffs = staffRepository.findAll();
 		model.addAttribute("groups", groups);
+		model.addAttribute("staffs", staffs);
 		model.addAttribute("departements", departements);
 		model.addAttribute("userDTO", new UserDTO());
 		return "user/add-user";
@@ -120,7 +132,6 @@ public class UserController {
 
 	@PostMapping("/update-user/{id}")
 	public String updateUser(@PathVariable long id, UserDTO userDTO, @RequestParam(required=false) MultipartFile getImageFile) throws Exception {
-		System.out.println("i have been called.....update function");
 
  		User registeredUser = userServiceImpl.updateUser(userDTO,id);
  		if(registeredUser.equals("error")) {
@@ -148,6 +159,23 @@ public class UserController {
 	    model.addAttribute("users", listOfUser);
 	    return "user/list-users";
 	}
+	
+	@PostMapping("/update-password")
+	@ResponseBody
+	 public ResponseEntity<String> updatePassword(PasswordDto userfind,@RequestParam(required=false) MultipartFile getImageFile) {
+		
+		User user = userServiceImpl.findById(userfind.getId()).get();
+		
+		if (!passwordEncoder.matches(userfind.getOldpassword(), user.getPassword())) {
+			
+	        return  new ResponseEntity<String>("Old password is incorrect!", HttpStatus.BAD_REQUEST);}
+		else {
+			
+			 ;
+	        return  new ResponseEntity<String>(userServiceImpl.changePassword(userfind), HttpStatus.CREATED);}
+
+		
+		}
 
 ////<--------------------- Remove user Using soft delete ----------------->
 //@PreAuthorize("hasRole('ROLE_REMOVE_USER')")

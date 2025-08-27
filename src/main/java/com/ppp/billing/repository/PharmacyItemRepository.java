@@ -13,5 +13,6 @@ public interface PharmacyItemRepository extends JpaRepository<PharmacyItem, Long
     Optional<PharmacyItem> findByMedicineId(Long medId);
     List<PharmacyItem> findByExpiryDateBefore(LocalDate date);
     Optional<PharmacyItem> findByMedicineName(String name);
+    
 
 }

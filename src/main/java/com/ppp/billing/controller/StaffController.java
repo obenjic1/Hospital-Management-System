@@ -75,5 +75,19 @@ import com.ppp.billing.service.StaffService;
 
         }
 
+        @PostMapping("/enable/{id}")
+        public ResponseEntity<String> enable(@PathVariable long id) {
+       	try {
+       		staffService.enableUser(id);
+       		return new ResponseEntity<String>("Success", HttpStatus.OK);
+       			} catch (Exception e) {
+       				return new ResponseEntity<String>("Failed", HttpStatus.BAD_REQUEST);
+       			}
+       	}
+
+        
+        
+        
+        
 
 }

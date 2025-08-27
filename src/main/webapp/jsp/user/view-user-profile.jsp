@@ -1,4 +1,4 @@
-
+<!-- l--> 
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
@@ -33,19 +33,19 @@
                                         </div> 
                                         <div class="row">
                                             <div class="col-lg-3 col-md-4 label "><fmt:message key="names"/></div>
-                                            <div class="col-lg-9 col-md-8 user-details-font">${user.firstName} ${user.lastName}</div>
+                                            <div class="col-lg-9 col-md-8 user-details-font">${user.staff.firstName} ${user.staff.lastName}</div>
                                         </div> 
                                          <div class="row">
                                             <div class="col-lg-3 col-md-4 label"><fmt:message key="email"/></div>
-                                            <div class="col-lg-9 col-md-8 user-details-font">${user.email}</div>
+                                            <div class="col-lg-9 col-md-8 user-details-font">${user.staff.email}</div>
                                         </div>
                                            <div class="row">
                                             <div class="col-lg-3 col-md-4 label"><fmt:message key="phone"/></div>
-                                            <div class="col-lg-9 col-md-8 user-details-font">${user.mobile}</div>
+                                            <div class="col-lg-9 col-md-8 user-details-font">${user.staff.phone}</div>
                                         </div>
                                            <div class="row">
                                             <div class="col-lg-3 col-md-4 label"><fmt:message key="address"/></div>
-                                            <div class="col-lg-9 col-md-8 user-details-font">${user.address}</div>
+                                            <div class="col-lg-9 col-md-8 user-details-font">${user.staff.address}</div>
                                         </div>
                                         <div class="row">
                                             <div class="col-lg-3 col-md-4 label"><fmt:message key="list.groups"/></div>
@@ -53,7 +53,7 @@
                                         </div>
                                  		<div class="row">
                                             <div class="col-lg-3 col-md-4 label"><fmt:message key="department"/></div>
-                                            <div class="col-lg-9 col-md-8 user-details-font">${user.department.name}</div>
+                                            <div class="col-lg-9 col-md-8 user-details-font">${user.staff.department.name}</div>
                                         </div>
                               
                                         <div class="row">
@@ -63,7 +63,7 @@
                                     </div>
                                     <div class="col-xl-4">
                                         <c:if test="${not empty user.imagePath}">
-                                            <img src="${pageContext.request.contextPath}/file/download?file=${user.imagePath}&dir=folder.user.images" class="py-2">
+                                            <img   style =" height: 26em;" src="${pageContext.request.contextPath}/file/download?file=${user.imagePath}&dir=folder.user.images" class="py-2">
                                         </c:if>
                                         <c:if test="${empty user.imagePath}">
                                             <img class="img-responsive" src="assets/img/default.png" style=" min-height:250px; max-height:300px;">
@@ -77,39 +77,14 @@
 
                             <div class="tab-pane fade profile-edit pt-3" id="profile-edit">
                                 <form style="margin-left: 5%">
-                                    <div class="row mb-3">  </div>
-                                    <div class="row mb-3">
+                                    <div class="row my-2">  </div>
+                                    <div class="row my-2">
                                         <label for="firstName" class="col-sm-4 col-lg-3 col-form-label"><fmt:message key="first.name"/></label>
                                         <div class="col-sm-8 col-lg-8">
-                                            <input name="firstName" type="text" class="form-control" id="firstName" value="${user.firstName}">
+                                            <input name="firstName" type="text" class="form-control" id="firstName" value="${user.staff.firstName}">
                                         </div>
                                     </div>
-                                    <div class="row mb-3">
-                                        <label for="lastName" class="col-sm-4 col-lg-3 col-form-label"><fmt:message key="last.name"/></label>
-                                        <div class="col-sm-8 col-lg-8">
-                                            <input name="lastName" type="text" class="form-control" id="lastName" value="${user.lastName}">
-                                        </div>
-                                    </div>
-                                     <div class="row mb-3">
-                                        <label for="mobile" class="col-sm-4 col-lg-3 col-form-label"><fmt:message key="phone"/></label>
-                                        <div class="col-sm-8 col-lg-8">
-                                            <input name="mobile" type="text" class="form-control" id="mobile" value="${user.mobile}">
-                                        </div>
-                                    </div>
-                                    <div class="row mb-3">
-                                        <label for="email" class="col-sm-4 col-lg-3 col-form-label"><fmt:message key="email"/></label>
-                                        <div class="col-sm-8 col-lg-8">
-                                            <input name="email" type="email" class="form-control" id="email" value="${user.email}">
-                                        </div>
-                                    </div>
-                                    
-                                     <div class="row mb-3">
-                                         <label for="address" class="col-sm-4 col-lg-3 col-form-label"><fmt:message key="address"/></label>
-                                         <div class="col-sm-8 col-lg-8">
-                                             <input name="address" type="text" class="form-control" id="address" value="${user.address}">
-                                         </div>
-                                     </div>
-                                     <div class="row mb-3">
+                                     <div class="row my-2">
                                          <label for="ImageFile" class="col-sm-4 col-lg-3 col-form-label"><fmt:message key="photo"/> </label>
                                          <div class="col-sm-8 col-lg-8">
                                              <input name="imageFile" type="file" class="form-control" id="imageFile" accept="image/*" >

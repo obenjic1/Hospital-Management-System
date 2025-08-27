@@ -1,5 +1,8 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1" 
+							pageEncoding="ISO-8859-1"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
@@ -7,8 +10,10 @@
 <script src="DataTables/datatables.js"></script>
 
 <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-<link href="assets/css/list-role.css" rel="stylesheet">
+<!-- <link href="assets/css/list-role.css" rel="stylesheet"> -->
 <link rel="stylesheet" href="DataTables/datatables.css">
+    <link href="assets/css/list-users.css" rel="stylesheet">
+
 
 
 
@@ -17,21 +22,13 @@
 
     <style>
         body { background-color: #f4f7fc; font-family: Arial, sans-serif; }
-        .stat-card { border-radius: 12px; color: #fff; padding: 20px; display: flex; align-items: center;
+        .stat-card { border-radius: 12px; color: #fff; padding: 10px; display: flex; align-items: center;
                      justify-content: space-between; box-shadow: 0 4px 10px rgba(0,0,0,0.08);}
-        .medicine-list { background: #fff; padding: 30px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.04);text-aligh:center}
+        .medicine-list { background: #fff; padding: 01px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.04);text-aligh:center}
         .btn-gradient { background: linear-gradient(45deg,#6c63ff,#42a5f5); border: none; color: white; }
         .head{ color: #fff}
  
-.dataTables_wrapper .dataTables_filter input {
-    margin-left: 0.5em;
-    display: inline-block;
-    width: auto;
-}
-.dataTables_wrapper .dataTables_length select {
-    display: inline-block;
-    width: 20%;
-}
+
 
         
     </style>
@@ -81,7 +78,7 @@
     </div>
 
     <!-- Search / filter / add       -->
-    <div class="row mt-4 g-2" >
+    <div class="row mt-2 g-2" >
         <div class="col-md-8">
             <form  class="d-flex" >
 			<input type="text" name="q" class="form-control search-bar m-6" id="searchBoxer" placeholder="Search medicines..." />
@@ -100,7 +97,7 @@
         
       
         
-        <button type="button" onclick="loadMainModalForm('store/add')" data-bs-toggle="modal" data-bs-target="#MainModal" class="btn btn-gradient" style="margin-right:121px">Add Medicine</button>
+        <button type="button" onclick="loadMainModalForm('store/add')" data-bs-toggle="modal" data-bs-target="#MainModal" class="btn btn-gradient" style="margin-right:121px"> <i class="bi bi-plus-circle"></i> Add Medicine</button>
         </div>
         	
     </div>
@@ -116,38 +113,46 @@
                 </div>
             </c:when>
             <c:otherwise>
-                <table class="table table-striped  datatable table-hover table-bordered"  id="medicineTable">
+                <table class="table table-striped   table-hover"  id="medicineTable">
                     <thead class="table-dark">
                         <tr>
+                        	 <th>No</th>
                             <th>Name</th>
                             <th>Category</th>
                             <th>Quantity</th>
+                             <th>Store Quantity</th>
+                              <th>P Quantity</th>
                             <th>Price (CFA)</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <c:forEach var="m" items="${medicines}">
-                            <tr>
+                        <c:forEach var="m" items="${medicines}" varStatus="loop">
+		                <tr>
+		                    <td>${loop.index + 1}</td>
                                 <td>${m.name}</td>
                                 <td><c:out value="${m.category.name}" default="-" /></td>
-                                <td>${m.storeQuantity}</td>
+                                <td>${m.quantity}</td>
+                                 <td>${m.storeQuantity}</td>
+                                <td>${m.pharmacyQuantity}</td>
                                 <td> ${m.price}</td>
-                                <td class="">
+                                <td >
                                     <form  style="display:inline-block;" onsubmit="return false;">
-                                        <input type="hidden" name="medicineId" id="med-${m.id}"  value="${m.id}" />
-                                        <input type="number" name="quantity" id="qtyi-${m.id}" min="1" placeholder="qty" style="width:80px;" class="form-control d-inline-block" required />
-                                        <button class="btn btn-sm btn-success" onclick="Transfer(${m.id},${m.storeQuantity})">Transfer</button>
-                                    </form>
+                                     <input type="hidden" name="medicineId" id="med-${m.id}"  value="${m.id}" />
+                                       <input type="number" name="quantity" id="qtyi-${m.id}" min="1" placeholder="qty" style="width:60px;" class="form-control d-inline-block" required />
+                                        <button class="btn btn-sm btn-success" onclick="Transfer(${m.id},${m.storeQuantity})">Transfer</button> 
+                                     </form>
                                          <button class="btn btn-sm btn-secondary" data-bs-toggle="modal" data-bs-target="#MainModal" onclick="loadMainModalForm('store/edit/${m.id}')" style="width:60px; margin-left:10px">Edit</button>
                                      <form id="addQuantityForm-${m.id}" style="display:inline-block" onsubmit="return false;">
 										    <input type="hidden" id="med-${m.id}" value="${m.id}" />
 										    <input type="number" id="qty-${m.id}" min="1" placeholder="qty" 
-										           style="width:80px;" class="form-control d-inline-block" required />
+										           style="width:60px;" class="form-control d-inline-block" required />
 										    <button type="button" onclick="addQuantity('${m.id}')" 
-										            class="btn btn-gradient" style="width:60px; margin-left:10px">
-										        Add
+										            class="btn btn-gradient" style="width:60px; margin-left:10px"> Add
 										    </button>
+										    <button class="button-see" data-bs-toggle="modal" data-bs-target="#ExtralargeModal" onclick="loadPageModalForm('store/history/${m.id}')">
+										       <i class="ri-eye-line"></i>
+											</button>
 										</form>
 
                                    

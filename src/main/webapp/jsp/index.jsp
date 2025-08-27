@@ -160,6 +160,38 @@
 				  </li>
 <%-- 				</sec:authorize> --%>
 			  </ul>
+			  
+			  <li class="nav-item">
+				  <li class="pp-module">
+				    <i class="ri-tools-fill"> </i> 
+				  <span>
+				    <span><fmt:message key="settings" /></span>
+				  </span>
+				</li>
+<%-- 			  </sec:authorize>  --%>
+<%-- 			  <sec:authorize access="hasRole('ROLE_VIEW_SETINGS')"> --%>
+				<ul id="configuration-management-nav">
+					<li class="nav-item">
+                      <a class="nav-link collapsed" onclick="loadPage('staff')" href="#">
+						<i class="ri-steam-line"></i>
+						<span>Staff Management</span>
+					  </a>
+					  </li>
+
+					
+					<li class="nav-item">
+                      <a class="nav-link collapsed" onclick="loadPage('payroll')" href="#">
+						<i class="ri-steam-line"></i>
+						<span>Staff Payment</span>
+					  </a>
+					  </li>
+				</ul> 
+			  
+<%-- 			  </sec:authorize> --%>
+			<!-- End Printing Press Nav -->
+		
+
+			  
 <%-- 			</sec:authorize> --%>
 			 <!-- start of job sheet management Nav -->	
 			 
@@ -184,13 +216,26 @@
 					    <span><fmt:message key="invoice.management" /></span>
 					  </a>
 					</li>
-<%-- 				  <sec:authorize access="hasRole('ROLE_SAVE_CUSTOMER')"> --%>
+<!-- 					<li class="nav-item"> -->
+<!-- 					  <a class="nav-link collapsed" onclick="loadPage('store')" href="#"> -->
+<!-- 					    <i class=" ri-money-dollar-circle-line"></i> -->
+<!-- 					     <span>Store</span> -->
+<!-- 					  </a> -->
+<!-- 					</li> -->
+<!-- 					<li class="nav-item"> -->
+<!--                       <a class="nav-link collapsed" onclick="loadPage('reports')"" href="#"> -->
+<!-- 						<i class="ri-file-list-3-line"></i> -->
+<!-- 						<span>Reports</span> -->
+<!-- 					  </a> -->
+<!-- 					  </li> -->
 					<li class="nav-item">
-					  <a class="nav-link collapsed" onclick="loadPage('customer/list')" href="#">
-					    <i class="ri-team-line"></i>
-					    <span><fmt:message key="customer.management" /></span>
-					  </a>
-					</li>
+<%-- 				  <sec:authorize access="hasRole('ROLE_SAVE_CUSTOMER')"> --%>
+<!-- 					<li class="nav-item"> -->
+<!-- 					  <a class="nav-link collapsed" onclick="loadPage('customer/list')" href="#"> -->
+<!-- 					    <i class="ri-team-line"></i> -->
+<%-- 					    <span><fmt:message key="customer.management" /></span> --%>
+<!-- 					  </a> -->
+<!-- 					</li> -->
 <%-- 				  </sec:authorize>  --%>
 				</ul> 
 <%-- 			 <sec:authorize  access="hasRole('ROLE_REGISTER_NEW_JOB')">  --%>
@@ -203,21 +248,81 @@
 				</li>
 				<ul id="jobsheet-management-nav">
 					<li class="nav-item">
-                      <a class="nav-link collapsed" onclick="loadPage('pharmacy')"" href="#">
-						<i class="ri-file-list-3-line"></i>
+                      <a class="nav-link collapsed" onclick="loadPage('pharmacy')" href="#">
+						 <i class=" ri-money-dollar-circle-line"></i>
 						<span>Pharmacy</span>
 					  </a>
 					<li class="nav-item">
+					</ul> 
+					
+					 <li class="pp-module">
+			    <i class="bi bi-person-lines-fill"> </i> 
+			     <span>
+			      <span>Patient Management</span>
+			    </span><script src="DataTables/datatables.js"></script>
+			  </li>
+						<li class="nav-item">
+<%-- 			<sec:authorize access="hasRole('ROLE_ADD_USER')">					 --%>
+			  <ul id="user-management-nav" >
+<%-- 				<sec:authorize access="hasRole('ROLE_LIST_USERS')"> --%>
+			      <li class="nav-item">
+					<a class="nav-link collapsed" onclick="loadPage('patients/new')" href="#"> <i class="bi bi-person">
+					  </i> <span>Register Patient</span>
+					</a>
+				  </li>
+<%-- 				</sec:authorize> --%>
+<%-- 				<sec:authorize access="hasRole('ROLE_LIST_GROUPS')"> --%>
+				  <li class="nav-item">
+				    <a class="nav-link collapsed" onclick="loadPage('patients')" href="#">
+				    <i class="bi bi-person">
+				  </i> <span>List Patients</span></a></li>
+<%-- 				</sec:authorize> --%>
+<%-- 				<sec:authorize access="hasRole('ROLE_LIST_ROLES')"> --%>
+				  <li class="nav-item"><a class="nav-link collapsed" onclick="loadPage('services')" href="#">
+				    <i class="bi bi-card-list"></i> 
+				    <span>Services</span> </a>
+<%-- 				</sec:authorize> --%>
+				 <li class="nav-item"><a class="nav-link collapsed" onclick="loadPage('payments')" href="#">
+				    <i class="bi bi-card-list"></i> 
+				    <span>Payment</span> </a>
+					
+<!-- 					<li class="nav-item"> -->
+<!-- 					  <a class="nav-link collapsed" onclick="loadPage('payments')" href="#"> -->
+<!-- 					    <i class="ri-team-line"></i> -->
+<!-- 					    <span>Payment</span> -->
+<!-- 					  </a> -->
+<!-- 					<li class="nav-item"> -->
+<!--                       <a class="nav-link collapsed" onclick="loadPage('reports')"" href="#"> -->
+<!-- 						<i class="ri-file-list-3-line"></i> -->
+<!-- 						<span>Reports</span> -->
+<!-- 					  </a> -->
+<!-- 					</li> -->
+					<li class="nav-item">
+			  </ul>
+					
+<!-- 					<li class="nav-item"> -->
+<!-- 					  <a class="nav-link collapsed" onclick="loadPage('pharmacy')" href="#"> -->
+<!-- 					    <i class=" ri-money-dollar-circle-line"></i> -->
+<%-- 					    <span><fmt:message key="invoice.management" /></span> --%>
+<!-- 					  </a> -->
+<!-- 					</li> -->
+<!-- 					<li class="nav-item"> -->
+<!--                       <a class="nav-link collapsed" onclick="loadPage('reports')"" href="#"> -->
+<!-- 						<i class="ri-file-list-3-line"></i> -->
+<!-- 						<span>Reports</span> -->
+<!-- 					  </a> -->
+<!-- 					<li class="nav-item"> -->
 					
 <%-- 				  <sec:authorize access="hasRole('ROLE_SAVE_CUSTOMER')"> --%>
-					<li class="nav-item">
-					  <a class="nav-link collapsed" onclick="loadPage('customer/list')" href="#">
-					    <i class="ri-team-line"></i>
-					    <span><fmt:message key="customer.management" /></span>
-					  </a>
-					</li>
+<!-- 					<li class="nav-item"> -->
+<!-- 					  <a class="nav-link collapsed" onclick="loadPage('customer/list')" href="#"> -->
+<!-- 					    <i class="ri-team-line"></i> -->
+<%-- 					    <span><fmt:message key="customer.management" /></span> --%>
+<!-- 					  </a> -->
+<!-- 					</li> -->
+					
 <%-- 				  </sec:authorize>  --%>
-				</ul> 
+				
 <%-- 			 </sec:authorize>  --%>
 				<!-- End of job sheet management Nav --> 
 				
@@ -225,31 +330,8 @@
 				<!-- End of job sheet management Nav --> 
 
 <%-- 			 <sec:authorize access="hasRole('ROLE_VIEW_SETINGS')"> --%>
-				<li class="nav-item">
-				  <li class="pp-module">
-				    <i class="ri-tools-fill"> </i> 
-				  <span>
-				    <span><fmt:message key="settings" /></span>
-				  </span>
-				</li>
-<%-- 			  </sec:authorize>  --%>
-<%-- 			  <sec:authorize access="hasRole('ROLE_VIEW_SETINGS')"> --%>
-				<ul id="configuration-management-nav">
-					<li class="nav-item">
-                      <a class="nav-link collapsed" onclick="loadPage('staff')" href="#">
-						<i class="ri-steam-line"></i>
-						<span>Staff Management</span>
-					  </a>
-					  </li>
-					
-					
-				</ul> 
+				
 <%-- 			  </sec:authorize>  								 --%>
-				<!-- End of user management Nav -->
-				
-				<!-- start of bill management Nav -->
-				
-				<!-- End of job sheet management Nav --> <!-- start of bill management Nav -->
 			<li class="nav-item">
 				  <li class="pp-module">
 				    <i class="ri-line-chart-line"> </i> 
@@ -263,6 +345,12 @@
 					  <a class="nav-link collapsed" onclick="loadPage('reports/dashboard') "href="#">
 					    <i class="ri-line-chart-line"></i>
 					    <span>Statistics</span>
+					  </a>
+					</li>
+					<li class="nav-item">
+					  <a class="nav-link collapsed" onclick="loadPage('reports/monthly') "href="#">
+					    <i class="ri-line-chart-line"></i>
+					    <span>Revenue</span>
 					  </a>
 					</li>
 										
@@ -361,6 +449,7 @@
 		      </div>
 		   </div>
 	     </div>	 
+	     
 	     <!-------------- Modal ------------->
 			<div class="modal fade" id="areyouSureYouWantToConfirm" tabindex="-1">
 			  <div class="modal-dialog modal-dialog-centered">
@@ -411,9 +500,9 @@ $(document).ready(function() {
 </script>
     <script src="assets/js/hospital/medicine.js"></script>
     <script src="assets/js/hospital/staff.js"></script>
-    
-
 	<script src="assets/js/billing/job.js"></script>
+	<script src="assets/js/statistics/revenue.js"></script> 
+	
 	<script src="assets/sweetalert/sweetalert2.all.min.js"></script>
 	<!-- Template Main JS File -->
     <script src="assets/js/users.js"></script>

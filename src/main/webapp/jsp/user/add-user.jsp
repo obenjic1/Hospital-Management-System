@@ -18,49 +18,22 @@
 
 					<form class="row g-3 "  id="userForm" novalidate style=" margin-left: 5%;" >
 					  <div class="col-md-6">
-						<label for="firstName" class="form-label"> <fmt:message key="first.name"/> </label>
+						<label for="firstName" class="form-label"> Select User </label>
 						  <div class="input-group has-validation">
-							<span class="input-group-text"><i class="fas fa-user"></i></span>
-							<input type="text" id="firstName" name="firstName" class="form-control"  required/>
-							<div class="invalid-feedback"> Please enter your name.  </div>  
+							<select id="staff" name="staff" class="form-select">
+							 <option value="" selected>Choose a Staff</option>
+							   <c:forEach items="${staffs}" var="staff">
+								 <option value="${staff.id}">${staff.firstName} ${staff.lastName}</option>
+							   </c:forEach>
+								</select>
 						  </div>
 						</div>
-						<div class="col-md-6">
-							<label for="Email" class="form-label"><fmt:message key="email"/></label>
-							<div class="input-group has-validation">
-							  <span class="input-group-text"><i class="fas fa-envelope"></i></span>
-							  <input type="email" id="email" name="email" class="form-control" required="required" />
-							  <span id = "emailMsg" style="color:red"> </span> <br><br>
-							</div>
-						</div>
-						<div class="col-md-6">
-							<label for="lastName" class="form-label"><fmt:message key="last.name"/></label>
-							<div class="input-group has-validation">
-							  <span class="input-group-text"><i class="fas fa-user"></i></span>
-							  <input type="text" id="lastName" name="lastName" class="form-control"/>
-							</div>
-						</div>
-						<div class="col-md-6">
-							<label for="mobile" class="form-label"><fmt:message key="phone"/></label>
-							<div class="input-group has-validation">
-							  <span class="input-group-text"><i class="fas fa-phone"></i></span>
-							  <input type="text" id="mobile" name="mobile" class="form-control"  required="required" />
-						    </div>
-						</div>
-						
 						<div class="col-md-6">
 							<label for="username" class="form-label"><fmt:message key="username"/></label>
 							<div class="input-group has-validation">
 							  <span class="input-group-text"><i class="fas fa-phone"></i></span>
 							  <input type="text" id="username" name="username" class="form-control"  required="required" />
 						    </div>
-						</div>
-						<div class="col-md-6">
-						  <label for="address" class="form-label"><fmt:message key="address"/></label>
-						  <div class="input-group has-validation">
-							<span class="input-group-text"> <i class="fas fa-map-marker-alt"></i></span> 
-							<input type="text" id="address" name="address" class="form-control" required="required" />
-						  </div>
 						</div>
 						<div class="col-md-6">
 						  <label for="Password" class="form-label"><fmt:message key="password"/></label>
@@ -82,7 +55,6 @@
 						    <input type="file" id="imageFile" name="imageFile" class="form-control" accept="image/*">
 						  </div>
 						</div>
-						<div class="col-md-6" style="display: flex;left: -56px;position: relative;">
 						<div class="col-md-6" style="width: 234px;">
 						  <label for="groupe" id="groupeLabel" class="form-label"><fmt:message key="list.groups"/></label>
 						  <div class="input-group has-validation">
@@ -93,18 +65,7 @@
 								</select>
 							</div>
 						</div>
-						<div class="col-md-6" style="width: 234px;left: 25px;position: relative;">
-						  <label for="groupe" id="departement" class="form-label"><fmt:message key="list.departement"/></label>
-						  <div class="input-group has-validation" >
-							 <select id="department" name="department" class="form-select">
-							   <c:forEach items="${departements}" var="departement">
-								 <option value="${departement.id}">${departement.name}</option>
-							   </c:forEach>
-								</select>
-							</div>
-						</div>
-						</div>
-						<div class="col-md-3" style="  width: 20%; left: 72%; position: relative;bottom: -10px; ">
+						<div class="col-md-3"  style="position: relative;bottom: -37px;">
 							<input type="button" id="createBtn"  onclick="addUser(); loadPage('user/list-users');"  style=" bottom: -42%;" class="btn btn-outline-primary w-100" value="Save" >
 						</div>
 					</form>

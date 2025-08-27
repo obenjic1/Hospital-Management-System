@@ -1,13 +1,16 @@
 package com.ppp.billing.service;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.ppp.billing.model.Patient;
 import com.ppp.billing.model.Staff;
 import com.ppp.billing.repository.StaffRepository;
+import com.ppp.user.model.User;
 
 @Service
 public class StaffService {
@@ -18,8 +21,10 @@ public class StaffService {
 
 	    public List<Staff> findAll() {
 	    	
-	    	System.out.println(staffRepository.findAll().size());
-	        return staffRepository.findAll();
+	    	List<Staff> staffs = staffRepository.findAll();
+	    	staffs.sort(Comparator.comparing(Staff::getFirstName));
+
+	        return staffs ;
 	    }
 
 	    public Optional<Staff> findById(Long id) {
@@ -51,7 +56,6 @@ public class StaffService {
 
 	        public Staff updateStaff(Long id, Staff updated) {
 	            Staff staff = getStaffById(id);
-	            System.out.println("am called here " + staff.getFirstName());
 	            staff.setFirstName(updated.getFirstName());
 	            staff.setLastName(updated.getLastName());
 	            staff.setDepartment(updated.getDepartment());
@@ -67,6 +71,38 @@ public class StaffService {
 	        public void deleteStaff(Long id) {
 	            staffRepository.deleteById(id);
 	        }
+	        
+	        
+	    	public void  enableUser(long id) {	
+	    		Staff staff = staffRepository.findById(id).get();
+	    		if(staff.isActive()) {
+	    			staff.setActive(false);
+	    			staffRepository.save(staff);
+	    		}
+	    		else {
+	    			staff.setActive(true);	
+	    			staffRepository.save(staff);
+	    			}
+	    		}
+	        
+	        
+	        
+	        
+	        
+	        
+	        
+	        
+	        
+	        
+	        
+	        
+	        
+	        
+	        
+	        
+	        
+	        
+	        
 	    }
 
 	    

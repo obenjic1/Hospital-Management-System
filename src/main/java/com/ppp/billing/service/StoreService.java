@@ -32,6 +32,7 @@ public class StoreService {
 	    }
 
 	    public Medicine addMedicine(MedicineDto medicine) {
+	    	
 	        return medicineService.saveMedicine(medicine);
 	    }
 
@@ -55,6 +56,7 @@ public class StoreService {
 	        // Reduce from store
 	        storeMedicine.setStoreQuantity(storeMedicine.getStoreQuantity() - quantity);
 	        storeMedicine.setPharmacyQuantity(storeMedicine.getPharmacyQuantity() + quantity);
+	        storeMedicine.addTracking("TRANSFERED","transfered " + quantity + " to the pharmacy");
 	        medicineService.edit(storeMedicine.getId(),storeMedicine);
 	     
 	        // Add to pharmacy

@@ -38,8 +38,5 @@ public class Department {
 
 	private List<User> users;
 	
-//	private JobMovement jobMovement;
 
-//	@OneToOne(mappedBy = "department")
-//	private JobMovement jobMovement;
 }

@@ -20,14 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 @RequestMapping("file")
 @CrossOrigin(origins="*")
 public class DownloadController {
-	@Value("${folder.controlSheet}")
-	private String controlSheetFolder;
 
-	@Value("${folder.estimate}")
-	private String estimateFolder;
-	
-	@Value("${folder.invoice}")
-	private String invoice;
 
 	@Value("${folder.receipt}")
 	private String receiptFolder;
@@ -45,15 +38,6 @@ public class DownloadController {
 		String dir = "";
 		switch (resourceDir) {
 		
-		case "folder.invoice":
-			dir= invoice;
-			break;  
-		case "folder.controlSheet":
-			dir= controlSheetFolder;
-			break;
-		case "folder.estimate":
-			dir= estimateFolder;
-			break;  
 		
 		case "folder.user.images":
 			dir= userImageFolder;

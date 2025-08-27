@@ -1,5 +1,7 @@
 package com.ppp.billing.service;
 
+import java.math.BigDecimal;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
@@ -11,6 +13,7 @@ import org.springframework.stereotype.Service;
 import com.ppp.billing.Dto.MedicineDto;
 import com.ppp.billing.model.Category;
 import com.ppp.billing.model.Medicine;
+import com.ppp.billing.model.Staff;
 import com.ppp.billing.model.Medicine.Location;
 import com.ppp.billing.repository.CategoryRepository;
 import com.ppp.billing.repository.MedicineRepository;
@@ -32,6 +35,8 @@ public class MedicineService {
 	
 	public List<Medicine> getAllMedicines() {
 		List<Medicine> medicines = medicineRepository.findAll();
+		medicines.sort(Comparator.comparing(Medicine::getName));
+		
 		return medicines;
 	}
 	public Medicine saveMedicine(MedicineDto medicine) {
@@ -43,7 +48,7 @@ public class MedicineService {
 		med.setQuantity(medicine.getQuantity());
 		med.setThreshold(medicine.getThreshold());
 		med.setExpirationDate(medicine.getExpiringDate());
-
+		med.addTracking("CREATED", "install new medicine with quantity of " + medicine.getQuantity());
 		med.setStoreQuantity(medicine.getQuantity());
 		med.setPharmacyQuantity(0);
 		med.setLocation(Medicine.Location.STORE);
@@ -69,16 +74,22 @@ public class MedicineService {
 	}
 	public void edit(Long id,Medicine medicine) {
 		Medicine med = medicineRepository.findById(id).get();
+		long  q = med.getQuantity();
+		BigDecimal  p= med.getPrice();
+
 		Category cat =  categoryRepository.findById(medicine.getCategory().getId()).get();
+		med.setPrice(medicine.getPrice());
+		med.setQuantity(medicine.getQuantity());
+		med.addTracking("Edited", "edited medicine with changes former in formation " + "name " +
+		med.getName() +" expiration date :" + med.getExpirationDate() + " quantity :" + med.getQuantity() + " price " + p +" to : " + med.getPrice() + " qty : "+ med.getQuantity() );
 		med.setCategory(cat);
 		med.setName(medicine.getName());
 		med.setDescription(medicine.getDescription());
-		med.setPrice(medicine.getPrice());
-		med.setQuantity(medicine.getQuantity());
+		
 		med.setThreshold(medicine.getThreshold());
-		med.setStoreQuantity(medicine.getStoreQuantity());
+		med.setStoreQuantity(medicine.getQuantity()- med.getPharmacyQuantity());
 		med.setExpirationDate(medicine.getExpirationDate());
-		med.setPharmacyQuantity(medicine.getPharmacyQuantity());
+	//	med.setPharmacyQuantity(medicine.getPharmacyQuantity());
 		medicineRepository.save(med);
 		
 	}
@@ -99,6 +110,8 @@ public class MedicineService {
 		int total = med.getQuantity() + (int)quantity;
 		med.setStoreQuantity(med.getStoreQuantity() + (int)quantity);
 		med.setQuantity(total);
+		med.addTracking("ADD", "Added  medicine with quantity of " + quantity + " tola was " + med.getQuantity());
+
 
 		medicineRepository.save(med);
 	}

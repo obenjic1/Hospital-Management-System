@@ -15,19 +15,22 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
+import org.springframework.web.bind.annotation.*;
 import com.ppp.billing.Dto.MedicineDto;
 import com.ppp.billing.Dto.StoreStats;
 import com.ppp.billing.model.Category;
 import com.ppp.billing.model.Medicine;
 import com.ppp.billing.repository.CategoryRepository;
 import com.ppp.billing.repository.StockRequestRepository;
+import com.ppp.billing.service.AccountingService;
 import com.ppp.billing.service.MedicineService;
 import com.ppp.billing.service.StoreService;
 
 @Controller
 @RequestMapping("/store")
 public class StoreController {
+
+    private final AccountingService accountingService;
 
     private final CategoryRepository categoryRepository;
 
@@ -39,10 +42,11 @@ public class StoreController {
     
     private final StoreService storeService;
 
-    public StoreController(StoreService storeService, StockRequestRepository stockRequestRepository, CategoryRepository categoryRepository) {
+    public StoreController(StoreService storeService, StockRequestRepository stockRequestRepository, CategoryRepository categoryRepository, AccountingService accountingService) {
         this.storeService = storeService;
         this.stockRequestRepository = stockRequestRepository;
         this.categoryRepository = categoryRepository;
+        this.accountingService = accountingService;
     }
     /*
 
@@ -169,9 +173,8 @@ public class StoreController {
     
         // edit new medicine
         @PostMapping("/edit/{id}")
-        public ResponseEntity<String> editMedicine(@PathVariable("id") Long id ,  @ModelAttribute Medicine medicine, RedirectAttributes redirectAttributes) {
+        public ResponseEntity<String> editMedicine(@PathVariable("id") Long id ,  @ModelAttribute Medicine medicine) {
             medicineService.edit(id,medicine);
-            redirectAttributes.addFlashAttribute("success", "Medicine Edited successfully!");
             return   new ResponseEntity<>(HttpStatus.CREATED);
 
         }
@@ -180,7 +183,10 @@ public class StoreController {
         @PostMapping("/add-quantity")
         public ResponseEntity<String> addMedicine(@RequestParam Long medicineId, @RequestParam int quantity,Model model) {
            try {
+        	   
            	medicineService.addQuantity(medicineId,quantity);
+           	
+           	
 
            	return new ResponseEntity<>(HttpStatus.CREATED);
 		} catch (Exception e) {
@@ -192,4 +198,16 @@ public class StoreController {
         public ResponseEntity<Boolean> checkMedicineName(@RequestParam String name) {
             return ResponseEntity.ok(medicineService.existsByName(name));
         }
+        
+        
+        @GetMapping("/history/{id}")
+        public String getHistory (@PathVariable Long id, Model model) {
+        	Medicine med = medicineService.findById(id).get();
+            model.addAttribute("meds", med);
+
+        	return "store/history";
+        	
+        }
+        
+        
 }

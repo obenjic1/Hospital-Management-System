@@ -65,44 +65,20 @@ function validateAddUserform(){
 }
 
 function addUser() {
-	const firstName = document.getElementById('firstName').value;
-	const lastName = document.getElementById('lastName').value;
-	const email = document.getElementById("email").value;
+	const staff = document.getElementById('staff').value;
 	const password = document.getElementById("password").value;
 	const confirmPassword = document.getElementById("confirmPassword").value;
-	const mobile = document.getElementById('mobile').value;
-	const address = document.getElementById('address').value;
 	const username = document.getElementById('username').value;
 	const groupe = document.getElementById('groupe').value;
-	const department = document.getElementById('department').value;
 	const imageFile = document.getElementById('imageFile').files[0];
 //	var thumbnailInput = document.getElementById('imageFile');
 //	var thumbnailFile = thumbnailInput.files.length > 0 ? thumbnailInput.files[0] : null;
 
-	if(firstName==""){
-		customAlert('Please, enter your First Name!');
-		return;
-	}
-	 if(email==""){
-		customAlert('Please enter your Email!');
-		return;
-	}  
-	 if(mobile==""){
-		customAlert('Please enter your phone number!');
-		return false;
-	} 
 	
 	 if(username==""){
 	customAlert('Please enter your Username!');
 	return;
 	} 
-	
-	 if(address==""){
-		customAlert('Please enter your Address!');
-		return;
-	} 
-	
-
 	if(password==""){
 		customAlert('Please enter your Password!');
 		return;
@@ -116,16 +92,11 @@ function addUser() {
 		return;
 	} 
 	var formData = new FormData();
-		formData.append('firstName', firstName),
-		formData.append('lastName', lastName),
-		formData.append('email', email),
-		formData.append('mobile', mobile),
+		formData.append('staff', staff),
 		formData.append('username', username),
 		formData.append('password', password),
 		formData.append('confirmPassword', confirmPassword),
-		formData.append('address', address),
 		formData.append('groupe', groupe);
-		formData.append('department', department);
 		if (imageFile) {
 		    formData.append('imageFile', imageFile);
 		}
@@ -138,6 +109,9 @@ function addUser() {
    			 if (response.status === 200) {
 //       			sendMessage('Succes/Success', 1);
 				Swal.fire("Succes/Success!", "You clicked the button!", "success")
+				let ExtralargeModal = document.getElementById('ExtralargeModal');
+				let modal = bootstrap.Modal.getInstance(ExtralargeModal);
+				modal.hide();
 				return loadPage('user/list-users');
    			 } else if (response.status !== 200) {
 					Swal.fire({icon: "error", title: "Oops...", text: "Something went wrong!"});
@@ -212,140 +186,7 @@ console.log(formData);
 	}
 			
 
-			/*
-			
-				** End Add User Section
-				
-			*/
-			
-	//			---------------------------------
-	
-			
-			
-			//	** Start Update User Section
-	
-//function updateUserById(id) {
-//	
-//			const firstName = document.getElementById('firstName').value;
-//			const lastName = document.getElementById('lastName').value;
-//			const email = document.getElementById("email").value;
-//			const mobile = document.getElementById('mobile').value;
-//			const address = document.getElementById('address').value;
-//		//	const imageFile = document.getElementById('imageFile').files[0];
-//	
-//		
-//		var formData = {
-//		firstName: firstName,
-//			lastName: lastName,
-//			email: email,
-//			mobile: mobile,
-//			address : address,
-//		};
-//		var jsonUpdatedData = JSON.stringify(formData);
-//		
-//		fetch(`user/update-user/${id}`, {
-//			method: 'POST',
-//			body: jsonUpdatedData,
-//			headers: {
-//			'Content-Type': 'application/json'
-//		},
-//		})
-//			.then( response => {	
-//   			 if (response.status === 200) {
-////       			sendMessage('Succes/Success', 1);
-//				Swal.fire("Succes/Success!", "You clicked the button!", "success")
-//				return loadPage('user/list-users');
-//   			 } else if (response.status !== 200) {
-//					Swal.fire({icon: "error", title: "Oops...", text: "Something went wrong!"});
-////				sendMessage('Failed / Echec : Email or Username already exist ',2);
-//				
-//					return loadPage('user/add-user');			
-//
-//  			 }
-//		})
-//		 .then(function(data) {
-//
-//		 })
-//			.catch(function(error) {
-//
-//			});
-//	
-//	}
-			
-			
-			
-			
-			
-
-//function updateUserById(id) {
-//	
-//	const firstName = document.getElementById('firstName').value;
-//	const lastName = document.getElementById('lastName').value;
-//	const email = document.getElementById("email").value;
-//	const mobile = document.getElementById('mobile').value;
-//	const address = document.getElementById('address').value;
-////	const username = document.getElementById('username').value;
-////	const groupe = document.getElementById('groupe').value;
-//	//var imageFile = document.getElementById('imageFile').files[0];
-//	//const imageFile = document.getElementById('imageFile').files[0];
-//
-////	var thumbnailFile = thumbnailInput.files.length > 0 ? thumbnailInput.files[0] : null;
-//
-//	var formData = new FormData() ;
-//				
-//		formData.append('firstName',firstName);
-//		formData.append('lastName',lastName);
-//		formData.append('email',email);
-//		formData.append('mobile',mobile);
-////		formData.append('username',username);
-//		formData.append('address',address);
-////		formData.append('groupe',groupe);
-////		if (imageFile) {
-////		formData.append('imageFile',imageFile);
-//	//	}		
-//
-//			
-//	var jsonUserUpdateData = JSON.stringify(formData);
-//
-//	fetch(`user/update-user/${id}`, {
-//		method: 'POST',
-//		body: formData,
-//		headers: {
-//			'Content-Type': 'application/json'
-//		},
-//		
-//	})
-//		.then(response => {
-//			if (response.ok) {
-//				Swal.fire("Succes/Success!", "User updated successfully!", "success")	
-////				sendMessage('Succes/Success', 1);
-////				return loadPage('user/list-users');
-//  			 } else if (response.status !== 200) {
-//				Swal.fire({icon: "error", title: "Oops...", text: "Something went wrong!"});
-//			//	sendMessage('Failed / Echec', 2);
-//  			 }
-//		})
-//		 .then(function(data) {
-//
-//		 })
-//			.catch(function(error) {
-//			});
-//}
-
-		/*
 		
-			** End Update user Section
-			
-		*/
-
- 	//		--------------------------------
- 	
-		/*
-		
-		  ** Start Section Disable Uer
-		  
-		*/
-
 function confirmDisableUser(id) {
   let deleteId = id;
 		  Swal.fire({
@@ -359,6 +200,7 @@ function confirmDisableUser(id) {
 			}).then((result) => {
 			  if (result.isConfirmed) {
 				  disableUser(deleteId);
+				  loadPage('user/list-users')
 			    
 			  }else{
 				 Swal.fire("Cancelled/Annulee!", "Operation cancelled", "info");
@@ -393,3 +235,65 @@ function disableUser(id){
 		  
 		*/
 
+function resetPassword(){
+	 const username = document.getElementById("pusername").value;
+	const newpassword = document.getElementById("newpassword").value;
+	const oldpassword = document.getElementById("rpassword").value;
+	const confirmPassword = document.getElementById("rconfirmPassword").value;
+	const id = document.getElementById('rid').value;
+	const imageFile = document.getElementById('rimageFile').files[0];
+	
+	if(oldpassword==""){
+		customAlert('Please enter your old Password!');
+		return;
+		} 
+		
+		if(newpassword==""){
+		customAlert('Please enter your new Password!');
+		return;
+		} 
+		
+		 if (confirmPassword =="") {
+			customAlert('Please enter the confirm password!');
+			return;
+		}
+
+	 if(confirmPassword != newpassword){
+		customAlert('The password fields should be the same');
+		return;}
+	var formData = new FormData();
+			formData.append('id', id);
+			formData.append('oldpassword', oldpassword);
+			formData.append('newpassword', newpassword);
+			
+			if (imageFile) {
+			    formData.append('imageFile', imageFile);
+			}	
+			fetch('user/update-password', {
+					method: 'POST',
+					body: formData,
+				})
+					.then( response => {	
+					
+		   			 if (response.ok) {
+							console.log(response);
+		//       			sendMessage('Succes/Success', 1);
+						Swal.fire("Succes/Success!", "Password Successfully Changed!", "success")
+						
+						return loadPage(`user/viewUser/${username}`);
+		   			 } else if (response.status !== 200) {
+							Swal.fire({icon: "error", title: "Oops...", text: "Either your  current password didnt match or something went wrong try again"});
+		//				sendMessage('Failed / Echec : Email or Username already exist ',2);
+						
+						//	return loadPage('user/add-user');			
+		
+		  			 }
+				})
+				 .then(function(data) {
+		
+				 })
+					.catch(function(error) {
+		
+					});
+	
+}

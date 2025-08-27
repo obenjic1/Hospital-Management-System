@@ -64,7 +64,7 @@
     <div class="d-flex align-items-center justify-content-between mb-4">
         <h2 class="fw-bold">PharmaCare Dashboard</h2>
     </div>
-     <div class="mb-3">
+     <div class="my-2">
             <span class="me-3"><i class="bi bi-capsule"></i> ${stats.totalMedicines}  Medicines</span>
             <c:if test="${stats.expiringSoon>0}">
                     <span class="badge bg-danger"><i class="bi bi-exclamation-circle"></i> ${stats.expiringSoon} Expiring Soon</span>
@@ -124,13 +124,8 @@
                            </div>
 	                    </div>
 	                </div>
-	                
-	                
 	              </c:forEach>  
-	                
-	                
               </div>
-        
     </div>
    		
    		</div>
@@ -162,7 +157,9 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <!-- End #main -->
 <script src="assets/js/billing/customer.js"></script> 
-<script src="assets/js/store/medicine.js"></script> 
+<script src="assets/js/store/medicine.js"></script>
+<script src="assets/js/statistics/revenue.js"></script> 
+
 </body>
 
 </html>

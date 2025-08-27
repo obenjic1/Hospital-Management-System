@@ -121,7 +121,7 @@ function addQuantity(medicineId){
 
     const quantity = document.getElementById(`qty-${medicineId}`).value;	
 
-	var urlConfirm="/store/add-quantity?medicineId="+ medicineId +"&quantity="+quantity ;
+	var urlConfirm="store/add-quantity?medicineId="+ medicineId +"&quantity="+quantity ;
 	
 	fetch(urlConfirm, {
 		method: 'POST',
@@ -130,7 +130,7 @@ function addQuantity(medicineId){
 			console.log(response);
 			if (response.ok) {
 				document.getElementById(`qty-${medicineId}`).value= "";	
-				Swal.fire("Success!/Success!", "Medicine successfully!", "success");
+				Swal.fire("Success!/Success!", "Medicine successfully Added!", "success");
 				loadPage('store');
 
 			}else{
@@ -163,7 +163,7 @@ function Transfer(medicineId,quantity){
 		return;
 	}
 
-	var urlConfirm="/store/transfer?medicineId="+ medicineId +"&quantity="+quant ;
+	var urlConfirm="store/transfer?medicineId="+ medicineId +"&quantity="+quant ;
 	
 	
 	fetch(urlConfirm, {
@@ -173,7 +173,7 @@ function Transfer(medicineId,quantity){
 			console.log(response.bodydy);
 			if (response.ok) {
 				document.getElementById(`qty-${medicineId}`).value= "";	
-				Swal.fire("Success!/Success!", "Medicine successfully!", "success");
+				Swal.fire("Success!/Success!", "Medicine successfully Transfered !", "success");
 				loadPage('store');
 
 			}else{
@@ -205,9 +205,6 @@ function searchPharmacyMedicine(){
 function toogleRequestForm(id){
 		  const div = document.getElementById(`medDiv-${id}`);
 		  const buttonText = document.getElementById(`request-${id}`);
-		  
-		  
-		  
 
             if (div.style.display === 'none' || div.style.display === '') {
                 div.style.display = 'block';
@@ -235,7 +232,7 @@ function TransferToPharmacy(medicineId,quantity){
 		return;
 	}
 
-	var urlConfirm="/pharmacy/transfer?medicineId="+ medicineId +"&quantity="+quant ;
+	var urlConfirm="pharmacy/transfer?medicineId="+ medicineId +"&quantity="+quant ;
 	
 	
 	fetch(urlConfirm, {
@@ -299,11 +296,14 @@ function TransferToPharmacy(medicineId,quantity){
                         <strong>${item.name} </strong><br>
                         <small>CFA ${item.price.toFixed(2)} each</small>
                     </div>
-                    <div class="d-flex justify-content-between align-items-center">
-                        <button class="btn btn-sm btn-outline-secondary" onclick="decreaseQty(${index})">-</button>
-                         <input type="number" style="width:60px;margin:4px:text-align:center" min="1" value="${item.qty}" 
-                   onchange="updateQty(${index}, this.value)">
-                        <button class="btn btn-sm btn-outline-secondary" onclick="increaseQty(${index})>+</button>
+                    <div class="d-flex justify-content-between align-items-center" style="margin-left: auto;" >
+                        <button class="btn btn-sm btn-outline-primary" onclick="decreaseQty(${index})">-</button>
+                         <input type="number" style="width:60px;margin:4px:text-align:center;text-align: center;margin: 5px;" min="1" value="${item.qty}"onchange="updateQty(${index}, this.value)">
+                        <button class="btn btn-sm btn-outline-primary" style="margin-right: 3px;"  onclick="increaseQty(${index})">+</button>
+                        <button class="btn btn-sm btn-danger"  onclick="removeItem(${index})">R</button>
+
+
+
                     </div>
                     <hr>
                   </div>
@@ -311,7 +311,6 @@ function TransferToPharmacy(medicineId,quantity){
                     
        </div>
                                  
-	   loadPage('store');
 
 
       `;
@@ -365,9 +364,8 @@ function checkout() {
 		cartItems: cart,
 		paymentMethod:"Cash"
 	}
-	console.log(saleDto);
 	
-    fetch("/sales/checkout", {
+    fetch("sales/checkout", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -383,14 +381,14 @@ function checkout() {
 				   console.log(data);
 				   	previewPdf(data.id);
 	}).catch(error => {
-		console.log(error);
+//		console.log(error.message);
 	});
 	
 		} 
     
 
  function previewPdf(saleId) {
-        const pdfUrl = `/sales/receipt/${saleId}/pdf`;
+        const pdfUrl = `sales/receipt/${saleId}/pdf`;
        window.open(pdfUrl,'_blank');
 
         // Show Bootstrap modal
@@ -398,91 +396,82 @@ function checkout() {
 //        myModal.show();
     }
 
+	function savePatient(){
+		
+			    let name = document.getElementById("name").value;
+			    let age = document.getElementById("age").value;
+			    let gender = document.getElementById("gender").value;
+			    let contact = document.getElementById("contact").value ;
+				var formData = new FormData();
+							  formData.append('name', name);
+							  formData.append('age', age);
+							  formData.append('gender', gender);
+							  formData.append('contact', contact);			
+							 fetch('patients', {
+				        method: 'POST',
+				        body: formData,
+				    }) .then(response => {
+						if (response.ok) {
+									Swal.fire("Succes/Success!", "Patient Successfully Registed !", "Patient Successfully Registered")
+									return loadPage('patients');
+					   			 } else if (!response.ok) {
+										Swal.fire({icon: "error", title: "Oops...", text: "Something went wrong!"});
+									
 
+					  			 }
+						
+					}).then(function(data) {
 
+					
+							 }).catch(function(error) {
 
+								});
+		
+			}
+		
+/**
+ * 
+ * 
+ * 
+ * 
+ * alert(id);
+		event.preventDefault();
+		let id = id;
+	    let name = document.getElementById("name").value;
+	    let age = document.getElementById("age").value;
+	    let gender = document.getElementById("gender").value;
+	    let contact = document.getElementById("contact").value ;
+	    var url = "";
+	    if (id!=null){
+			url = `patients/update/${id}`;
+		}else {
+			url ="patients";
+		}
+		console.log(url);
+				 var formData = new FormData();
+				  formData.append('id', id);
+				  formData.append('name', name);
+				  formData.append('age', age);
+				  formData.append('gender', gender);
+				  formData.append('contact', contact);			
+				 fetch(url, {
+	        method: 'POST',
+	        body: formData,
+	    }) .then(response => {
+			if (response.ok) {
+						Swal.fire("Succes/Success!", "Patient Successfully Registed !", "Patient Successfully Registered")
+						return loadPage('patients');
+		   			 } else if (!response.ok) {
+							Swal.fire({icon: "error", title: "Oops...", text: "Something went wrong!"});
+						
 
-
-
-
-
-
-//
-// .then(res => res.json())
-//			.then(function(response) {
-
-/*
-
-
-if (response.ok) {
-				
+		  			 }
 			
-			   previewPdf();
-				
-				}else{
-					var respon = response.text();
-					console.log(response.value);
-					console.log(respon);
-					 Swal.fire({icon: "error", title: "Oops...", text: "hello error not emough stock"});
-				} 
-			}).then(data=>{
-				console.log(data);
-				
-			})
-			.catch(function(error) {
-				console.log(error);
-				 
-			});
-			
+		}).then(function(data) {
 
+		
+				 }).catch(function(error) {
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-		if (response.status=="ok") {
-		 Swal.fire({
-		        icon: "success",
-		        title: "Sale Successful!",
-		        text: "Receipt Number: " + data.receiptNumber,
-		        confirmButtonText: "View Receipt"
-		    })
-
-		}else{
-			 Swal.fire({icon: "error", title: "Oops...", text: response.error});
-		} 
-	})
-	.then(function(data) {
-		console.log(data);
-				cart = [];
-	       		renderCart();
-		        previewPdf(data.saleId);
-		        loadPage("pharmacy");
-	
-	})
-	.catch(function(error) {
-		 
-	});
-
-
-
-*/
-
-
-
-
-
-
-
-
+					});
+ */
 

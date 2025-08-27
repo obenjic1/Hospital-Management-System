@@ -4,6 +4,8 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
+import java.util.List;
 
 import javax.transaction.Transactional;
 
@@ -63,6 +65,7 @@ public class SalesService {
 
             // update stock
             medicine.setPharmacyQuantity(medicine.getPharmacyQuantity() - item.getQty());
+            medicine.addTracking("SOLD", "sold : " + item.getQty() + " of " + item.getName() + " at the pharmacy to :" + sale.getCustomerName()   );
             medicine.setQuantity(medicine.getQuantity() - item.getQty());
 
             medicineRepository.save(medicine);
@@ -109,9 +112,12 @@ public class SalesService {
 		        String numberStr = String.format("%04d", nextNumber);
 		        return "RCPT" + datePart + "-" + numberStr;
 		    }
-   
-		    
+		   
 		    public Sale findById (Long id) {
 		    	return saleRepository.findById(id).get();
 		    }
+
+			public  List<Sale>salesReport(Date sDate, Date eDate) {
+				return saleRepository.findBySaleDateBetween(sDate,eDate);
+			}
 }

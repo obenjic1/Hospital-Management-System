@@ -45,7 +45,7 @@ public class SaleController {
 	    try {
 	    	Sale sale = saleService.processSale(saleDto);
 	    	 CheckoutResponse response = new CheckoutResponse();
-	    	 response.setCashierName(sale.getPharmacist().getFirstName());
+	    	 response.setCashierName(sale.getPharmacist().getStaff().getFirstName());
 	    	 response.setId(sale.getId());
 	    	 response.setCustomerName(sale.getCustomerName());
 	    	 response.setReceiptNumber(sale.getReceiptNumber());

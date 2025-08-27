@@ -97,7 +97,7 @@
 <%-- 									<label id="reset"  data-toggle="tooltip" data-placement="right" title="click to reset your password" onclick="resetPassword()"><fmt:message key="reset.password"/></label>	 --%>
 										<a id="reset" data-toggle="tooltip" data-placement="right" title="click to reset your password" onclick="loadView('/password/forgotten', 'formContent');"><br><fmt:message key="reset.password"/></a>
 										
-										
+									
 										<input type="hidden" name="${_csrf.parameterName}"value="${_csrf.token}" />
 										  <div class="col-12">
 <!-- 									    <button class="btn btn-primary w-100" type="submit">Login</button> -->
