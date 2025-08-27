@@ -17,7 +17,8 @@ function loadPageModal(page) {
 			*/
 
 function addGroupe() {
-    var name = document.getElementById('name').v//  
+    var name = document.getElementById('name').value
+//  
 //	$('#areyouSureYouWantToDetele').modal('show');
 //	$('#confirmDeleteBtn').click(function() {
 //		
@@ -46,9 +47,12 @@ function addGroupe() {
         .then( response => {	
 
    			 if (response.status === 200) {
-					Swal.fire("Succes/Success!", "You clicked the button!", "success")
+					Swal.fire("Succes/Success!", "Group Created Succesfully!", "success")
+					
        			//sendMessage('Succes/Success', 1);
-			//return loadPage("group/list-groups");				
+       			let modal = bootstrap.Modal.getInstance(ExtralargeModal);
+			    modal.hide();
+				loadPage("group/list-groups");				
    			 } else if (response.status !== 200) {
 					Swal.fire({icon: "error", title: "Oops...", text: "Something went wrong!"});
 	//			sendMessage('Failed : email or user name already exist ', 2);
@@ -101,8 +105,10 @@ function updateGroupe(name) {
       .then( response => {	
 
    			 if (response.status === 200) {
-					Swal.fire("Succes/Success!", "You clicked the button!", "success")
-				return loadPage('group/list-groups');
+					Swal.fire("Succes/Success!", "Group Udpated Succesfully!", "success")
+				let modal = bootstrap.Modal.getInstance(ExtralargeModal);
+			    modal.hide();
+				loadPage("group/list-groups");	
        		//	sendMessage('Succes/Success', 1);
 		//	return ;				
    			 } else if (response.status !== 200) {
@@ -159,7 +165,7 @@ function disableGroup(id){
 	.then( response => {	
 
    			 if (response.status === 200) {
-				Swal.fire({title: "Deleted!",text: "Your file has been deleted.", icon: "success" });
+				Swal.fire({title: "Deleted!",text: "Group has been disable Successdully.", icon: "success" });
 //       			sendMessage('Succes/Success', 1);
 //			return loadPage("group/list-groups");				
    			 } else if (response.status !== 200) {

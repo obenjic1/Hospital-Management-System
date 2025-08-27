@@ -44,8 +44,8 @@
 						  </thead>
 						  <tbody>
 						    <c:forEach items="${groups}" var="group" varStatus="loop">
-						      <tr class="${loop.index % 2 == 0 ? 'even-row' : 'odd-row'}">
-							    <th scope="row">${group.id}</th>
+								  <tr>
+								<td>${loop.index + 1}</td>
 							    <td><a>${group.name}</a></td>
 							    <td><a class="${group.enabled ? 'Active' : 'Blocked' }">${group.enabled ? 'Active': 'Inactive'}</a></td>
 							    <td><a data-bs-toggle="tooltip" data-bs-placement="top" title="${group.description}"> ${group.description}</a></td>

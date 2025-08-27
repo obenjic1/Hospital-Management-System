@@ -1,3 +1,3 @@
-INSERT INTO `content_type`(`name`) VALUES ("Cover");
+NSERT INTO `content_type`(`name`) VALUES ("Cover");
 INSERT INTO `content_type`(`name`) VALUES ("Content");
 

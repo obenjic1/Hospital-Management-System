@@ -51,7 +51,7 @@ function saveMedicine(){
 		})
 			.then(function(response) {
 				if (response.ok) {
-					Swal.fire("Success!/Success!", "Added successfully!", "success");
+					Swal.fire("Success!/Success!", "Medicine successfully!", "success");
 					document.getElementById("add-close").click();
 					loadPage('store');
 				}else{
@@ -102,7 +102,7 @@ function updateMedicine(id){
 		})
 			.then(function(response) {
 				if (response.ok) {
-					Swal.fire("Success!/Success!", "Updated successfully!", "success");
+					Swal.fire("Success!/Success!", "Medicine Updated successfully!", "success");
 					document.getElementById("add-close").click();
 					loadPage('store');
 				}else{

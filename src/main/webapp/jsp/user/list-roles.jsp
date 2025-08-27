@@ -41,8 +41,8 @@
 								</thead>
 								<tbody>
 								  <c:forEach items="${roles}" var="role" varStatus="loop">
-								    <tr class="${loop.index % 2 == 0 ? 'even-row' : 'odd-row'}">
-									  <th scope="row">${role.id}</th>
+								    <tr>
+									 <td>${loop.index + 1}</td>
 									  <td><a>${role.name}</a></td>
 									  <td><a data-toggle="tooltip" title="${role.description}">${role.description}</a></td>
 									  <td>

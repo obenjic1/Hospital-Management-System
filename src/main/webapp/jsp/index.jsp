@@ -128,37 +128,37 @@
 	<!-- ======= Sidebar ======= -->
 			<aside id="sidebar" class="sidebar" style="background: #dddfe3;">
 		     <ul class="sidebar-nav" id="sidebar-nav">
-<%-- 		     <sec:authorize access="hasRole('ROLE_ADD_USER')"> --%>
+ 		     <sec:authorize access="hasRole('ROLE_ADMIN')"> 
 			  <li class="pp-module">
 			    <i class="bi bi-person-lines-fill"> </i> 
 			     <span>
 			      <span><fmt:message key="administration.managemant" /></span>
 			    </span><script src="DataTables/datatables.js"></script>
 			  </li>
-<%-- 			  </sec:authorize> --%>
+			  </sec:authorize> 
 			<!-- End Printing Press Nav -->
 			<li class="nav-item">
-<%-- 			<sec:authorize access="hasRole('ROLE_ADD_USER')">					 --%>
+			<sec:authorize access="hasRole('ROLE_CREATE_USER')">					 
 			  <ul id="user-management-nav" >
-<%-- 				<sec:authorize access="hasRole('ROLE_LIST_USERS')"> --%>
+				<sec:authorize access="hasRole('ROLE_ADMIN')"> 
 			      <li class="nav-item">
 					<a class="nav-link collapsed" onclick="loadPage('user/list-users')" href="#"> <i class="bi bi-person">
 					  </i> <span><fmt:message key="list.users" /></span>
 					</a>
 				  </li>
-<%-- 				</sec:authorize> --%>
-<%-- 				<sec:authorize access="hasRole('ROLE_LIST_GROUPS')"> --%>
+				</sec:authorize> 
+ 				<sec:authorize access="hasRole('ROLE_ADD_GROUP')"> 
 				  <li class="nav-item">
 				    <a class="nav-link collapsed" onclick="loadPage('group/list-groups');refreshGroupTable(1)" href="#">
 				    <i class="bi bi-person">
 				  </i> <span><fmt:message key="list.groups" /></span></a></li>
-<%-- 				</sec:authorize> --%>
-<%-- 				<sec:authorize access="hasRole('ROLE_LIST_ROLES')"> --%>
+				</sec:authorize> 
+				<sec:authorize access="hasRole('ROLE_ADMIN')"> 
 				  <li class="nav-item"><a class="nav-link collapsed" onclick="loadPage('role/list-roles');refreshRolePage(1)" href="#">
 				    <i class="bi bi-card-list"></i> 
 				    <span><fmt:message key="list.roles" /></span> </a>
 				  </li>
-<%-- 				</sec:authorize> --%>
+				</sec:authorize> 
 			  </ul>
 			  
 			  <li class="nav-item">
@@ -168,8 +168,8 @@
 				    <span><fmt:message key="settings" /></span>
 				  </span>
 				</li>
-<%-- 			  </sec:authorize>  --%>
-<%-- 			  <sec:authorize access="hasRole('ROLE_VIEW_SETINGS')"> --%>
+			  </sec:authorize>  
+			  <sec:authorize access="hasRole('ROLE_STAFF_MANAGEMENT')">
 				<ul id="configuration-management-nav">
 					<li class="nav-item">
                       <a class="nav-link collapsed" onclick="loadPage('staff')" href="#">
@@ -178,7 +178,6 @@
 					  </a>
 					  </li>
 
-					
 					<li class="nav-item">
                       <a class="nav-link collapsed" onclick="loadPage('payroll')" href="#">
 						<i class="ri-steam-line"></i>
@@ -187,7 +186,7 @@
 					  </li>
 				</ul> 
 			  
-<%-- 			  </sec:authorize> --%>
+			  </sec:authorize>
 			<!-- End Printing Press Nav -->
 		
 
@@ -202,6 +201,7 @@
 				    <span><fmt:message key="store.management" /></span>
 				  </span>
 				</li>
+				  <sec:authorize access="hasRole('ROLE_VIEW_STORE')">
 				<ul id="store-nav">
 					
 					<li class="nav-item">
@@ -210,12 +210,15 @@
 					    <span>Store</span>
 					  </a>
 					</li>
+				</sec:authorize>
+ <sec:authorize access="hasRole('ROLE_STAFF_PAYROLL')">
 					<li class="nav-item">
 					  <a class="nav-link collapsed" onclick="loadPage('invoice/list')" href="#">
 					    <i class=" ri-money-dollar-circle-line"></i>
 					    <span><fmt:message key="invoice.management" /></span>
 					  </a>
 					</li>
+</sec:authorize>
 <!-- 					<li class="nav-item"> -->
 <!-- 					  <a class="nav-link collapsed" onclick="loadPage('store')" href="#"> -->
 <!-- 					    <i class=" ri-money-dollar-circle-line"></i> -->
@@ -238,7 +241,7 @@
 <!-- 					</li> -->
 <%-- 				  </sec:authorize>  --%>
 				</ul> 
-<%-- 			 <sec:authorize  access="hasRole('ROLE_REGISTER_NEW_JOB')">  --%>
+ 	 <sec:authorize  access="hasRole('ROLE_PHAMARCY')">  
 				<li class="nav-item">
 				  <li class="pp-module">
 				    <i class="ri-database-2-fill"> </i> 
@@ -254,7 +257,7 @@
 					  </a>
 					<li class="nav-item">
 					</ul> 
-					
+	</sec:authorize>
 					 <li class="pp-module">
 			    <i class="bi bi-person-lines-fill"> </i> 
 			     <span>
@@ -264,24 +267,25 @@
 						<li class="nav-item">
 <%-- 			<sec:authorize access="hasRole('ROLE_ADD_USER')">					 --%>
 			  <ul id="user-management-nav" >
-<%-- 				<sec:authorize access="hasRole('ROLE_LIST_USERS')"> --%>
+				<sec:authorize access="hasRole('ROLE_REGISTER_PATIENT')">
 			      <li class="nav-item">
 					<a class="nav-link collapsed" onclick="loadPage('patients/new')" href="#"> <i class="bi bi-person">
 					  </i> <span>Register Patient</span>
 					</a>
 				  </li>
-<%-- 				</sec:authorize> --%>
-<%-- 				<sec:authorize access="hasRole('ROLE_LIST_GROUPS')"> --%>
+				</sec:authorize>
+				<sec:authorize access="hasRole('ROLE_VIEW_PATIENT')">
 				  <li class="nav-item">
 				    <a class="nav-link collapsed" onclick="loadPage('patients')" href="#">
 				    <i class="bi bi-person">
 				  </i> <span>List Patients</span></a></li>
-<%-- 				</sec:authorize> --%>
-<%-- 				<sec:authorize access="hasRole('ROLE_LIST_ROLES')"> --%>
+				</sec:authorize>
+				<sec:authorize access="hasRole('ROLE_VIEW_SERVICE')">
 				  <li class="nav-item"><a class="nav-link collapsed" onclick="loadPage('services')" href="#">
 				    <i class="bi bi-card-list"></i> 
 				    <span>Services</span> </a>
-<%-- 				</sec:authorize> --%>
+				</sec:authorize>
+				<sec:authorize access="hasRole('ROLE_VIEW_PAYMENT')">
 				 <li class="nav-item"><a class="nav-link collapsed" onclick="loadPage('payments')" href="#">
 				    <i class="bi bi-card-list"></i> 
 				    <span>Payment</span> </a>
@@ -298,6 +302,7 @@
 <!-- 					  </a> -->
 <!-- 					</li> -->
 					<li class="nav-item">
+					</sec:authorize>
 			  </ul>
 					
 <!-- 					<li class="nav-item"> -->
@@ -329,9 +334,10 @@
 <%-- 			 </sec:authorize>  --%>
 				<!-- End of job sheet management Nav --> 
 
-<%-- 			 <sec:authorize access="hasRole('ROLE_VIEW_SETINGS')"> --%>
+<%-- 			 <sec:authorize access="hasRole('ROLE_ADMIN')"> --%>
 				
-<%-- 			  </sec:authorize>  								 --%>
+<%-- 			  </sec:authorize>  	 --%>
+ <sec:authorize access="hasRole('ROLE_ADMIN')">							
 			<li class="nav-item">
 				  <li class="pp-module">
 				    <i class="ri-line-chart-line"> </i> 
@@ -354,7 +360,8 @@
 					  </a>
 					</li>
 										
-				</ul> 			
+				</ul> 	
+				 </sec:authorize> 		
 		</ul>
 	</aside>
 	<!-- End Sidebar-->
