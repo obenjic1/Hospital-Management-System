@@ -67,57 +67,52 @@
         </div>
     </div>
 
-    <!-- Low Stock Medicines -->
-    <div class="mt-5">
-        <h4 class="text-danger">⚠️ Low Stock Medicines</h4>
-        <table class="table table-striped table-bordered">
+
+
+<div class=" my-2">
+
+    <h2 class="text-center m2-4 text-primary fw-bold">Service Usage Statistics - Current Month</h2>
+
+    <div class="table-responsive">
+        <table class="table table-striped table-hover table-bordered align-middle">
             <thead class="table-dark">
-            <tr>
-           		 <th>No</th>
-                <th>Medicine</th>
-                <th>Quantity</th>
-                <th>Threshold</th>
-            </tr>
+                <tr style="text-align:center">
+                 <th scope="col">Number</th>
+                    <th scope="col">Service Name</th>
+                     <th scope="col">Unit Price (FCFA)</th> 
+                    <th scope="col" class="text-center">Times Used</th>
+                    <th scope="col" class="text-center">Total Revenue (FCFA)</th>
+                </tr>
             </thead>
             <tbody>
-            <c:forEach var="med" items="${lowStock}" varStatus="loop">
-                <tr>
-                  <td>${loop.index + 1}</td>
-                    <td><c:out value="${med.name}" /></td>
-                    <td><c:out value="${med.quantity}" /></td>
-                    <td><c:out value="${med.threshold}" /></td>
-                </tr>
-            </c:forEach>
+                <c:choose>
+                    <c:when test="${not empty stats}">
+                        <c:forEach var="stat" items="${stats}" varStatus="loop">
+		                <tr class="text-center">
+		                    <td>${loop.index + 1}</td>
+		                         <td class="text-center"> ${stat.serviceName}</td>
+                                 <td class="text-center">${stat.unitPrice}</td>
+                                <td class="text-center">${stat.timesUsed}</td>
+                                <td class="text-center">${stat.totalRevenue}</td>
+                            </tr>
+                        </c:forEach>
+                    </c:when>
+                    <c:otherwise>
+                        <tr>
+                            <td colspan="3" class="text-center text-muted fst-italic">
+                                No service usage data available for the current month.
+                            </td>
+                        </tr>
+                    </c:otherwise>
+                </c:choose>
             </tbody>
         </table>
     </div>
 
-    <!-- Expired Medicines -->
-    <div class="mt-5">
-        <h4 class="text-danger">❌ Expired Medicines  and soon to Expired Medicines</h4>
-        <table class="table table-striped table-bordered">
-            <thead class="table-dark">
-            <tr>
-          	    <th>No</th>
-                <th>Medicine</th>
-                <th>Expiration Date</th>
-                <th>Quantity</th>
-            </tr>
-            </thead>
-            <tbody>
-            <c:forEach var="med" items="${expired}" varStatus="loop">
-                 
-                    <tr class="table-danger" >
-                     <td>${loop.index + 1}</td>
-                    <td><c:out value="${med.name}" /></td>
-                    <td><c:out value="${med.expirationDate}" /></td>
-                    <td><c:out value="${med.quantity}" /></td>
-                </tr>
-            </c:forEach>
-            </tbody>
-        </table>
-    </div>
+</div>
 
+<!-- Bootstrap J
+   
     <!-- Sales History -->
     <div class="mt-5">
         <h4 class="text-primary">📑 Sales History</h4>

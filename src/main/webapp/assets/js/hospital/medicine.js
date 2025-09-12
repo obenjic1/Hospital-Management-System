@@ -200,7 +200,13 @@ function searchPharmacyMedicine(){
 	loadPage(url);
 }
 
+function searchPatient(){
+		var q = document.getElementById("patientName").value;
+		const url = "patients/?name="+q;
+		loadPage(url);
+		
 
+}
 
 function toogleRequestForm(id){
 		  const div = document.getElementById(`medDiv-${id}`);
@@ -402,11 +408,19 @@ function checkout() {
 			    let age = document.getElementById("age").value;
 			    let gender = document.getElementById("gender").value;
 			    let contact = document.getElementById("contact").value ;
+				let emmergencyContact = document.getElementById("emmergencyContact").value ;
+				let emmergenceName = document.getElementById("emmergenceName").value ;
+
+
+			    
 				var formData = new FormData();
 							  formData.append('name', name);
 							  formData.append('age', age);
 							  formData.append('gender', gender);
-							  formData.append('contact', contact);			
+							  formData.append('contact', contact);		
+							  formData.append('emmergencyContact', emmergencyContact);			
+						      formData.append('emmergenceName', emmergenceName);		
+
 							 fetch('patients', {
 				        method: 'POST',
 				        body: formData,

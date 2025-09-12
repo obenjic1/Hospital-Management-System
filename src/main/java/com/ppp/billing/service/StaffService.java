@@ -36,13 +36,14 @@ public class StaffService {
 	    public void deleteById(Long id) {
 	        staffRepository.deleteById(id);
 	    }
-	
-	    
+		       
 
-	       
-
-	        public List<Staff> getAllStaff() {
-	            return staffRepository.findAll();
+	        public List<Staff> getAllStaff(String searchQuery) {
+	        	if((searchQuery == null || searchQuery.isEmpty())) {
+	            return staffRepository.findAll();}
+	        	else {
+	        	return	staffRepository.findByfirstNameContainingIgnoreCase(searchQuery);
+	        	}
 	        }
 
 	        public Staff getStaffById(Long id) {
@@ -56,6 +57,8 @@ public class StaffService {
 
 	        public Staff updateStaff(Long id, Staff updated) {
 	            Staff staff = getStaffById(id);
+	            staff.setPercentage(updated.getPercentage());
+	            staff.setSalary(updated.getSalary());
 	            staff.setFirstName(updated.getFirstName());
 	            staff.setLastName(updated.getLastName());
 	            staff.setDepartment(updated.getDepartment());
@@ -84,24 +87,11 @@ public class StaffService {
 	    			staffRepository.save(staff);
 	    			}
 	    		}
-	        
-	        
-	        
-	        
-	        
-	        
-	        
-	        
-	        
-	        
-	        
-	        
-	        
-	        
-	        
-	        
-	        
-	        
+
+	    	 public List<Staff> getAllDoctors() {
+		            return staffRepository.findByDepartmentName("Doctor");
+		        }
+
 	        
 	    }
 

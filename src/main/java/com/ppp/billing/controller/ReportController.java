@@ -16,10 +16,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.ppp.billing.Dto.RevenueReportDto;
 import com.ppp.billing.model.Sale;
+import com.ppp.billing.model.ServiceUsageStats;
 import com.ppp.billing.repository.MedicineRepository;
 import com.ppp.billing.repository.StockRequestRepository;
+import com.ppp.billing.service.PaymentItemService;
 import com.ppp.billing.service.ReportService;
 import com.ppp.billing.service.SalesService;
+import com.ppp.billing.service.ServiceItemService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -32,6 +35,15 @@ public class ReportController {
 	
 	 @Autowired
 	private  MedicineRepository medecinrepository;
+	 
+	 @Autowired
+		private  ServiceItemService  serviceItemService;
+	 
+	 
+	 @Autowired
+		private  PaymentItemService  paymentItemService;
+	 
+	 
 	 @Autowired
 	 private SalesService saleService;
 	 private final ReportService reportService;
@@ -42,21 +54,39 @@ public class ReportController {
 
 	    @GetMapping("/dashboard")
 	    public String dashboard(Model model) {
+	        List<ServiceUsageStats> stats = paymentItemService.getCurrentMonthServiceUsageStats();
 	        model.addAttribute("todayRevenue", reportService.getTodayRevenue());
 	        model.addAttribute("todayItems", reportService.getTodayItemsSold());
 	        model.addAttribute("weekItems", reportService.getThisWeekItemsSold());
 	        model.addAttribute("monthItems", reportService.getThisMonthItemsSold());
 	        model.addAttribute("lowStock", medecinrepository.findLowStockMedicines());
 	        model.addAttribute("expired", medecinrepository.findExpiredMedicines());
+	        model.addAttribute("stats", stats);
+	        
+	        
+	        
+	        
 	        return "reports/dashboard";  
 	    }
 	    
+	    
+	    
+	    
+	    @GetMapping("/monthly-stats")
+	    public String showMonthlyStats(Model model) {
+	        List<ServiceUsageStats> stats = paymentItemService.getCurrentMonthServiceUsageStats();
+	        model.addAttribute("stats", stats);
+	        return "service_usage_stats"; // the JSP page
+	    }
 	    
 	    @GetMapping("/revenue/{date}")
 	    public String getRevenue(@PathVariable String date, Model model) {
 	        LocalDate d = LocalDate.parse(date);
 	        Date startDateConverted = Date.from(d.atStartOfDay(ZoneId.systemDefault()).toInstant());
 	        RevenueReportDto revenue = reportService.getDailyRevenue(startDateConverted);
+	        List<ServiceUsageStats> stats = paymentItemService.getCurrentMonthServiceUsageStats();
+	        model.addAttribute("stats", stats);
+
             model.addAttribute("revenue", revenue);
 
 	        return "reports/dashboard";
@@ -84,6 +114,8 @@ public class ReportController {
 
 
 	        List<Sale> salesList = saleService.salesReport(startDateConverted, endDateConverted);
+	        List<ServiceUsageStats> stats = paymentItemService.getCurrentMonthServiceUsageStats();
+	        model.addAttribute("stats", stats);
 	        
 	        if (salesList == null) {
 	            model.addAttribute("error", "No sales data found for the given date range.");
@@ -112,5 +144,8 @@ public class ReportController {
 
 	        return "reports/monthlyReport"; // JSP
 	    }
+	    
+	    
+	    
 
 }

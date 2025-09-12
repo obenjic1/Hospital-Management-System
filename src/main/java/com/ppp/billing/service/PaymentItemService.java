@@ -2,6 +2,7 @@ package com.ppp.billing.service;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -15,6 +16,7 @@ import com.ppp.billing.Dto.PaymentItemDto;
 import com.ppp.billing.model.Patient;
 import com.ppp.billing.model.PaymentItem;
 import com.ppp.billing.model.ServiceItem;
+import com.ppp.billing.model.ServiceUsageStats;
 import com.ppp.billing.repository.PatientRepository;
 import com.ppp.billing.repository.PaymentItemRepository;
 import com.ppp.billing.repository.ServiceItemRepository;
@@ -116,4 +118,22 @@ public class PaymentItemService {
 	     return   paymentRepository.save(payment);
 
 	    }
+	 
+	 public List<ServiceUsageStats> getCurrentMonthServiceUsageStats() {
+		    List<Object[]> rawResults = paymentItemRepository.getCurrentMonthServiceUsageStats();
+		    List<ServiceUsageStats> stats = new ArrayList<>();
+
+		    for (Object[] row : rawResults) {
+		        String serviceName = (String) row[0];
+		        Double unitPrice = ((Number) row[1]).doubleValue();
+		        Long timesUsed = ((Number) row[2]).longValue();
+		        Double totalRevenue = ((Number) row[3]).doubleValue();
+
+		        stats.add(new ServiceUsageStats(serviceName, unitPrice, timesUsed, totalRevenue));
+		    }
+
+		    return stats;
+		}
+
+	 
 }

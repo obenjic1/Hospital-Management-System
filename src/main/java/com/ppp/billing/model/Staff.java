@@ -32,7 +32,7 @@ public class Staff {
     private String firstName;
     private String lastName;
     private boolean isActive = true;
-
+    private String name;
     private String address;
     private String speciality;
     private String gender;
@@ -40,6 +40,7 @@ public class Staff {
     private String email;
     private LocalDate hireDate = LocalDate.now();
     private BigDecimal salary;
+    private BigDecimal percentage;
 
     @ManyToOne
     @JoinColumn(name = "department_id")
@@ -51,5 +52,7 @@ public class Staff {
     @OneToOne(mappedBy = "staff", cascade = CascadeType.ALL)
     private User user;
 
-
+  public void setName () {
+	  name = this.firstName + this.lastName;
+  }
 }

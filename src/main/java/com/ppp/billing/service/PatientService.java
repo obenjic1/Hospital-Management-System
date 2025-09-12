@@ -1,14 +1,14 @@
 package com.ppp.billing.service;
 
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.ppp.billing.model.Medicine;
 import com.ppp.billing.model.Patient;
-import com.ppp.billing.model.Payroll;
+import com.ppp.billing.model.Medicine.Location;
 import com.ppp.billing.repository.PatientRepository;
 
 @Service
@@ -24,6 +24,8 @@ public class PatientService {
     	patient.setContact(newPatient.getContact());
     	patient.setGender(newPatient.getGender());
     	patient.setName(newPatient.getName());
+    	patient.setEmmergenceName(newPatient.getEmmergenceName());
+    	patient.setEmmergencyContact(newPatient.getEmmergencyContact());
     	patient.addTracking("CREATE", "Added this patient");
         return repo.save(patient);
     }
@@ -50,5 +52,24 @@ public class PatientService {
 		
 		// TODO Auto-generated method stub
 		
+	}
+
+	public Patient findById(Long patientId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public List<Patient> listPatients(String searchQuery) {
+		if((searchQuery == null || searchQuery.isEmpty())) {
+			List<Patient> patient =repo.findAll();
+	    	patient.sort(Comparator.comparing(Patient::getId));
+			return patient;
+		} else {
+			List<Patient> patient =repo.findByNameContainingIgnoreCase(searchQuery);
+	    	patient.sort(Comparator.comparing(Patient::getId));
+	    	return patient;
+		}
+		
+
 	}
 }

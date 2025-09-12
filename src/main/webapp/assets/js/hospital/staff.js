@@ -3,6 +3,7 @@
  */
 function addStaff(){
 		const firstName = document.getElementById('firstName').value;
+		const percentage = document.getElementById('percentage').value;
 		const lastName = document.getElementById('lastName').value;
 		const email = document.getElementById("email").value;
 		const phone = document.getElementById('mobile').value;
@@ -44,7 +45,7 @@ function addStaff(){
 			formData.append('address', address),
 			formData.append('status', status);
 			formData.append('department', department);
-			
+			formData.append('percentage', percentage);
 
 			fetch('staff', {
 				method: 'POST',
@@ -83,7 +84,9 @@ function updateStaff(id){
 		const speciality = document.getElementById('speciality').value;
 		const gender = document.getElementById('gender').value;
 		const status = document.getElementById('status').value;
-		const department = document.getElementById('department').value;
+		const department = document.getElementById('department2').value;
+		const percentage = document.getElementById('percentage2').value;
+
 	
 		
 		var formData = new FormData();
@@ -97,7 +100,8 @@ function updateStaff(id){
 			formData.append('address', address),
 			formData.append('status', status);
 			formData.append('department', department);
-			
+			formData.append('department', department);
+			formData.append('percentage', percentage);
 
 			fetch(`staff/edit/${id}`, {
 				method: 'PUT',
@@ -107,18 +111,13 @@ function updateStaff(id){
 	   			 if (response.ok) {
 	//       			sendMessage('Succes/Success', 1);
 					Swal.fire("Succes/Success!", "Staff Successfully Updated !");
-					document.getElementById("close-btn").click();
 					let ExtralargeModal = document.getElementById('ExtralargeModal');
 					let modal = bootstrap.Modal.getInstance(ExtralargeModal);
 					modal.hide();
-				//	document.getElementById("close-btn").click();				
-					return loadPage('staff');
+				   return loadPage('staff');
 	   			 } else if (!response.ok) {
 						Swal.fire({icon: "error", title: "Oops...", text: "Something went wrong!"});
-	//				sendMessage('Failed / Echec : Email or Username already exist ',2);
 					
-					//	return loadPage('user/add-user');			
-
 	  			 }
 			})
 			 .then(function(data) {
@@ -129,6 +128,48 @@ function updateStaff(id){
 				});
 		
 }
+
+	function getDepartment(){
+		  const select = document.getElementById('department');
+		  const selectedOption = select.options[select.selectedIndex];
+		  const departmentName = selectedOption.getAttribute('data-department');
+		  var specialityDiv = document.getElementById('percentageDiv');
+
+		if (departmentName === "Doctor") {
+			  specialityDiv.style.display = 'block'; 
+			} else {
+			  specialityDiv.style.display = 'none';  
+			}
+
+		  
+	
+	}
+
+
+	function getDepartmentUpdate(){
+		 const select2 = document.getElementById('department2');
+		  const selectedOption2 = select2.options[select2.selectedIndex];
+		  const departmentName2 = selectedOption2.getAttribute('data-dept');
+		  var specialityDiv2 = document.getElementById('percentageDiv2');
+
+		if (departmentName2 === "Doctor") {
+			  specialityDiv2.style.display = 'block'; 
+			} else {
+			  specialityDiv2.style.display = 'none';  
+			}
+
+		  
+	
+	}
+
+
+		function searchStaffForm(){
+		var q = document.getElementById("searchStaff").value;
+		const url = "staff/?name="+q;
+		loadPage(url);
+		
+		}
+
 
 
 function confirmDisableStaff(id) {

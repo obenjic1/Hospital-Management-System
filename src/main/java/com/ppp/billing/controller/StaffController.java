@@ -8,10 +8,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.ppp.billing.model.Medicine;
 import com.ppp.billing.model.Staff;
 import com.ppp.billing.service.DepartmentService;
 import com.ppp.billing.service.StaffService;
@@ -29,8 +30,8 @@ import com.ppp.billing.service.StaffService;
 	    private DepartmentService departmentService;
 
 	    @GetMapping
-	    public String listStaff(Model model) {
-	        model.addAttribute("staffList", staffService.getAllStaff());
+	    public String listStaff( @RequestParam(required = false) String name,Model model) {
+	        model.addAttribute("staffList", staffService.getAllStaff(name));
 	        return "staff/staff-list";
 	    }
 
@@ -67,10 +68,9 @@ import com.ppp.billing.service.StaffService;
 	    }
 	
 	    // Save new medicine
-        @PostMapping("/edit/{id}")
-        public ResponseEntity<String> editStaff(@PathVariable("id") Long id ,  @ModelAttribute Staff staff, RedirectAttributes redirectAttributes) {
+        @PutMapping("/edit/{id}")
+        public ResponseEntity<String> editStaff(@PathVariable Long id ,  @ModelAttribute Staff staff) {
             staffService.updateStaff(id, staff);
-            redirectAttributes.addFlashAttribute("success", "Staff Edited successfully!");
             return   new ResponseEntity<>(HttpStatus.CREATED);
 
         }

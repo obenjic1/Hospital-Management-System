@@ -1,10 +1,12 @@
 package com.ppp.billing.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.ppp.billing.Dto.MonthlyServiceStat;
 import com.ppp.billing.model.ServiceItem;
 import com.ppp.billing.repository.ServiceItemRepository;
 
@@ -45,5 +47,20 @@ public class ServiceItemService {
         return repo.save(item);
 		
 	}
+	
+	public List<MonthlyServiceStat> getCurrentMonthServiceStats() {
+        List<Object[]> rawResults = repo.getCurrentMonthServiceUsageStats();
+
+        List<MonthlyServiceStat> stats = new ArrayList<>();
+        for (Object[] row : rawResults) {
+            String serviceName = (String) row[0];
+            long timesUsed = ((Number) row[1]).longValue();
+            double totalRevenue = ((Number) row[2]).doubleValue();
+
+            stats.add(new MonthlyServiceStat(serviceName, timesUsed, totalRevenue));
+        }
+
+        return stats;
+    }
 
 }

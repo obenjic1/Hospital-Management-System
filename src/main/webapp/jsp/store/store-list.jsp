@@ -89,7 +89,7 @@
                     </c:forEach>
                     <option  onclick="loadMainModalForm('store/add-category')" data-bs-toggle="modal" data-bs-target="#MainModal" class="btn btn-gradient" style="margin-right:121px">Add New Category</option>
                 </select>
-                <button type="button"  onclick="event.preventDefault(); searchMedicine()" class="btn btn-outline-primary ms-2">Search</button>
+                <button type="button"  onclick="event.preventDefault(); searchStaff()" class="btn btn-outline-primary ms-2">Search</button>
             </form>
         </div>
 
@@ -155,7 +155,6 @@
 											</button>
 										</form>
 
-                                   
 							 </td>
                             </tr>
                         </c:forEach>

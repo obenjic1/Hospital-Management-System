@@ -26,4 +26,22 @@ public interface PaymentItemRepository extends JpaRepository<PaymentItem, Long>{
 //		@Query("SELECT MAX(p.referenceNumber) FROM PaymentItem p WHERE p.referenceNumber LIKE CONCAT('RCLB', :datePart, '%')")
 //		String findMaxReceiptNumberForDate(@Param("datePart") String datePart);
 		
+		@Query(value =
+			    "SELECT si.name AS service_name, " +
+			    "       si.price AS unit_price, " +                    
+			    "       COUNT(*) AS times_used, " +
+			    "       si.price * COUNT(*) AS total_revenue " +
+			    "FROM payment_item pi " +
+			    "JOIN payment_service_items psi ON pi.id = psi.payment_id " +
+			    "JOIN service_item si ON psi.service_item_id = si.id " +
+			    "WHERE MONTH(pi.payment_date) = MONTH(CURRENT_DATE()) " +
+			    "  AND YEAR(pi.payment_date) = YEAR(CURRENT_DATE()) " +
+			    "GROUP BY si.name, si.price " +
+			    "ORDER BY si.name",
+			    nativeQuery = true)
+			List<Object[]> getCurrentMonthServiceUsageStats();
+
+		
+
+		
 }

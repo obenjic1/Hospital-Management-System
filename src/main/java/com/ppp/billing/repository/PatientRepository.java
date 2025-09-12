@@ -9,5 +9,6 @@ import com.ppp.billing.model.Patient;
 @Repository
 public interface PatientRepository  extends JpaRepository<Patient, Long>{
     List<Patient> findByNameContainingIgnoreCase(String name);
+    
 
 }

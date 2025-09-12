@@ -279,6 +279,14 @@
 				    <a class="nav-link collapsed" onclick="loadPage('patients')" href="#">
 				    <i class="bi bi-person">
 				  </i> <span>List Patients</span></a></li>
+				  <li class="nav-item">
+				    <a class="nav-link collapsed" onclick="loadPage('appointments')" href="#">
+				    <i class="bi bi-person">
+				  </i> <span>List Appointments</span></a></li>
+				   <li class="nav-item">
+				    <a class="nav-link collapsed" onclick="loadPage('consultations')" href="#">
+				    <i class="bi bi-person">
+				  </i> <span>List Consultations</span></a></li>
 				</sec:authorize>
 				<sec:authorize access="hasRole('ROLE_VIEW_SERVICE')">
 				  <li class="nav-item"><a class="nav-link collapsed" onclick="loadPage('services')" href="#">
@@ -351,6 +359,12 @@
 					  <a class="nav-link collapsed" onclick="loadPage('reports/dashboard') "href="#">
 					    <i class="ri-line-chart-line"></i>
 					    <span>Statistics</span>
+					  </a>
+					</li>
+					<li class="nav-item">
+					  <a class="nav-link collapsed" onclick="loadPage('consultations/doctor-revenue') "href="#">
+					    <i class="ri-line-chart-line"></i>
+					    <span>Consultation Reports</span>
 					  </a>
 					</li>
 					<li class="nav-item">
@@ -506,6 +520,8 @@ $(document).ready(function() {
 });
 </script>
     <script src="assets/js/hospital/medicine.js"></script>
+    <script src="assets/js/hospital/consultation.js"></script>
+    
     <script src="assets/js/hospital/staff.js"></script>
 	<script src="assets/js/billing/job.js"></script>
 	<script src="assets/js/statistics/revenue.js"></script> 

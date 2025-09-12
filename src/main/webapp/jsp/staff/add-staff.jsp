@@ -76,12 +76,19 @@
 						<div class="col-md-6" >
 						  <label for="groupe" id="departement" class="form-label"><fmt:message key="list.departement"/></label>
 						  <div class="input-group has-validation" >
-							 <select id="department" name="department" class="form-select">
+							 <select id="department" name="department" class="form-select" onchange="getDepartment()">
 							   <c:forEach items="${departments}" var="departement">
-								 <option value="${departement.id}">${departement.name}</option>
+								 <option value="${departement.id}" data-department="${departement.name}">${departement.name}</option>
 							   </c:forEach>
 								</select>
 							</div>
+						</div>
+						<div class="col-md-6" id="percentageDiv" style="display:none">
+						  <label for="address" class="form-label">Consultation Percentage</label>
+						  <div class="input-group has-validation">
+							<span class="input-group-text"> <i class="fas fa-map-marker-alt"></i></span> 
+							<input type="number" id="percentage" name="percentage" class="form-control"  />
+						  </div>
 						</div>
 						<div class="col-md-6">
 						  <label for="address" class="form-label">Speciality</label>
@@ -139,7 +146,7 @@
 <!-- 						</div> -->
 						
 <!-- 						</div> -->
-						<div class="col-md-3" style="  width: 20%; left: 72%; position: relative;bottom: -10px; ">
+						<div class="col-md-3" style="  width: 20%; left: 21%; position: relative;bottom: -10px; ">
 							<input type="button" id="createBtn"  onclick="addStaff()"  style=" bottom: -42%;" class="btn btn-outline-primary w-100" value="Save" >
 						</div>
 					</form>

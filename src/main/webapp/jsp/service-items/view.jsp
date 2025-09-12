@@ -16,7 +16,7 @@
 			<h5 class="card-title text-center pb-0 fs-4">Service Details</h5>
 				<p class="text-center small">carefully view the Details for ${item.name }</p>
 <div class="container m-4" >
-    <h2>Service Item Details</h2>
+    <h2>Service Details</h2>
     <form  class="m-4">
     <div class="row">
         <div class="my-2 col-md-6">

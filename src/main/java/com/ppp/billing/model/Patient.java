@@ -34,6 +34,9 @@ public class Patient {
     private int age;
     private String gender;
     private String contact;
+    private String emmergencyContact; 
+    private String emmergenceName;
+
     
     
     
