@@ -29,7 +29,7 @@ public interface MedicineRepository extends JpaRepository<Medicine, Long> {
 	    @Query("SELECT COALESCE(SUM(m.quantity), 0) FROM Medicine m WHERE m.location = :loc")
 	    long sumQuantityByLocation(@Param("loc") Location loc);
 
-	    @Query("SELECT COALESCE(SUM(m.price * m.quantity), 0) FROM Medicine m WHERE m.location = :loc")
+	    @Query("SELECT COALESCE(SUM(m.unitPrice * m.quantity), 0) FROM Medicine m WHERE m.location = :loc")
 	    BigDecimal sumValueByLocation(@Param("loc") Location loc);
 
 	    // Expiring soon: before a date
@@ -57,11 +57,12 @@ public interface MedicineRepository extends JpaRepository<Medicine, Long> {
 	    long sumPharmacyQuantity();
 
 	    // Total value in store
-	    @Query("SELECT COALESCE(SUM(m.price * m.storeQuantity), 0) FROM Medicine m")
+	    @Query("SELECT COALESCE(SUM(m.unitPrice * m.storeQuantity), 0) FROM Medicine m")
 	    BigDecimal sumStoreValue();
 
+
 	    // Total value in pharmacy
-	    @Query("SELECT COALESCE(SUM(m.price * m.pharmacyQuantity), 0) FROM Medicine m")
+	    @Query("SELECT COALESCE(SUM(m.unitPrice * m.pharmacyQuantity), 0) FROM Medicine m")
 	    BigDecimal sumPharmacyValue();
 
 	    // Count medicines expiring soon in store

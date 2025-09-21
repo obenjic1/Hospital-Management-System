@@ -101,7 +101,7 @@ public class PdfService {
             for (SaleItem item : sale.getItems()) {
                 table.addCell(item.getMedicine().getName());
                 table.addCell(String.valueOf(item.getQuantity()));
-                table.addCell(item.getMedicine().getPrice().toString());
+                table.addCell(item.getMedicine().getUnitPrice().toString());
                 table.addCell(item.getSubtotal().toString());
             }
 
@@ -231,12 +231,12 @@ public class PdfService {
 
         // 5. Table Rows (Sale Items)
         for (SaleItem item : sale.getItems()) {
-            BigDecimal itemTotal = item.getMedicine().getPrice().multiply(new BigDecimal(item.getQuantity()));
+            BigDecimal itemTotal = item.getMedicine().getUnitPrice().multiply(new BigDecimal(item.getQuantity()));
 //            BigDecimal discount = item.getDiscount() != null ? item.getDiscount() : BigDecimal.ZERO;
 
             table.addCell(new Cell().add(item.getMedicine().getName()));
             table.addCell(new Cell().add(String.valueOf(item.getQuantity())));
-            table.addCell(new Cell().add(item.getMedicine().getPrice().toString()));
+            table.addCell(new Cell().add(item.getMedicine().getUnitPrice().toString()));
 //            table.addCell(new Cell().add(discount.toString()));
 //            table.addCell(new Cell().add(itemTotal.subtract(discount).toString()));
         }

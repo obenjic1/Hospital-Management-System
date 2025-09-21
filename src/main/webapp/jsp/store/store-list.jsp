@@ -135,7 +135,7 @@
                                 <td>${m.quantity}</td>
                                  <td>${m.storeQuantity}</td>
                                 <td>${m.pharmacyQuantity}</td>
-                                <td> ${m.price}</td>
+                                <td> ${m.unitPrice}</td>
                                 <td >
                                     <form  style="display:inline-block;" onsubmit="return false;">
                                      <input type="hidden" name="medicineId" id="med-${m.id}"  value="${m.id}" />
