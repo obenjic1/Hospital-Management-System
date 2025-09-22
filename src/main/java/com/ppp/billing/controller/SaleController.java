@@ -40,10 +40,11 @@ public class SaleController {
 
 	    @PostMapping("/checkout")
 	    public ResponseEntity<?> checkout(@RequestBody CheckoutRequest saleDto) {
-	    
+
 	    	
 	    try {
 	    	Sale sale = saleService.processSale(saleDto);
+
 	    	 CheckoutResponse response = new CheckoutResponse();
 	    	 response.setCashierName(sale.getPharmacist().getStaff().getFirstName());
 	    	 response.setId(sale.getId());
@@ -53,7 +54,7 @@ public class SaleController {
 	    	 response.setStatus("ok");
 	    	    return ResponseEntity.ok(response);	
 		} catch (Exception e) {
-
+					System.out.println(e.getMessage());
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
 			 	}
 	    	

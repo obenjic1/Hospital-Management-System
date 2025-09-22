@@ -7,7 +7,7 @@
 <head>
     <title>Medicine Inventory Store</title>
     <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <link href="assets/vendor/DataTables/datatables.css" rel="stylesheet">
+    <link href="DataTables/datatables.css" rel="stylesheet">
     <style>
         body { background-color: #f4f7fc; font-family: Arial, sans-serif; }
         .stat-card { border-radius: 12px; color: #fff; padding: 10px; display: flex; align-items: center;
@@ -75,7 +75,6 @@
                     <option value="${cat.name}" ${selectedCategory == cat.name ? 'selected' : ''}>${cat.name}</option>
                 </c:forEach>
             </select>
-            <button type="button" id="searchBtn" onclick="searchMedicine()" class="btn btn-outline-primary ms-2">Search</button>
         </div>
         <div class="col-md-4 text-end">
             <button type="button" onclick="loadMainModalForm('store/add')" data-bs-toggle="modal" data-bs-target="#MainModal"
@@ -146,18 +145,30 @@
     </div>
 </div>
 
-
-
-<script>
-
-
-
-</script>
 <!-- Scripts -->
-<script src="DataTables/datatables.js"></script>
-
 <script src="assets/vendor/jquery-3.5.1.min.js"></script>
+<script src="DataTables/datatables.js"></script>
 <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 <script src="assets/js/hospital/medicine.js"></script>
+
+<script>
+$(document).ready(function() {
+    var table = $('#medicineTable').DataTable({
+        responsive: true
+    });
+
+    // Live search
+    $('#searchBoxer').on('keyup', function() {
+        table.search(this.value).draw();
+    });
+
+    // Category filter
+    $('#category').on('change', function() {
+        var val = this.value === "All" ? "" : this.value;
+        table.column(2).search(val).draw(); // filter by Name/Category column
+    });
+});
+</script>
+
 </body>
 </html>

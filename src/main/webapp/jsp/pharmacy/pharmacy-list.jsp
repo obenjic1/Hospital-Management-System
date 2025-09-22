@@ -60,20 +60,26 @@
 
 <div class="container-fluid p-4">
 
+
     <!-- Header -->
     <div class="d-flex align-items-center justify-content-between mb-4">
         <h2 class="fw-bold">PharmaCare Dashboard</h2>
     </div>
      <div class="my-2">
+                          <h3> Today Sales : <span class="badge bg-primary"> ${totalSales}  CFA                              <span data-bs-toggle="modal"  data-bs-target="#ExtralargeModal"  onclick="loadPageModalForm('patients/view/${p.id}')" class="btn btn-sm btn-secondary">View</span>
+                          </span></h3>                      	
+                          
+     
             <span class="me-3"><i class="bi bi-capsule"></i> ${stats.totalMedicines}  Medicines</span>
             <c:if test="${stats.expiringSoon>0}">
                     <span class="badge bg-danger"><i class="bi bi-exclamation-circle"></i> ${stats.expiringSoon} Expiring Soon</span>
             </c:if>
-            <span class="badge bg-danger"><i class="bi bi-exclamation-circle"></i> ${stats.lowStock} Low Stock</span>
+            <span class="badge bg-danger">${stats.lowStock} Low Stock</span>
             
+
         </div>
    <div class="row d-flex">
-   	<div class="col-lg-12"> 
+   	<div class="col-lg-12">  
    	<div class="row mb-4  d-flex">
        <form  class="d-flex" >
 			<input type="text" name="q" class="form-control search-bar m-6" id="searchBoxer"  style="width: 49%;" placeholder="Search medicines..." />
@@ -82,10 +88,15 @@
                     <c:forEach var="cat" items="${categories}">
                         <option value="${cat.name}">${cat.name}</option>
                     </c:forEach>
-                    <option  onclick="loadMainModalForm('store/add-category')" data-bs-toggle="modal" data-bs-target="#MainModal" class="btn btn-gradient" style="margin-right:121px">Add New Category</option>
+<!--                     <option  onclick="loadMainModalForm('store/add-category')" data-bs-toggle="modal" data-bs-target="#MainModal" class="btn btn-gradient" style="margin-right:121px">Add New Category</option> -->
                 </select>
                 <button type="button"  onclick="event.preventDefault(); searchPharmacyMedicine()" class="btn btn-outline-primary ms-2">Search</button>
             </form>
+            
+            
+            
+            
+            
             
               <div class="row mt-3" >
                <c:forEach var="m" items="${medicines}">
@@ -105,14 +116,28 @@
 	                        			 <span class="badge bg-success">Pharmacy: ${m.pharmacyQuantity}</span>
 	                        			
 	                        	</c:otherwise>
-	                        
-	                        
 	                        </c:choose>
 	                            <span class="badge bg-primary">Store:  ${m.storeQuantity}</span>
 	                        </div>
-	                        <h5 class="text-success">CFA ${m.price}</h5>
+	                         <!-- Display Unit and Packet Prices -->
+				                <div class="d-flex justify-content-between">
+				                    <div>
+				                        <span class="text-muted">Unit Price: </span> <span class="text-success">CFA ${m.unitPrice}</span><br>
+				                       <span class="text-muted">Packet Price: </span> <span class="text-success"> CFA ${m.packetPrice}</span><br>
+				                        
+				                    </div>
+				                </div>
+				                 <!-- Price Selection: Unit vs Packet -->
+				                <div class="mb-2">
+				                    <label for="priceType-${m.id}">Purchase Type</label>
+				                    <select id="priceType-${m.id}" class="form-select" onchange="updatePrice(${m.id}, '${m.unitPrice}', '${m.packetPrice}')">
+				                     <option value="packet">Packet</option>
+				                     <option value="unit">Unit</option>
+				                    </select>
+				                </div>
+
 	                        <div style="display:flex;">
-	                        <button class="btn btn-gradient w-100 add-to-cart "  style="margin:5px"  onclick="addToCart('${m.id}', '${m.name}', '${m.price}')">+ Add</button>
+	                        <button class="btn btn-gradient w-100 add-to-cart "  style="margin:5px"  onclick="addToCart('${m.id}', '${m.name}', '${m.packetPrice}','${m.unitPrice}')">+ Add</button>
 						                        <button class="btn btn-outline-danger w-100" id ="request-${m.id}" style="margin:5px" onclick="toogleRequestForm(${m.id})">Request</button>
 	                       </div>
 	                       <div id="medDiv-${m.id}"style="text-align: end;display:none">
@@ -137,7 +162,14 @@
                 <div id="cartBody">
 
                 </div>
-
+                
+				  <div class="mb-2">
+				                    <label for="paymentMethod">Patment Method</label>
+				                    <select id="paymentMethod" class="form-select"">
+				                     <option value="Cash">Cash</option>
+				                     <option value="Mobile Money">Mobile Money</option>
+				                    </select>
+				                </div>
                 <div class="mt-3">
                     <h5 id="cartTotal"></h5>
                     <button class="btn btn-light w-100"onclick="checkout()" >Checkout</button>

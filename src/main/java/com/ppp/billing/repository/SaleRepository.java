@@ -1,6 +1,7 @@
 package com.ppp.billing.repository;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -11,6 +12,9 @@ import org.springframework.data.repository.query.Param;
 import com.ppp.billing.model.Sale;
 
 public interface SaleRepository extends JpaRepository<Sale, Long> {
+	
+	@Query("SELECT SUM(s.total) FROM Sale s WHERE FUNCTION('DATE', s.saleDate) = :date")
+    BigDecimal getTotalSalesForToday(@Param("date") Date date);
 	
 	@Query("SELECT MAX(s.receiptNumber) FROM Sale s WHERE s.receiptNumber LIKE CONCAT('RCPT', :datePart, '%')")
 	String findMaxReceiptNumberForDate(@Param("datePart") String datePart);

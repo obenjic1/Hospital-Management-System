@@ -1,4 +1,6 @@
 
+
+
 function addCategory(){
 	var catName = document.getElementById("categoryName").value;
 	var catDescription = document.getElementById("categoryDesc").value;
@@ -25,48 +27,63 @@ function addCategory(){
 			});
 				loadPage('store');
 }
+function saveMedicine() {
+    var name = document.getElementById("medicineName").value;
+    var category = document.getElementById("medCategory").value;
+    var quantity = document.getElementById("quantity").value;
+    var purchasePrice = document.getElementById("purchasePrice").value;
+    var threshold = document.getElementById("threshold").value;
+    var expiringDate = document.getElementById("expiryDate").value;
+    var description = document.getElementById("description").value;
 
-function saveMedicine(){
-	var name = document.getElementById("medicineName").value;
-	var category = document.getElementById("medCategory").value;
-	var quantity = document.getElementById("quantity").value;
-	var price 	 = document.getElementById("price").value;
-	var threshold = document.getElementById("threshold").value;
-	var expiringDate = document.getElementById("expiryDate").value;
-	var description = document.getElementById("description").value;
-
-	var formData = new FormData();
-		formData.append('name', name),
-		formData.append('category', category),
-		formData.append('quantity', quantity),
-		formData.append('price', price),
-		formData.append('threshold', threshold),
-		formData.append('expiringDate', expiringDate),
-		formData.append('description', description),
+    var unitPrice = document.getElementById("unitPrice").value;
+    var packetPrice = document.getElementById("packetPrice").value;
+    var purchasePrice = document.getElementById("purchasePrice").value;
+    var unitsPerPacket = document.getElementById("unitsPerPacket").value;
+    var code = document.getElementById("code").value;
 
 
-		fetch('store/add', {
-			method: 'POST',
-			body: formData,
-		})
-			.then(function(response) {
-				if (response.ok) {
-					Swal.fire("Success!/Success!", "Medicine successfully!", "success");
-					document.getElementById("add-close").click();
-					loadPage('store');
-				}else{
-					 Swal.fire({icon: "error", title: "Oops...", text: "Something went wrong!"});
-				} 
-			})
-			.then(function(data) {
-			
-			})
-			.catch(function(error) {
-				
-			});
-				loadPage('store');
-	
+    var formData = new FormData();
+    formData.append('name', name);
+    formData.append('category', category);
+    formData.append('quantity', quantity);
+    formData.append('purchasePrice', purchasePrice);
+    formData.append('threshold', threshold);
+    formData.append('expiringDate', expiringDate);
+    formData.append('description', description);
+    formData.append('unitPrice', unitPrice);
+    formData.append('packetPrice', packetPrice);
+    formData.append('purchasePrice', purchasePrice);
+    formData.append('unitsPerPacket', unitsPerPacket);
+    formData.append('code', code);
+
+
+    fetch('store/add', {
+        method: 'POST',
+        body: formData,
+    })
+    .then(response => {
+        if (response.ok) {
+            Swal.fire("Success!", "Medicine successfully added!", "success");
+            document.getElementById("add-close").click();
+            loadPage('store');
+        } else {
+            // Try to parse error message from JSON response
+            return response.json().then(errorData => {
+                let errorMsg = errorData.message || errorData.error || "Something went wrong!";
+                Swal.fire({ icon: "error", title: "Error", text: errorMsg });
+            }).catch(() => {
+                // If response is not JSON or parsing fails
+                Swal.fire({ icon: "error", title: "Error", text: "Something went wrong!" });
+            });
+        }
+    })
+    .catch(error => {
+        Swal.fire({ icon: "error", title: "Network Error", text: error.message || error });
+    });
 }
+
+
 	
 
 function searchMedicine(){
@@ -79,43 +96,59 @@ function searchMedicine(){
 }
 
 
-function updateMedicine(id){
-	var name = document.getElementById("nameE").value;
-	var category = document.getElementById("medCategoryE").value;
-	var quantity = document.getElementById("quantityE").value;
-	var price 	 = document.getElementById("priceE").value;
-	var threshold = document.getElementById("thresholdE").value;
-	var expirationDate = document.getElementById("expiryDateE").value;
+function updateMedicine(id) {
+    var name = document.getElementById("nameE").value;
+    var code = document.getElementById("codeE").value;
+    var description = document.getElementById("descriptionE").value;
+    var category = document.getElementById("medCategoryE").value;
+    var quantity = document.getElementById("quantityE").value;
+    var purchasePrice = document.getElementById("purchasePriceE").value;
+    var packetPrice = document.getElementById("packetPriceE").value;
+    var unitPrice = document.getElementById("unitPriceE").value;
+    var unitsPerPacket = document.getElementById("unitsPerPacketE").value;
+    var threshold = document.getElementById("thresholdE").value;
+    var expirationDate = document.getElementById("expiryDateE").value;
 
-	var formData = new FormData();
-		formData.append('name', name),
-		formData.append('category', category),
-		formData.append('quantity', quantity),
-		formData.append('price', price),
-		formData.append('threshold', threshold),
-		formData.append('expirationDate', expirationDate),
+    var formData = new FormData();
+    formData.append('name', name);
+    formData.append('code', code);
+    formData.append('description', description);
+    formData.append('category', category);
+    formData.append('quantity', quantity);
+    formData.append('purchasePrice', purchasePrice);
+    formData.append('packetPrice', packetPrice);
+    formData.append('unitPrice', unitPrice);
+    formData.append('unitsPerPacket', unitsPerPacket);
+    formData.append('threshold', threshold);
+    formData.append('expirationDate', expirationDate);
 
-
-		fetch(`store/edit/${id}`, {
-			method: 'POST',
-			body: formData,
-		})
-			.then(function(response) {
-				if (response.ok) {
-					Swal.fire("Success!/Success!", "Medicine Updated successfully!", "success");
-					document.getElementById("add-close").click();
-					loadPage('store');
-				}else{
-					 Swal.fire({icon: "error", title: "Oops...", text: "Something went wrong!"});
-				} 
-			})
-		
-			.catch(function(error) {
-				
-			});
-				loadPage('store');
-	
+    fetch(`store/edit/${id}`, {
+        method: 'POST',
+        body: formData,
+    })
+        .then(function(response) {
+            if (response.ok) {
+                Swal.fire("Success!", "Medicine updated successfully!", "success");
+                document.getElementById("add-close").click();
+                loadPage('store');
+            } else {
+                Swal.fire({
+                    icon: "error",
+                    title: "Oops...",
+                    text: "Something went wrong!"
+                });
+            }
+        })
+        .catch(function(error) {
+            console.error("Update error:", error);
+            Swal.fire({
+                icon: "error",
+                title: "Error",
+                text: "Could not update medicine!"
+            });
+        });
 }
+
 	
 function addQuantity(medicineId){
 
@@ -245,7 +278,6 @@ function TransferToPharmacy(medicineId,quantity){
 		method: 'POST',
 	})
 		.then(function(response) {
-			console.log(response.bodydy);
 			if (response.ok) {
 				document.getElementById(`qty-${medicineId}`).value= "";	
 				Swal.fire("Success!/Success!", "Medicine successfully!", "success");
@@ -266,18 +298,23 @@ function TransferToPharmacy(medicineId,quantity){
 }
 
 
-  let cart = [];
-
-
-  function addToCart(id, name, price) {
-    let existing = cart.find(item => item.id === id);
-    if (existing) {
-      existing.qty += 1;
-    } else {
-      cart.push({ id, name, price: parseFloat(price), qty: 1 });
-    }
-    renderCart();
-  }
+		  let cart = [];
+		  
+		 function addToCart(id, name, packetPrice, unitPrice) {
+		    var unitType = document.getElementById(`priceType-${id}`).value;
+		    const price = unitType === 'packet' ? packetPrice : unitPrice;
+		
+		    let existing = cart.find(item => item.id === id);
+		    
+		    if (existing) {
+		        existing.qty += 1;
+		    } else {
+		        cart.push({ id, name, price: parseFloat(price), qty: 1, unitType});
+		    }
+		
+		    renderCart();
+		}
+		
 
 
 
@@ -356,8 +393,6 @@ function updateQty(index, newQty) {
 
 
 
-
-
 function checkout() {
     if (cart.length === 0) {
 				 Swal.fire({icon: "error", title: "Oops...", text: "Carte is Empty"});
@@ -368,9 +403,8 @@ function checkout() {
 		
 		customerName : document.getElementById("customerName").value || " customer",
 		cartItems: cart,
-		paymentMethod:"Cash"
+		paymentMethod:document.getElementById("paymentMethod").value || " Cash",
 	}
-	
     fetch("sales/checkout", {
       method: "POST",
       headers: {
@@ -384,7 +418,6 @@ function checkout() {
 					cart = [];
 				   renderCart();
 				   loadPage('pharmacy');
-				   console.log(data);
 				   	previewPdf(data.id);
 	}).catch(error => {
 //		console.log(error.message);
@@ -442,6 +475,18 @@ function checkout() {
 								});
 		
 			}
+			
+		
+	$(document).ready(function() {
+    $('#medCategory').select2({
+        placeholder: "Search for a category",
+        allowClear: true,
+        width: '100%',
+        minimumResultsForSearch: 0,
+    });
+});
+
+
 		
 /**
  * 

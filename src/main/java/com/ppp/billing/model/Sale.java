@@ -49,9 +49,12 @@ public class Sale {
 
 	    private String paymentMethod;
 
+
 	    private String receiptNumber; 
 
-	    private String customerName;   
+	    private String customerName; 
+
+
 	    
 
 	    

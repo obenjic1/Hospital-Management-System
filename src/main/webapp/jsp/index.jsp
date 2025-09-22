@@ -20,11 +20,17 @@
 
 <!-- Favicons -->
 <link rel="stylesheet" href="assets/sweetalert/sweetalert2.min.css"/>
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
 
-<link rel="stylesheet" href="DataTables/datatables.css" />
-<script src="DataTables/datatables.js"></script>
+
+<link rel="stylesheet" href="assests/vendor/DataTables/datatables.css" />
+<script src="assets/vendor/DataTables/datatables.js"></script>
 <link href="assets/img/presprint.jpg" rel="icon">
 <link href="assets/img/queenmary-logo.png" rel="icon">
+<link href="assets/css/hospital/select2.min.css" rel="stylesheet" />
+
 
 <script src="assets/vendor/jquery-3.5.1.min.js"></script>
 
@@ -519,6 +525,8 @@ $(document).ready(function() {
     refreshGroupTable(1);
 });
 </script>
+	<script src="assets/js/hospital/jquery.min.js"></script>
+	<script src="assets/js/hospital/select2.min.js"></script>
     <script src="assets/js/hospital/medicine.js"></script>
     <script src="assets/js/hospital/consultation.js"></script>
     
@@ -541,7 +549,7 @@ $(document).ready(function() {
 	<script src="assets/js/billing/papertype.js"></script>
 	<script src="assets/js/billing/app.js"></script>
 
-	<script src="DataTables/datatables.js"></script>
+	<script src="assets/vendor/DataTables/datatables.js"></script>
 	<script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 	<script src="assets/vendor/tinymce/tinymce.min.js"></script>
 	

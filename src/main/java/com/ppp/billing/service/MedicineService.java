@@ -91,18 +91,19 @@ public class MedicineService {
         Category cat = categoryRepository.findById(updated.getCategory().getId()).orElseThrow(null);
         
         med.setName(updated.getName());
+        med.setCode(updated.getCode());
         med.setDescription(updated.getDescription());
         med.setCategory(cat);
         med.setThreshold(updated.getThreshold());
         med.setExpirationDate(updated.getExpirationDate());
         
-        // ✅ update pricing
+        // update pricing
         med.setPurchasePrice(updated.getPurchasePrice());
         med.setPacketPrice(updated.getPacketPrice());
         med.setUnitPrice(updated.getUnitPrice());
         med.setUnitsPerPacket(updated.getUnitsPerPacket());
         
-        // ✅ update quantities
+        // update quantities
         med.setQuantity(updated.getQuantity());
         med.setStoreQuantity(updated.getQuantity() - med.getPharmacyQuantity());
         

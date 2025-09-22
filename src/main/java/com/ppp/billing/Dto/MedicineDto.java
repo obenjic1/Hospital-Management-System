@@ -8,6 +8,7 @@ import javax.persistence.Enumerated;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import com.ppp.billing.model.Medicine;
 import com.ppp.billing.model.Medicine.Location;
 
 import lombok.AllArgsConstructor;
@@ -19,6 +20,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class MedicineDto {
 
+	private long id;
     private String name;
     private String description;
 
@@ -44,5 +46,22 @@ public class MedicineDto {
 
     @Enumerated(EnumType.STRING)
     private Location location;
+    
+    
+  
+    // Constructor that takes a Medicine entity
+    public MedicineDto(Medicine m) {
+        this.id = m.getId();
+        this.name = m.getName();
+        this.description = m.getDescription();
+        this.unitPrice = m.getUnitPrice();
+        this.packetPrice = m.getPacketPrice();
+        this.purchasePrice = m.getPurchasePrice();
+        this.unitsPerPacket = m.getUnitsPerPacket();
+        this.threshold = m.getThreshold();
+        this.quantity = m.getQuantity();
+        this.expiringDate = m.getExpirationDate();
+        this.category = m.getCategory() != null ? m.getCategory().getId() : null;
+    }
 }
 

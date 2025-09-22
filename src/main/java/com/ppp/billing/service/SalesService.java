@@ -3,6 +3,7 @@ package com.ppp.billing.service;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.List;
@@ -43,6 +44,7 @@ public class SalesService {
     	
     	String userName = SecurityContextHolder.getContext().getAuthentication().getName();
        User pharmacist = userRepository.findByUsername(userName);
+		System.out.println(" am inside checkout");
 
         Sale sale = new Sale();
         sale.setSaleDate(LocalDateTime.now());
@@ -54,6 +56,7 @@ public class SalesService {
         
 
         BigDecimal total = BigDecimal.ZERO;
+
         int totalQuantity = 0;
         for (CartItemDto item : saleDto.getCartItems()) {
             Medicine medicine = medicineRepository.findById(item.getId())
@@ -62,19 +65,22 @@ public class SalesService {
             if (medicine.getPharmacyQuantity() < item.getQty()) {
                 throw new RuntimeException("Not enough stock for " + medicine.getName());
             }
+            
+
 
             // update stock
-            medicine.setPharmacyQuantity(medicine.getPharmacyQuantity() - item.getQty());
-            medicine.addTracking("SOLD", "sold : " + item.getQty() + " of " + item.getName() + " at the pharmacy to :" + sale.getCustomerName()   );
-            medicine.setQuantity(medicine.getQuantity() - item.getQty());
+//            medicine.setPharmacyQuantity(medicine.getPharmacyQuantity() - item.getQty());
+//            medicine.addTracking("SOLD", "sold : " + item.getQty() + " of " + item.getName() + " at the pharmacy to :" + sale.getCustomerName()   );
+//            medicine.setQuantity(medicine.getQuantity() - item.getQty());
 
             medicineRepository.save(medicine);
 
             // create SaleItem
+
             SaleItem saleItem = new SaleItem();
             saleItem.setMedicine(medicine);
             saleItem.setQuantity(item.getQty());
-
+            saleItem.setUnitType(item.getUnitType());
             BigDecimal subtotal = item.getPrice().multiply(BigDecimal.valueOf(item.getQty()));
             saleItem.setSubtotal(subtotal);
 
@@ -85,7 +91,8 @@ public class SalesService {
         }
         sale.setQuantity(totalQuantity);
         sale.setTotal(total);
-        
+      //  sale.setBallance(sale.getAmountPaid().subtract(total));
+
 
         return saleRepository.save(sale);
     }
@@ -120,4 +127,9 @@ public class SalesService {
 			public  List<Sale>salesReport(Date sDate, Date eDate) {
 				return saleRepository.findBySaleDateBetween(sDate,eDate);
 			}
+			  public BigDecimal getTotalSalesForToday() {
+			        LocalDate  today = LocalDate.now();
+			        Date date = Date.from(today.atStartOfDay(ZoneId.systemDefault()).toInstant());
+			        return saleRepository.getTotalSalesForToday(date);
+			    }
 }

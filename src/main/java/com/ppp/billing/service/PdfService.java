@@ -6,7 +6,6 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-import org.dom4j.DocumentException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ClassPathResource;
@@ -60,7 +59,7 @@ public class PdfService {
 	 //   System.out.println(document.getWidth());
 	 
 			ByteArrayOutputStream baos = new ByteArrayOutputStream();
-	 
+
 	 try {
 			PdfWriter pdfWriter = new PdfWriter(receiptDir+ sale.getReceiptNumber()+".pdf");
 			PdfDocument pdfDocument = new PdfDocument(pdfWriter);
@@ -68,19 +67,56 @@ public class PdfService {
 //			 document.setMargins(25, 25, 297-156, 50);
 
 			PrintableElement printer = new PrintableElement();	
-			
-		
+			 // HEADER: Medical Center Info and Logo
+		    float[] headerWidths = {3, 2, 3};
+		    Table headerTable = new Table(headerWidths);
+		    headerTable.setWidth(UnitValue.createPercentValue(100));
 
-			 document.add(new Paragraph("Queen Mary Hospital ")
-		                .setBold()
-		                .setFontSize(16)
-		                .setTextAlignment(TextAlignment.CENTER)
-		                .setMarginBottom(20));
-			 document.add(new Paragraph(" Pharmacy Receipt ")
-		                .setBold()
-		                .setFontSize(14)
-		                .setTextAlignment(TextAlignment.CENTER)
-		                .setMarginBottom(10));
+		    // Left Column - Center Info
+		    Cell leftCell = new Cell();
+		    leftCell.setBorder(Border.NO_BORDER);
+		    leftCell.add(new Paragraph("CENTRE MÉDICAL QUEEN MARY")
+		            .setFontSize(12)
+		            .setBold()
+		            .setFontColor(new DeviceRgb(0, 51, 102))); // dark blue
+		    leftCell.add(new Paragraph("Pour des Soins Plus Humains")
+		            .setFontSize(10)
+		            .setItalic());
+		    leftCell.add(new Paragraph("RC No RC/YAO/2021/B/2230").setFontSize(9));
+		    leftCell.add(new Paragraph("NUI M112116710688d").setFontSize(9));
+		    headerTable.addCell(leftCell);
+
+		    // Center Column - Logo
+		    Cell centerCell = new Cell();
+		    centerCell.setBorder(Border.NO_BORDER);
+		    centerCell.setTextAlignment(TextAlignment.CENTER);
+		    try {
+		        ClassPathResource resource = new ClassPathResource("static/img/queen.png");
+		        Image logo = new Image(ImageDataFactory.create(resource.getFile().getAbsolutePath()));
+		        logo.setWidth(100);
+		        logo.setHeight(50);
+		        centerCell.add(logo);
+		    } catch (Exception e) {
+		        centerCell.add(new Paragraph("Logo not available").setFontSize(10).setItalic());
+		    }
+		    headerTable.addCell(centerCell);
+
+		    // Right Column - Contact Info
+		    Cell rightCell = new Cell();
+		    rightCell.setBorder(Border.NO_BORDER);
+		    rightCell.setTextAlignment(TextAlignment.RIGHT);
+		    rightCell.add(new Paragraph("Shell Nsimeyong, Yaoundé").setFontSize(9).setBold());
+		    rightCell.add(new Paragraph("(+237) 659 439 160").setFontSize(9));
+		    rightCell.add(new Paragraph("(+237) 675 124 157").setFontSize(9));
+		    rightCell.add(new Paragraph("BP 31431").setFontSize(9));
+		    rightCell.add(new Paragraph("cmqueenmary@gmail.com").setFontSize(9));
+		    headerTable.addCell(rightCell);
+
+		    document.add(headerTable);
+
+	
+			document.add(new Paragraph("\n"));
+
           //  printer.printHeader(document, " Queen Mary Hospital");
             printer.printHeader(document, " Pharmacy Receipt");
 
@@ -90,29 +126,37 @@ public class PdfService {
             printer.printParagraphe(document, "Date: " + sale.getSaleDate());
 
             printer.printParagraphe(document, "Payment: " + sale.getPaymentMethod());
-
-
-            Table table = new Table(4);
+            
+            
+            Table table = new Table(6);
+            table.addCell("No");
             table.addCell("Medicine");
+            table.addCell("Unit Type");
             table.addCell("Qty");
             table.addCell("Price");
             table.addCell("Total");
-
+            int num = 1; 
             for (SaleItem item : sale.getItems()) {
+            	table.addCell(String.valueOf( num));
                 table.addCell(item.getMedicine().getName());
+                table.addCell(item.getUnitType());
                 table.addCell(String.valueOf(item.getQuantity()));
                 table.addCell(item.getMedicine().getUnitPrice().toString());
                 table.addCell(item.getSubtotal().toString());
+                num++;
             }
 
-            Cell totalCell = new Cell(1, 4)  // 1 row, spans 4 columns
+            Cell totalCell = new Cell(1, 6)  // 1 row, spans 4 columns
                     .add("Grand Total: " + sale.getTotal())
                     .setTextAlignment(TextAlignment.RIGHT);
 
             table.addCell(totalCell);
-            
-
             printer.printTable(document, table);
+            
+       //     printer.printHeader(document, "Amount Received : " + sale.getAmountPaid());
+
+       //     printer.printHeader(document, "Ballance  : " +  sale.getBallance());
+
             document.add(new Paragraph("\nThank you for your purchase!")
                     .setTextAlignment(TextAlignment.CENTER)
                     .setItalic());
@@ -179,14 +223,20 @@ public class PdfService {
 		Cell rightCell = new Cell();
 		rightCell.setBorder(Border.NO_BORDER);
 		rightCell.setTextAlignment(TextAlignment.RIGHT);
-		rightCell.add(new Paragraph("Dr. NGONO Claire Sandrine")
+		rightCell.add(new Paragraph("Shell Nsimeyong, Yaoundé")
 		        .setFontSize(9)
 		        .setBold());
-		rightCell.add(new Paragraph("Adresse: [Ajouter Adresse]")
+		rightCell.add(new Paragraph("(+237) 659 439 160")
 		        .setFontSize(9));
-		rightCell.add(new Paragraph("Tel: 659 147 829")
+		rightCell.add(new Paragraph("(+237) 675 124 157")
+		        .setFontSize(9));
+		rightCell.add(new Paragraph("BP 31431")
+		        .setFontSize(9));
+		
+		rightCell.add(new Paragraph("cmqueenmary@gmail.com")
 		        .setFontSize(9));
 		headerTable.addCell(rightCell);
+
 
 		document.add(headerTable);
 

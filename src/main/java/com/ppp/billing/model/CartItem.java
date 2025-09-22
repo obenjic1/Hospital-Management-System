@@ -15,6 +15,8 @@ public class CartItem {
 	    private String medicineName;
 	    private int quantity;
 	    private BigDecimal unitPrice;
+	    private String unitType;
+
 	    
 	    public BigDecimal getTotalPrice() {
 	        if (unitPrice == null) {

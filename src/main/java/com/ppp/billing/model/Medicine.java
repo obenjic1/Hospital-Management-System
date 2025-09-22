@@ -35,6 +35,10 @@ public class Medicine {
     private String name;
 
     private String description;
+    
+    
+    private String code;
+
 
     /** Selling price per unit */
     private BigDecimal unitPrice;
@@ -47,6 +51,7 @@ public class Medicine {
 
     /** How many units in one packet (e.g., 10 tablets per pack) */
     private int unitsPerPacket;
+
 
     private int threshold;
     private int quantity;          // total quantity in stock
@@ -65,6 +70,7 @@ public class Medicine {
     @Enumerated(EnumType.STRING)
     private Location location;
 
+    
     @OneToMany(mappedBy = "medicine", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Tracking> tracking = new ArrayList<>();
 

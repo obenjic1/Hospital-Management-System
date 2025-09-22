@@ -28,6 +28,9 @@ public class SaleItem {
 	    private Medicine medicine;
 
 	    private int quantity;
+	    private String unitType;
+
+
 
 	    private BigDecimal subtotal;
 
