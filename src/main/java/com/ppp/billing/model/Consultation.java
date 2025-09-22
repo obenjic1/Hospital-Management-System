@@ -55,6 +55,9 @@ public class Consultation {
 	    private String notes;
 
 	    private LocalDateTime consultationDate = LocalDateTime.now();
+	    @ManyToOne
+	    @JoinColumn(name = "consultation_subtype_id", nullable = false)
+	    private ConsultationSubtype consultationSubtype;
 
 	   
 

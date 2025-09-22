@@ -97,6 +97,103 @@ function saveConsultation() {
 }
 
 
+ document.getElementById('consultationType').addEventListener('change', function() {
+        const typeId = this.value;
+        const subtypeSelect = document.getElementById('consultationSubtype');
+        const amountInput = document.getElementById('amountPaid');
+        
+        amountInput.value = '';
+        subtypeSelect.innerHTML = '<option value="">-- Select Consultation Subtype --</option>';
+        subtypeSelect.disabled = true;
+        
+        if (!typeId) return;
+        
+        fetch(`/consultations/subtypes?typeId=${typeId}`)
+            .then(response => response.json())
+            .then(data => {
+                data.forEach(subtype => {
+                    const option = document.createElement('option');
+                    option.value = subtype.id;
+                    option.textContent = `${subtype.name} (Price: ${subtype.price})`;
+                    option.dataset.price = subtype.price;
+                    subtypeSelect.appendChild(option);
+                });
+                subtypeSelect.disabled = false;
+            })
+            .catch(err => console.error('Error fetching subtypes:', err));
+    });
+    
+    document.getElementById('consultationSubtype').addEventListener('change', function() {
+        const selectedOption = this.options[this.selectedIndex];
+        const price = selectedOption ? selectedOption.dataset.price : '';
+        document.getElementById('amountPaid').value = price || '';
+    });
+
+function saveConsultationType(){
+	
+	const name = document.getElementById('name').value;
+	var formData = new FormData();
+    formData.append('name', name);
+	fetch('admin/consultation-types/add-type', {
+				method: 'POST',
+				body: formData,
+			})
+				.then( response => {	
+	   			 if (response.ok) {
+					Swal.fire("Succes/Success!", "Consultation  Successfully Registed !", "Consultation Successfully Registered")
+					return loadPage('admin/consultation-types');
+	   			 } else if (!response.ok) {
+						Swal.fire({icon: "error", title: "Oops...", text: "Something went wrong!"});
+	  			 }
+			})
+			 .then(function(data) {
+
+			 })
+				.catch(function(error) {
+
+				});
+	
+	
+}
+
+function saveConsultationSubtype(){
+	
+	const name = document.getElementById('subName').value;
+	const price = document.getElementById('price').value;
+	const typeId = document.getElementById('typeId').value;
+
+
+	
+	var formData = new FormData();
+	
+    formData.append('name', name);
+    formData.append('price', price);
+    formData.append('typeId', typeId);
+	
+	fetch('admin/consultation-types/add-subtype', {
+				method: 'POST',
+				body: formData,
+			})
+				.then( response => {	
+	   			 if (response.ok) {
+					Swal.fire("Succes/Success!", "SubConsultation  Successfully Registed !", "SubConsultation Successfully Registered")
+					return loadPage('admin/consultation-type');
+	   			 } else if (!response.ok) {
+						Swal.fire({icon: "error", title: "Oops...", text: "Something went wrong!"});
+	  			 }
+			})
+			 .then(function(data) {
+
+			 })
+				.catch(function(error) {
+
+				});
+	
+
+	
+}
+
+
 //function saveConsultation(){
 //	
 //	var patientId = document.getElementById("patientIdC").value;

@@ -1,5 +1,6 @@
 package com.ppp.billing.service;
 
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
@@ -26,14 +27,17 @@ public class PatientService {
     	patient.setName(newPatient.getName());
     	patient.setEmmergenceName(newPatient.getEmmergenceName());
     	patient.setEmmergencyContact(newPatient.getEmmergencyContact());
+    	patient.setMaritalStatus(newPatient.getMaritalStatus());  
+    	patient.setOccupation(newPatient.getOccupation());
+    	patient.setResidence(newPatient.getResidence());
     	patient.addTracking("CREATE", "Added this patient");
         return repo.save(patient);
     }
 
     public List<Patient> getAllPatients() {
     	List<Patient> patient =repo.findAll();
-    	patient.sort(Comparator.comparing(Patient::getName));
-    //	Collections.reverse(patient);
+    	//patient.sort(Comparator.comparing(Patient::getId));
+    	Collections.reverse(patient);
         return patient; 
     }
 

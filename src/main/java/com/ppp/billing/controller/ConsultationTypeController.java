@@ -1,0 +1,49 @@
+package com.ppp.billing.controller;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import com.ppp.billing.model.ConsultationSubtype;
+import com.ppp.billing.model.ConsultationType;
+import com.ppp.billing.service.ConsultationSubtypeService;
+import com.ppp.billing.service.ConsultationTypeService;
+
+@Controller
+@RequestMapping("/admin/consultation-types")
+public class ConsultationTypeController {
+
+	 @Autowired
+	    private ConsultationTypeService typeService;
+
+	    @Autowired
+	    private ConsultationSubtypeService subtypeService;
+
+	    @GetMapping
+	    public String showTypeForm(Model model) {
+	        model.addAttribute("consultationType", new ConsultationType());
+	        model.addAttribute("subtype", new ConsultationSubtype());
+	        model.addAttribute("types", typeService.findAll());
+	        return "Consultation/consultation-type";
+	    }
+
+	    @PostMapping("/add-type")
+	    public String addType(@ModelAttribute ConsultationType consultationType) {
+	        typeService.save(consultationType);
+	        return "Consultation/consultation-type";
+	    }
+
+	    @PostMapping("/add-subtype")
+	    public String addSubtype(@ModelAttribute ConsultationSubtype subtype, @RequestParam Long typeId) {
+	        ConsultationType type = new ConsultationType();
+	        type.setId(typeId);  
+	        subtype.setConsultationType(type);
+	        subtypeService.save(subtype);
+			return null;}
+	        
+}

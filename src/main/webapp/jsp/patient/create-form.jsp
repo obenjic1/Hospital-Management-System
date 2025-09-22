@@ -78,22 +78,23 @@
                             </select>
                         </div>
                     </div>
-
+	<div class="row">
                     <div class="col-md-6">
                         <label for="emergencyName" class="form-label">Patient's Emergency Contact Name</label>
                         <div class="input-group has-validation">
                             <span class="input-group-text"><i class="fas fa-map-marker-alt"></i></span>
-                            <input type="text" id="emergencyName" name="emergencyName" class="form-control" required="required" placeholder="Please Enter Patient's Emergency contact Name ..."/>
+                            <input type="text" id="emmergenceName" name="emergencyName" class="form-control" required="required" placeholder="Please Enter Patient's Emergency contact Name ..."/>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <label for="emergencyContact" class="form-label">Patient's Emergency Contact</label>
                         <div class="input-group has-validation">
                             <span class="input-group-text"><i class="fas fa-phone"></i></span>
-                            <input type="text" id="emergencyContact" name="emergencyContact" class="form-control" placeholder="Please Enter Patient's Emergency contact" required="required"/>
+                            <input type="text" id="emmergencyContact" name="emergencyContact" class="form-control" placeholder="Please Enter Patient's Emergency contact" required="required"/>
                         </div>
-                    </div>
-
+                    </div>	 
+                     </div>
+           
                    
 					<div class="row">
                     <div class="col-md-3" style="width: 20%; left: 72%; position: relative;bottom: -10px;">

@@ -443,9 +443,10 @@ function checkout() {
 			    let contact = document.getElementById("contact").value ;
 				let emmergencyContact = document.getElementById("emmergencyContact").value ;
 				let emmergenceName = document.getElementById("emmergenceName").value ;
+				let occupation = document.getElementById("occupation").value ;
+				let maritalStatus = document.getElementById("maritalStatus").value ;
+				let residence = document.getElementById("residence").value ;
 
-
-			    
 				var formData = new FormData();
 							  formData.append('name', name);
 							  formData.append('age', age);
@@ -453,6 +454,9 @@ function checkout() {
 							  formData.append('contact', contact);		
 							  formData.append('emmergencyContact', emmergencyContact);			
 						      formData.append('emmergenceName', emmergenceName);		
+						      formData.append('occupation', occupation);
+						      formData.append('maritalStatus', maritalStatus);	
+						      formData.append('residence', residence);		
 
 							 fetch('patients', {
 				        method: 'POST',

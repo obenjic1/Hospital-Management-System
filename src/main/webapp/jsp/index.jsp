@@ -374,6 +374,12 @@
 					  </a>
 					</li>
 					<li class="nav-item">
+					  <a class="nav-link collapsed" onclick="loadPage('admin/consultation-types') "href="#">
+					    <i class="ri-line-chart-line"></i>
+					    <span>Consultation Configuration</span>
+					  </a>
+					</li>
+					<li class="nav-item">
 					  <a class="nav-link collapsed" onclick="loadPage('reports/monthly') "href="#">
 					    <i class="ri-line-chart-line"></i>
 					    <span>Revenue</span>

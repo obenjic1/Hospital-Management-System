@@ -32,9 +32,11 @@ import com.ppp.billing.Dto.DoctorRevenueSummary;
 import com.ppp.billing.model.Appointment;
 import com.ppp.billing.model.AppointmentStatus;
 import com.ppp.billing.model.Consultation;
+import com.ppp.billing.model.ConsultationSubtype;
 import com.ppp.billing.model.Patient;
 import com.ppp.billing.repository.AppointmentRepository;
 import com.ppp.billing.service.ConsultationService;
+import com.ppp.billing.service.ConsultationSubtypeService;
 import com.ppp.billing.service.PatientService;
 import com.ppp.billing.service.PdfService;
 import com.ppp.billing.service.ServiceItemService;
@@ -63,6 +65,8 @@ public class ConsultationController {
     @Autowired
     private PdfService pdfService;
     
+    @Autowired
+    private ConsultationSubtypeService consultationSubtypeService;
     
     
     @GetMapping
@@ -220,4 +224,9 @@ public class ConsultationController {
 	        }
 	    }
 
+	    @GetMapping("/consultations/subtypes")
+	    @ResponseBody
+	    public List<ConsultationSubtype> getSubtypesByType(@RequestParam Long typeId) {
+	        return consultationSubtypeService.findByConsultationTypeId(typeId);
+	    }
 }
