@@ -17,7 +17,9 @@ public class ConsultationTypeService {
         return consultationTypeRepository.findAll();
     }
     
-   
+    public ConsultationType findById(Long id) {
+        return consultationTypeRepository.findById(id).get();
+    }
 
     public ConsultationType save(ConsultationType type) {
         return consultationTypeRepository.save(type);

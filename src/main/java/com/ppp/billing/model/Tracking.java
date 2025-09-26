@@ -44,18 +44,10 @@ public class Tracking {
 	 @ManyToOne
 	  @JoinColumn(name = "medicine_id")
 	  private Medicine medicine;
-	 
-	 @ManyToOne
-	  @JoinColumn(name = "paymentItem_id")
-	  private PaymentItem paymentItem;
-	 
+	
 	 @ManyToOne
 	  @JoinColumn(name = "patient_id")
 	  private Patient patient;
-	 
-	 @ManyToOne
-	  @JoinColumn(name = "service_item_id")
-	  private ServiceItem serviceItem;
 	
 	
 

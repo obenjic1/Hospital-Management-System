@@ -1,13 +1,17 @@
 package com.ppp.billing.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ppp.billing.model.ConsultationSubtype;
 import com.ppp.billing.model.ConsultationType;
@@ -23,6 +27,8 @@ public class ConsultationTypeController {
 
 	    @Autowired
 	    private ConsultationSubtypeService subtypeService;
+	    
+	   
 
 	    @GetMapping
 	    public String showTypeForm(Model model) {
@@ -44,6 +50,19 @@ public class ConsultationTypeController {
 	        type.setId(typeId);  
 	        subtype.setConsultationType(type);
 	        subtypeService.save(subtype);
-			return null;}
-	        
+	        return "Consultation/consultation-type";
 }
+	    
+	    
+	    @GetMapping("/consultation-subtypes/{typeId}")
+	    @ResponseBody
+	    public List<ConsultationSubtype> getSubtypesByType(@PathVariable Long typeId) {
+	    	ConsultationType consult = typeService.findById(typeId);
+	    	List<ConsultationSubtype> subype = consult.getSubtypes();
+	    	return subype;
+	    	}
+	    	
+	  
+	    }
+	        
+

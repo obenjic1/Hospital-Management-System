@@ -1,160 +1,183 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
-<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-<%@ taglib prefix="sec"
-	uri="http://www.springframework.org/security/tags"%>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
-<main id="add-user">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="ISO-8859-1">
+  <title>Register New Staff</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 
-		<section>
-			<div class="card">
-				<div class="card-body">
-					<h5 class="card-title text-center pb-0 fs-4">Register a new Staffs</h5>
-					<p class="text-center small">Enter the personal detail to register a new Staff</p>
+  <!-- =====  LOCAL BOOTSTRAP 5  ===== -->
+  <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
 
-					<form class="row g-3 "  id="staffForm" novalidate style="margin-left: 5%;" >
-					  <div class="col-md-6">
-						<label for="firstName" class="form-label"> <fmt:message key="first.name"/> </label>
-						  <div class="input-group has-validation">
-							<span class="input-group-text"><i class="fas fa-user"></i></span>
-							<input type="text" id="firstName" name="firstName" class="form-control"  required/>
-							<div class="invalid-feedback"> Please enter your name.  </div>  
-						  </div>
-						</div>
-						<div class="col-md-6">
-							<label for="lastName" class="form-label"><fmt:message key="last.name"/></label>
-							<div class="input-group has-validation">
-							  <span class="input-group-text"><i class="fas fa-user"></i></span>
-							  <input type="text" id="lastName" name="lastName" class="form-control"/>
-							</div>
-						</div>
-						<div class="col-md-6">
-							<label for="Email" class="form-label"><fmt:message key="email"/></label>
-							<div class="input-group has-validation">
-							  <span class="input-group-text"><i class="fas fa-envelope"></i></span>
-							  <input type="email" id="email" name="email" class="form-control" />
-							  <span id = "emailMsg" style="color:red"> </span> <br><br>
-							</div>
-						</div>
-						
-						<div class="col-md-6">
-							<label for="mobile" class="form-label"><fmt:message key="phone"/></label>
-							<div class="input-group has-validation">
-							  <span class="input-group-text"><i class="fas fa-phone"></i></span>
-							  <input type="text" id="mobile" name="mobile" class="form-control"  required="required" />
-						    </div>
-						</div>
-						
-<!-- 						<div class="col-md-6"> -->
-<%-- 							<label for="username" class="form-label"><fmt:message key="username"/></label> --%>
-<!-- 							<div class="input-group has-validation"> -->
-<!-- 							  <span class="input-group-text"><i class="fas fa-phone"></i></span> -->
-<!-- 							  <input type="text" id="username" name="username" class="form-control"  required="required" /> -->
-<!-- 						    </div> -->
-<!-- 						</div> -->
-						<div class="col-md-6" >
-						  <label for="groupe" id="" class="form-label">Gender</label>
-						  <div class="input-group has-validation" >
-							 <select id="gender" name="gender" class="form-select">
-								 <option value="null" selected>Select gender </option>
-								 <option value="male" >Male</option>
-								 <option value="female" >Female</option>
-								</select>
-							</div>
-						</div>
-						<div class="col-md-6">
-						  <label for="address" class="form-label"><fmt:message key="address"/></label>
-						  <div class="input-group has-validation">
-							<span class="input-group-text"> <i class="fas fa-map-marker-alt"></i></span> 
-							<input type="text" id="address" name="address" class="form-control" required="required" />
-						  </div>
-						</div>
-						<div class="col-md-6" >
-						  <label for="groupe" id="departement" class="form-label"><fmt:message key="list.departement"/></label>
-						  <div class="input-group has-validation" >
-							 <select id="department" name="department" class="form-select" onchange="getDepartment()">
-							   <c:forEach items="${departments}" var="departement">
-								 <option value="${departement.id}" data-department="${departement.name}">${departement.name}</option>
-							   </c:forEach>
-								</select>
-							</div>
-						</div>
-						<div class="col-md-6" id="percentageDiv" style="display:none">
-						  <label for="address" class="form-label">Consultation Percentage</label>
-						  <div class="input-group has-validation">
-							<span class="input-group-text"> <i class="fas fa-map-marker-alt"></i></span> 
-							<input type="number" id="percentage" name="percentage" class="form-control"  />
-						  </div>
-						</div>
-						<div class="col-md-6">
-						  <label for="address" class="form-label">Speciality</label>
-						  <div class="input-group has-validation">
-							<span class="input-group-text"> <i class="fas fa-map-marker-alt"></i></span> 
-							<input type="text" id="speciality" name="speciality" class="form-control"  />
-						  </div>
-						</div>
-						<div class="col-md-6">
-						  <label for="address" class="form-label">Salary</label>
-						  <div class="input-group has-validation">
-							<span class="input-group-text"> <i class="fas fa-map-marker-alt"></i></span> 
-							<input type="number" id="salary" name="salary" class="form-control"  />
-						  </div>
-						</div>
-						<div class="col-md-6" >
-						  <label for="groupe" id="" class="form-label">Status</label>
-						  <div class="input-group has-validation" >
-							 <select id="status" name="status" class="form-select">
-								 <option value="true" >Active</option>
-								 <option value="false" >Inactive</option>
-								</select>
-							</div>
-						</div>
-<!-- 						<div class="col-md-6"> -->
-<%-- 						  <label for="Password" class="form-label"><fmt:message key="password"/></label> --%>
-<!-- 						  <div class="input-group has-validation"> -->
-<!-- 							<span class="input-group-text"><i class="fas fa-lock"></i></span> -->
-<!-- 							<input type="password" id="password" name="password" class="form-control" required="required" /> -->
-<!-- 						  </div> -->
-<!-- 						</div> -->
-<!-- 						<div class="col-md-6"> -->
-<%-- 						  <label for="ConfirmPassword" class="form-label"><fmt:message key="confirm.password"/></label> --%>
-<!-- 						  <div class="input-group has-validation"> -->
-<!-- 							<span class="input-group-text"><i class="fas fa-lock"></i></span> -->
-<!-- 							<input type="password" id="confirmPassword" name="confirmPassword" class="form-control" required="required" /> -->
-<!-- 						  </div> -->
-<!-- 						</div> -->
-<!-- 						<div class="col-md-6" style="position: relative;left: -18px;"> -->
-<%-- 						  <label for="imageFile" class="form-label"><fmt:message key="photo"/></label> --%>
-<!-- 						  <div class="input-group has-validation" style="width: 93%; left: 7%;"> -->
-<!-- 						    <input type="file" id="imageFile" name="imageFile" class="form-control" accept="image/*"> -->
-<!-- 						  </div> -->
-<!-- 						</div> -->
-<!-- 						<div class="col-md-6" style="display: flex;left: -56px;position: relative;"> -->
-<!-- 						<div class="col-md-6" style="width: 234px;"> -->
-<%-- 						  <label for="groupe" id="groupeLabel" class="form-label"><fmt:message key="list.groups"/></label> --%>
-<!-- 						  <div class="input-group has-validation"> -->
-<!-- 							 <select id="groupe" name="groupe" class="form-select"> -->
-<%-- 							   <c:forEach items="${groups}" var="group"> --%>
-<%-- 								 <option value="${group.name}">${group.name}</option> --%>
-<%-- 							   </c:forEach> --%>
-<!-- 								</select> -->
-<!-- 							</div> -->
-<!-- 						</div> -->
-						
-<!-- 						</div> -->
-						<div class="col-md-3" style="  width: 20%; left: 21%; position: relative;bottom: -10px; ">
-							<input type="button" id="createBtn"  onclick="addStaff()"  style=" bottom: -42%;" class="btn btn-outline-primary w-100" value="Save" >
-						</div>
-					</form>
-				</div>
-			</div>
-		</section>
+  <!-- =====  CUSTOM THEME  ===== -->
+  <style>
+    :root{
+      --clr-primary:#6f42c1;
+      --radius:.75rem;
+    }
+    body{background:#f4f7fe;font-family:"Segoe UI",Arial,sans-serif;}
+    .card-form{
+      background:#fff;
+      border-radius:var(--radius);
+      box-shadow:0 .25rem .75rem rgba(0,0,0,.08);
+      padding:2rem;
+    }
+    .section-title{
+      font-size:1.1rem;font-weight:600;color:var(--clr-primary);
+      border-bottom:2px solid var(--clr-primary);padding-bottom:.5rem;margin-bottom:1.5rem;
+    }
+    .input-group-text{background:var(--clr-primary);color:#fff;border:0;}
+    .btn-save{width:200px;}
+  </style>
+</head>
+
+<body class="container-fluid p-4">
+<!-- =====  TOP BAR  ===== -->
+<nav class="navbar navbar-light bg-white border-bottom px-3 sticky-top">
+  <div class="container-fluid">
+    <span class="navbar-brand mb-0 h1 d-flex align-items-center">
+      <i class="bi bi-person-plus text-primary me-2"></i>Register New Staff
+    </span>
+    <div class="d-flex align-items-center small text-muted">
+      <i class="bi bi-clock me-1"></i><span id="digital-clock"></span>
+    </div>
+  </div>
+</nav>
+
+<!-- =====  MAIN  ===== -->
+<main id="add-user" class="mt-4">
+  <div class="card-form">
+    <h5 class="section-title">Personal Details</h5>
+
+    <form id="staffForm" class="row g-3 needs-validation" novalidate>
+      <!-- Row 1 -->
+      <div class="col-md-6">
+        <label class="form-label"><fmt:message key="first.name"/> <span class="text-danger">*</span></label>
+        <div class="input-group">
+          <span class="input-group-text"><i class="bi bi-person"></i></span>
+          <input type="text" id="firstName" name="firstName" class="form-control" placeholder="First name" required>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <label class="form-label"><fmt:message key="last.name"/></label>
+        <div class="input-group">
+          <span class="input-group-text"><i class="bi bi-person"></i></span>
+          <input type="text" id="lastName" name="lastName" class="form-control" placeholder="Last name">
+        </div>
+      </div>
+
+      <!-- Row 2 -->
+      <div class="col-md-6">
+        <label class="form-label"><fmt:message key="email"/></label>
+        <div class="input-group">
+          <span class="input-group-text"><i class="bi bi-envelope"></i></span>
+          <input type="email" id="email" name="email" class="form-control" placeholder="name@example.com">
+        </div>
+        <span id="emailMsg" class="small text-danger"></span>
+      </div>
+      <div class="col-md-6">
+        <label class="form-label"><fmt:message key="phone"/> <span class="text-danger">*</span></label>
+        <div class="input-group">
+          <span class="input-group-text"><i class="bi bi-telephone"></i></span>
+          <input type="text" id="mobile" name="mobile" class="form-control" placeholder="Mobile" required>
+        </div>
+      </div>
+
+      <!-- Row 3 -->
+      <div class="col-md-6">
+        <label class="form-label">Gender</label>
+        <div class="input-group">
+          <span class="input-group-text"><i class="bi bi-gender-ambiguous"></i></span>
+          <select id="gender" name="gender" class="form-select">
+            <option value="" hidden>Select gender</option>
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+          </select>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <label class="form-label"><fmt:message key="address"/> <span class="text-danger">*</span></label>
+        <div class="input-group">
+          <span class="input-group-text"><i class="bi bi-geo-alt"></i></span>
+          <input type="text" id="address" name="address" class="form-control" placeholder="Address" required>
+        </div>
+      </div>
+
+      <!-- Row 4 -->
+      <div class="col-md-6">
+        <label class="form-label"><fmt:message key="list.departement"/></label>
+        <div class="input-group">
+          <span class="input-group-text"><i class="bi bi-building"></i></span>
+          <select id="department" name="department" class="form-select" onchange="getDepartment()">
+            <c:forEach items="${departments}" var="departement">
+              <option value="${departement.id}" data-department="${departement.name}">${departement.name}</option>
+            </c:forEach>
+          </select>
+        </div>
+      </div>
+      <div class="col-md-6" id="percentageDiv" style="display:none">
+        <label class="form-label">Consultation Percentage</label>
+        <div class="input-group">
+          <span class="input-group-text"><i class="bi bi-percent"></i></span>
+          <input type="number" id="percentage" name="percentage" class="form-control" placeholder="0-100">
+        </div>
+      </div>
+
+      <!-- Row 5 -->
+      <div class="col-md-6">
+        <label class="form-label">Speciality</label>
+        <div class="input-group">
+          <span class="input-group-text"><i class="bi bi-briefcase"></i></span>
+          <input type="text" id="speciality" name="speciality" class="form-control" placeholder="e.g. Cardiology">
+        </div>
+      </div>
+      <div class="col-md-6">
+        <label class="form-label">Salary (CFA)</label>
+        <div class="input-group">
+          <span class="input-group-text"><i class="bi bi-currency-dollar"></i></span>
+          <input type="number" id="salary" name="salary" class="form-control" placeholder="0" min="0" step="0.01">
+        </div>
+      </div>
+
+      <!-- Row 6 -->
+      <div class="col-md-6">
+        <label class="form-label">Status</label>
+        <div class="input-group">
+          <span class="input-group-text"><i class="bi bi-toggle-on"></i></span>
+          <select id="status" name="status" class="form-select">
+            <option value="true">Active</option>
+            <option value="false">Inactive</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Submit -->
+      <div class="col-12 text-center">
+        <button type="button"  style="float:right"id="createBtn" onclick="addStaff()" class="btn btn-outline-primary btn-save">
+          <i class="bi bi-check2-circle me-2"></i>Save Staff
+        </button>
+      </div>
+    </form>
+  </div><!-- /card-form -->
 </main>
-<!-- End #main -->
+
+<!-- =====  SCRIPTS  ===== -->
+<script src="assets/vendor/jquery-3.5.1.min.js"></script>
+<script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 <script src="assets/js/hospital/staff.js"></script>
 
-
+<script>
+  /* =====  LIVE CLOCK  ===== */
+  function updateClock(){
+    const now=new Date();
+    document.getElementById('digital-clock').textContent=now.toLocaleTimeString('en-GB');
+  }
+  setInterval(updateClock,1000);
+  updateClock();
+</script>
+</body>
+</html>

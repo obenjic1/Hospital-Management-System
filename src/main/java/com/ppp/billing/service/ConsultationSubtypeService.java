@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ppp.billing.model.ConsultationSubtype;
-import com.ppp.billing.model.dto.ConsultationSubtypeRepository;
+import com.ppp.billing.model.ConsultationSubtypeRepository;
 
 @Service
 public class ConsultationSubtypeService {

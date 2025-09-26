@@ -19,7 +19,6 @@ import com.ppp.billing.repository.StockRequestRepository;
 @Service
 public class MedicineService {
 
-    private final AccountingService accountingService;
     private final StockRequestRepository stockRequestRepository;
 
     @Autowired 
@@ -27,9 +26,9 @@ public class MedicineService {
     @Autowired 
     CategoryRepository categoryRepository;
 
-    MedicineService(StockRequestRepository stockRequestRepository, AccountingService accountingService) {
+    MedicineService(StockRequestRepository stockRequestRepository) {
         this.stockRequestRepository = stockRequestRepository;
-        this.accountingService = accountingService;
+      
     }
 	
     public List<Medicine> getAllMedicines() {

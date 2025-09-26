@@ -19,7 +19,7 @@ public interface SaleRepository extends JpaRepository<Sale, Long> {
 	@Query("SELECT MAX(s.receiptNumber) FROM Sale s WHERE s.receiptNumber LIKE CONCAT('RCPT', :datePart, '%')")
 	String findMaxReceiptNumberForDate(@Param("datePart") String datePart);
 	
-	
+  //  List<Sale> findByPatientId(Long patientId);
 	  // 🟢 Total sales (count of items) per day
     @Query("SELECT SUM(i.quantity) FROM Sale s JOIN s.items i WHERE DATE(s.saleDate) = CURRENT_DATE")
     Long getTotalItemsSoldToday();

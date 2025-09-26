@@ -22,7 +22,6 @@ import com.ppp.billing.model.Category;
 import com.ppp.billing.model.Medicine;
 import com.ppp.billing.repository.CategoryRepository;
 import com.ppp.billing.repository.StockRequestRepository;
-import com.ppp.billing.service.AccountingService;
 import com.ppp.billing.service.MedicineService;
 import com.ppp.billing.service.StoreService;
 
@@ -30,7 +29,6 @@ import com.ppp.billing.service.StoreService;
 @RequestMapping("/store")
 public class StoreController {
 
-    private final AccountingService accountingService;
 
     private final CategoryRepository categoryRepository;
 
@@ -42,11 +40,10 @@ public class StoreController {
     
     private final StoreService storeService;
 
-    public StoreController(StoreService storeService, StockRequestRepository stockRequestRepository, CategoryRepository categoryRepository, AccountingService accountingService) {
+    public StoreController(StoreService storeService, StockRequestRepository stockRequestRepository, CategoryRepository categoryRepository) {
         this.storeService = storeService;
         this.stockRequestRepository = stockRequestRepository;
         this.categoryRepository = categoryRepository;
-        this.accountingService = accountingService;
     }
     /*
 

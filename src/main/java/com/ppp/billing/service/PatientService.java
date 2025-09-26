@@ -60,7 +60,7 @@ public class PatientService {
 
 	public Patient findById(Long patientId) {
 		// TODO Auto-generated method stub
-		return null;
+		  return repo.findById(patientId).orElse(null);
 	}
 
 	public List<Patient> listPatients(String searchQuery) {
@@ -75,5 +75,9 @@ public class PatientService {
 		}
 		
 
+	}
+	
+	public Patient findByName (String name) {
+		return repo.findFirstByNameContainingIgnoreCase(name).get();
 	}
 }

@@ -39,10 +39,13 @@ public class Patient {
     private String occupation;
     private String maritalStatus;
     private String residence;
-
-
-
+   
     
+    @OneToMany(mappedBy = "patient")
+    private List<Visit> visits;
+
+
+     
     @OneToMany(mappedBy = "patient", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Tracking> tracking = new ArrayList<>();
 

@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.ppp.billing.Dto.PharmacyStats;
 import com.ppp.billing.model.Category;
 import com.ppp.billing.model.Medicine;
 import com.ppp.billing.repository.CategoryRepository;
@@ -24,7 +23,6 @@ import com.ppp.billing.service.*;
 @RequestMapping("/pharmacy")
 public class PharmacyController {
 
-    private final AccountingService accountingService;
 
          private final PharmacyService pharmacyService;
 	
@@ -36,20 +34,18 @@ public class PharmacyController {
 	    @Autowired
 	    private MedicineService medicineService;
 	    
-	    @Autowired
-	    SalesService saleService;
-	    
+	   
 	   
 	    
 	    
 	    private final StoreService storeService;
 
-	    public PharmacyController(StoreService storeService, StockRequestRepository stockRequestRepository, CategoryRepository categoryRepository, PharmacyService pharmacyService, AccountingService accountingService) {
+	    public PharmacyController(StoreService storeService, StockRequestRepository stockRequestRepository, CategoryRepository categoryRepository, PharmacyService pharmacyService) {
 	        this.storeService = storeService;
 	        this.stockRequestRepository = stockRequestRepository;
 	        this.categoryRepository = categoryRepository;
 	        this.pharmacyService = pharmacyService;
-	        this.accountingService = accountingService;
+	       
 	    }
 	    
 	
@@ -60,13 +56,9 @@ public class PharmacyController {
 		
 	    	
 	    	// Stats (expiring within 30 days)
-	        PharmacyStats stats = pharmacyService.computePharmacyStats(30);
-	        model.addAttribute("stats", stats);
 	        
 	        
-	        BigDecimal totalSales = saleService.getTotalSalesForToday();
 
-	        	System.out.println(totalSales);
 	        // Category list
 	        List<Category> categories = categoryRepository.findAll();
 	        model.addAttribute("categories", categories);
@@ -83,7 +75,6 @@ public class PharmacyController {
 	        model.addAttribute("q", q == null ? "" : q);
 	        
 	        
-	        model.addAttribute("totalSales", totalSales);
 
 
 		return "pharmacy/pharmacy-list";

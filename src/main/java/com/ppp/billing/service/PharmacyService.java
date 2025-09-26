@@ -6,7 +6,6 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.ppp.billing.Dto.PharmacyStats;
 import com.ppp.billing.Dto.StoreStats;
 import com.ppp.billing.model.Medicine;
 import com.ppp.billing.model.Medicine.Location;
@@ -24,18 +23,7 @@ public class PharmacyService {
 	    }
 
 	
-	    public PharmacyStats computePharmacyStats(int expiringWithinDays) {
-	        long totalMedicines = medicineRepository.countPharmacyMedicines();
-	        long totalQuantity = medicineRepository.sumPharmacyQuantity();
-	        
-	        BigDecimal totalValue = medicineRepository.sumPharmacyValue();
-	        LocalDate before = LocalDate.now().plusDays(expiringWithinDays);
-	        long expiringSoon = medicineRepository.countPharmacyExpiringBefore(before);
-	        long lowStock = medicineRepository.countLowStockMedicines();
-
-	        return new PharmacyStats(totalMedicines, totalQuantity, totalValue, expiringSoon, lowStock);
-	    }
-	    
+	  
 	    public List<Medicine> listStoreMedicines(String categoryFilter, String searchQuery) {
 	        Location loc = Location.STORE;
 	        if ((categoryFilter == null || categoryFilter.isEmpty() || categoryFilter.equals("All"))

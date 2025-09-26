@@ -13,10 +13,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.ppp.billing.Dto.PatientDTO;
 import com.ppp.billing.model.Appointment;
-import com.ppp.billing.model.Consultation;
-import com.ppp.billing.model.Medicine;
 import com.ppp.billing.model.Patient;
 import com.ppp.billing.service.AppoitmentService;
 import com.ppp.billing.service.ConsultationService;
@@ -107,6 +107,34 @@ public class PatientController {
 
 	        return "patients/history";
 	    }
+	    
+	    @GetMapping("/findByName")
+	    @ResponseBody
+	    public ResponseEntity<PatientDTO> getPatientByName(@RequestParam String name) {
+	        try {
+	            Patient patient = patientService.findByName(name);
+	          
+	            if (patient == null) {
+	                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null); // Patient not found
+	            }
+	            PatientDTO pat = new PatientDTO();
+	            pat.setId(patient.getId());
+	            pat.setAge(patient.getAge());
+	            pat.setContact(patient.getContact());
+	            pat.setName(patient.getName());
+	            pat.setEmmergenceName(patient.getEmmergenceName());
+	            pat.setGender(patient.getGender());
+	            pat.setMaritalStatus(patient.getMaritalStatus());
+	            pat.setOccupation(patient.getOccupation());
+	            pat.setResidence(patient.getResidence());
+	            pat.setEmmergencyContact(patient.getEmmergencyContact());
+	            return ResponseEntity.ok(pat);
+	        } catch (Exception e) {
+	            System.out.println(e.getMessage());
+	            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null); // Handle other errors
+	        }
+	    }
+
 
 	  
 }

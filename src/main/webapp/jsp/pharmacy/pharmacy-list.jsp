@@ -1,199 +1,207 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1" 
-							pageEncoding="ISO-8859-1"%>
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
-  <link href="assets/vendor/simple-datatables/style.css" rel="stylesheet">
-  <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-
-
+<!-- =====  HEAD  ===== -->
 <head>
-    <meta charset="UTF-8">
-    <title>PharmaCare Dashboard</title>
+  <meta charset="UTF-8">
+  <title>PharmaCare – Sell Drugs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <!-- Bootstrap 5.3 CDN -->
 
-
-    <style>
-        body {
-            background-color: #f8f9fa;
-        }
-        .card {
-      		  margin:0 auto;
-            border-radius: 15px;
-            transition: transform 0.2s ease-in-out;
-        }
-        .card:hover {
-            transform: translateY(-3px);
-        }
-        .btn-gradient {
-            background: linear-gradient(to right, #667eea, #764ba2);
-            color: white;
-        }
-        .tag {
-            font-size: 0.75rem;
-            background: #f1f3f5;
-            padding: 3px 8px;
-            border-radius: 12px;
-        }
-        .low-stock {
-            color: red;
-        }
-        .cart-box {
-            border-radius: 15px;
-            background: linear-gradient(to right, green, black);
-            padding: 15px;
-            color: white;
-        }
-        .cart-item {
-            background: white;
-            color: black;
-            border-radius: 10px;
-            padding: 10px;
-            margin-bottom: 10px;
-        }
-    </style>
+  <!-- =====  CUSTOM CSS  ===== -->
+  <style>
+    :root{
+      --clr-primary:#6f42c1;
+      --clr-danger:#e55353;
+      --clr-success:#1cc88a;
+    }
+    body{background-color:#f8f9fa;}
+    .card{border-radius:1rem;transition:.2s;}
+    .card:hover{transform:translateY(-3px);}
+    .btn-gradient{
+      background:linear-gradient(135deg, var(--clr-primary), #9b59b6);
+      color:#fff;
+    }
+    .btn-gradient:hover{color:#fff;filter:brightness(1.05);}
+    .cart-box{
+      background:linear-gradient(135deg, var(--clr-success), #17a673);
+      border-radius:1rem;
+      color:#fff;
+      padding:1.5rem;
+    }
+    .cart-item{background:#fff;color:#333;border-radius:.75rem;padding:.75rem;margin-bottom:.75rem;}
+    .badge{font-size:.75rem;}
+    .low-stock{color:var(--clr-danger);}
+    .table th{border-top:none;}
+  </style>
 </head>
+
 <body>
-
-<div class="container-fluid p-4">
-
-
-    <!-- Header -->
-    <div class="d-flex align-items-center justify-content-between mb-4">
-        <h2 class="fw-bold">PharmaCare Dashboard</h2>
+<!-- =====  TOP BAR  ===== -->
+<nav class="navbar navbar-light bg-white border-bottom px-3 sticky-top">
+  <div class="container-fluid">
+    <span class="navbar-brand mb-0 h1 d-flex align-items-center">
+      <i class="bi bi-capsule text-primary me-2"></i>PharmaCare
+    </span>
+    <div class="d-flex align-items-center small text-muted">
+      <i class="bi bi-cash-stack me-1"></i>Today:
+      <span class="badge bg-primary ms-1">${totalSales} CFA</span>
     </div>
-     <div class="my-2">
-                          <h3> Today Sales : <span class="badge bg-primary"> ${totalSales}  CFA                              <span data-bs-toggle="modal"  data-bs-target="#ExtralargeModal"  onclick="loadPageModalForm('patients/view/${p.id}')" class="btn btn-sm btn-secondary">View</span>
-                          </span></h3>                      	
-                          
-     
-            <span class="me-3"><i class="bi bi-capsule"></i> ${stats.totalMedicines}  Medicines</span>
-            <c:if test="${stats.expiringSoon>0}">
-                    <span class="badge bg-danger"><i class="bi bi-exclamation-circle"></i> ${stats.expiringSoon} Expiring Soon</span>
-            </c:if>
-            <span class="badge bg-danger">${stats.lowStock} Low Stock</span>
-            
+  </div>
+</nav>
 
-        </div>
-   <div class="row d-flex">
-   	<div class="col-lg-12">  
-   	<div class="row mb-4  d-flex">
-       <form  class="d-flex" >
-			<input type="text" name="q" class="form-control search-bar m-6" id="searchBoxer"  style="width: 49%;" placeholder="Search medicines..." />
-                <select name="category" id="category" class="form-select ms-2" style="width:180px;">
-                    <option value="All" ${selectedCategory == 'All' ? 'selected' : ''}>All Categories</option>
-                    <c:forEach var="cat" items="${categories}">
-                        <option value="${cat.name}">${cat.name}</option>
-                    </c:forEach>
-<!--                     <option  onclick="loadMainModalForm('store/add-category')" data-bs-toggle="modal" data-bs-target="#MainModal" class="btn btn-gradient" style="margin-right:121px">Add New Category</option> -->
-                </select>
-                <button type="button"  onclick="event.preventDefault(); searchPharmacyMedicine()" class="btn btn-outline-primary ms-2">Search</button>
-            </form>
-            
-            
-            
-            
-            
-            
-              <div class="row mt-3" >
-               <c:forEach var="m" items="${medicines}">
-	         
-	                 <div class="col-md-6 col-xl-3 mb-3">
-	                    <div class="card p-3">
-	                        <h5 class="fw-bold">${m.name}</h5>
-	                        <span class="tag mb-2">${m.category.name}</span>
-	                        <p class="text-muted">${m.description}</p>
-	                        <div class="mb-2">
-	                        <c:choose>
-	                        	<c:when test="${m.pharmacyQuantity < 10}">
-	                        		    <span class="badge bg-danger">Pharmacy: ${m.pharmacyQuantity}</span>
-	                        	
-	                        	</c:when>
-	                        	<c:otherwise>
-	                        			 <span class="badge bg-success">Pharmacy: ${m.pharmacyQuantity}</span>
-	                        			
-	                        	</c:otherwise>
-	                        </c:choose>
-	                            <span class="badge bg-primary">Store:  ${m.storeQuantity}</span>
-	                        </div>
-	                         <!-- Display Unit and Packet Prices -->
-				                <div class="d-flex justify-content-between">
-				                    <div>
-				                        <span class="text-muted">Unit Price: </span> <span class="text-success">CFA ${m.unitPrice}</span><br>
-				                       <span class="text-muted">Packet Price: </span> <span class="text-success"> CFA ${m.packetPrice}</span><br>
-				                        
-				                    </div>
-				                </div>
-				                 <!-- Price Selection: Unit vs Packet -->
-				                <div class="mb-2">
-				                    <label for="priceType-${m.id}">Purchase Type</label>
-				                    <select id="priceType-${m.id}" class="form-select" onchange="updatePrice(${m.id}, '${m.unitPrice}', '${m.packetPrice}')">
-				                     <option value="packet">Packet</option>
-				                     <option value="unit">Unit</option>
-				                    </select>
-				                </div>
+<!-- =====  MAIN LAYOUT  ===== -->
+<div class="container-fluid p-3">
+  <div class="row g-4">
 
-	                        <div style="display:flex;">
-	                        <button class="btn btn-gradient w-100 add-to-cart "  style="margin:5px"  onclick="addToCart('${m.id}', '${m.name}', '${m.packetPrice}','${m.unitPrice}')">+ Add</button>
-						                        <button class="btn btn-outline-danger w-100" id ="request-${m.id}" style="margin:5px" onclick="toogleRequestForm(${m.id})">Request</button>
-	                       </div>
-	                       <div id="medDiv-${m.id}"style="text-align: end;display:none">
-	                       <form   id="request" onsubmit="return false;">
-                                        <input type="hidden" name="medicineId" id="med-${m.id}"  value="${m.id}" />
-                                        <input type="number" name="quantity" id="qty-${m.id}" min="1" placeholder="qty" min="1" style="width:80px;" class="form-control d-inline-block" required />
-                                        <button class="btn btn-sm btn-outline-success" onclick="TransferToPharmacy(${m.id},${m.storeQuantity})">Confirm</button>
-                           </form>
-                           </div>
-	                    </div>
-	                </div>
-	              </c:forEach>  
+    <!-- =====  LEFT: MEDICINES  ===== -->
+    <div class="col-lg-9">
+      <!-- filters -->
+      <div class="card border-0 shadow-sm my-2">
+        <div class="card-body">
+          <form class="row g-2 align-items-center" onsubmit="searchPharmacyMedicine();return false;">
+            <div class="col">
+              <div class="input-group">
+                <span class="input-group-text"><i class="bi bi-search"></i></span>
+                <input type="text" id="searchBoxer" name="q" class="form-control" placeholder="Search medicines...">
               </div>
-    </div>
-   		
-   		</div>
-		<div class="col-lg-3" style="position: absolute;top: 73px;right: 65px;">
-		<div class="cart-box">
-                <h5><i class="bi bi-cart" id="cartTotalItems"></i> </h5>
-                 <div><input type="text" name="customerName" placeholder="Customer Name" id="customerName" class="form-control mb-2"/></div>
-                
-                <div id="cartBody">
-
-                </div>
-                
-				  <div class="mb-2">
-				                    <label for="paymentMethod">Patment Method</label>
-				                    <select id="paymentMethod" class="form-select"">
-				                     <option value="Cash">Cash</option>
-				                     <option value="Mobile Money">Mobile Money</option>
-				                    </select>
-				                </div>
-                <div class="mt-3">
-                    <h5 id="cartTotal"></h5>
-                    <button class="btn btn-light w-100"onclick="checkout()" >Checkout</button>
-                </div>
             </div>
+            <div class="col-auto">
+              <select id="category" name="category" class="form-select">
+                <option value="All">All Categories</option>
+                <c:forEach var="cat" items="${categories}">
+                  <option value="${cat.name}">${cat.name}</option>
+                </c:forEach>
+              </select>
+            </div>
+            <div class="col-auto">
+              <button type="submit" class="btn btn-outline-primary">Search</button>
+            </div>
+          </form>
+
+          <!-- quick stats -->
+          <div class="d-flex flex-wrap gap-2 mt-2 small">
+            <span class="badge bg-secondary"><i class="bi bi-capsule"></i> ${stats.totalMedicines} Medicines</span>
+            <c:if test="${stats.expiringSoon>0}">
+              <span class="badge bg-danger"><i class="bi bi-exclamation-circle"></i> ${stats.expiringSoon} Expiring Soon</span>
+            </c:if>
+            <span class="badge bg-warning text-dark"><i class="bi bi-box-seam"></i> ${stats.lowStock} Low Stock</span>
+          </div>
         </div>
-		
-		
-		</div>   
-   
-   </div>
+      </div>
 
+      <!-- medicines grid -->
+      <div class="row g-3" id="medicinesGrid">
+        <c:forEach var="m" items="${medicines}">
+          <div class="col-sm-6 col-xl-3">
+            <div class="card h-100 shadow-sm">
+              <div class="card-body d-flex flex-column">
+                <h6 class="fw-bold mb-1">${m.name}</h6>
+                <span class="badge bg-light text-dark mb-2">${m.category.name}</span>
+                <p class="small text-muted mb-2">${m.description}</p>
 
-</div>
+                <!-- stock badges -->
+                <div class="mb-2">
+                  <c:choose>
+                    <c:when test="${m.pharmacyQuantity<10}">
+                      <span class="badge bg-danger">Pharmacy: ${m.pharmacyQuantity}</span>
+                    </c:when>
+                    <c:otherwise>
+                      <span class="badge bg-success">Pharmacy: ${m.pharmacyQuantity}</span>
+                    </c:otherwise>
+                  </c:choose>
+                  <span class="badge bg-primary">Store: ${m.storeQuantity}</span>
+                </div>
 
-<!-- Bootstrap JS -->
+                <!-- prices -->
+                <div class="d-flex justify-content-between small mb-2">
+                  <div>
+                    <span class="text-muted">Unit:</span>
+                    <span class="text-success fw-bold">CFA ${m.unitPrice}</span>
+                  </div>
+                  <div>
+                    <span class="text-muted">Packet:</span>
+                    <span class="text-success fw-bold">CFA ${m.packetPrice}</span>
+                  </div>
+                </div>
+
+                <!-- purchase type -->
+                <div class="my-2">
+                  <label class="form-label small">Purchase Type</label>
+                  <select id="priceType-${m.id}" class="form-select form-select-sm"
+                          onchange="updatePrice(${m.id},'${m.unitPrice}','${m.packetPrice}')">
+                    <option value="packet">Packet</option>
+                    <option value="unit">Unit</option>
+                  </select>
+                </div>
+
+                <!-- actions -->
+                <div class="d-flex gap-2 mt-auto">
+                  <button class="btn btn-gradient btn-sm flex-fill"
+                          onclick="addToCart('${m.id}','${m.name}','${m.packetPrice}','${m.unitPrice}')">
+                    <i class="bi bi-cart-plus me-1"></i>Add
+                  </button>
+                  <button class="btn btn-outline-danger btn-sm flex-fill"
+                          onclick="toogleRequestForm(${m.id})">
+                    <i class="bi bi-box-arrow-in-down me-1"></i>Request
+                  </button>
+                </div>
+
+                <!-- hidden request form -->
+                <div id="medDiv-${m.id}" class="mt-3" style="display:none">
+                  <form class="row g-2" onsubmit="return false;">
+                    <input type="hidden" id="med-${m.id}" value="${m.id}">
+                    <div class="col-6">
+                      <input type="number" id="qty-${m.id}" min="1" class="form-control form-control-sm" placeholder="Qty" required>
+                    </div>
+                    <div class="col-6 d-grid">
+                      <button class="btn btn-sm btn-success" onclick="TransferToPharmacy(${m.id},${m.storeQuantity})">Confirm</button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </c:forEach>
+      </div><!-- /row -->
+    </div><!-- /col-lg-9 -->
+
+    <!-- =====  RIGHT: CART  ===== -->
+    <div class="col-lg-3">
+      <div class="cart-box sticky-lg-top">
+        <h6 class="mb-3"><i class="bi bi-cart3 me-2"></i>Sale Cart <span class="float-end fw-bold" id="cartTotalItems">0</span></h6>
+
+        <div class="my-2">
+          <input type="text" id="customerName" class="form-control form-control-sm" placeholder="Customer name">
+        </div>
+
+        <div id="cartBody" class="mb-3" style="max-height:50vh;overflow-y:auto"></div>
+
+        <div class="my-2">
+          <label class="form-label small">Payment Method</label>
+          <select id="paymentMethod" class="form-select form-select-sm">
+            <option value="Cash">Cash</option>
+            <option value="Mobile Money">Mobile Money</option>
+          </select>
+        </div>
+
+        <div class="d-flex justify-content-between align-items-center my-2">
+          <span>Total:</span>
+          <h5 class="mb-0" id="cartTotal">0 CFA</h5>
+        </div>
+        <button class="btn btn-light btn-sm w-100" onclick="checkout()">
+          <i class="bi bi-check2-circle me-1"></i>Checkout
+        </button>
+      </div>
+    </div><!-- /col-lg-3 -->
+  </div><!-- /row -->
+</div><!-- /container -->
+
+<!-- =====  SCRIPTS  ===== -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-<!-- End #main -->
-<script src="assets/js/billing/customer.js"></script> 
 <script src="assets/js/store/medicine.js"></script>
-<script src="assets/js/statistics/revenue.js"></script> 
-
+<script src="assets/js/billing/customer.js"></script>
+<script src="assets/js/statistics/revenue.js"></script>
 </body>
-
 </html>
-
-

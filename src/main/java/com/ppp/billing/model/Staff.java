@@ -2,6 +2,7 @@ package com.ppp.billing.model;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -10,6 +11,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -46,7 +48,8 @@ public class Staff {
     @JoinColumn(name = "department_id")
     private Department department;
 
-   
+    @OneToMany(mappedBy = "attendingStaff")
+    private List<Visit> visits;
 
     // If this staff has a login, it will be linked to User
     @OneToOne(mappedBy = "staff", cascade = CascadeType.ALL)

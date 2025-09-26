@@ -37,9 +37,9 @@ import com.ppp.billing.model.Patient;
 import com.ppp.billing.repository.AppointmentRepository;
 import com.ppp.billing.service.ConsultationService;
 import com.ppp.billing.service.ConsultationSubtypeService;
+import com.ppp.billing.service.ConsultationTypeService;
 import com.ppp.billing.service.PatientService;
 import com.ppp.billing.service.PdfService;
-import com.ppp.billing.service.ServiceItemService;
 import com.ppp.billing.service.StaffService;
 
 
@@ -53,8 +53,7 @@ public class ConsultationController {
     @Autowired
     private AppointmentRepository appointmentRepository;
     
-    @Autowired
-    private ServiceItemService serviceItem;
+  
     
     @Autowired
     private StaffService staffService;
@@ -68,6 +67,7 @@ public class ConsultationController {
     @Autowired
     private ConsultationSubtypeService consultationSubtypeService;
     
+    @Autowired ConsultationTypeService consultationTypeService;
     
     @GetMapping
     public String listConsultations(Model model) {
@@ -82,15 +82,17 @@ public class ConsultationController {
 
         Consultation consultation = new Consultation();
         consultation.setAppointment(appointment);
-        model.addAttribute("tests", serviceItem.getAllServices());
         model.addAttribute("consultation", consultation);
         return "Consultation/create-consultation"; // JSP form page
     }
+    
     @GetMapping("/new/consultation")
     public String Consultation( Model model) {
         Consultation consultation = new Consultation();
         model.addAttribute("patients", patientService.getAllPatients());
         model.addAttribute("doctors",staffService.getAllDoctors());
+        model.addAttribute("consultationTypes",consultationTypeService.findAll());
+
 
         model.addAttribute("consultation", consultation);
         return "Consultation/create-consultation"; // JSP form page

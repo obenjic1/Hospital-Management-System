@@ -9,8 +9,31 @@
     <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="assets/vendor/DataTables/datatables.css" rel="stylesheet">
     <style>
-        body { background-color: #f4f7fc; font-family: Arial, sans-serif; }
-        .stat-card { border-radius: 12px; color: #fff; padding: 10px; display: flex; align-items: center;
+  :root{
+      --clr-primary:#6f42c1;
+      --clr-success:#00c851;
+      --clr-danger:#ff4444;
+      --radius:.75rem;
+    }
+    body{background:#f4f7fe;font-family:"Segoe UI",Arial,sans-serif;color:#2e2e2e;}
+    .stat-card{
+      background:#fff;
+      border-radius:var(--radius);
+      padding:1.5rem;
+      display:flex;align-items:center;justify-content:space-between;
+      box-shadow:0 .25rem .75rem rgba(0,0,0,.08);
+      transition:.2s;
+    }
+    .stat-card:hover{transform:translateY(-2px);}
+    .stat-icon{
+      width:60px;height:60px;border-radius:50%;
+      display:grid;place-items:center;font-size:1.5rem;color:#fff;
+    }
+    .bg-gradient-total{ background:linear-gradient(135deg,#667eea,#764ba2); }
+    .bg-gradient-qty   { background:linear-gradient(135deg,#11998e,#38ef7d); }
+    .bg-gradient-value { background:linear-gradient(135deg,#f7971e,#ffd200); }
+    .bg-gradient-exp   { background:linear-gradient(135deg,#eb3349,#f45c43); }
+        .stat-card { border-radius: 12px; color: black; padding: 10px; display: flex; align-items: center;
                      justify-content: space-between; box-shadow: 0 4px 10px rgba(0,0,0,0.08);}
         .medicine-list { background: #fff; padding: 10px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.04);}
         .btn-gradient { background: linear-gradient(45deg,#6c63ff,#42a5f5); border: none; color: white; }
@@ -21,48 +44,50 @@
 </head>
 <body>
 
-<div class="container mt-3">
+<div class="container mt-1">
     <h3 class="fw-bold">Medicine Inventory Store</h3>
     <p class="text-muted">Manage your medicine inventory and transfers efficiently</p>
 
-    <!-- Stats Cards -->
-    <div class="row g-3 mt-4">
-        <div class="col-md-3">
-            <div class="stat-card" style="background: linear-gradient(45deg,#3b82f6,#2563eb);">
-                <div>
-                    <h6 class="mb-1">Total Medicines</h6>
-                    <h3>${stats.totalMedicines}</h3>
-                </div>
-                <div class="stat-icon fs-3">&#9776;</div>
-            </div>
+    
+      <!-- =====  STATS  ===== -->
+  <div class="row g-4 mb-4">
+    <div class="col-sm-6 col-lg-3">
+      <div class="stat-card">
+        <div>
+          <div class="fs-6 text-muted">Total Medicines</div>
+          <div class="fs-2 fw-bold">${stats.totalMedicines}</div>
         </div>
-        <div class="col-md-3">
-            <div class="stat-card" style="background: linear-gradient(45deg,#22c55e,#16a34a);">
-                <div>
-                    <h6 class="mb-1">Total Quantity</h6>
-                    <h3>${stats.totalQuantity}</h3>
-                </div>
-                <div class="stat-icon fs-3">&#8962;</div>
-            </div>
+        <div class="stat-icon bg-gradient-total"><i class="bi bi-capsule"></i></div>
+      </div>
+    </div>
+    <div class="col-sm-6 col-lg-3">
+      <div class="stat-card">
+        <div>
+          <div class="fs-6 text-muted">Total Quantity</div>
+          <div class="fs-2 fw-bold">${stats.totalQuantity}</div>
         </div>
-        <div class="col-md-3">
-            <div class="stat-card" style="background: linear-gradient(45deg,#a855f7,#7c3aed);">
-                <div>
-                    <h6 class="mb-1">Total Value</h6>
-                    <h3><fmt:formatNumber value="${stats.totalValue}" type="currency" currencySymbol="CFA"/></h3>
-                </div>
-                <div class="stat-icon fs-3">&#36;</div>
-            </div>
+        <div class="stat-icon bg-gradient-qty"><i class="bi bi-layers"></i></div>
+      </div>
+    </div>
+    <div class="col-sm-6 col-lg-3">
+      <div class="stat-card">
+        <div>
+          <div class="fs-6 text-muted">Total Value</div>
+          <div class="fs-2 fw-bold"><fmt:formatNumber value="${stats.totalValue}" type="currency" currencySymbol="CFA"/></div>
         </div>
-        <div class="col-md-3">
-            <div class="stat-card" style="background: linear-gradient(45deg,#ef4444,#dc2626);">
-                <div>
-                    <h6 class="mb-1">Expiring Soon</h6>
-                    <h3>${stats.expiringSoon}</h3>
-                </div>
-                <div class="stat-icon fs-3">&#9888;</div>
-            </div>
+        <div class="stat-icon bg-gradient-value"><i class="bi bi-currency-dollar"></i></div>
+      </div>
+    </div>
+    <div class="col-sm-6 col-lg-3">
+      <div class="stat-card">
+        <div>
+          <div class="fs-6 text-muted">Expiring Soon</div>
+          <div class="fs-2 fw-bold text-danger">${stats.expiringSoon}</div>
         </div>
+        <div class="stat-icon bg-gradient-exp"><i class="bi bi-exclamation-triangle"></i></div>
+      </div>
+    </div>
+  </div>
     </div>
 
     <!-- Search / Category Filter / Add -->
@@ -124,7 +149,7 @@
                                 <td class="action-btns">
                                     <form onsubmit="return false;">
                                         <input type="hidden" value="${m.id}" />
-                                        <input type="number" id="qty-${m.id}" min="1" placeholder="qty" class="form-control d-inline-block" style="width:60px;" required />
+                                        <input type="number" id="qtyi-${m.id}" min="1" placeholder="qty" class="form-control d-inline-block" style="width:60px;" required />
                                         <button class="btn btn-sm btn-success" onclick="Transfer(${m.id}, ${m.storeQuantity})">Transfer</button>
                                     </form>
                                     <button class="btn btn-sm btn-secondary" onclick="loadMainModalForm('store/edit/${m.id}')" data-bs-toggle="modal" data-bs-target="#MainModal">Edit</button>

@@ -29,10 +29,8 @@ import com.itextpdf.layout.property.TextAlignment;
 import com.itextpdf.layout.property.UnitValue;
 import com.itextpdf.layout.property.VerticalAlignment;
 import com.ppp.billing.model.Consultation;
-import com.ppp.billing.model.PaymentItem;
 import com.ppp.billing.model.Sale;
 import com.ppp.billing.model.SaleItem;
-import com.ppp.billing.model.ServiceItem;
 import com.ppp.printable.PrintableElement;
 
 @Service
@@ -44,16 +42,12 @@ public class PdfService {
 	@Value("${folder.service.receipt}")
 	private String serviceReceiptDir;
 	
- @Autowired
- private SalesService saleService ;
- 
- @Autowired
- private PaymentItemService paymentItemService ;
+
  
  
  public File SendBack (Long id) throws FileNotFoundException {
 	
-	Sale sale = saleService.findById(id);
+//	Sale sale = saleService.findById(id);
 	  //	PdfDocument pdfDocument = new PdfDocument(pdfWriter);
 	 //   Document document = new Document(pdfDocument, PageSize.A4);
 	 //   System.out.println(document.getWidth());
@@ -61,7 +55,7 @@ public class PdfService {
 			ByteArrayOutputStream baos = new ByteArrayOutputStream();
 
 	 try {
-			PdfWriter pdfWriter = new PdfWriter(receiptDir+ sale.getReceiptNumber()+".pdf");
+			PdfWriter pdfWriter = new PdfWriter(receiptDir+1+".pdf");
 			PdfDocument pdfDocument = new PdfDocument(pdfWriter);
 			Document document = new Document(pdfDocument, PageSize.A4);
 //			 document.setMargins(25, 25, 297-156, 50);
@@ -119,13 +113,13 @@ public class PdfService {
 
           //  printer.printHeader(document, " Queen Mary Hospital");
             printer.printHeader(document, " Pharmacy Receipt");
-
-            printer.printParagraphe(document, "Receipt No: " + sale.getReceiptNumber());
-            printer.printParagraphe(document, "Customer: " + sale.getCustomerName());
-
-            printer.printParagraphe(document, "Date: " + sale.getSaleDate());
-
-            printer.printParagraphe(document, "Payment: " + sale.getPaymentMethod());
+//
+//            printer.printParagraphe(document, "Receipt No: " + sale.getReceiptNumber());
+//            printer.printParagraphe(document, "Customer: " + sale.getCustomerName());
+//
+//            printer.printParagraphe(document, "Date: " + sale.getSaleDate());
+//
+//            printer.printParagraphe(document, "Payment: " + sale.getPaymentMethod());
             
             
             Table table = new Table(6);
@@ -136,24 +130,24 @@ public class PdfService {
             table.addCell("Price");
             table.addCell("Total");
             int num = 1; 
-            for (SaleItem item : sale.getItems()) {
-            	table.addCell(String.valueOf( num));
-                table.addCell(item.getMedicine().getName());
-                table.addCell(item.getUnitType());
-                table.addCell(String.valueOf(item.getQuantity()));
-                table.addCell(item.getMedicine().getUnitPrice().toString());
-                table.addCell(item.getSubtotal().toString());
-                num++;
-            }
+//            for (SaleItem item : sale.getItems()) {
+//            	table.addCell(String.valueOf( num));
+//                table.addCell(item.getMedicine().getName());
+//                table.addCell(item.getUnitType());
+//                table.addCell(String.valueOf(item.getQuantity()));
+//                table.addCell(item.getMedicine().getUnitPrice().toString());
+//                table.addCell(item.getSubtotal().toString());
+//                num++;
+//            }
 
             Cell totalCell = new Cell(1, 6)  // 1 row, spans 4 columns
-                    .add("Grand Total: " + sale.getTotal())
+                    .add("Grand Total: " )
                     .setTextAlignment(TextAlignment.RIGHT);
 
             table.addCell(totalCell);
             printer.printTable(document, table);
             
-       //     printer.printHeader(document, "Amount Received : " + sale.getAmountPaid());
+       //     printer.printHeader(document, "Amount Received : " + sale.getAmountPaid()); AccountingService accountingService
 
        //     printer.printHeader(document, "Ballance  : " +  sale.getBallance());
 
@@ -163,7 +157,7 @@ public class PdfService {
             document.close();
             
             
-			File file = new File(receiptDir+ sale.getReceiptNumber()+".pdf");
+			File file = new File(receiptDir+ 1+".pdf");
 
 
           
@@ -179,10 +173,10 @@ public class PdfService {
 
     public  File generateReceipt(long id) throws FileNotFoundException {
         // 1. Create PDF writer + document
-    	Sale sale = saleService.findById(id);
+    //	Sale sale = saleService.findById(id);
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
 
-        PdfWriter writer = new PdfWriter(receiptDir+sale.getReceiptNumber()+ ".pdf");
+        PdfWriter writer = new PdfWriter(receiptDir+1+ ".pdf");
         PdfDocument pdfDoc = new PdfDocument(writer);
         Document document = new Document(pdfDoc);
         float[] columnWidths = {4, 2, 4}; // Left, Logo, Right
@@ -262,12 +256,12 @@ public class PdfService {
 
 
         // 3. Sale Info
-        document.add(new Paragraph("Receipt No: " + sale.getReceiptNumber()));
-        document.add(new Paragraph("Customer: " + sale.getCustomerName()));
-        document.add(new Paragraph("Pharmacist: " + sale.getPharmacist().getUsername()));
-        document.add(new Paragraph("Date: " + sale.getSaleDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"))));
-        document.add(new Paragraph("Payment Method: " + sale.getPaymentMethod()));
-        document.add(new Paragraph("\n"));
+//        document.add(new Paragraph("Receipt No: " + sale.getReceiptNumber()));
+//        document.add(new Paragraph("Customer: " + sale.getCustomerName()));
+//        document.add(new Paragraph("Pharmacist: " + sale.getPharmacist().getUsername()));
+//        document.add(new Paragraph("Date: " + sale.getSaleDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"))));
+//        document.add(new Paragraph("Payment Method: " + sale.getPaymentMethod()));
+//        document.add(new Paragraph("\n"));
 
     
         // 4. Table Header (5 columns)
@@ -280,23 +274,23 @@ public class PdfService {
         table.addHeaderCell(new Cell().add("Total").setBold());
 
         // 5. Table Rows (Sale Items)
-        for (SaleItem item : sale.getItems()) {
-            BigDecimal itemTotal = item.getMedicine().getUnitPrice().multiply(new BigDecimal(item.getQuantity()));
-//            BigDecimal discount = item.getDiscount() != null ? item.getDiscount() : BigDecimal.ZERO;
-
-            table.addCell(new Cell().add(item.getMedicine().getName()));
-            table.addCell(new Cell().add(String.valueOf(item.getQuantity())));
-            table.addCell(new Cell().add(item.getMedicine().getUnitPrice().toString()));
-//            table.addCell(new Cell().add(discount.toString()));
-//            table.addCell(new Cell().add(itemTotal.subtract(discount).toString()));
-        }
+//        for (SaleItem item : sale.getItems()) {
+//            BigDecimal itemTotal = item.getMedicine().getUnitPrice().multiply(new BigDecimal(item.getQuantity()));
+////            BigDecimal discount = item.getDiscount() != null ? item.getDiscount() : BigDecimal.ZERO;
+//
+//            table.addCell(new Cell().add(item.getMedicine().getName()));
+//            table.addCell(new Cell().add(String.valueOf(item.getQuantity())));
+//            table.addCell(new Cell().add(item.getMedicine().getUnitPrice().toString()));
+////            table.addCell(new Cell().add(discount.toString()));
+////            table.addCell(new Cell().add(itemTotal.subtract(discount).toString()));
+//        }
 
         // 6. Grand Total Row
         table.addCell(new Cell(1, 4).add("").setBorder(Border.NO_BORDER)); // empty space
         table.addCell(new Cell().add("------------"));
 
         table.addCell(new Cell(1, 4).add("Grand Total").setBold().setTextAlignment(TextAlignment.RIGHT));
-        table.addCell(new Cell().add(sale.getTotal().toString()).setBold());
+      //  table.addCell(new Cell().add(sale.getTotal().toString()).setBold());
 
         // 7. Add table to document
         document.add(table);
@@ -307,7 +301,7 @@ public class PdfService {
                 .setItalic());
 	
 				document.close();
-				File file = new File(receiptDir+ sale.getReceiptNumber()+".pdf");
+				File file = new File(receiptDir+1+".pdf");
 
 			 return file;
 			} 
@@ -317,7 +311,7 @@ public class PdfService {
 
 
 		public File printRecept(Long paymentId) throws FileNotFoundException {
-			PaymentItem payment = paymentItemService.getPaymentById(paymentId);
+	//		PaymentItem payment = paymentItemService.getPaymentById(paymentId);
 			  //	PdfDocument pdfDocument = new PdfDocument(pdfWriter);
 			 //   Document document = new Document(pdfDocument, PageSize.A4);
 			 //   System.out.println(document.getWidth());
@@ -325,7 +319,7 @@ public class PdfService {
 				//	ByteArrayOutputStream baos = new ByteArrayOutputStream();
 			 
 			
-					 PdfWriter writer = new PdfWriter(receiptDir+payment.getId()+ ".pdf");
+					 PdfWriter writer = new PdfWriter(receiptDir+2+ ".pdf");
 				        PdfDocument pdfDoc = new PdfDocument(writer);
 				        Document document = new Document(pdfDoc);
 
@@ -413,23 +407,23 @@ public class PdfService {
 				    //    document.add(new Paragraph("\n"));
 
 				        // Patient & payment info
-				        document.add(new Paragraph("Receipt No: " + payment.getReferenceNumber()));
+				   //     document.add(new Paragraph("Receipt No:");
 				        document.add(new Paragraph("Date: " + LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm"))));
 				        
-				        String name = "";
-				        if (payment.getPatient() != null && payment.getPatient().getName() != null && !payment.getPatient().getName().isEmpty()) {
-				            name = payment.getPatient().getName();
-				        } else {
-				            name = payment.getUnregisteredPatientName();
-				        }
-				        document.add(new Paragraph("Patient: " + name));
+//				        String name = "";
+//				        if (payment.getPatient() != null && payment.getPatient().getName() != null && !payment.getPatient().getName().isEmpty()) {
+//				            name = payment.getPatient().getName();
+//				        } else {
+//				            name = payment.getUnregisteredPatientName();
+//				        }
+				//        document.add(new Paragraph("Patient: " + name));
 				        document.add(new Paragraph("Cashier:  Cashier" ));
 //				        document.add(new Paragraph("\n"));
 
 				      //  document.add(new Paragraph("Pharmacist: " + sale.getPharmacist().getUsername()));
 //				        document.add(new Paragraph("Date: " +payment.getPaymentDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"))));
-				        document.add(new Paragraph("Payment Method: " +payment.getPaymentMethod()));
-				        document.add(new Paragraph("Payment Status: " +payment.getStatus()));
+//				        document.add(new Paragraph("Payment Method: " +payment.getPaymentMethod()));
+//				        document.add(new Paragraph("Payment Status: " +payment.getStatus()));
 
 				        document.add(new Paragraph("\n"));
 				       
@@ -442,23 +436,23 @@ public class PdfService {
 				        table.addHeaderCell(new Cell().add(new Paragraph("Qty").setBold()));
 				        table.addHeaderCell(new Cell().add(new Paragraph("Total").setBold()));
 
-				        for (ServiceItem item : payment.getServiceItems()) {
-				            table.addCell(item.getName());
-				            table.addCell(String.format("%.2f", item.getPrice()));
-				            table.addCell("1"); // or actual qty
-				            table.addCell(String.format("%.2f", item.getPrice())); // price * qty
-				        }
+//				        for (ServiceItem item : payment.getServiceItems()) {
+//				            table.addCell(item.getName());
+//				            table.addCell(String.format("%.2f", item.getPrice()));
+//				            table.addCell("1"); // or actual qty
+//				            table.addCell(String.format("%.2f", item.getPrice())); // price * qty
+//				        }
 
 				        document.add(table);
 
 				        document.add(new Paragraph("\n"));
 
 				        // Total
-				        document.add(new Paragraph("Grand Total: " + String.format("%.2f", payment.getAmount()) + " FCFA")
-				                .setFontSize(12)
-				                .setBold()
-				                .setTextAlignment(TextAlignment.RIGHT));
-				        document.add(new Paragraph("\n"));
+//				        document.add(new Paragraph("Grand Total: " + String.format("%.2f",   " FCFA")
+//				                .setFontSize(12)
+//				                .setBold()
+//				                .setTextAlignment(TextAlignment.RIGHT));
+//				        document.add(new Paragraph("\n"));
 
 				        // Footer
 				        document.add(new Paragraph("Thank you for choosing Queen Mary Hospital.")
@@ -468,7 +462,7 @@ public class PdfService {
 								document.close();
 								
 								
-								File file = new File(receiptDir+ payment.getId() +".pdf");
+								File file = new File(receiptDir+ 2 +".pdf");
 				
 			return file;
 		}

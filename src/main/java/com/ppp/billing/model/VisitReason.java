@@ -1,0 +1,6 @@
+package com.ppp.billing.model;
+
+public enum VisitReason {
+	
+	CONSULTATION,EXAMEN, VACCINATION, ORDINANCE,AUTRE,CONSULTATION_PRENANTAL,ECHOGRAPHY
+}

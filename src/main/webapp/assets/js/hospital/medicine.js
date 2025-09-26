@@ -152,7 +152,7 @@ function updateMedicine(id) {
 	
 function addQuantity(medicineId){
 
-    const quantity = document.getElementById(`qty-${medicineId}`).value;	
+    const quantity = document.getElementById(`qty-add-${medicineId}`).value;	
 
 	var urlConfirm="store/add-quantity?medicineId="+ medicineId +"&quantity="+quantity ;
 	
@@ -162,7 +162,7 @@ function addQuantity(medicineId){
 		.then(function(response) {
 			console.log(response);
 			if (response.ok) {
-				document.getElementById(`qty-${medicineId}`).value= "";	
+				document.getElementById(`qty-add-${medicineId}`).value= "";	
 				Swal.fire("Success!/Success!", "Medicine successfully Added!", "success");
 				loadPage('store');
 
@@ -205,7 +205,7 @@ function Transfer(medicineId,quantity){
 		.then(function(response) {
 			console.log(response.bodydy);
 			if (response.ok) {
-				document.getElementById(`qty-${medicineId}`).value= "";	
+				document.getElementById(`qtyi-${medicineId}`).value= "";	
 				Swal.fire("Success!/Success!", "Medicine successfully Transfered !", "success");
 				loadPage('store');
 
@@ -333,7 +333,7 @@ function TransferToPharmacy(medicineId,quantity){
       cartBody.innerHTML += `
       
       
-       <div class="cart-item">
+       <div class="cart-item col-lg-7" >
             <div class=" d-flex justify-content-between align-items-center">
                     <div  class="mx-3">
                         <strong>${item.name} </strong><br>

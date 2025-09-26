@@ -17,14 +17,15 @@
             <form id="consultationForm" class="card" method="post" action="/consultations/save">
             
                 <div class="my-3">
-                    <label for="patient" class="form-label">Select Patient</label>
-                    <select id="patientIdC" name="patientId" class="form-select">
-                        <option value="">-- Select Registered Patient --</option>
-                        <c:forEach var="p" items="${patients}">
-                            <option value="${p.id}">${p.name}</option>
-                        </c:forEach>
-                    </select>
-                </div>
+				    <label for="patient" class="form-label">Select Patient</label>
+				    <input list="patientsList" id="patientIdC" name="patientId" class="form-control" placeholder="-- Select Registered Patient --">
+				    <datalist id="patientsList">
+				        <c:forEach var="p" items="${patients}">
+				            <option value="${p.id}">${p.name}</option>
+				        </c:forEach>
+				    </datalist>
+				</div>
+
                 
                 <div class="row">
                     <div class="my-3 col-md-6">
@@ -42,7 +43,7 @@
                 <div class="row">
                     <div class="my-3 col-md-6">
                         <label class="form-label">Type of Consultation</label>
-                        <select id="consultationType" name="consultationTypeId" class="form-control" required>
+                        <select id="consultationType" name="consultationTypeId" onchange="loadSubtypes(this.value)" class="form-control" required>
                             <option value="">-- Select Consultation Type --</option>
                             <c:forEach var="type" items="${consultationTypes}">
                                 <option value="${type.id}">${type.name}</option>
@@ -52,7 +53,7 @@
                 
                     <div class="my-3 col-md-6">
                         <label class="form-label">Consultation Subtype</label>
-                        <select id="consultationSubtype" name="consultationSubtypeId" class="form-control" required disabled>
+                        <select id="consultationSubtype" name="consultationSubtypeId"  onchange="fillAmount(this)"class="form-control" required disabled>
                             <option value="">-- Select Consultation Subtype --</option>
                             <!-- populated dynamically -->
                         </select>
@@ -60,18 +61,20 @@
                 </div>
                 
                 <div class="row">
+			    <div class="my-3 col-md-6">
+			        <label class="form-label">Select Doctor</label>
+			        <input list="doctors" id="doctorId" name="doctorId" class="form-control" required />
+			        <datalist id="doctors">
+			            <option value="">Select Doctor</option>
+			            <c:forEach var="doctor" items="${doctors}">
+			                <option value="${doctor.firstName} ${doctor.lastName}" data-id="${doctor.id}"></option>
+			            </c:forEach>
+			        </datalist>
+			    </div>
+			
+			    
                     <div class="my-3 col-md-6">
-                        <label class="form-label">Select Doctor</label>
-                        <select id="doctorId" name="doctorId" class="form-control" required>
-                            <option value="">Select Doctor</option>
-                            <c:forEach var="doctor" items="${doctors}">
-                                <option value="${doctor.id}">${doctor.firstName} ${doctor.lastName}</option>
-                            </c:forEach>
-                        </select>
-                    </div>
-    
-                    <div class="my-3 col-md-6">
-                        <label class="form-label">Amount Paid</label>
+                        <label class="form-label">Amount :</label>
                         <input type="number" id="amountPaid" name="amountPaid" class="form-control" readonly required />
                     </div>
                 </div>
