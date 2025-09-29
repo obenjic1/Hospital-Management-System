@@ -28,7 +28,7 @@ public class AppoitmentService {
 //    	appoint.setStatus(AppointmentStatus.SCHEDULED);
     	
     	appoint.setDoctor(staffService.getStaffById(appointment.getDoctor_id()));
-    	appoint.setAppointmentDate(appointment.getAppointmentDate());
+    	appoint.setAppointmentDate(appointment.getAppoitmentDate());
     	appoint.setPatient(patientService.getPatientById(appointment.getPatientId()));
     	appoint.setStatus(AppointmentStatus.SCHEDULED);
     	appoint.setReason(appointment.getReason());

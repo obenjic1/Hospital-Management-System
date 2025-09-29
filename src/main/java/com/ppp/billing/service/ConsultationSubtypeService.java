@@ -20,4 +20,8 @@ public class ConsultationSubtypeService {
     public ConsultationSubtype save(ConsultationSubtype subtype) {
         return consultationSubtypeRepository.save(subtype);
     }
+    
+    public ConsultationSubtype findById(Long id) {
+    	return consultationSubtypeRepository.findById(id).orElse(null);
+    }
 }

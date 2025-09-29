@@ -8,41 +8,20 @@
   <meta charset="UTF-8">
   <title>Patient Details</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- LOCAL Bootstrap 5.3 CSS -->
+  <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/bootstrap.min.css">
+  <!-- LOCAL Bootstrap-Icons CSS -->
+  <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/icons/bootstrap-icons.css">
 
-  <!-- Bootstrap 5.3 -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-  <!-- Bootstrap Icons -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
-
-  <!-- =====  CUSTOM CSS  ===== -->
   <style>
-    :root{
-      --clr-primary:#6f42c1;
-      --clr-danger:#e55353;
-      --clr-success:#1cc88a;
-      --clr-light:#f8f9fa;
-    }
+    :root{--clr-primary:#6f42c1;--clr-danger:#e55353;--clr-success:#1cc88a;--clr-light:#f8f9fa}
     body{background-color:var(--clr-light);}
-    .profile-card{
-      border-radius:1rem;
-      background:#fff;
-      box-shadow:0 .125rem .25rem rgba(0,0,0,.075);
-    }
-    .section-title{
-      font-size:1.1rem;
-      font-weight:600;
-      color:var(--clr-primary);
-      border-bottom:2px solid var(--clr-primary);
-      padding-bottom:.5rem;
-      margin-bottom:1rem;
-    }
-    .info-group{display:flex;justify-content:space-between;align-items:center;padding:.5rem 0;border-bottom:1px solid #e9ecee;}
-    .info-label{font-weight:600;color:#5f6f81;}
-    .info-value{color:#212529;}
-    .table th{background-color:var(--clr-light);color:#333;}
-    @media (max-width: 576px){
-      .info-group{flex-direction:column;align-items:start;}
-    }
+    .profile-card{border-radius:1rem;background:#fff;box-shadow:0 .125rem .25rem rgba(0,0,0,.075)}
+    .section-title{font-size:1.1rem;font-weight:600;color:var(--clr-primary);border-bottom:2px solid var(--clr-primary);padding-bottom:.5rem;margin-bottom:1rem}
+    .info-group{display:flex;justify-content:space-between;align-items:center;padding:.5rem 0;border-bottom:1px solid #e9ecef}
+    .info-label{font-weight:600;color:#5f6f81}
+    .info-value{color:#212529}
+    .table th{background-color:var(--clr-light);color:#333}
   </style>
 </head>
 
@@ -55,16 +34,7 @@
       <span class="fw-bold">Patient Details</span>
     </a>
     <div class="d-flex gap-2">
-      <!-- optional actions -->
-      <a href="javascript:history.back()" class="btn btn-sm btn-outline-secondary">
-        <i class="bi bi-arrow-left"></i> Back
-      </a>
-      <!--
-      <a href="${pageContext.request.contextPath}/patients/${patient.id}/history/pdf"
-         class="btn btn-sm btn-outline-primary" target="_blank">
-        <i class="bi bi-file-earmark-pdf"></i> PDF
-      </a>
-      -->
+      <a href="javascript:history.back()" class="btn btn-sm btn-outline-secondary"><i class="bi bi-arrow-left"></i> Back</a>
     </div>
   </div>
 </nav>
@@ -72,7 +42,6 @@
 <!-- =====  MAIN  ===== -->
 <main class="container py-4">
   <div class="profile-card p-4">
-
     <!-- Avatar + Name -->
     <div class="text-center mb-4">
       <h4 class="mb-0">${patient.name}</h4>
@@ -143,29 +112,109 @@
       </div>
     </div>
 
-    <!-- Previous Appointments -->
+    <!-- ===========================================================
+         1.  VISIT  HISTORY
+         =========================================================== -->
+    <div class="section-title mt-4">Visit History</div>
+    <div class="table-responsive">
+      <table class="table table-hover align-middle mb-0">
+        <thead class="table-light">
+          <tr>
+            <th>#</th>
+            <th>Date</th>
+            <th>Time</th>
+            <th>Doctor</th>
+            <th>Reason</th>
+<!--             <th>Status</th> -->
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <c:forEach var="v" items="${visits}" varStatus="loop">
+               <tr>
+               <td>${loop.index + 1}</td>
+              <td>${v.visitDate}</td>
+              <td>${v.visitTime}</td>
+              <td>Dr ${v.attendingStaff.firstName} ${v.attendingStaff.lastName}</td>
+              <td>${v.consultationType.name}</td>
+<%--               <td><span class="badge bg-secondary">${v.status}</span></td> --%>
+              <td><a href="${pageContext.request.contextPath}/visits/${v.id}" class="btn btn-sm btn-outline-primary">View</a></td>
+            </tr>
+          </c:forEach>
+          <c:if test="${empty visits}">
+            <tr><td colspan="7" class="text-center text-muted">No visits recorded yet.</td></tr>
+          </c:if>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- ===========================================================
+         2.  FACTURE (INVOICE) HISTORY
+         =========================================================== -->
+    <div class="section-title mt-4">Invoice History</div>
+    <div class="table-responsive">
+      <table class="table table-hover align-middle mb-0">
+        <thead class="table-light">
+          <tr>
+            <th>#</th>
+            <th>Date</th>
+            <th>Total</th>
+            <th>Disc</th>
+            <th>Net</th>
+            <th>Paid</th>
+            <th>Balance</th>
+            <th>Status</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <c:forEach var="f" items="${factures}" varStatus="loop">
+               <tr>
+                  <td>${loop.index + 1}</td>
+              <td>${f.createdDate}</td>
+              <td><fmt:formatNumber value="${f.totalAmount}" type="currency" currencyCode="XAF"/></td>
+              <td>${f.discount}%</td>
+              <td><fmt:formatNumber value="${f.netAmount}"  type="currency" currencyCode="XAF"/></td>
+              <td><fmt:formatNumber value="${f.amountPaid}" type="currency" currencyCode="XAF"/></td>
+              <td><fmt:formatNumber value="${f.balance}"    type="currency" currencyCode="XAF"/></td>
+              <td>
+                  <span class="badge ${f.fullyPaid ? 'bg-success' : 'bg-warning text-dark'}">${f.fullyPaid ? 'PAID' : 'PENDING'}</span>
+              </td>
+              <td>
+                <a href="${pageContext.request.contextPath}/factures/receipt/${f.id}" target="_blank" class="btn btn-sm btn-dark" title="Print receipt">
+                  <i class="bi bi-printer"></i>
+                </a>
+              </td>
+            </tr>
+          </c:forEach>
+          <c:if test="${empty factures}">
+            <tr><td colspan="9" class="text-center text-muted">No invoices found.</td></tr>
+          </c:if>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Previous Appointments (kept as-is) -->
     <div class="section-title mt-4">Previous Appointments</div>
     <div class="table-responsive">
       <table class="table table-hover align-middle mb-0">
         <thead class="table-light">
           <tr>
+           <th></i>#</th>
             <th><i class="bi bi-calendar me-2"></i>Date</th>
+            <th><i class="bi bi-check-circle me-2"></i>Reason</th>
             <th><i class="bi bi-person-badge me-2"></i>Doctor</th>
             <th><i class="bi bi-check-circle me-2"></i>Status</th>
           </tr>
         </thead>
         <tbody>
-          <c:forEach var="a" items="${appointments}">
-            <tr>
-              <td><fmt:formatDate value="${a.appointmentDate}" pattern="dd-MM-yyyy"/></td>
+          <c:forEach var="a" items="${appointments}" varStatus="loop">
+               <tr>
+                  <td>${loop.index + 1}</td>
+              <td>${a.appointmentDate}</td>
+              <td>${a.reason}</td>
               <td>Dr. ${a.doctor.firstName} ${a.doctor.lastName}</td>
-              <td>
-                <span class="badge
-                  ${a.status=='Completed' ? 'bg-success' :
-                a.status=='Cancelled' ? 'bg-danger' : 'bg-warning'}">
-                  ${a.status}
-                </span>
-              </td>
+              <td>${a.status}</td>
             </tr>
           </c:forEach>
         </tbody>
@@ -178,9 +227,7 @@
   </div><!-- /profile-card -->
 </main>
 
-<!-- =====  SCRIPTS  ===== -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<!-- LOCAL Bootstrap JS -->
+<script src="${pageContext.request.contextPath}/resources/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
-
-

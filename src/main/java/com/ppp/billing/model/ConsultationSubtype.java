@@ -1,6 +1,7 @@
 package com.ppp.billing.model;
 import java.math.BigDecimal;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -28,6 +29,11 @@ public class ConsultationSubtype {
     private String name; 
 
     private BigDecimal price;
+    
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinColumn(name = "visit_id")
+    private Visit visit;
+
 
     @ManyToOne
     @JoinColumn(name = "consultation_type_id")

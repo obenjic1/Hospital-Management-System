@@ -1,7 +1,7 @@
 package com.ppp.billing.Dto;
 
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -14,8 +14,8 @@ public class AppointmentDto {
 	private Long patientId;
 	private Long doctor_id;
 	private String reason;
-    private String appointmentDate;
     private String status; 
+    private LocalDate appoitmentDate;
 
 
 }

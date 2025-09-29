@@ -1,8 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
+<head> <meta charset="UTF-8"></head>
 <main id="add-visit" class="container py-4">
-  <form action="saveVisit" method="post" id="patientForm" novalidate>
+  <form  id="patientForm" novalidate>
 
     <!-- ----------  HEADER / PROGRESS  ---------- -->
     <div class="card shadow">
@@ -30,18 +30,19 @@
           <h5 class="text-primary my-2">Patient</h5>
 
           <!-- Existing patient search -->
-          <div class="form-floating my-2">
-            <input list="patientsList" id="patientId" name="patientId"
-                   class="form-control" placeholder=" "
-                   onchange="toggleNewPatientFields(this.value)">
-            <label for="patientId">Search existing patient</label>
-            <datalist id="patientsList">
-              <c:forEach var="p" items="${patients}">
-                <option value="${p.name}">${p.name}</option>
-              </c:forEach>
-            </datalist>
-            <div class="form-text">Leave blank to register a new patient.</div>
-          </div>
+         <div class="form-floating my-2">
+			  <input list="patientsList" id="patientName" name="patientId"
+			         class="form-control" placeholder=" "
+			         onchange="toggleNewPatientFields(this.value),setPatientId()">
+			  <label for="patientId">Search existing patient</label>
+			  <datalist id="patientsList">
+			    <c:forEach var="p" items="${patients}">
+			      <option  data-id="${p.id}" value="${p.name}">${p.name}</option>
+			    </c:forEach>
+			  </datalist>
+			  <div class="form-text text-danger">Leave blank to register a new patient.</div>
+			  <input type="hidden" id="patientId" name="patientId">
+			</div>
 
           <!-- New patient block -->
           <div id="newPatientForm" class="row g-3">
@@ -128,13 +129,12 @@
               <div class="col-md-6">
                 <select class="form-select" name="visitServices[0].serviceTypeId"
                         onchange="updatePrice(this, 'consultationPrice')">
-                  <option value="1" data-price="5000">General Consultation – 5 000</option>
-                  <option value="2" data-price="8000">Specialist Consultation – 8 000</option>
+               
                 </select>
               </div>
               <div class="col-md-6">
-                <input type="number" id="consultationPrice" name="visitServices[0].price"
-                       class="form-control" value="0" readonly>
+               <input type="number" id="consultationPrice" name="visitServices[0].price"
+     				  class="form-control price-field" readonly value="0">
               </div>
             </div>
           </div>
@@ -149,9 +149,9 @@
 			    </select>
 			    
 			    </div>
-			     <div class="col-md-6">
-			      <input type="number" id="consultation-PrénatalePrice" name="visitServices[0].price" class="form-control mt-2" readonly value="0">
-			     
+			<div class="col-md-6">
+			<input type="number" id="consultation-PrénatalePrice" name="visitServices[0].price"
+			       class="form-control price-field" readonly value="0">			     
 			     </div>
 			    </div>
           </div>
@@ -174,7 +174,7 @@
               </div>
               <div class="col-md-6">
                 <input type="number" id="echoPrice" name="visitServices[0].price"
-                       class="form-control" value="0" readonly>
+     			  class="form-control price-field" readonly value="0">
               </div>
             </div>
           </div>
@@ -199,7 +199,8 @@
 					    </select>
 					    </div>
 					     <div class="col-md-6">
-					      <input type="number" id="autrePrice" name="visitServices[0].price" class="form-control mt-2" readonly value="0">
+					     <input type="number" id="autrePrice" name="visitServices[0].price"
+      						 class="form-control price-field" readonly value="0">
 					     </div>
 					   
 			  </div>
@@ -211,29 +212,47 @@
         <!-- =========================================================
              3.  PAYMENT  SECTION
         ==========================================================-->
-        <section class="mb-4">
-          <h5 class="text-primary mb-3">Payment & Doctor</h5>
-          <div class="row g-3">
-            <div class="col-md-4 form-floating">
-              <input type="number" id="grandTotal" name="totalAmount" class="form-control" value="0" readonly>
-              <label>Total (CDF)</label>
-            </div>
-            <div class="col-md-4 form-floating">
-              <input type="number" id="discount" name="discount" class="form-control"
-                     value="0" min="0" max="100" step="0.5">
-              <label>Discount (%)</label>
-            </div>
-            <div class="col-md-4 form-floating">
-              <input list="doctors" id="doctorId" name="doctorId" class="form-control" required>
-              <label for="doctorId">Doctor *</label>
-              <datalist id="doctors">
-                <c:forEach var="doctor" items="${doctors}">
-                  <option value="${doctor.id}">${doctor.name}</option>
-                </c:forEach>
-              </datalist>
-            </div>
-          </div>
-        </section>
+   <section class="mb-4">
+  <h5 class="text-primary mb-3">Payment & Doctor</h5>
+  <div class="row g-3">
+
+    <!-- Total (read-only) -->
+    <div class="col-md-4 form-floating">
+      <input type="number" id="grandTotal" name="totalAmount" class="form-control" value="0" readonly>
+      <label>Total (CDF)</label>
+    </div>
+
+    <!-- Discount (with live numeric extraction) -->
+    <div class="col-md-4 form-floating">
+      <input list="discountList" id="discount" name="discount" class="form-control"
+             value="0" required oninput="setDiscount(); recalcTotal();">
+      <label for="discount">Discount (%)</label>
+      <datalist id="discountList">
+        <option value="5">5%</option>
+        <option value="2">2%</option>
+        <option value="10">10%</option>
+        <option value="20">20%</option>
+        <option value="25">25%</option>
+        <option value="15">15%</option>
+        <option value="30">30%</option>
+        <option value="50">50%</option>
+      </datalist>
+      <!-- hidden numeric value -->
+      <input type="hidden" id="actualDiscountValue" name="actualDiscountValue" value="0">
+    </div>
+
+		    <!-- Doctor (with live ID extraction) -->
+		    <div class="col-md-4 form-floating">
+		    <input list="doctors" id="doctorId" name="doctorId" oninput="setDoctorId()" class="form-control">
+		    <label for="doctorId">Doctor </label>
+		    <datalist id="doctors">
+		        <c:forEach var="doctor" items="${doctors}">
+		            <option data-id="${doctor.id}" value="${doctor.firstName} ${doctor.lastName}"> ${doctor.firstName} ${doctor.lastName}</option>
+		        </c:forEach>
+		    </datalist>
+		</div>
+		
+		</section>
 
         <!-- =========================================================
              OPTIONAL APPOINTMENT
@@ -248,15 +267,15 @@
           </div>
           <div id="appointmentForm" class="row g-3 mt-2" style="display:none">
             <div class="col-md-4 form-floating">
-              <input type="text" class="form-control" name="reason" id="reason" placeholder=" " required>
+              <input type="text" class="form-control" name="reason" id="reason" placeholder=" " >
               <label for="reason">Reason *</label>
             </div>
             <div class="col-md-4 form-floating">
-              <input type="date" class="form-control" name="appointmentDate" id="appointmentDate" required>
+              <input type="date" class="form-control" name="appointmentDate" id="appointmentDate" >
               <label for="appointmentDate">Date *</label>
             </div>
             <div class="col-md-4 form-floating">
-              <input type="time" class="form-control" name="appointmentTime" id="appointmentTime" required>
+              <input type="time" class="form-control" name="appointmentTime" id="appointmentTime" >
               <label for="appointmentTime">Time *</label>
             </div>
           </div>
@@ -264,7 +283,7 @@
 
         <!-- ----------  SUBMIT  ---------- -->
         <div class="d-grid d-md-flex justify-content-md-end">
-          <button type="submit" class="btn btn-primary btn-lg px-5">Save visit</button>
+          <button type="button"  onclick="saveVisit()" class="btn btn-outline-primary btn-lg px-5">Save visit</button>
         </div>
 
       </div><!-- /card-body -->

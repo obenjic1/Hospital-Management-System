@@ -7,6 +7,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import com.ppp.billing.Dto.VisitFormDTO;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -15,7 +17,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class VisitService {
+public class VisitServices {
 	
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,5 +32,8 @@ public class VisitService {
     private ServiceType serviceType;
 
     private double price;
+
+	
+
 }
 

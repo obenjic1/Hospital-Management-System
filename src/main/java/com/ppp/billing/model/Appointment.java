@@ -1,17 +1,15 @@
 package com.ppp.billing.model;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeFormatter;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -35,18 +33,17 @@ public class Appointment {
 	    @JoinColumn(name = "doctor_id", nullable = false)
 	    private Staff doctor; 
 	    
-	    private LocalDateTime appointmentDate;
+	    private LocalDate appointmentDate;
 
 	    private AppointmentStatus status; 
-	    
 	    private String reason;
 
-	    @OneToOne(mappedBy = "appointment", cascade = CascadeType.ALL)
-	    private Consultation consultation;
+
 	    
-	    public void setAppointmentDate(String date) {
-	        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
-	        this.appointmentDate = LocalDateTime.parse(date, formatter);
-	    }
+	    
+//	    public void setAppointmentDate(LocalDate localDate) {
+//	        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+//	        this.appointmentDate = localDate;
+//	    }
 
 }

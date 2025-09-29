@@ -1,5 +1,7 @@
 package com.ppp.billing.model;
 
+import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,11 +30,14 @@ public class Facture {
     @OneToOne
     @JoinColumn(name = "visit_id")
     private Visit visit;
+    private String paymentMethod;
+    private LocalDate createdDate;
 
-    private double totalAmount;
+
+    private BigDecimal totalAmount;
     private double discount;
-    private double netAmount;
-    private String status; // PAID, UNPAID, PARTIAL
+    private BigDecimal netAmount;
+    private String status;
 
     @OneToMany(mappedBy = "facture", cascade = CascadeType.ALL)
     private List<Payment> payments;
@@ -42,8 +47,10 @@ public class Facture {
     @OneToMany(mappedBy = "facture", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<FactureItem> items = new ArrayList<>();
     
- 
+    private BigDecimal discountAmount;
     private double amountPaid;     
-    private double balance;        
+    private double balance;     
+    @OneToMany(mappedBy = "facture", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Sale> sales = new ArrayList<>();
 }
 

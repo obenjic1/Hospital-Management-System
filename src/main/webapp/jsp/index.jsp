@@ -220,6 +220,23 @@
 						<li class="nav-item">
 						</ul> 
 		</sec:authorize>
+		 <sec:authorize  access="hasRole('ROLE_PHAMARCY')">  
+					<li class="nav-item">
+					  <li class="pp-module">
+					    <i class="ri-money-dollar-circle-line"> </i> 
+					  <span>
+					    <span>Factures</span>
+					  </span>
+					</li>
+					<ul id="jobsheet-management-nav">
+						<li class="nav-item">
+	                      <a class="nav-link collapsed" onclick="loadPage('factures')" href="#">
+							 <i class=" ri-money-dollar-circle-line"></i>
+							<span>Factures</span>
+						  </a>
+						<li class="nav-item">
+						</ul> 
+		</sec:authorize>
 	
  		<sec:authorize access="hasRole('ROLE_ADMIN')">							
 			<li class="nav-item">

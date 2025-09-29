@@ -20,7 +20,9 @@ import com.ppp.billing.model.Appointment;
 import com.ppp.billing.model.Patient;
 import com.ppp.billing.service.AppoitmentService;
 import com.ppp.billing.service.ConsultationService;
+import com.ppp.billing.service.FactureService;
 import com.ppp.billing.service.PatientService;
+import com.ppp.billing.service.VisitService;
 
 @Controller
 @RequestMapping("/patients")
@@ -30,6 +32,12 @@ public class PatientController {
 	    private PatientService patientService;
 	 @Autowired
 	    private AppoitmentService appointmentService;
+	 @Autowired
+	    private VisitService visitService;
+	 
+	 @Autowired
+	    private FactureService factureService;
+	 
 	 
 	 @Autowired
 	    private ConsultationService consultationService;
@@ -89,6 +97,8 @@ public class PatientController {
 	        List<Appointment> appointments = appointmentService.findByPatient( patientService.getPatientById(id));
 
 	        model.addAttribute("appointments",  appointments);
+	        model.addAttribute("visits",    visitService.getVisitsByPatient(id));
+	        model.addAttribute("factures",  factureService.findByVisit_Patient_IdOrderByIdDesc(id));
 
 	        model.addAttribute("patient",  patientService.getPatientById(id));
 	        return "patient/detail";
