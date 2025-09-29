@@ -100,9 +100,10 @@
               <td>${not empty f.payments ? f.payments[0].reference : '—'}</td>
               <td><span class="badge ${f.fullyPaid ? 'bg-success' : 'bg-warning text-dark'}">${f.fullyPaid ? 'PAID' : 'PENDING'}</span></td>
               <td class="text-nowrap text-center">
-                <a href="${pageContext.request.contextPath}/factures/${f.id}" class="btn btn-sm btn-info" title="View / Edit"><i class="bi bi-pencil"></i></a>
+          		 <a href="#" data-bs-toggle="modal" data-bs-target="#ExtralargeModal" onclick="loadPageModalForm('factures/${f.id}/payments/new')"  class="btn btn-sm btn-success" title="Add Payment"> <i class="bi bi-cash-coin"></i></a>
+                <a href="#" data-bs-toggle="modal" data-bs-target="#ExtralargeModal" onclick="loadPageModalForm('factures/${f.id}')"  class="btn btn-sm btn-info" title="View"><i class="bi bi-pencil"></i></a>
                 <a href="${pageContext.request.contextPath}/factures/receipt/${f.id}" target="_blank" class="btn btn-sm btn-dark" title="Print receipt"><i class="bi bi-printer"></i></a>
-                <button class="btn btn-sm btn-danger" onclick="confirmDelete(${f.id})" title="Delete"><i class="bi bi-trash"></i></button>
+<%--                 <button class="btn btn-sm btn-danger" onclick="confirmDelete(${f.id})" title="Delete"><i class="bi bi-trash"></i></button> --%>
               </td>
             </tr>
           </c:forEach>

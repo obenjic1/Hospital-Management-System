@@ -1,10 +1,12 @@
 package com.ppp.billing.model;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -24,13 +26,23 @@ public class Payment   {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(fetch= FetchType.LAZY)
     @JoinColumn(name = "facture_id")
     private Facture facture;
 
-    private double amountPaid;
-    private LocalDateTime paymentDate;
+    private BigDecimal amountPaid;
+    private LocalDateTime paymentDate = LocalDateTime.now();
     private String paymentMethod; 
     @Enumerated(EnumType.STRING)
     private PaymentMethod method;
+    
+
+    private String receivedBy;  
+    
+    private String reference;
+    public boolean isCash()    { return method == PaymentMethod.CASH; }
+    public boolean isMTN()    { return method == PaymentMethod.MTN_MOBILE_MONEY; }
+    public boolean isOrange()  { return method == PaymentMethod.ORANGE_MONEY; }
+    
+    
 }

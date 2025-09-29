@@ -1,6 +1,8 @@
 package com.ppp.billing.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -56,9 +58,13 @@ public class VisitController {
 	    
 	    @CrossOrigin
 	    @PostMapping
-	    public String saveVisit(@ModelAttribute VisitFormDTO dto) {
-	    	System.out.println(dto);
-	    	visitService.saveVisit(dto);
-	        return "ok"; }
+	    public ResponseEntity<String> saveVisit(@ModelAttribute VisitFormDTO dto) {
+	    	  try {
+	    		  visitService.saveVisit(dto);
+	           	return new ResponseEntity<>(HttpStatus.CREATED);
+			} catch (Exception e) {
+				
+				 return new ResponseEntity<String>(e.getMessage(), HttpStatus.EXPECTATION_FAILED);	}
+	    }
 
 }

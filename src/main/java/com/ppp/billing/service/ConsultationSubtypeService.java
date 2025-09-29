@@ -5,23 +5,24 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.ppp.billing.Dto.ConsultationSubtypeDTO;
 import com.ppp.billing.model.ConsultationSubtype;
-import com.ppp.billing.model.ConsultationSubtypeRepository;
+import com.ppp.billing.repository.ConsultationSubTypeRepository;
 
 @Service
 public class ConsultationSubtypeService {
     @Autowired
-    private ConsultationSubtypeRepository consultationSubtypeRepository;
+    private ConsultationSubTypeRepository subTypeRepository;
 
     public List<ConsultationSubtype> findByConsultationTypeId(Long typeId) {
-        return consultationSubtypeRepository.findByConsultationTypeId(typeId);
+        return subTypeRepository.findAllByConsultationTypeId(typeId);
     }
     
     public ConsultationSubtype save(ConsultationSubtype subtype) {
-        return consultationSubtypeRepository.save(subtype);
+        return subTypeRepository.save(subtype);
     }
     
     public ConsultationSubtype findById(Long id) {
-    	return consultationSubtypeRepository.findById(id).orElse(null);
+    	return subTypeRepository.findById(id).orElse(null);
     }
 }

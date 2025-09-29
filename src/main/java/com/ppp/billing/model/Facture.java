@@ -52,5 +52,20 @@ public class Facture {
     private double balance;     
     @OneToMany(mappedBy = "facture", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Sale> sales = new ArrayList<>();
+    
+    
+    public BigDecimal getTotalPaid() {
+        return payments.stream()
+                       .map(Payment::getAmountPaid)
+                       .reduce(BigDecimal.ZERO, BigDecimal::add);
+    }
+
+    public BigDecimal getBalance() {
+        return netAmount.subtract(getTotalPaid());
+    }
+
+    public boolean isFullyPaid() {
+        return getBalance().compareTo(BigDecimal.ZERO) <= 0;
+    }
 }
 

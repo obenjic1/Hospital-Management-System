@@ -167,10 +167,10 @@
 				    <a class="nav-link collapsed" onclick="loadPage('appointments')" href="#">
 				    <i class="bi bi-person">
 				  </i> <span>List Appointments</span></a></li>
-				   <li class="nav-item">
-				    <a class="nav-link collapsed" onclick="loadPage('consultations')" href="#">
-				    <i class="bi bi-person">
-				  </i> <span>List Consultations</span></a></li>
+<!-- 				   <li class="nav-item"> -->
+<!-- 				    <a class="nav-link collapsed" onclick="loadPage('consultations')" href="#"> -->
+<!-- 				    <i class="bi bi-person"> -->
+<!-- 				  </i> <span>List Consultations</span></a></li> -->
 				</sec:authorize>
 				</ul>
 

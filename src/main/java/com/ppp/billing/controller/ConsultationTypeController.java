@@ -13,8 +13,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.ppp.billing.Dto.ConsultationSubtypeDTO;
+import com.ppp.billing.Dto.ConsultationSubtypeDto;
 import com.ppp.billing.model.ConsultationSubtype;
 import com.ppp.billing.model.ConsultationType;
+import com.ppp.billing.repository.ConsultationSubTypeRepository;
 import com.ppp.billing.service.ConsultationSubtypeService;
 import com.ppp.billing.service.ConsultationTypeService;
 
@@ -27,6 +30,9 @@ public class ConsultationTypeController {
 
 	    @Autowired
 	    private ConsultationSubtypeService subtypeService;
+	    
+	    @Autowired
+	    private ConsultationSubTypeRepository consultationTypeRepository;
 	    
 	   
 
@@ -57,9 +63,10 @@ public class ConsultationTypeController {
 	    @GetMapping("/consultation-subtypes/{typeId}")
 	    @ResponseBody
 	    public List<ConsultationSubtype> getSubtypesByType(@PathVariable Long typeId) {
-	    	ConsultationType consult = typeService.findById(typeId);
-	    	List<ConsultationSubtype> subype = consult.getSubtypes();
-	    	return subype;
+//	    	ConsultationType consult = typeService.findById(typeId);
+//	    	List<ConsultationSubtype> subype = consult.getSubtypes();
+	    	List<ConsultationSubtype> list = subtypeService.findByConsultationTypeId(typeId);
+	    	return list;
 	    	}
 	    	
 	  

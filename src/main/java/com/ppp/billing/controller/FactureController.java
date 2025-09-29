@@ -1,6 +1,5 @@
 package com.ppp.billing.controller;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -9,6 +8,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -51,4 +51,12 @@ public class FactureController {
        model.addAttribute("factures", result);
        return "facture/list";
    }
+   
+   @GetMapping("/{id}/payments/new")
+   public String paymentModal(@PathVariable Long id, Model model) {
+       Facture f = factureService.getFactureById(id);
+       model.addAttribute("facture", f);
+       return "facture/payment-modal";   // the JSP fragment
+   }
+   
 }

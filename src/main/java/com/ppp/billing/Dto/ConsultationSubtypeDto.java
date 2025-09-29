@@ -1,4 +1,4 @@
-package com.ppp.billing.controller;
+package com.ppp.billing.Dto;
 
 import java.math.BigDecimal;
 

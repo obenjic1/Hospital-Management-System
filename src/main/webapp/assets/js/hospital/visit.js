@@ -53,6 +53,7 @@ function toggleReasonForm(selectElement) {
             document.getElementById('ExamenForm').style.display = 'block'; 
             addExamRow(currentReasonId); 
         } else {
+			alert("i am not exam");
             loadSubtypes(reason, currentReasonId);
             if (reasonDiv) reasonDiv.style.display = 'block';  
         }
@@ -95,41 +96,44 @@ function updatePrice(select, priceInputId) {
 
 // ----- Examen Handling -----
 let examIndex = 0;
-
 function addExamRow(reasonId) {
-    const list = document.getElementById('examenList');
-    const idx = examIndex++;
+    if (!reasonId) {                       // safety
+        console.warn('No reasonId supplied to addExamRow');
+        return;
+    }
 
-    // Create a new row for the exam selection
+    const list = document.getElementById('examenList');
+    const idx  = examIndex++;              // your global counter
+
+    // create row
     const row = document.createElement('div');
     row.className = 'd-flex gap-2 mb-2';
     row.innerHTML = `
-        <select class="form-select" name="visitServices[${idx}].serviceTypeId" onchange="updateExamPrice(this, this.nextElementSibling)">
+        <select class="form-select" name="visitServices[${idx}].subserviceDTO.id"
+                onchange="updateExamPrice(this, this.nextElementSibling)">
             <option value="">-- Select Exam --</option>
-            <!-- Exam options will be dynamically filled based on reasonId -->
         </select>
-        <input type="number" name="visitServices[${idx}].price" class="form-control price-field" readonly value="0">
-        <button type="button" class="btn btn-danger btn-sm" onclick="this.parentNode.remove(); recalcTotal()">Remove</button>
+        <input type="number" name="visitServices[${idx}].price"
+               class="form-control price-field" readonly value="0">
+        <button type="button" class="btn btn-danger btn-sm"
+                onclick="this.parentNode.remove(); recalcTotal()">Remove</button>
     `;
-    
     list.appendChild(row);
 
-    // Fetch the available subtypes for the selected reason and populate the select options
+    /* =====  FIXED URL (add context path + leading slash)  ===== */
     fetch(`admin/consultation-types/consultation-subtypes/${reasonId}`)
-    .then(response => response.json())
-    .then(data => {
-        const select = row.querySelector('select');
-        data.forEach(sub => {
-            const option = document.createElement('option');
-            option.value = sub.id;
-            option.textContent = `${sub.name} - ${sub.price}`;
-            option.dataset.price = sub.price;
-            select.appendChild(option);
-        });
-    })
-    .catch(error => {
-        console.error("Error fetching exam options:", error);
-    });
+        .then(r => r.json())
+        .then(data => {
+            const select = row.querySelector('select');
+            data.forEach(sub => {
+                const opt = document.createElement('option');
+                opt.value       = sub.id;
+                opt.textContent = `${sub.name} - ${sub.price}`;
+                opt.dataset.price = sub.price;
+                select.appendChild(opt);
+            });
+        })
+        .catch(err => console.error('Fetch exam options failed:', err));
 }
 
 function updateExamPrice(select, priceInput) {
@@ -191,18 +195,17 @@ function recalcTotal() {
     document.getElementById('netAmount').value = net.toFixed(2);
 }
 function setPatientId() {
-  const input = document.getElementById('patientName');  // This is the patient name input
-  const patientIdInput = document.getElementById('patientId');  // Hidden field to store patient ID
+  const input = document.getElementById('patientName');  
+  const patientIdInput = document.getElementById('patientId');  
   
-  // Find the selected option by comparing the value (patient name)
   const selectedOption = Array.from(document.getElementById('patientsList').options)
     .find(option => option.value === input.value);
   
   if (selectedOption) {
-    // Set the patient ID in the hidden input field
-    patientIdInput.value = selectedOption.dataset.id;  // Use dataset.id (patient ID) from the option
+   
+    patientIdInput.value = selectedOption.dataset.id;  
   } else {
-    // If no match, clear the hidden input
+   
     patientIdInput.value = "";
   }
 }
@@ -216,30 +219,26 @@ function setDiscount() {
     const input = document.getElementById('discount');
     const actualDiscountValue = document.getElementById('actualDiscountValue');
   
-    // Find the selected option and assign its data-value to the hidden input
     const selectedOption = Array.from(document.getElementById('discountList').options)
     .find(option => option.value === input.value);
   
     if (selectedOption) {
         actualDiscountValue.value = selectedOption.dataset.value;
     }
-    recalcTotal();  // Recalculate total when medicine price is updated
+    recalcTotal();  
 }
 
 // ----- Doctor ID handling -----
 function setDoctorId() {
     const input = document.getElementById('doctorId');
   
-    // Find the selected option based on the name
     const selectedOption = Array.from(document.getElementById('doctors').options)
         .find(option => option.value === input.value);
 
     if (selectedOption) {
-        // Get the doctorId from the data-id attribute
         const doctorId = selectedOption.getAttribute('data-id');
         
-        // Set the doctorId as the hidden value
-        input.value = doctorId;  // This will now hold the doctorId (numeric value) instead of the name
+        input.value = doctorId;  
     }
 }
 
@@ -329,7 +328,6 @@ function saveVisit() {
     }).then (function(response) {
 				if (response.ok) {
 					Swal.fire("Success!/Success!", "Visit Registered successfully!", "success");
-					document.getElementById("close-btn").click();
 					loadPage('visit');
 					
 				}else{
@@ -360,18 +358,7 @@ function saveVisit() {
     const url = 'factures?' + params.toString();
     loadPage(url);
 
-//    fetch(url)
-//      .then(r => r.text())
-//      .then(html => {
-//        const newBody = new DOMParser()
-//                          .parseFromString(html,'text/html')
-//                          .querySelector('#tableBody').innerHTML;
-//        document.querySelector('#tableBody').innerHTML = newBody;
-//        /* update record count */
-//        const newCount= (newBody.match(/<tr>/g) || []).length - (newBody.includes('No invoices') ? 1 : 0);
-//        document.querySelector('#countBadge').textContent = newCount + ' record(s)';
-//      })
-//      .catch(err => location.href = url);   // fall back to full reload
+
   }
 
   /* ---------- quick status toggle ---------- */
@@ -392,3 +379,45 @@ function saveVisit() {
   document.getElementById('nameFilter').addEventListener('keyup', e => {
     if (e.key === 'Enter') applyFilter();
   });
+  
+   const balance = parseFloat('${facture.balance}');
+    const amountInput   = document.getElementById('amount');
+    const remainingSpan = document.getElementById('remainingSpan');
+
+    amountInput.addEventListener('input', function () {
+        const paid = parseFloat(this.value) || 0;
+        let left   = balance - paid;
+        if (left < 0) {               // block over-payment
+            this.value = balance.toFixed(2);
+            left = 0;
+        }
+        remainingSpan.textContent = new Intl.NumberFormat('fr-FR', {
+            style: 'currency', currency: 'XAF'
+        }).format(left);
+    });
+
+    function toggleReference() {
+        const m = document.getElementById('method').value;
+        document.getElementById('reference').required = ['MOBILE_MONEY','CARD','INSURANCE','CHEQUE'].includes(m);
+    }
+
+    /* submit payment (fetch) – same as before */
+    document.getElementById('paymentForm').addEventListener('submit', function (e) {
+        e.preventDefault();
+        const data = new FormData(this);
+        fetch('${pageContext.request.contextPath}/factures/' + data.get('factureId') + '/payments', {
+            method: 'POST',
+            body: data
+        })
+        .then(r => r.json())
+        .then(json => {
+            if (json.ok) {
+                bootstrap.Modal.getInstance(document.getElementById('ExtralargeModal')).hide();
+                location.reload();
+                window.open('${pageContext.request.contextPath}/payments/receipt/' + json.paymentId, '_blank');
+            } else {
+                alert(json.message || 'Erreur');
+            }
+        })
+        .catch(err => { console.error(err); alert('Réseau indisponible'); });
+    });
