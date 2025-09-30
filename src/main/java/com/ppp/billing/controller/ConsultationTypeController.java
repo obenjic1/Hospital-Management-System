@@ -1,6 +1,8 @@
 package com.ppp.billing.controller;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -14,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ppp.billing.Dto.ConsultationSubtypeDTO;
-import com.ppp.billing.Dto.ConsultationSubtypeDto;
+import com.ppp.billing.Dto.ConsultationTypeDTO;
 import com.ppp.billing.model.ConsultationSubtype;
 import com.ppp.billing.model.ConsultationType;
 import com.ppp.billing.repository.ConsultationSubTypeRepository;
@@ -36,13 +38,33 @@ public class ConsultationTypeController {
 	    
 	   
 
-	    @GetMapping
-	    public String showTypeForm(Model model) {
-	        model.addAttribute("consultationType", new ConsultationType());
-	        model.addAttribute("subtype", new ConsultationSubtype());
-	        model.addAttribute("types", typeService.findAll());
-	        return "Consultation/consultation-type";
-	    }
+	
+	            @GetMapping
+	        		public String showTypeForm(Model model) {
+
+	            model.addAttribute("consultationType", new ConsultationType());
+	            model.addAttribute("subtype", new ConsultationSubtype());
+
+	            // Map ConsultationType to DTOs, excluding visits
+	            List<ConsultationTypeDTO> typeDTOs = typeService.findAll().stream()
+	                .map(ct -> {
+	                    List<ConsultationSubtypeDTO> subDTOs = new ArrayList<>();
+	                    if (ct.getSubtypes() != null) {
+	                        subDTOs = ct.getSubtypes().stream()
+	                            .map(sub -> new ConsultationSubtypeDTO(sub.getId(), sub.getName(), sub.getPrice()))
+	                            .collect(Collectors.toList());
+	                    }
+	                    return new ConsultationTypeDTO(ct.getId(), ct.getName(), subDTOs);
+	                })
+	                .collect(Collectors.toList());
+
+	            model.addAttribute("types", typeDTOs);
+
+	            return "Consultation/consultation-type";
+	        }
+
+	            
+
 
 	    @PostMapping("/add-type")
 	    public String addType(@ModelAttribute ConsultationType consultationType) {

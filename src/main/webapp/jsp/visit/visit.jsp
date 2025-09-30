@@ -1,8 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<head> <meta charset="UTF-8"></head>
+<head> 
+  <meta charset="UTF-8"> 
+</head> 
 <main id="add-visit" class="container py-4">
-  <form  id="patientForm" novalidate>
+  <form  id="reasonForm" novalidate>
 
     <!-- ----------  HEADER / PROGRESS  ---------- -->
     <div class="card shadow">
@@ -99,114 +101,134 @@
         </section>
 
         <hr>
+        
+<section class="mb-4">
+  <h5 class="text-primary mb-3">Visit</h5>
 
-        <!-- =========================================================
-             2.  VISIT  SECTION
-        ==========================================================-->
-        <section class="mb-4">
-          <h5 class="text-primary mb-3">Visit</h5>
-          <div class="row g-3">
-            <div class="col-md-6 form-floating">
-              <select id="reasonForVisit" name="reasonForVisit" class="form-select" required
-                      onchange="toggleReasonForm(this)">
-                <option value="" hidden>-- Select reason --</option>
-                <c:forEach var="p" items="${consultations}">
-                  <option data-id="${p.id}" data-name="${p.name}" value="${p.name}">${p.name}</option>
-                </c:forEach>
-              </select>
-              <label for="reasonForVisit">Reason for visit *</label>
-            </div>
-            <div class="col-md-6 form-floating">
-              <input type="number" id="netAmount" name="netAmount" class="form-control" value="0" readonly>
-              <label>Net amount</label>
-            </div>
-          </div>
+  <!-- ----  NET AMOUNT  (MOVED TO TOP)  ---- -->
+  <div class="row g-3 mb-4">
+    <div class="col-md-6 form-floating">
+      <input type="number" id="netAmount" name="netAmount" class="form-control" value="0" readonly>
+      <label>Net amount</label>
+    </div>
+  </div>
 
-          <!-- Dynamic reason blocks (unchanged IDs / classes) -->
-          <div id="ConsultationForm" class="reason-form mt-3" style="display:none">
-            <h6 class="text-primary">Consultation</h6>
-            <div class="row g-2">
-              <div class="col-md-6">
-                <select class="form-select" name="visitServices[0].serviceTypeId"
-                        onchange="updatePrice(this, 'consultationPrice')">
-               
-                </select>
-              </div>
-              <div class="col-md-6">
-               <input type="number" id="consultationPrice" name="visitServices[0].price"
-     				  class="form-control price-field" readonly value="0">
-              </div>
-            </div>
-          </div>
+  <!-- ----  REASON CHECK-BOXES  (LOOPED FROM BACKEND)  ---- -->
+  <div class="d-inline-flex flex-wrap gap-3">
+  <c:forEach var="c" items="${consultations}">
+    <div class="form-check form-check-inline">
+      <input class="form-check-input"
+             type="checkbox"
+             id="reason-${c.id}"
+             value="${c.name}"
+             data-id="${c.id}"                      
+             data-name="${c.name}"                 
+             onchange="toggleSubForm('${c.name}', this.checked)"> 
+      <label class="form-check-label" for="reason-${c.id}">${c.name}</label>
+    </div>
+  </c:forEach>
+</div>
 
-          <div id="Consultation-PrénataleForm" class="reason-form mt-3" style="display:none">
-          <h6 class="text-primary">Consultation Prenantal </h6>
-			    <div class="row g-2">
-			    <div class="col-md-6">
-			    <select class="form-select" name="visitServices[0].serviceTypeId" onchange="updatePrice(this, 'consultation-PrénatalePrice')">
-			      <option value="1" data-price="5000">General Consultation - 5000</option>
-			      <option value="2" data-price="8000">Specialist Consultation - 8000</option>
-			    </select>
-			    
-			    </div>
-			<div class="col-md-6">
-			<input type="number" id="consultation-PrénatalePrice" name="visitServices[0].price"
-			       class="form-control price-field" readonly value="0">			     
-			     </div>
-			    </div>
-          </div>
 
-          <div id="ExamenForm" class="reason-form mt-3" style="display:none">
-            <h6 class="text-primary">Examen</h6>
-            <button type="button" class="btn btn-sm btn-primary mb-2" onclick="addExamRow(currentReasonId)">Add exam</button>
-            <div id="examenList"></div>
-          </div>
+  <!-- =========================================================
+       STATIC SUB-FORMS (NO AJAX)
+  ==========================================================-->
 
-          <div id="EchographieForm" class="reason-form mt-3" style="display:none">
-            <h6 class="text-primary">Echographie</h6>
-            <div class="row g-2">
-              <div class="col-md-6">
-                <select class="form-select" name="visitServices[0].serviceTypeId"
-                        onchange="updatePrice(this, 'echoPrice')">
-                  <option value="3" data-price="10000">Pelvic – 10 000</option>
-                  <option value="4" data-price="12000">Abdominal – 12 000</option>
-                </select>
-              </div>
-              <div class="col-md-6">
-                <input type="number" id="echoPrice" name="visitServices[0].price"
-     			  class="form-control price-field" readonly value="0">
-              </div>
-            </div>
-          </div>
+  <!-- Consultation -->
+  <div id="ConsultationForm" class="reason-form mt-3" style="display:none">
+    <h6 class="text-primary">Consultation</h6>
+    <div class="row g-2">
+      <div class="col-md-6">
+        <select class="form-select" name="visitServices[0].serviceTypeId" onchange="updatePrice(this,'consultationPrice')">
+<!--           <option value="1" data-price="5000">General – 5 000</option> -->
+<!--           <option value="2" data-price="8000">Specialist – 8 000</option> -->
+        </select>
+      </div>
+      <div class="col-md-6">
+        <input type="number" id="consultationPrice" name="visitServices[0].price" class="form-control price-field" readonly value="0">
+      </div>
+    </div>
+  </div>
 
-          <div id="OrdonnanceForm" class="reason-form mt-3" style="display:none">
-            <h6 class="text-primary">Pharmacy (sale)</h6>
-            <button type="button" class="btn btn-sm btn-primary mb-2" onclick="addMedicineRow()">Add medicine</button>
-            <div id="pharmacyList"></div>
-          </div>
+  <!-- Consultation Prénatale -->
+  <div id="Consultation-PrénataleForm" class="reason-form mt-3" style="display:none">
+    <h6 class="text-primary">Consultation Prénatale</h6>
+    <div class="row g-2">
+      <div class="col-md-6">
+        <select class="form-select" name="visitServices[0].serviceTypeId" onchange="updatePrice(this,'consultation-PrénatalePrice')">
+<!--           <option value="1" data-price="5000">General – 5 000</option> -->
+<!--           <option value="2" data-price="8000">Specialist – 8 000</option> -->
+        </select>
+      </div>
+      <div class="col-md-6">
+        <input type="number" id="consultation-PrénatalePrice" name="visitServices[0].price" class="form-control price-field" readonly value="0">
+      </div>
+    </div>
+  </div>
 
-        <div id="VaccinationForm" class="reason-form" style="display:none;">
-			     <h6 class="text-primary">Vaccination</h6>
-			    <p>Vaccination form goes here</p>
-			  </div>
+  <!-- EXAMEN  (NOW WITH STATIC OPTIONS)  -->
+  <div id="ExamenForm" class="reason-form mt-3" style="display:none">
+    <h6 class="text-primary">Examen</h6>
+<!--     <button type="button" class="btn btn-sm btn-primary mb-2" onclick="addExamRowStatic()">Add exam</button> -->
+    <div id="examenList"></div>
+  </div>
 
-          <div id="AutreForm" class="reason-form mt-3" style="display:none">
-            <h6 class="text-primary">Other</h6>
-			     <div class=" row g-2">
-					    <div class="col-md-6">  <select class="form-select" name="visitServices[0].serviceTypeId" onchange="updatePrice(this, 'autrePrice')">
-					      <option value="3" data-price="10000">Pelvic Echography - 10000</option>
-					      <option value="4" data-price="12000">Abdominal Echography - 12000</option>
-					    </select>
-					    </div>
-					     <div class="col-md-6">
-					     <input type="number" id="autrePrice" name="visitServices[0].price"
-      						 class="form-control price-field" readonly value="0">
-					     </div>
-					   
-			  </div>
-			  </div>
-        </section>
+  <!-- Echographie -->
+  <div id="EchographieForm" class="reason-form mt-3" style="display:none">
+    <h6 class="text-primary">Echographie</h6>
+    <div class="row g-2">
+      <div class="col-md-6">
+        <select class="form-select" name="visitServices[0].serviceTypeId" onchange="updatePrice(this,'echoPrice')">
+          <option value="3" data-price="10000">Pelvic – 10 000</option>
+          <option value="4" data-price="12000">Abdominal – 12 000</option>
+        </select>
+      </div>
+      <div class="col-md-6">
+        <input type="number" id="echoPrice" name="visitServices[0].price" class="form-control price-field" readonly value="0">
+      </div>
+    </div>
+  </div>
 
+  <!-- Ordonnance -->
+  <div id="OrdonnanceForm" class="reason-form mt-3" style="display:none">
+    <h6 class="text-primary">Pharmacy (sale)</h6>
+    <button type="button" class="btn btn-sm btn-primary mb-2" onclick="addMedicineRowStatic()">Add medicine</button>
+    <div id="pharmacyList"></div>
+  </div>
+
+  <!-- Vaccination -->
+  <div id="VaccinationForm" class="reason-form mt-3" style="display:none">
+    <h6 class="text-primary">Vaccination</h6>
+    <div class="row g-2">
+      <div class="col-md-6">
+        <select class="form-select" name="visitServices[0].serviceTypeId" onchange="updatePrice(this,'vaccPrice')">
+          <option value="20" data-price="5000">BCG – 5 000</option>
+          <option value="21" data-price="7000">Polio – 7 000</option>
+          <option value="22" data-price="10000">MMR – 10 000</option>
+        </select>
+      </div>
+      <div class="col-md-6">
+        <input type="number" id="vaccPrice" name="visitServices[0].price" class="form-control price-field" readonly value="0">
+      </div>
+    </div>
+  </div>
+
+  <!-- Autre -->
+  <div id="AutreForm" class="reason-form mt-3" style="display:none">
+    <h6 class="text-primary">Autre</h6>
+    <div class="row g-2">
+      <div class="col-md-6">
+        <select class="form-select" name="visitServices[0].serviceTypeId" onchange="updatePrice(this,'autrePrice')">
+          <option value="30" data-price="15000">Minor surgery – 15 000</option>
+          <option value="31" data-price="20000">Dressing large – 20 000</option>
+        </select>
+      </div>
+      <div class="col-md-6">
+        <input type="number" id="autrePrice" name="visitServices[0].price" class="form-control price-field" readonly value="0">
+      </div>
+    </div>
+  </div>
+</section>
         <hr>
 
         <!-- =========================================================
@@ -290,5 +312,4 @@
     </div><!-- /card -->
   </form>
 </main>
-
-<script src="assets/js/hospital/visit.js"></script>
+<script src="assets/js/hospital/visit.js"></script> 

@@ -56,9 +56,9 @@ public class VisitController {
 	        return "visit/visit";  
 	    }
 	    
-	    @CrossOrigin
-	    @PostMapping
+	    @PostMapping("/save")
 	    public ResponseEntity<String> saveVisit(@ModelAttribute VisitFormDTO dto) {
+	    	System.out.println(dto);
 	    	  try {
 	    		  visitService.saveVisit(dto);
 	           	return new ResponseEntity<>(HttpStatus.CREATED);

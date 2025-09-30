@@ -6,6 +6,8 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import lombok.Data;
 
 @Data
@@ -27,10 +29,13 @@ public class VisitFormDTO {
     private Long reasonId;           
     private String reasonName;      
     private LocalDate visitDate = LocalDate.now();
+    
+    
+    @DateTimeFormat(pattern = "HH:mm")
     private LocalTime visitTime = LocalTime.now();
 
     // 3. Services (dynamic rows)
-    private List<ServiceDTO> services = new ArrayList<>();  
+    private List<ConsultationSubtypeDTO> services = new ArrayList<>();  
     
     // 4. Payment
     private BigDecimal totalAmount;

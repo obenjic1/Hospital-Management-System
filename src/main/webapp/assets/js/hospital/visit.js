@@ -24,151 +24,203 @@ function toggleNewPatientFields(value) {
             document.querySelector('input[name="emergencyName"]').value = data.emmergenceName || ''; // Emergency Contact Name
             document.querySelector('input[name="emergencyContact"]').value = data.emmergencyContact || ''; // Emergency Contact Phone
         }
-    })
+    }) 
     .catch(error => {
         console.error(error);
         alert("Error fetching patient.");
     });
 }
 
-let currentReasonId = null;
 
-function toggleReasonForm(selectElement) {
-    document.querySelectorAll('.price-field').forEach(inp => inp.value = '0');
-    document.getElementById('grandTotal').value = '0';
-    document.getElementById('netAmount').value   = '0';
-    document.getElementById('discount').value    = '0';
-    document.querySelectorAll('.reason-form').forEach(div => div.style.display = 'none');
-    currentReasonId = selectElement.options[selectElement.selectedIndex].getAttribute('data-id'); 
-    const reason = selectElement.options[selectElement.selectedIndex].getAttribute('data-name'); 
+function setDiscount() {
+    const input  = document.getElementById('discount');
+    const hidden = document.getElementById('actualDiscountValue');
 
-    if (!currentReasonId) {
-        console.error("Invalid reasonId:", currentReasonId);
-        return; // Exit if reasonId is invalid
+    /* try datalist first */
+    const opt = Array.from(document.getElementById('discountList').options)
+                     .find(o => o.value === input.value);
+    hidden.value = opt ? opt.value.replace('%','')   // "5%" -> "5"
+                       : (parseFloat(input.value)||0); // free-type 5, 10.5 …
+    recalcTotal();
+}
+	   
+	  // ----- Doctor ID handling ----- 
+	 function setDoctorId() {
+    const input = document.getElementById('doctorId');
+    const opt   = Array.from(document.getElementById('doctors').options)
+                       .find(o => o.value === input.value);
+    if (opt) {
+        input.setAttribute('data-doctor-id', opt.getAttribute('data-id')); // store id
+        // do NOT overwrite input.value – user still sees the name
     }
+}
 
-    if (reason) {
-        const reasonDiv = document.getElementById(reason + 'Form');
-        if (reason === 'Examen') {
-            document.getElementById('ExamenForm').style.display = 'block'; 
-            addExamRow(currentReasonId); 
-        } else {
-			alert("i am not exam");
-            loadSubtypes(reason, currentReasonId);
-            if (reasonDiv) reasonDiv.style.display = 'block';  
-        }
+function setPatientId() {
+    const input = document.getElementById('patientName');   // visible text field
+    const opt   = Array.from(document.getElementById('patientsList').options)
+                       .find(o => o.value === input.value.trim());
+    if (opt) {
+        document.getElementById('patientId').value = opt.getAttribute('data-id'); // store id
+        // do NOT overwrite input.value – user still sees the name
+    } else {
+        document.getElementById('patientId').value = ''; // clear if not found
     }
+}
 
+// ----- Toggle Form Visibility -----
+function toggleSubForm(type, show) {
+  var form = document.getElementById(type + 'Form');
+  if (!form) return;
+  form.style.display = show ? 'block' : 'none';
+
+  var checkBox = document.querySelector('input[data-name="' + type + '"]');
+  var reasonId = checkBox ? checkBox.dataset.id : null;
+
+  if (!show || !reasonId) {
+    recalcTotal();
+    return;
+  }
+
+  // Reset the price fields for other consultation types when switching
+  resetPriceFields();
+
+  // Reset other forms except Examen
+  var select = form.querySelector('select[name$="serviceTypeId"]');
+  if (select) {
+    select.innerHTML = ''; // Reset the options for other forms (Consultation, Vaccination, etc.)
+  }
+
+  // Clear exam rows if it's not an exam consultation type
+  if (type !== 'Examen') {
+    var examenList = document.getElementById('examenList');
+    if (examenList) {
+      examenList.innerHTML = ''; // Clear all exam rows
+    }
+  }
+
+  var url = 'admin/consultation-types/consultation-subtypes/' + reasonId;
+  var xhr = new XMLHttpRequest();
+  xhr.open('GET', url, true);
+  xhr.setRequestHeader('Content-Type', 'application/json');
+  xhr.onload = function () {
+    if (xhr.status >= 200 && xhr.status < 300) {
+      var data = JSON.parse(xhr.responseText);
+
+      // Handle dynamic content loading based on the consultation type
+      if (type === 'Examen') {
+        loadExams(data); // Load all exams at once if this is an exam
+      } else {
+        // For other consultation types, load select options
+        loadConsultationOptions(data, type); 
+      }
+    } else {
+      console.error('Load sub-types failed:', xhr.statusText);
+    }
+    recalcTotal();
+  };
+  xhr.onerror = function () {
+    console.error('Network error while loading sub-types');
+    recalcTotal();
+  };
+  xhr.send();
+}
+
+
+
+// Function to load the select options for Consultation, Vaccination, etc.
+function loadConsultationOptions(data, type) {
+  const form = document.getElementById(type + 'Form');
+  const select = form.querySelector('select[name$="serviceTypeId"]');
+  
+  // Reset previous options
+  if (select) {
+    // Ensure the first option is always visible, not disabled
+    const prompt = document.createElement('option');
+    prompt.value = '';
+    prompt.textContent = '-- Select option --';
+    prompt.selected = true;
+    select.appendChild(prompt);
+    
+    // Add new options
+    data.forEach(sub => {
+      const opt = document.createElement('option');
+      opt.value = sub.id;
+      opt.textContent = `${sub.name} – ${sub.price}`;
+      opt.dataset.price = sub.price;
+      select.appendChild(opt);
+    });
+    select.disabled = false; // Enable the select
+  }
+}
+
+// Function to load all exams at once and display them
+function loadExams(data) {
+  const examenList = document.getElementById('examenList');
+  examenList.innerHTML = ''; // Clear any existing exams
+
+  // Create a dropdown with all exam options
+  const select = document.createElement('select');
+  select.className = 'form-select';
+  select.id = 'examSelect'; // ID for referencing this dropdown
+
+  // Add default option
+  const prompt = document.createElement('option');
+  prompt.value = '';
+  prompt.textContent = '-- Select exam --';
+  prompt.selected = true;
+  prompt.disabled = true;
+  select.appendChild(prompt);
+
+  // Add all exam options
+  data.forEach(exam => {
+    const option = document.createElement('option');
+    option.value = exam.id;
+    option.textContent = `${exam.name} – ${exam.price}`;
+    option.dataset.price = exam.price;
+    select.appendChild(option);
+  });
+
+  examenList.appendChild(select);
+  
+  // Enable the button to add the exam row
+  const addButton = document.createElement('button');
+  addButton.type = 'button';
+  addButton.className = 'btn btn-primary mt-3';
+  addButton.textContent = 'Add Exam';
+  addButton.onclick = addExamRow; // Bind the function to the button
+  examenList.appendChild(addButton);
+}
+
+function addExamRow() {
+    const select = document.getElementById('examSelect');
+    if (!select || !select.value) return;
+
+    const opt      = select.options[select.selectedIndex];
+    const examId   = opt.value;
+    const examName = opt.textContent;
+    const price    = parseFloat(opt.dataset.price);
+
+    const list = document.getElementById('examenList');
+    const row  = document.createElement('div');
+    row.className = 'd-flex gap-2 mb-2 exam-row';               // keep class for loop
+    row.dataset.id   = examId;
+    row.dataset.name = examName;
+    row.dataset.price= price;
+
+    row.innerHTML = `
+        <span class="form-control">${examName}</span>
+        <input type="number" class="form-control price-field" readonly value="${price}">
+        <button type="button" class="btn btn-danger btn-sm" onclick="this.parentNode.remove(); recalcTotal()">Remove</button>
+    `;
+    list.appendChild(row);
     recalcTotal();
 }
 
-// ----- Subtypes Fetch and Load -----
-function loadSubtypes(reason, reasonId) {
-    const formDiv = document.getElementById(reason + 'Form');
-    const subtypeSelect = formDiv ? formDiv.querySelector('select.consultation-subtype') : null;
-    if (!subtypeSelect) return;
-
-    subtypeSelect.innerHTML = '<option value="">-- Select Consultation Subtype --</option>';
-    subtypeSelect.disabled = true;
-
-    fetch(`admin/consultation-types/consultation-subtypes/${reasonId}`)
-        .then(resp => resp.json())
-        .then(data => {
-            if (data && data.length > 0) {
-                data.forEach(sub => {
-                    let opt = document.createElement("option");
-                    opt.value = sub.id;
-                    opt.text = sub.name;
-                    subtypeSelect.appendChild(opt);
-                });
-                subtypeSelect.disabled = false;
-            }
-        });
-}
-
-
-// ----- Update Price -----
+// ----- Update Price Function -----
 function updatePrice(select, priceInputId) {
     const price = parseFloat(select.options[select.selectedIndex].dataset.price || 0);
     document.getElementById(priceInputId).value = price.toFixed(2);
     recalcTotal();  // Recalculate the total whenever the price is updated
-}
-
-// ----- Examen Handling -----
-let examIndex = 0;
-function addExamRow(reasonId) {
-    if (!reasonId) {                       // safety
-        console.warn('No reasonId supplied to addExamRow');
-        return;
-    }
-
-    const list = document.getElementById('examenList');
-    const idx  = examIndex++;              // your global counter
-
-    // create row
-    const row = document.createElement('div');
-    row.className = 'd-flex gap-2 mb-2';
-    row.innerHTML = `
-        <select class="form-select" name="visitServices[${idx}].subserviceDTO.id"
-                onchange="updateExamPrice(this, this.nextElementSibling)">
-            <option value="">-- Select Exam --</option>
-        </select>
-        <input type="number" name="visitServices[${idx}].price"
-               class="form-control price-field" readonly value="0">
-        <button type="button" class="btn btn-danger btn-sm"
-                onclick="this.parentNode.remove(); recalcTotal()">Remove</button>
-    `;
-    list.appendChild(row);
-
-    /* =====  FIXED URL (add context path + leading slash)  ===== */
-    fetch(`admin/consultation-types/consultation-subtypes/${reasonId}`)
-        .then(r => r.json())
-        .then(data => {
-            const select = row.querySelector('select');
-            data.forEach(sub => {
-                const opt = document.createElement('option');
-                opt.value       = sub.id;
-                opt.textContent = `${sub.name} - ${sub.price}`;
-                opt.dataset.price = sub.price;
-                select.appendChild(opt);
-            });
-        })
-        .catch(err => console.error('Fetch exam options failed:', err));
-}
-
-function updateExamPrice(select, priceInput) {
-    const price = parseFloat(select.options[select.selectedIndex].dataset.price || 0);
-    priceInput.value = price.toFixed(2);
-    recalcTotal();  // Recalculate total when exam price is updated
-}
-
-// ----- Pharmacy Handling -----
-let medIndex = 0;
-
-function addMedicineRow() {
-    const list = document.getElementById('pharmacyList');
-    const idx = medIndex++;
-
-    // Create a new row for medicine selection
-    const row = document.createElement('div');
-    row.className = 'd-flex gap-2 mb-2';
-    row.innerHTML = `
-        <select class="form-select" name="visitServices[${idx}].serviceTypeId" onchange="updateMedicinePrice(this, this.nextElementSibling, this.nextElementSibling.nextElementSibling)">
-            <option value="10" data-price="1000">Paracetamol - 1000</option>
-            <option value="11" data-price="2000">Amoxicillin - 2000</option>
-        </select>
-        <input type="number" class="form-control" value="1" min="1" style="width:80px;" onchange="updateMedicinePrice(this.previousElementSibling, this, this.nextElementSibling)">
-        <input type="number" name="visitServices[${idx}].price" class="form-control price-field" readonly value="0">
-        <button type="button" class="btn btn-danger btn-sm" onclick="this.parentNode.remove(); recalcTotal()">Remove</button>
-    `;
-    list.appendChild(row);
-}
-
-function updateMedicinePrice(select, qtyInput, priceInput) {
-    const unit = parseFloat(select.options[select.selectedIndex].dataset.price || 0);
-    const qty = parseInt(qtyInput.value || 1);
-    priceInput.value = (unit * qty).toFixed(2);
-    recalcTotal();  // Recalculate total when medicine price is updated
 }
 
 // ----- Recalculate Total -----
@@ -194,230 +246,187 @@ function recalcTotal() {
     const net = total - (total * (discount / 100));
     document.getElementById('netAmount').value = net.toFixed(2);
 }
-function setPatientId() {
-  const input = document.getElementById('patientName');  
-  const patientIdInput = document.getElementById('patientId');  
-  
-  const selectedOption = Array.from(document.getElementById('patientsList').options)
-    .find(option => option.value === input.value);
-  
-  if (selectedOption) {
-   
-    patientIdInput.value = selectedOption.dataset.id;  
-  } else {
-   
-    patientIdInput.value = "";
-  }
+
+function toggleAppointmentForm(checkbox){ 
+	 const formDiv = document.getElementById("appointmentForm"); formDiv.style.display = checkbox.checked ? "block ruby" : "none";
+
 }
 
-function toggleAppointmentForm(checkbox) {
-    const formDiv = document.getElementById("appointmentForm");
-    formDiv.style.display = checkbox.checked ? "block" : "none";
+/* helper: reasonName → real price input id */
+function priceId(reasonName) {
+    const map = {
+        'Consultation'             : 'consultationPrice',
+        'Consultation Prénatale'   : 'consultation-PrénatalePrice',
+        'Echographie'              : 'echoPrice',
+        'Vaccination'              : 'vaccPrice',
+        'Autre'                    : 'autrePrice'
+    };
+    return map[reasonName];
 }
 
-function setDiscount() {
-    const input = document.getElementById('discount');
-    const actualDiscountValue = document.getElementById('actualDiscountValue');
-  
-    const selectedOption = Array.from(document.getElementById('discountList').options)
-    .find(option => option.value === input.value);
-  
-    if (selectedOption) {
-        actualDiscountValue.value = selectedOption.dataset.value;
-    }
-    recalcTotal();  
-}
-
-// ----- Doctor ID handling -----
-function setDoctorId() {
-    const input = document.getElementById('doctorId');
-  
-    const selectedOption = Array.from(document.getElementById('doctors').options)
-        .find(option => option.value === input.value);
-
-    if (selectedOption) {
-        const doctorId = selectedOption.getAttribute('data-id');
-        
-        input.value = doctorId;  
-    }
-}
-
-// ----- Form Data Builder -----
+/* ----------  build FormData  ---------- */
 function buildVisitFormData() {
     const fd = new FormData();
 
-    /* ---------- 1.  PATIENT  ---------- */
-    const patientIdInput = document.getElementById('patientId').value.trim();
+    /* 1.  PATIENT  ------------------------------------------ */
+   setPatientId();   // sets hidden field #patientId
+fd.append('patientId', document.getElementById('patientId').value.trim());
 
-   
-        // If patientId is provided (existing patient)
-        fd.append('patientId', patientIdInput);
-  
-        // If no patient is selected, collect the new patient details
-        fd.append('firstName', document.querySelector('input[name="firstName"]').value.trim());
-        fd.append('age', document.querySelector('input[name="age"]').value.trim());
-        fd.append('gender', document.querySelector('select[name="gender"]').value.trim());
-        fd.append('contact', document.querySelector('input[name="contact"]').value.trim());
-        fd.append('residence', document.querySelector('input[name="residence"]').value.trim());
-        fd.append('occupation', document.querySelector('input[name="occupation"]').value.trim());
-        fd.append('maritalStatus', document.querySelector('select[name="maritalStatus"]').value.trim());
-        fd.append('emergencyName', document.querySelector('input[name="emergencyName"]').value.trim());
-        fd.append('emergencyContact', document.querySelector('input[name="emergencyContact"]').value.trim());
-   
-
-    /* ---------- 2.  VISIT HEADER  ---------- */
-    const reasonSel = document.getElementById('reasonForVisit');
-    const selectedReason = reasonSel.options[reasonSel.selectedIndex];
-    fd.append('reasonForVisit', selectedReason.value);  // Name of the reason
-    fd.append('reasonId', selectedReason.getAttribute('data-id'));  // ID of the reason
-
-   /* ---------- 3.  SERVICES (dynamic rows)  ---------- */
-document.querySelectorAll('.price-field').forEach((inp, idx) => {
-    const row   = inp.closest('.reason-form, #examenList, #pharmacyList'); 
-    const type  = row ? row.querySelector('select[name*="serviceTypeId"]') : null;
-    const price = parseFloat(inp.value) || 0;
-
-    if (!type || !type.value || price <= 0) return;
-
-    fd.append(`services[${idx}].serviceTypeId`, type.value);
-    fd.append(`services[${idx}].price`,         price);
-});
-
+fd.append('firstName',  document.querySelector('[name="firstName"]').value.trim());
+fd.append('age',        document.querySelector('[name="age"]').value.trim());
+fd.append('gender',     document.querySelector('[name="gender"]').value.trim());
+fd.append('contact',    document.querySelector('[name="contact"]').value.trim());
+fd.append('residence',  document.querySelector('[name="residence"]').value.trim());
+fd.append('occupation', document.querySelector('[name="occupation"]').value.trim());
+fd.append('maritalStatus', document.querySelector('[name="maritalStatus"]').value.trim());
+fd.append('emergencyName',    document.querySelector('[name="emergencyName"]').value.trim());
+fd.append('emergencyContact', document.querySelector('[name="emergencyContact"]').value.trim());
+    /* 2.  VISIT DATE / TIME  -------------------------------- */
+    fd.append('visitDate', new Date().toISOString().split('T')[0]);
     
-let svcIdx = 0;
-document.querySelectorAll('select[name*="subserviceDTO"]').forEach(subSel => {
-    if (!subSel.value) return;          // nothing chosen – skip
+    const now = new Date();
+    const isoTime = now.toTimeString().slice(0, 5);  // "HH:mm"
+    fd.append('visitTime', isoTime);
 
-    fd.append(`services[${svcIdx}].subserviceDTO.id`,   subSel.value);
-    fd.append(`services[${svcIdx}].subserviceDTO.name`, subSel.options[subSel.selectedIndex].text);
-    svcIdx++;
-});
-    /* ---------- 4. PAYMENT  ---------- */
+    /* 3.  SERVICES (checkbox driven)  ----------------------- */
+    const checked = document.querySelectorAll('input[type="checkbox"][data-id]:checked');
+     console.log('checked boxes', checked.length, checked); 
+    let idx = 0;
+
+	if (checked.length > 0) {
+    fd.append('reasonId',   checked[0].dataset.id);
+    fd.append('reasonName', checked[0].value);
+}    checked.forEach(chk => {
+        const reasonName = chk.value;          // Consultation, Examen …
+        const reasonId   = chk.dataset.id;
+    alert(reasonName);
+	 const singleRowNames = ['Consultation',
+	                        'Consultation-Prénatale',   // space
+	                        'Consultation-Prénatale',   // dash (keep both if you want)
+	                        'Echographie',
+	                        'Vaccination',
+	                        'Autre'];
+        /* ----  single-row reasons  ---- */
+       if (singleRowNames.includes(reasonName)) {
+   		 const priceEl = document.getElementById(priceId(reasonName));
+               alert(priceEl);
+            const price   = priceEl ? priceEl.value : '0';
+              alert("am here "+ price);
+            if (parseFloat(price) > 0) {
+                fd.append(`services[${idx}].id`,   reasonId);
+                fd.append(`services[${idx}].name`, reasonName);
+                fd.append(`services[${idx}].price`, price);
+                idx++;
+            }
+        }
+
+//        /* ----  pharmacy (Ordonnance) – multiple rows  ---- */
+//        if (reasonName === 'Ordonnance') {
+//            document.querySelectorAll('#pharmacyList .pharma-row').forEach(row => {
+//                const medSel = row.querySelector('.med-select');
+//                const qtyIn  = row.querySelector('.qty-input');
+//                const unitIn = row.querySelector('.unit-price');
+//                if (!medSel || !qtyIn || !unitIn) return;
+//                const total = (+qtyIn.value * +unitIn.value).toFixed(2);
+//                fd.append(`services[${idx}].id`,   medSel.value);
+//                fd.append(`services[${idx}].name`, medSel.selectedOptions[0].text);
+//                fd.append(`services[${idx}].price`, total);
+//                idx++;
+//            });
+//        }
+
+    if (reasonName === 'Examen') {
+    document.querySelectorAll('#examenList .exam-row').forEach(row => {
+        const id   = row.dataset.id;
+        const name = row.dataset.name;
+        const price= row.dataset.price;
+        if (!id || !price) return;
+
+        fd.append(`services[${idx}].id`,   id);
+        fd.append(`services[${idx}].name`, name);
+        fd.append(`services[${idx}].price`, price);
+        idx++;
+    });
+}
+    });
+
+    /* 4.  PAYMENT  ------------------------------------------ */
     fd.append('totalAmount', document.getElementById('grandTotal').value);
-    fd.append('discount', document.getElementById('discount').value);  
-    fd.append('netAmount', document.getElementById('netAmount').value); 
+    fd.append('netAmount',   document.getElementById('netAmount').value);
 
-  
-    const doctorId = document.getElementById('doctorId').value.trim();
-    if (doctorId) {
-        fd.append('doctorId', doctorId);  // Ensure the doctorId is correctly appended as a number
-    }
+    setDiscount();                                              // your function
+    fd.append('discount', document.getElementById('actualDiscountValue').value);
 
-    /* ---------- 5. OPTIONAL APPOINTMENT  ---------- */
-    const chk = document.getElementById('appointmentCheck');
-    if (chk && chk.checked) {
-        fd.append('createAppointment', 'true');
+    setDoctorId();                                              // your function
+    fd.append('doctorId', document.getElementById('doctorId').getAttribute('data-doctor-id') || '');
+
+    /* 5.  OPTIONAL APPOINTMENT  ----------------------------- */
+    const appChk = document.getElementById('appointmentCheck').checked;
+    fd.append('createAppointment', appChk);
+    if (appChk) {
         fd.append('appointmentReason', document.getElementById('reason').value.trim());
-        fd.append('appointmentDate', document.getElementById('appointmentDate').value);
-        fd.append('appointmentTime', document.getElementById('appointmentTime').value);
-    } else {
-        fd.append('createAppointment', 'false');
+        fd.append('appointmentDate',   document.getElementById('appointmentDate').value);
+        fd.append('appointmentTime',   document.getElementById('appointmentTime').value);
     }
 
     return fd;
 }
 
+
 // ----- Save Visit -----
-function saveVisit() {
-    event.preventDefault();
-    const fd = buildVisitFormData();
+ function saveVisit() {
+	  event.preventDefault();
+	   const fd = buildVisitFormData();
+	   fetch('visit/save', { method: 'POST', body: fd })
+	   .then (function(response) { if (response.ok)
+	    { Swal.fire("Success!/Success!", "Visit Registered successfully!", "success"); 
+	    loadPage('patients'); }else{ Swal.fire({icon: "error", title: "Oops...", text: "Something went wrong!"}); } })
+	     .then(html => { }) .catch(err => { alert(err.message); }); }
 
-    fetch('visit', {
-        method: 'POST',
-        body: fd
-    }).then (function(response) {
-				if (response.ok) {
-					Swal.fire("Success!/Success!", "Visit Registered successfully!", "success");
-					loadPage('visit');
-					
-				}else{
-					 Swal.fire({icon: "error", title: "Oops...", text: "Something went wrong!"});
-				} 
-			})
-    .then(html => {
-    })
-    .catch(err => {
-        alert(err.message);
+function applyFilter(){ 
+	const name = document.getElementById('nameFilter').value.trim();
+	 const from = document.getElementById('fromFilter').value; 
+	 const to = document.getElementById('toFilter').value;
+	  const status= window.currentStatus || ''; const params = new URLSearchParams();
+	   if(name) params.append('name',name); if(from) params.append('from',from); 
+	   if(to) params.append('to',to); if(status)params.append('status',status); 
+	   const url = 'factures?' + params.toString(); loadPage(url);
+	    }
+	   
+	    /* ---------- quick status toggle ---------- */
+     let currentStatus = '';
+      function setStatus(st){ currentStatus = st;
+       applyFilter(); }
+      /* ---------- delete confirmation ---------- */ 
+      
+      function confirmDelete(id){
+		   if(confirm('Delete invoice #' + id + ' ?\nThis action cannot be undone.')){ 
+		  location.href = '${pageContext.request.contextPath}/factures/delete/' + id; } 
+		  } 
+		  
+		  /* ---------- ENTER key in name field ---------- */ 
+  document.getElementById('nameFilter').addEventListener('keyup', e => { 
+	  if (e.key === 'Enter') applyFilter(); }); const balance = parseFloat('${facture.balance}');
+	   const amountInput = document.getElementById('amount'); 
+	   const remainingSpan = document.getElementById('remainingSpan'); 
+	   amountInput.addEventListener('input', function () 
+	   { const paid = parseFloat(this.value) || 0; let left = balance - paid; if (left < 0)
+	    {
+			 // block over-payment 
+			 this.value = balance.toFixed(2); left = 0; }
+	 remainingSpan.textContent = new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'XAF' }).format(left);
+	  });
+
+
+function resetPriceFields(type) {
+  // Reset the price fields only for the consultation type that is unchecked
+  if (type !== 'Examen') {
+    document.querySelectorAll('.price-field').forEach((field) => {
+      const serviceTypeSelect = field.closest('.reason-form')?.querySelector('select[name*="serviceTypeId"]');
+      if (serviceTypeSelect && serviceTypeSelect.value) {
+        field.value = '0'; // Reset price to 0
+      }
     });
+  }
+  recalcTotal();  // Recalculate total after resetting prices
 }
-
-
-  /* ---------- build query string and reload table ---------- */
-  function applyFilter(){
-    const name  = document.getElementById('nameFilter').value.trim();
-    const from  = document.getElementById('fromFilter').value;
-    const to    = document.getElementById('toFilter').value;
-    const status= window.currentStatus || '';
-
-    const params = new URLSearchParams();
-    if(name)  params.append('name',name);
-    if(from)  params.append('from',from);
-    if(to)    params.append('to',to);
-    if(status)params.append('status',status);
-
-    const url = 'factures?' + params.toString();
-    loadPage(url);
-
-
-  }
-
-  /* ---------- quick status toggle ---------- */
-  let currentStatus = '';
-  function setStatus(st){
-    currentStatus = st;
-    applyFilter();
-  }
-
-  /* ---------- delete confirmation ---------- */
-  function confirmDelete(id){
-    if(confirm('Delete invoice #' + id + ' ?\nThis action cannot be undone.')){
-      location.href = '${pageContext.request.contextPath}/factures/delete/' + id;
-    }
-  }
-
-  /* ---------- ENTER key in name field ---------- */
-  document.getElementById('nameFilter').addEventListener('keyup', e => {
-    if (e.key === 'Enter') applyFilter();
-  });
-  
-   const balance = parseFloat('${facture.balance}');
-    const amountInput   = document.getElementById('amount');
-    const remainingSpan = document.getElementById('remainingSpan');
-
-    amountInput.addEventListener('input', function () {
-        const paid = parseFloat(this.value) || 0;
-        let left   = balance - paid;
-        if (left < 0) {               // block over-payment
-            this.value = balance.toFixed(2);
-            left = 0;
-        }
-        remainingSpan.textContent = new Intl.NumberFormat('fr-FR', {
-            style: 'currency', currency: 'XAF'
-        }).format(left);
-    });
-
-    function toggleReference() {
-        const m = document.getElementById('method').value;
-        document.getElementById('reference').required = ['MOBILE_MONEY','CARD','INSURANCE','CHEQUE'].includes(m);
-    }
-
-    /* submit payment (fetch) – same as before */
-    document.getElementById('paymentForm').addEventListener('submit', function (e) {
-        e.preventDefault();
-        const data = new FormData(this);
-        fetch('${pageContext.request.contextPath}/factures/' + data.get('factureId') + '/payments', {
-            method: 'POST',
-            body: data
-        })
-        .then(r => r.json())
-        .then(json => {
-            if (json.ok) {
-                bootstrap.Modal.getInstance(document.getElementById('ExtralargeModal')).hide();
-                location.reload();
-                window.open('${pageContext.request.contextPath}/payments/receipt/' + json.paymentId, '_blank');
-            } else {
-                alert(json.message || 'Erreur');
-            }
-        })
-        .catch(err => { console.error(err); alert('Réseau indisponible'); });
-    });

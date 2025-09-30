@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import javax.transaction.Transactional;
 
@@ -11,10 +12,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ppp.billing.Dto.AppointmentDto;
-import com.ppp.billing.Dto.ServiceDTO;
+import com.ppp.billing.Dto.ConsultationSubtypeDTO;
 import com.ppp.billing.Dto.VisitFormDTO;
 import com.ppp.billing.model.Appointment;
 import com.ppp.billing.model.ConsultationSubtype;
+import com.ppp.billing.model.ConsultationType;
 import com.ppp.billing.model.Facture;
 import com.ppp.billing.model.Patient;
 import com.ppp.billing.model.Staff;
@@ -116,29 +118,31 @@ public class VisitServiceImpl implements VisitService {
             appt.setReason(dto.getAppointmentReason());
             appt.setAppoitmentDate(dto.getAppointmentDate());
             appt.setPatientId(pat.getId());
-            appt.setDoctor_id(dto.getDoctorId());
+            if (dto.getDoctorId() != null && dto.getDoctorId() > 0) {
+    staffService.findById(dto.getDoctorId())
+                .ifPresent(visit::setAttendingStaff);
+}
+            
+           
             appt.setStatus("PENDING");// Set doctor for appointment
            Appointment aps =  appointmentService.createAppointment(appt);  // Save appointment
             visit.setAppointment(aps);  // Link appointment to visit
         }
 
-        visitRepository.save(visit);
+       
 
         List<ConsultationSubtype> cons = new ArrayList<>();
-
-        for (ServiceDTO vs : dto.getServices()) {
-            /* >>>  ignore rows that have NO sub-service chosen  <<< */
-            if (vs.getServiceTypeId() == null || vs.getServiceTypeId() <= 0) continue;
-
-            ConsultationSubtype sub = consultationSubtypeService.findById(vs.getServiceTypeId());
-            if (sub == null) {                                    // extra safety
-            		System.out.println("Unknown subtype id {}  " +  vs.getServiceTypeId());
-            	continue;
-            }
-            sub.setVisit(visit);        // link to already-saved visit
+      
+        for (ConsultationSubtypeDTO vs : dto.getServices()) {
+            if (vs.getId() == null || vs.getId() <= 0) continue;
+            ConsultationSubtype sub = consultationSubtypeService.findById(vs.getId());
+            sub.setVisit(visit);
             cons.add(sub);
         }
+   
         visit.setSubtypes(cons);
+        
+
         Facture facture = new Facture();
         facture.setVisit(visit);                     
         facture.setTotalAmount(dto.getTotalAmount());
@@ -161,6 +165,7 @@ public class VisitServiceImpl implements VisitService {
         facture = factureRepo.save(facture);          
         visit.setFacture(facture);                   
         visitRepository.save(visit);
+       
         return visit; 
     }
     
