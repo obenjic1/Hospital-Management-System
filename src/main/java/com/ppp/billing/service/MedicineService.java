@@ -43,7 +43,6 @@ public class MedicineService {
         med.setName(dto.getName());
         med.setDescription(dto.getDescription());
         
-        // ✅ pricing
         med.setPurchasePrice(dto.getPurchasePrice());
         med.setPacketPrice(dto.getPacketPrice());
         med.setUnitPrice(dto.getUnitPrice());

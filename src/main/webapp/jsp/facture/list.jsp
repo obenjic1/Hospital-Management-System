@@ -22,7 +22,7 @@
   <div class="container-fluid">
     <span class="navbar-brand mb-0 h5"><i class="bi bi-receipt text-primary me-2"></i>Invoice List</span>
     <div class="d-flex gap-2">
-      <a href="${pageContext.request.contextPath}/factures/new" class="btn btn-sm btn-outline-primary"><i class="bi bi-plus-circle"></i> New Invoice</a>
+<%--       <a href="${pageContext.request.contextPath}/factures/new" class="btn btn-sm btn-outline-primary"><i class="bi bi-plus-circle"></i> New Invoice</a> --%>
       <a href="javascript:history.back()" class="btn btn-sm btn-outline-secondary"><i class="bi bi-arrow-left"></i> Back</a>
     </div>
   </div>
@@ -65,8 +65,9 @@
 
 <!-- =====  QUICK STATUS BUTTONS  ===== -->
 <div class="btn-group btn-group-sm my-2" role="group">
-  <button class="btn btn-outline-secondary" onclick="setStatus('')">All</button>
-  <button class="btn btn-outline-secondary" onclick="setStatus('pending')">Pending only</button>
+  <button class="btn btn-outline-secondary active" value="" onclick="setStatus('')">All</button>
+<!--   <button class="btn btn-outline-secondary" value="PAID" onclick="setStatus('PAID')">Paid only</button> -->
+  <button class="btn btn-outline-secondary" value="PENDING" onclick="setStatus('PENDING')">Pending only</button>
 </div>
   <!-- =========  RESULT TABLE  ========= -->
   <!-- =====  RESULT TABLE  ===== -->
@@ -80,28 +81,36 @@
       <table class="table table-hover align-middle mb-0">
         <thead class="table-light">
           <tr>
-            <th>#</th><th>Date</th><th>Patient</th><th>Total</th><th>Disc</th>
+            <th>#</th> <th>Receipt #</th><th>Patient</th><th>Total</th><th>Disc</th>
             <th>Net</th><th>Paid</th><th>Balance</th>
-            <th>Receipt #</th><th>Status</th><th class="text-center">Actions</th>
+           <th>Status</th><th>Date</th><th class="text-center">Actions</th>
           </tr>
         </thead>
         <tbody id="tableBody">
           <%-- initial load --%>
-          <c:forEach var="f" items="${factures}">
-            <tr>
-              <td>${f.id}</td>
-              <td>${f.createdDate}</td>
-              <td>${f.visit.patient.name}</td>
+          <c:forEach var="f" items="${factures}" varStatus="loop">
+               <tr>
+              <td>${loop.index + 1}</td>
+               <td>${not empty f.referenceNumber ? f.referenceNumber : '—'}</td>
+               
+                
+              <td>${ not empty f.visit.patient.name ? f.visit.patient.name : f.customerName}</td>
+              
+              
               <td><fmt:formatNumber value="${f.totalAmount}" type="currency" currencyCode="XAF"/></td>
               <td>${f.discount}%</td>
               <td><fmt:formatNumber value="${f.netAmount}"  type="currency" currencyCode="XAF"/></td>
               <td><fmt:formatNumber value="${f.amountPaid}" type="currency" currencyCode="XAF"/></td>
               <td><fmt:formatNumber value="${f.balance}"    type="currency" currencyCode="XAF"/></td>
-              <td>${not empty f.payments ? f.payments[0].reference : '—'}</td>
+               <td>${f.createdDate}</td>
               <td><span class="badge ${f.fullyPaid ? 'bg-success' : 'bg-warning text-dark'}">${f.fullyPaid ? 'PAID' : 'PENDING'}</span></td>
               <td class="text-nowrap text-center">
-          		 <a href="#" data-bs-toggle="modal" data-bs-target="#ExtralargeModal" onclick="loadPageModalForm('factures/${f.id}/payments/new')"  class="btn btn-sm btn-success" title="Add Payment"> <i class="bi bi-cash-coin"></i></a>
-                <a href="#" data-bs-toggle="modal" data-bs-target="#ExtralargeModal" onclick="loadPageModalForm('factures/${f.id}')"  class="btn btn-sm btn-info" title="View"><i class="bi bi-pencil"></i></a>
+              
+              <c:if test="${!f.fullyPaid}">
+             		 <a href="#" data-bs-toggle="modal" data-bs-target="#ExtralargeModal" onclick="loadPageModalForm('factures/${f.id}/payments/new')"  class="btn btn-sm btn-success" title="Add Payment"> <i class="bi bi-cash-coin"></i></a>
+			</c:if>
+
+                <a href="#" data-bs-toggle="modal" data-bs-target="#ExtralargeModal" onclick="loadPageModalForm('factures/${f.id}/view')"  class="btn btn-sm btn-info" title="View"><i class="bi bi-eye"></i></a>
                 <a href="${pageContext.request.contextPath}/factures/receipt/${f.id}" target="_blank" class="btn btn-sm btn-dark" title="Print receipt"><i class="bi bi-printer"></i></a>
 <%--                 <button class="btn btn-sm btn-danger" onclick="confirmDelete(${f.id})" title="Delete"><i class="bi bi-trash"></i></button> --%>
               </td>

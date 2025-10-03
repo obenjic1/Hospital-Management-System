@@ -2,6 +2,7 @@ package com.ppp.billing.model;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -11,8 +12,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 import lombok.AllArgsConstructor;
@@ -47,14 +49,19 @@ public class Visit {
 	    @ManyToOne(fetch = FetchType.LAZY)  
 	    @JoinColumn(name = "consultation_type_id") 
 	    private ConsultationType consultationType;
-
+	    
 	    
 	    @OneToOne
 	    @JoinColumn(name = "appointment_id")
 	    private Appointment appointment;
 	    
-	    @OneToMany(mappedBy = "visit")
-	    private List<ConsultationSubtype> subtypes;
+	    @ManyToMany
+	    @JoinTable(
+	        name = "visit_subtypes",
+	        joinColumns = @JoinColumn(name = "visit_id"),
+	        inverseJoinColumns = @JoinColumn(name = "subtype_id")
+	    )
+	    private List<ConsultationSubtype> subtypes = new ArrayList<>();
     
    
 }

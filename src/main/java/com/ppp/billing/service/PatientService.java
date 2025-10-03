@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.ppp.billing.model.Medicine;
 import com.ppp.billing.model.Patient;
+import com.ppp.billing.model.RefrenceNumberGenerator;
 import com.ppp.billing.model.Medicine.Location;
 import com.ppp.billing.repository.PatientRepository;
 
@@ -30,6 +31,7 @@ public class PatientService {
     	patient.setMaritalStatus(newPatient.getMaritalStatus());  
     	patient.setOccupation(newPatient.getOccupation());
     	patient.setResidence(newPatient.getResidence());
+    	patient.setReferenceNumber(RefrenceNumberGenerator.nextPatientRef());
     	patient.addTracking("CREATE", "Added this patient");
         return repo.save(patient);
     }

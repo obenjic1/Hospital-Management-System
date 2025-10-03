@@ -1,330 +1,294 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib prefix="c"   uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
-<link href="assets/css/profile.css" rel="stylesheet">
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Dashboard | ${user.username}</title>
 
-<main id="users-list" class="container-fluid py-4">
-  <div class="row justify-content-center">
-    <div class="col-12">
+    <!-- Google Font -->
+<!--     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"> -->
+    <!-- LineIcons -->
+<!--     <link rel="stylesheet" href="https://cdn.lineicons.com/4.0/lineicons.css"> -->
 
-      <!-- =====  BREADCRUMB  ===== -->
-      <nav aria-label="breadcrumb" class="mb-3">
-        <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-          <li class="breadcrumb-item active">Dashboard</li>
-        </ol>
-      </nav>
+    <style>
+        :root{
+            --bg:#f5f7fa;
+            --panel:#ffffff;
+            --accent:#6366f1;
+            --accent2:#10b981;
+            --text:#1f2937;
+            --text2:#6b7280;
+            --green:#10b981;
+            --red:#ef4444;
+            --yellow:#f59e0b;
+        }
+        *{box-sizing:border-box;margin:0;padding:0;font-family:'Inter',sans-serif}
+        body{background:var(--bg);color:var(--text);min-height:100vh;display:flex;flex-direction:column}
 
-      <!-- =====  CARD  ===== -->
-      <div class="card shadow-sm border-0">
-        <div class="card-header bg-transparent">
-          <!-- custom tabs -->
-          <ul class="nav nav-pills nav-justified flex-column flex-md-row" id="profileTab" role="tablist">
-            <li class="nav-item" role="presentation">
-              <button class="nav-link active" data-bs-toggle="pill" data-bs-target="#profile-overview" type="button" role="tab">
-                <i class="bi bi-person me-2"></i><fmt:message key="overview"/>
-              </button>
-            </li>
-            <li class="nav-item" role="presentation">
-              <button class="nav-link" data-bs-toggle="pill" data-bs-target="#profile-change-password" type="button" role="tab">
-                <i class="bi bi-lock me-2"></i>Change Password
-              </button>
-            </li>
-            <li class="nav-item" role="presentation">
-              <button class="nav-link" data-bs-toggle="pill" data-bs-target="#profile-edit" type="button" role="tab">
-                <i class="bi bi-pencil-square me-2"></i><fmt:message key="edit.profile"/> ${user.username}
-              </button>
-            </li>
-          </ul>
+        /* soft animated gradient wallpaper */
+        body::before{
+            content:'';position:fixed;inset:0;z-index:-1;
+            background:radial-gradient(at 20% 20%, hsla(210,80%,80%,.25) 0%, transparent 40%),
+                       radial-gradient(at 80% 80%, hsla(280,80%,80%,.25) 0%, transparent 40%);
+            animation: pulse 15s ease-in-out infinite;
+        }
+        @keyframes pulse{
+            0%,100%{transform:scale(1)}
+            50%{transform:scale(1.02)}
+        }
+
+        /* ----- layout ----- */
+        .top-bar{display:flex;align-items:center;justify-content:space-between;margin:2rem 0}
+        .user-pill{display:flex;align-items:center;gap:.75rem;background:var(--panel);padding:.5rem 1rem;border-radius:999px;box-shadow:0 2px 8px rgba(0,0,0,.05)}
+        .user-pill img{width:36px;height:36px;border-radius:50%;object-fit:cover}
+        .tab-nav{display:flex;gap:1.5rem;list-style:none;margin-bottom:2rem}
+        .tab-nav li{padding:.5rem 0;cursor:pointer;border-bottom:2px solid transparent;transition:.3s;font-weight:500}
+        .tab-nav li.active{border-color:var(--accent);color:var(--accent)}
+        .tab-content{display:none}
+        .tab-content.active{display:block}
+
+        /* ----- KPI pills ----- */
+        .kpi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1.5rem;margin-bottom:2rem}
+        .kpi-pill{background:var(--panel);border-radius:1rem;padding:1.5rem;box-shadow:0 2px 12px rgba(0,0,0,.04);display:flex;align-items:center;gap:1rem}
+        .kpi-icon{width:48px;height:48px;border-radius:50%;display:grid;place-items:center;font-size:1.25rem}
+        .kpi-info{flex:1}
+        .kpi-val{font-size:1.5rem;font-weight:600}
+        .kpi-label{font-size:.75rem;color:var(--text2)}
+        .kpi-foot{font-size:.7rem;margin-top:.25rem;color:var(--text2)}
+
+        /* ----- recent sales ----- */
+        .sales-box{background:var(--panel);border-radius:1rem;padding:1.5rem;box-shadow:0 2px 12px rgba(0,0,0,.04)}
+        .sales-table{width:100%;border-collapse:collapse}
+        .sales-table thead tr{border-bottom:1px solid #e5e7eb}
+        .sales-table th{text-align:left;padding:.75rem 1rem;font-size:.7rem;text-transform:uppercase;color:var(--text2);letter-spacing:.5px}
+        .sales-table td{padding:.75rem 1rem;font-size:.8rem}
+        .sales-table tbody tr:hover{background:#f9fafb}
+        .badge{padding:.25rem .5rem;border-radius:.5rem;font-size:.7rem;font-weight:500}
+        .badge-paid{background:var(--green);color:#fff}
+        .badge-partial{background:var(--yellow);color:#fff}
+        .badge-unpaid{background:var(--red);color:#fff}
+
+        /* ----- forms ----- */
+        .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+        .form-grid.single{grid-template-columns:1fr}
+        .form-group{display:flex;flex-direction:column}
+        .form-group label{margin-bottom:.25rem;font-size:.75rem;color:var(--text2)}
+        .form-group input,.form-group select{padding:.5rem .75rem;border:1px solid #e5e7eb;border-radius:.5rem;background:#fff;color:var(--text);transition:.3s}
+        .form-group input:focus{outline:none;border-color:var(--accent)}
+        .btn{padding:.5rem 1.25rem;border:none;border-radius:.5rem;font-weight:500;cursor:pointer;transition:.3s}
+        .btn-primary{background:var(--accent);color:#fff}
+        .btn-primary:hover{filter:brightness(1.1)}
+        .btn-success{background:var(--green);color:#fff}
+
+        @media (max-width:768px){
+            .form-grid{grid-template-columns:1fr}
+            .sales-table thead{display:none}
+            .sales-table,.sales-table tbody,.sales-table tr{display:block}
+            .sales-table tr{margin-bottom:.75rem;background:var(--panel);border-radius:.75rem;padding:.75rem;box-shadow:0 2px 8px rgba(0,0,0,.04)}
+            .sales-table td{display:flex;justify-content:space-between;padding:.25rem 0}
+            .sales-table td::before{content:attr(data-label);font-weight:500;color:var(--text2)}
+        }
+    </style>
+</head>
+<body>
+
+<!-- =========================  TOP BAR  ========================= -->
+<div class="container top-bar">
+    <div>
+        <h1 style="font-weight:600;font-size:1.5rem">Hello, ${user.staff.firstName} 👋</h1>
+        <p style="color:var(--text2);font-size:.85rem">Here is what’s happening today.</p>
+    </div>
+    <div class="user-pill">
+        <img src="${not empty user.imagePath ? pageContext.request.contextPath.concat('/file/download?file=').concat(user.imagePath).concat('&dir=folder.user.images') : 'assets/img/default.png'}" alt="avatar">
+        <div>
+            <div style="font-weight:500;font-size:.8rem">${user.staff.firstName} ${user.staff.lastName}</div>
+            <div style="font-size:.7rem;color:var(--text2)">${user.groupe.name}</div>
+        </div>
+    </div>
+</div>
+
+<!-- =========================  TAB NAV  ========================= -->
+<div class="container">
+    <ul class="tab-nav">
+        <li class="active" data-tab="overview">Overview</li>
+        <li data-tab="edit-profile">Edit Profile</li>
+        <li data-tab="change-password">Change Password</li>
+    </ul>
+</div>
+
+<!-- =============================================================
+     1.  OVERVIEW
+============================================================== -->
+<div id="overview" class="tab-content active">
+    <div class="container">
+        <!-- KPI pills -->
+        <div class="kpi-grid">
+            <div class="kpi-pill">
+                <div class="kpi-icon" style="background:#e0e7ff;color:var(--accent)"><i class="lni lni-cart"></i></div>
+                <div class="kpi-info">
+                    <div class="kpi-label">Pharmacy Sales</div>
+                    <div class="kpi-val">${count}</div>
+                    <div class="kpi-foot"><span class="text-success">+12 %</span> vs yesterday</div>
+                </div>
+            </div>
+            <div class="kpi-pill">
+                <div class="kpi-icon" style="background:#d1fae5;color:var(--green)"><i class="lni lni-dollar"></i></div>
+                <div class="kpi-info">
+                    <div class="kpi-label">Revenue Today</div>
+                    <div class="kpi-val"><fmt:formatNumber value="${amount}" type="number" pattern="#,###"/> FCFA</div>
+                    <div class="kpi-foot"><span class="text-success">+8 %</span> vs yesterday</div>
+                </div>
+            </div>
+            <div class="kpi-pill">
+                <div class="kpi-icon" style="background:#dbeafe;color:#3b82f6"><i class="lni lni-users"></i></div>
+                <div class="kpi-info">
+                    <div class="kpi-label">Patients</div>
+                    <div class="kpi-val">10</div>
+                    <div class="kpi-foot"><span>+2 new</span> today</div>
+                </div>
+            </div>
+            <div class="kpi-pill">
+                <div class="kpi-icon" style="background:#fee2e2;color:var(--red)"><i class="lni lni-warning"></i></div>
+                <div class="kpi-info">
+                    <div class="kpi-label">Pending Bills</div>
+                    <div class="kpi-val">3</div>
+                    <div class="kpi-foot"><span class="text-danger">-5 %</span> vs yesterday</div>
+                </div>
+            </div>
         </div>
 
-        <div class="card-body">
-          <div class="tab-content" id="profileTabContent">
+        <!-- Recent Sales -->
+        <div class="sales-box">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem">
+                <h3 style="font-size:1.1rem;font-weight:500">Recent Sales</h3>
+                <a href="<c:url value='/sales/today'/>" style="font-size:.75rem;color:var(--accent)">See all →</a>
+            </div>
+            <table class="sales-table">
+                <thead>
+                    <tr>
+                        <th>#</th><th>Facture</th><th>Patient</th><th>Reason</th>
+                        <th style="text-align:right">Net (CDF)</th><th style="text-align:center">Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <c:forEach var="s" items="${recentSales}" varStatus="loop">
+                        <tr>
+                            <td data-label="#">${loop.index+1}</td>
+                            <td data-label="Facture">${s.factureId}</td>
+                            <td data-label="Patient">${s.patientName}</td>
+                            <td data-label="Reason">${s.reasonName}</td>
+                            <td data-label="Net" style="text-align:right">${s.netAmount}</td>
+                            <td data-label="Status" style="text-align:center">
+                                <span class="badge ${s.paymentStatus eq 'PAID' ? 'badge-paid' : s.paymentStatus eq 'PARTIAL' ? 'badge-partial' : 'badge-unpaid'}">
+                                    ${s.paymentStatus}
+                                </span>
+                            </td>
+                        </tr>
+                    </c:forEach>
+                    <c:if test="${empty recentSales}">
+                        <tr><td colspan="6" class="text-center" style="padding:2rem 0;color:var(--text2)">No sales recorded today</td></tr>
+                    </c:if>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div><!-- /overview -->
 
-            <!-- =========================================================
-                 1.  OVERVIEW
-            ========================================================== -->
-            <div class="tab-pane fade show active" id="profile-overview" role="tabpanel">
-              <!-- stat cards -->
-              <div class="row g-3 mb-4">
-                <!-- Profile pic -->
-                <div class="col-md-6 col-lg-3">
-                  <div class="card h-100 text-center pt-3">
-                    <img src="${not empty user.imagePath ? pageContext.request.contextPath.concat('/file/download?file=').concat(user.imagePath).concat('&dir=folder.user.images') : 'assets/img/default.png'}"
-                         alt="Avatar" class="rounded-circle mx-auto mb-2" width="90" height="90">
-                    <h6 class="mb-0">${user.staff.firstName} ${user.staff.lastName}</h6>
-                    <small class="text-muted">${user.groupe.name}</small>
-                  </div>
+<!-- =============================================================
+     2.  EDIT PROFILE
+============================================================== -->
+<div id="edit-profile" class="tab-content">
+    <div class="container">
+        <div class="sales-box">
+            <h3 style="margin-bottom:1.2rem;font-weight:500">Edit Profile</h3>
+            <form class="row g-3 needs-validation" novalidate>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>First name</label>
+                        <input type="text" name="firstName" value="${user.staff.firstName}" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Last name</label>
+                        <input type="text" name="lastName" value="${user.staff.lastName}" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" name="email" value="${user.staff.email}" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Phone</label>
+                        <input type="text" name="mobile" value="${user.staff.phone}" required>
+                    </div>
                 </div>
-
-                <!-- Pharmacy Sales -->
-                <div class="col-md-6 col-lg-3">
-                  <div class="card info-card sales-card h-100">
-                    <div class="card-body">
-                      <div class="d-flex align-items-center">
-                        <div class="card-icon rounded-circle d-flex align-items-center justify-content-center me-3">
-                          <i class="bi bi-cart text-primary fs-5"></i>
-                        </div>
-                        <div>
-                          <h6 class="mb-0">Pharmacy Sales</h6>
-                          <span class="text-muted small">Today</span>
-                          <div class="fs-5 fw-bold" id="phamarcy-sales">${count}</div>
-                          <span class="text-success small">+12 %</span>
-                        </div>
-                      </div>
+                <div class="form-grid single">
+                    <div class="form-group">
+                        <label>Address</label>
+                        <input type="text" name="address" value="${user.staff.address}" required>
                     </div>
-                    <div class="card-footer bg-transparent p-2">
-                      <div class="dropdown">
-                        <a class="small text-muted dropdown-toggle" href="#" data-bs-toggle="dropdown">Filter</a>
-                        <ul class="dropdown-menu dropdown-menu-end">
-                          <li><a class="dropdown-item" onclick="pharmacy(1)" href="#">Today</a></li>
-                          <li><a class="dropdown-item" onclick="pharmacy(2)" href="#">This Month</a></li>
-                          <li><a class="dropdown-item" onclick="pharmacy(3)" href="#">This Year</a></li>
-                        </ul>
-                      </div>
+                    <div class="form-group">
+                        <label>Photo</label>
+                        <input type="file" name="imageFile" accept="image/*">
                     </div>
-                  </div>
                 </div>
-
-                <!-- Revenue -->
-                <div class="col-md-6 col-lg-3">
-                  <div class="card info-card revenue-card h-100">
-                    <div class="card-body">
-                      <div class="d-flex align-items-center">
-                        <div class="card-icon rounded-circle d-flex align-items-center justify-content-center me-3">
-                          <i class="bi bi-currency-dollar text-success fs-5"></i>
-                        </div>
-                        <div>
-                          <h6 class="mb-0">Revenue</h6>
-                          <span class="text-muted small">Today</span>
-                          <div class="fs-5 fw-bold">FCFA <fmt:formatNumber value="${amount}" type="number" pattern="#,###,###"/></div>
-                          <span class="text-success small">+8 %</span>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="card-footer bg-transparent p-2">
-                      <div class="dropdown">
-                        <a class="small text-muted dropdown-toggle" href="#" data-bs-toggle="dropdown">Filter</a>
-                        <ul class="dropdown-menu dropdown-menu-end">
-                          <li><a class="dropdown-item" onclick="revenue(1)" href="#">Today</a></li>
-                          <li><a class="dropdown-item" onclick="revenue(2)" href="#">This Month</a></li>
-                          <li><a class="dropdown-item" onclick="revenue(3)" href="#">This Year</a></li>
-                        </ul>
-                      </div>
-                    </div>
-                  </div>
+                <div class="text-end" style="margin-top:1rem">
+                    <button type="button" class="btn btn-success" onclick="updateStaff('${user.staff.id}'); loadPage('user/list-users')">Save</button>
                 </div>
+            </form>
+        </div>
+    </div>
+</div>
 
-                <!-- Staff -->
-                <div class="col-md-6 col-lg-3">
-                  <div class="card info-card customers-card h-100">
-                    <div class="card-body">
-                      <div class="d-flex align-items-center">
-                        <div class="card-icon rounded-circle d-flex align-items-center justify-content-center me-3">
-                          <i class="bi bi-people text-info fs-5"></i>
-                        </div>
-                        <div>
-                          <h6 class="mb-0">Patients</h6>
-                          <span class="text-muted small">Today</span>
-                          <div class="fs-5 fw-bold">10</div>
-                          <span class="text-danger small">+2 new</span>
-                        </div>
-                      </div>
+<!-- =============================================================
+     3.  CHANGE PASSWORD
+============================================================== -->
+<div id="change-password" class="tab-content">
+    <div class="container">
+        <div class="sales-box">
+            <h3 style="margin-bottom:1.2rem;font-weight:500">Change Password</h3>
+            <form class="row g-3 needs-validation" novalidate>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>Username</label>
+                        <input type="text" value="${user.username}" readonly style="background:#f3f4f6">
                     </div>
-                  </div>
+                    <div class="form-group">
+                        <label>Current Password</label>
+                        <input type="password" id="rpassword" required>
+                    </div>
+                    <div class="form-group">
+                        <label>New Password</label>
+                        <input type="password" id="newpassword" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Confirm Password</label>
+                        <input type="password" id="rconfirmPassword" required>
+                    </div>
                 </div>
-              </div><!-- /stat cards -->
-
-              <!-- Profile details + Recent Sales -->
-              <div class="row g-4">
-                <!-- Left: profile fields -->
-                <div class="col-lg-4">
-                  <div class="card h-100">
-                    <div class="card-header bg-transparent"><fmt:message key="overview"/></div>
-                    <div class="card-body">
-                      <div class="row mb-2">
-                        <div class="col-5 fw-semibold"><fmt:message key="username"/> :</div>
-                        <div class="col-7">${user.username}</div>
-                      </div>
-                      <div class="row mb-2">
-                        <div class="col-5 fw-semibold"><fmt:message key="names"/> :</div>
-                        <div class="col-7">${user.staff.firstName} ${user.staff.lastName}</div>
-                      </div>
-                      <div class="row mb-2">
-                        <div class="col-5 fw-semibold"><fmt:message key="list.groups"/> :</div>
-                        <div class="col-7">${user.groupe.name}</div>
-                      </div>
-                      <div class="row mb-2">
-                        <div class="col-5 fw-semibold"><fmt:message key="address"/> :</div>
-                        <div class="col-7">${user.staff.address}</div>
-                      </div>
-                      <div class="row mb-2">
-                        <div class="col-5 fw-semibold"><fmt:message key="phone"/> :</div>
-                        <div class="col-7">${user.staff.phone}</div>
-                      </div>
-                      <div class="row">
-                        <div class="col-5 fw-semibold"><fmt:message key="email"/> :</div>
-                        <div class="col-7">${user.staff.department.name}</div>
-                      </div>
-                    </div>
-                  </div>
+                <div class="text-end" style="margin-top:1rem">
+                    <button type="button" class="btn btn-secondary" onclick="resetPassword()">Update</button>
                 </div>
+            </form>
+        </div>
+    </div>
+</div>
 
-                <!-- Right: recent sales table -->
-                <div class="col-lg-8">
-                  <div class="card h-100">
-                    <div class="card-header bg-transparent d-flex justify-content-between align-items-center">
-                      <span>Recent Sales</span>
-                      <form action="dashboard" method="get" class="row g-2 align-items-center">
-                        <div class="col-auto"><input type="date" class="form-control form-control-sm" name="startDate" value="${param.startDate}"></div>
-                        <div class="col-auto"><input type="date" class="form-control form-control-sm" name="endDate" value="${param.endDate}"></div>
-                        <div class="col-auto">
-                          <select class="form-select form-select-sm" name="pharmacistId">
-                            <option value="">All Pharmacists</option>
-                            <c:forEach var="user" items="${pharmacists}">
-                              <option value="${user.id}" ${param.pharmacistId == user.id ? 'selected' : ''}>${user.name}</option>
-                            </c:forEach>
-                          </select>
-                        </div>
-                        <div class="col-auto"><button type="submit" class="btn btn-sm btn-success">Filter</button></div>
-                      </form>
-                    </div>
-                    <div class="card-body p-0">
-                      <div class="table-responsive">
-                        <table class="table table-hover table-striped mb-0">
-                          <thead class="table-light">
-                            <tr>
-                              <th>Receipt #</th>
-                              <th>Customer</th>
-                              <th>Pharmacist</th>
-                              <th>Payment</th>
-                              <th class="text-end">Total (CFA)</th>
-                              <th>Date</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            <c:forEach var="sale" items="${salesHistory}">
-                              <tr>
-                                <td>${sale.receiptNumber}</td>
-                                <td>${sale.customerName}</td>
-                                <td>${sale.pharmacist.name}</td>
-                                <td>${sale.paymentMethod}</td>
-                                <td class="text-success fw-bold text-end">${sale.total}</td>
-                                <td>${sale.saleDate}</td>
-                              </tr>
-                            </c:forEach>
-                          </tbody>
-                        </table>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div><!-- /row -->
-            </div><!-- /overview -->
-
-            <!-- =========================================================
-                 2.  EDIT PROFILE
-            ========================================================== -->
-            <div class="tab-pane fade" id="profile-edit" role="tabpanel">
-              <div class="card border-0">
-                <div class="card-header bg-transparent"><h5 class="mb-0 text-primary"><fmt:message key="update.user"/> : ${user.username}</h5></div>
-                <div class="card-body">
-                  <form class="row g-3 needs-validation" novalidate>
-                    <div class="col-md-6">
-                      <label class="form-label"><fmt:message key="first.name"/></label>
-                      <input type="text" class="form-control" name="firstName" value="${user.staff.firstName}" required>
-                    </div>
-                    <div class="col-md-6">
-                      <label class="form-label"><fmt:message key="last.name"/></label>
-                      <input type="text" class="form-control" name="lastName" value="${user.staff.lastName}" required>
-                    </div>
-                    <div class="col-md-6">
-                      <label class="form-label"><fmt:message key="email"/></label>
-                      <input type="email" class="form-control" name="email" value="${user.staff.email}" required>
-                    </div>
-                    <div class="col-md-6">
-                      <label class="form-label"><fmt:message key="phone"/></label>
-                      <input type="text" class="form-control" name="mobile" value="${user.staff.phone}" required>
-                    </div>
-                    <div class="col-12">
-                      <label class="form-label"><fmt:message key="address"/></label>
-                      <input type="text" class="form-control" name="address" value="${user.staff.address}" required>
-                    </div>
-                    <div class="col-12">
-                      <label class="form-label"><fmt:message key="photo"/></label>
-                      <input type="file" class="form-control" name="imageFile" accept="image/*">
-                    </div>
-                    <div class="col-12 text-end">
-                      <button type="button" class="btn btn-primary" onclick="updateStaff('${user.staff.id}'); loadPage('user/list-users')">
-                        <fmt:message key="save"/>
-                      </button>
-                    </div>
-                  </form>
-                </div>
-              </div>
-            </div><!-- /edit -->
-
-            <!-- =========================================================
-                 3.  CHANGE PASSWORD
-            ========================================================== -->
-            <div class="tab-pane fade" id="profile-change-password" role="tabpanel">
-              <div class="card border-0">
-                <div class="card-header bg-transparent"><h5 class="mb-0 text-primary">Change Password</h5></div>
-                <div class="card-body">
-                  <form class="row g-3 needs-validation" novalidate>
-                    <div class="col-md-6">
-                      <label class="form-label"><fmt:message key="username"/></label>
-                      <div class="input-group">
-                        <span class="input-group-text"><i class="bi bi-person"></i></span>
-                        <input type="text" id="pusername" class="form-control" value="${user.username}" readonly>
-                      </div>
-                    </div>
-                    <div class="col-md-6 d-none">
-                      <input type="text" id="rid" class="form-control" value="${user.id}">
-                    </div>
-                    <div class="col-md-6">
-                      <label class="form-label">Current Password</label>
-                      <div class="input-group">
-                        <span class="input-group-text"><i class="bi bi-lock"></i></span>
-                        <input type="password" id="rpassword" class="form-control" required>
-                      </div>
-                    </div>
-                    <div class="col-md-6">
-                      <label class="form-label">New Password</label>
-                      <div class="input-group">
-                        <span class="input-group-text"><i class="bi bi-lock"></i></span>
-                        <input type="password" id="newpassword" class="form-control" required>
-                      </div>
-                    </div>
-                    <div class="col-md-6">
-                      <label class="form-label"><fmt:message key="confirm.password"/></label>
-                      <div class="input-group">
-                        <span class="input-group-text"><i class="bi bi-lock"></i></span>
-                        <input type="password" id="rconfirmPassword" class="form-control" required>
-                      </div>
-                    </div>
-                    <div class="col-md-6">
-                      <label class="form-label"><fmt:message key="photo"/></label>
-                      <input type="file" id="rimageFile" class="form-control" accept="image/*">
-                    </div>
-                    <div class="col-12 text-end">
-                      <button type="button" class="btn btn-success" onclick="resetPassword()">
-                        <fmt:message key="save"/>
-                      </button>
-                    </div>
-                  </form>
-                </div>
-              </div>
-            </div><!-- /change-password -->
-
-          </div><!-- /tab-content -->
-        </div><!-- /card-body -->
-      </div><!-- /card -->
-    </div><!-- /col -->
-  </div><!-- /row -->
-</main>
-
-<!-- =====  SCRIPTS  ===== -->
+<!-- =========================  JS  ========================= -->
+<script>
+    /* ----- tab switch ----- */
+    document.querySelectorAll('.tab-nav li').forEach(li=>{
+        li.addEventListener('click',()=>{
+            document.querySelectorAll('.tab-nav li').forEach(l=>l.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active'));
+            li.classList.add('active');
+            document.getElementById(li.dataset.tab).classList.add('active');
+        });
+    });
+</script>
 <script src="assets/js/users.js"></script>
 <script src="assets/js/statistics/revenue.js"></script>
+</body>
+</html>

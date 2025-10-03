@@ -475,7 +475,7 @@ function confirmPayment(id) {
 								modal.hide();
 								return loadPage('payments');
 				   			 } else if (!response.ok) {
-									Swal.fire({icon: "error", title: "Oops...", text: "Something went wrong in this orienment !"});
+									Swal.fire({icon: "error", title: "Oops...", text: "Something went wrong in this Payment !"});
 				  			 }
 				})
     .then(data => {

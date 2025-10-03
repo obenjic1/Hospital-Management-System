@@ -13,35 +13,24 @@ import com.ppp.billing.model.Sale;
 
 public interface SaleRepository extends JpaRepository<Sale, Long> {
 	
-	@Query("SELECT SUM(s.total) FROM Sale s WHERE FUNCTION('DATE', s.saleDate) = :date")
-    BigDecimal getTotalSalesForToday(@Param("date") Date date);
+
+	@Query("SELECT s.saleDate, SUM(s.totalAmount) " +
+		       "FROM Sale s " +
+		       "WHERE s.saleDate = :today " +
+		       "GROUP BY s.saleDate")
+		List<Object[]> findRevenueForDate(@Param("today") LocalDate today);
+
+
+
+    // Sales detail for one date
+    List<Sale> findBySaleDate(LocalDate saleDate);
+
+	// amount sold for that day
 	
-	@Query("SELECT MAX(s.receiptNumber) FROM Sale s WHERE s.receiptNumber LIKE CONCAT('RCPT', :datePart, '%')")
-	String findMaxReceiptNumberForDate(@Param("datePart") String datePart);
+    @Query("SELECT COALESCE(SUM(s.totalAmount), 0) FROM Sale s WHERE s.saleDate = :date")
+    BigDecimal getTotalSalesByDate(@Param("date") LocalDate date);
 	
-  //  List<Sale> findByPatientId(Long patientId);
-	  // 🟢 Total sales (count of items) per day
-    @Query("SELECT SUM(i.quantity) FROM Sale s JOIN s.items i WHERE DATE(s.saleDate) = CURRENT_DATE")
-    Long getTotalItemsSoldToday();
 
-    // 🟢 Total revenue per day
-    @Query("SELECT SUM(s.total) FROM Sale s WHERE DATE(s.saleDate) = CURRENT_DATE")
-    BigDecimal getTotalRevenueToday();
-
-    // 🟢 Total sales (count of items) per week
-    @Query("SELECT SUM(i.quantity) FROM Sale s JOIN s.items i WHERE FUNCTION('YEARWEEK', s.saleDate) = FUNCTION('YEARWEEK', CURRENT_DATE)")
-    Long getTotalItemsSoldThisWeek();
-
-    // 🟢 Total sales (count of items) per month
-    @Query("SELECT SUM(i.quantity) FROM Sale s JOIN s.items i WHERE MONTH(s.saleDate) = MONTH(CURRENT_DATE) AND YEAR(s.saleDate) = YEAR(CURRENT_DATE)")
-    Long getTotalItemsSoldThisMonth();
-
-    // 🟢 Total sales by a specific pharmacist
-    @Query("SELECT SUM(s.total) FROM Sale s WHERE s.pharmacist.id = :pharmacistId")
-    BigDecimal getTotalSalesByUser(@Param("pharmacistId") Long pharmacistId);
-
-    // 🟢 List of sales by pharmacist
-    List<Sale> findByPharmacistId(Long pharmacistId);
     
     @Query("SELECT COALESCE(SUM(s.total), 0) FROM Sale s WHERE DATE(s.saleDate) = :date")
     BigDecimal sumSalesByDate(@Param("date") Date date);
@@ -54,5 +43,8 @@ public interface SaleRepository extends JpaRepository<Sale, Long> {
     	       "WHERE FUNCTION('MONTH', p.saleDate) = :month AND FUNCTION('YEAR', p.saleDate) = :year " +
     	       "GROUP BY p.saleDate ORDER BY p.saleDate")
     	List<Object[]> getDailyPharmacySales(@Param("month") int month, @Param("year") int year);
+    	
+    	@Query("SELECT COALESCE(SUM(i.quantity),0) FROM Sale s JOIN s.items i WHERE DATE(s.saleDate) = :d")
+    	Long getTotalItemsSoldByDate(@Param("d") java.sql.Date d);
 
 }

@@ -28,11 +28,12 @@ public class SaleItem {
 	    private Medicine medicine;
 
 	    private int quantity;
-	    private String unitType;
+	   // private String qtyPackets;
 
-
-
+	    private BigDecimal unitPrice;
 	    private BigDecimal subtotal;
+	    private String unitType;
+	    private BigDecimal Price;
 
 	    @ManyToOne
 	    @JoinColumn(name = "sale_id")

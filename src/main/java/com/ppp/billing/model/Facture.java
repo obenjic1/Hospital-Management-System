@@ -32,23 +32,24 @@ public class Facture {
     private Visit visit;
     private String paymentMethod;
     private LocalDate createdDate;
-
+    private String customerName = "";
 
     private BigDecimal totalAmount;
     private double discount;
     private BigDecimal netAmount;
-    private String status;
+    private String status = "PENDING";;
+    private String referenceNumber;
 
     @OneToMany(mappedBy = "facture", cascade = CascadeType.ALL)
     private List<Payment> payments;
-    
+   
     private boolean fullyPaid;
   
     @OneToMany(mappedBy = "facture", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<FactureItem> items = new ArrayList<>();
     
-    private BigDecimal discountAmount;
-    private double amountPaid;     
+   // private BigDecimal discountAmount;
+    private BigDecimal amountPaid;     
     private double balance;     
     @OneToMany(mappedBy = "facture", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Sale> sales = new ArrayList<>();
@@ -67,5 +68,10 @@ public class Facture {
     public boolean isFullyPaid() {
         return getBalance().compareTo(BigDecimal.ZERO) <= 0;
     }
+
+	public void setDiscountAmount(BigDecimal discountAmount) {
+		
+		
+	}
 }
 

@@ -1,5 +1,7 @@
 package com.ppp.billing.model;
 
+import java.math.BigDecimal;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -25,4 +27,8 @@ public class FactureItem {
 
 	    private String description;
 	    private double price;
+	    private double quantity;
+	    private double unitPrice;
+	    private BigDecimal subTotal;
+
 }

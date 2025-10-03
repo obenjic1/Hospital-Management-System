@@ -13,6 +13,8 @@ import javax.persistence.OneToMany;
 
 import org.springframework.security.core.context.SecurityContextHolder;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -39,6 +41,7 @@ public class Patient {
     private String occupation;
     private String maritalStatus;
     private String residence;
+    private String referenceNumber;
    
     
     @OneToMany(mappedBy = "patient")
@@ -49,7 +52,8 @@ public class Patient {
     @OneToMany(mappedBy = "patient", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Tracking> tracking = new ArrayList<>();
 
-    // helper method to add history
+   
+    @JsonIgnore      
     public void addTracking(String action, String description) {
   		String userName = SecurityContextHolder.getContext().getAuthentication().getName();
   	   

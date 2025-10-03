@@ -83,10 +83,10 @@
               <c:forEach var="p" items="${patients.tracking}" varStatus="loop">
                 <tr>
                   <td>
-                    <span class="badge badge-date">
-<%--                       <fmt:formatDate value="${p.creationDate}" pattern="dd-MM-yyyy"/> --%>
-                    </span>
-<%--                    <br><small class="text-muted"><fmt:formatDate value="${p.creationDate}" pattern="HH:mm"/></small> --%>
+<!--                     <span class="badge badge-date"> -->
+<%--                       ${p.creationDate} --%>
+<!--                     </span> -->
+                   <br><small class="text-muted">${p.creationDate}</small>
                   </td>
                   <td>
                     <span class="badge badge-user">${p.performedBy}</span>

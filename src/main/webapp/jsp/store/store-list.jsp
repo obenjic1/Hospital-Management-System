@@ -131,6 +131,7 @@
                             <th>Units / Packet</th>
                             <th>Total Qty</th>
                             <th>Store Qty</th>
+                             <th>Pharmarcy Qty</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -146,6 +147,7 @@
                                 <td>${m.unitsPerPacket}</td>
                                 <td>${m.quantity}</td>
                                 <td>${m.storeQuantity}</td>
+                                <td>${m.pharmacyQuantity}</td>
                                 <td class="action-btns">
                                     <form onsubmit="return false;">
                                         <input type="hidden" value="${m.id}" />

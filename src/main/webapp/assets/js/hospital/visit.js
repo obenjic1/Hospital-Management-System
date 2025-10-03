@@ -293,61 +293,44 @@ fd.append('emergencyContact', document.querySelector('[name="emergencyContact"]'
      console.log('checked boxes', checked.length, checked); 
     let idx = 0;
 
-	if (checked.length > 0) {
-    fd.append('reasonId',   checked[0].dataset.id);
-    fd.append('reasonName', checked[0].value);
-}    checked.forEach(chk => {
-        const reasonName = chk.value;          // Consultation, Examen …
-        const reasonId   = chk.dataset.id;
-    alert(reasonName);
-	 const singleRowNames = ['Consultation',
-	                        'Consultation-Prénatale',   // space
-	                        'Consultation-Prénatale',   // dash (keep both if you want)
-	                        'Echographie',
-	                        'Vaccination',
-	                        'Autre'];
-        /* ----  single-row reasons  ---- */
-       if (singleRowNames.includes(reasonName)) {
-   		 const priceEl = document.getElementById(priceId(reasonName));
-               alert(priceEl);
-            const price   = priceEl ? priceEl.value : '0';
-              alert("am here "+ price);
-            if (parseFloat(price) > 0) {
-                fd.append(`services[${idx}].id`,   reasonId);
-                fd.append(`services[${idx}].name`, reasonName);
-                fd.append(`services[${idx}].price`, price);
+checked.forEach(chk => {
+    const reasonName = chk.value;    // Consultation, Examen, Vaccination …
+    const reasonId   = chk.dataset.id;
+    fd.append('reasonId', reasonId || '');
+    fd.append('reasonName', reasonName);
+
+    // ---- SINGLE ROW TYPES (Consultation, Prenatale, Echo, Vaccination, Autre) ----
+    if (['Consultation','Consultation Prénatale','Echographie','Vaccination','Autre'].includes(reasonName)) {
+        const form   = document.getElementById(reasonName + 'Form');
+        if (form) {
+            const select = form.querySelector('select[name$="serviceTypeId"]');
+            const priceInput = form.querySelector('.price-field');
+
+            if (select && select.value) {
+                fd.append(`services[${idx}].id`, select.value);                     // subtype id
+                fd.append(`services[${idx}].name`, select.selectedOptions[0].text); // subtype name
+                fd.append(`services[${idx}].price`, priceInput ? priceInput.value : 0);
                 idx++;
             }
         }
+    }
 
-//        /* ----  pharmacy (Ordonnance) – multiple rows  ---- */
-//        if (reasonName === 'Ordonnance') {
-//            document.querySelectorAll('#pharmacyList .pharma-row').forEach(row => {
-//                const medSel = row.querySelector('.med-select');
-//                const qtyIn  = row.querySelector('.qty-input');
-//                const unitIn = row.querySelector('.unit-price');
-//                if (!medSel || !qtyIn || !unitIn) return;
-//                const total = (+qtyIn.value * +unitIn.value).toFixed(2);
-//                fd.append(`services[${idx}].id`,   medSel.value);
-//                fd.append(`services[${idx}].name`, medSel.selectedOptions[0].text);
-//                fd.append(`services[${idx}].price`, total);
-//                idx++;
-//            });
-//        }
-
+    // ---- EXAMENS (multiple rows) ----
     if (reasonName === 'Examen') {
-    document.querySelectorAll('#examenList .exam-row').forEach(row => {
-        const id   = row.dataset.id;
-        const name = row.dataset.name;
-        const price= row.dataset.price;
-        if (!id || !price) return;
+        document.querySelectorAll('#examenList .exam-row').forEach(row => {
+            const id   = row.dataset.id;
+            const name = row.dataset.name;
+            const price= row.dataset.price;
+            if (!id || !price) return;
 
-        fd.append(`services[${idx}].id`,   id);
-        fd.append(`services[${idx}].name`, name);
-        fd.append(`services[${idx}].price`, price);
-        idx++;
-    });
-}
+            fd.append(`services[${idx}].id`,   id);
+            fd.append(`services[${idx}].name`, name);
+            fd.append(`services[${idx}].price`, price);
+            idx++;
+        });
+    }
+
+
     });
 
     /* 4.  PAYMENT  ------------------------------------------ */
@@ -382,21 +365,27 @@ fd.append('emergencyContact', document.querySelector('[name="emergencyContact"]'
 	    { Swal.fire("Success!/Success!", "Visit Registered successfully!", "success"); 
 	    loadPage('patients'); }else{ Swal.fire({icon: "error", title: "Oops...", text: "Something went wrong!"}); } })
 	     .then(html => { }) .catch(err => { alert(err.message); }); }
+let currentStatus = ''; // '' = All
 
-function applyFilter(){ 
-	const name = document.getElementById('nameFilter').value.trim();
-	 const from = document.getElementById('fromFilter').value; 
-	 const to = document.getElementById('toFilter').value;
-	  const status= window.currentStatus || ''; const params = new URLSearchParams();
-	   if(name) params.append('name',name); if(from) params.append('from',from); 
-	   if(to) params.append('to',to); if(status)params.append('status',status); 
-	   const url = 'factures?' + params.toString(); loadPage(url);
-	    }
-	   
-	    /* ---------- quick status toggle ---------- */
-     let currentStatus = '';
-      function setStatus(st){ currentStatus = st;
-       applyFilter(); }
+function setStatus(st) {
+    currentStatus = st; // '' is valid → shows All
+    document.querySelectorAll('.btn-group button').forEach(b => b.classList.remove('active'));
+    document.querySelector(`.btn-group button[value="${st}"]`).classList.add('active');
+    applyFilter();
+}
+
+function applyFilter() {
+    const name = document.getElementById('nameFilter').value.trim();
+    const from = document.getElementById('fromFilter').value;
+    const to   = document.getElementById('toFilter').value;
+    const params = new URLSearchParams();
+    if (name)   params.append('name', name);
+    if (from)   params.append('from', from);
+    if (to)     params.append('to', to);
+    if (currentStatus) params.append('status', currentStatus);
+
+    loadPage('factures?' + params.toString());
+}
       /* ---------- delete confirmation ---------- */ 
       
       function confirmDelete(id){

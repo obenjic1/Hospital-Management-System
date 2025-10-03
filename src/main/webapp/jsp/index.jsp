@@ -141,7 +141,7 @@
 			<li class="nav-item">
 <%-- 			<sec:authorize access="hasRole('ROLE_ADD_USER')">					 --%>
 			  <ul id="user-management-nav" >
-				<sec:authorize access="hasRole('ROLE_REGISTER_PATIENT')">
+				<sec:authorize access="hasRole('ROLE_SECRETARY') or hasRole('ROLE_ADMIN') or hasRole('ROLE_CASHIER')">
 				
 				<li class="nav-item">
 					<a class="nav-link collapsed" onclick="loadPage('visit/new')" href="#"> <i class="bi bi-card-list">
@@ -155,14 +155,14 @@
 					</a>
 				  </li>
 				</sec:authorize>
-				<sec:authorize access="hasRole('ROLE_VIEW_PATIENT')">
+				<sec:authorize access="hasRole('ROLE_SECRETARY') or hasRole('ROLE_ADMIN') or hasRole('ROLE_CASHIER')">
 				  <li class="nav-item">
 				    <a class="nav-link collapsed" onclick="loadPage('patients')" href="#">
-				    <i class="bi bi-person">
+				   <i class="ri-user-heart-line">
 				  </i> <span>List Patients</span></a></li>
 				  <li class="nav-item">
 				    <a class="nav-link collapsed" onclick="loadPage('appointments')" href="#">
-				    <i class="bi bi-person">
+				    <i class="ri-calendar-line">
 				  </i> <span>List Appointments</span></a></li>
 <!-- 				   <li class="nav-item"> -->
 <!-- 				    <a class="nav-link collapsed" onclick="loadPage('consultations')" href="#"> -->
@@ -180,7 +180,7 @@
 			  
 <%-- 			</sec:authorize> --%>
 			 <!-- start of job sheet management Nav -->	
-			 
+			  <sec:authorize access="hasRole('ROLE_ADMIN') or hasRole('ROLE_CASHIER')">
 			 <li class="nav-item">
 				  <li class="pp-module">
 				    <i class="ri-database-2-fill"> </i> 
@@ -188,22 +188,20 @@
 				    <span><fmt:message key="store.management" /></span>
 				  </span>
 				</li>
-				  <sec:authorize access="hasRole('ROLE_VIEW_STORE')">
+				 
 				<ul id="store-nav">
 					
 					<li class="nav-item">
 					  <a class="nav-link collapsed" onclick="loadPage('store')" href="#">
-					    <i class="ri-steam-fill"></i>
+					   <i class="ri-medicine-bottle-line"></i>
 					    <span>Store</span>
 					  </a>
 					</li>
-				</sec:authorize>
  
 				</ul> 
-	 	 <sec:authorize  access="hasRole('ROLE_PHAMARCY')">  
 					<li class="nav-item">
 					  <li class="pp-module">
-					    <i class="ri-database-2-fill"> </i> 
+							<i class="ri-hospital-fill"></i>
 					  <span>
 					    <span><fmt:message key="production.management" /></span>
 					  </span>
@@ -211,13 +209,18 @@
 					<ul id="jobsheet-management-nav">
 						<li class="nav-item">
 	                      <a class="nav-link collapsed" onclick="loadPage('pharmacy')" href="#">
-							 <i class=" ri-money-dollar-circle-line"></i>
+							<i class="ri-hospital-fill"></i>
 							<span>Pharmacy</span>
 						  </a>
 						<li class="nav-item">
+						<li class="nav-item">
+	                      <a class="nav-link collapsed" onclick="loadPage('pharmacy/pharmacy')" href="#">
+							 <i class=" ri-money-dollar-circle-line"></i>
+							<span>Pharmacy Statistics</span>
+						  </a>
+						<li class="nav-item">
 						</ul> 
-		</sec:authorize>
-		 <sec:authorize  access="hasRole('ROLE_PHAMARCY')">  
+		
 					<li class="nav-item">
 					  <li class="pp-module">
 					    <i class="ri-money-dollar-circle-line"> </i> 
@@ -225,6 +228,7 @@
 					    <span>Factures</span>
 					  </span>
 					</li>
+				
 					<ul id="jobsheet-management-nav">
 						<li class="nav-item">
 	                      <a class="nav-link collapsed" onclick="loadPage('factures')" href="#">
@@ -233,6 +237,22 @@
 						  </a>
 						<li class="nav-item">
 						</ul> 
+						<ul id="jobsheet-management-nav">
+						<li class="nav-item">
+	                      <a class="nav-link collapsed" onclick="loadPage('factures/stats/daily-sales')" href="#">
+							 <i class=" ri-money-dollar-circle-line"></i>
+							<span>Daily Finance</span>
+						  </a>
+						<li class="nav-item">
+						</ul> 
+						<ul id="jobsheet-management-nav">
+						<li class="nav-item">
+	                      <a class="nav-link collapsed" onclick="loadPage('visit/subtype')" href="#">
+							 <i class=" ri-money-dollar-circle-line"></i>
+							<span>Reports</span>
+						  </a>
+						<li class="nav-item">
+						</ul>
 		</sec:authorize>
 	
  		<sec:authorize access="hasRole('ROLE_ADMIN')">							
@@ -246,7 +266,7 @@
 				<ul id="configuration-management-nav">
 					
 					<li class="nav-item">
-					  <a class="nav-link collapsed" onclick="loadPage('reports/dashboard') "href="#">
+					  <a class="nav-link collapsed" onclick="loadPage('visit/statistics/doctor-consultations') "href="#">
 					    <i class="ri-line-chart-line"></i>
 					    <span>Statistics</span>
 					  </a>
@@ -464,6 +484,8 @@ $(document).ready(function() {
 	<script src="assets/js/hospital/jquery.min.js"></script>
 	<script src="assets/js/hospital/select2.min.js"></script>
     <script src="assets/js/hospital/medicine.js"></script>
+    <script src="assets/js/hospital/payment.js"></script>
+    
     <script src="assets/js/hospital/consultation.js"></script>
     <script src="assets/js/hospital/visit.js"></script>
     

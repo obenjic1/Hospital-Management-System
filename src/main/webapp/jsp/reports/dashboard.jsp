@@ -1,221 +1,177 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ page import="java.time.LocalDateTime" %>
-<%@ page import="java.time.format.DateTimeFormatter" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
-<html>
+<!doctype html>
+<html lang="en">
 <head>
-   <title>Hospital Sales Dashboard</title>
-<script src="assets/vendor/jquery-3.5.1.min.js"></script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Doctor Consultation Report</title>
 
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <!-- LineIcons -->
+    <link rel="stylesheet" href="https://cdn.lineicons.com/4.0/lineicons.css">
 
-<!-- Vendor CSS Files -->
-<link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-<link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
-<link href="assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
-<link href="assets/vendor/remixicon/remixicon.css" rel="stylesheet">
- <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root{
+            --bg:#f7f9fc;
+            --text:#1f2937;
+            --text2:#6b7280;
+            --accent:#6366f1;
+            --green:#10b981;
+            --yellow:#f59e0b;
+            --red:#ef4444;
+            --border:#e5e7eb;
+            --row:#ffffff;
+        }
+        *{box-sizing:border-box;margin:0;padding:0;font-family:'Inter',sans-serif}
+        body{background:var(--bg);color:var(--text);min-height:100vh;display:flex;flex-direction:column}
 
+        /* soft animated wallpaper */
+        body::before{
+            content:'';position:fixed;inset:0;z-index:-1;
+            background:radial-gradient(at 20% 20%, hsla(210,80%,80%,.18) 0%, transparent 40%),
+                       radial-gradient(at 80% 80%, hsla(280,80%,80%,.18) 0%, transparent 40%);
+            animation: pulse 18s ease-in-out infinite;
+        }
+        @keyframes pulse{
+            0%,100%{transform:scale(1)}
+            50%{transform:scale(1.03)}
+        }
+
+        /* ----- header ----- */
+        .header{display:flex;justify-content:space-between;align-items:center;margin:2.5rem 0 1.5rem}
+        .date-range{font-size:.85rem;color:var(--text2)}
+
+        /* ----- KPI coins ----- */
+        .kpi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1.5rem;margin-bottom:2rem}
+        .kpi-coin{background:#fff;border-radius:1rem;padding:1.5rem;box-shadow:0 2px 12px rgba(0,0,0,.04);display:flex;align-items:center;gap:1rem}
+        .kpi-icon{width:52px;height:52px;border-radius:50%;display:grid;place-items:center;font-size:1.5rem}
+        .kpi-info{flex:1}
+        .kpi-label{font-size:.75rem;color:var(--text2)}
+        .kpi-val{font-size:1.4rem;font-weight:600;margin-top:.25rem}
+        .kpi-foot{font-size:.7rem;margin-top:.5rem;color:var(--text2)}
+
+        /* ----- filter pills ----- */
+        .filter-bar{display:flex;gap:.5rem;margin-bottom:1rem;flex-wrap:wrap}
+        .filter-pill{padding:.35rem .9rem;border-radius:999px;font-size:.75rem;font-weight:500;cursor:pointer;transition:.2s;border:1px solid transparent}
+        .filter-pill.active{background:var(--accent);color:#fff}
+        .filter-pill:not(.active){background:#fff;color:var(--text2);border-color:var(--border)}
+        .filter-pill:not(.active):hover{border-color:var(--accent)}
+
+        /* ----- table ----- */
+        .table-wrap{background:#fff;border-radius:1rem;box-shadow:0 2px 12px rgba(0,0,0,.03);overflow:hidden}
+        .report-table{width:100%;border-collapse:collapse}
+        .report-table thead{background:#f9fafb}
+        .report-table th{padding:.75rem 1rem;font-size:.7rem;text-transform:uppercase;color:var(--text2);letter-spacing:.5px;text-align:left}
+        .report-table tbody tr{border-bottom:1px solid var(--border);transition:background .2s}
+        .report-table tbody tr:hover{background:#f3f4f6}
+        .report-table td{padding:.75rem 1rem;font-size:.8rem}
+        .report-table td:nth-child(3),.report-table td:nth-child(4),.report-table td:nth-child(5),.report-table td:nth-child(6){text-align:right}
+
+        /* row tints */
+        tr.paid{background:#ecfdf5}
+        tr.partial{background:#fffbeb}
+        tr.unpaid{background:#fef2f2}
+
+        /* ----- total bar ----- */
+        .total-bar{background:#f9fafb;display:flex;justify-content:space-between;align-items:center;padding:.75rem 1rem;font-size:.8rem;font-weight:500}
+    </style>
 </head>
-<body class="bg-light">
+<body>
 
-<div class="container mt-4">
+<div class="container">
+    <!-- Header -->
+    <div class="header">
+        <div>
+            <h1 style="font-weight:600;font-size:1.5rem">Doctor Consultation Report</h1>
+<%--             <p class="date-range">Period: <fmt:formatDate value="${startDate}" pattern="dd MMM yyyy"/> → <fmt:formatDate value="${endDate}" pattern="dd MMM yyyy"/></p> --%>
+        </div>
+    </div>
 
-    <h2 class="mb-4 text-center">📊 Sales & Pharmacy Dashboard</h2>
-
-    <!-- Summary Cards -->
-    <div class="row g-4">
-        <div class="col-md-3">
-            <div class="card shadow border-0 text-center">
-                <div class="card-body">
-                    <h6>💰 Today Revenue</h6>
-                    <h4 class="text-success">
-                        <c:out value="${todayRevenue}" /> CFA
-                    </h4>
-                </div>
+    <!-- KPI coins -->
+    <div class="kpi-grid">
+        <div class="kpi-coin">
+            <div class="kpi-icon" style="background:#e0e7ff;color:var(--accent)"><i class="lni lni-users"></i></div>
+            <div class="kpi-info">
+                <div class="kpi-label">Total Consultations</div>
+                <div class="kpi-val"><fmt:formatNumber value="${totalConsultations}" type="number"/></div>
             </div>
         </div>
-        <div class="col-md-3">
-            <div class="card shadow border-0 text-center">
-                <div class="card-body">
-                    <h6>📦 Today Items</h6>
-                    <h4 class="text-primary">
-                        <c:out value="${todayItems}" />
-                    </h4>
-                </div>
+        <div class="kpi-coin">
+            <div class="kpi-icon" style="background:#d1fae5;color:var(--green)"><i class="lni lni-dollar"></i></div>
+            <div class="kpi-info">
+                <div class="kpi-label">Total Revenue</div>
+                <div class="kpi-val"><fmt:formatNumber value="${totalRevenue}" type="number"/> CDF</div>
             </div>
         </div>
-        <div class="col-md-3">
-            <div class="card shadow border-0 text-center">
-                <div class="card-body">
-                    <h6>📅 This Week Items</h6>
-                    <h4 class="text-info">
-                        <c:out value="${weekItems}" />
-                    </h4>
-                </div>
+        <div class="kpi-coin">
+            <div class="kpi-icon" style="background:#fffbeb;color:var(--yellow)"><i class="lni lni-money-location"></i></div>
+            <div class="kpi-info">
+                <div class="kpi-label">Total Doctor Pay</div>
+                <div class="kpi-val"><fmt:formatNumber value="${totalDoctorPay}" type="number"/> CDF</div>
             </div>
         </div>
-        <div class="col-md-3">
-            <div class="card shadow border-0 text-center">
-                <div class="card-body">
-                    <h6>🗓 This Month Items</h6>
-                    <h4 class="text-warning">
-                        <c:out value="${monthItems}" />
-                    </h4>
-                </div>
+        <div class="kpi-coin">
+            <div class="kpi-icon" style="background:#fee2e2;color:var(--red)"><i class="lni lni-graph"></i></div>
+            <div class="kpi-info">
+                <div class="kpi-label">Hospital Profit</div>
+                <div class="kpi-val"><fmt:formatNumber value="${totalHospitalProfit}" type="number"/> CDF</div>
             </div>
         </div>
     </div>
 
+    <!-- Filter pills -->
+    <div class="filter-bar">
+        <span class="filter-pill active" data-status="ALL">All</span>
+        <span class="filter-pill" data-status="PAID">Paid</span>
+        <span class="filter-pill" data-status="PARTIAL">Partial</span>
+        <span class="filter-pill" data-status="UNPAID">Unpaid</span>
+    </div>
 
-
-<div class=" my-2">
-
-    <h2 class="text-center m2-4 text-primary fw-bold">Service Usage Statistics - Current Month</h2>
-
-    <div class="table-responsive">
-        <table class="table table-striped table-hover table-bordered align-middle">
-            <thead class="table-dark">
-                <tr style="text-align:center">
-                 <th scope="col">Number</th>
-                    <th scope="col">Service Name</th>
-                     <th scope="col">Unit Price (FCFA)</th> 
-                    <th scope="col" class="text-center">Times Used</th>
-                    <th scope="col" class="text-center">Total Revenue (FCFA)</th>
+    <!-- Table -->
+    <div class="table-wrap">
+        <table class="report-table" id="dataTable">
+            <thead>
+                <tr>
+                    <th>Doctor</th>
+                    <th>Consultation Type</th>
+                    <th style="text-align:right"># Consultations</th>
+                    <th style="text-align:right">Total Amount</th>
+                    <th style="text-align:right">Doctor Pay</th>
+                    <th style="text-align:right">Hospital Profit</th>
+<!--                     <th style="text-align:center">Status</th> -->
                 </tr>
             </thead>
             <tbody>
-                <c:choose>
-                    <c:when test="${not empty stats}">
-                        <c:forEach var="stat" items="${stats}" varStatus="loop">
-		                <tr class="text-center">
-		                    <td>${loop.index + 1}</td>
-		                         <td class="text-center"> ${stat.serviceName}</td>
-                                 <td class="text-center">${stat.unitPrice}</td>
-                                <td class="text-center">${stat.timesUsed}</td>
-                                <td class="text-center">${stat.totalRevenue}</td>
-                            </tr>
-                        </c:forEach>
-                    </c:when>
-                    <c:otherwise>
-                        <tr>
-                            <td colspan="3" class="text-center text-muted fst-italic">
-                                No service usage data available for the current month.
-                            </td>
-                        </tr>
-                    </c:otherwise>
-                </c:choose>
+                <c:forEach var="stat" items="${stats}" varStatus="loop">
+                    <tr >
+                        <td>${stat.doctorName}</td>
+                        <td>${stat.consultationName}</td>
+                        <td style="text-align:right"><fmt:formatNumber value="${stat.consultationCount}" type="number"/></td>
+                        <td style="text-align:right"><fmt:formatNumber value="${stat.totalAmount}" type="number"/></td>
+                        <td style="text-align:right"><fmt:formatNumber value="${stat.doctorPay}" type="number"/></td>
+                        <td style="text-align:right"><fmt:formatNumber value="${stat.hospitalProfit}" type="number"/></td>
+<!--                         <td style="text-align:center"> -->
+<%--                             <span class="badge ${stat.paymentStatus eq 'PAID' ? 'badge-paid' : stat.paymentStatus eq 'PARTIAL' ? 'badge-partial' : 'badge-unpaid'}"> --%>
+<%--                                 ${stat.paymentStatus} --%>
+<!--                             </span> -->
+<!--                         </td> -->
+                    </tr>
+                </c:forEach>
             </tbody>
         </table>
-    </div>
 
+        <!-- Total bar -->
+        <div class="total-bar">
+            <span>Visible rows: <strong id="visibleRows">-</strong></span>
+            <span>Visible revenue: <strong id="visibleRev">-</strong> XAF</span>
+        </div>
+    </div>
 </div>
 
-<!-- Bootstrap J
-   
-    <!-- Sales History -->
-    <div class="mt-5">
-        <h4 class="text-primary">📑 Sales History</h4>
-
-        <!-- Filter Form -->
-        <form action="dashboard" method="get" class="row g-3 my-2">
-            <div class="col-md-2">
-                <label class="form-label">From Date</label>
-                <input type="date" class="form-control" id="startDate" name="startDate" value="${param.startDate}">
-            </div>
-            <div class="col-md-2">
-                <label class="form-label">To Date</label>
-                <input type="date" class="form-control" id="endDate" value="${param.endDate}">
-            </div>
-            <div class="col-md-1">
-                <label class="form-label">Pharmacist</label>
-                <select class="form-select" name="pharmacistId" id="userId">
-                    <option value="">All</option>
-                    <c:forEach var="user" items="${pharmacists}">
-                        <option value="${user.id}" ${param.pharmacistId == user.id ? 'selected' : ''}>
-                            ${user.name}
-                        </option>
-                    </c:forEach>
-                </select>
-            </div>
-            <div class="col-md-1 d-flex align-items-end">
-                <button type="button" onclick= "filter()" class="btn btn-success w-100">Filter</button>
-            </div>
-        </form>
-
-        <!-- Table -->
-        <table class="table table-hover table-bordered">
-            <thead class="table-dark">
-            <tr>
-            	<th>No</th>
-                <th>Receipt #</th>
-                <th>Customer</th>
-                <th>Pharmacist</th>
-                <th>Payment</th>
-                <th>Total (CFA)</th>
-                <th>Date</th>
-            </tr>
-            </thead>
-            <tbody>
-            <c:forEach var="sale" items="${sales}" varStatus="loop">
-                <tr>
-                    <td>${loop.index + 1}</td>
-                    <td>${sale.receiptNumber}</td>
-                    <td>${sale.customerName}</td>
-                    <td>${sale.pharmacist.username}</td>
-                    <td>${sale.paymentMethod}</td>
-                    <td class="text-success fw-bold">${sale.total}</td>
-                    <td>${sale.saleDate}
-               
-                    </td>
-                </tr>
-            </c:forEach>
-            </tbody>
-        </table>
-    </div>
-    
-        <h4 class="text-primary mt-5">📑 Revenue Dashboard</h4>
-
-    <div>
-    
-    <form action="dashboard" method="get" class="row g-3 my-2">
-            <div class="col-md-2">
-                <label class="form-label">Select  Date</label>
-                <input type="date" class="form-control" id="seachDate" name="date">
-            </div>
-            <div class="col-md-1 d-flex align-items-end">
-                <button type="button" onclick= "loadRevenue()" class="btn btn-success w-100">Search</button>
-            </div>
-        </form>
-       
-       
-
-     <table class="table table-hover table-bordered" width="400">
-            <thead class="table-dark ">
-            <tr>
-<!--                 <th>No</th> -->
-<!--                 <th>Date</th> -->
-                <th>Service</th>
-                <th>Pharmarcy</th>
-                <th>Total (CFA)</th>
-            </tr>
-            </thead>
-            <tbody>
-                <tr>
-<%--                     <td>${sale.receiptNumber}</td> --%>
-<%--                     <td>${sale.customerName}</td> --%>
-					
-                    <td>${revenue.serviceRevenue}</td>
-                    <td>${revenue.pharmacyRevenue}</td>
-                    <td class="text-success fw-bold">${revenue.totalRevenue}</td>
-               
-                </tr>
-            </tbody>
-        </table>
-    </div>
-
-    <canvas id="revenueChart" width="400" height="200"></canvas>
-</div>	<script src="assets/js/statistics/revenue.js"></script> 
 
 </body>
 </html>

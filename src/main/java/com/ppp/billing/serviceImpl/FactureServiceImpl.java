@@ -1,10 +1,15 @@
 package com.ppp.billing.serviceImpl;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
+import com.ppp.billing.Dto.DailySaleDTO;
 import com.ppp.billing.model.Facture;
 import com.ppp.billing.repository.FactureRepository;
 import com.ppp.billing.service.FactureService;
@@ -66,5 +71,31 @@ public class FactureServiceImpl implements FactureService {
 	public List<Facture> findByCreatedAtBetweenOrderByIdDesc(LocalDate atStartOfDay, LocalDate atStartOfDay2) {
 		return factureRepository.findByCreatedDateBetweenOrderByIdDesc( atStartOfDay,  atStartOfDay2);
 	}
+	
+	public List<DailySaleDTO> getTodaysSales() {
+	    LocalDate today = LocalDate.now();
+	    List<Object[]> raw = factureRepository.findFacturesWithSubtypesByDate(today);
 
+	    return raw.stream()
+	              .map(r -> new DailySaleDTO(
+	                      (String) r[0],                // factureId
+	                      (String) r[1],              // patientName / customerName
+	                      (String) r[2],              // consultationSubtype name or N/A
+	                      (BigDecimal) r[3],          // netAmount
+	                      (BigDecimal) r[4],          // amountPaid
+	                      (Double) r[5],              // discount
+	                      (String) r[6]               // status
+	              ))
+	              .collect(Collectors.toList());
+	}
+
+    public BigDecimal getTodaysTotalRevenue() {
+        List<DailySaleDTO> sales = getTodaysSales();
+        return sales.stream()
+                    .map(DailySaleDTO::getNetAmount)
+                    .filter(Objects::nonNull)
+                    .reduce(BigDecimal.ZERO, BigDecimal::add);
+    }
+
+	
 }

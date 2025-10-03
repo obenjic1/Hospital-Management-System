@@ -1,9 +1,16 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-
+<head>
+<meta charset="UTF-8">
+</head>
+<style>
+    .modal-body { background-color: #f8f9fa; }
+    .card-body { padding: 0.75rem; }
+    .table-bordered th { background-color: #e9ecef; }
+</style>
 <div class="modal-header bg-light">
-    <h5 class="modal-title">Payment - Invoice #${facture.id}</h5>
+    <h5 class="modal-title">Payment - Invoice #${facture.referenceNumber}</h5>
     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 </div>
 
@@ -53,17 +60,31 @@
         </div>
     </div>
 
-    <!-- =========  2.  BILLED SUB-SERVICES  ========= -->
-    <h6 class="text-primary mb-2">Billed Services</h6>
+    <c:if test="${empty facture.visit}">
+  <h6 class="text-primary mb-2">Pharmacy Bills</h6>
     <div class="table-responsive mb-4">
         <table class="table table-sm table-bordered">
-            <thead class="table-light">
-                <tr>
-                    <th>#</th>
-                    <th>Service</th>
-                    <th class="text-end">Price</th>
-                </tr>
-            </thead>
+            <thead class="table-light"><tr><th>#</th><th>Medicine name</th><th>Qty</th><th>unit Price</th><th class="text-end">SubTotal</th></tr></thead>
+            <tbody>
+                <c:forEach var="sub" items="${facture.items}" varStatus="vs">
+                    <tr>
+                        <td>${sub.id}</td>
+                        <td>${sub.description}</td>
+                        <td>${sub.quantity}</td>
+                         <td>${sub.unitPrice}</td>
+                        <td class="text-end"><fmt:formatNumber value="${sub.subTotal}" type="currency" currencyCode="XAF"/></td>
+                    </tr>
+                </c:forEach>
+              
+            </tbody>
+        </table>
+    </div>
+ </c:if>
+ <c:if test="${not empty facture.visit}">
+  <h6 class="text-primary mb-2">Billed Services</h6>
+    <div class="table-responsive mb-4">
+        <table class="table table-sm table-bordered">
+            <thead class="table-light"><tr><th>#</th><th>Service</th><th class="text-end">Price</th></tr></thead>
             <tbody>
                 <c:forEach var="sub" items="${facture.visit.subtypes}" varStatus="vs">
                     <tr>
@@ -73,11 +94,14 @@
                     </tr>
                 </c:forEach>
                 <c:if test="${empty facture.visit.subtypes}">
-                    <tr><td colspan="3" class="text-center text-muted">No detailed services</td></tr>
+                                    <tr><td colspan="6" class="text-center text-muted">No Billed Services recorded</td></tr>
+                
                 </c:if>
             </tbody>
         </table>
     </div>
+ </c:if>
+ 
 
     <!-- =========  3.  PREVIOUS PAYMENTS  (already done) ========= -->
     <h6 class="text-primary mb-2">Previous Payments</h6>
@@ -97,7 +121,7 @@
                 <c:forEach var="p" items="${facture.payments}">
                     <tr>
                         <td>${p.id}</td>
-                        <td><fmt:formatDate value="${p.paymentDate}" pattern="dd-MM-yyyy HH:mm"/></td>
+                        <td>${p.paymentDate}</td>
                         <td>${p.method}</td>
                         <td><fmt:formatNumber value="${p.amountPaid}" type="currency" currencyCode="XAF"/></td>
                         <td>${p.reference}</td>
@@ -118,45 +142,40 @@
     <!-- =========  4.  NEW PAYMENT FORM  (already done) ========= -->
     <h6 class="text-primary mb-2">Record New Payment</h6>
     <form id="paymentForm" class="row g-3">
-        <input type="hidden" name="factureId" value="${facture.id}">
+        <input  id="factureId" type="hidden" name="factureId" value="${facture.id}">
 
         <div class="col-md-4">
             <label class="form-label">Amount <span class="text-danger">*</span></label>
-            <input type="number" class="form-control" name="amount" id="amount" step="0.01"
-                   min="0.01" max="${facture.balance}" required
-                   value="${facture.balance}">
+            <input type="number" class="form-control" name="amount" id=amountPaid step="0.01"
+                   min="0.01" max="${facture.balance}" required/>
+                 
         </div>
 
         <div class="col-md-4">
             <label class="form-label">Method <span class="text-danger">*</span></label>
-            <select class="form-select" name="method" id="method" required onchange="toggleReference()">
+            <select class="form-select" name="method" id="paymentMethod" required>
                 <option value="">-- Choose --</option>
                 <option value="CASH">Cash</option>
-                <option value="MOBILE_MONEY">Mobile Money</option>
-                <option value="CARD">Card</option>
-                <option value="INSURANCE">Insurance</option>
-                <option value="CHEQUE">Cheque</option>
+                <option value="MTN_MOBILE_MONEY">MTN-Mobile Money</option>
+                <option value="ORANGE_MONEY">Orange Money</option>
+               
             </select>
         </div>
 
-        <div class="col-md-4">
-            <label class="form-label">Reference</label>
-            <input type="text" class="form-control" name="reference" id="reference"
-                   placeholder="Transaction / Cheque / Auth number">
-        </div>
+<!--         <div class="col-md-4"> -->
+<!--             <label class="form-label">Reference</label> -->
+<!--             <input type="text" class="form-control" name="reference" id="reference" -->
+<!--                    placeholder="Transaction / Cheque / Auth number"> -->
+<!--         </div> -->
 
         <div class="col-12 d-flex justify-content-end gap-2">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-            <button type="submit" class="btn btn-success">
-                <i class="bi bi-cash-coin"></i> Record Payment
-            </button>
+			 <button type="button" class="btn btn-success" onclick="payFacture()">
+			    <i class="bi bi-cash-coin"></i> Record Payment
+			</button>
         </div>
     </form>
 </div>
+    <script src="assets/js/hospital/payment.js"></script>
 
-
-<style>
-    .modal-body { background-color: #f8f9fa; }
-    .card-body { padding: 0.75rem; }
-    .table-bordered th { background-color: #e9ecef; }
-</style>
+<

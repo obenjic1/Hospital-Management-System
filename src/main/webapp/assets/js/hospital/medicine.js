@@ -317,9 +317,6 @@ function TransferToPharmacy(medicineId,quantity){
 		
 
 
-
-
-
  // Render cart
   function renderCart() {
     const cartBody = document.getElementById("cartBody");
@@ -405,26 +402,35 @@ function checkout() {
 		cartItems: cart,
 		paymentMethod:document.getElementById("paymentMethod").value || " Cash",
 	}
-    fetch("sales/checkout", {
+	
+    fetch("pharmacy/checkout", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
       },
       body: JSON.stringify(saleDto)
-    }).then(res => res.json())
-	.then(data =>{
-		
-		Swal.fire("Success!/Success!", "Medicine successfully!", "success");
-					cart = [];
+    }).then(r => {
+            if (!r.ok) throw r;
+            return r.text();               // ← wait for the reference string
+        })
+        .then(ref => {
+            Swal.fire("Success!",  ref + " Purchase recorded Succesfully", "success");
+           cart = [];
 				   renderCart();
 				   loadPage('pharmacy');
-				   	previewPdf(data.id);
-	}).catch(error => {
-//		console.log(error.message);
-	});
-	
-		} 
+          
+           // loadPage('factures');
+        })
+        .catch(err => err.text().then(t => Swal.fire({ icon: "error", title: "Oops...", text: t })))
+        .finally(() => {          // <<< always executed
+        cart = [];
+        renderCart();
+        loadPage('pharmacy');
+    });
+        
+}
     
+
 
  function previewPdf(saleId) {
         const pdfUrl = `sales/receipt/${saleId}/pdf`;
@@ -480,6 +486,15 @@ function checkout() {
 		
 			}
 			
+			
+			
+      function changePeriod() {
+	    const period = document.getElementById('periodSelect').value;
+	    const url = `visit/subtype?period=${period}`;
+			loadPage(url)		
+	}
+			
+			
 		
 	$(document).ready(function() {
     $('#medCategory').select2({
@@ -492,49 +507,4 @@ function checkout() {
 
 
 		
-/**
- * 
- * 
- * 
- * 
- * alert(id);
-		event.preventDefault();
-		let id = id;
-	    let name = document.getElementById("name").value;
-	    let age = document.getElementById("age").value;
-	    let gender = document.getElementById("gender").value;
-	    let contact = document.getElementById("contact").value ;
-	    var url = "";
-	    if (id!=null){
-			url = `patients/update/${id}`;
-		}else {
-			url ="patients";
-		}
-		console.log(url);
-				 var formData = new FormData();
-				  formData.append('id', id);
-				  formData.append('name', name);
-				  formData.append('age', age);
-				  formData.append('gender', gender);
-				  formData.append('contact', contact);			
-				 fetch(url, {
-	        method: 'POST',
-	        body: formData,
-	    }) .then(response => {
-			if (response.ok) {
-						Swal.fire("Succes/Success!", "Patient Successfully Registed !", "Patient Successfully Registered")
-						return loadPage('patients');
-		   			 } else if (!response.ok) {
-							Swal.fire({icon: "error", title: "Oops...", text: "Something went wrong!"});
-						
-
-		  			 }
-			
-		}).then(function(data) {
-
-		
-				 }).catch(function(error) {
-
-					});
- */
 

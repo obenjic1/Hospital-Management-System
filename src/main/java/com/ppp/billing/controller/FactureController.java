@@ -1,4 +1,5 @@
 package com.ppp.billing.controller;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.ppp.billing.Dto.DailySaleDTO;
 import com.ppp.billing.model.Facture;
 import com.ppp.billing.service.FactureService;
 
@@ -29,9 +31,6 @@ public class FactureController {
                       @RequestParam(value = "to",     required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate to,
                       @RequestParam(value = "status", required = false) String status,
                       Model model) {
-	   
-	  
-
        List<Facture> result;
       if (patientName != null && !patientName.trim().isEmpty()) {
            result = factureService.findByVisit_Patient_NameContainingIgnoreCaseOrderByIdDesc(patientName);
@@ -57,6 +56,26 @@ public class FactureController {
        Facture f = factureService.getFactureById(id);
        model.addAttribute("facture", f);
        return "facture/payment-modal";   // the JSP fragment
+   }
+   
+   @GetMapping("/{id}/view")
+   public String viewFacture(@PathVariable Long id, Model model) {
+       Facture f = factureService.getFactureById(id);
+       model.addAttribute("facture", f);
+       return "facture/facture-view";   // the JSP fragment
+   }
+   
+   @GetMapping("/stats/daily-sales")
+   public String showTodaysSales(Model model) {
+       List<DailySaleDTO> sales = factureService.getTodaysSales();
+       BigDecimal totalRevenue = sales.stream()
+                                      .map(DailySaleDTO::getNetAmount)
+                                      .reduce(BigDecimal.ZERO, BigDecimal::add);
+
+       model.addAttribute("sales", sales);
+       model.addAttribute("totalRevenue", totalRevenue);
+
+       return "stats/sales"; 
    }
    
 }

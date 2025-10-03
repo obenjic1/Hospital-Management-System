@@ -107,5 +107,39 @@ public class Medicine {
         this.pharmacyQuantity -= totalUnits;
         setLowStock();
     }
+    public BigDecimal sellUnits(int unitsRequested) {
+        if (unitsRequested <= 0)
+            throw new IllegalArgumentException("Units must be > 0");
+
+        int packetsNeeded = (unitsRequested + unitsPerPacket - 1) / unitsPerPacket;
+        if (this.pharmacyQuantity < packetsNeeded)
+            throw new IllegalStateException("Insufficient pharmacy stock – request transfer");
+
+        this.pharmacyQuantity -= packetsNeeded;
+        this.quantity           -= packetsNeeded;
+        setLowStock();
+
+        addTracking("SALE", "Sold " + unitsRequested + " unit(s)  (used "
+                    + packetsNeeded + " packet(s)) @ " + unitPrice + " per unit");
+        return unitPrice.multiply(BigDecimal.valueOf(unitsRequested));
+    }
+
+    /* ----------------------------------------------------------
+     * 2.  sell whole packets – pharmacy ONLY
+     * ---------------------------------------------------------- */
+    public BigDecimal sellPackets(int packetsRequested) {
+        if (packetsRequested <= 0)
+            throw new IllegalArgumentException("Packets must be > 0");
+        if (this.pharmacyQuantity < packetsRequested)
+            throw new IllegalStateException("Insufficient pharmacy stock – request transfer");
+
+        this.pharmacyQuantity -= packetsRequested;
+        this.quantity           -= packetsRequested;
+        setLowStock();
+
+        addTracking("SALE", "Sold " + packetsRequested + " packet(s) @ " + packetPrice + " each");
+        return packetPrice.multiply(BigDecimal.valueOf(packetsRequested));
+    }
+    
 }
 

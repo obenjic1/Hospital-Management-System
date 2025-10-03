@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.function.Supplier;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -14,7 +15,10 @@ import org.springframework.stereotype.Service;
 import com.itextpdf.io.IOException;
 import com.itextpdf.io.image.ImageDataFactory;
 import com.itextpdf.io.source.ByteArrayOutputStream;
+import com.itextpdf.kernel.color.Color;
 import com.itextpdf.kernel.color.DeviceRgb;
+import com.itextpdf.kernel.font.PdfFont;
+import com.itextpdf.kernel.font.PdfFontFactory;
 import com.itextpdf.kernel.geom.PageSize;
 import com.itextpdf.kernel.pdf.PdfDocument;
 import com.itextpdf.kernel.pdf.PdfWriter;
@@ -25,12 +29,16 @@ import com.itextpdf.layout.element.Cell;
 import com.itextpdf.layout.element.Image;
 import com.itextpdf.layout.element.Paragraph;
 import com.itextpdf.layout.element.Table;
+import com.itextpdf.layout.property.HorizontalAlignment;
 import com.itextpdf.layout.property.TextAlignment;
 import com.itextpdf.layout.property.UnitValue;
 import com.itextpdf.layout.property.VerticalAlignment;
 import com.ppp.billing.model.Consultation;
-import com.ppp.billing.model.Sale;
-import com.ppp.billing.model.SaleItem;
+import com.ppp.billing.model.ConsultationSubtype;
+import com.ppp.billing.model.Facture;
+import com.ppp.billing.model.FactureItem;
+import com.ppp.billing.model.Payment;
+import com.ppp.billing.repository.PaymentRepository;
 import com.ppp.printable.PrintableElement;
 
 @Service
@@ -41,6 +49,10 @@ public class PdfService {
 	
 	@Value("${folder.service.receipt}")
 	private String serviceReceiptDir;
+	
+	
+	@Autowired
+	private PaymentRepository paymentRepository;
 	
 
  
@@ -355,7 +367,6 @@ public class PdfService {
 				         logoImage = new Image(ImageDataFactory.create(resource.getFile().getAbsolutePath()));
 				        
 					} catch (IOException | java.io.IOException  e) {
-							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
 						logoImage.setWidth(100); 
@@ -626,70 +637,292 @@ public class PdfService {
 		        .setBold();
 		}
 
-		
 
-		
-		
-//		@GetMapping("/patients/{patientId}/history/pdf")
-//		public void downloadPatientHistoryPdf(@PathVariable Long patientId, HttpServletResponse response) throws IOException {
-//		    Patient patient = patientService.findById(patientId);
-//		    List<Appointment> appointments = appointmentService.findByPatient(patient);
-//		    List<Consultation> consultations = consultationService.findByAppointments(appointments);
-//
-//		    response.setContentType("application/pdf");
-//		    response.setHeader("Content-Disposition", "attachment; filename=patient-history-" + patientId + ".pdf");
-//
-//		    try (OutputStream out = response.getOutputStream()) {
-//		        Document document = new Document();
-//		        PdfWriter.getInstance(document, out);
-//		        document.open();
-//
-//		        // Hospital Letterhead
-//		        Font titleFont = new Font(Font.FontFamily.HELVETICA, 18, Font.BOLD);
-//		        Paragraph title = new Paragraph("QUEEN MARY HOSPITAL\nPatient Medical History", titleFont);
-//		        title.setAlignment(Element.ALIGN_CENTER);
-//		        document.add(title);
-//
-//		        document.add(new Paragraph(" "));
-//		        document.add(new Paragraph("Patient Name: " + patient.getFullName()));
-//		        document.add(new Paragraph("Date of Birth: " + (patient.getDob() != null ? patient.getDob().toString() : "N/A")));
-//		        document.add(new Paragraph("Generated On: " + LocalDate.now().toString()));
-//
-//		        document.add(new Paragraph(" "));
-//		        document.add(new Paragraph("APPOINTMENTS", new Font(Font.FontFamily.HELVETICA, 14, Font.BOLD)));
-//
-//		        PdfPTable appointmentTable = new PdfPTable(3);
-//		        appointmentTable.setWidthPercentage(100);
-//		        appointmentTable.addCell("Date");
-//		        appointmentTable.addCell("Doctor");
-//		        appointmentTable.addCell("Status");
-//
-//		        for (Appointment a : appointments) {
-//		            appointmentTable.addCell(a.getAppointmentDate().toString());
-//		            appointmentTable.addCell(a.getDoctor().getFullName());
-//		            appointmentTable.addCell(a.getStatus().toString());
-//		        }
-//		        document.add(appointmentTable);
-//
-//		        document.add(new Paragraph(" "));
-//		        document.add(new Paragraph("CONSULTATIONS", new Font(Font.FontFamily.HELVETICA, 14, Font.BOLD)));
-//
-//		        PdfPTable consultTable = new PdfPTable(3);
-//		        consultTable.setWidthPercentage(100);
-//		        consultTable.addCell("Date");
-//		        consultTable.addCell("Doctor");
-//		        consultTable.addCell("Diagnosis");
-//
-//		        for (Consultation c : consultations) {
-//		            consultTable.addCell(c.getConsultationDate().toString());
-//		            consultTable.addCell(c.getAppointment().getDoctor().getFullName());
-//		            consultTable.addCell(c.getDiagnosis());
-//		        }
-//		        document.add(consultTable);
-//
-//		        document.close();
-//		    }
-//		}
 
-	;
-}
+		public File generatePaymentReceipt(Long paymentId) throws IOException, java.io.IOException {
+		    Payment payment = paymentRepository.findById(paymentId)
+		            .orElseThrow(() -> new RuntimeException("Payment not found"));
+
+		    Facture facture = payment.getFacture();
+		    String outputPath = receiptDir + payment.getReference() + ".pdf";
+
+		    PdfWriter writer = new PdfWriter(outputPath);
+		    PdfDocument pdfDoc = new PdfDocument(writer);
+		    Document doc = new Document(pdfDoc, PageSize.A4.rotate());
+		    doc.setMargins(20, 20, 20, 20);
+
+		    try {
+		        // 1. Header with bilingual hospital info
+		        Table header = new Table(new float[]{3, 2, 3});
+		        header.setWidth(UnitValue.createPercentValue(100));
+
+		        Cell left = new Cell().setBorder(Border.NO_BORDER);
+		        left.add(new Paragraph("QUEEN MARY MEDICAL CENTRE / CENTRE MÉDICAL QUEEN MARY")
+		                .setFontSize(14).setBold().setFontColor(new DeviceRgb(0, 51, 102)));
+		        left.add(new Paragraph("For More Human Care / Pour des Soins Plus Humains").setFontSize(11).setItalic());
+		        left.add(new Paragraph("RC No RC/YAO/2021/B-2230 | NUI M112116710688D").setFontSize(9));
+		        left.add(new Paragraph("Shell Nsimeyong, Yaoundé").setFontSize(9));
+		        left.add(new Paragraph("cmqueenmary@gmail.com").setFontSize(9));
+		        header.addCell(left);
+
+		        Cell center = new Cell().setBorder(Border.NO_BORDER).setTextAlignment(TextAlignment.CENTER);
+		        try {
+		            Image logo = new Image(ImageDataFactory.create(
+		                    new ClassPathResource("static/img/queen.png").getFile().getAbsolutePath()));
+		            logo.setWidth(90).setHeight(50);
+		            center.add(logo);
+		        } catch (Exception e) {
+		            center.add(new Paragraph("LOGO").setFontSize(10).setItalic());
+		        }
+		        header.addCell(center);
+
+		        Cell right = new Cell().setBorder(Border.NO_BORDER).setTextAlignment(TextAlignment.RIGHT);
+		        right.add(new Paragraph("Tel: (+237) 659 439 160 / 675 124 157").setFontSize(9));
+		        right.add(new Paragraph("BP 31431 Yaoundé, Cameroon").setFontSize(9));
+		        header.addCell(right);
+		        doc.add(header);
+		      //  doc.add(new Paragraph("\n"));
+
+		        // 2. Title
+		        doc.add(new Paragraph("PAYMENT RECEIPT / REÇU DE PAIEMENT")
+		                .setTextAlignment(TextAlignment.CENTER)
+		                .setFontSize(20)
+		                .setBold()
+		                .setFontColor(new DeviceRgb(0, 51, 102)));
+
+		        doc.add(new Paragraph(payment.getReference())
+		                .setTextAlignment(TextAlignment.CENTER)
+		                .setFontSize(24)
+		                .setBold()
+		                .setFontColor(new DeviceRgb(0, 102, 204)));
+
+		     //   doc.add(new Paragraph("\n"));
+
+		        // 3. Patient & Invoice Info (bilingual)
+		        Table info = new Table(new float[]{3, 3, 3});
+		        info.setWidth(UnitValue.createPercentValue(100));
+
+		        if (facture.getVisit() != null) {                       // =====  CLINIC  =====
+		            info.addCell(headerCell("Patient / Patient"));
+		            info.addCell(headerCell("Invoice No. / N° Facture"));
+		            info.addCell(headerCell("Doctor / Médecin"));
+
+		            String patientName = getSafe(() -> facture.getVisit().getPatient().getName());
+		            String invoiceNo   = getSafe(() -> facture.getReferenceNumber());
+		            String doctorName  = getSafe(() -> facture.getVisit().getAttendingStaff().getFirstName());
+
+		            info.addCell(normalCell("Name: " + patientName));
+		            info.addCell(normalCell(invoiceNo));
+		            info.addCell(normalCell(doctorName));
+
+		            String ageSex = "Age: " + getSafe(() -> facture.getVisit().getPatient().getAge())
+		                          + " | Sex: " + getSafe(() -> facture.getVisit().getPatient().getGender());
+		            String invDate = "Date: " + getSafe(() ->
+		                    facture.getCreatedDate().format(DateTimeFormatter.ofPattern("dd-MM-yyyy")));
+		            String contact = getSafe(() -> facture.getVisit().getPatient().getContact());
+
+		            info.addCell(normalCell(ageSex));
+		            info.addCell(normalCell(invDate));
+		            info.addCell(normalCell(contact));
+
+		        } else {                                                // =====  PHARMACY  =====
+		            info.addCell(headerCell("Customer / Client"));
+		            info.addCell(headerCell("Invoice No. / N° Facture"));
+		            info.addCell(headerCell("Date"));
+
+		            String customerName = getSafe(() -> facture.getCustomerName()); // <-- add this field if missing
+		            String invoiceNo    = getSafe(() -> facture.getReferenceNumber());
+		            String invDate      = getSafe(() ->
+		                    facture.getCreatedDate().format(DateTimeFormatter.ofPattern("dd-MM-yyyy")));
+
+		            info.addCell(normalCell(customerName));
+		            info.addCell(normalCell(invoiceNo));
+		            info.addCell(normalCell(invDate));
+
+		            // two empty rows to keep table height similar
+		            info.addCell(normalCell(""));
+		            info.addCell(normalCell(""));
+		            info.addCell(normalCell(""));
+		        }
+		        doc.add(info);
+		        doc.add(new Paragraph("\n"));
+
+		        
+		        if(facture.getVisit()!=null) {
+		        Table svcTable = new Table(new float[]{1, 5, 1, 2});
+		        svcTable.setWidth(UnitValue.createPercentValue(100));
+		        svcTable.addHeaderCell(headerCell("No."));
+		        svcTable.addHeaderCell(headerCell("Service / Service"));
+		        svcTable.addHeaderCell(headerCell("Qty / Qté"));
+		        svcTable.addHeaderCell(headerCell("Price (XAF) / Prix (XAF)"));
+
+		        int idx = 1;
+		        for (ConsultationSubtype s : facture.getVisit().getSubtypes()) {
+		            svcTable.addCell(normalCell(String.valueOf(idx++)));
+		            svcTable.addCell(normalCell(s.getName()));
+		            svcTable.addCell(normalCell("1"));
+		            svcTable.addCell(moneyCell(s.getPrice()));
+		        }
+		        doc.add(svcTable);
+		        }
+		        
+		        /* =====  3b.  PHARMACY SECTION (when no visit = pharmacy sale)  ===== */
+		        if (facture.getVisit() == null) {
+		            Table medTable = new Table(new float[]{1, 5, 1, 2, 2});   // No | Name | Qty | Unit price | Sub-total
+		            medTable.setWidth(UnitValue.createPercentValue(100));
+		            medTable.addHeaderCell(headerCell("No."));
+		            medTable.addHeaderCell(headerCell("Medicine / Médicament"));
+		            medTable.addHeaderCell(headerCell("Qty"));
+		            medTable.addHeaderCell(headerCell("Unit Price (XAF)"));
+		            medTable.addHeaderCell(headerCell("Sub-Total (XAF)"));
+
+		            int idx = 1;
+		            for (FactureItem it : facture.getItems()) {          // already filled
+		                medTable.addCell(normalCell(String.valueOf(idx++)));
+		                medTable.addCell(normalCell(it.getDescription()));
+		                medTable.addCell(normalCell(String.valueOf(it.getQuantity())));
+		                medTable.addCell(normalCell((it.getUnitPrice() + "")));
+		                medTable.addCell(moneyCell(it.getSubTotal()));
+		            }
+		            doc.add(medTable);
+		            doc.add(new Paragraph("\n"));
+		        }
+		        // 4. Invoice Breakdown
+		        Table breakdown = new Table(new float[]{3, 2, 2, 2, 2, 2});
+		        breakdown.setWidth(UnitValue.createPercentValue(100));
+		        breakdown.addHeaderCell(headerCell("Description"));
+		        breakdown.addHeaderCell(headerCell("Amount (XAF)"));
+		        breakdown.addHeaderCell(headerCell("Discount % "));
+		        breakdown.addHeaderCell(headerCell("Net Amount "));
+		        breakdown.addHeaderCell(headerCell("Paid"));
+		        breakdown.addHeaderCell(headerCell("Balance"));
+
+		        breakdown.addCell(normalCell("Total Invoice"));
+		        breakdown.addCell(moneyCell(facture.getTotalAmount()));
+		        breakdown.addCell(percentCell(facture.getDiscount()));
+		        breakdown.addCell(moneyCell(facture.getNetAmount()));
+		        breakdown.addCell(moneyCell(facture.getAmountPaid()));  
+		        BigDecimal bal = payment.getFacture().getNetAmount().subtract(payment.getAmountPaid());
+		        breakdown.addCell(normalCell("-"));
+
+		        breakdown.addCell(normalCell("This Payment"));
+		        breakdown.addCell(moneyCell(payment.getAmountPaid()));
+		        breakdown.addCell(normalCell(""));
+		        breakdown.addCell(normalCell(""));
+		        breakdown.addCell(normalCell(""));
+		        breakdown.addCell(moneyCell(facture.getBalance()));
+		        doc.add(breakdown);
+		      //  doc.add(new Paragraph("\n"));
+
+		        // 5. Payment Method
+		        Table payBox = new Table(new float[]{2, 2});
+		        payBox.setWidth(UnitValue.createPercentValue(60));
+		        payBox.setHorizontalAlignment(HorizontalAlignment.RIGHT);
+
+		        payBox.addCell(headerCell("Payment Method / Méthode de Paiement"));
+		        payBox.addCell(headerCell("Received By / Reçu Par"));
+
+		        String staffName = getSafe(() -> payment.getReceivedBy().getStaff().getFirstName() );
+		        payBox.addCell(normalCell(payment.getMethod().toString()));
+		        payBox.addCell(normalCell(staffName));
+
+		        payBox.addCell(headerCell("Amount Paid / Montant Payé"));
+		        payBox.addCell(headerCell("New Balance / Nouveau Solde"));
+
+		        payBox.addCell(moneyCell(payment.getAmountPaid()));
+		        payBox.addCell(moneyCell(facture.getBalance()));
+		        doc.add(payBox);
+		       // doc.add(new Paragraph("\n"));
+
+		        // 6. Services Table
+		       
+		        doc.add(new Paragraph("\n"));
+
+		        // 7. Footer
+		        Table footer = new Table(new float[]{4, 1});
+		        footer.setWidth(UnitValue.createPercentValue(100));
+		        footer.addCell(new Cell().add(new Paragraph(
+		                "Thank you for choosing Queen Mary Medical Centre! / Merci d’avoir choisi Queen Mary.")
+		                .setItalic().setFontSize(10)).setBorder(Border.NO_BORDER));
+		        footer.addCell(new Cell().setBorder(Border.NO_BORDER)); // QR placeholder
+		        doc.add(footer);
+
+		        // 8. Watermark
+		        addWatermark(pdfDoc);
+
+		    } finally {
+		        doc.close();
+		        pdfDoc.close();
+		    }
+
+		    return new File(outputPath);
+		}
+		
+		private void addWatermark(PdfDocument pdf) throws java.io.IOException {
+		    PdfFont font;
+		    try {
+		        font = PdfFontFactory.createFont();
+		    } catch (IOException e) {
+		        throw new RuntimeException("Font load failed", e);
+		    }
+
+		    for (int i = 1; i <= pdf.getNumberOfPages(); i++) {
+		        PdfCanvas canvas = new PdfCanvas(pdf.getPage(i));
+		        canvas.saveState();
+		        canvas.setFontAndSize(font, 48);
+		        canvas.setColor(new DeviceRgb(200, 200, 200), true); // light gray
+		        canvas.beginText();
+//		        canvas.showTextAligned("QUEEN MARY MEDICAL CENTRE – CONFIDENTIAL",
+//		                420, 300, i,
+//		                TextAlignment.CENTER,
+//		                VerticalAlignment.MIDDLE,
+//		                (float) Math.toRadians(45));
+		        canvas.endText();
+		        canvas.restoreState();
+		    }
+		}
+
+		private Cell headerCell(String text) {
+		    return new Cell().add(new Paragraph(text).setBold())
+		            .setBackgroundColor(Color.LIGHT_GRAY)
+		            .setTextAlignment(TextAlignment.LEFT)
+		            .setBorder(Border.NO_BORDER);
+		}
+
+		private Cell normalCell(String text) {
+		    return new Cell().add(new Paragraph(text))
+		            .setTextAlignment(TextAlignment.LEFT)
+		            .setBorder(Border.NO_BORDER);
+		}
+
+		private Cell moneyCell(BigDecimal amount) {
+		    return new Cell().add(new Paragraph(fmt(amount)))
+		            .setTextAlignment(TextAlignment.LEFT)
+		            .setBorder(Border.NO_BORDER);
+		}
+
+		private Cell percentCell(double percent) {
+		    return new Cell().add(new Paragraph(fmtPercent(percent)))
+		            .setTextAlignment(TextAlignment.LEFT)
+		            .setBorder(Border.NO_BORDER);
+		}
+
+		private String fmt(BigDecimal bd) {
+		    return new java.text.DecimalFormat("#,##0").format(bd);
+		}
+
+		private String fmtPercent(double pct) {
+		    return new java.text.DecimalFormat("#0'%'").format(pct);
+		}
+
+		private <T> String getSafe(Supplier<T> supplier) {
+		    try {
+		        T value = supplier.get();
+		        return value == null ? "" : value.toString();
+		    } catch (Exception e) {
+		        return "";
+		    }
+		}
+
+
+		}

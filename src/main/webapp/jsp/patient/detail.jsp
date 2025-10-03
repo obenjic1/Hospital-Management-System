@@ -138,7 +138,7 @@
               <td>Dr ${v.attendingStaff.firstName} ${v.attendingStaff.lastName}</td>
               <td>${v.consultationType.name}</td>
 <%--               <td><span class="badge bg-secondary">${v.status}</span></td> --%>
-              <td><a href="${pageContext.request.contextPath}/visits/${v.id}" class="btn btn-sm btn-outline-primary">View</a></td>
+<%--               <td><a href="${pageContext.request.contextPath}/factures/${v.facture.id}/view" class="btn btn-sm btn-outline-primary">View</a></td> --%>
             </tr>
           </c:forEach>
           <c:if test="${empty visits}">
@@ -181,7 +181,7 @@
                   <span class="badge ${f.fullyPaid ? 'bg-success' : 'bg-warning text-dark'}">${f.fullyPaid ? 'PAID' : 'PENDING'}</span>
               </td>
               <td>
-                <a href="${pageContext.request.contextPath}/factures/receipt/${f.id}" target="_blank" class="btn btn-sm btn-dark" title="Print receipt">
+                <a href="#" data-bs-toggle="modal" data-bs-target="#ExtralargeModal" onclick="loadPageModalForm('factures/${f.id}/view')" class="btn btn-sm btn-dark" title="View Bills">
                   <i class="bi bi-printer"></i>
                 </a>
               </td>

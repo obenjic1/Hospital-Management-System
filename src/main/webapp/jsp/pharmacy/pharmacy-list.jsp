@@ -44,13 +44,12 @@
     <span class="navbar-brand mb-0 h1 d-flex align-items-center">
       <i class="bi bi-capsule text-primary me-2"></i>PharmaCare
     </span>
-    <div class="d-flex align-items-center small text-muted">
-      <i class="bi bi-cash-stack me-1"></i>Today:
-      <span class="badge bg-primary ms-1">${totalSales} CFA</span>
+    <div class="d-flex align-items-center  text-muted">
+      <i class="bi bi-cash-stack me-1"></i>Today Sales:
+     <h5> <span class="badge bg-primary ms-1">  ${amountSold} CFA</span></h5>
     </div>
   </div>
 </nav>
-
 <!-- =====  MAIN LAYOUT  ===== -->
 <div class="container-fluid p-3">
   <div class="row g-4">
@@ -178,7 +177,7 @@
 
         <div id="cartBody" class="mb-3" style="max-height:50vh;overflow-y:auto"></div>
 
-        <div class="my-2">
+        <div class="my-2 d-none">
           <label class="form-label small">Payment Method</label>
           <select id="paymentMethod" class="form-select form-select-sm">
             <option value="Cash">Cash</option>
@@ -199,7 +198,6 @@
 </div><!-- /container -->
 
 <!-- =====  SCRIPTS  ===== -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script src="assets/js/store/medicine.js"></script>
 <script src="assets/js/billing/customer.js"></script>
 <script src="assets/js/statistics/revenue.js"></script>
