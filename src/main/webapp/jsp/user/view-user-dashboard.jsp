@@ -115,10 +115,9 @@
 <div class="container">
     <ul class="tab-nav">
         <li class="active" data-tab="overview">Overview</li>
-        <li data-tab="edit-profile">Edit Profile</li>
+        <li data-tab="editMe">Edit Profile</li>
         <li data-tab="change-password">Change Password</li>
     </ul>
-</div>
 
 <!-- =============================================================
      1.  OVERVIEW
@@ -128,80 +127,164 @@
         <!-- KPI pills -->
         <div class="kpi-grid">
             <div class="kpi-pill">
-                <div class="kpi-icon" style="background:#e0e7ff;color:var(--accent)"><i class="lni lni-cart"></i></div>
+                <div class="kpi-icon" style="background:#e0e7ff;color:var(--accent)"><i class="bi bi-graph-up-arrow" style="font-size:1.4rem"></i></div>
                 <div class="kpi-info">
                     <div class="kpi-label">Pharmacy Sales</div>
-                    <div class="kpi-val">${count}</div>
-                    <div class="kpi-foot"><span class="text-success">+12 %</span> vs yesterday</div>
+                    <div class="kpi-val">${dailySales}</div>
+                    <div class="kpi-foot"><span class="text-success">Today Sales</span></div>
                 </div>
+                
             </div>
             <div class="kpi-pill">
-                <div class="kpi-icon" style="background:#d1fae5;color:var(--green)"><i class="lni lni-dollar"></i></div>
+                <div class="kpi-icon" style="background:#e0e7ff;color:var(--accent)"><i class="bi bi-capsule" style="font-size:1.4rem"></i></div>
                 <div class="kpi-info">
-                    <div class="kpi-label">Revenue Today</div>
-                    <div class="kpi-val"><fmt:formatNumber value="${amount}" type="number" pattern="#,###"/> FCFA</div>
-                    <div class="kpi-foot"><span class="text-success">+8 %</span> vs yesterday</div>
+                    <div class="kpi-label">Pharmacy Sales</div>
+                    <div class="kpi-val">${monthlySales}</div>
+                    <div class="kpi-foot"><span class="text-success">This Month Sales</span></div>
                 </div>
+                
             </div>
             <div class="kpi-pill">
-                <div class="kpi-icon" style="background:#dbeafe;color:#3b82f6"><i class="lni lni-users"></i></div>
+                <div class="kpi-icon" style="background:#d1fae5;color:var(--green)"> <i class="bi bi-cash-stack" style="font-size:1.4rem"></i></div>
                 <div class="kpi-info">
-                    <div class="kpi-label">Patients</div>
-                    <div class="kpi-val">10</div>
-                    <div class="kpi-foot"><span>+2 new</span> today</div>
+                    <div class="kpi-label">Revenue </div>
+                    <div class="kpi-val"><fmt:formatNumber value="${dailyRevenue}" type="number" pattern="#,###"/> </div>
+                    <div class="kpi-foot"><span class="text-success">Today Revenue</span></div>
+                </div>
+            </div>
+             <div class="kpi-pill">
+                <div class="kpi-icon" style="background:#d1fae5;color:var(--green)"> <i class="bi bi-currency-exchange" style="font-size:1.4rem"></i></div>
+                <div class="kpi-info">
+                    <div class="kpi-label">Revenue </div>
+                    <div class="kpi-val"><fmt:formatNumber value="${monthlyRevenue}" type="number" pattern="#,###"/> </div>
+                    <div class="kpi-foot"><span class="text-success">This Month Revenue</span></div>
                 </div>
             </div>
             <div class="kpi-pill">
-                <div class="kpi-icon" style="background:#fee2e2;color:var(--red)"><i class="lni lni-warning"></i></div>
+				  <div class="kpi-icon" style="background:grey;color:white">
+				    <i class="bi bi-wallet2" style="font-size:1.4rem"></i>
+				  </div>
+				  <div class="kpi-info">
+				    <div class="kpi-label">Paid Bills</div>
+				    <div class="kpi-val">${dailyPaidBills}</div>
+				    <div class="kpi-foot"><span class="text-success">Today</span></div>
+				  </div>
+				</div>
+				
+				<!-- MONTHLY PAID BILLS – calm blue -->
+				<div class="kpi-pill">
+				  <div class="kpi-icon" style="background:grey;color:white">
+				    <i class="bi bi-credit-card-2-front" style="font-size:1.4rem"></i>
+				  </div>
+				  <div class="kpi-info">
+				    <div class="kpi-label">Paid Bills</div>
+				    <div class="kpi-val">${monthlyPaidBills}</div>
+				    <div class="kpi-foot"><span class="text-primary">This Month</span></div>
+				  </div>
+				</div>
+
+             <div class="kpi-pill">
+                <div class="kpi-icon" style="background:#fee2e2;color:var(--red)"> <i class="bi bi-credit-card-2-front" style="font-size:1.4rem"></i></div>
                 <div class="kpi-info">
                     <div class="kpi-label">Pending Bills</div>
-                    <div class="kpi-val">3</div>
-                    <div class="kpi-foot"><span class="text-danger">-5 %</span> vs yesterday</div>
+                    <div class="kpi-val">${totalPendingFacture}</div>
+                    <div class="kpi-foot"><span class="text-danger">Today</span></div>
                 </div>
             </div>
-        </div>
-
-        <!-- Recent Sales -->
-        <div class="sales-box">
-            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem">
-                <h3 style="font-size:1.1rem;font-weight:500">Recent Sales</h3>
-                <a href="<c:url value='/sales/today'/>" style="font-size:.75rem;color:var(--accent)">See all →</a>
+            <div class="kpi-pill">
+                <div class="kpi-icon" style="background:#fee2e2;color:var(--red)"> <i class="bi bi-receipt" style="font-size:1.4rem"></i></div>
+                <div class="kpi-info">
+                    <div class="kpi-label">Pending Bills</div>
+                    <div class="kpi-val">${totalPendingFactureByMonth}</div>
+                    <div class="kpi-foot"><span class="text-danger">This Month</span></div>
+                </div>
             </div>
-            <table class="sales-table">
-                <thead>
-                    <tr>
-                        <th>#</th><th>Facture</th><th>Patient</th><th>Reason</th>
-                        <th style="text-align:right">Net (CDF)</th><th style="text-align:center">Status</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <c:forEach var="s" items="${recentSales}" varStatus="loop">
-                        <tr>
-                            <td data-label="#">${loop.index+1}</td>
-                            <td data-label="Facture">${s.factureId}</td>
-                            <td data-label="Patient">${s.patientName}</td>
-                            <td data-label="Reason">${s.reasonName}</td>
-                            <td data-label="Net" style="text-align:right">${s.netAmount}</td>
-                            <td data-label="Status" style="text-align:center">
-                                <span class="badge ${s.paymentStatus eq 'PAID' ? 'badge-paid' : s.paymentStatus eq 'PARTIAL' ? 'badge-partial' : 'badge-unpaid'}">
-                                    ${s.paymentStatus}
-                                </span>
-                            </td>
-                        </tr>
-                    </c:forEach>
-                    <c:if test="${empty recentSales}">
-                        <tr><td colspan="6" class="text-center" style="padding:2rem 0;color:var(--text2)">No sales recorded today</td></tr>
-                    </c:if>
-                </tbody>
-            </table>
+            
+            
+            <div class="kpi-pill">
+                <div class="kpi-icon" style="background:#dbeafe;color:#3b82f6"> <i class="bi bi-person-plus" style="font-size:1.4rem"></i></div>
+                <div class="kpi-info">
+                    <div class="kpi-label"> New Patients</div>
+                    <div class="kpi-val">${newPatient}</div>
+                    <div class="kpi-foot"><span>This  Month</span></div>
+                </div>
+            </div>
+            <div class="kpi-pill">
+                <div class="kpi-icon" style="background:#dbeafe;color:#3b82f6"> <i class="bi bi-people" style="font-size:1.4rem"></i></div>
+                <div class="kpi-info">
+                    <div class="kpi-label">Total Patients</div>
+                    <div class="kpi-val">${totalPatient}</div>
+                    <div class="kpi-foot"><span>This Year</span> </div>
+                </div>
+            </div>
+           
+        </div>
+        
+
+ <div class="sales-box">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem">
+    <h3 style="font-size:1.1rem;font-weight:500">Account Snapshot</h3>
+    <span class="badge" style="background:var(--green);font-size:.65rem">LIVE</span>
+  </div>
+
+  <!-- avatar + main line -->
+  <div class="d-flex align-items-center gap-3 mb-3">
+    <img src="${not empty user.imagePath ? pageContext.request.contextPath.concat('/file/download?file=').concat(user.imagePath).concat('&dir=folder.user.images') : 'assets/img/default.png'}"
+         alt="avatar" class="rounded-circle" width="64" height="64" style="object-fit:cover">
+    <div>
+      <div class="fw-bold fs-5">${user.staff.firstName} ${user.staff.lastName}</div>
+      <div class="small text-muted">${user.groupe.name} · ${user.staff.department.name}</div>
+      <div class="small mt-1 text-success">
+        <i class="bi bi-circle-fill" style="font-size:.5rem"></i> Connected now
+      </div>
+    </div>
+  </div>
+
+  <!-- two-column details -->
+  <div class="row g-3 small">
+    <div class="col-6">
+      <div class="d-flex justify-content-between py-1 border-bottom">
+        <span class="text-muted">Username</span>
+        <span class="fw-500">${user.username}</span>
+      </div>
+      <div class="d-flex justify-content-between py-1 border-bottom">
+        <span class="text-muted">Email</span>
+        <span class="fw-500">${user.staff.email}</span>
+      </div>
+      <div class="d-flex justify-content-between py-1 border-bottom">
+        <span class="text-muted">Mobile</span>
+        <span class="fw-500">${user.staff.phone}</span>
+      </div>
+      <div class="d-flex justify-content-between py-1">
+        <span class="text-muted">Address</span>
+        <span class="fw-500">${user.staff.address}</span>
+      </div>
+    </div>
+
+    <div class="col-6">
+      <div class="d-flex justify-content-between py-1 border-bottom">
+        <span class="text-muted">User since</span>
+        <span class="fw-500"><fmt:formatDate value="${user.createdAt}" pattern="dd MMM yyyy"/></span>
+      </div>
+      <div class="d-flex justify-content-between py-1 border-bottom">
+        <span class="text-muted">Last login</span>
+<%--         <span class="fw-500"><fmt:formatDate value="${user.lastLogin}" pattern="dd MMM yyyy HH:mm"/></span> --%>
+      </div>
+      <div class="d-flex justify-content-between py-1 border-bottom">
+        <span class="text-muted">Status</span>
+        <span class="fw-500 text-success">Active</span>
+      </div>
+      <div class="d-flex justify-content-between py-1">
+        <span class="text-muted">Role</span>
+        <span class="fw-500">${user.groupe.name}</span>
+      </div>
+    </div>
+  </div>
         </div>
     </div>
-</div><!-- /overview -->
+ </div>
 
-<!-- =============================================================
-     2.  EDIT PROFILE
-============================================================== -->
-<div id="edit-profile" class="tab-content">
+<div id="editMe" class="tab-content">
     <div class="container">
         <div class="sales-box">
             <h3 style="margin-bottom:1.2rem;font-weight:500">Edit Profile</h3>
@@ -275,6 +358,8 @@
         </div>
     </div>
 </div>
+</div>
+
 
 <!-- =========================  JS  ========================= -->
 <script>

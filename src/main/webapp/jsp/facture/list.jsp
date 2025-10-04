@@ -111,7 +111,7 @@
 			</c:if>
 
                 <a href="#" data-bs-toggle="modal" data-bs-target="#ExtralargeModal" onclick="loadPageModalForm('factures/${f.id}/view')"  class="btn btn-sm btn-info" title="View"><i class="bi bi-eye"></i></a>
-                <a href="${pageContext.request.contextPath}/factures/receipt/${f.id}" target="_blank" class="btn btn-sm btn-dark" title="Print receipt"><i class="bi bi-printer"></i></a>
+<%--                 <a  onclick="printView('${f.referenceNumber}')"  class="btn btn-sm btn-dark" title="Print receipt"><i class="bi bi-printer"></i></a> --%>
 <%--                 <button class="btn btn-sm btn-danger" onclick="confirmDelete(${f.id})" title="Delete"><i class="bi bi-trash"></i></button> --%>
               </td>
             </tr>

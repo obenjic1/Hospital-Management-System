@@ -65,16 +65,28 @@ public class VisitController {
 	    
 	    
 	    
+	    
 	    @PostMapping("/save")
 	    public ResponseEntity<String> saveVisit(@ModelAttribute VisitFormDTO dto) {
-	    	  try {
-	    		  visitService.saveVisit(dto);
-	           	return new ResponseEntity<>(HttpStatus.CREATED);
-			} catch (Exception e) {
-				
-				 return new ResponseEntity<String>(e.getMessage(), HttpStatus.EXPECTATION_FAILED);	}
+	        try {
+	            visitService.saveVisit(dto);
+	            return new ResponseEntity<>("Visit saved successfully", HttpStatus.CREATED);
+	        } catch (Exception e) {
+	            // Use 500 instead of 417
+	            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+	        }
 	    }
-	    
+
+//	    @PostMapping("/save")
+//	    public ResponseEntity<String> saveVisit(@ModelAttribute VisitFormDTO dto) {
+//	    	  try {
+//	    		  visitService.saveVisit(dto);
+//	           	return new ResponseEntity<>(HttpStatus.CREATED);
+//			} catch (Exception e) {
+//				
+//				 return new ResponseEntity<String>(e.getMessage(), HttpStatus.EXPECTATION_FAILED);	}
+//	    }
+//	    
 	    @GetMapping("/subtype")
 	    public String subtypeStats(@RequestParam(defaultValue="daily") String period, Model model) {
 	        List<SubtypeStatsDTO> stats;
@@ -84,10 +96,11 @@ public class VisitController {
 	                stats = visitService.getWeeklySubtypeStats(today);
 	                break;
 	            case "monthly":
-	                stats = visitService.getDailySubtypeStats(today);
+	            	  stats = visitService.getMonthlySubtypeStats(today);
+
 	                break;
 	            default:
-	            	  stats = visitService.getMonthlySubtypeStats(today);
+	            	 stats = visitService.getDailySubtypeStats(today);
 	        }
 
 	        model.addAttribute("stats", stats);

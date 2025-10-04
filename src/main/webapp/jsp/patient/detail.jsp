@@ -229,5 +229,7 @@
 
 <!-- LOCAL Bootstrap JS -->
 <script src="${pageContext.request.contextPath}/resources/js/bootstrap.bundle.min.js"></script>
+<script src="assets/js/hospital/html2pdf.bundle.min.js"></script>
+
 </body>
 </html>

@@ -46,5 +46,15 @@ public interface SaleRepository extends JpaRepository<Sale, Long> {
     	
     	@Query("SELECT COALESCE(SUM(i.quantity),0) FROM Sale s JOIN s.items i WHERE DATE(s.saleDate) = :d")
     	Long getTotalItemsSoldByDate(@Param("d") java.sql.Date d);
+    	
+    	
+    	@Query("SELECT SUM(s.totalAmount) FROM Sale s " +
+    	           "WHERE FUNCTION('YEARWEEK', s.saleDate, 1) = FUNCTION('YEARWEEK', CURRENT_DATE, 1)")
+    	    BigDecimal getTotalSalesAmountThisWeek();
+    	
+    	 @Query("SELECT SUM(s.totalAmount) FROM Sale s " +
+    	           "WHERE MONTH(s.saleDate) = MONTH(CURRENT_DATE) " +
+    	           "AND YEAR(s.saleDate) = YEAR(CURRENT_DATE)")
+    	    BigDecimal getTotalSalesAmountThisMonth();
 
 }

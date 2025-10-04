@@ -10,15 +10,22 @@ import org.springframework.stereotype.Service;
 import com.ppp.billing.model.Medicine;
 import com.ppp.billing.model.Patient;
 import com.ppp.billing.model.RefrenceNumberGenerator;
+import com.ppp.billing.repository.ActivityLogRepository;
 import com.ppp.billing.model.Medicine.Location;
 import com.ppp.billing.repository.PatientRepository;
 
 @Service
 public class PatientService {
 
+    private final ActivityLogRepository activityLogRepository;
+
 	
 	@Autowired
     private PatientRepository repo;
+
+    PatientService(ActivityLogRepository activityLogRepository) {
+        this.activityLogRepository = activityLogRepository;
+    }
 
     public Patient createPatient(Patient newPatient) {
     	Patient patient = new Patient();
@@ -68,17 +75,25 @@ public class PatientService {
 	public List<Patient> listPatients(String searchQuery) {
 		if((searchQuery == null || searchQuery.isEmpty())) {
 			List<Patient> patient =repo.findAll();
-	    	patient.sort(Comparator.comparing(Patient::getId));
+	    	patient.sort(Comparator.comparing(Patient::getId).reversed());
 			return patient;
 		} else {
 			List<Patient> patient =repo.findByNameContainingIgnoreCase(searchQuery);
-	    	patient.sort(Comparator.comparing(Patient::getId));
+	    	patient.sort(Comparator.comparing(Patient::getId).reversed());
+	    	
 	    	return patient;
 		}
 		
 
 	}
 	
+	public Long getTotalPatients() {
+        return repo.getTotalPatients();
+    }
+
+    public Long getNewPatientsThisMonth() {
+        return repo.getNewPatientsThisMonth();
+    }
 	public Patient findByName (String name) {
 		return repo.findFirstByNameContainingIgnoreCase(name).get();
 	}

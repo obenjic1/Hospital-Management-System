@@ -149,7 +149,15 @@ public class SaleService {
 	    }
 	    
 	   
-	 
+	    public BigDecimal getTotalSalesAmountThisWeek() {
+	        BigDecimal result = saleRepository.getTotalSalesAmountThisWeek();
+	        return result != null ? result : BigDecimal.ZERO;
+	    }
+
+	    public BigDecimal getTotalSalesAmountThisMonth() {
+	        BigDecimal result = saleRepository.getTotalSalesAmountThisMonth();
+	        return result != null ? result : BigDecimal.ZERO;
+	    }
 	    
 }
 

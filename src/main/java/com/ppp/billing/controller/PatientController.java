@@ -144,7 +144,5 @@ public class PatientController {
 	            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null); // Handle other errors
 	        }
 	    }
-
-
-	  
+			
 }

@@ -14,6 +14,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.support.RequestContextUtils;
 
+import com.ppp.billing.service.PatientService;
+import com.ppp.billing.service.SaleService;
+import com.ppp.billing.serviceImpl.FactureServiceImpl;
 import com.ppp.user.model.User;
 import com.ppp.user.repository.UserRepository;
 
@@ -24,7 +27,16 @@ public class authController {
     private MessageSource messageSource;
 	@Autowired
 	private UserRepository userRepository;
-	
+	 @Autowired
+	 private PatientService patientService;
+	 
+	 @Autowired
+	 private  FactureServiceImpl factureService;
+	 
+	 @Autowired
+	 private  SaleService saleService;;
+	 
+	 
 
 	@GetMapping("/")
     public String getPage(HttpServletRequest request, Model model, Authentication authentication) {
@@ -36,6 +48,17 @@ public class authController {
 			return "user_auth/login";
 		}else {
 			User user = userRepository.findByUsername(authentication.getName()) ;
+	        model.addAttribute("newPatient", patientService.getNewPatientsThisMonth());
+	        model.addAttribute("totalPatient", patientService.getTotalPatients());
+	        model.addAttribute("totalPendingFactureByMonth", factureService.getTotalPendingBillsThisMonth());
+	        model.addAttribute("totalPendingFacture", factureService.getTotalPendingBills());
+	        model.addAttribute("dailySales", saleService.getTodaysTotalSales());
+	        model.addAttribute("monthlySales", saleService.getTotalSalesAmountThisMonth());
+	        model.addAttribute("dailyRevenue", factureService.getTodaysTotalRevenue());
+	        model.addAttribute("monthlyRevenue", factureService.getTotalRevenueThisMonth());
+	        model.addAttribute("dailyPaidBills", factureService.getPaidBillsToday());
+	        model.addAttribute("monthlyPaidBills", factureService.getTotalPendingBillsThisMonth());
+
 
 			model.addAttribute("user", user);
 			return "index";

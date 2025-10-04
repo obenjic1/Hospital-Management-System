@@ -28,14 +28,14 @@
         <div class="fw-bold text-primary me-auto">Invoice #${facture.referenceNumber}</div>
 
         <%-- QUICK ACTIONS --%>
-        <button class="btn btn-sm btn-outline-secondary" onclick="window.print()" title="Print">
+        <button class="btn btn-sm btn-outline-secondary" onclick="printView('${facture.referenceNumber}')" title="Print">
             <i class="bi bi-printer"></i>
         </button>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
     </div>
 </div>
 
-<div class="modal-body">
+<div class="modal-body" id="factureContent">
     <%-- ===== 1.  INVOICE SUMMARY ===== --%>
     <h6 class="text-primary mb-2">Invoice Summary</h6>
     <div class="row my-3 text-center">
@@ -179,7 +179,9 @@
 
 <div class="modal-footer bg-light no-print">
     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-    <button type="button" class="btn btn-outline-primary" onclick="window.print()">
+    <button type="button" class="btn btn-outline-primary" onclick="printView('${facture.referenceNumber}')">
         <i class="bi bi-printer"></i> Print
     </button>
 </div>
+<script src="assets/js/hospital/html2pdf.bundle.min.js"></script>
+<script src="assets/js/hospital/visit.js"></script>

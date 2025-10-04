@@ -407,6 +407,18 @@ function applyFilter() {
 	  });
 
 
+function printView(id){
+	 const element = document.getElementById('factureContent');
+        const opt = {
+            margin:       10,
+            filename:    id,
+            image:        { type: 'jpeg', quality: 0.98 },
+            html2canvas:  { scale: 2 },
+            jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
+        };
+        html2pdf().set(opt).from(element).save();
+}
+
 function resetPriceFields(type) {
   // Reset the price fields only for the consultation type that is unchecked
   if (type !== 'Examen') {
@@ -419,3 +431,6 @@ function resetPriceFields(type) {
   }
   recalcTotal();  // Recalculate total after resetting prices
 }
+
+
+

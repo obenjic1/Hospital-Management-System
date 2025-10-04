@@ -74,7 +74,7 @@
 
     <!-- Patients Table -->
     <div class="table-responsive">
-        <table class="table table-bordered table-hover shadow-sm bg-white text-center">
+        <table class="table table-bordered table-hover shadow-sm bg-dark text-center">
             <thead class="table-dark">
                 <tr>
                     <th>#</th>

@@ -78,4 +78,5 @@ public class FactureController {
        return "stats/sales"; 
    }
    
+  
 }

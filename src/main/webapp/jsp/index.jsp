@@ -31,6 +31,7 @@
 
 <script src="assets/vendor/jquery-3.5.1.min.js"></script>
 
+<script src="assets/js/hospital/html2pdf.bundle.min.js"></script>
 
 <!-- Vendor CSS Files -->
 <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">

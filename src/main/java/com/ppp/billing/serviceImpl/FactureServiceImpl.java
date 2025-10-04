@@ -97,5 +97,31 @@ public class FactureServiceImpl implements FactureService {
                     .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
+ // 🔹 Count of all pending bills
+    public Long getTotalPendingBills() {
+        return factureRepository.getTotalPendingBills();
+    }
+
+    // 🔹 Count of pending bills created this month
+    public Long getTotalPendingBillsThisMonth() {
+        return factureRepository.getTotalPendingBillsThisMonth();
+    }
+    public BigDecimal getTotalRevenueToday() {
+        BigDecimal result = factureRepository.getTotalRevenueToday();
+        return result != null ? result : BigDecimal.ZERO;
+    }
+
+    public BigDecimal getTotalRevenueThisMonth() {
+        BigDecimal result = factureRepository.getTotalRevenueThisMonth();
+        return result != null ? result : BigDecimal.ZERO;
+    }
+
+    public Long getPaidBillsToday() {
+        return factureRepository.getPaidBillsToday();
+    }
+
+    public Long getPaidBillsThisMonth() {
+        return factureRepository.getPaidBillsThisMonth();
+    }
 	
 }
