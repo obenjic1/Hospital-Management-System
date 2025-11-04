@@ -14,8 +14,8 @@
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-<title>Queen Mary</title>
-<meta content="" name="description">
+<title>Queen Mary </title>
+<meta content="hospital" name="description">
 <meta content="" name="keywords">
 
 <!-- Favicons -->
@@ -269,15 +269,15 @@
 					<li class="nav-item">
 					  <a class="nav-link collapsed" onclick="loadPage('visit/statistics/doctor-consultations') "href="#">
 					    <i class="ri-line-chart-line"></i>
-					    <span>Statistics</span>
-					  </a>
-					</li>
-					<li class="nav-item">
-					  <a class="nav-link collapsed" onclick="loadPage('consultations/doctor-revenue') "href="#">
-					    <i class="ri-line-chart-line"></i>
 					    <span>Consultation Reports</span>
 					  </a>
 					</li>
+<!-- 					<li class="nav-item"> -->
+<!-- 					  <a class="nav-link collapsed" onclick="loadPage('consultations/doctor-revenue') "href="#"> -->
+<!-- 					    <i class="ri-line-chart-line"></i> -->
+<!-- 					    <span>Consultation Reports</span> -->
+<!-- 					  </a> -->
+<!-- 					</li> -->
 					<li class="nav-item">
 					  <a class="nav-link collapsed" onclick="loadPage('admin/consultation-types') "href="#">
 					    <i class="ri-line-chart-line"></i>

@@ -58,6 +58,8 @@ public class authController {
 	        model.addAttribute("monthlyRevenue", factureService.getTotalRevenueThisMonth());
 	        model.addAttribute("dailyPaidBills", factureService.getPaidBillsToday());
 	        model.addAttribute("monthlyPaidBills", factureService.getTotalPendingBillsThisMonth());
+	        model.addAttribute("today", factureService.getTodayStats());
+	        model.addAttribute("month", factureService.getMonthlyStats());
 
 
 			model.addAttribute("user", user);

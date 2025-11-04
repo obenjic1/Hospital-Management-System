@@ -9,11 +9,11 @@ import java.util.List;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import com.ppp.billing.Dto.CheckoutRequest;
 import com.ppp.billing.Dto.DailyRevenueDTO;
-import com.ppp.billing.Dto.DailySaleDTO;
 import com.ppp.billing.model.CartItem;
 import com.ppp.billing.model.Facture;
 import com.ppp.billing.model.FactureItem;
@@ -23,6 +23,7 @@ import com.ppp.billing.model.Sale;
 import com.ppp.billing.model.SaleItem;
 import com.ppp.billing.repository.MedicineRepository;
 import com.ppp.billing.repository.SaleRepository;
+import com.ppp.user.repository.UserRepository;
 
 @Service
 public class SaleService {
@@ -40,13 +41,22 @@ public class SaleService {
 	    @Autowired
 	    private ConsultationTypeService consultationTypeService;
 	    
+	    @Autowired
+	    private UserRepository userrepository;
+	    
+	    @Autowired
+	    private  StaffService staffService;
+	    
 	    @Transactional
 	    public Sale sales (CheckoutRequest checkoutRequest) {
+	        String userName = SecurityContextHolder.getContext().getAuthentication().getName();
+
 	        Sale sale = new Sale();
 	    	 sale.setCustomerName(checkoutRequest.getCustomerName());
 	         sale.setSaleDate(LocalDate.now());
 	         List<SaleItem> items = new ArrayList<>();
 	         BigDecimal Grandtotal = BigDecimal.ZERO;
+	         sale.setPharmacist(userrepository.findByEmail(userName));
 	      //   BigDecimal total = BigDecimal.ZERO;
 	         
 	         for (CartItem item : checkoutRequest.getCartItems()) {

@@ -56,6 +56,9 @@
         /* ----- empty ----- */
         .empty-state{text-align:center;padding:3rem 0}
         .empty-state img{width:130px;opacity:.7;margin-bottom:1rem}
+        .date-range-picker { display:flex; align-items:center; gap:0.5rem; background:#fff; padding:.5rem 1rem; border-radius:999px; box-shadow:0 2px 8px rgba(0,0,0,.04);}
+        .date-range-picker input { border:none; outline:none; font-size:.9rem; }
+        .date-range-picker button { background: var(--accent); color:#fff; border:none; padding:.35rem .75rem; border-radius:.5rem; cursor:pointer; }
     </style>
 </head>
 <body>
@@ -77,7 +80,26 @@
         </div>
     </div>
 
+
+
+
+
+
+        
+
+        <!-- Date Range Picker -->
+        <div class="date-range-picke row mb-2">
+        	
+        	<div class="col-md-4"><label>From:</label> <input type="date" id="startDate" value="${startDate}" class="form-control" width="50%"></div>
+        	<div class="col-md-4"><label> To:</label> <input type="date" id="endDate" value="${endDate}" class="form-control" width="50%"></div>
+            	<div class="col-md-3"> <button  class = "btn btn-outline-primary " style="margin-top: 25px;" onclick="filterByDateRange()">Apply</button></div>
+           
+          
+        </div>
+  
     <!-- Table only -->
+    
+    
     <div class="table-wrap">
         <table class="report-table">
             <thead>
@@ -111,11 +133,7 @@
     </div>
 </div>
 
-<script>
-    function changePeriod(){
-        const p = document.getElementById('periodSelect').value;
-        window.location.href = '${pageContext.request.contextPath}/statistics/subtype?period=' + p;
-    }
-</script>
+<script src="assets/js/hospital/consultation.js"></script>
+
 </body>
 </html>

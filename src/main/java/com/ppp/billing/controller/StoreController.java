@@ -15,11 +15,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import org.springframework.web.bind.annotation.*;
+
 import com.ppp.billing.Dto.MedicineDto;
 import com.ppp.billing.Dto.StoreStats;
 import com.ppp.billing.model.Category;
 import com.ppp.billing.model.Medicine;
+import com.ppp.billing.model.Tracking;
 import com.ppp.billing.repository.CategoryRepository;
 import com.ppp.billing.repository.StockRequestRepository;
 import com.ppp.billing.service.MedicineService;
@@ -170,7 +171,7 @@ public class StoreController {
     
         // edit new medicine
         @PostMapping("/edit/{id}")
-        public ResponseEntity<String> editMedicine(@PathVariable("id") Long id ,  @ModelAttribute Medicine medicine) {
+        public ResponseEntity<String> editMedicine(@PathVariable("id") Long id ,  @ModelAttribute MedicineDto medicine) {
             medicineService.edit(id,medicine);
             return   new ResponseEntity<>(HttpStatus.CREATED);
 
@@ -190,7 +191,7 @@ public class StoreController {
 			 return new ResponseEntity<String>(e.getMessage(), HttpStatus.EXPECTATION_FAILED);	}
            
             }
-        
+  
         @GetMapping("/check-name")
         public ResponseEntity<Boolean> checkMedicineName(@RequestParam String name) {
             return ResponseEntity.ok(medicineService.existsByName(name));
@@ -200,9 +201,35 @@ public class StoreController {
         @GetMapping("/history/{id}")
         public String getHistory (@PathVariable Long id, Model model) {
         	Medicine med = medicineService.findById(id).get();
-            model.addAttribute("meds", med);
-
+            model.addAttribute("meds", med.getTracking());
         	return "store/history";
+        	
+        }
+        
+        @GetMapping("/drugs")
+        public String getExpiredDrugs ( Model model) {
+          model.addAttribute("medicines", medicineService.getExpiredMeds());
+        	return "store/expired-drugs";
+        	
+        }
+        
+        @GetMapping("/expiring-soon")
+        public String getExpiredSoonDrugs ( Model model) {
+          model.addAttribute("medicines", medicineService.getSoonExpiredMeds());
+        	return "store/expired-drugs";
+        	
+        }
+        @GetMapping("/lowStock")
+        public String getLowStockDrugs ( Model model) {
+          model.addAttribute("medicines", medicineService.getLowStockMeds());
+        	return "store/expired-drugs";
+        	
+        }
+        
+        @GetMapping("/outStock")
+        public String getoutOfStockDrugs ( Model model) {
+          model.addAttribute("medicines", medicineService.getOutOfStockMeds());
+        	return "store/expired-drugs";
         	
         }
         

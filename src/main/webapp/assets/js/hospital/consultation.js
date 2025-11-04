@@ -226,3 +226,72 @@ function fillAmount(select) {
 }
 
 
+function editConsultationSubtype(id){
+	
+	const name = document.getElementById('subNameE').value;
+	const price = document.getElementById('priceE').value;
+	const typeId = document.getElementById('typeIdE').value;
+
+
+	
+	var formData = new FormData();
+	
+    formData.append('name', name);
+    formData.append('price', price);
+    formData.append('typeId', typeId);
+    
+	
+	fetch(`admin/consultation-types/update/${id}`, {
+				method: 'POST',
+				body: formData,
+			})
+				.then( response => {	
+	   			 if (response.ok) {
+					Swal.fire("Succes/Success!", "SubConsultation  updated Succesfully !", "SubConsultation  updated Successfully")
+								   // Hide modal
+			        let ExtralargeModal = document.getElementById('ExtralargeModal');
+			        let modal = bootstrap.Modal.getInstance(ExtralargeModal);
+			        modal.hide();
+					return loadPage('admin/consultation-types');
+	   			 } else if (!response.ok) {
+						Swal.fire({icon: "error", title: "Oops...", text: "Something went wrong!"});
+	  			 }
+			})
+			 .then(function(data) {
+
+			 })
+				.catch(function(error) {
+
+				});
+
+}
+
+function deleteItem(id){
+	fetch(`admin/consultation-types/delete/${id}`, {
+				method: 'DELETE',
+			})
+				.then( response => {	
+	   			 if (response.ok) {
+					Swal.fire("Succes/Success!", "SubConsultation  Deleted Succesfully !", "SubConsultation  Deleted Successfully")
+					return loadPage('admin/consultation-types');
+	   			 } else if (!response.ok) {
+						Swal.fire({icon: "error", title: "Oops...", text: "Something went wrong!"});
+	  			 }
+			})
+			 .then(function(data) {
+
+			 })
+				.catch(function(error) {
+
+				});
+}
+
+function filterByDateRange(){
+        const start = document.getElementById('startDate').value;
+        const end = document.getElementById('endDate').value;
+        if(start && end){
+           loadPage( 'visit/statistics/subtype?startDate=' + start + '&endDate=' + end);
+        } else {
+            alert('Please select both start and end dates.');
+        }
+    }

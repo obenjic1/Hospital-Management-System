@@ -35,7 +35,6 @@ function saveMedicine() {
     var threshold = document.getElementById("threshold").value;
     var expiringDate = document.getElementById("expiryDate").value;
     var description = document.getElementById("description").value;
-
     var unitPrice = document.getElementById("unitPrice").value;
     var packetPrice = document.getElementById("packetPrice").value;
     var purchasePrice = document.getElementById("purchasePrice").value;
@@ -108,7 +107,6 @@ function updateMedicine(id) {
     var unitsPerPacket = document.getElementById("unitsPerPacketE").value;
     var threshold = document.getElementById("thresholdE").value;
     var expirationDate = document.getElementById("expiryDateE").value;
-
     var formData = new FormData();
     formData.append('name', name);
     formData.append('code', code);
@@ -121,6 +119,7 @@ function updateMedicine(id) {
     formData.append('unitsPerPacket', unitsPerPacket);
     formData.append('threshold', threshold);
     formData.append('expirationDate', expirationDate);
+
 
     fetch(`store/edit/${id}`, {
         method: 'POST',
@@ -470,6 +469,54 @@ function checkout() {
 				    }) .then(response => {
 						if (response.ok) {
 									Swal.fire("Succes/Success!", "Patient Successfully Registed !", "Patient Successfully Registered")
+									return loadPage('patients');
+					   			 } else if (!response.ok) {
+										Swal.fire({icon: "error", title: "Oops...", text: "Something went wrong!"});
+									
+
+					  			 }
+						
+					}).then(function(data) {
+
+					
+							 }).catch(function(error) {
+
+								});
+		
+			}
+			
+			function updatePatient(id){
+		
+			    let name = document.getElementById("nameE").value;
+			    let age = document.getElementById("ageE").value;
+			    let gender = document.getElementById("genderE").value;
+			    let contact = document.getElementById("contactE").value ;
+				let emmergencyContact = document.getElementById("emmergencyContactE").value ;
+				let emmergenceName = document.getElementById("emmergenceNameE").value ;
+				let occupation = document.getElementById("occupationE").value ;
+				let maritalStatus = document.getElementById("maritalStatusE").value ;
+				let residence = document.getElementById("residenceE").value ;
+
+				var formData = new FormData();
+							  formData.append('name', name);
+							  formData.append('age', age);
+							  formData.append('gender', gender);
+							  formData.append('contact', contact);		
+							  formData.append('emmergencyContact', emmergencyContact);			
+						      formData.append('emmergenceName', emmergenceName);		
+						      formData.append('occupation', occupation);
+						      formData.append('maritalStatus', maritalStatus);	
+						      formData.append('residence', residence);		
+
+							 fetch(`patients/update/${id}`, {
+				        method: 'POST',
+				        body: formData,
+				    }) .then(response => {
+						if (response.ok) {
+									Swal.fire("Succes/Success!", "Patient  Updated Successfully !", "Patient Updated Successfully ");
+									let ExtralargeModal = document.getElementById('ExtralargeModal');
+									let modal = bootstrap.Modal.getInstance(ExtralargeModal);
+									modal.hide();
 									return loadPage('patients');
 					   			 } else if (!response.ok) {
 										Swal.fire({icon: "error", title: "Oops...", text: "Something went wrong!"});

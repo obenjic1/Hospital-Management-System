@@ -70,14 +70,19 @@ public class PatientController {
 	    @GetMapping("/edit/{id}")
 	    public String showEditForm(@PathVariable Long id, Model model) {
 	        model.addAttribute("patient", patientService.getPatientById(id));
-	        return "patients/form";
+	        return "patient/edit-form";
 	    }
 
 	    @PostMapping("/update/{id}")
-	    public String updatePatient(@PathVariable Long id, @ModelAttribute Patient patient) {
-	        patientService.updatePatient(id, patient);
-	        return "redirect:/patients";
+	    public ResponseEntity<String> updatePatient(@PathVariable Long id, @ModelAttribute Patient patient) {
+	    	 try {
+	    		  patientService.updatePatient(id, patient);
+		            return new ResponseEntity<>("Success", HttpStatus.OK);
+		        } catch (Exception e) {
+		            return new ResponseEntity<>("Failed", HttpStatus.BAD_REQUEST);
+		        }
 	    }
+	    	
 
 	    @GetMapping("/delete/{id}")
 	    public String deletePatient(@PathVariable Long id) {

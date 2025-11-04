@@ -1,6 +1,8 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 
 <!doctype html>
 <html lang="en">
@@ -32,7 +34,7 @@
         /* soft animated gradient wallpaper */
         body::before{
             content:'';position:fixed;inset:0;z-index:-1;
-            background:radial-gradient(at 20% 20%, hsla(210,80%,80%,.25) 0%, transparent 40%),
+            background:radial-gradient(at 20% 20%, hsla(210,80%,80%,.25) 0%, transparent 60%),
                        radial-gradient(at 80% 80%, hsla(280,80%,80%,.25) 0%, transparent 40%);
             animation: pulse 15s ease-in-out infinite;
         }
@@ -126,6 +128,8 @@
     <div class="container">
         <!-- KPI pills -->
         <div class="kpi-grid">
+          <sec:authorize access="hasRole('ROLE_ADMIN') or hasRole('ROLE_CASHIER')">
+        
             <div class="kpi-pill">
                 <div class="kpi-icon" style="background:#e0e7ff;color:var(--accent)"><i class="bi bi-graph-up-arrow" style="font-size:1.4rem"></i></div>
                 <div class="kpi-info">
@@ -135,6 +139,7 @@
                 </div>
                 
             </div>
+            
             <div class="kpi-pill">
                 <div class="kpi-icon" style="background:#e0e7ff;color:var(--accent)"><i class="bi bi-capsule" style="font-size:1.4rem"></i></div>
                 <div class="kpi-info">
@@ -142,24 +147,64 @@
                     <div class="kpi-val">${monthlySales}</div>
                     <div class="kpi-foot"><span class="text-success">This Month Sales</span></div>
                 </div>
+                    
                 
             </div>
             <div class="kpi-pill">
                 <div class="kpi-icon" style="background:#d1fae5;color:var(--green)"> <i class="bi bi-cash-stack" style="font-size:1.4rem"></i></div>
                 <div class="kpi-info">
-                    <div class="kpi-label">Revenue </div>
-                    <div class="kpi-val"><fmt:formatNumber value="${dailyRevenue}" type="number" pattern="#,###"/> </div>
-                    <div class="kpi-foot"><span class="text-success">Today Revenue</span></div>
+                    <div class="kpi-label">TodaysPaid Revenue </div>
+                    <div class="kpi-val"><fmt:formatNumber value="${today.paid}" type="number" pattern="#,###"/> </div>
+                    <div class="kpi-foot"><span class="text-success">Total PAID revenue for today</span></div>
                 </div>
             </div>
              <div class="kpi-pill">
-                <div class="kpi-icon" style="background:#d1fae5;color:var(--green)"> <i class="bi bi-currency-exchange" style="font-size:1.4rem"></i></div>
+                <div class="kpi-icon" style="background:#d1fae5;color:var(--green)"> <i class="bi bi-cash-stack" style="font-size:1.4rem"></i></div>
                 <div class="kpi-info">
-                    <div class="kpi-label">Revenue </div>
-                    <div class="kpi-val"><fmt:formatNumber value="${monthlyRevenue}" type="number" pattern="#,###"/> </div>
-                    <div class="kpi-foot"><span class="text-success">This Month Revenue</span></div>
+                    <div class="kpi-label">Todays Pending Revenue </div>
+                    <div class="kpi-val"><fmt:formatNumber value="${today.pending}" type="number" pattern="#,###"/> </div>
+                    <div class="kpi-foot"><span class="text-success">Total PENDING revenue for today</span></div>
                 </div>
             </div>
+             <div class="kpi-pill">
+                <div class="kpi-icon" style="background:#d1fae5;color:var(--green)"> <i class="bi bi-cash-stack" style="font-size:1.4rem"></i></div>
+                <div class="kpi-info">
+                    <div class="kpi-label">Todays Net Revenue </div>
+                    <div class="kpi-val"><fmt:formatNumber value="${today.expected}" type="number" pattern="#,###"/> </div>
+                    <div class="kpi-foot"><span class="text-success">Total EXPECTED for today (paid + pending)</span></div>
+                </div>
+            </div>
+            
+           
+             <div class="kpi-pill">
+                <div class="kpi-icon" style="background:#d1fae5;color:var(--green)"> <i class="bi bi-currency-exchange" style="font-size:1.4rem"></i></div>
+                <div class="kpi-info">
+                    <div class="kpi-label"> Month's Paid Revenue </div>
+                    <div class="kpi-val"><fmt:formatNumber value="${month.paid}" type="number" pattern="#,###"/> </div>
+                    <div class="kpi-foot"><span class="text-success">Total PAID revenue this month</span></div>
+                </div>
+            </div>
+            <div class="kpi-pill">
+                <div class="kpi-icon" style="background:#d1fae5;color:var(--green)"> <i class="bi bi-currency-exchange" style="font-size:1.4rem"></i></div>
+                <div class="kpi-info">
+                    <div class="kpi-label"> Month's Pending Revenue </div>
+                    <div class="kpi-val"><fmt:formatNumber value="${month.pending}" type="number" pattern="#,###"/> </div>
+                    <div class="kpi-foot"><span class="text-success">Total PENDING revenue this month</span></div>
+                </div>
+            </div>
+            <div class="kpi-pill">
+                <div class="kpi-icon" style="background:#d1fae5;color:var(--green)"> <i class="bi bi-currency-exchange" style="font-size:1.4rem"></i></div>
+                <div class="kpi-info">
+                    <div class="kpi-label">Months Net Revenue </div>
+                    <div class="kpi-val"><fmt:formatNumber value="${month.expected}" type="number" pattern="#,###"/> </div>
+                    <div class="kpi-foot"><span class="text-success">Total EXPECTED this month (paid + pending)</span></div>
+                </div>
+            </div>
+            
+           
+
+                   	<!-- MONTHLY PAID BILLS –------------------ calm blue -->     
+            
             <div class="kpi-pill">
 				  <div class="kpi-icon" style="background:grey;color:white">
 				    <i class="bi bi-wallet2" style="font-size:1.4rem"></i>
@@ -169,8 +214,7 @@
 				    <div class="kpi-val">${dailyPaidBills}</div>
 				    <div class="kpi-foot"><span class="text-success">Today</span></div>
 				  </div>
-				</div>
-				
+				</div>	<!-- MONTHLY PAID BILLS –------------------ calm blue -->     
 				<!-- MONTHLY PAID BILLS – calm blue -->
 				<div class="kpi-pill">
 				  <div class="kpi-icon" style="background:grey;color:white">
@@ -199,7 +243,7 @@
                     <div class="kpi-foot"><span class="text-danger">This Month</span></div>
                 </div>
             </div>
-            
+       </sec:authorize>     
             
             <div class="kpi-pill">
                 <div class="kpi-icon" style="background:#dbeafe;color:#3b82f6"> <i class="bi bi-person-plus" style="font-size:1.4rem"></i></div>
@@ -217,7 +261,7 @@
                     <div class="kpi-foot"><span>This Year</span> </div>
                 </div>
             </div>
-           
+   
         </div>
         
 

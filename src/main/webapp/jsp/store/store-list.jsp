@@ -8,6 +8,7 @@
     <title>Medicine Inventory Store</title>
     <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="assets/vendor/DataTables/datatables.css" rel="stylesheet">
+    
     <style>
   :root{
       --clr-primary:#6f42c1;
@@ -40,6 +41,9 @@
         .btn-gradient:hover { opacity: 0.9; }
         .action-btns form, .action-btns button { display:inline-block; margin-right:5px; margin-top:3px; }
         table.dataTable th, table.dataTable td { vertical-align: middle; text-align: center; }
+       	.drugs{cursor: pointer;}
+
+        
     </style>
 </head>
 <body>
@@ -78,13 +82,13 @@
         <div class="stat-icon bg-gradient-value"><i class="bi bi-currency-dollar"></i></div>
       </div>
     </div>
-    <div class="col-sm-6 col-lg-3">
+    <div class="col-sm-6 col-lg-3" >
       <div class="stat-card">
         <div>
-          <div class="fs-6 text-muted">Expiring Soon</div>
+          <div class="fs-6 text-muted">Expired Soon</div>
           <div class="fs-2 fw-bold text-danger">${stats.expiringSoon}</div>
         </div>
-        <div class="stat-icon bg-gradient-exp"><i class="bi bi-exclamation-triangle"></i></div>
+        <div class="stat-icon bg-gradient-exp drugs" title="view expired drugs"     data-bs-toggle="modal"  data-bs-target="#ExtralargeModal" onclick="loadPageModalForm('store/drugs')"><i class="bi bi-exclamation-triangle"></i></div>
       </div>
     </div>
   </div>

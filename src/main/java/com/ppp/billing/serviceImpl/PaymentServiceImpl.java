@@ -157,5 +157,10 @@ public class PaymentServiceImpl implements PaymentService {
 	public Payment findById(Long paymentId) {
 		return paymentRepository.findById(paymentId).get();
 	}
+
+	@Override
+	public BigDecimal getTodaysPayment() {
+		return paymentRepository.getTotalRevenueToday();
+	}
 	
 }

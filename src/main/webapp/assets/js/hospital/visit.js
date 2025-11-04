@@ -419,6 +419,26 @@ function printView(id){
         html2pdf().set(opt).from(element).save();
 }
 
+
+
+function searchStats(){
+	    const date = document.getElementById('date').value;
+	     const params = new URLSearchParams();
+       if (date)   params.append('date', date);
+	   loadPage('factures/stats/daily-sales?' + params.toString());
+
+}
+function searchDoctor(){
+	  const params = new URLSearchParams();
+     
+	  const startDate = document.getElementById('startDateD').value;
+	  const endDate = document.getElementById('endDateD').value;
+	   if (startDate)   params.append('startDate', startDate);
+       if (endDate)   params.append('endDate', endDate);
+       loadPage('visit/statistics/doctor-consultations/?' + params.toString());
+
+}
+
 function resetPriceFields(type) {
   // Reset the price fields only for the consultation type that is unchecked
   if (type !== 'Examen') {

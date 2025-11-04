@@ -21,16 +21,16 @@ public class MedicineService {
 
     private final StockRequestRepository stockRequestRepository;
 
-    @Autowired 
+    @Autowired
     MedicineRepository medicineRepository;
-    @Autowired 
+    
+    @Autowired
     CategoryRepository categoryRepository;
 
     MedicineService(StockRequestRepository stockRequestRepository) {
         this.stockRequestRepository = stockRequestRepository;
-      
     }
-	
+
     public List<Medicine> getAllMedicines() {
         List<Medicine> medicines = medicineRepository.findAll();
         medicines.sort(Comparator.comparing(Medicine::getName));
@@ -41,25 +41,31 @@ public class MedicineService {
         Medicine med = new Medicine();
         med.setCategory(categoryRepository.findById(dto.getCategory()).orElseThrow(null));
         med.setName(dto.getName());
+        med.setCode(dto.getCode().toUpperCase());
         med.setDescription(dto.getDescription());
-        
         med.setPurchasePrice(dto.getPurchasePrice());
         med.setPacketPrice(dto.getPacketPrice());
         med.setUnitPrice(dto.getUnitPrice());
         med.setUnitsPerPacket(dto.getUnitsPerPacket());
-        
-        med.setQuantity(dto.getQuantity());
+        med.setQuantity(dto.getQuantity());  // Frontend will provide the quantity
         med.setThreshold(dto.getThreshold());
         med.setExpirationDate(dto.getExpiringDate());
-        med.setStoreQuantity(dto.getQuantity());
-        med.setPharmacyQuantity(0);
         med.setLocation(Medicine.Location.STORE);
+        
+        // Ensure totals are updated after setting quantity
+        med.updateTotals();
 
         med.addTracking("CREATED", 
             String.format("Installed new medicine [%s], qty %d, packetPrice %.2f, unitPrice %.2f", 
                 dto.getName(), dto.getQuantity(), dto.getPacketPrice(), dto.getUnitPrice()));
-
-        return medicineRepository.save(med);
+        
+        try {
+            medicineRepository.save(med);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+      
+        return med;
     }
 
     public Medicine getMedicineById(Long id) {
@@ -78,40 +84,43 @@ public class MedicineService {
         return medicineRepository.findById(medicineId);
     }
 
-    public void edit(Long id, Medicine updated) {
+    public void edit(Long id, MedicineDto medicine) {
         Medicine med = medicineRepository.findById(id).orElseThrow(null);
         
-        // store old values for tracking
+        // Store old values for tracking
         BigDecimal oldPacketPrice = med.getPacketPrice();
         BigDecimal oldUnitPrice = med.getUnitPrice();
         int oldQty = med.getQuantity();
+
+        Category cat = categoryRepository.findById(medicine.getCategory()).orElseThrow(null);
         
-        Category cat = categoryRepository.findById(updated.getCategory().getId()).orElseThrow(null);
-        
-        med.setName(updated.getName());
-        med.setCode(updated.getCode());
-        med.setDescription(updated.getDescription());
+        // Update basic fields
+        med.setName(medicine.getName());
+        med.setCode(medicine.getCode());
+        med.setDescription(medicine.getDescription());
         med.setCategory(cat);
-        med.setThreshold(updated.getThreshold());
-        med.setExpirationDate(updated.getExpirationDate());
+        med.setThreshold(medicine.getThreshold());
+        med.setExpirationDate(medicine.getExpiringDate());
         
-        // update pricing
-        med.setPurchasePrice(updated.getPurchasePrice());
-        med.setPacketPrice(updated.getPacketPrice());
-        med.setUnitPrice(updated.getUnitPrice());
-        med.setUnitsPerPacket(updated.getUnitsPerPacket());
+        // Update pricing
+        med.setPurchasePrice(medicine.getPurchasePrice());
+        med.setPacketPrice(medicine.getPacketPrice());
+        med.setUnitPrice(medicine.getUnitPrice());
+        med.setUnitsPerPacket(medicine.getUnitsPerPacket());
         
-        // update quantities
-        med.setQuantity(updated.getQuantity());
-        med.setStoreQuantity(updated.getQuantity() - med.getPharmacyQuantity());
+        // Update quantities
+        med.editQuantity(medicine.getQuantity());  // Uses new method to update quantities
         
+        // Recalculate totals based on new quantity
+        med.updateTotals();
+
         med.addTracking("EDITED", String.format(
             "Edited medicine [%s]: qty %d → %d, packetPrice %.2f → %.2f, unitPrice %.2f → %.2f", 
-            med.getName(), oldQty, updated.getQuantity(),
-            oldPacketPrice, updated.getPacketPrice(),
-            oldUnitPrice, updated.getUnitPrice()
+            med.getName(), oldQty, medicine.getQuantity(),
+            oldPacketPrice, medicine.getPacketPrice(),
+            oldUnitPrice, medicine.getUnitPrice()
         ));
-        
+
         medicineRepository.save(med);
     }
 
@@ -122,22 +131,45 @@ public class MedicineService {
     public List<Medicine> findByNameContainingIgnoreCase(String query) {
         return medicineRepository.findByNameContainingIgnoreCase(query);
     }
-	
-    public void addQuantity(Long id, long quantity) {
-        Medicine med = medicineRepository.findById(id).orElseThrow(null);
-        int newTotal = med.getQuantity() + (int) quantity;
-        med.setStoreQuantity(med.getStoreQuantity() + (int) quantity);
-        med.setQuantity(newTotal);
 
+    public void addQuantity(Long id, int quantity) {
+        Medicine med = medicineRepository.findById(id).orElseThrow(null);
+        
+        // Use the new method to add stock
+        med.addQuantity(quantity);
+
+        // Recalculate totals after adding
+        med.updateTotals();
+        
         med.addTracking("ADD_QUANTITY", 
             String.format("Added %d units to [%s]. New total: %d", 
-                quantity, med.getName(), newTotal));
+                quantity, med.getName(), med.getTotalUnitsQuantity() / med.getUnitsPerPacket()));
 
         medicineRepository.save(med);
     }
-	
+
     public boolean existsByName(String name) {
         return medicineRepository.findByNameIgnoreCase(name).isPresent();
     }
-}
+    
+    public List<Medicine> getExpiredMeds() {
+        return medicineRepository.findExpiredMedicines();
+    }
 
+    public List<Medicine> getSoonExpiredMeds() {
+        return medicineRepository.findMedicinesExpiringSoon();
+    }
+
+    public List<Medicine> getLowStockMeds() {
+        return medicineRepository.findLowStockMedicines();
+    }
+
+    public List<Medicine> getOutOfStockMeds() {
+        return medicineRepository.findOutOfStockMedicines();
+    }
+
+	public void save(Medicine storeMedicine) {
+		
+		medicineRepository.save(storeMedicine);
+	}
+}

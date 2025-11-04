@@ -1,14 +1,25 @@
 
-function payFacture() {
+function payFacture(ballance) {
     event.preventDefault();
     const amountPaid = document.getElementById("amountPaid").value;
     const factureId = document.getElementById("factureId").value;
     const paymentMethod = document.getElementById("paymentMethod").value;
 
+   if (!amountPaid) {
+        Swal.fire('Enter an Amount', '', 'warning');
+        return;
+    }
+  
     if (!paymentMethod) {
         Swal.fire('Choose payment method', '', 'warning');
         return;
     }
+    
+ if (amountPaid > ballance) {
+        Swal.fire('Amount cannot be more than ',ballance , 'warning');
+        return;
+    }
+
 
     const fd = new FormData();
     fd.append('factureId', factureId);

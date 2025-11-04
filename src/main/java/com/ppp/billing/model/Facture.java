@@ -14,6 +14,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
+import org.springframework.security.core.context.SecurityContextHolder;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -39,6 +41,7 @@ public class Facture {
     private BigDecimal netAmount;
     private String status = "PENDING";;
     private String referenceNumber;
+    private String cashier="" ;
 
     @OneToMany(mappedBy = "facture", cascade = CascadeType.ALL)
     private List<Payment> payments;
@@ -54,6 +57,11 @@ public class Facture {
     @OneToMany(mappedBy = "facture", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Sale> sales = new ArrayList<>();
     
+    public  void setCashier () {
+        String userName = SecurityContextHolder.getContext().getAuthentication().getName();
+        this.cashier = userName;
+    	
+    }
     
     public BigDecimal getTotalPaid() {
         return payments.stream()

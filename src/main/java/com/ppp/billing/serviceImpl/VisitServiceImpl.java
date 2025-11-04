@@ -35,6 +35,7 @@ import com.ppp.billing.service.ConsultationTypeService;
 import com.ppp.billing.service.PatientService;
 import com.ppp.billing.service.StaffService;
 import com.ppp.billing.service.VisitService;
+import com.ppp.user.repository.UserRepository;
 
 @Service
 public class VisitServiceImpl implements VisitService {
@@ -59,6 +60,9 @@ public class VisitServiceImpl implements VisitService {
     
     @Autowired
     private final StaffService staffService;
+    
+    @Autowired
+    private UserRepository userrepository;
     
     
 
@@ -157,7 +161,7 @@ public class VisitServiceImpl implements VisitService {
         facture = factureRepo.save(facture);
         visit.setFacture(facture);
 
-        visitRepository.save(visit);
+       visitRepository.save(visit);
 
         return visit;
     }
@@ -292,6 +296,12 @@ public class VisitServiceImpl implements VisitService {
 	public List<DoctorActivityDTO> getMostActiveDoctors(LocalDate startDate, LocalDate endDate) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+	public List<SubtypeStatsDTO> getStatsForDateRange(LocalDate startDate, LocalDate endDate) {
+		 List<Object[]> raw = visitRepository.findSubtypesByDate(startDate, endDate);
+	        return raw.stream()
+	                  .map(r -> new SubtypeStatsDTO((String) r[0], (Long) r[1], (BigDecimal) r[2]))
+	                  .collect(Collectors.toList());
 	}
 
 

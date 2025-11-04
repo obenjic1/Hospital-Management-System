@@ -7,6 +7,7 @@
   <meta charset="UTF-8">
   <title>PharmaCare – Sell Drugs</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  
 
 
   <!-- =====  CUSTOM CSS  ===== -->
@@ -34,6 +35,7 @@
     .badge{font-size:.75rem;}
     .low-stock{color:var(--clr-danger);}
     .table th{border-top:none;}
+    .drugs{	cursor: pointer;}
   </style>
 </head>
 
@@ -81,11 +83,10 @@
 
           <!-- quick stats -->
           <div class="d-flex flex-wrap gap-2 mt-2 small">
-            <span class="badge bg-secondary"><i class="bi bi-capsule"></i> ${stats.totalMedicines} Medicines</span>
-            <c:if test="${stats.expiringSoon>0}">
-              <span class="badge bg-danger"><i class="bi bi-exclamation-circle"></i> ${stats.expiringSoon} Expiring Soon</span>
-            </c:if>
-            <span class="badge bg-warning text-dark"><i class="bi bi-box-seam"></i> ${stats.lowStock} Low Stock</span>
+             <span class="badge bg-danger drugs" title="view expired drugs" data-bs-toggle="modal"  data-bs-target="#ExtralargeModal" onclick="loadPageModalForm('store/drugs')"><i class="bi bi-exclamation-circle"></i>  Expired Drugs</span>
+             <span class="badge bg-secondary drugs" title="view soon to Expire drugs" data-bs-toggle="modal"  data-bs-target="#ExtralargeModal" onclick="loadPageModalForm('store/expiring-soon')"><i class="bi bi-capsule"></i> Expiring soon </span>
+            <span class="badge bg-warning text-dark drugs" title="view soon to finish drugs" data-bs-toggle="modal"  data-bs-target="#ExtralargeModal" onclick="loadPageModalForm('store/lowStock')"><i class="bi bi-box-seam"></i> Low Stock</span>
+            <span class="badge bg-primary  drugs" title="view finished drugs" data-bs-toggle="modal"  data-bs-target="#ExtralargeModal" onclick="loadPageModalForm('store/lowStock')"><i class="bi bi-box-seam"></i> Finished Stock</span>
           </div>
         </div>
       </div>
@@ -104,13 +105,16 @@
                 <div class="mb-2">
                   <c:choose>
                     <c:when test="${m.pharmacyQuantity<10}">
-                      <span class="badge bg-danger">Pharmacy: ${m.pharmacyQuantity}</span>
+                      <span class="badge bg-danger"> No Packet left: ${m.pharmacyQuantity}</span>
                     </c:when>
                     <c:otherwise>
-                      <span class="badge bg-success">Pharmacy: ${m.pharmacyQuantity}</span>
+                      <span class="badge bg-success">No Packet left: ${m.pharmacyQuantity}</span>
                     </c:otherwise>
                   </c:choose>
-                  <span class="badge bg-primary">Store: ${m.storeQuantity}</span>
+                   <span class="badge bg-primary"> No Units left: ${m.unitLeftPhamarcy}</span>
+                   <span class="badge bg-primary">Store: ${m.storeQuantity}</span>
+                   
+                  
                 </div>
 
                 <!-- prices -->

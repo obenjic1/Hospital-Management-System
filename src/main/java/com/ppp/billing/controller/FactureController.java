@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.ppp.billing.Dto.DailySaleDTO;
+import com.ppp.billing.Dto.FactureItemDTO;
 import com.ppp.billing.model.Facture;
 import com.ppp.billing.service.FactureService;
 
@@ -65,7 +66,7 @@ public class FactureController {
        return "facture/facture-view";   // the JSP fragment
    }
    
-   @GetMapping("/stats/daily-sales")
+  // @GetMapping("/stats/daily-sales")
    public String showTodaysSales(Model model) {
        List<DailySaleDTO> sales = factureService.getTodaysSales();
        BigDecimal totalRevenue = sales.stream()
@@ -78,5 +79,23 @@ public class FactureController {
        return "stats/sales"; 
    }
    
-  
+   @GetMapping("/stats/daily-sales")
+   public String showSalesByDate(@RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date,
+                                 Model model) {
+       if (date == null) {
+           date = LocalDate.now(); // Default to today
+       }
+
+       List<FactureItemDTO> items = factureService.getFactureItemsForToday(date);
+
+       BigDecimal totalRevenue = items.stream()
+               .map(FactureItemDTO::getTotal)
+               .reduce(BigDecimal.ZERO, BigDecimal::add);
+
+       model.addAttribute("sales", items);
+       model.addAttribute("date", date);
+       model.addAttribute("totalRevenue", totalRevenue);
+
+       return "stats/facture-items";  
+   }
 }

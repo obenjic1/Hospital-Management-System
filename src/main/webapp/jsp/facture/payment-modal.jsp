@@ -147,7 +147,7 @@
         <div class="col-md-4">
             <label class="form-label">Amount <span class="text-danger">*</span></label>
             <input type="number" class="form-control" name="amount" id=amountPaid step="0.01"
-                   min="0.01" max="${facture.balance}" required/>
+                   min="0.01" max="${facture.balance}"required/>
                  
         </div>
 
@@ -170,7 +170,7 @@
 
         <div class="col-12 d-flex justify-content-end gap-2">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-			 <button type="button" class="btn btn-success" onclick="payFacture()">
+			 <button type="button" class="btn btn-success" onclick="payFacture('${facture.balance}')">
 			    <i class="bi bi-cash-coin"></i> Record Payment
 			</button>
         </div>

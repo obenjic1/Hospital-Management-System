@@ -38,6 +38,7 @@ public class MedicineDto {
 
     private int threshold;
     private int quantity;
+    private String code;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate expiringDate;
@@ -60,6 +61,7 @@ public class MedicineDto {
         this.unitsPerPacket = m.getUnitsPerPacket();
         this.threshold = m.getThreshold();
         this.quantity = m.getQuantity();
+        this.code = m.getCode();
         this.expiringDate = m.getExpirationDate();
         this.category = m.getCategory() != null ? m.getCategory().getId() : null;
     }

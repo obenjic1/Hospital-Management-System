@@ -1,6 +1,7 @@
 package com.ppp.billing.service;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.List;
 
 import com.ppp.billing.Dto.PaymentDTO;
@@ -15,4 +16,7 @@ public interface PaymentService {
 	Payment savePayment(Long factureId, Payment payment);
 	Payment savePaymentFacture(PaymentDTO dto) throws IOException;
 	Payment findById(Long paymentId);
+	BigDecimal getTodaysPayment();
+	
+	
 }

@@ -65,7 +65,7 @@
     </div>
 
     <c:choose>
-      <c:when test="${empty med}">
+      <c:when test="${empty meds}">
         <div class="text-center py-5">
           <div class="text-muted fs-1"><i class="bi bi-inbox"></i></div>
           <p class="fw-bold mt-3">No history recorded yet</p>
@@ -83,13 +83,13 @@
               </tr>
             </thead>
             <tbody>
-              <c:forEach var="s" items="${med}" varStatus="loop">
+              <c:forEach var="s" items="${meds}" varStatus="loop">
                 <tr>
                   <td>
                     <span class="badge badge-date">
-                      <fmt:formatDate value="${s.creationDate}" pattern="dd-MM-yyyy"/>
+                      $ {s.creationDate}
                     </span>
-                    <br><small class="text-muted"><fmt:formatDate value="${s.creationDate}" pattern="HH:mm"/></small>
+                    <br><small class="text-muted">${s.creationDate}</small>
                   </td>
                   <td>
                     <span class="badge badge-user">${s.performedBy}</span>

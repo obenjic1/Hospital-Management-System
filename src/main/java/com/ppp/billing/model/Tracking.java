@@ -16,11 +16,13 @@ import com.ppp.user.model.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity(name = "tracking")
+@ToString(exclude = "medicine")
 public class Tracking {
 	
 	@Id

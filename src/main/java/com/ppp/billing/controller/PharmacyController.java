@@ -128,9 +128,7 @@ public class PharmacyController {
      }
 
      @GetMapping("/pharmacy/details")
-     public String showDailyDetails(@RequestParam("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date,
-                                    Model model) {
-    	 System.out.println("am called");
+     public String showDailyDetails(@RequestParam("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date, Model model) {
          List<Sale> sales = saleService.getSalesByDate(date);
          model.addAttribute("sales", sales);
          model.addAttribute("date", date);

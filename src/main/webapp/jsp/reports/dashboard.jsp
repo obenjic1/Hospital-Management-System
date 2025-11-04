@@ -123,6 +123,14 @@
         </div>
     </div>
 
+  <div class="date-range-picke row mb-2">
+        	
+        	<div class="col-md-4"><label>From:</label> <input type="date" id="startDateD" value="${startDate}" class="form-control" width="50%"></div>
+        	<div class="col-md-4"><label> To:</label> <input type="date" id="endDateD" value="${endDate}" class="form-control" width="50%"></div>
+            <div class="col-md-3"> <button  class = "btn btn-outline-primary " style="margin-top: 25px;" onclick="searchDoctor()">Apply</button></div>
+           
+          
+        </div>
     <!-- Filter pills -->
     <div class="filter-bar">
         <span class="filter-pill active" data-status="ALL">All</span>
@@ -172,6 +180,7 @@
     </div>
 </div>
 
+<script src="assets/js/hospital/consultation.js"></script>
 
 </body>
 </html>

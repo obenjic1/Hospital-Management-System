@@ -31,9 +31,14 @@
         <button class="btn btn-sm btn-outline-secondary" onclick="printView('${facture.referenceNumber}')" title="Print">
             <i class="bi bi-printer"></i>
         </button>
+       <span class="fw-bold text-primary me-auto"> Cashier :  ${ not empty f.cahiser ? f.cashier: "customer"} </span>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-    </div>
+    </div> 
 </div>
+
+
+
+
 
 <div class="modal-body" id="factureContent">
     <%-- ===== 1.  INVOICE SUMMARY ===== --%>
@@ -132,17 +137,17 @@
     <div class="table-responsive mb-4">
         <table class="table table-sm table-bordered">
             <thead class="table-light">
-                <tr><th>#</th><th>Date</th><th>Method</th><th>Amount</th><th>Ref</th><th class="text-center">Receipt</th></tr>
+                <tr><th>#</th><th>Date</th><th>Amount</th><th>Ref</th><th>Cashier</th><th class="text-center">Receipt</th></tr>
             </thead>
             <tbody>
                 <c:forEach var="p" items="${facture.payments}">
                     <tr>
                         <td>${p.id}</td>
                         <td>${p.paymentDate}</td>
-                        <td>${p.method}</td>
+                      
                         <td><fmt:formatNumber value="${p.amountPaid}" type="currency" currencyCode="XAF"/></td>
                         <td>${p.reference}</td>
-                        
+                          <td>${p.receivedBy.username}</td>
                         <td class="text-center">
                             <a href="${pageContext.request.contextPath}/payments/receipt/${p.id}" target="_blank"
                                class="btn btn-sm btn-dark"><i class="bi bi-printer"></i></a>

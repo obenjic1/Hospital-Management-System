@@ -150,8 +150,22 @@
                             <td class="text-end">
                               <span class="badge badge-price">CFA ${sub.price}</span>
                             </td>
+                             <td class="text-end">
+							                            <!-- ===  TYPE LEVEL BUTTONS  === -->
+							<div class="mt-2 d-flex gap-1">
+							  <button class="btn btn-outline-primary btn-sm"
+							         data-bs-toggle="modal" data-toggle="tooltip" data-placement="top" title="Edit Consultation Details" data-bs-target="#ExtralargeModal" onclick="loadPageModalForm('admin/consultation-types/edit/${sub.id}')"  style="width:60px; margin-left:10px">
+							    <i class="bi bi-pencil"></i> Edit
+							  </button>
+							  <button class="btn btn-outline-danger btn-sm"
+							          onclick="deleteItem(${type.id})">
+							    <i class="bi bi-trash"></i> Delete
+							  </button>
+							</div>
                           </tr>
                         </c:forEach>
+                       
+                        </tr>
                       </tbody>
                     </table>
                   </div>

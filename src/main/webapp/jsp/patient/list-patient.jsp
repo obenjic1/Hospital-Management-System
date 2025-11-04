@@ -104,6 +104,11 @@
                                             <i class="bi bi-calendar-plus"></i> Book Appointment
                                         </a>
                                     </li>
+                                     <li>
+                                        <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#ExtralargeModal" onclick="loadPageModalForm('patients/edit/${p.id}')">
+                                            <i class="bi bi-pencil"></i> Edit
+                                        </a>
+                                    </li>
                                     <li>
                                         <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#ExtralargeModal" onclick="loadPageModalForm('patients/view/${p.id}')">
                                             <i class="bi bi-eye"></i> View Details

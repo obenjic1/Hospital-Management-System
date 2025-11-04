@@ -1,6 +1,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <h3>Pharmacy Daily Revenue</h3>
+
+<c:if test=""></c:if>
 <table class="table table-bordered">
   <thead>
     <tr>
@@ -15,7 +17,9 @@
         <td>${rev.date}</td>
         <td>${rev.total}</td>
         <td>
-          <button data-bs-toggle="modal" data-bs-target="#ExtralargeModal" onclick="loadPage('pharmacy/pharmacy/details?date=${rev.date}"  class="btn btn-sm btn-outline-primary">View Details</button>
+          <div class="stat-icon bg-gradient-exp drugs" title="view expired drugs"     data-bs-toggle="modal"  data-bs-target="#ExtralargeModal" onclick="loadPageModalForm('pharmacy/pharmacy/details?date=${rev.date}')">
+          <button class="btn btn-sm btn-outline-primary" title="view sales Details"><i class="bi bi-exclamation-triangle">View Details</i></button></div>
+          
         </td>
       </tr>
     </c:forEach>

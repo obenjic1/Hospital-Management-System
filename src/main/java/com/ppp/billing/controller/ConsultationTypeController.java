@@ -1,12 +1,17 @@
 package com.ppp.billing.controller;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -91,6 +96,43 @@ public class ConsultationTypeController {
 	    	return list;
 	    	}
 	    	
+	  @GetMapping("/edit/{id}")
+	  public String updateConsultationType(@PathVariable Long id, Model model ) {
+		  model.addAttribute("subType", subtypeService.findById(id));
+		  model.addAttribute("types", typeService.findAll());
+	      return "Consultation/edit-form"; 
+		  
+		  
+	  }
+	  
+	  @PostMapping("/update/{id}")
+      public ResponseEntity<String> editConsultationsubtype(@PathVariable Long id ,  @ModelAttribute ConsultationSubtype subtype) {
+		try {
+			subtypeService.edit(id,subtype);
+	          return   new ResponseEntity<>(HttpStatus.CREATED);
+
+		}catch (Exception e){
+			 return new ResponseEntity<>(e.getMessage(),HttpStatus.CREATED);
+		}
+      }
+	    
+	  @DeleteMapping("/delete/{id}")
+      public ResponseEntity<String> deleteConsultationsubtype(@PathVariable Long id ) {
+		try {
+			subtypeService.delete(id);
+	          return   new ResponseEntity<>(HttpStatus.CREATED);
+
+		}catch (Exception e){
+			 return new ResponseEntity<>(e.getMessage(),HttpStatus.CREATED);
+		}
+      }
+	    
+	 
+
+	    
+	  
+	  
+	  
 	  
 	    }
 	        

@@ -73,7 +73,7 @@ public class VisitController {
 	            return new ResponseEntity<>("Visit saved successfully", HttpStatus.CREATED);
 	        } catch (Exception e) {
 	            // Use 500 instead of 417
-	            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+	            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
 	        }
 	    }
 
@@ -108,14 +108,25 @@ public class VisitController {
 	        return "stats/rep";  // JSP page
 	    }
 	    
+	    
+	    @GetMapping("/statistics/subtype")
+		  public String report(@RequestParam("startDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
+		                       @RequestParam("endDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate,
+		                       Model model) {
+		      List<SubtypeStatsDTO> stats = visitService.getStatsForDateRange(startDate, endDate);
+		      model.addAttribute("stats", stats);
+		      model.addAttribute("startDate", startDate);
+		      model.addAttribute("endDate", endDate);
+		      return "stats/rep"; 
+		  }
 	    @GetMapping("/statistics/doctor-consultations")
 	    public String doctorConsultationStats(
 	            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
 	            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate,
 	            Model model) {
 	    	
-
 	        if (startDate == null) startDate = LocalDate.now().withDayOfMonth(1);
+	        
 	        if (endDate == null) endDate = LocalDate.now();
 
 	        List<DoctorConsultationStatsDTO> stats = visitService.getDoctorConsultationStats(startDate, endDate);

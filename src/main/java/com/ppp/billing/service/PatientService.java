@@ -58,12 +58,22 @@ public class PatientService {
         repo.deleteById(id);
     }
 
-	public void updatePatient(Long id, Patient updatedPatient) {
-		Patient patient = repo.findById(id).get();
-    	patient.addTracking("EDIT", "Updated  this patient");
-
+	public void updatePatient(Long id, Patient dto) {
 		
-		// TODO Auto-generated method stub
+		Patient pat = repo.findById(id).get();
+        // update patient fields
+      pat.setAge(dto.getAge());
+      pat.setContact(dto.getContact());
+      pat.setEmmergenceName(dto.getEmmergenceName());
+      pat.setEmmergencyContact(dto.getEmmergencyContact());
+      pat.setGender(dto.getGender());
+      pat.setMaritalStatus(dto.getMaritalStatus());
+      pat.setName(dto.getName());
+      pat.setOccupation(dto.getOccupation());
+      pat.setResidence(dto.getResidence());
+      pat.addTracking("EDIT", "Updated  this patient");
+		
+      repo.save(pat);
 		
 	}
 

@@ -93,6 +93,7 @@ public interface MedicineRepository extends JpaRepository<Medicine, Long> {
 	    // Expired medicines
 	    @Query("SELECT m FROM Medicine m WHERE m.expirationDate > CURRENT_DATE")
 	    List<Medicine> findExpiredMedicines();
+	    
 	 // Medicines expiring within the next 30 days
 	    @Query("SELECT m FROM Medicine m WHERE m.expirationDate BETWEEN CURRENT_DATE AND CURRENT_DATE + 30")
 	    List<Medicine> findMedicinesExpiringSoon();

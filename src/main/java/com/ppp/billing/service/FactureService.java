@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 import com.ppp.billing.Dto.DailySaleDTO;
+import com.ppp.billing.Dto.FactureItemDTO;
 import com.ppp.billing.model.Facture;
 
 public interface FactureService {
@@ -17,4 +18,5 @@ public interface FactureService {
 		List<Facture> findAllByOrderByIdDesc();
 		List<Facture> findByCreatedAtBetweenOrderByIdDesc(LocalDate localDateTime, LocalDate localDateTime2);
 		List<DailySaleDTO> getTodaysSales();
+		List<FactureItemDTO> getFactureItemsForToday(LocalDate today);
 }
