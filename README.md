@@ -1,29 +1,32 @@
-# Hospital-Management-System
-The Hospital Management System (HMS) is a comprehensive solution designed to streamline and enhance the management of hospital operations. This system facilitates the efficient handling of various administrative and clinical tasks, ensuring that healthcare providers can deliver high-quality patient care while optimizing resource utilization.
+# Hospital Management System (HMS)
 
-Features
+A comprehensive solution designed to streamline hospital operations — from patient registration to billing and inventory.
 
-    User Management: Manage user roles (Admin, Doctor, Nurse, Receptionist) with authentication and authorization.
-    Patient Management: Register and maintain patient records, including personal information, medical history, and appointment history.
-    Appointment Scheduling: Allow patients to schedule, modify, and cancel appointments with doctors, with notifications and reminders.
-    Medical Records: Maintain detailed medical records for each patient, including symptoms, diagnoses, treatment plans, and prescriptions.
-    Billing System: Manage billing and invoicing, track payments, and generate financial reports.
-    Inventory Management: Keep track of medical supplies and equipment, manage stock levels, and set alerts for reordering.
-    Reporting: Generate various reports for administrative and clinical purposes, including patient statistics, financial summaries, and resource utilization.
+## Features
+- **User Management** — Role-based access (Admin, Doctor, Nurse, Receptionist) with authentication
+- **Patient Management** — Registration, personal info, medical history, and appointment records
+- **Appointment Scheduling** — Book, modify, and cancel appointments with notifications
+- **Medical Records** — Symptoms, diagnoses, treatment plans, and prescriptions
+- **Billing System** — Invoicing, payment tracking, and financial reports
+- **Inventory Management** — Medical supplies tracking with low-stock alerts
+- **Reporting** — Patient statistics, financial summaries, and resource utilization
 
-Technology Stack
+## Tech Stack
+- **Backend:** Java, Spring Boot
+- **Database:** PostgreSQL (or other relational databases)
+- **Architecture:** RESTful APIs, role-based security
 
-    Backend: Spring Boot (Java)
-    Database: PostgreSQL (or other relational databases)
-    Frontend: [Optionally include any frontend technology if applicable, e.g., React, Angular]
-    Deployment: Render (or specify your chosen hosting solution)
+## Getting Started
+1. Clone the repository
+2. Configure database connection in `application.properties` / `application.yml`
+3. Run the application:
+   ```bash
+   ./mvnw spring-boot:run
+   ```
 
-Getting Started
+## Author
+**Oben Elvise Ojong**  
+[GitHub](https://github.com/obenjic1) • [LinkedIn](https://www.linkedin.com/in/elvise-oben-88ba4585)
 
-To get started with the Hospital Management System, clone the repository and follow the setup instructions in the README.md file. Ensure you have the required dependencies installed and configure the application as needed.
-Contributing
-
-Contributions are welcome! Please feel free to submit a pull request or open an issue for feature requests or bug reports.
-License
-
-This project is licensed under the oben elvise ojong License - see the LICENSE file for details.
+---
+*Built to showcase end-to-end backend development for complex domain systems.*
